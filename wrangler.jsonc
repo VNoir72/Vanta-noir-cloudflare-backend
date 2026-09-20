@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vanta-noir-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-20",
+
+  "vars": {
+    "STORE_ORIGIN": "https://vantanoir.store"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "vanta-noir-db",
+      "database_id": "db5dccad-083a-4c80-bc7c-63cba3a00a35",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "vanta-noir-media"
+    }
+  ]
+}
