@@ -14,3 +14,58 @@
 @media(max-width:650px){.vn-control-sidebar{display:none;position:fixed;top:72px;bottom:0;left:0;width:280px;z-index:40;box-shadow:30px 0 90px #000a}.vn-control-sidebar.is-open{display:block}.vn-control-sidebar nav{display:grid;overflow:visible}.vn-control-sidebar nav button{white-space:normal}.vn-control-sidebar .vn-control-brand{display:none}.vn-workspace-selector{margin-top:0}.vn-workspace-bar{height:72px;padding:0 20px;gap:12px;position:sticky;top:0;background:#090d0bf5;z-index:35}.vn-workspace-bar>div{gap:10px}.vn-workspace-bar>div>span{display:none}.vn-workspace-bar form{padding:7px;border:0;min-width:0;flex:1}.vn-workspace-bar input{width:100%;min-width:0;font-size:12px}.vn-control-header{padding:30px 20px 20px}.vn-control-header h1{font-size:32px}.vn-control-actions{gap:8px}.vn-control-actions button{font-size:11px}.vn-control-body{padding:0 20px 28px}.vn-overview-tools{gap:10px;font-size:11px;margin-bottom:24px}.vn-overview-tools>span,.vn-overview-tools button{padding:11px}.vn-ref-metrics{gap:12px;margin-bottom:20px}.vn-ref-metrics article{padding:17px;min-height:139px}.vn-ref-metric-label{font-size:10px;gap:7px}.vn-ref-metric-label span{display:none}.vn-ref-metrics strong{font-size:27px;margin:17px 0 10px}.vn-ref-metrics p{font-size:10px}.vn-ref-grid{gap:20px}.vn-ref-card{padding:20px}.vn-ref-orders{padding:0}.vn-ref-card h2{font-size:16px}.vn-ref-card-head{gap:10px}.vn-chart-legend{font-size:10px!important}.vn-revenue-total{font-size:29px}.vn-revenue-chart{height:255px}.vn-ref-right{grid-template-columns:1fr;gap:20px}.vn-ref-orders th:nth-child(2),.vn-ref-orders td:nth-child(2),.vn-ref-orders th:nth-child(5),.vn-ref-orders td:nth-child(5){display:none}.vn-ref-orders th,.vn-ref-orders td{padding:18px 13px}.vn-ref-orders .vn-ref-card-head{padding:20px}.vn-ref-footer{flex-direction:column;line-height:1.7}.vn-studio-sheet{width:100vw!important}.vn-studio-imagery{grid-template-columns:1fr;gap:20px}.vn-studio-preview{width:65%;max-width:260px;min-height:0;justify-self:center}.vn-studio-footer{bottom:-20px;margin:0 -20px -20px;padding:16px 20px}.vn-studio-footer>div{flex-direction:row;gap:8px}.vn-studio-footer button{padding:10px;font-size:12px}.vn-studio-form>div:first-child h3{font-size:25px}.vn-studio-form>div:first-child>div:last-child>button:first-child:not(:last-child){display:none}}
 @media(prefers-reduced-motion:reduce){.vn-studio-sheet{animation:none!important;transition:none!important}}
 .vn-option-select{display:block;width:100%;margin:10px 0;padding:12px;border:1px solid #34402e;border-radius:9px;background:#11180f;color:#ecf1e7}.vn-option-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.vn-option-list button{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #34402e;border-radius:8px;font-size:13px}.vn-option-list i{width:20px;height:20px;border:1px solid #78856c;border-radius:50%}.vn-studio-form small{display:block;line-height:1.6;color:#b1bca7}.vn-admin-fields>*{min-width:0}
+
+/* Vanta Noir responsive admin layout v1 */
+.vn-control-content{min-width:0}
+.vn-control-header,.vn-control-body,.vn-workspace-bar{box-sizing:border-box}
+.vn-control-header{max-width:1800px;margin-inline:auto;flex-wrap:wrap}
+.vn-control-header>div,.vn-ref-grid>*,.vn-ref-right>*{min-width:0}
+.vn-overview-tools{flex-wrap:wrap}
+.vn-ref-card-head{flex-wrap:wrap}
+.vn-ref-metric-label svg,.vn-best-row img{flex-shrink:0}
+.vn-ref-orders td:first-child{white-space:normal;overflow-wrap:anywhere;min-width:110px;max-width:160px}
+.vn-best-row h3,.vn-attention-row strong{overflow-wrap:anywhere}
+@media(min-width:1024px){
+ .vn-ref-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .vn-ref-grid{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:start}
+ .vn-ref-grid>.vn-ref-card:nth-child(2){grid-row:auto}
+ .vn-ref-right{grid-template-columns:minmax(0,1fr)}
+ .vn-collection-callout{height:auto}
+}
+@media(min-width:1024px) and (max-width:1350px){
+ .vn-control-sidebar{width:210px;padding:24px 14px;box-sizing:border-box}
+ .vn-control-content{margin-left:210px}
+ .vn-control-brand{font-size:14px;letter-spacing:1.5px;gap:10px}
+ .vn-control-header{padding:26px 22px 22px;gap:16px}
+ .vn-control-header h1{font-size:30px}
+ .vn-control-body{padding:0 22px 32px}
+ .vn-workspace-bar{padding-inline:22px;gap:12px}
+ .vn-ref-metrics{gap:12px}
+ .vn-ref-metrics article{padding:16px}
+ .vn-ref-metrics strong{font-size:24px;letter-spacing:-.6px}
+ .vn-ref-metric-label{font-size:11px;gap:7px}
+ .vn-ref-grid{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:18px}
+ .vn-ref-card{padding:18px}
+ .vn-ref-card h2{font-size:16px}
+ .vn-ref-orders{padding:0}
+ .vn-ref-orders .vn-ref-card-head{padding:18px}
+ .vn-ref-orders th,.vn-ref-orders td{padding:14px 12px}
+ .vn-ref-right{gap:18px}
+ .vn-best-row{gap:8px;flex-wrap:wrap}
+ .vn-best-row>div{min-width:100px}
+ .vn-best-row>strong{margin-left:auto}
+ .vn-attention-row{gap:9px}
+ .vn-collection-callout{padding:18px}
+}
+@media(min-width:651px) and (max-width:1023px){
+ .vn-workspace-bar{padding-inline:20px;gap:10px}
+ .vn-workspace-bar>div{gap:8px}
+ .vn-workspace-bar input{width:130px}
+ .vn-ref-right{grid-template-columns:minmax(0,1fr)}
+ .vn-ref-grid>.vn-ref-card:nth-child(2){grid-row:auto}
+}
+@media(max-width:650px){
+ .vn-ref-grid>.vn-ref-card:nth-child(2){grid-row:auto}
+ .vn-ref-metric-label{flex-wrap:wrap}
+ .vn-ref-footer{overflow-wrap:anywhere}
+}
