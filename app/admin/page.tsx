@@ -1,4 +1,3 @@
-import {staffRole} from "@/lib/operations";
 import {OperationsPanel} from "./operations-panel";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -6,14 +5,8 @@ import { adminAuthStateFromRequest } from "@/lib/admin-auth";
 import type { Metadata } from "next";
 
 import { Button } from "@/components/ui/button";
-import { isAdminEmail, runtimeEnv } from "@/lib/runtime-env";
-import {
-  getAdminAnalytics,
-  listAdminOrders,
-  listAdminProducts,
-  listInventory,
-} from "@/lib/store-db";
-import { AdminDashboard } from "./admin-dashboard";
+import { runtimeEnv } from "@/lib/runtime-env";
+import { AdminDashboardLoader } from "./admin-dashboard-loader";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -32,7 +25,7 @@ export default async function AdminPage() {
   const signOutPath = "/cdn-cgi/access/logout";
   const configuredEmail = runtimeEnv().ADMIN_EMAIL?.trim();
 
-  const role = user.email ? await staffRole(user.email) : null;
+  const role = access.ok ? access.role : null;
   if (!configuredEmail || !role) {
     return (
       <main className="grid min-h-screen place-items-center bg-[#090909] px-5 text-[#f4f1ea]">
@@ -61,20 +54,5 @@ export default async function AdminPage() {
   }
 
   if(role!=="owner") return <main className="min-h-screen bg-[#090909] p-5 text-white"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><OperationsPanel role={role}/><a href={signOutPath}>Sign out</a></main>;
-  const [orders, inventory, analytics, products] = await Promise.all([
-    listAdminOrders(),
-    listInventory(),
-    getAdminAnalytics(),
-    listAdminProducts(),
-  ]);
-  return (
-    <AdminDashboard
-      adminName={user.displayName}
-      initialOrders={orders as never[]}
-      initialInventory={inventory as never[]}
-      initialAnalytics={analytics}
-      initialProducts={products}
-      signOutPath={signOutPath}
-    />
-  );
+  return <AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} />;
 }

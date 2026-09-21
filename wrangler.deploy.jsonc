@@ -35,7 +35,8 @@
     "ALLOWED_ORIGINS": "https://vantanoir.store,https://www.vantanoir.store",
     "ADMIN_EMAIL": "vantanoir.xyz@gmail.com",
     "CF_ACCESS_TEAM_DOMAIN": "https://odd-wave-e6dd.cloudflareaccess.com",
-    "CF_ACCESS_AUD": "849a7d10d84729ba7e38dcb65f6c39fe190059141eb1eea7b8469e597c1fd8d5"
+    "CF_ACCESS_AUD": "849a7d10d84729ba7e38dcb65f6c39fe190059141eb1eea7b8469e597c1fd8d5",
+    "STORE_ORIGIN": "https://vantanoir.store"
   },
   "triggers": {
     "crons": [
@@ -44,5 +45,11 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "pattern": "api.vantanoir.store",
+      "custom_domain": true
+    }
+  ]
 }
