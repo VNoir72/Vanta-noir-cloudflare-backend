@@ -1,0 +1,74 @@
+[
+  {
+    "source_id": "p04-3:R4:A1",
+    "target_source_id": "p04-3:R4:C1",
+    "visually_reviewed": true,
+    "reason": "Same physically pictured construction, colour, fabric and pocket layout repeated in right-hand strip; construction strip also supplies rear view."
+  },
+  {
+    "source_id": "p04-3:R4:A2",
+    "target_source_id": "p04-3:R4:C2",
+    "visually_reviewed": true,
+    "reason": "Same physically pictured construction, colour, fabric and pocket layout repeated in right-hand strip; construction strip also supplies rear view."
+  },
+  {
+    "source_id": "p04-3:R4:A3",
+    "target_source_id": "p04-3:R4:C3",
+    "visually_reviewed": true,
+    "reason": "Same physically pictured construction, colour, fabric and pocket layout repeated in right-hand strip; construction strip also supplies rear view."
+  },
+  {
+    "source_id": "p04-3:R4:A4",
+    "target_source_id": "p04-3:R4:C4",
+    "visually_reviewed": true,
+    "reason": "Same physically pictured construction, colour, fabric and pocket layout repeated in right-hand strip; construction strip also supplies rear view."
+  },
+  {
+    "source_id": "p03-3:32",
+    "target_source_id": "p01-3:22",
+    "visually_reviewed": true,
+    "reason": "Both boards show identical plain black ribbed crew socks with champagne wing V at outer ankle."
+  },
+  {
+    "source_id": "p03-3:32:bone",
+    "target_source_id": "p01-3:22:bone",
+    "visually_reviewed": true,
+    "reason": "Both boards show identical bone ribbed crew socks with black wing V at outer ankle."
+  },
+  {
+    "source_id": "p06-2:R3:A1",
+    "target_source_id": "p06-2:R3:C1",
+    "visually_reviewed": true,
+    "reason": "Same black running short, rounded split hem, ivory piping, VANTA NOIR waistband and low wing; construction and art panels repeat identical design."
+  },
+  {
+    "source_id": "p06-3:R3:C1",
+    "target_source_id": "p06-3:R3:A1",
+    "visually_reviewed": true,
+    "reason": "Same pictured black 5-inch running split shorts with platinum bound curved hems, drawstring waist and small white V at front hem."
+  },
+  {
+    "source_id": "p06-3:R5:C1",
+    "target_source_id": "p06-3:R5:A1",
+    "visually_reviewed": true,
+    "reason": "Same platinum football jersey black shoulder panels, small chest V and rear24/wordmark."
+  },
+  {
+    "source_id": "p07-2:R1:A1",
+    "target_source_id": "p07-2:R1:C1",
+    "visually_reviewed": true,
+    "reason": "Same black full-zip track jacket with platinum piping, small front wing and large rear wing, matching straight black track pants; colour panel repeats construction1."
+  },
+  {
+    "source_id": "p05-3:R5:A1",
+    "target_source_id": "p05-3:R5:C1",
+    "visually_reviewed": true,
+    "evidence": "Black/platinum palette, pointed collar, snap placket, slant pockets and small chest/sleeve marks match at source resolution."
+  },
+  {
+    "source_id": "p05-3:R5:A3",
+    "target_source_id": "p05-3:R5:C4",
+    "visually_reviewed": true,
+    "evidence": "Olive/charcoal hooded construction, upper chest seam and covered placket match at source resolution. Tiny emblem linework cannot be established from the source."
+  }
+]

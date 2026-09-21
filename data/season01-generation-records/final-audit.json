@@ -1,0 +1,12 @@
+{
+  "checked_at_epoch": 1789902152.8563547,
+  "files": 130,
+  "crop_records": 130,
+  "stale_crop_records": [],
+  "ocr_records": 130,
+  "stale_ocr_records": [],
+  "speed_matches": [],
+  "crop_visual_status": "All130 triptychs visually checked. Boundaries split front/back/side without visible garment clipping.",
+  "limitation": "OCR is supplementary and cannot reliably resolve every tiny label. Colour/art/construction review is visual concept QA, not factory specification validation.",
+  "dimension_exception": "season-24-jet-black.png is2171px wide; per-file boundaries account for this."
+}

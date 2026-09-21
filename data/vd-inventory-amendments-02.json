@@ -1,0 +1,23 @@
+{
+  "base_known_count_after_prior_addendum": 1137,
+  "new_pictured_alternative_instances": 1,
+  "known_instance_count_after_this_addendum": 1138,
+  "certified_exhaustive_count": false,
+  "amendments": [
+    {
+      "source_id": "p05-2:R5:A4",
+      "parent_family": "p05-2:R5",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Row05 Womens Statement Outerwear; colourways/patterns panelD Bone/Black",
+      "identity": "Bone long jacket/coat \u2014 physically illustrated colour alternative",
+      "pictured_colour": "Bone with black trim/cuffs and low front wing",
+      "record_kind": "depicted_art_colour_variant",
+      "previous_classification": "Swatch-only row; incorrect for this D panel",
+      "visible_evidence": "D contains a full collared long garment with sleeves, pockets, opening and wing, unlike surrounding fabric/logo swatches.",
+      "reference_crop": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref02-coat-swatch.png",
+      "recommended_action": "Add a separate pictured-alternative record and generate its front/back/side. Do NOT print overlaid label BONE BLACK as garment text.",
+      "suggested_output_stem": "pdf-p05-2-r5-a4",
+      "back_and_side": "Not pictured, infer conservatively."
+    }
+  ]
+}

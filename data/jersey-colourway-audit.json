@@ -1,0 +1,205 @@
+{
+  "product_id": "vn-pdf-p05-2-r3-c3",
+  "existing_colour_retained": "Black / Platinum",
+  "generation_tool": "built-in image_gen image edits",
+  "variants": [
+    {
+      "product_id": "vn-pdf-p05-2-r3-c3",
+      "slug": "dark-burgundy-ivory",
+      "colour": "Dark Burgundy / Ivory",
+      "hex": "#541F2C",
+      "source_path": "/workspace/scratch/b58a6b3f1479/generated_images/exec-f4938f66-d479-493e-be0d-676c6ca80343.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied product triptych. Produce the SAME exact women's fitted sleeveless mesh basketball jersey in Dark Burgundy / Ivory. Change only colour: deep dark burgundy mesh ground, ivory logos/lettering/numeral fill and ivory stripe trim; keep dark outlines. Preserve exactly the women's waist-shaped cut, scoop neck, armhole size, length, mesh perforation, collar and armhole double-stripe rib binding construction, seams, front small wing, exact front text \"VANTA NOIR\" above exact numeral \"24\", exact lettering positions/sizes, upper-back wing, lower-back horizontal stripe and lower-right small wing. Back must NOT have a number or wordmark. No new artwork, no sleeves, no new panels. Preserve front, back, right-side views in that left-to-right order, each fully visible and separated in three equal-width columns. Same scale, centered garments, pale neutral studio background, generous safe margins, no clipping, no models, no labels, no extra text. Landscape 3:2 product triptych. All views must depict the same recoloured garment.",
+      "reviewed": true,
+      "review_notes": "Verified all three complete views against reference: same women's shaped sleeveless mesh cut, binding stripes, VANTA NOIR/24 front and wing/stripe back layout. Only colour changed.",
+      "combined_path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/dark-burgundy-ivory-combined.png",
+      "views": [
+        {
+          "label": "front",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/dark-burgundy-ivory-front.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            0,
+            0,
+            583,
+            887
+          ]
+        },
+        {
+          "label": "back",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/dark-burgundy-ivory-back.webp",
+          "width": 576,
+          "height": 887,
+          "crop_box": [
+            599,
+            0,
+            1175,
+            887
+          ]
+        },
+        {
+          "label": "side",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/dark-burgundy-ivory-side.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            1191,
+            0,
+            1774,
+            887
+          ]
+        }
+      ]
+    },
+    {
+      "product_id": "vn-pdf-p05-2-r3-c3",
+      "slug": "bone-black",
+      "colour": "Bone / Black",
+      "hex": "#DDD5C5",
+      "source_path": "/workspace/scratch/b58a6b3f1479/generated_images/exec-510702d3-5f6d-4064-92c0-d58f773e4057.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied product triptych. Produce the SAME exact women's fitted sleeveless mesh basketball jersey in Bone / Black. Change only colour: warm bone/off-white mesh ground, black logos/lettering/numeral fill and black contrast stripe trim; keep a light outline around numeral. Preserve exactly the women's waist-shaped cut, scoop neck, armhole size, length, mesh perforation, collar and armhole double-stripe rib binding construction, seams, front small wing, exact front text \"VANTA NOIR\" above exact numeral \"24\", exact lettering positions/sizes, upper-back wing, lower-back horizontal stripe and lower-right small wing. Back must NOT have a number or wordmark. No new artwork, no sleeves, no new panels. Preserve front, back, right-side views in that left-to-right order, each fully visible and separated in three equal-width columns. Same scale, centered garments, pale neutral studio background, generous safe margins, no clipping, no models, no labels, no extra text. Landscape 3:2 product triptych. All views must depict the same recoloured garment.",
+      "reviewed": true,
+      "review_notes": "Verified all three complete views against reference: same women's shaped sleeveless mesh cut, binding stripes, VANTA NOIR/24 front and wing/stripe back layout. Only colour changed.",
+      "combined_path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/bone-black-combined.png",
+      "views": [
+        {
+          "label": "front",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/bone-black-front.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            0,
+            0,
+            583,
+            887
+          ]
+        },
+        {
+          "label": "back",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/bone-black-back.webp",
+          "width": 576,
+          "height": 887,
+          "crop_box": [
+            599,
+            0,
+            1175,
+            887
+          ]
+        },
+        {
+          "label": "side",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/bone-black-side.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            1191,
+            0,
+            1774,
+            887
+          ]
+        }
+      ]
+    },
+    {
+      "product_id": "vn-pdf-p05-2-r3-c3",
+      "slug": "charcoal-silver",
+      "colour": "Charcoal / Silver",
+      "hex": "#45464A",
+      "source_path": "/workspace/scratch/b58a6b3f1479/generated_images/exec-b7806d30-2b5d-48b8-aa3c-024b1ea2f92f.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied product triptych. Produce the SAME exact women's fitted sleeveless mesh basketball jersey in Charcoal / Silver. Change only colour: charcoal grey mesh ground clearly lighter than black, silver light-grey logos/lettering/numeral fill and silver contrast stripe trim; keep dark outlines. Preserve exactly the women's waist-shaped cut, scoop neck, armhole size, length, mesh perforation, collar and armhole double-stripe rib binding construction, seams, front small wing, exact front text \"VANTA NOIR\" above exact numeral \"24\", exact lettering positions/sizes, upper-back wing, lower-back horizontal stripe and lower-right small wing. Back must NOT have a number or wordmark. No new artwork, no sleeves, no new panels. Preserve front, back, right-side views in that left-to-right order, each fully visible and separated in three equal-width columns. Same scale, centered garments, pale neutral studio background, generous safe margins, no clipping, no models, no labels, no extra text. Landscape 3:2 product triptych. All views must depict the same recoloured garment.",
+      "reviewed": true,
+      "review_notes": "Verified all three complete views against reference: same women's shaped sleeveless mesh cut, binding stripes, VANTA NOIR/24 front and wing/stripe back layout. Only colour changed.",
+      "combined_path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/charcoal-silver-combined.png",
+      "views": [
+        {
+          "label": "front",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/charcoal-silver-front.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            0,
+            0,
+            583,
+            887
+          ]
+        },
+        {
+          "label": "back",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/charcoal-silver-back.webp",
+          "width": 576,
+          "height": 887,
+          "crop_box": [
+            599,
+            0,
+            1175,
+            887
+          ]
+        },
+        {
+          "label": "side",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/charcoal-silver-side.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            1191,
+            0,
+            1774,
+            887
+          ]
+        }
+      ]
+    },
+    {
+      "product_id": "vn-pdf-p05-2-r3-c3",
+      "slug": "deep-olive-black",
+      "colour": "Deep Olive / Black",
+      "hex": "#4B5035",
+      "source_path": "/workspace/scratch/b58a6b3f1479/generated_images/exec-86be2a4b-3873-4421-bbe6-10ce85be9dc5.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied product triptych. Produce the SAME exact women's fitted sleeveless mesh basketball jersey in Deep Olive / Black. Change only colour: deep olive green mesh ground visibly green rather than black, black logos/lettering/numeral fill and black contrast stripe trim; thin pale outline for readable 24. Preserve exactly the women's waist-shaped cut, scoop neck, armhole size, length, mesh perforation, collar and armhole double-stripe rib binding construction, seams, front small wing, exact front text \"VANTA NOIR\" above exact numeral \"24\", exact lettering positions/sizes, upper-back wing, lower-back horizontal stripe and lower-right small wing. Back must NOT have a number or wordmark. No new artwork, no sleeves, no new panels. Preserve front, back, right-side views in that left-to-right order, each fully visible and separated in three equal-width columns. Same scale, centered garments, pale neutral studio background, generous safe margins, no clipping, no models, no labels, no extra text. Landscape 3:2 product triptych. All views must depict the same recoloured garment.",
+      "reviewed": true,
+      "review_notes": "Verified all three complete views against reference: same women's shaped sleeveless mesh cut, binding stripes, VANTA NOIR/24 front and wing/stripe back layout. Only colour changed.",
+      "combined_path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/deep-olive-black-combined.png",
+      "views": [
+        {
+          "label": "front",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/deep-olive-black-front.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            0,
+            0,
+            583,
+            887
+          ]
+        },
+        {
+          "label": "back",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/deep-olive-black-back.webp",
+          "width": 576,
+          "height": 887,
+          "crop_box": [
+            599,
+            0,
+            1175,
+            887
+          ]
+        },
+        {
+          "label": "side",
+          "path": "/workspace/scratch/b58a6b3f1479/assets-jersey-colours/deep-olive-black-side.webp",
+          "width": 583,
+          "height": 887,
+          "crop_box": [
+            1191,
+            0,
+            1774,
+            887
+          ]
+        }
+      ]
+    }
+  ],
+  "failed_items": [],
+  "reviewed": true
+}

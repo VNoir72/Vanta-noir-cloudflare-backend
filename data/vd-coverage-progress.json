@@ -1,0 +1,2725 @@
+{
+  "scope": "Source panel coverage is not a count of unique designs. Season 01 uses approved design counterparts; source artwork may differ. Exact aliases must be separately documented. Swatches are excluded.",
+  "products": 682,
+  "colourways": 927,
+  "image_entries": 2387,
+  "combined_triptych_entries": 197,
+  "views": 2781,
+  "pending_source_entries": 491,
+  "completed_older_galleries": 32,
+  "supplemental_rendered_source_ids": [
+    "p01-3:22:bone",
+    "p03-3:32:bone",
+    "p03-3:32:burgundy",
+    "p03-3:32:olive",
+    "p03-3:33:burgundy",
+    "p04-2:19:ALT:charcoal",
+    "p04-2:26:ALT:bone",
+    "p04-2:26:ALT:burgundy",
+    "p04-2:26:ALT:olive",
+    "p04-2:27:ALT:burgundy"
+  ],
+  "boards": [
+    {
+      "board": "p01-1.png",
+      "collection": "Mens Collection \u2014 Season 01",
+      "source_instances": 26,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 26,
+      "pending_instances": []
+    },
+    {
+      "board": "p01-2.png",
+      "collection": "Noir 02 \u2014 After Hours",
+      "source_instances": 25,
+      "rendered_or_aliased_instances": 25,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p01-3.png",
+      "collection": "Noir 03 \u2014 City After Dark",
+      "source_instances": 23,
+      "rendered_or_aliased_instances": 23,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p02-2.png",
+      "collection": "Noir / Femme 01 \u2014 After Dark",
+      "source_instances": 37,
+      "rendered_or_aliased_instances": 37,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p02-3.png",
+      "collection": "Noir / Femme 02 \u2014 Motion Atelier",
+      "source_instances": 29,
+      "rendered_or_aliased_instances": 29,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p03-2.png",
+      "collection": "Noir / Femme 03 \u2014 Cropped Motion",
+      "source_instances": 30,
+      "rendered_or_aliased_instances": 30,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p03-3.png",
+      "collection": "Noir / Unisex 01 \u2014 Common Ground",
+      "source_instances": 33,
+      "rendered_or_aliased_instances": 33,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p04-2.png",
+      "collection": "Noir / Unisex 02 \u2014 Transit Form",
+      "source_instances": 27,
+      "rendered_or_aliased_instances": 27,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p04-3.png",
+      "collection": "Mens Batch 01",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 50,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p05-2.png",
+      "collection": "Womens Batch 01",
+      "source_instances": 26,
+      "rendered_or_aliased_instances": 26,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p05-3.png",
+      "collection": "Unisex Batch 01",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 50,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p06-2.png",
+      "collection": "Womens Sport & Motion \u2014 Batch 2",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 50,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p06-3.png",
+      "collection": "Mens Sport & Motion \u2014 Batch 2",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 50,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p07-2.png",
+      "collection": "Batch 2 \u2014 Unisex Sport & Motion",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 20,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p07-2:R1:C4",
+          "identity": "Cropped-neutral jacket + straight pant",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p07-2:R1:C5",
+          "identity": "Convertible jacket + track short",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p07-2:R1:A2",
+          "identity": "Stand-collar track set \u2014 Charcoal shadow blocks",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p07-2:R1:A3",
+          "identity": "Stand-collar track set \u2014 Burgundy/black stripes",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p07-2:R2:C1",
+          "identity": "Mesh mock-neck + short",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-2:R2:C2",
+          "identity": "Longline singlet + wide short",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p07-2:R2:C3",
+          "identity": "Reversible singlet + short",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-2:R2:A1",
+          "identity": "Sleeveless mock-neck set \u2014 Black reflective outline",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p07-2:R3:C1",
+          "identity": "Football jersey",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-2:R3:C2",
+          "identity": "Baseball jersey",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p07-2:R3:C3",
+          "identity": "Rugby jersey",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-2:R3:A1",
+          "identity": "Oversized fashion jersey \u2014 Platinum/black",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p07-2:R3:A2",
+          "identity": "Oversized fashion jersey \u2014 Burgundy/charcoal",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p07-2:R3:A3",
+          "identity": "Oversized fashion jersey \u2014 Olive/black camo",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p07-2:R3:A4",
+          "identity": "Oversized fashion jersey \u2014 Bone/black badge",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-2:R3:A5",
+          "identity": "Oversized fashion jersey \u2014 Navy/silver",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p07-2:R4:C1",
+          "identity": "Hooded windbreaker",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-2:R4:C3",
+          "identity": "Convertible vest",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-2:R4:C4",
+          "identity": "Boxy pullover",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p07-2:R4:C5",
+          "identity": "Lightweight coach shell",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p07-2:R4:A4",
+          "identity": "Tech shell \u2014 Bone/black panel",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-2:R4:A5",
+          "identity": "Tech shell \u2014 Olive/black",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p07-2:R5:C1",
+          "identity": "Wide-leg track pant",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-2:R5:C2",
+          "identity": "Relaxed cargo pant",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p07-2:R5:C3",
+          "identity": "Utility nylon short",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-2:R5:C5",
+          "identity": "Zip-off convertible pant",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p07-2:R5:A1",
+          "identity": "Technical bottom \u2014 Black/platinum",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p07-2:R5:A2",
+          "identity": "Technical bottom \u2014 Charcoal pinstripe",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p07-2:R5:A4",
+          "identity": "Technical bottom \u2014 Olive/black camo",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-2:R5:A5",
+          "identity": "Technical bottom \u2014 Navy carbon",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p07-3.png",
+      "collection": "Mens Denim & Workwear \u2014 Batch 3",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 28,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p07-3:R3:A4",
+          "identity": "Chore shirt / overshirt \u2014 Burgundy",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-3:R3:A5",
+          "identity": "Chore shirt / overshirt \u2014 Bone",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p07-3:R4:C1",
+          "identity": "Cargo trouser",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-3:R4:C2",
+          "identity": "Wide-leg cargo",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p07-3:R4:C3",
+          "identity": "Ripstop pant",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-3:R4:C4",
+          "identity": "Carpenter cargo",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p07-3:R4:C5",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p07-3:R4:A1",
+          "identity": "Utility cargo \u2014 Black/platinum",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p07-3:R4:A2",
+          "identity": "Utility cargo \u2014 Charcoal shadow plaid",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p07-3:R4:A3",
+          "identity": "Utility cargo \u2014 Olive camo",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p07-3:R4:A4",
+          "identity": "Utility cargo \u2014 Burgundy/black",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-3:R4:A5",
+          "identity": "Utility cargo \u2014 Navy",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p07-3:R5:C1",
+          "identity": "Canvas vest",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p07-3:R5:C2",
+          "identity": "Quilted work vest",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p07-3:R5:C3",
+          "identity": "Chore jacket",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p07-3:R5:C4",
+          "identity": "Denim vest",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p07-3:R5:C5",
+          "identity": "Cropped work jacket",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p07-3:R5:A1",
+          "identity": "Work vest / jacket \u2014 Black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p07-3:R5:A2",
+          "identity": "Work vest / jacket \u2014 Indigo",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p07-3:R5:A3",
+          "identity": "Work vest / jacket \u2014 Olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p07-3:R5:A4",
+          "identity": "Work vest / jacket \u2014 Bone",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p07-3:R5:A5",
+          "identity": "Work vest / jacket \u2014 Burgundy",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p08-2.png",
+      "collection": "Batch 3 \u2014 Unisex Denim & Workwear",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p08-2:R1:C1",
+          "identity": "Oversized trucker",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p08-2:R1:C2",
+          "identity": "Boxy chore",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p08-2:R1:C3",
+          "identity": "Longline overshirt",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p08-2:R1:C4",
+          "identity": "Convertible sleeve",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p08-2:R1:C5",
+          "identity": "Denim coach jacket",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p08-2:R1:A1",
+          "identity": "Denim overshirt \u2014 Washed black",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p08-2:R1:A2",
+          "identity": "Denim overshirt \u2014 Indigo",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p08-2:R1:A3",
+          "identity": "Denim overshirt \u2014 Charcoal adire noir",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p08-2:R1:A4",
+          "identity": "Denim overshirt \u2014 Bone/black",
+          "position": "Family row 1, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p08-2:R1:A5",
+          "identity": "Denim overshirt \u2014 Burgundy",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p08-2:R2:C1",
+          "identity": "Relaxed carpenter",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p08-2:R2:C2",
+          "identity": "Wide-leg",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p08-2:R2:C3",
+          "identity": "Double-knee",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p08-2:R2:C4",
+          "identity": "Painter pant",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p08-2:R2:C5",
+          "identity": "Convertible cargo",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p08-2:R2:A1",
+          "identity": "Carpenter pant \u2014 Washed black",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p08-2:R2:A2",
+          "identity": "Carpenter pant \u2014 Raw indigo",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p08-2:R2:A3",
+          "identity": "Carpenter pant \u2014 Olive utility",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p08-2:R2:A4",
+          "identity": "Carpenter pant \u2014 Charcoal pinstripe",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p08-2:R2:A5",
+          "identity": "Carpenter pant \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p08-2:R3:C1",
+          "identity": "Chore jacket",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p08-2:R3:C2",
+          "identity": "Safari field",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p08-2:R3:C3",
+          "identity": "Utility parka",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p08-2:R3:C4",
+          "identity": "Short coach",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p08-2:R3:C5",
+          "identity": "Denim field jacket",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p08-2:R3:A1",
+          "identity": "Field jacket \u2014 Black",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p08-2:R3:A2",
+          "identity": "Field jacket \u2014 Olive",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p08-2:R3:A3",
+          "identity": "Field jacket \u2014 Burgundy",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p08-2:R3:A4",
+          "identity": "Field jacket \u2014 Bone",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p08-2:R3:A5",
+          "identity": "Field jacket \u2014 Charcoal",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p08-2:R4:C1",
+          "identity": "Carpenter short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p08-2:R4:C2",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p08-2:R4:C3",
+          "identity": "Pleated utility short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p08-2:R4:C4",
+          "identity": "Denim Bermuda",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p08-2:R4:C5",
+          "identity": "Nylon/twill hybrid",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p08-2:R4:A1",
+          "identity": "Work short \u2014 Black/platinum",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p08-2:R4:A2",
+          "identity": "Work short \u2014 Indigo",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p08-2:R4:A3",
+          "identity": "Work short \u2014 Shadow plaid",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p08-2:R4:A4",
+          "identity": "Work short \u2014 Olive camo",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p08-2:R4:A5",
+          "identity": "Work short \u2014 Burgundy",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p08-2:R5:C1",
+          "identity": "Canvas vest",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p08-2:R5:C2",
+          "identity": "Denim vest",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p08-2:R5:C3",
+          "identity": "Quilted vest",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p08-2:R5:C4",
+          "identity": "Multi-pocket ripstop",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p08-2:R5:C5",
+          "identity": "Reversible vest",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p08-2:R5:A1",
+          "identity": "Utility vest \u2014 Black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p08-2:R5:A2",
+          "identity": "Utility vest \u2014 Indigo",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p08-2:R5:A3",
+          "identity": "Utility vest \u2014 Olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p08-2:R5:A4",
+          "identity": "Utility vest \u2014 Bone",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p08-2:R5:A5",
+          "identity": "Utility vest \u2014 Charcoal",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p08-3.png",
+      "collection": "Street Art Capsule 02 \u2014 Mens",
+      "source_instances": 11,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p08-3:R1:G1",
+          "identity": "Oversized art tee \u2014 illustrated front/back/side",
+          "position": "Section 1; single triptych"
+        },
+        {
+          "id": "p08-3:R2:G1",
+          "identity": "Street bowling shirt \u2014 illustrated front/back/side",
+          "position": "Section 2; single triptych"
+        },
+        {
+          "id": "p08-3:R3:G1",
+          "identity": "Art jersey \u2014 illustrated front/back/side",
+          "position": "Section 3; single triptych"
+        },
+        {
+          "id": "p08-3:R4:G1",
+          "identity": "Art baggy cargo triptych",
+          "position": "Section 4 garment group 1"
+        },
+        {
+          "id": "p08-3:R4:G2",
+          "identity": "Art mesh shorts",
+          "position": "Section 4 garment group 2"
+        },
+        {
+          "id": "p08-3:R4:G3",
+          "identity": "Art denim Bermuda",
+          "position": "Section 4 garment group 3"
+        },
+        {
+          "id": "p08-3:R5:G1",
+          "identity": "Tee + short: City Signal",
+          "position": "Section 5 look 1"
+        },
+        {
+          "id": "p08-3:R5:G2",
+          "identity": "Bowling + baggy pant: Maps & Motion",
+          "position": "Section 5 look 2"
+        },
+        {
+          "id": "p08-3:R5:G3",
+          "identity": "Jersey + cargo: Velocity",
+          "position": "Section 5 look 3"
+        },
+        {
+          "id": "p08-3:R5:G4",
+          "identity": "Overshirt + carpenter: Concrete Ideas",
+          "position": "Section 5 look 4"
+        },
+        {
+          "id": "p08-3:R5:G5",
+          "identity": "Shell + wide pant: Faster Humans",
+          "position": "Section 5 look 5"
+        }
+      ]
+    },
+    {
+      "board": "p09-2.png",
+      "collection": "Batch 5 \u2014 Womens Elevated Street & Outerwear",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 50,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p09-3.png",
+      "collection": "Batch 4 \u2014 Mens Pattern & Street",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 17,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p09-3:R2:A3",
+          "identity": "Bowling / camp shirt \u2014 Olive/black",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p09-3:R2:A4",
+          "identity": "Bowling / camp shirt \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p09-3:R2:A5",
+          "identity": "Bowling / camp shirt \u2014 Bone/black badge",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p09-3:R3:C1",
+          "identity": "Rugby jersey",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p09-3:R3:C2",
+          "identity": "Football jersey",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p09-3:R3:C3",
+          "identity": "Baseball jersey",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p09-3:R3:C4",
+          "identity": "Moto jersey",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p09-3:R3:C5",
+          "identity": "Mesh basketball jersey",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p09-3:R3:A1",
+          "identity": "Rugby / fashion jersey \u2014 Black/platinum",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p09-3:R3:A2",
+          "identity": "Rugby / fashion jersey \u2014 Burgundy/charcoal",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p09-3:R3:A3",
+          "identity": "Rugby / fashion jersey \u2014 Olive camo",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p09-3:R3:A4",
+          "identity": "Rugby / fashion jersey \u2014 Bone/black",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p09-3:R3:A5",
+          "identity": "Rugby / fashion jersey \u2014 Navy/silver",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p09-3:R4:C1",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p09-3:R4:C2",
+          "identity": "Tailored pleated short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p09-3:R4:C3",
+          "identity": "Nylon cargo short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p09-3:R4:C4",
+          "identity": "Denim Bermuda",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p09-3:R4:C5",
+          "identity": "Split running short",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p09-3:R4:A1",
+          "identity": "Patterned short \u2014 Black/white",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p09-3:R4:A2",
+          "identity": "Patterned short \u2014 Shadow charcoal",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p09-3:R4:A3",
+          "identity": "Patterned short \u2014 Velocity burgundy",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p09-3:R4:A4",
+          "identity": "Patterned short \u2014 Urban camo olive",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p09-3:R4:A5",
+          "identity": "Patterned short \u2014 Navy carbon",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p09-3:R5:C1",
+          "identity": "Tee + short",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p09-3:R5:C2",
+          "identity": "Camp shirt + short",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p09-3:R5:C3",
+          "identity": "Jersey + track pant",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p09-3:R5:C4",
+          "identity": "Overshirt + trouser",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p09-3:R5:C5",
+          "identity": "Mesh top + wide pant",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p09-3:R5:A1",
+          "identity": "Coordinated set \u2014 Stealth black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p09-3:R5:A2",
+          "identity": "Coordinated set \u2014 Velocity burgundy",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p09-3:R5:A3",
+          "identity": "Coordinated set \u2014 Urban camo olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p09-3:R5:A4",
+          "identity": "Coordinated set \u2014 Adire noir bone/black",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p09-3:R5:A5",
+          "identity": "Coordinated set \u2014 Carbon navy",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p10-2.png",
+      "collection": "Batch 5 \u2014 Unisex Elevated Street & Outerwear",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 10,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p10-2:R1:C2",
+          "identity": "Long technical coat",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-2:R1:C3",
+          "identity": "Car coat",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-2:R1:C4",
+          "identity": "Trench-shell hybrid",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-2:R1:C5",
+          "identity": "Hooded parka",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-2:R1:A1",
+          "identity": "Coach / overcoat \u2014 Black/platinum",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-2:R1:A2",
+          "identity": "Coach / overcoat \u2014 Charcoal shadow",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-2:R1:A3",
+          "identity": "Coach / overcoat \u2014 Burgundy/black",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-2:R1:A5",
+          "identity": "Coach / overcoat \u2014 Bone/black",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-2:R2:C2",
+          "identity": "Cropped-neutral racer",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-2:R2:C5",
+          "identity": "Collarless leather",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-2:R2:A1",
+          "identity": "Leather / racer \u2014 Black",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-2:R2:A3",
+          "identity": "Leather / racer \u2014 Olive",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-2:R2:A4",
+          "identity": "Leather / racer \u2014 Bone",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-2:R2:A5",
+          "identity": "Leather / racer \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-2:R3:C1",
+          "identity": "Quarter zip",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-2:R3:C2",
+          "identity": "Mock neck",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-2:R3:C3",
+          "identity": "Knit polo",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-2:R3:C4",
+          "identity": "Striped knit",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-2:R3:A1",
+          "identity": "Knit layer \u2014 Black/ivory",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-2:R3:A2",
+          "identity": "Knit layer \u2014 Charcoal grid",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-2:R3:A3",
+          "identity": "Knit layer \u2014 Burgundy",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-2:R3:A4",
+          "identity": "Knit layer \u2014 Olive",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-2:R3:A5",
+          "identity": "Knit layer \u2014 Navy",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-2:R4:C1",
+          "identity": "Pleated trouser",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-2:R4:C2",
+          "identity": "Wide suit trouser",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-2:R4:C3",
+          "identity": "Utility pleat pant",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-2:R4:C4",
+          "identity": "Knit trouser",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-2:R4:C5",
+          "identity": "Tailored short + jacket",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-2:R4:A4",
+          "identity": "Pleated bottom / set \u2014 Bone",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-2:R4:A5",
+          "identity": "Pleated bottom / set \u2014 Navy",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-2:R5:C1",
+          "identity": "Quilted vest",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-2:R5:C2",
+          "identity": "Short puffer",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-2:R5:C3",
+          "identity": "Long puffer",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-2:R5:C4",
+          "identity": "Convertible shell",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-2:R5:C5",
+          "identity": "Insulated coach jacket",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-2:R5:A1",
+          "identity": "Quilted / shell layer \u2014 Black/platinum",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-2:R5:A2",
+          "identity": "Quilted / shell layer \u2014 Charcoal",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-2:R5:A3",
+          "identity": "Quilted / shell layer \u2014 Olive camo",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-2:R5:A4",
+          "identity": "Quilted / shell layer \u2014 Burgundy",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-2:R5:A5",
+          "identity": "Quilted / shell layer \u2014 Bone",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p10-3.png",
+      "collection": "Batch 5 \u2014 Mens Elevated Street & Outerwear",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p10-3:R1:C1",
+          "identity": "Wool overcoat",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-3:R1:C2",
+          "identity": "Technical trench",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-3:R1:C3",
+          "identity": "Oversized car coat",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-3:R1:C4",
+          "identity": "Split-tailored coat",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-3:R1:C5",
+          "identity": "Hooded parka",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-3:R1:A1",
+          "identity": "Long coat \u2014 Black/platinum",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-3:R1:A2",
+          "identity": "Long coat \u2014 Charcoal shadow",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-3:R1:A3",
+          "identity": "Long coat \u2014 Burgundy/black",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-3:R1:A4",
+          "identity": "Long coat \u2014 Olive/black",
+          "position": "Family row 1, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-3:R1:A5",
+          "identity": "Long coat \u2014 Bone/black",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-3:R2:C1",
+          "identity": "Classic racer",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-3:R2:C2",
+          "identity": "Cropped racer",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-3:R2:C3",
+          "identity": "Moto panel",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-3:R2:C4",
+          "identity": "Varsity leather",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-3:R2:C5",
+          "identity": "Collarless leather",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-3:R2:A1",
+          "identity": "Leather / racer jacket \u2014 Black",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-3:R2:A2",
+          "identity": "Leather / racer jacket \u2014 Burgundy",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-3:R2:A3",
+          "identity": "Leather / racer jacket \u2014 Olive",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-3:R2:A4",
+          "identity": "Leather / racer jacket \u2014 Bone",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-3:R2:A5",
+          "identity": "Leather / racer jacket \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-3:R3:C1",
+          "identity": "Knit polo",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-3:R3:C2",
+          "identity": "Quarter zip",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-3:R3:C3",
+          "identity": "Mock neck",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-3:R3:C4",
+          "identity": "Striped knit",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-3:R3:C5",
+          "identity": "Sleeveless knit vest",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-3:R3:A1",
+          "identity": "Knit top \u2014 Black/ivory",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-3:R3:A2",
+          "identity": "Knit top \u2014 Charcoal grid",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-3:R3:A3",
+          "identity": "Knit top \u2014 Burgundy",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-3:R3:A4",
+          "identity": "Knit top \u2014 Olive",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-3:R3:A5",
+          "identity": "Knit top \u2014 Navy",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-3:R4:C1",
+          "identity": "Relaxed blazer + trouser",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-3:R4:C2",
+          "identity": "Double-breasted suit",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-3:R4:C3",
+          "identity": "Cropped jacket + wide trouser",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-3:R4:C4",
+          "identity": "Utility blazer",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-3:R4:C5",
+          "identity": "Knit blazer set",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-3:R4:A1",
+          "identity": "Tailored coordinate \u2014 Black",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-3:R4:A2",
+          "identity": "Tailored coordinate \u2014 Charcoal pinstripe",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-3:R4:A3",
+          "identity": "Tailored coordinate \u2014 Burgundy",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-3:R4:A4",
+          "identity": "Tailored coordinate \u2014 Bone",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-3:R4:A5",
+          "identity": "Tailored coordinate \u2014 Navy",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p10-3:R5:C1",
+          "identity": "Short puffer",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p10-3:R5:C2",
+          "identity": "Long puffer",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p10-3:R5:C3",
+          "identity": "Quilted bomber",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p10-3:R5:C4",
+          "identity": "Sleeveless vest",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p10-3:R5:C5",
+          "identity": "Lightweight hooded puffer",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p10-3:R5:A1",
+          "identity": "Puffer / insulated \u2014 Black/platinum",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p10-3:R5:A2",
+          "identity": "Puffer / insulated \u2014 Charcoal",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p10-3:R5:A3",
+          "identity": "Puffer / insulated \u2014 Olive camo",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p10-3:R5:A4",
+          "identity": "Puffer / insulated \u2014 Burgundy",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p10-3:R5:A5",
+          "identity": "Puffer / insulated \u2014 Bone",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p11-2.png",
+      "collection": "Batch 4 \u2014 Unisex Pattern & Street",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 11,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p11-2:R2:C1",
+          "identity": "Camp collar",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p11-2:R2:C2",
+          "identity": "Bowling shirt",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p11-2:R2:C3",
+          "identity": "Resort shirt",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p11-2:R2:C5",
+          "identity": "Long sleeve overshirt",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p11-2:R2:A1",
+          "identity": "All-over overshirt \u2014 Black/ivory pinstripe",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p11-2:R2:A2",
+          "identity": "All-over overshirt \u2014 Burgundy/black",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p11-2:R2:A3",
+          "identity": "All-over overshirt \u2014 Olive/black",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p11-2:R2:A4",
+          "identity": "All-over overshirt \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p11-2:R2:A5",
+          "identity": "All-over overshirt \u2014 Bone/black badge",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p11-2:R3:C1",
+          "identity": "Football jersey",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p11-2:R3:C2",
+          "identity": "Baseball jersey",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p11-2:R3:C3",
+          "identity": "Rugby jersey",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p11-2:R3:C4",
+          "identity": "Basketball mesh",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p11-2:R3:C5",
+          "identity": "Moto jersey",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p11-2:R3:A1",
+          "identity": "Panel jersey \u2014 Black/platinum",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p11-2:R3:A2",
+          "identity": "Panel jersey \u2014 Burgundy/charcoal",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p11-2:R3:A3",
+          "identity": "Panel jersey \u2014 Olive camo",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p11-2:R3:A4",
+          "identity": "Panel jersey \u2014 Bone/black",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p11-2:R3:A5",
+          "identity": "Panel jersey \u2014 Navy/silver",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p11-2:R4:C1",
+          "identity": "Pleated short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p11-2:R4:C2",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p11-2:R4:C3",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p11-2:R4:C4",
+          "identity": "Denim Bermuda",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p11-2:R4:C5",
+          "identity": "Nylon split short",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p11-2:R4:A1",
+          "identity": "Street short \u2014 Black/white",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p11-2:R4:A2",
+          "identity": "Street short \u2014 Shadow charcoal",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p11-2:R4:A3",
+          "identity": "Street short \u2014 Velocity burgundy",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p11-2:R4:A4",
+          "identity": "Street short \u2014 Urban camo olive",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p11-2:R4:A5",
+          "identity": "Street short \u2014 Navy carbon",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p11-2:R5:C1",
+          "identity": "Tee + short",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p11-2:R5:C2",
+          "identity": "Camp shirt + short",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p11-2:R5:C3",
+          "identity": "Jersey + wide trouser",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p11-2:R5:C4",
+          "identity": "Overshirt + carpenter",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p11-2:R5:C5",
+          "identity": "Sleeveless + track pant",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p11-2:R5:A1",
+          "identity": "Mixed coordinate \u2014 Stealth black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p11-2:R5:A2",
+          "identity": "Mixed coordinate \u2014 Velocity burgundy",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p11-2:R5:A3",
+          "identity": "Mixed coordinate \u2014 Urban camo olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p11-2:R5:A4",
+          "identity": "Mixed coordinate \u2014 Adire noir bone/black",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p11-2:R5:A5",
+          "identity": "Mixed coordinate \u2014 Carbon navy",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p12-2.png",
+      "collection": "Art Capsule 01",
+      "source_instances": 45,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p12-2:R1:C1",
+          "identity": "Boxy tee",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p12-2:R1:C2",
+          "identity": "Longline tee",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p12-2:R1:C3",
+          "identity": "Raglan tee",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p12-2:R1:C4",
+          "identity": "Split-panel tee",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p12-2:R1:C5",
+          "identity": "Sleeveless mesh",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p12-2:R1:A1",
+          "identity": "Art oversized tee \u2014 Fractured wing geometry: jet black/steel",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p12-2:R1:A2",
+          "identity": "Art oversized tee \u2014 Orbital contour map: navy/silver",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p12-2:R1:A3",
+          "identity": "Art oversized tee \u2014 Blackwork spire lines: charcoal/champagne",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p12-2:R1:A4",
+          "identity": "Art oversized tee \u2014 Dark adire brush geometry: olive/black",
+          "position": "Family row 1, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p12-2:R1:A5",
+          "identity": "Art oversized tee \u2014 Micro carbon grid: black/grey",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p12-2:R2:C1",
+          "identity": "Camp collar",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p12-2:R2:C2",
+          "identity": "Bowling shirt",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p12-2:R2:C3",
+          "identity": "Resort shirt",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p12-2:R2:C4",
+          "identity": "Utility shirt",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p12-2:R2:C5",
+          "identity": "Long sleeve",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p12-2:R2:A1",
+          "identity": "Art overshirt \u2014 Tonal shadow plaid: black/charcoal",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p12-2:R2:A2",
+          "identity": "Art overshirt \u2014 Burgundy orbital print: burgundy/black",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p12-2:R2:A3",
+          "identity": "Art overshirt \u2014 Bone/black ink wash",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p12-2:R2:A4",
+          "identity": "Art overshirt \u2014 Olive adire geometry: olive/black",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p12-2:R2:A5",
+          "identity": "Art overshirt \u2014 Navy topographic lines: navy/steel",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p12-2:R3:C1",
+          "identity": "Football jersey",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p12-2:R3:C2",
+          "identity": "Baseball jersey",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p12-2:R3:C3",
+          "identity": "Rugby jersey",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p12-2:R3:C4",
+          "identity": "Basketball mesh",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p12-2:R3:C5",
+          "identity": "Moto jersey",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p12-2:R3:A1",
+          "identity": "Art jersey \u2014 Silver velocity bars: black/silver",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p12-2:R3:A2",
+          "identity": "Art jersey \u2014 Fractured geometry: charcoal/black",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p12-2:R3:A3",
+          "identity": "Art jersey \u2014 Burgundy map print: burgundy/black",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p12-2:R3:A4",
+          "identity": "Art jersey \u2014 Olive camo-art: olive/black",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p12-2:R3:A5",
+          "identity": "Art jersey \u2014 Badge composition: bone/black",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p12-2:R4:C1",
+          "identity": "Pleated short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p12-2:R4:C2",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p12-2:R4:C3",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p12-2:R4:C4",
+          "identity": "Carpenter pant",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p12-2:R4:C5",
+          "identity": "Wide-leg track pant",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p12-2:R4:A1",
+          "identity": "Art bottom \u2014 Tonal blackwork: black",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p12-2:R4:A2",
+          "identity": "Art bottom \u2014 Charcoal grid: charcoal/grey",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p12-2:R4:A3",
+          "identity": "Art bottom \u2014 Burgundy brush stroke: burgundy/black",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p12-2:R4:A4",
+          "identity": "Art bottom \u2014 Olive abstract camo: olive/black",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p12-2:R4:A5",
+          "identity": "Art bottom \u2014 Navy carbon contour: navy/steel",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p12-2:R5:C1",
+          "identity": "Tee + short: Fractured",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p12-2:R5:C2",
+          "identity": "Overshirt + carpenter: Orbital",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p12-2:R5:C3",
+          "identity": "Jersey + wide pant: Velocity",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p12-2:R5:C4",
+          "identity": "Sleeveless + track: Abstract",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p12-2:R5:C5",
+          "identity": "Shell + utility: Topographic",
+          "position": "Family row 5, construction garment/group 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p13-2.png",
+      "collection": "Batch 4 \u2014 Womens Pattern & Street",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p13-2:R1:C1",
+          "identity": "Baby tee",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-2:R1:C2",
+          "identity": "Fitted graphic tee",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-2:R1:C3",
+          "identity": "Asymmetric crop",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-2:R1:C4",
+          "identity": "Cropped raglan",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-2:R1:C5",
+          "identity": "Long-sleeve mesh top",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-2:R1:A1",
+          "identity": "Baby tee / crop tee \u2014 Stealth black",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-2:R1:A2",
+          "identity": "Baby tee / crop tee \u2014 Shadow charcoal",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-2:R1:A3",
+          "identity": "Baby tee / crop tee \u2014 Velocity burgundy",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-2:R1:A4",
+          "identity": "Baby tee / crop tee \u2014 Adire noir bone/black",
+          "position": "Family row 1, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-2:R1:A5",
+          "identity": "Baby tee / crop tee \u2014 Urban camo olive",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-2:R2:C1",
+          "identity": "Cropped bowling shirt",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-2:R2:C2",
+          "identity": "Fitted camp collar",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-2:R2:C3",
+          "identity": "Wrap shirt",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-2:R2:C4",
+          "identity": "Cropped utility shirt",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-2:R2:C5",
+          "identity": "Long sleeve satin shirt",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-2:R2:A1",
+          "identity": "Satin / camp shirt \u2014 Black/ivory pinstripe",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-2:R2:A2",
+          "identity": "Satin / camp shirt \u2014 Burgundy/black",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-2:R2:A3",
+          "identity": "Satin / camp shirt \u2014 Olive/black",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-2:R2:A4",
+          "identity": "Satin / camp shirt \u2014 Navy carbon",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-2:R2:A5",
+          "identity": "Satin / camp shirt \u2014 Bone/black badge",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-2:R3:C1",
+          "identity": "Cropped football",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-2:R3:C2",
+          "identity": "Fitted racing",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-2:R3:C3",
+          "identity": "Mesh basketball tank",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-2:R3:C4",
+          "identity": "Cropped rugby",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-2:R3:C5",
+          "identity": "Cropped baseball",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-2:R3:A1",
+          "identity": "Womens fashion jersey \u2014 Black/platinum",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-2:R3:A2",
+          "identity": "Womens fashion jersey \u2014 Burgundy/charcoal",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-2:R3:A3",
+          "identity": "Womens fashion jersey \u2014 Olive camo",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-2:R3:A4",
+          "identity": "Womens fashion jersey \u2014 Bone/black",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-2:R3:A5",
+          "identity": "Womens fashion jersey \u2014 Navy/silver",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-2:R4:C1",
+          "identity": "Pleated skort",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-2:R4:C2",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-2:R4:C3",
+          "identity": "Cargo mini",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-2:R4:C4",
+          "identity": "Tailored short",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-2:R4:C5",
+          "identity": "Wide-leg pant",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-2:R4:A1",
+          "identity": "Patterned bottom \u2014 Black/white",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-2:R4:A2",
+          "identity": "Patterned bottom \u2014 Shadow charcoal",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-2:R4:A3",
+          "identity": "Patterned bottom \u2014 Velocity burgundy",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-2:R4:A4",
+          "identity": "Patterned bottom \u2014 Urban camo olive",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-2:R4:A5",
+          "identity": "Patterned bottom \u2014 Navy carbon",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-2:R5:C1",
+          "identity": "Baby tee + skort",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-2:R5:C2",
+          "identity": "Crop shirt + wide pant",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-2:R5:C3",
+          "identity": "Jersey + short",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-2:R5:C4",
+          "identity": "Satin top + trouser",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-2:R5:C5",
+          "identity": "Mesh top + flare",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-2:R5:A1",
+          "identity": "Coordinated set \u2014 Stealth black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-2:R5:A2",
+          "identity": "Coordinated set \u2014 Velocity burgundy",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-2:R5:A3",
+          "identity": "Coordinated set \u2014 Urban camo olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-2:R5:A4",
+          "identity": "Coordinated set \u2014 Adire noir bone/black",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-2:R5:A5",
+          "identity": "Coordinated set \u2014 Carbon navy",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p13-3.png",
+      "collection": "Art Capsule 01 \u2014 Mens",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 1,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p13-3:R1:C1",
+          "identity": "Boxy tee",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-3:R1:C2",
+          "identity": "Engineered shoulder",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-3:R1:C4",
+          "identity": "Raglan",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-3:R1:C5",
+          "identity": "Longline",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-3:R1:A1",
+          "identity": "Art-panel tee \u2014 Fractured wing: jet black/champagne",
+          "position": "Family row 1, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-3:R1:A2",
+          "identity": "Art-panel tee \u2014 Orbital contour: charcoal/silver",
+          "position": "Family row 1, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-3:R1:A3",
+          "identity": "Art-panel tee \u2014 Blackwork spire: burgundy/black",
+          "position": "Family row 1, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-3:R1:A4",
+          "identity": "Art-panel tee \u2014 Adire geometry: dark olive/bone",
+          "position": "Family row 1, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-3:R1:A5",
+          "identity": "Art-panel tee \u2014 Carbon grid: navy/steel grey",
+          "position": "Family row 1, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-3:R2:C1",
+          "identity": "Bowling shirt",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-3:R2:C2",
+          "identity": "Camp collar",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-3:R2:C3",
+          "identity": "Cropped utility",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-3:R2:C4",
+          "identity": "Long sleeve",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-3:R2:C5",
+          "identity": "Oversized resort",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-3:R2:A1",
+          "identity": "Art bowling shirt \u2014 Shadow plaid: jet black/charcoal",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-3:R2:A2",
+          "identity": "Art bowling shirt \u2014 Orbital print: burgundy/black",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-3:R2:A3",
+          "identity": "Art bowling shirt \u2014 Ink wash: bone/black",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-3:R2:A4",
+          "identity": "Art bowling shirt \u2014 Adire geometry: dark olive/champagne",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-3:R2:A5",
+          "identity": "Art bowling shirt \u2014 Topographic lines: navy/silver",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-3:R3:C1",
+          "identity": "Football",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-3:R3:C2",
+          "identity": "Moto",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-3:R3:C3",
+          "identity": "Baseball",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-3:R3:C4",
+          "identity": "Rugby",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-3:R3:C5",
+          "identity": "Mesh tank",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-3:R3:A1",
+          "identity": "Art jersey \u2014 Velocity bars: black/silver",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-3:R3:A2",
+          "identity": "Art jersey \u2014 Fractured geometry: charcoal/champagne",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-3:R3:A3",
+          "identity": "Art jersey \u2014 Map print: burgundy/black",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-3:R3:A4",
+          "identity": "Art jersey \u2014 Camo-art: dark olive/bone",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-3:R3:A5",
+          "identity": "Art jersey \u2014 Badge composition: bone/black",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-3:R4:C1",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-3:R4:C2",
+          "identity": "Pleated short",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-3:R4:C3",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-3:R4:C4",
+          "identity": "Denim Bermuda",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-3:R4:C5",
+          "identity": "Split running",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-3:R4:A1",
+          "identity": "Art short \u2014 Blackwork: jet black/charcoal",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-3:R4:A2",
+          "identity": "Art short \u2014 Grid: charcoal/silver",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-3:R4:A3",
+          "identity": "Art short \u2014 Brush stroke: burgundy/black",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-3:R4:A4",
+          "identity": "Art short \u2014 Abstract camo: dark olive/bone",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-3:R4:A5",
+          "identity": "Art short \u2014 Carbon contour: navy/steel grey",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p13-3:R5:C1",
+          "identity": "Track set",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p13-3:R5:C2",
+          "identity": "Anorak + short",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p13-3:R5:C3",
+          "identity": "Overshirt + wide pant",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p13-3:R5:C4",
+          "identity": "Sleeveless + baggy",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p13-3:R5:C5",
+          "identity": "Shell + cargo",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p13-3:R5:A1",
+          "identity": "Art track / utility set \u2014 Fractured wing: jet black/champagne",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p13-3:R5:A2",
+          "identity": "Art track / utility set \u2014 Orbital: charcoal/silver",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p13-3:R5:A3",
+          "identity": "Art track / utility set \u2014 Spire: burgundy/black",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p13-3:R5:A4",
+          "identity": "Art track / utility set \u2014 Adire: dark olive/bone",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p13-3:R5:A5",
+          "identity": "Art track / utility set \u2014 Topographic: navy/silver",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p14-2.png",
+      "collection": "Art Capsule 01 \u2014 Womens",
+      "source_instances": 25,
+      "rendered_or_aliased_instances": 25,
+      "approved_design_counterparts": 0,
+      "pending_instances": []
+    },
+    {
+      "board": "p14-3.png",
+      "collection": "Street-Art Capsule 02 \u2014 Womens",
+      "source_instances": 26,
+      "rendered_or_aliased_instances": 16,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p14-3:R4:C1",
+          "identity": "Pleated skort",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p14-3:R4:C2",
+          "identity": "Cargo mini",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p14-3:R4:C3",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p14-3:R4:C4",
+          "identity": "Wide-leg pant",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p14-3:R4:C5",
+          "identity": "Flared pant",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p14-3:R5:C1",
+          "identity": "Crop tee + skort",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p14-3:R5:C2",
+          "identity": "Art shirt + wide pant",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p14-3:R5:C3",
+          "identity": "Jersey + short",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p14-3:R5:C4",
+          "identity": "Mesh top + flare",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p14-3:R5:C5",
+          "identity": "Cropped shell + baggy pant",
+          "position": "Family row 5, construction garment/group 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p15-2.png",
+      "collection": "Street-Art Capsule 02 \u2014 Unisex",
+      "source_instances": 25,
+      "rendered_or_aliased_instances": 0,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p15-2:R1:C1",
+          "identity": "Boxy",
+          "position": "Family row 1, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-2:R1:C2",
+          "identity": "Longline",
+          "position": "Family row 1, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-2:R1:C3",
+          "identity": "Raglan",
+          "position": "Family row 1, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-2:R1:C4",
+          "identity": "Collared utility top within Oversized Art Tee panel (label conflict)",
+          "position": "Family row 1, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-2:R1:C5",
+          "identity": "Sleeveless",
+          "position": "Family row 1, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-2:R2:C1",
+          "identity": "Camp collar",
+          "position": "Family row 2, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-2:R2:C2",
+          "identity": "Bowling",
+          "position": "Family row 2, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-2:R2:C3",
+          "identity": "Resort",
+          "position": "Family row 2, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-2:R2:C4",
+          "identity": "Utility",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-2:R2:C5",
+          "identity": "Long sleeve",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-2:R3:C1",
+          "identity": "Football",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-2:R3:C2",
+          "identity": "Baseball",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-2:R3:C3",
+          "identity": "Rugby",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-2:R3:C4",
+          "identity": "Basketball mesh",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-2:R3:C5",
+          "identity": "Moto",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-2:R4:C1",
+          "identity": "Cargo short",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-2:R4:C2",
+          "identity": "Carpenter pant",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-2:R4:C3",
+          "identity": "Mesh short",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-2:R4:C4",
+          "identity": "Wide-leg track pant",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-2:R4:C5",
+          "identity": "Denim Bermuda",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-2:R5:C1",
+          "identity": "Oversized tee + short",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-2:R5:C2",
+          "identity": "Overshirt + carpenter",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-2:R5:C3",
+          "identity": "Jersey + wide pant",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-2:R5:C4",
+          "identity": "Sleeveless mesh + track pant",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-2:R5:C5",
+          "identity": "Shell + utility bottom",
+          "position": "Family row 5, construction garment/group 5 from left"
+        }
+      ]
+    },
+    {
+      "board": "p15-3.png",
+      "collection": "Womens Denim & Workwear \u2014 Batch 3",
+      "source_instances": 50,
+      "rendered_or_aliased_instances": 13,
+      "approved_design_counterparts": 0,
+      "pending_instances": [
+        {
+          "id": "p15-3:R2:C4",
+          "identity": "Wrap denim top",
+          "position": "Family row 2, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-3:R2:C5",
+          "identity": "Cropped utility shirt",
+          "position": "Family row 2, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-3:R2:A1",
+          "identity": "Denim corset/overshirt \u2014 Washed black",
+          "position": "Family row 2, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p15-3:R2:A2",
+          "identity": "Denim corset/overshirt \u2014 Faded indigo",
+          "position": "Family row 2, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p15-3:R2:A3",
+          "identity": "Denim corset/overshirt \u2014 Charcoal/black adire noir",
+          "position": "Family row 2, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p15-3:R2:A4",
+          "identity": "Denim corset/overshirt \u2014 Bone/black",
+          "position": "Family row 2, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p15-3:R2:A5",
+          "identity": "Denim corset/overshirt \u2014 Burgundy/black",
+          "position": "Family row 2, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p15-3:R3:C1",
+          "identity": "Wide-leg jean",
+          "position": "Family row 3, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-3:R3:C2",
+          "identity": "Flared jean",
+          "position": "Family row 3, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-3:R3:C3",
+          "identity": "Cargo jean",
+          "position": "Family row 3, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-3:R3:C4",
+          "identity": "Carpenter jean",
+          "position": "Family row 3, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-3:R3:C5",
+          "identity": "Denim skort",
+          "position": "Family row 3, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-3:R3:A1",
+          "identity": "High-waist denim bottom \u2014 Washed black",
+          "position": "Family row 3, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p15-3:R3:A2",
+          "identity": "High-waist denim bottom \u2014 Faded indigo",
+          "position": "Family row 3, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p15-3:R3:A3",
+          "identity": "High-waist denim bottom \u2014 Olive/black utility",
+          "position": "Family row 3, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p15-3:R3:A4",
+          "identity": "High-waist denim bottom \u2014 Charcoal pinstripe",
+          "position": "Family row 3, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p15-3:R3:A5",
+          "identity": "High-waist denim bottom \u2014 Raw denim",
+          "position": "Family row 3, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p15-3:R4:C1",
+          "identity": "Parachute pant",
+          "position": "Family row 4, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-3:R4:C2",
+          "identity": "High-waist cargo",
+          "position": "Family row 4, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-3:R4:C3",
+          "identity": "Cargo mini",
+          "position": "Family row 4, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-3:R4:C4",
+          "identity": "Utility skort",
+          "position": "Family row 4, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-3:R4:C5",
+          "identity": "Pocketed wide-leg",
+          "position": "Family row 4, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-3:R4:A1",
+          "identity": "Womens utility cargo \u2014 Black/platinum",
+          "position": "Family row 4, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p15-3:R4:A2",
+          "identity": "Womens utility cargo \u2014 Charcoal shadow",
+          "position": "Family row 4, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p15-3:R4:A3",
+          "identity": "Womens utility cargo \u2014 Olive camo",
+          "position": "Family row 4, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p15-3:R4:A4",
+          "identity": "Womens utility cargo \u2014 Burgundy",
+          "position": "Family row 4, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p15-3:R4:A5",
+          "identity": "Womens utility cargo \u2014 Bone",
+          "position": "Family row 4, art/colour garment panel 5 from left"
+        },
+        {
+          "id": "p15-3:R5:C1",
+          "identity": "Cropped chore",
+          "position": "Family row 5, construction garment/group 1 from left"
+        },
+        {
+          "id": "p15-3:R5:C2",
+          "identity": "Belted denim jacket",
+          "position": "Family row 5, construction garment/group 2 from left"
+        },
+        {
+          "id": "p15-3:R5:C3",
+          "identity": "Canvas bomber",
+          "position": "Family row 5, construction garment/group 3 from left"
+        },
+        {
+          "id": "p15-3:R5:C4",
+          "identity": "Structured field",
+          "position": "Family row 5, construction garment/group 4 from left"
+        },
+        {
+          "id": "p15-3:R5:C5",
+          "identity": "Sleeveless utility vest",
+          "position": "Family row 5, construction garment/group 5 from left"
+        },
+        {
+          "id": "p15-3:R5:A1",
+          "identity": "Statement work jacket \u2014 Black",
+          "position": "Family row 5, art/colour garment panel 1 from left"
+        },
+        {
+          "id": "p15-3:R5:A2",
+          "identity": "Statement work jacket \u2014 Indigo",
+          "position": "Family row 5, art/colour garment panel 2 from left"
+        },
+        {
+          "id": "p15-3:R5:A3",
+          "identity": "Statement work jacket \u2014 Olive",
+          "position": "Family row 5, art/colour garment panel 3 from left"
+        },
+        {
+          "id": "p15-3:R5:A4",
+          "identity": "Statement work jacket \u2014 Bone",
+          "position": "Family row 5, art/colour garment panel 4 from left"
+        },
+        {
+          "id": "p15-3:R5:A5",
+          "identity": "Statement work jacket \u2014 Burgundy",
+          "position": "Family row 5, art/colour garment panel 5 from left"
+        }
+      ]
+    }
+  ]
+}

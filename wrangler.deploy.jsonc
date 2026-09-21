@@ -1,0 +1,48 @@
+{
+  "name": "vanta-noir-api",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "keep_vars": true,
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/admin",
+      "/admin/*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "vanta-noir-db",
+      "database_id": "db5dccad-083a-4c80-bc7c-63cba3a00a35",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "vanta-noir-media"
+    }
+  ],
+  "vars": {
+    "AUTH_PROVIDER": "cloudflare-access",
+    "STOREFRONT_URL": "https://vantanoir.store",
+    "ALLOWED_ORIGINS": "https://vantanoir.store,https://www.vantanoir.store",
+    "ADMIN_EMAIL": "vantanoir.xyz@gmail.com",
+    "CF_ACCESS_TEAM_DOMAIN": "https://odd-wave-e6dd.cloudflareaccess.com",
+    "CF_ACCESS_AUD": "849a7d10d84729ba7e38dcb65f6c39fe190059141eb1eea7b8469e597c1fd8d5"
+  },
+  "triggers": {
+    "crons": [
+      "*/5 * * * *"
+    ]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

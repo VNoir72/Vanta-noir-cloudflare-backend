@@ -1,0 +1,736 @@
+{
+  "source": "Vanta-Noir-Product-Catalogue-and-Prices(1).xlsx",
+  "categories": [
+    {
+      "id": "C01",
+      "section": "Tops",
+      "name": "T-shirts",
+      "types": "Oversized graphic, fitted and long-sleeve tees",
+      "description": "Everyday T-shirts in fitted and relaxed silhouettes."
+    },
+    {
+      "id": "C02",
+      "section": "Tops",
+      "name": "Shirts and polos",
+      "types": "Button-up, polo, rugby and knit polo shirts",
+      "description": "Collared styles for casual and smart-casual dressing."
+    },
+    {
+      "id": "C03",
+      "section": "Tops",
+      "name": "Jerseys",
+      "types": "Football, basketball and mesh jerseys",
+      "description": "Sports-inspired jerseys with Vanta Noir graphics and detailing."
+    },
+    {
+      "id": "C04",
+      "section": "Tops",
+      "name": "Singlets and tanks",
+      "types": "Athletic singlets and casual tank tops",
+      "description": "Sleeveless tops for movement, layering and everyday wear."
+    },
+    {
+      "id": "C05",
+      "section": "Tops",
+      "name": "Hoodies and sweatshirts",
+      "types": "Oversized hoodies, cropped hoodies and sweatshirts",
+      "description": "Relaxed layers with distinctive proportions and brand details."
+    },
+    {
+      "id": "C06",
+      "section": "Tops",
+      "name": "Knitwear",
+      "types": "Sweaters and quarter-zips",
+      "description": "Textured layers for everyday and smart-casual outfits."
+    },
+    {
+      "id": "C07",
+      "section": "Bottoms",
+      "name": "Jeans",
+      "types": "Baggy, straight-leg and carpenter jeans",
+      "description": "Denim bottoms with varied fits and workwear influences."
+    },
+    {
+      "id": "C08",
+      "section": "Bottoms",
+      "name": "Trousers and utility pants",
+      "types": "Cargo, parachute and tailored trousers",
+      "description": "Utility-inspired and tailored bottoms for everyday dressing."
+    },
+    {
+      "id": "C09",
+      "section": "Bottoms",
+      "name": "Joggers and track pants",
+      "types": "Baggy joggers, sweatpants and track pants",
+      "description": "Relaxed and athletic bottoms for coordinated or separate styling."
+    },
+    {
+      "id": "C10",
+      "section": "Bottoms",
+      "name": "Shorts",
+      "types": "Basketball, mesh, denim, chino and swim shorts",
+      "description": "Shorts spanning sport, casual dressing and swimwear."
+    },
+    {
+      "id": "C11",
+      "section": "Matching Sets",
+      "name": "Hoodie and jogger sets",
+      "types": "Oversized or cropped hoodie with matching pants",
+      "description": "Coordinated hoodie and trouser outfits sold as complete sets."
+    },
+    {
+      "id": "C12",
+      "section": "Matching Sets",
+      "name": "Performance tracksuits",
+      "types": "Hooded and stand-collar tracksuits",
+      "description": "Coordinated athletic jackets and trousers with distinct constructions."
+    },
+    {
+      "id": "C13",
+      "section": "Matching Sets",
+      "name": "Windbreaker sets",
+      "types": "Windbreaker jacket with matching pants",
+      "description": "Coordinated outerwear sets using the approved windbreaker fabric."
+    },
+    {
+      "id": "C14",
+      "section": "Matching Sets",
+      "name": "Casual and denim sets",
+      "types": "Top and shorts, shirt and trousers, denim outfits",
+      "description": "Coordinated outfits for everyday dressing."
+    },
+    {
+      "id": "C15",
+      "section": "Matching Sets",
+      "name": "Women’s activewear sets",
+      "types": "Coordinated workout pieces",
+      "description": "Coordinated activewear developed for the women’s collection."
+    },
+    {
+      "id": "C16",
+      "section": "Outerwear",
+      "name": "Windbreakers",
+      "types": "Individual windbreaker jackets",
+      "description": "Lightweight outer layers with technical styling."
+    },
+    {
+      "id": "C17",
+      "section": "Outerwear",
+      "name": "Jackets and coats",
+      "types": "Track, technical, varsity, bomber, denim, leather, puffer, overshirt and long coat styles",
+      "description": "Outer layers ranging from light overshirts to substantial coats."
+    },
+    {
+      "id": "C18",
+      "section": "Accessories",
+      "name": "Headwear",
+      "types": "Face caps, trucker caps, beanies and bucket hats",
+      "description": "Branded headwear to complete an outfit."
+    },
+    {
+      "id": "C19",
+      "section": "Accessories",
+      "name": "Bags",
+      "types": "Crossbody bags, backpacks and gym or duffel bags",
+      "description": "Bags for everyday belongings and training essentials."
+    },
+    {
+      "id": "C20",
+      "section": "Accessories",
+      "name": "Underwear and socks",
+      "types": "Boxers and socks",
+      "description": "Everyday essentials carrying the Vanta Noir identity."
+    },
+    {
+      "id": "C21",
+      "section": "Accessories",
+      "name": "Fashion accessories",
+      "types": "Belts, sunglasses, gloves and scarves",
+      "description": "Finishing pieces for styling and everyday use."
+    },
+    {
+      "id": "C22",
+      "section": "Accessories",
+      "name": "Training accessories",
+      "types": "Branded bottles",
+      "description": "Supporting accessories for the sportswear collection."
+    },
+    {
+      "id": "C23",
+      "section": "Bottoms",
+      "name": "Skirts and skorts",
+      "types": "Mini, midi, maxi and skort designs",
+      "description": "Tailored, pleated and fluid skirts and skorts."
+    },
+    {
+      "id": "C24",
+      "section": "Dresses",
+      "name": "Dresses",
+      "types": "Slip, fitted, ribbed and midi dresses",
+      "description": "Distinctive dresses from the Femme collections."
+    },
+    {
+      "id": "C25",
+      "section": "Tops",
+      "name": "Bodysuits and fitted tops",
+      "types": "Bodysuits, halter, wrap and asymmetric tops",
+      "description": "Sculpted and asymmetric silhouettes for the Femme collections."
+    },
+    {
+      "id": "C26",
+      "section": "Bottoms",
+      "name": "Leggings",
+      "types": "Straight, flared and cycling silhouettes",
+      "description": "Fitted stretch bottoms with clean or sculpted lines."
+    },
+    {
+      "id": "C27",
+      "section": "Tops",
+      "name": "Bras and bralettes",
+      "types": "Sports bras and bralettes",
+      "description": "Support and layering pieces from the Femme collections."
+    }
+  ],
+  "prices": [
+    {
+      "id": "P001",
+      "section": "Tops",
+      "type": "Fitted or basic T-shirt",
+      "unit": "One item",
+      "lowNgn": "20000",
+      "highNgn": "30000",
+      "suggestedNgn": "25000",
+      "status": "Proposed",
+      "notes": "The suggested price is for the finished branded and packaged product."
+    },
+    {
+      "id": "P002",
+      "section": "Tops",
+      "type": "Oversized graphic T-shirt",
+      "unit": "One item",
+      "lowNgn": "30000",
+      "highNgn": "45000",
+      "suggestedNgn": "35000",
+      "status": "Proposed",
+      "notes": "Confirm logo application, labels, packaging, freight and import costs."
+    },
+    {
+      "id": "P003",
+      "section": "Tops",
+      "type": "Long-sleeve T-shirt",
+      "unit": "One item",
+      "lowNgn": "30000",
+      "highNgn": "45000",
+      "suggestedNgn": "35000",
+      "status": "Proposed",
+      "notes": "Include an allocation for development, marketing and operating costs."
+    },
+    {
+      "id": "P004",
+      "section": "Tops",
+      "type": "Polo shirt",
+      "unit": "One item",
+      "lowNgn": "35000",
+      "highNgn": "55000",
+      "suggestedNgn": "45000",
+      "status": "Proposed",
+      "notes": "Allow for payment fees, returns, applicable taxes and profit."
+    },
+    {
+      "id": "P005",
+      "section": "Tops",
+      "type": "Button-up shirt",
+      "unit": "One item",
+      "lowNgn": "40000",
+      "highNgn": "65000",
+      "suggestedNgn": "50000",
+      "status": "Proposed",
+      "notes": "Count embroidery or labels once if already included in the supplier quote."
+    },
+    {
+      "id": "P006",
+      "section": "Tops",
+      "type": "Rugby shirt",
+      "unit": "One item",
+      "lowNgn": "40000",
+      "highNgn": "65000",
+      "suggestedNgn": "50000",
+      "status": "Proposed",
+      "notes": "Approve the exact design price in Products before publishing."
+    },
+    {
+      "id": "P007",
+      "section": "Tops",
+      "type": "Knit polo",
+      "unit": "One item",
+      "lowNgn": "50000",
+      "highNgn": "75000",
+      "suggestedNgn": "60000",
+      "status": "Proposed",
+      "notes": "A category price range is not a sale price or a crossed-out original price."
+    },
+    {
+      "id": "P008",
+      "section": "Tops",
+      "type": "Football basketball or mesh jersey",
+      "unit": "One item",
+      "lowNgn": "30000",
+      "highNgn": "55000",
+      "suggestedNgn": "40000",
+      "status": "Proposed",
+      "notes": "Leather prices depend on material grade and construction."
+    },
+    {
+      "id": "P009",
+      "section": "Tops",
+      "type": "Singlet or tank top",
+      "unit": "One item",
+      "lowNgn": "18000",
+      "highNgn": "30000",
+      "suggestedNgn": "25000",
+      "status": "Proposed",
+      "notes": "Women’s activewear and bottles remain concept ranges until approved."
+    },
+    {
+      "id": "P010",
+      "section": "Tops",
+      "type": "Sweatshirt",
+      "unit": "One item",
+      "lowNgn": "45000",
+      "highNgn": "65000",
+      "suggestedNgn": "55000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P011",
+      "section": "Tops",
+      "type": "Sweater or quarter-zip",
+      "unit": "One item",
+      "lowNgn": "55000",
+      "highNgn": "85000",
+      "suggestedNgn": "65000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P012",
+      "section": "Tops",
+      "type": "Oversized hoodie",
+      "unit": "One item",
+      "lowNgn": "55000",
+      "highNgn": "85000",
+      "suggestedNgn": "65000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P013",
+      "section": "Tops",
+      "type": "Cropped hoodie",
+      "unit": "One item",
+      "lowNgn": "45000",
+      "highNgn": "65000",
+      "suggestedNgn": "55000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P014",
+      "section": "Bottoms",
+      "type": "Baggy or straight-leg jeans",
+      "unit": "One item",
+      "lowNgn": "55000",
+      "highNgn": "90000",
+      "suggestedNgn": "70000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P015",
+      "section": "Bottoms",
+      "type": "Carpenter jeans",
+      "unit": "One item",
+      "lowNgn": "65000",
+      "highNgn": "100000",
+      "suggestedNgn": "80000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P016",
+      "section": "Bottoms",
+      "type": "Cargo or parachute pants",
+      "unit": "One item",
+      "lowNgn": "45000",
+      "highNgn": "80000",
+      "suggestedNgn": "60000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P017",
+      "section": "Bottoms",
+      "type": "Tailored trousers",
+      "unit": "One item",
+      "lowNgn": "50000",
+      "highNgn": "80000",
+      "suggestedNgn": "65000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P018",
+      "section": "Bottoms",
+      "type": "Track pants joggers or sweatpants",
+      "unit": "One item",
+      "lowNgn": "40000",
+      "highNgn": "70000",
+      "suggestedNgn": "55000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P019",
+      "section": "Bottoms",
+      "type": "Basketball or mesh shorts",
+      "unit": "One item",
+      "lowNgn": "25000",
+      "highNgn": "40000",
+      "suggestedNgn": "30000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P020",
+      "section": "Bottoms",
+      "type": "Denim shorts",
+      "unit": "One item",
+      "lowNgn": "35000",
+      "highNgn": "60000",
+      "suggestedNgn": "45000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P021",
+      "section": "Bottoms",
+      "type": "Chino shorts",
+      "unit": "One item",
+      "lowNgn": "30000",
+      "highNgn": "45000",
+      "suggestedNgn": "35000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P022",
+      "section": "Bottoms",
+      "type": "Swim shorts",
+      "unit": "One item",
+      "lowNgn": "25000",
+      "highNgn": "40000",
+      "suggestedNgn": "30000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P023",
+      "section": "Matching Sets",
+      "type": "Oversized hoodie and baggy jogger set",
+      "unit": "Complete set",
+      "lowNgn": "95000",
+      "highNgn": "135000",
+      "suggestedNgn": "110000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P024",
+      "section": "Matching Sets",
+      "type": "Cropped hoodie and pants set",
+      "unit": "Complete set",
+      "lowNgn": "85000",
+      "highNgn": "115000",
+      "suggestedNgn": "95000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P025",
+      "section": "Matching Sets",
+      "type": "Hooded performance tracksuit",
+      "unit": "Complete set",
+      "lowNgn": "105000",
+      "highNgn": "145000",
+      "suggestedNgn": "120000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P026",
+      "section": "Matching Sets",
+      "type": "Stand-collar performance tracksuit",
+      "unit": "Complete set",
+      "lowNgn": "110000",
+      "highNgn": "145000",
+      "suggestedNgn": "125000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P027",
+      "section": "Matching Sets",
+      "type": "Windbreaker jacket and pants set",
+      "unit": "Complete set",
+      "lowNgn": "120000",
+      "highNgn": "165000",
+      "suggestedNgn": "135000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P028",
+      "section": "Matching Sets",
+      "type": "T-shirt or top and shorts set",
+      "unit": "Complete set",
+      "lowNgn": "60000",
+      "highNgn": "90000",
+      "suggestedNgn": "70000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P029",
+      "section": "Matching Sets",
+      "type": "Shirt and trousers set",
+      "unit": "Complete set",
+      "lowNgn": "95000",
+      "highNgn": "135000",
+      "suggestedNgn": "110000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P030",
+      "section": "Matching Sets",
+      "type": "Denim jacket or top and jeans set",
+      "unit": "Complete set",
+      "lowNgn": "140000",
+      "highNgn": "200000",
+      "suggestedNgn": "160000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P031",
+      "section": "Matching Sets",
+      "type": "Women’s activewear two-piece",
+      "unit": "Complete set",
+      "lowNgn": "50000",
+      "highNgn": "80000",
+      "suggestedNgn": "60000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P032",
+      "section": "Outerwear",
+      "type": "Windbreaker or lightweight technical jacket",
+      "unit": "One item",
+      "lowNgn": "70000",
+      "highNgn": "110000",
+      "suggestedNgn": "85000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P033",
+      "section": "Outerwear",
+      "type": "Track jacket",
+      "unit": "One item",
+      "lowNgn": "60000",
+      "highNgn": "90000",
+      "suggestedNgn": "75000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P034",
+      "section": "Outerwear",
+      "type": "Overshirt",
+      "unit": "One item",
+      "lowNgn": "50000",
+      "highNgn": "80000",
+      "suggestedNgn": "65000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P035",
+      "section": "Outerwear",
+      "type": "Denim jacket",
+      "unit": "One item",
+      "lowNgn": "75000",
+      "highNgn": "120000",
+      "suggestedNgn": "95000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P036",
+      "section": "Outerwear",
+      "type": "Bomber jacket",
+      "unit": "One item",
+      "lowNgn": "85000",
+      "highNgn": "135000",
+      "suggestedNgn": "110000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P037",
+      "section": "Outerwear",
+      "type": "Varsity jacket",
+      "unit": "One item",
+      "lowNgn": "100000",
+      "highNgn": "170000",
+      "suggestedNgn": "125000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P038",
+      "section": "Outerwear",
+      "type": "Puffer jacket",
+      "unit": "One item",
+      "lowNgn": "110000",
+      "highNgn": "190000",
+      "suggestedNgn": "140000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P039",
+      "section": "Outerwear",
+      "type": "Long coat",
+      "unit": "One item",
+      "lowNgn": "125000",
+      "highNgn": "220000",
+      "suggestedNgn": "160000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P040",
+      "section": "Outerwear",
+      "type": "Faux-leather jacket",
+      "unit": "One item",
+      "lowNgn": "100000",
+      "highNgn": "170000",
+      "suggestedNgn": "130000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P041",
+      "section": "Outerwear",
+      "type": "Genuine-leather jacket",
+      "unit": "One item",
+      "lowNgn": "200000",
+      "highNgn": "350000",
+      "suggestedNgn": "250000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P042",
+      "section": "Accessories",
+      "type": "Face cap or trucker cap",
+      "unit": "One item",
+      "lowNgn": "30000",
+      "highNgn": "30000",
+      "suggestedNgn": "30000",
+      "status": "Approved by owner"
+    },
+    {
+      "id": "P043",
+      "section": "Accessories",
+      "type": "Beanie or bucket hat",
+      "unit": "One item",
+      "lowNgn": "15000",
+      "highNgn": "25000",
+      "suggestedNgn": "20000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P044",
+      "section": "Accessories",
+      "type": "Crossbody bag",
+      "unit": "One item",
+      "lowNgn": "25000",
+      "highNgn": "50000",
+      "suggestedNgn": "35000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P045",
+      "section": "Accessories",
+      "type": "Backpack",
+      "unit": "One item",
+      "lowNgn": "40000",
+      "highNgn": "75000",
+      "suggestedNgn": "55000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P046",
+      "section": "Accessories",
+      "type": "Gym or duffel bag",
+      "unit": "One item",
+      "lowNgn": "50000",
+      "highNgn": "85000",
+      "suggestedNgn": "65000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P047",
+      "section": "Accessories",
+      "type": "Belt",
+      "unit": "One item",
+      "lowNgn": "18000",
+      "highNgn": "40000",
+      "suggestedNgn": "25000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P048",
+      "section": "Accessories",
+      "type": "Sunglasses",
+      "unit": "One item",
+      "lowNgn": "20000",
+      "highNgn": "45000",
+      "suggestedNgn": "30000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P049",
+      "section": "Accessories",
+      "type": "Socks",
+      "unit": "One pair",
+      "lowNgn": "20000",
+      "highNgn": "20000",
+      "suggestedNgn": "20000",
+      "status": "Approved by owner"
+    },
+    {
+      "id": "P050",
+      "section": "Accessories",
+      "type": "Boxers",
+      "unit": "One piece",
+      "lowNgn": "8000",
+      "highNgn": "15000",
+      "suggestedNgn": "12000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P051",
+      "section": "Accessories",
+      "type": "Gloves",
+      "unit": "One pair",
+      "lowNgn": "12000",
+      "highNgn": "25000",
+      "suggestedNgn": "18000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P052",
+      "section": "Accessories",
+      "type": "Scarf",
+      "unit": "One item",
+      "lowNgn": "15000",
+      "highNgn": "30000",
+      "suggestedNgn": "20000",
+      "status": "Proposed"
+    },
+    {
+      "id": "P053",
+      "section": "Accessories",
+      "type": "Branded bottle",
+      "unit": "One item",
+      "lowNgn": "10000",
+      "highNgn": "22000",
+      "suggestedNgn": "15000",
+      "status": "Proposed"
+    }
+  ],
+  "notes": "Face caps NGN30,000 and socks NGN20,000 approved by owner on20September2026. Other proposed prices remain subject to approval. New designs remain previews until stock and production details are confirmed."
+}

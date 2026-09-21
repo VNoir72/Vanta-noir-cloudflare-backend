@@ -1,0 +1,1347 @@
+[
+  {
+    "product_ids": [
+      "vn-pdf-p04-3-r1-a1",
+      "vn-pdf-p04-3-r1-a2",
+      "vn-pdf-p04-3-r1-a3",
+      "vn-pdf-p04-3-r1-a4",
+      "vn-pdf-p04-3-r1-a5"
+    ],
+    "recommended_name": "Heavyweight Street Tee",
+    "audience": "men",
+    "collection": "Mens Batch 01",
+    "evidence": "p04-3.png row 1, A panels [1, 2, 3, 4, 5]. Five short-sleeve round-neck straight-hem tees; carbon, plaid, adire, velocity and camo are artwork alternatives.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p04-3-r1-a1": [
+          "T05"
+        ],
+        "vn-pdf-p04-3-r1-a2": [
+          "T05"
+        ],
+        "vn-pdf-p04-3-r1-a3": [
+          "T05"
+        ],
+        "vn-pdf-p04-3-r1-a4": [
+          "T05"
+        ],
+        "vn-pdf-p04-3-r1-a5": [
+          "T05"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p04-3:R1:A1",
+      "p04-3:R1:A2",
+      "p04-3:R1:A3",
+      "p04-3:R1:A4",
+      "p04-3:R1:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p04-3-r2-a2",
+      "vn-pdf-p04-3-r2-a3",
+      "vn-pdf-p04-3-r2-a5"
+    ],
+    "recommended_name": "V-Neck Fashion Jersey",
+    "audience": "men",
+    "collection": "Mens Batch 01",
+    "evidence": "p04-3.png row 2, A panels [2, 3, 5]. Short-sleeve pullover V-neck jerseys. Bone A4 has polo collar/placket; black A1 has engineered side panels and stays distinct.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p04-3-r2-a2": [
+          "T14"
+        ],
+        "vn-pdf-p04-3-r2-a3": [
+          "T14"
+        ],
+        "vn-pdf-p04-3-r2-a5": [
+          "T14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p04-3:R2:A2",
+      "p04-3:R2:A3",
+      "p04-3:R2:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p04-3-r3-a1",
+      "vn-pdf-p04-3-r3-a3",
+      "vn-pdf-p04-3-r3-a4",
+      "vn-pdf-p04-3-r3-a5"
+    ],
+    "recommended_name": "Short-Sleeve Street Shirt",
+    "audience": "men",
+    "collection": "Mens Batch 01",
+    "evidence": "p04-3.png row 3, A panels [1, 3, 4, 5]. Full button placket, pointed collar and ordinary short sleeves. Exclude A2 until missing source chest pocket is restored.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p04-3-r3-a1": [
+          "T12"
+        ],
+        "vn-pdf-p04-3-r3-a3": [
+          "T12"
+        ],
+        "vn-pdf-p04-3-r3-a4": [
+          "T12"
+        ],
+        "vn-pdf-p04-3-r3-a5": [
+          "T12"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p04-3:R3:A1",
+      "p04-3:R3:A3",
+      "p04-3:R3:A4",
+      "p04-3:R3:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p04-3-r5-a1",
+      "vn-pdf-p04-3-r5-a5"
+    ],
+    "recommended_name": "Reflective Zip Coach Jacket",
+    "audience": "men",
+    "collection": "Mens Batch 01",
+    "evidence": "p04-3.png row 5, A panels [1, 5]. Both pointed-collar zip-front jackets with reflective sleeve treatment. A2 rib-collar bomber, A3 colour-block coach, A4 work-pocket jacket remain separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p04-3-r5-a1": [
+          "T17"
+        ],
+        "vn-pdf-p04-3-r5-a5": [
+          "T17"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p04-3:R5:A1",
+      "p04-3:R5:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r2-a1",
+      "vn-pdf-p05-3-r2-a4",
+      "vn-pdf-p05-3-r2-a5"
+    ],
+    "recommended_name": "Football Jersey",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 2, A panels [1, 4, 5]. V-neck pullovers with short sleeves and rib trims. A2/A3 are collared placket jerseys and remain a second group.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r2-a1": [
+          "T14"
+        ],
+        "vn-pdf-p05-3-r2-a4": [
+          "T14"
+        ],
+        "vn-pdf-p05-3-r2-a5": [
+          "T14"
+        ],
+        "vn-pdf-p05-3-r2-c1": [
+          "T14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R2:A1",
+      "p05-3:R2:A4",
+      "p05-3:R2:A5",
+      "p05-3:R2:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r2-a2",
+      "vn-pdf-p05-3-r2-a3"
+    ],
+    "recommended_name": "Collared Script Jersey",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 2, A panels [2, 3]. Burgundy and olive camo share pointed collar, short placket, ordinary short sleeves, straight body and script chest.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r2-a2": [
+          "T14"
+        ],
+        "vn-pdf-p05-3-r2-a3": [
+          "T14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R2:A2",
+      "p05-3:R2:A3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r3-a1",
+      "vn-pdf-p05-3-r3-a2",
+      "vn-pdf-p05-3-r3-a3",
+      "vn-pdf-p05-3-r3-a5"
+    ],
+    "recommended_name": "Shared Short-Sleeve Shirt",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 3, A panels [1, 2, 3, 5]. Short-sleeve full-button shirt with pointed/camp collar and straight hem. Pattern and colour-block options; A4 has utility flap pockets and must stay separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r3-a1": [
+          "T12"
+        ],
+        "vn-pdf-p05-3-r3-a2": [
+          "T12"
+        ],
+        "vn-pdf-p05-3-r3-a3": [
+          "T12"
+        ],
+        "vn-pdf-p05-3-r3-a5": [
+          "T12"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R3:A1",
+      "p05-3:R3:A2",
+      "p05-3:R3:A3",
+      "p05-3:R3:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r3-a4",
+      "vn-pdf-p05-3-r3-c4"
+    ],
+    "recommended_name": "Short-Sleeve Utility Shirt",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 3, A panels [4]. Two flap chest pockets, full button closure and same olive short-sleeve silhouette.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r3-a4": [
+          "T12"
+        ],
+        "vn-pdf-p05-3-r3-c4": [
+          "T12"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R3:A4",
+      "p05-3:R3:C4"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r4-a1",
+      "vn-pdf-p05-3-r4-a2"
+    ],
+    "recommended_name": "Wide-Leg Denim Jean",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 4, A panels [1, 2]. A1/A2 catalogue triptychs show plain five-pocket wide-leg jeans; unlike C2 carpenter, no tool-pocket construction. Board A2 front cannot establish hidden carpenter details. Preserve C2 separately.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r4-a1": [
+          "B09"
+        ],
+        "vn-pdf-p05-3-r4-a2": [
+          "B09"
+        ],
+        "vn-pdf-p05-3-r4-c1": [
+          "B04"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R4:A1",
+      "p05-3:R4:A2",
+      "p05-3:R4:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r4-a3",
+      "vn-pdf-p05-3-r4-c3"
+    ],
+    "recommended_name": "Relaxed Cargo Pant",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 4, A panels [3]. Elastic waist, wide cargo-pocket trouser. Same A3/C3 construction; same-colour duplicates should remain source-linked options rather than inventing another colour.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r4-a3": [
+          "B09"
+        ],
+        "vn-pdf-p05-3-r4-c3": [
+          "B07"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R4:A3",
+      "p05-3:R4:C3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p05-3-r4-a5",
+      "vn-pdf-p05-3-r4-c5"
+    ],
+    "recommended_name": "Technical Track Pant",
+    "audience": "unisex",
+    "collection": "Unisex Batch 01",
+    "evidence": "p05-3.png row 4, A panels [5]. Elastic waist, technical fabric, straight/wide track leg; C5 has line art at calf and A5 is plain. Keep design selector explicit.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p05-3-r4-a5": [
+          "B09"
+        ],
+        "vn-pdf-p05-3-r4-c5": [
+          "B02"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p05-3:R4:A5",
+      "p05-3:R4:C5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r1-a1",
+      "vn-pdf-p06-2-r1-a3"
+    ],
+    "recommended_name": "Cropped Track Jacket and Flared Pant Set",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 1, A panels [1, 3]. Both cropped zip jackets with collars and flared trousers; A2 cargo pockets and A4 hood/cargo details prevent whole-row grouping.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r1-a1": [
+          "W14",
+          "W07"
+        ],
+        "vn-pdf-p06-2-r1-a3": [
+          "W14",
+          "W07"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R1:A1",
+      "p06-2:R1:A3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r2-a1",
+      "vn-pdf-p06-2-r2-a2",
+      "vn-pdf-p06-2-r2-a4",
+      "vn-pdf-p06-2-r2-a5"
+    ],
+    "recommended_name": "Racerback Performance Crop",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 2, A panels [1, 2, 4, 5]. Scoop neck, sleeveless racerback-style crop, banded hem. Burgundy A3 is one-shoulder and must remain separate; retain textile-specific charts.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r2-a1": [
+          "W03"
+        ],
+        "vn-pdf-p06-2-r2-a2": [
+          "W03"
+        ],
+        "vn-pdf-p06-2-r2-a4": [
+          "W03"
+        ],
+        "vn-pdf-p06-2-r2-a5": [
+          "W03"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R2:A1",
+      "p06-2:R2:A2",
+      "p06-2:R2:A4",
+      "p06-2:R2:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r4-a1",
+      "vn-pdf-p06-2-r4-a2",
+      "vn-pdf-p06-2-r4-a4"
+    ],
+    "recommended_name": "Cropped Funnel-Neck Track Jacket",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 4, A panels [1, 2, 4]. Stand/funnel collar, cropped zip body and rib hem. A3/A5 pointed collars remain a different group.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r4-a1": [
+          "W14"
+        ],
+        "vn-pdf-p06-2-r4-a2": [
+          "W14"
+        ],
+        "vn-pdf-p06-2-r4-a4": [
+          "W14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R4:A1",
+      "p06-2:R4:A2",
+      "p06-2:R4:A4"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r4-a3",
+      "vn-pdf-p06-2-r4-a5"
+    ],
+    "recommended_name": "Cropped Collared Track Jacket",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 4, A panels [3, 5]. Pointed collar, cropped full zip and rib hem. Burgundy and olive camo colour/pattern options.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r4-a3": [
+          "W14"
+        ],
+        "vn-pdf-p06-2-r4-a5": [
+          "W14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R4:A3",
+      "p06-2:R4:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r5-a1",
+      "vn-pdf-p06-2-r5-a2",
+      "vn-pdf-p06-2-r5-a3"
+    ],
+    "recommended_name": "Cropped Football Jersey",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 5, A panels [1, 2, 3]. Short V-neck pullovers with shoulder/sleeve stripes; white, burgundy and camo. A4/A5 have baseball front opening.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r5-a1": [
+          "W13"
+        ],
+        "vn-pdf-p06-2-r5-a2": [
+          "W13"
+        ],
+        "vn-pdf-p06-2-r5-a3": [
+          "W13"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R5:A1",
+      "p06-2:R5:A2",
+      "p06-2:R5:A3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-2-r5-a4",
+      "vn-pdf-p06-2-r5-a5"
+    ],
+    "recommended_name": "Cropped Baseball Jersey",
+    "audience": "women",
+    "collection": "Womens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-2.png row 5, A panels [4, 5]. Short sleeved, full baseball placket and piped neckline. Bone/navy are design options; do not group with pullover football cut.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-2-r5-a4": [
+          "W13"
+        ],
+        "vn-pdf-p06-2-r5-a5": [
+          "W13"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-2:R5:A4",
+      "p06-2:R5:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r1-a1",
+      "vn-pdf-p06-3-r1-a2",
+      "vn-pdf-p06-3-r1-a3",
+      "vn-pdf-p06-3-r1-a4",
+      "vn-pdf-p06-3-r1-a5"
+    ],
+    "recommended_name": "Funnel-Neck Performance Tracksuit",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 1, A panels [1, 2, 3, 4, 5]. Full zip stand-neck jacket and long straight/tapered track pant across the five source art panels. Surface blocks/piping vary.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r1-a1": [
+          "T03",
+          "B02"
+        ],
+        "vn-pdf-p06-3-r1-a2": [
+          "T03",
+          "B02"
+        ],
+        "vn-pdf-p06-3-r1-a3": [
+          "T03",
+          "B02"
+        ],
+        "vn-pdf-p06-3-r1-a4": [
+          "T03",
+          "B02"
+        ],
+        "vn-pdf-p06-3-r1-a5": [
+          "T03",
+          "B02"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R1:A1",
+      "p06-3:R1:A2",
+      "p06-3:R1:A3",
+      "p06-3:R1:A4",
+      "p06-3:R1:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r2-a1",
+      "vn-pdf-p06-3-r2-a2",
+      "vn-pdf-p06-3-r2-a3",
+      "vn-pdf-p06-3-r2-a4",
+      "vn-pdf-p06-3-r2-a5"
+    ],
+    "recommended_name": "Running Singlet",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 2, A panels [1, 2, 3, 4, 5]. Scoop neckline, racerback source silhouettes, ordinary armholes and straight hem. Surface art varies; do not absorb C2 high-neck or C4 side cutout.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r2-a1": [
+          "T15"
+        ],
+        "vn-pdf-p06-3-r2-a2": [
+          "T15"
+        ],
+        "vn-pdf-p06-3-r2-a3": [
+          "T15"
+        ],
+        "vn-pdf-p06-3-r2-a4": [
+          "T15"
+        ],
+        "vn-pdf-p06-3-r2-a5": [
+          "T15"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R2:A1",
+      "p06-3:R2:A2",
+      "p06-3:R2:A3",
+      "p06-3:R2:A4",
+      "p06-3:R2:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r3-a2",
+      "vn-pdf-p06-3-r3-a3",
+      "vn-pdf-p06-3-r3-a4"
+    ],
+    "recommended_name": "Straight-Hem Athletic Short",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 3, A panels [2, 3, 4]. Elastic drawstring waistband and straight hem across charcoal, burgundy and camo. A1 curved split running hem and A5 compression underlayer are separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r3-a2": [
+          "B11"
+        ],
+        "vn-pdf-p06-3-r3-a3": [
+          "B11"
+        ],
+        "vn-pdf-p06-3-r3-a4": [
+          "B11"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R3:A2",
+      "p06-3:R3:A3",
+      "p06-3:R3:A4"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r4-a1",
+      "vn-pdf-p06-3-r4-a2",
+      "vn-pdf-p06-3-r4-a3"
+    ],
+    "recommended_name": "Hooded Technical Windbreaker",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 4, A panels [1, 2, 3]. Full zip hooded shell with same relaxed body and long sleeves. A4/A5 stand collars remain separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r4-a1": [
+          "T04"
+        ],
+        "vn-pdf-p06-3-r4-a2": [
+          "T04"
+        ],
+        "vn-pdf-p06-3-r4-a3": [
+          "T04"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R4:A1",
+      "p06-3:R4:A2",
+      "p06-3:R4:A3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r4-a4",
+      "vn-pdf-p06-3-r4-a5"
+    ],
+    "recommended_name": "Stand-Collar Technical Jacket",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 4, A panels [4, 5]. Hoodless full zip shell, stand collar, long sleeves and elastic hem. Bone/olive options.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r4-a4": [
+          "T04"
+        ],
+        "vn-pdf-p06-3-r4-a5": [
+          "T04"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R4:A4",
+      "p06-3:R4:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r5-a1",
+      "vn-pdf-p06-3-r5-a3",
+      "vn-pdf-p06-3-r5-a5"
+    ],
+    "recommended_name": "V-Neck Racing Jersey",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 5, A panels [1, 3, 5]. Short-sleeve V-neck pullover; white, camo and navy. A2/A4 full baseball closure is excluded.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r5-a1": [
+          "T14"
+        ],
+        "vn-pdf-p06-3-r5-a3": [
+          "T14"
+        ],
+        "vn-pdf-p06-3-r5-a5": [
+          "T14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R5:A1",
+      "p06-3:R5:A3",
+      "p06-3:R5:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p06-3-r5-a2",
+      "vn-pdf-p06-3-r5-a4"
+    ],
+    "recommended_name": "Baseball Racing Jersey",
+    "audience": "men",
+    "collection": "Mens Sport & Motion \u2014 Batch 2",
+    "evidence": "p06-3.png row 5, A panels [2, 4]. Full baseball button front with piping, short sleeves and curved hem.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p06-3-r5-a2": [
+          "T14"
+        ],
+        "vn-pdf-p06-3-r5-a4": [
+          "T14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p06-3:R5:A2",
+      "p06-3:R5:A4"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p07-2-r2-a2",
+      "vn-pdf-p07-2-r2-a3",
+      "vn-pdf-p07-2-r2-a4",
+      "vn-pdf-p07-2-r2-a5"
+    ],
+    "recommended_name": "Sleeveless Top and Short Set",
+    "audience": "unisex",
+    "collection": "Batch 2 \u2014 Unisex Sport & Motion",
+    "evidence": "p07-2.png row 2, A panels [2, 3, 4, 5]. Round-neck sleeveless top plus elastic-waist short; pattern alternatives retain paired top/bottom chart blocks.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p07-2-r2-a2": [
+          "T15",
+          "B10"
+        ],
+        "vn-pdf-p07-2-r2-a3": [
+          "T15",
+          "B10"
+        ],
+        "vn-pdf-p07-2-r2-a4": [
+          "T15",
+          "B10"
+        ],
+        "vn-pdf-p07-2-r2-a5": [
+          "T15",
+          "B10"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p07-2:R2:A2",
+      "p07-2:R2:A3",
+      "p07-2:R2:A4",
+      "p07-2:R2:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p07-3-r1-a1",
+      "vn-pdf-p07-3-r1-a2",
+      "vn-pdf-p07-3-r1-a3",
+      "vn-pdf-p07-3-r1-a4",
+      "vn-pdf-p07-3-r1-a5"
+    ],
+    "recommended_name": "Trucker Denim Jacket",
+    "audience": "men",
+    "collection": "Mens Denim & Workwear \u2014 Batch 3",
+    "evidence": "p07-3.png row 1, A panels [1, 2, 3, 4, 5]. Pointed collar, full button front, two flap chest pockets and waist band; same regular trucker cut. Do not absorb cropped, chore, utility or varsity C2\u2013C5.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p07-3-r1-a1": [
+          "T18"
+        ],
+        "vn-pdf-p07-3-r1-a2": [
+          "T18"
+        ],
+        "vn-pdf-p07-3-r1-a3": [
+          "T18"
+        ],
+        "vn-pdf-p07-3-r1-a4": [
+          "T18"
+        ],
+        "vn-pdf-p07-3-r1-a5": [
+          "T18"
+        ],
+        "vn-pdf-p07-3-r1-c1": [
+          "T18"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p07-3:R1:A1",
+      "p07-3:R1:A2",
+      "p07-3:R1:A3",
+      "p07-3:R1:A4",
+      "p07-3:R1:A5",
+      "p07-3:R1:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p07-3-r2-a1",
+      "vn-pdf-p07-3-r2-a2",
+      "vn-pdf-p07-3-r2-a4",
+      "vn-pdf-p07-3-r2-a5",
+      "vn-pdf-p07-3-r2-c5"
+    ],
+    "recommended_name": "Wide-Leg Carpenter Jean",
+    "audience": "men",
+    "collection": "Mens Denim & Workwear \u2014 Batch 3",
+    "evidence": "p07-3.png row 2, A panels [1, 2, 4, 5]. Five-pocket waist, broad straight leg and tool pockets at upper/lower side. A3 has extra stacked cargo pockets and stays separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p07-3-r2-a1": [
+          "B06"
+        ],
+        "vn-pdf-p07-3-r2-a2": [
+          "B06"
+        ],
+        "vn-pdf-p07-3-r2-a4": [
+          "B06"
+        ],
+        "vn-pdf-p07-3-r2-a5": [
+          "B06"
+        ],
+        "vn-pdf-p07-3-r2-c5": [
+          "B06"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p07-3:R2:A1",
+      "p07-3:R2:A2",
+      "p07-3:R2:A4",
+      "p07-3:R2:A5",
+      "p07-3:R2:C5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p07-3-r3-a1",
+      "vn-pdf-p07-3-r3-a2",
+      "vn-pdf-p07-3-r3-a3"
+    ],
+    "recommended_name": "Short-Sleeve Chore Shirt",
+    "audience": "men",
+    "collection": "Mens Denim & Workwear \u2014 Batch 3",
+    "evidence": "p07-3.png row 3, A panels [1, 2, 3]. Two chest flap pockets, button front, pointed collar and ordinary short sleeves. Charcoal grid/black/olive variants.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p07-3-r3-a1": [
+          "T13"
+        ],
+        "vn-pdf-p07-3-r3-a2": [
+          "T13"
+        ],
+        "vn-pdf-p07-3-r3-a3": [
+          "T13"
+        ],
+        "vn-pdf-p07-3-r3-c1": [
+          "T12"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p07-3:R3:A1",
+      "p07-3:R3:A2",
+      "p07-3:R3:A3",
+      "p07-3:R3:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p10-2-r4-a1",
+      "vn-pdf-p10-2-r4-a2",
+      "vn-pdf-p10-2-r4-a3"
+    ],
+    "recommended_name": "Pleated Wide-Leg Trouser",
+    "audience": "unisex",
+    "collection": "Batch 5 \u2014 Unisex Elevated Street & Outerwear",
+    "evidence": "p10-2.png row 4, A panels [1, 2, 3]. Fixed waist, pleated front and wide straight leg. Group black, charcoal pinstripe and burgundy, with exact selected garment measurements.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p10-2-r4-a1": [
+          "T12",
+          "B09"
+        ],
+        "vn-pdf-p10-2-r4-a2": [
+          "T12",
+          "B09"
+        ],
+        "vn-pdf-p10-2-r4-a3": [
+          "T12",
+          "B09"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p10-2:R4:A1",
+      "p10-2:R4:A2",
+      "p10-2:R4:A3"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-2-r1-a1",
+      "vn-pdf-p09-2-r1-a2",
+      "vn-pdf-p09-2-r1-a3",
+      "vn-pdf-p09-2-r1-a4",
+      "vn-pdf-p09-2-r1-a5"
+    ],
+    "recommended_name": "Waist-Cinched Hooded Parka",
+    "audience": "women",
+    "collection": "Batch 5 \u2014 Womens Elevated Street & Outerwear",
+    "evidence": "p09-2.png row 1, A panels [1, 2, 3, 4, 5]. All five A panels are hooded drawstring-waist parkas, not lapelled tailored coats. Same hip/thigh length, full front fastening, hood and waist shaping.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-2-r1-a1": [
+          "W15"
+        ],
+        "vn-pdf-p09-2-r1-a2": [
+          "W15"
+        ],
+        "vn-pdf-p09-2-r1-a3": [
+          "W15"
+        ],
+        "vn-pdf-p09-2-r1-a4": [
+          "W15"
+        ],
+        "vn-pdf-p09-2-r1-a5": [
+          "W15"
+        ],
+        "vn-pdf-p09-2-r1-c5": [
+          "W15"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-2:R1:A1",
+      "p09-2:R1:A2",
+      "p09-2:R1:A3",
+      "p09-2:R1:A4",
+      "p09-2:R1:A5",
+      "p09-2:R1:C5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-2-r2-a1",
+      "vn-pdf-p09-2-r2-a5"
+    ],
+    "recommended_name": "Fitted Single-Breasted Cropped Blazer",
+    "audience": "women",
+    "collection": "Batch 5 \u2014 Womens Elevated Street & Outerwear",
+    "evidence": "p09-2.png row 2, A panels [1, 5]. Black/navy share narrow waist, notched lapel and single-breasted front. Burgundy/olive/bone have double-breasted button layout.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-2-r2-a1": [
+          "W14"
+        ],
+        "vn-pdf-p09-2-r2-a5": [
+          "W14"
+        ],
+        "vn-pdf-p09-2-r2-c1": [
+          "W14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-2:R2:A1",
+      "p09-2:R2:A5",
+      "p09-2:R2:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-2-r2-a2",
+      "vn-pdf-p09-2-r2-a3",
+      "vn-pdf-p09-2-r2-a4"
+    ],
+    "recommended_name": "Double-Breasted Cropped Blazer",
+    "audience": "women",
+    "collection": "Batch 5 \u2014 Womens Elevated Street & Outerwear",
+    "evidence": "p09-2.png row 2, A panels [2, 3, 4]. Three paired button layout, fitted waist and cropped hem; same double-breasted cut in burgundy/olive/bone.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-2-r2-a2": [
+          "W14"
+        ],
+        "vn-pdf-p09-2-r2-a3": [
+          "W14"
+        ],
+        "vn-pdf-p09-2-r2-a4": [
+          "W14"
+        ],
+        "vn-pdf-p09-2-r2-c2": [
+          "W14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-2:R2:A2",
+      "p09-2:R2:A3",
+      "p09-2:R2:A4",
+      "p09-2:R2:C2"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-2-r5-a1",
+      "vn-pdf-p09-2-r5-a4",
+      "vn-pdf-p09-2-r5-c1"
+    ],
+    "recommended_name": "Cropped Hooded Puffer Jacket",
+    "audience": "women",
+    "collection": "Batch 5 \u2014 Womens Elevated Street & Outerwear",
+    "evidence": "p09-2.png row 5, A panels [1, 4]. Black/burgundy are short hooded horizontal-channel puffer jackets; charcoal/bone images currently include trousers, camo is a bomber construction.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": false,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-2-r5-a1": [
+          "W20"
+        ],
+        "vn-pdf-p09-2-r5-a4": [
+          "W20"
+        ],
+        "vn-pdf-p09-2-r5-c1": [
+          "W20"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-2:R5:A1",
+      "p09-2:R5:A4",
+      "p09-2:R5:C1"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-3-r1-a1",
+      "vn-pdf-p09-3-r1-a2",
+      "vn-pdf-p09-3-r1-a3",
+      "vn-pdf-p09-3-r1-a4",
+      "vn-pdf-p09-3-r1-a5"
+    ],
+    "recommended_name": "Patterned Street Tee",
+    "audience": "men",
+    "collection": "Batch 4 \u2014 Mens Pattern & Street",
+    "evidence": "p09-3.png row 1, A panels [1, 2, 3, 4, 5]. Crew neck, short sleeves, straight hem and regular boxy body. Five artwork alternatives; source construction raglan/split-panel/longline remain separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-3-r1-a1": [
+          "T05"
+        ],
+        "vn-pdf-p09-3-r1-a2": [
+          "T05"
+        ],
+        "vn-pdf-p09-3-r1-a3": [
+          "T05"
+        ],
+        "vn-pdf-p09-3-r1-a4": [
+          "T05"
+        ],
+        "vn-pdf-p09-3-r1-a5": [
+          "T05"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-3:R1:A1",
+      "p09-3:R1:A2",
+      "p09-3:R1:A3",
+      "p09-3:R1:A4",
+      "p09-3:R1:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p09-3-r2-a1",
+      "vn-pdf-p09-3-r2-a2"
+    ],
+    "recommended_name": "Bowling Camp Shirt",
+    "audience": "men",
+    "collection": "Batch 4 \u2014 Mens Pattern & Street",
+    "evidence": "p09-3.png row 2, A panels [1, 2]. Both short-sleeve button-front shirts, open collar and straight hem; burgundy back stripes versus black/ivory stripes are design options.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p09-3-r2-a1": [
+          "T12"
+        ],
+        "vn-pdf-p09-3-r2-a2": [
+          "T12"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p09-3:R2:A1",
+      "p09-3:R2:A2"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p11-2-r1-a1",
+      "vn-pdf-p11-2-r1-a2",
+      "vn-pdf-p11-2-r1-a3",
+      "vn-pdf-p11-2-r1-a4",
+      "vn-pdf-p11-2-r1-a5"
+    ],
+    "recommended_name": "Oversized Print Tee",
+    "audience": "unisex",
+    "collection": "Batch 4 \u2014 Unisex Pattern & Street",
+    "evidence": "p11-2.png row 1, A panels [1, 2, 3, 4, 5]. Five short-sleeve crew-neck straight-hem tees. Surface pattern and chest artwork vary, construction is shared.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p11-2-r1-a1": [
+          "T05"
+        ],
+        "vn-pdf-p11-2-r1-a2": [
+          "T05"
+        ],
+        "vn-pdf-p11-2-r1-a3": [
+          "T05"
+        ],
+        "vn-pdf-p11-2-r1-a4": [
+          "T05"
+        ],
+        "vn-pdf-p11-2-r1-a5": [
+          "T05"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p11-2:R1:A1",
+      "p11-2:R1:A2",
+      "p11-2:R1:A3",
+      "p11-2:R1:A4",
+      "p11-2:R1:A5"
+    ]
+  },
+  {
+    "product_ids": [
+      "vn-pdf-p15-3-r1-a1",
+      "vn-pdf-p15-3-r1-a2",
+      "vn-pdf-p15-3-r1-a3",
+      "vn-pdf-p15-3-r1-a4",
+      "vn-pdf-p15-3-r1-a5"
+    ],
+    "recommended_name": "Cropped Trucker Denim Jacket",
+    "audience": "women",
+    "collection": "Womens Denim & Workwear \u2014 Batch 3",
+    "evidence": "p15-3.png row 1, A panels [1, 2, 3, 4, 5]. Five A-panel jackets share short fitted trucker silhouette, button front, two flap chest pockets and waistband. Keep corset-seamed C3, cropped boxy C2 and varsity C5 separate.",
+    "compatible_measurement_blocks": {
+      "status": "retain_selected_product_measurements",
+      "all_existing_blocks_identical": true,
+      "existing_codes_by_product": {
+        "vn-pdf-p15-3-r1-a1": [
+          "W14"
+        ],
+        "vn-pdf-p15-3-r1-a2": [
+          "W14"
+        ],
+        "vn-pdf-p15-3-r1-a3": [
+          "W14"
+        ],
+        "vn-pdf-p15-3-r1-a4": [
+          "W14"
+        ],
+        "vn-pdf-p15-3-r1-a5": [
+          "W14"
+        ]
+      },
+      "compatibility": "Same visual construction; preserve each chart and any per-variant measurement differences. Do not overwrite with a generic family block."
+    },
+    "reviewed": true,
+    "option_label": "Colour / design",
+    "source_ids": [
+      "p15-3:R1:A1",
+      "p15-3:R1:A2",
+      "p15-3:R1:A3",
+      "p15-3:R1:A4",
+      "p15-3:R1:A5"
+    ]
+  }
+]

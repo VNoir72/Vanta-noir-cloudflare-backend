@@ -1,0 +1,63 @@
+{
+  "base_manifest": "/workspace/scratch/69a695bb6954/vd-source/full-reconciliation/full-reconciliation.json",
+  "base_slot_count": 740,
+  "base_instance_count": 1135,
+  "new_pictured_alternative_instances": 2,
+  "known_instance_count_after_addendum": 1137,
+  "certified_exhaustive_count": false,
+  "explanation": "Numbered garment panel counts remain740; these two newly recognized within-panel art alternatives add2 to1135 source-instance entries. This bounded audit does not certify that no other within-panel or model-only alternatives exist.",
+  "amendments": [
+    {
+      "amendment_id": "qa-p02-2-10-right-alternative",
+      "source_id": "p02-2:10:A2",
+      "parent_source_id": "p02-2:10",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "source_position": "Sport \u2014 jerseys & shirts section, numbered panel10, RIGHT garment",
+      "identity": "Satin shirt \u2014 second pictured adire pattern",
+      "pictured_colour": "Black / ivory-grey",
+      "visible_evidence": "Second/front-facing button shirt at RIGHT within numbered10 SATIN SHIRT; collar/placket visible, low front wing and different large resist/paisley arrangement.",
+      "reference_crop": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-camp-pair.png",
+      "record_kind": "depicted_art_colour_variant",
+      "not_a_swatch": true,
+      "not_a_back_view": true,
+      "group_links": {
+        "same_numbered_panel": "p02-2:10",
+        "alternate_of_construction": "Related shirt construction; retain separate artwork reference and verify cut before sharing master."
+      },
+      "status": "Missing in original source-instance manifest; assigned for generation by parent",
+      "suggested_output_stem": "vd-p02-2-10-alt-right",
+      "required_views": [
+        "front",
+        "back",
+        "side"
+      ],
+      "back_and_side": "Not separately depicted; infer conservatively with matching pattern."
+    },
+    {
+      "amendment_id": "qa-p02-2-11-right-alternative",
+      "source_id": "p02-2:11:A2",
+      "parent_source_id": "p02-2:11",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "source_position": "Sport \u2014 jerseys & shirts section, numbered panel11, RIGHT garment",
+      "identity": "Camp-collar shirt \u2014 pictured floral alternative",
+      "pictured_colour": "Black / ivory-grey",
+      "visible_evidence": "Second/front-facing shirt at RIGHT within numbered11 CAMP-COLLAR SHIRT; dark collar, light floral/resist repeat rather than the tan rectangular grid at left.",
+      "reference_crop": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-camp-pair.png",
+      "record_kind": "depicted_art_colour_variant",
+      "not_a_swatch": true,
+      "not_a_back_view": true,
+      "group_links": {
+        "same_numbered_panel": "p02-2:11",
+        "alternate_of_construction": "Related shirt construction; retain separate artwork reference and verify cut before sharing master."
+      },
+      "status": "Missing in original source-instance manifest; assigned for generation by parent",
+      "suggested_output_stem": "vd-p02-2-11-alt-right",
+      "required_views": [
+        "front",
+        "back",
+        "side"
+      ],
+      "back_and_side": "Not separately depicted; infer conservatively with matching pattern."
+    }
+  ]
+}

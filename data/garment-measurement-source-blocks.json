@@ -1,0 +1,3805 @@
+{
+  "T10": {
+    "code": "T10",
+    "name": "Rugby shirt",
+    "fit": "Unisex | relaxed | heavy jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          72.0,
+          74.0,
+          76.0,
+          78.0,
+          80.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          50.5,
+          52.0,
+          53.5,
+          55.0,
+          56.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          61.0,
+          62.0,
+          63.0,
+          64.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T11": {
+    "code": "T11",
+    "name": "Sweater / quarter-zip",
+    "fit": "Unisex | relaxed | knit",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          69.0,
+          71.0,
+          73.0,
+          75.0,
+          77.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          49.5,
+          51.0,
+          52.5,
+          54.0,
+          55.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          61.0,
+          62.0,
+          63.0,
+          64.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          48.0,
+          51.0,
+          54.0,
+          57.0,
+          60.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          25.0,
+          26.0,
+          27.0,
+          28.0,
+          29.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T01": {
+    "code": "T01",
+    "name": "Oversized hoodie",
+    "fit": "Unisex | dropped shoulder | heavy knit",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          61.0,
+          64.0,
+          67.0,
+          70.0,
+          73.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          70.0,
+          72.0,
+          74.0,
+          76.0,
+          78.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          60.5,
+          62.0,
+          63.5,
+          65.0,
+          66.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          57.0,
+          58.0,
+          59.0,
+          60.0,
+          61.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          53.0,
+          56.0,
+          59.0,
+          62.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          28.0,
+          29.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          22.5,
+          23.0,
+          23.5,
+          24.0,
+          24.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      }
+    ]
+  },
+  "T02": {
+    "code": "T02",
+    "name": "Sweatshirt / crewneck",
+    "fit": "Unisex | oversized | fleece or French terry",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          60.0,
+          63.0,
+          66.0,
+          69.0,
+          72.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          69.0,
+          71.0,
+          73.0,
+          75.0,
+          77.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          58.5,
+          60.0,
+          61.5,
+          63.0,
+          64.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          58.0,
+          59.0,
+          60.0,
+          61.0,
+          62.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          27.0,
+          28.0,
+          29.0,
+          30.0,
+          31.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          20.5,
+          21.0,
+          21.5,
+          22.0,
+          22.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T03": {
+    "code": "T03",
+    "name": "Performance track jacket",
+    "fit": "Unisex | regular athletic | track fabric",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          54.0,
+          57.0,
+          60.0,
+          63.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          68.0,
+          70.0,
+          72.0,
+          74.0,
+          76.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          45.5,
+          47.0,
+          48.5,
+          50.0,
+          51.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          63.0,
+          64.0,
+          65.0,
+          66.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          50.0,
+          53.0,
+          56.0,
+          59.0,
+          62.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          20.0,
+          21.0,
+          22.0,
+          23.0,
+          24.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          7.5,
+          8.0,
+          8.5,
+          9.0,
+          9.5
+        ]
+      }
+    ]
+  },
+  "T04": {
+    "code": "T04",
+    "name": "Windbreaker / lightweight shell",
+    "fit": "Unisex | relaxed layering | woven shell",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          71.0,
+          73.0,
+          75.0,
+          77.0,
+          79.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          49.5,
+          51.0,
+          52.5,
+          54.0,
+          55.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          62.0,
+          63.0,
+          64.0,
+          65.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          10.5,
+          11.0,
+          11.5,
+          12.0,
+          12.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T05": {
+    "code": "T05",
+    "name": "Oversized / graphic T-shirt",
+    "fit": "Unisex | boxy dropped shoulder | jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          72.0,
+          74.0,
+          76.0,
+          78.0,
+          80.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          55.5,
+          57.0,
+          58.5,
+          60.0,
+          61.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          24.5,
+          25.0,
+          25.5,
+          26.0,
+          26.5
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T06": {
+    "code": "T06",
+    "name": "Regular T-shirt",
+    "fit": "Unisex | regular | jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          51.0,
+          54.0,
+          57.0,
+          60.0,
+          63.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          70.0,
+          72.0,
+          74.0,
+          76.0,
+          78.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          44.5,
+          46.0,
+          47.5,
+          49.0,
+          50.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          22.5,
+          23.0,
+          23.5,
+          24.0,
+          24.5
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          51.0,
+          54.0,
+          57.0,
+          60.0,
+          63.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          19.0,
+          20.0,
+          21.0,
+          22.0,
+          23.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          16.5,
+          17.0,
+          17.5,
+          18.0,
+          18.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T07": {
+    "code": "T07",
+    "name": "Fitted T-shirt",
+    "fit": "Adult straight-body fitted block | stretch jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          46.0,
+          49.0,
+          52.0,
+          55.0,
+          58.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          68.0,
+          70.0,
+          72.0,
+          74.0,
+          76.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          41.5,
+          43.0,
+          44.5,
+          46.0,
+          47.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          21.5,
+          22.0,
+          22.5,
+          23.0,
+          23.5
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          44.0,
+          47.0,
+          50.0,
+          53.0,
+          56.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          17.0,
+          18.0,
+          19.0,
+          20.0,
+          21.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          14.5,
+          15.0,
+          15.5,
+          16.0,
+          16.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.0,
+          18.5,
+          19.0,
+          19.5,
+          20.0
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T08": {
+    "code": "T08",
+    "name": "Long-sleeve T-shirt",
+    "fit": "Unisex | relaxed | jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          53.0,
+          56.0,
+          59.0,
+          62.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          72.0,
+          74.0,
+          76.0,
+          78.0,
+          80.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          47.5,
+          49.0,
+          50.5,
+          52.0,
+          53.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          62.0,
+          63.0,
+          64.0,
+          65.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          53.0,
+          56.0,
+          59.0,
+          62.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          20.0,
+          21.0,
+          22.0,
+          23.0,
+          24.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          10.5,
+          11.0,
+          11.5,
+          12.0,
+          12.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T09": {
+    "code": "T09",
+    "name": "Polo / knit polo",
+    "fit": "Unisex | regular relaxed | pique or knit",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          70.0,
+          72.0,
+          74.0,
+          76.0,
+          78.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          45.5,
+          47.0,
+          48.5,
+          50.0,
+          51.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          23.5,
+          24.0,
+          24.5,
+          25.0,
+          25.5
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          19.0,
+          20.0,
+          21.0,
+          22.0,
+          23.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          16.5,
+          17.0,
+          17.5,
+          18.0,
+          18.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.0,
+          18.5,
+          19.0,
+          19.5,
+          20.0
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          7.5,
+          8.0,
+          8.5,
+          9.0,
+          9.5
+        ]
+      }
+    ]
+  },
+  "T12": {
+    "code": "T12",
+    "name": "Button-up shirt",
+    "fit": "Unisex | relaxed | woven",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          74.0,
+          76.0,
+          78.0,
+          80.0,
+          82.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          47.5,
+          49.0,
+          50.5,
+          52.0,
+          53.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          63.0,
+          64.0,
+          65.0,
+          66.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          25.0,
+          26.0,
+          27.0,
+          28.0,
+          29.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          10.5,
+          11.0,
+          11.5,
+          12.0,
+          12.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T13": {
+    "code": "T13",
+    "name": "Overshirt",
+    "fit": "Unisex | layering | woven",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          75.0,
+          77.0,
+          79.0,
+          81.0,
+          83.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          50.5,
+          52.0,
+          53.5,
+          55.0,
+          56.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          63.0,
+          64.0,
+          65.0,
+          66.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          27.0,
+          28.0,
+          29.0,
+          30.0,
+          31.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          11.5,
+          12.0,
+          12.5,
+          13.0,
+          13.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T14": {
+    "code": "T14",
+    "name": "Football / short-sleeve mesh jersey",
+    "fit": "Unisex | relaxed athletic | mesh",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          73.0,
+          75.0,
+          77.0,
+          79.0,
+          81.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          49.5,
+          51.0,
+          52.5,
+          54.0,
+          55.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          24.5,
+          25.0,
+          25.5,
+          26.0,
+          26.5
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      }
+    ]
+  },
+  "T15": {
+    "code": "T15",
+    "name": "Basketball jersey / loose singlet",
+    "fit": "Unisex | loose athletic | mesh",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          54.0,
+          57.0,
+          60.0,
+          63.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          75.0,
+          77.0,
+          79.0,
+          81.0,
+          83.0
+        ]
+      },
+      {
+        "label": "T5 Half hem",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          21.5,
+          22.0,
+          22.5,
+          23.0,
+          23.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          14.5,
+          15.0,
+          15.5,
+          16.0,
+          16.5
+        ]
+      },
+      {
+        "label": "T11 Strap width",
+        "values": [
+          6.7,
+          7.0,
+          7.3,
+          7.6,
+          7.9
+        ]
+      }
+    ]
+  },
+  "T16": {
+    "code": "T16",
+    "name": "Fitted tank / singlet",
+    "fit": "Adult straight-body block | stretch jersey",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          44.0,
+          47.0,
+          50.0,
+          53.0,
+          56.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          68.0,
+          70.0,
+          72.0,
+          74.0,
+          76.0
+        ]
+      },
+      {
+        "label": "T5 Half hem",
+        "values": [
+          43.0,
+          46.0,
+          49.0,
+          52.0,
+          55.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          14.5,
+          15.0,
+          15.5,
+          16.0,
+          16.5
+        ]
+      },
+      {
+        "label": "T11 Strap width",
+        "values": [
+          4.7,
+          5.0,
+          5.3,
+          5.6,
+          5.9
+        ]
+      }
+    ]
+  },
+  "T17": {
+    "code": "T17",
+    "name": "Varsity / bomber jacket",
+    "fit": "Unisex | relaxed | lined",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          59.0,
+          62.0,
+          65.0,
+          68.0,
+          71.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          66.0,
+          68.0,
+          70.0,
+          72.0,
+          74.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          51.5,
+          53.0,
+          54.5,
+          56.0,
+          57.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          62.0,
+          63.0,
+          64.0,
+          65.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          47.0,
+          50.0,
+          53.0,
+          56.0,
+          59.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          27.0,
+          28.0,
+          29.0,
+          30.0,
+          31.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T18": {
+    "code": "T18",
+    "name": "Denim jacket",
+    "fit": "Unisex | relaxed | rigid denim",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          66.0,
+          68.0,
+          70.0,
+          72.0,
+          74.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          49.5,
+          51.0,
+          52.5,
+          54.0,
+          55.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          62.0,
+          63.0,
+          64.0,
+          65.0,
+          66.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          53.0,
+          56.0,
+          59.0,
+          62.0,
+          65.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          11.5,
+          12.0,
+          12.5,
+          13.0,
+          13.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T19": {
+    "code": "T19",
+    "name": "Leather jacket",
+    "fit": "Unisex | relaxed | lined leather",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          66.0,
+          68.0,
+          70.0,
+          72.0,
+          74.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          47.5,
+          49.0,
+          50.5,
+          52.0,
+          53.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          63.0,
+          64.0,
+          65.0,
+          66.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          25.0,
+          26.0,
+          27.0,
+          28.0,
+          29.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          11.5,
+          12.0,
+          12.5,
+          13.0,
+          13.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          18.5,
+          19.0,
+          19.5,
+          20.0,
+          20.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T20": {
+    "code": "T20",
+    "name": "Puffer jacket",
+    "fit": "Unisex | oversized layering | insulated",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          62.0,
+          65.0,
+          68.0,
+          71.0,
+          74.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          71.0,
+          73.0,
+          75.0,
+          77.0,
+          79.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          52.5,
+          54.0,
+          55.5,
+          57.0,
+          58.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          63.0,
+          64.0,
+          65.0,
+          66.0,
+          67.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          25.0,
+          26.0,
+          27.0,
+          28.0,
+          29.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          10.5,
+          11.0,
+          11.5,
+          12.0,
+          12.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          20.5,
+          21.0,
+          21.5,
+          22.0,
+          22.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      }
+    ]
+  },
+  "T21": {
+    "code": "T21",
+    "name": "Long coat",
+    "fit": "Unisex | relaxed layering | woven",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          59.0,
+          62.0,
+          65.0,
+          68.0,
+          71.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          110.0,
+          112.0,
+          114.0,
+          116.0,
+          118.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          49.5,
+          51.0,
+          52.5,
+          54.0,
+          55.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          64.0,
+          65.0,
+          66.0,
+          67.0,
+          68.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          63.0,
+          66.0,
+          69.0,
+          72.0,
+          75.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          28.0,
+          29.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          14.5,
+          15.0,
+          15.5,
+          16.0,
+          16.5
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          19.5,
+          20.0,
+          20.5,
+          21.0,
+          21.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          8.5,
+          9.0,
+          9.5,
+          10.0,
+          10.5
+        ]
+      }
+    ]
+  },
+  "T22": {
+    "code": "T22",
+    "name": "Women's cropped hoodie",
+    "fit": "Women's block | relaxed cropped | knit",
+    "rows": [
+      {
+        "label": "T1 Half chest",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "T2 Body length (HPS)",
+        "values": [
+          44.0,
+          46.0,
+          48.0,
+          50.0,
+          52.0
+        ]
+      },
+      {
+        "label": "T3 Shoulder width",
+        "values": [
+          51.5,
+          53.0,
+          54.5,
+          56.0,
+          57.5
+        ]
+      },
+      {
+        "label": "T4 Sleeve length",
+        "values": [
+          55.0,
+          56.0,
+          57.0,
+          58.0,
+          59.0
+        ]
+      },
+      {
+        "label": "T5 Half hem, relaxed",
+        "values": [
+          44.0,
+          47.0,
+          50.0,
+          53.0,
+          56.0
+        ]
+      },
+      {
+        "label": "T6 Half bicep",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "T7 Armhole depth",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "T8 Half sleeve opening",
+        "values": [
+          9.0,
+          9.5,
+          10.0,
+          10.5,
+          11.0
+        ]
+      },
+      {
+        "label": "T9 Neck width",
+        "values": [
+          20.5,
+          21.0,
+          21.5,
+          22.0,
+          22.5
+        ]
+      },
+      {
+        "label": "T10 Front neck drop",
+        "values": [
+          9.5,
+          10.0,
+          10.5,
+          11.0,
+          11.5
+        ]
+      }
+    ]
+  },
+  "B01": {
+    "code": "B01",
+    "name": "Baggy jogger / sweatpant",
+    "fit": "Unisex | baggy | fleece / French terry",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          49.0,
+          52.0,
+          55.0,
+          58.0,
+          61.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          58.0,
+          61.0,
+          64.0,
+          67.0,
+          70.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          33.0,
+          34.0,
+          35.0,
+          36.0,
+          37.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          42.0,
+          43.0,
+          44.0,
+          45.0,
+          46.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          35.5,
+          37.0,
+          38.5,
+          40.0,
+          41.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          28.0,
+          29.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          12.5,
+          13.0,
+          13.5,
+          14.0,
+          14.5
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          76.0,
+          77.0,
+          78.0,
+          79.0,
+          80.0
+        ]
+      }
+    ]
+  },
+  "B02": {
+    "code": "B02",
+    "name": "Performance track pant",
+    "fit": "Unisex | tapered athletic | track fabric",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          46.0,
+          49.0,
+          52.0,
+          55.0,
+          58.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          39.0,
+          40.0,
+          41.0,
+          42.0,
+          43.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          31.5,
+          33.0,
+          34.5,
+          36.0,
+          37.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          14.5,
+          15.0,
+          15.5,
+          16.0,
+          16.5
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          76.0,
+          77.0,
+          78.0,
+          79.0,
+          80.0
+        ]
+      }
+    ]
+  },
+  "B03": {
+    "code": "B03",
+    "name": "Windbreaker shell pant",
+    "fit": "Unisex | relaxed | woven shell",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          48.0,
+          51.0,
+          54.0,
+          57.0,
+          60.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          31.0,
+          32.0,
+          33.0,
+          34.0,
+          35.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          41.0,
+          42.0,
+          43.0,
+          44.0,
+          45.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          33.5,
+          35.0,
+          36.5,
+          38.0,
+          39.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          77.0,
+          78.0,
+          79.0,
+          80.0,
+          81.0
+        ]
+      }
+    ]
+  },
+  "B04": {
+    "code": "B04",
+    "name": "Baggy jeans",
+    "fit": "Unisex | baggy full length | rigid denim",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          32.0,
+          33.0,
+          34.0,
+          35.0,
+          36.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          41.0,
+          42.0,
+          43.0,
+          44.0,
+          45.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          34.5,
+          36.0,
+          37.5,
+          39.0,
+          40.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          28.0,
+          29.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          25.0,
+          26.0,
+          27.0,
+          28.0,
+          29.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          80.0,
+          81.0,
+          82.0,
+          83.0,
+          84.0
+        ]
+      }
+    ]
+  },
+  "B05": {
+    "code": "B05",
+    "name": "Straight jeans",
+    "fit": "Unisex | straight leg | rigid denim",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          39.0,
+          40.0,
+          41.0,
+          42.0,
+          43.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          31.5,
+          33.0,
+          34.5,
+          36.0,
+          37.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          79.0,
+          80.0,
+          81.0,
+          82.0,
+          83.0
+        ]
+      }
+    ]
+  },
+  "B06": {
+    "code": "B06",
+    "name": "Carpenter trousers / jeans",
+    "fit": "Unisex | relaxed workwear | denim / twill",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          32.0,
+          33.0,
+          34.0,
+          35.0,
+          36.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          41.0,
+          42.0,
+          43.0,
+          44.0,
+          45.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          34.5,
+          36.0,
+          37.5,
+          39.0,
+          40.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          27.0,
+          28.0,
+          29.0,
+          30.0,
+          31.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          80.0,
+          81.0,
+          82.0,
+          83.0,
+          84.0
+        ]
+      }
+    ]
+  },
+  "B07": {
+    "code": "B07",
+    "name": "Cargo trousers",
+    "fit": "Unisex | relaxed | woven",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          55.0,
+          58.0,
+          61.0,
+          64.0,
+          67.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          31.0,
+          32.0,
+          33.0,
+          34.0,
+          35.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          41.0,
+          42.0,
+          43.0,
+          44.0,
+          45.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          33.5,
+          35.0,
+          36.5,
+          38.0,
+          39.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          22.0,
+          23.0,
+          24.0,
+          25.0,
+          26.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          78.0,
+          79.0,
+          80.0,
+          81.0,
+          82.0
+        ]
+      }
+    ]
+  },
+  "B08": {
+    "code": "B08",
+    "name": "Parachute trousers",
+    "fit": "Unisex | extra volume | lightweight woven",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          61.0,
+          64.0,
+          67.0,
+          70.0,
+          73.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          34.0,
+          35.0,
+          36.0,
+          37.0,
+          38.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          43.0,
+          44.0,
+          45.0,
+          46.0,
+          47.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          37.5,
+          39.0,
+          40.5,
+          42.0,
+          43.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          31.0,
+          32.0,
+          33.0,
+          34.0,
+          35.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          79.0,
+          80.0,
+          81.0,
+          82.0,
+          83.0
+        ]
+      }
+    ]
+  },
+  "B09": {
+    "code": "B09",
+    "name": "Tailored / casual trousers",
+    "fit": "Unisex straight-body block | relaxed straight",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          39.0,
+          40.0,
+          41.0,
+          42.0,
+          43.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          31.5,
+          33.0,
+          34.5,
+          36.0,
+          37.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          23.0,
+          24.0,
+          25.0,
+          26.0,
+          27.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          20.0,
+          21.0,
+          22.0,
+          23.0,
+          24.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          79.0,
+          80.0,
+          81.0,
+          82.0,
+          83.0
+        ]
+      }
+    ]
+  },
+  "B10": {
+    "code": "B10",
+    "name": "Basketball / mesh shorts",
+    "fit": "Unisex | roomy | mesh",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          48.0,
+          51.0,
+          54.0,
+          57.0,
+          60.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          31.0,
+          32.0,
+          33.0,
+          34.0,
+          35.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          40.0,
+          41.0,
+          42.0,
+          43.0,
+          44.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          34.5,
+          36.0,
+          37.5,
+          39.0,
+          40.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          32.0,
+          33.0,
+          34.0,
+          35.0,
+          36.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          23.0,
+          23.0,
+          23.0,
+          23.0,
+          23.0
+        ]
+      }
+    ]
+  },
+  "B11": {
+    "code": "B11",
+    "name": "Casual jersey / sweat shorts",
+    "fit": "Unisex | relaxed | knit",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          47.0,
+          50.0,
+          53.0,
+          56.0,
+          59.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          54.0,
+          57.0,
+          60.0,
+          63.0,
+          66.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          30.0,
+          31.0,
+          32.0,
+          33.0,
+          34.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          39.0,
+          40.0,
+          41.0,
+          42.0,
+          43.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          33.5,
+          35.0,
+          36.5,
+          38.0,
+          39.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          30.0,
+          31.0,
+          32.0,
+          33.0,
+          34.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          19.0,
+          19.0,
+          19.0,
+          19.0,
+          19.0
+        ]
+      }
+    ]
+  },
+  "B12": {
+    "code": "B12",
+    "name": "Denim shorts",
+    "fit": "Unisex | baggy | denim",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          56.0,
+          59.0,
+          62.0,
+          65.0,
+          68.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          32.0,
+          33.0,
+          34.0,
+          35.0,
+          36.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          41.0,
+          42.0,
+          43.0,
+          44.0,
+          45.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          34.5,
+          36.0,
+          37.5,
+          39.0,
+          40.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          31.0,
+          32.0,
+          33.0,
+          34.0,
+          35.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          26.0,
+          26.0,
+          26.0,
+          26.0,
+          26.0
+        ]
+      }
+    ]
+  },
+  "B13": {
+    "code": "B13",
+    "name": "Women's wide-leg sweatpants",
+    "fit": "Women's block | high rise | relaxed knit",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          31.0,
+          33.0,
+          35.0,
+          37.0,
+          39.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          44.0,
+          47.0,
+          50.0,
+          53.0,
+          56.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          32.0,
+          33.0,
+          34.0,
+          35.0,
+          36.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          42.0,
+          43.0,
+          44.0,
+          45.0,
+          46.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          32.5,
+          34.0,
+          35.5,
+          37.0,
+          38.5
+        ]
+      },
+      {
+        "label": "B7 Half knee",
+        "values": [
+          27.0,
+          28.0,
+          29.0,
+          30.0,
+          31.0
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          26.0,
+          27.0,
+          28.0,
+          29.0,
+          30.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          76.0,
+          77.0,
+          78.0,
+          79.0,
+          80.0
+        ]
+      }
+    ]
+  },
+  "B14": {
+    "code": "B14",
+    "name": "Chino shorts",
+    "fit": "Unisex | regular relaxed | woven twill",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          40.0,
+          42.0,
+          44.0,
+          46.0,
+          48.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          39.0,
+          40.0,
+          41.0,
+          42.0,
+          43.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          31.5,
+          33.0,
+          34.5,
+          36.0,
+          37.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          28.0,
+          29.0,
+          30.0,
+          31.0,
+          32.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          21.0,
+          21.0,
+          21.0,
+          21.0,
+          21.0
+        ]
+      }
+    ]
+  },
+  "B15": {
+    "code": "B15",
+    "name": "Swim shorts",
+    "fit": "Unisex | relaxed | swim woven",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          34.0,
+          36.0,
+          38.0,
+          40.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          47.0,
+          50.0,
+          53.0,
+          56.0,
+          59.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          54.0,
+          57.0,
+          60.0,
+          63.0,
+          66.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          38.0,
+          39.0,
+          40.0,
+          41.0,
+          42.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          33.5,
+          35.0,
+          36.5,
+          38.0,
+          39.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          30.0,
+          31.0,
+          32.0,
+          33.0,
+          34.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          15.0,
+          15.0,
+          15.0,
+          15.0,
+          15.0
+        ]
+      }
+    ]
+  },
+  "B16": {
+    "code": "B16",
+    "name": "Boxer briefs",
+    "fit": "Adult straight-body block | stretch underwear",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          31.0,
+          33.0,
+          35.0,
+          37.0,
+          39.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          43.0,
+          46.0,
+          49.0,
+          52.0,
+          55.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          41.0,
+          44.0,
+          47.0,
+          50.0,
+          53.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          24.0,
+          25.0,
+          26.0,
+          27.0,
+          28.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          24.5,
+          26.0,
+          27.5,
+          29.0,
+          30.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          21.0,
+          22.0,
+          23.0,
+          24.0,
+          25.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ]
+      }
+    ]
+  },
+  "B17": {
+    "code": "B17",
+    "name": "Loose boxer shorts",
+    "fit": "Adult straight-body block | woven underwear",
+    "rows": [
+      {
+        "label": "B1 Half waist, relaxed",
+        "values": [
+          33.0,
+          35.0,
+          37.0,
+          39.0,
+          41.0
+        ]
+      },
+      {
+        "label": "B2 Half waist, extended",
+        "values": [
+          46.0,
+          49.0,
+          52.0,
+          55.0,
+          58.0
+        ]
+      },
+      {
+        "label": "B3 Half hip",
+        "values": [
+          52.0,
+          55.0,
+          58.0,
+          61.0,
+          64.0
+        ]
+      },
+      {
+        "label": "B4 Front rise incl. waistband",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B5 Back rise incl. waistband",
+        "values": [
+          37.0,
+          38.0,
+          39.0,
+          40.0,
+          41.0
+        ]
+      },
+      {
+        "label": "B6 Half thigh",
+        "values": [
+          31.5,
+          33.0,
+          34.5,
+          36.0,
+          37.5
+        ]
+      },
+      {
+        "label": "B8 Half leg opening",
+        "values": [
+          29.0,
+          30.0,
+          31.0,
+          32.0,
+          33.0
+        ]
+      },
+      {
+        "label": "B9 Inseam",
+        "values": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,262 @@
+[
+  {
+    "number": 1,
+    "newId": "vn-season01-01",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-01-oversized-graphic-tee",
+    "reference": "approved/Vanta Noir Oversized Graphic Tee Board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 2,
+    "newId": "vn-season01-02",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-02-fitted-tee",
+    "reference": "approved/Vanta Noir 02 Fitted Tee Colorways.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 3,
+    "newId": "vn-season01-03",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-03-long-sleeve-tee",
+    "reference": "approved/Vanta Noir 03 Long-Sleeve Tee Board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 4,
+    "newId": "vn-season01-04",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-04-polo-shirt",
+    "reference": "approved/Vanta Noir 04 Polo Shirt Board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 5,
+    "newId": "vn-season01-05",
+    "replaces": "vn-p006",
+    "oldSlug": "motion-rugby-shirt-p006",
+    "oldImage": "/images/catalogue/p006.webp",
+    "newSlug": "season-01-05-rugby-shirt",
+    "reference": "approved/Vanta Noir 05 Rugby Shirt Board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 6,
+    "newId": "vn-season01-06",
+    "replaces": "vn-p005",
+    "oldSlug": "shadow-utility-button-up-p005",
+    "oldImage": "/images/catalogue/p005.webp",
+    "newSlug": "season-01-06-button-up-shirt",
+    "reference": "approved/Vanta Noir Button-Up Shirt Product Board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 7,
+    "newId": "vn-season01-07",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-07-football-jersey",
+    "reference": "approved/Vanta Noir 07 football jersey board.png",
+    "referenceStatus": "Approved design-chat reference"
+  },
+  {
+    "number": 8,
+    "newId": "vn-season01-08",
+    "replaces": "vn-p008",
+    "oldSlug": "baseline-split-basketball-jersey-p008",
+    "oldImage": "/images/catalogue/p008.webp",
+    "newSlug": "season-01-08-mesh-basketball-jersey",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 9,
+    "newId": "vn-season01-09",
+    "replaces": "vn-p009",
+    "oldSlug": "reflective-outline-singlet-p009",
+    "oldImage": "/images/catalogue/p009.webp",
+    "newSlug": "season-01-09-sleeveless-tank",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 10,
+    "newId": "vn-season01-10",
+    "replaces": "vn-p011",
+    "oldSlug": "shadow-cable-quarter-zip-p011",
+    "oldImage": "/images/catalogue/p011.webp",
+    "newSlug": "season-01-10-knit-quarter-zip",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 11,
+    "newId": "vn-season01-11",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-11-baggy-denim-jeans",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 12,
+    "newId": "vn-season01-12",
+    "replaces": "vn-p016",
+    "oldSlug": "relaxed-cargo-pant-p016",
+    "oldImage": "/images/catalogue/p016.webp",
+    "newSlug": "season-01-12-cargo-pants",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 13,
+    "newId": "vn-season01-13",
+    "replaces": "vn-p017",
+    "oldSlug": "pleated-wide-trouser-p017",
+    "oldImage": "/images/catalogue/p017.webp",
+    "newSlug": "season-01-13-wide-leg-trousers",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 14,
+    "newId": "vn-season01-14",
+    "replaces": "vn-p020",
+    "oldSlug": "denim-bermuda-shorts-p020",
+    "oldImage": "/images/catalogue/p020.webp",
+    "newSlug": "season-01-14-denim-shorts",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 15,
+    "newId": "vn-season01-15",
+    "replaces": "vn-p019",
+    "oldSlug": "motion-mesh-shorts-p019",
+    "oldImage": "/images/catalogue/p019.webp",
+    "newSlug": "season-01-15-mesh-shorts",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 16,
+    "newId": "vn-season01-16",
+    "replaces": "vn-p037",
+    "oldSlug": "court-varsity-jacket-p037",
+    "oldImage": "/images/catalogue/p037.webp",
+    "newSlug": "season-01-16-varsity-jacket",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 17,
+    "newId": "vn-season01-17",
+    "replaces": "vn-p036",
+    "oldSlug": "core-bomber-jacket-p036",
+    "oldImage": "/images/catalogue/p036.webp",
+    "newSlug": "season-01-17-bomber-jacket",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 18,
+    "newId": "vn-season01-18",
+    "replaces": "vn-p033",
+    "oldSlug": "motion-stand-collar-track-jacket-p033",
+    "oldImage": "/images/catalogue/p033.webp",
+    "newSlug": "season-01-18-track-jacket",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 19,
+    "newId": "vn-season01-19",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-19-windbreaker",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 20,
+    "newId": "vn-season01-20",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-20-puffer-vest",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 21,
+    "newId": "vn-season01-21",
+    "replaces": null,
+    "oldSlug": null,
+    "oldImage": null,
+    "newSlug": "season-01-21-face-cap",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 22,
+    "newId": "vn-season01-22",
+    "replaces": "vn-p043",
+    "oldSlug": "rib-knit-beanie-p043",
+    "oldImage": "/images/catalogue/p043.webp",
+    "newSlug": "season-01-22-beanie",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 23,
+    "newId": "vn-season01-23",
+    "replaces": "vn-p044",
+    "oldSlug": "transit-crossbody-bag-p044",
+    "oldImage": "/images/catalogue/p044.webp",
+    "newSlug": "season-01-23-crossbody-bag",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 24,
+    "newId": "vn-season01-24",
+    "replaces": "vn-p047",
+    "oldSlug": "v-buckle-belt-p047",
+    "oldImage": "/images/catalogue/p047.webp",
+    "newSlug": "season-01-24-belt",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 25,
+    "newId": "vn-season01-25",
+    "replaces": "vn-p049",
+    "oldSlug": "architectural-crew-socks-p049",
+    "oldImage": "/images/catalogue/p049.webp",
+    "newSlug": "season-01-25-socks",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  },
+  {
+    "number": 26,
+    "newId": "vn-season01-26",
+    "replaces": "vn-p050",
+    "oldSlug": "topographic-boxer-briefs-p050",
+    "oldImage": "/images/catalogue/p050.webp",
+    "newSlug": "season-01-26-boxer-briefs",
+    "reference": "boards/p01-1.png",
+    "referenceStatus": "Completed from VD Season 01 board"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "file": "pdf-p05-2-r5-c4.png",
+    "reason": "Source correction pending from visual review",
+    "preview_product_ids_to_restore": [
+      "vn-pdf-p05-2-r5-c4"
+    ]
+  },
+  {
+    "file": "pdf-p05-2-r3-c3.png",
+    "reason": "Source correction pending from visual review",
+    "preview_product_ids_to_restore": [
+      "vn-pdf-p05-2-r3-c3"
+    ]
+  },
+  {
+    "file": "pdf-p05-2-r3-c4.png",
+    "reason": "Source correction pending from visual review",
+    "preview_product_ids_to_restore": [
+      "vn-pdf-p05-2-r3-c4"
+    ]
+  },
+  {
+    "file": "pdf-p05-2-r3-c5.png",
+    "reason": "Source correction pending from visual review",
+    "preview_product_ids_to_restore": [
+      "vn-pdf-p05-2-r3-c5"
+    ]
+  }
+]

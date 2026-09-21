@@ -1,0 +1,4334 @@
+[
+  {
+    "product_id": "vn-hooded-performance",
+    "name": "03 Hooded Performance Tracksuit",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/core-hooded-performance-jet-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-hooded-performance",
+    "name": "03 Hooded Performance Tracksuit",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/core-hooded-performance-charcoal-grey.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-hooded-performance",
+    "name": "03 Hooded Performance Tracksuit",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/core-hooded-performance-dark-burgundy.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-hooded-performance",
+    "name": "03 Hooded Performance Tracksuit",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/core-hooded-performance-deep-olive-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stand-collar-performance",
+    "name": "04 Stand-Collar Performance Tracksuit",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/core-stand-collar-performance-jet-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stand-collar-performance",
+    "name": "04 Stand-Collar Performance Tracksuit",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/core-stand-collar-performance-charcoal-grey.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stand-collar-performance",
+    "name": "04 Stand-Collar Performance Tracksuit",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/core-stand-collar-performance-dark-burgundy.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stand-collar-performance",
+    "name": "04 Stand-Collar Performance Tracksuit",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/core-stand-collar-performance-deep-olive-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stealth",
+    "name": "01 Stealth Hoodie + Baggy Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/core-stealth-jet-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stealth",
+    "name": "01 Stealth Hoodie + Baggy Set",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/core-stealth-charcoal-grey.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stealth",
+    "name": "01 Stealth Hoodie + Baggy Set",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/core-stealth-dark-burgundy.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-stealth",
+    "name": "01 Stealth Hoodie + Baggy Set",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/core-stealth-deep-olive-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-windbreaker",
+    "name": "02 Hooded Windbreaker Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/core-windbreaker-jet-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-windbreaker",
+    "name": "02 Hooded Windbreaker Set",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/core-windbreaker-charcoal-grey.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-windbreaker",
+    "name": "02 Hooded Windbreaker Set",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/core-windbreaker-dark-burgundy.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-windbreaker",
+    "name": "02 Hooded Windbreaker Set",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/core-windbreaker-deep-olive-black.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-01",
+    "name": "Night Wall Oversized T-shirt",
+    "colour": "Jet Black / Bone Ink",
+    "hero": "/images/catalogue/design-01-jet-black-bone-ink-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-01",
+    "name": "Night Wall Oversized T-shirt",
+    "colour": "Charcoal / Steel Grey",
+    "hero": "/images/catalogue/design-01-charcoal-steel-grey-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-01",
+    "name": "Night Wall Oversized T-shirt",
+    "colour": "Dark Burgundy / Bone",
+    "hero": "/images/catalogue/design-01-dark-burgundy-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-01",
+    "name": "Night Wall Oversized T-shirt",
+    "colour": "Deep Olive / Black",
+    "hero": "/images/catalogue/design-01-deep-olive-black-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-01",
+    "name": "Night Wall Oversized T-shirt",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-01-midnight-navy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-02",
+    "name": "Concrete Signal Oversized T-shirt",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-02-jet-black-platinum-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-02",
+    "name": "Concrete Signal Oversized T-shirt",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-02-charcoal-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-02",
+    "name": "Concrete Signal Oversized T-shirt",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-02-burgundy-black-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-02",
+    "name": "Concrete Signal Oversized T-shirt",
+    "colour": "Deep Olive / Champagne",
+    "hero": "/images/catalogue/design-02-deep-olive-champagne-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-02",
+    "name": "Concrete Signal Oversized T-shirt",
+    "colour": "Midnight Navy / Steel",
+    "hero": "/images/catalogue/design-02-midnight-navy-steel-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-03",
+    "name": "After Dark Handstyle Oversized T-shirt",
+    "colour": "Black / Bone",
+    "hero": "/images/catalogue/design-03-black-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-03",
+    "name": "After Dark Handstyle Oversized T-shirt",
+    "colour": "Charcoal / Silver",
+    "hero": "/images/catalogue/design-03-charcoal-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-03",
+    "name": "After Dark Handstyle Oversized T-shirt",
+    "colour": "Burgundy / Champagne",
+    "hero": "/images/catalogue/design-03-burgundy-champagne-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-03",
+    "name": "After Dark Handstyle Oversized T-shirt",
+    "colour": "Olive / Bone",
+    "hero": "/images/catalogue/design-03-olive-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-03",
+    "name": "After Dark Handstyle Oversized T-shirt",
+    "colour": "Navy / Silver",
+    "hero": "/images/catalogue/design-03-navy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-04",
+    "name": "Orbital Wall Map Oversized T-shirt",
+    "colour": "Jet Black / Steel",
+    "hero": "/images/catalogue/design-04-jet-black-steel-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-04",
+    "name": "Orbital Wall Map Oversized T-shirt",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-04-charcoal-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-04",
+    "name": "Orbital Wall Map Oversized T-shirt",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-04-bone-black-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-04",
+    "name": "Orbital Wall Map Oversized T-shirt",
+    "colour": "Deep Olive / Silver",
+    "hero": "/images/catalogue/design-04-deep-olive-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-04",
+    "name": "Orbital Wall Map Oversized T-shirt",
+    "colour": "Navy / Champagne",
+    "hero": "/images/catalogue/design-04-navy-champagne-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-05",
+    "name": "Cut-Through Oversized T-shirt",
+    "colour": "Jet Black / White",
+    "hero": "/images/catalogue/design-05-jet-black-white-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-05",
+    "name": "Cut-Through Oversized T-shirt",
+    "colour": "Charcoal / Burgundy",
+    "hero": "/images/catalogue/design-05-charcoal-burgundy-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-05",
+    "name": "Cut-Through Oversized T-shirt",
+    "colour": "Burgundy / Bone",
+    "hero": "/images/catalogue/design-05-burgundy-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-05",
+    "name": "Cut-Through Oversized T-shirt",
+    "colour": "Olive / Black",
+    "hero": "/images/catalogue/design-05-olive-black-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-05",
+    "name": "Cut-Through Oversized T-shirt",
+    "colour": "Navy / Silver",
+    "hero": "/images/catalogue/design-05-navy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-06",
+    "name": "Vector Fit Fitted T-shirt",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-06-jet-black-platinum-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-06",
+    "name": "Vector Fit Fitted T-shirt",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-06-charcoal-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-06",
+    "name": "Vector Fit Fitted T-shirt",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-06-burgundy-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-06",
+    "name": "Vector Fit Fitted T-shirt",
+    "colour": "Deep Olive / Champagne",
+    "hero": "/images/catalogue/design-06-deep-olive-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-06",
+    "name": "Vector Fit Fitted T-shirt",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-06-midnight-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-07",
+    "name": "Second Skin Signal Fitted T-shirt",
+    "colour": "Black / Silver",
+    "hero": "/images/catalogue/design-07-black-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-07",
+    "name": "Second Skin Signal Fitted T-shirt",
+    "colour": "Charcoal / Steel",
+    "hero": "/images/catalogue/design-07-charcoal-steel-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-07",
+    "name": "Second Skin Signal Fitted T-shirt",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-07-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-07",
+    "name": "Second Skin Signal Fitted T-shirt",
+    "colour": "Burgundy / Bone",
+    "hero": "/images/catalogue/design-07-burgundy-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-07",
+    "name": "Second Skin Signal Fitted T-shirt",
+    "colour": "Olive / Black",
+    "hero": "/images/catalogue/design-07-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-08",
+    "name": "After Dark Rib Fitted T-shirt",
+    "colour": "Jet Black / Charcoal",
+    "hero": "/images/catalogue/design-08-jet-black-charcoal-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-08",
+    "name": "After Dark Rib Fitted T-shirt",
+    "colour": "Charcoal / Black",
+    "hero": "/images/catalogue/design-08-charcoal-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-08",
+    "name": "After Dark Rib Fitted T-shirt",
+    "colour": "Bone / Champagne",
+    "hero": "/images/catalogue/design-08-bone-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-08",
+    "name": "After Dark Rib Fitted T-shirt",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-08-burgundy-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-08",
+    "name": "After Dark Rib Fitted T-shirt",
+    "colour": "Navy / Silver",
+    "hero": "/images/catalogue/design-08-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-09",
+    "name": "Street Frame Fitted T-shirt",
+    "colour": "Black / Bone",
+    "hero": "/images/catalogue/design-09-black-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-09",
+    "name": "Street Frame Fitted T-shirt",
+    "colour": "Charcoal / Burgundy",
+    "hero": "/images/catalogue/design-09-charcoal-burgundy-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-09",
+    "name": "Street Frame Fitted T-shirt",
+    "colour": "Burgundy / Silver",
+    "hero": "/images/catalogue/design-09-burgundy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-09",
+    "name": "Street Frame Fitted T-shirt",
+    "colour": "Olive / Bone",
+    "hero": "/images/catalogue/design-09-olive-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-09",
+    "name": "Street Frame Fitted T-shirt",
+    "colour": "Navy / Champagne",
+    "hero": "/images/catalogue/design-09-navy-champagne-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-10",
+    "name": "Cutline Core Fitted T-shirt",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-10-jet-black-platinum-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-10",
+    "name": "Cutline Core Fitted T-shirt",
+    "colour": "Charcoal / Silver",
+    "hero": "/images/catalogue/design-10-charcoal-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-10",
+    "name": "Cutline Core Fitted T-shirt",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-10-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-10",
+    "name": "Cutline Core Fitted T-shirt",
+    "colour": "Burgundy / Champagne",
+    "hero": "/images/catalogue/design-10-burgundy-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-10",
+    "name": "Cutline Core Fitted T-shirt",
+    "colour": "Deep Olive / Black",
+    "hero": "/images/catalogue/design-10-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-11",
+    "name": "Vector Sleeve Long-sleeve T-shirt",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-11-jet-black-platinum-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-11",
+    "name": "Vector Sleeve Long-sleeve T-shirt",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-11-charcoal-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-11",
+    "name": "Vector Sleeve Long-sleeve T-shirt",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-11-burgundy-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-11",
+    "name": "Vector Sleeve Long-sleeve T-shirt",
+    "colour": "Deep Olive / Champagne",
+    "hero": "/images/catalogue/design-11-deep-olive-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-11",
+    "name": "Vector Sleeve Long-sleeve T-shirt",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-11-midnight-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-12",
+    "name": "Night Grid Long-sleeve T-shirt",
+    "colour": "Black / Steel",
+    "hero": "/images/catalogue/design-12-black-steel-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-12",
+    "name": "Night Grid Long-sleeve T-shirt",
+    "colour": "Charcoal / Silver",
+    "hero": "/images/catalogue/design-12-charcoal-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-12",
+    "name": "Night Grid Long-sleeve T-shirt",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-12-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-12",
+    "name": "Night Grid Long-sleeve T-shirt",
+    "colour": "Burgundy / Bone",
+    "hero": "/images/catalogue/design-12-burgundy-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-12",
+    "name": "Night Grid Long-sleeve T-shirt",
+    "colour": "Olive / Black",
+    "hero": "/images/catalogue/design-12-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-13",
+    "name": "Double-Layer Signal Long-sleeve T-shirt",
+    "colour": "Jet Black / Bone",
+    "hero": "/images/catalogue/design-13-jet-black-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-13",
+    "name": "Double-Layer Signal Long-sleeve T-shirt",
+    "colour": "Charcoal / Burgundy",
+    "hero": "/images/catalogue/design-13-charcoal-burgundy-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-13",
+    "name": "Double-Layer Signal Long-sleeve T-shirt",
+    "colour": "Burgundy / Silver",
+    "hero": "/images/catalogue/design-13-burgundy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-13",
+    "name": "Double-Layer Signal Long-sleeve T-shirt",
+    "colour": "Olive / Champagne",
+    "hero": "/images/catalogue/design-13-olive-champagne-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-13",
+    "name": "Double-Layer Signal Long-sleeve T-shirt",
+    "colour": "Navy / Steel",
+    "hero": "/images/catalogue/design-13-navy-steel-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-14",
+    "name": "After Dark Raglan Long-sleeve T-shirt",
+    "colour": "Black / Bone",
+    "hero": "/images/catalogue/design-14-black-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-14",
+    "name": "After Dark Raglan Long-sleeve T-shirt",
+    "colour": "Charcoal / Steel",
+    "hero": "/images/catalogue/design-14-charcoal-steel-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-14",
+    "name": "After Dark Raglan Long-sleeve T-shirt",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-14-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-14",
+    "name": "After Dark Raglan Long-sleeve T-shirt",
+    "colour": "Burgundy / Champagne",
+    "hero": "/images/catalogue/design-14-burgundy-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-14",
+    "name": "After Dark Raglan Long-sleeve T-shirt",
+    "colour": "Deep Olive / Silver",
+    "hero": "/images/catalogue/design-14-deep-olive-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-15",
+    "name": "Street Map Sleeve Long-sleeve T-shirt",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-15-jet-black-platinum-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-15",
+    "name": "Street Map Sleeve Long-sleeve T-shirt",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-15-charcoal-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-15",
+    "name": "Street Map Sleeve Long-sleeve T-shirt",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-15-burgundy-black-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-15",
+    "name": "Street Map Sleeve Long-sleeve T-shirt",
+    "colour": "Olive / Bone",
+    "hero": "/images/catalogue/design-15-olive-bone-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-15",
+    "name": "Street Map Sleeve Long-sleeve T-shirt",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-15-midnight-navy-silver-front-ppp.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-16",
+    "name": "Vector Pique Polo",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-16-jet-black-platinum-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-16",
+    "name": "Vector Pique Polo",
+    "colour": "Carbon Charcoal / Bone",
+    "hero": "/images/catalogue/design-16-carbon-charcoal-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-16",
+    "name": "Vector Pique Polo",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-16-burgundy-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-16",
+    "name": "Vector Pique Polo",
+    "colour": "Deep Olive / Champagne",
+    "hero": "/images/catalogue/design-16-deep-olive-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-16",
+    "name": "Vector Pique Polo",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-16-midnight-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-17",
+    "name": "Tech Zip Polo",
+    "colour": "Black / Steel",
+    "hero": "/images/catalogue/design-17-black-steel-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-17",
+    "name": "Tech Zip Polo",
+    "colour": "Charcoal / Silver",
+    "hero": "/images/catalogue/design-17-charcoal-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-17",
+    "name": "Tech Zip Polo",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-17-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-17",
+    "name": "Tech Zip Polo",
+    "colour": "Burgundy / Bone",
+    "hero": "/images/catalogue/design-17-burgundy-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-17",
+    "name": "Tech Zip Polo",
+    "colour": "Olive / Black",
+    "hero": "/images/catalogue/design-17-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-18",
+    "name": "Panel Court Polo",
+    "colour": "Jet Black / Bone",
+    "hero": "/images/catalogue/design-18-jet-black-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-18",
+    "name": "Panel Court Polo",
+    "colour": "Charcoal / Burgundy",
+    "hero": "/images/catalogue/design-18-charcoal-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-18",
+    "name": "Panel Court Polo",
+    "colour": "Burgundy / Silver",
+    "hero": "/images/catalogue/design-18-burgundy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-18",
+    "name": "Panel Court Polo",
+    "colour": "Deep Olive / Champagne",
+    "hero": "/images/catalogue/design-18-deep-olive-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-18",
+    "name": "Panel Court Polo",
+    "colour": "Navy / Steel",
+    "hero": "/images/catalogue/design-18-navy-steel-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-19",
+    "name": "After Dark Knit Polo",
+    "colour": "Black / Charcoal",
+    "hero": "/images/catalogue/design-19-black-charcoal-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-19",
+    "name": "After Dark Knit Polo",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-19-charcoal-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-19",
+    "name": "After Dark Knit Polo",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/design-19-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-19",
+    "name": "After Dark Knit Polo",
+    "colour": "Burgundy / Champagne",
+    "hero": "/images/catalogue/design-19-burgundy-champagne-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-19",
+    "name": "After Dark Knit Polo",
+    "colour": "Navy / Silver",
+    "hero": "/images/catalogue/design-19-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-20",
+    "name": "Street Signal Polo",
+    "colour": "Jet Black / Platinum",
+    "hero": "/images/catalogue/design-20-jet-black-platinum-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-20",
+    "name": "Street Signal Polo",
+    "colour": "Charcoal / Bone",
+    "hero": "/images/catalogue/design-20-charcoal-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-20",
+    "name": "Street Signal Polo",
+    "colour": "Burgundy / Black",
+    "hero": "/images/catalogue/design-20-burgundy-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-20",
+    "name": "Street Signal Polo",
+    "colour": "Olive / Bone",
+    "hero": "/images/catalogue/design-20-olive-bone-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-design-20",
+    "name": "Street Signal Polo",
+    "colour": "Midnight Navy / Silver",
+    "hero": "/images/catalogue/design-20-midnight-navy-silver-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p007",
+    "name": "Axis Knit Polo",
+    "colour": "Black / Ivory",
+    "hero": "/images/catalogue/p007.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p007",
+    "name": "Axis Knit Polo",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p007-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p010",
+    "name": "Mock-Neck Sweatshirt",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p010.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p010",
+    "name": "Mock-Neck Sweatshirt",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p010-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p012",
+    "name": "Stealth Oversized Hoodie",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p012.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p012",
+    "name": "Stealth Oversized Hoodie",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/p012-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p013",
+    "name": "Cropped Zip Hoodie",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p013.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Name says zip hoodie, image is cropped pullover with kangaroo pocket; reconcile name/design before adding angles."
+    ]
+  },
+  {
+    "product_id": "vn-p013",
+    "name": "Cropped Zip Hoodie",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p013-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Name says zip hoodie, image is cropped pullover with kangaroo pocket; reconcile name/design before adding angles."
+    ]
+  },
+  {
+    "product_id": "vn-p014",
+    "name": "Axis Straight Jean",
+    "colour": "Washed Black",
+    "hero": "/images/catalogue/p014.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p014",
+    "name": "Axis Straight Jean",
+    "colour": "Indigo",
+    "hero": "/images/catalogue/p014-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p015",
+    "name": "Relaxed Carpenter Jean",
+    "colour": "Washed Black",
+    "hero": "/images/catalogue/p015.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p015",
+    "name": "Relaxed Carpenter Jean",
+    "colour": "Indigo",
+    "hero": "/images/catalogue/p015-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p018",
+    "name": "Wide-Leg Track Pant",
+    "colour": "Black / Platinum",
+    "hero": "/images/catalogue/p018.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p018",
+    "name": "Wide-Leg Track Pant",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p018-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p021",
+    "name": "Pleated Utility Shorts",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p021.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p021",
+    "name": "Pleated Utility Shorts",
+    "colour": "Bone",
+    "hero": "/images/catalogue/p021-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p022",
+    "name": "Core Swim Shorts",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p022.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p022",
+    "name": "Core Swim Shorts",
+    "colour": "Olive",
+    "hero": "/images/catalogue/p022-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p024",
+    "name": "Cropped Hoodie and Wide-Leg Set",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p024.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p024",
+    "name": "Cropped Hoodie and Wide-Leg Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p024-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p028",
+    "name": "Motion Sleeveless Short Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p028.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p028",
+    "name": "Motion Sleeveless Short Set",
+    "colour": "Bone / Black",
+    "hero": "/images/catalogue/p028-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p029",
+    "name": "Camp-Collar Trouser Set",
+    "colour": "Bone",
+    "hero": "/images/catalogue/p029.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p029",
+    "name": "Camp-Collar Trouser Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p029-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p030",
+    "name": "Trucker Denim Set",
+    "colour": "Indigo",
+    "hero": "/images/catalogue/p030.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p030",
+    "name": "Trucker Denim Set",
+    "colour": "Washed Black",
+    "hero": "/images/catalogue/p030-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p031",
+    "name": "Contour Activewear Set",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p031.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p031",
+    "name": "Contour Activewear Set",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p031-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p032",
+    "name": "Motion Hooded Windbreaker",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p032.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p032",
+    "name": "Motion Hooded Windbreaker",
+    "colour": "Deep Olive / Black",
+    "hero": "/images/catalogue/p032-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p034",
+    "name": "Longline Denim Overshirt",
+    "colour": "Washed Black",
+    "hero": "/images/catalogue/p034.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p034",
+    "name": "Longline Denim Overshirt",
+    "colour": "Indigo",
+    "hero": "/images/catalogue/p034-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p035",
+    "name": "Oversized Trucker Denim Jacket",
+    "colour": "Indigo",
+    "hero": "/images/catalogue/p035.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p035",
+    "name": "Oversized Trucker Denim Jacket",
+    "colour": "Washed Black",
+    "hero": "/images/catalogue/p035-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p038",
+    "name": "Short Puffer Jacket",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p038.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p038",
+    "name": "Short Puffer Jacket",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p038-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p039",
+    "name": "Long Technical Coat",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p039.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p039",
+    "name": "Long Technical Coat",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p039-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p040",
+    "name": "Boxy Racer Jacket \u2014 Faux Leather",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p040.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p040",
+    "name": "Boxy Racer Jacket \u2014 Faux Leather",
+    "colour": "Burgundy",
+    "hero": "/images/catalogue/p040-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p041",
+    "name": "Boxy Racer Jacket \u2014 Genuine Leather",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p041.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p041",
+    "name": "Boxy Racer Jacket \u2014 Genuine Leather",
+    "colour": "Burgundy",
+    "hero": "/images/catalogue/p041-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": []
+  },
+  {
+    "product_id": "vn-p042",
+    "name": "Apex Checker Cap",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p042.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p042",
+    "name": "Apex Checker Cap",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p042-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p045",
+    "name": "Technical Backpack",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p045.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p045",
+    "name": "Technical Backpack",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p045-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p046",
+    "name": "Transit Gym Duffel",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p046.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p046",
+    "name": "Transit Gym Duffel",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p046-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p048",
+    "name": "Angular Sunglasses",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p048.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p048",
+    "name": "Angular Sunglasses",
+    "colour": "Bone",
+    "hero": "/images/catalogue/p048-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p051",
+    "name": "Core Gloves",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p051.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing glove pair shows dorsal surfaces; reverse needs palms, plus edge/side."
+    ]
+  },
+  {
+    "product_id": "vn-p051",
+    "name": "Core Gloves",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p051-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing glove pair shows dorsal surfaces; reverse needs palms, plus edge/side."
+    ]
+  },
+  {
+    "product_id": "vn-p052",
+    "name": "Tonal Scarf",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p052.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing scarf is one draped arrangement; define reverse and edge/drape view."
+    ]
+  },
+  {
+    "product_id": "vn-p052",
+    "name": "Tonal Scarf",
+    "colour": "Charcoal",
+    "hero": "/images/catalogue/p052-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing scarf is one draped arrangement; define reverse and edge/drape view."
+    ]
+  },
+  {
+    "product_id": "vn-p053",
+    "name": "Core Sports Bottle",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/p053.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-p053",
+    "name": "Core Sports Bottle",
+    "colour": "Bone",
+    "hero": "/images/catalogue/p053-alt.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front_or_product_hero"
+    ],
+    "missing_required_views": [
+      "back",
+      "side"
+    ],
+    "notes": [
+      "Existing hero is three-quarter; visible side is not a separate dedicated side image."
+    ]
+  },
+  {
+    "product_id": "vn-season01-01",
+    "name": "01 Oversized Graphic Tee",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-01-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-01",
+    "name": "01 Oversized Graphic Tee",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-01-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-01",
+    "name": "01 Oversized Graphic Tee",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-01-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-01",
+    "name": "01 Oversized Graphic Tee",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-01-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-01",
+    "name": "01 Oversized Graphic Tee",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-01-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-02",
+    "name": "02 Fitted Tee",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-02-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-02",
+    "name": "02 Fitted Tee",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-02-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-02",
+    "name": "02 Fitted Tee",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-02-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-02",
+    "name": "02 Fitted Tee",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-02-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-02",
+    "name": "02 Fitted Tee",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-02-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-03",
+    "name": "03 Long-Sleeve Tee",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-03-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-03",
+    "name": "03 Long-Sleeve Tee",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-03-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-03",
+    "name": "03 Long-Sleeve Tee",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-03-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-03",
+    "name": "03 Long-Sleeve Tee",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-03-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-03",
+    "name": "03 Long-Sleeve Tee",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-03-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-04",
+    "name": "04 Polo Shirt",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-04-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-04",
+    "name": "04 Polo Shirt",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-04-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-04",
+    "name": "04 Polo Shirt",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-04-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-04",
+    "name": "04 Polo Shirt",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-04-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-04",
+    "name": "04 Polo Shirt",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-04-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-05",
+    "name": "05 Rugby Shirt",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-05-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-05",
+    "name": "05 Rugby Shirt",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-05-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-05",
+    "name": "05 Rugby Shirt",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-05-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-05",
+    "name": "05 Rugby Shirt",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-05-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-05",
+    "name": "05 Rugby Shirt",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-05-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-06",
+    "name": "06 Button-Up Shirt",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-06-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-06",
+    "name": "06 Button-Up Shirt",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-06-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-06",
+    "name": "06 Button-Up Shirt",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-06-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-06",
+    "name": "06 Button-Up Shirt",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-06-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-06",
+    "name": "06 Button-Up Shirt",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-06-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-07",
+    "name": "07 Football Jersey",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-07-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-07",
+    "name": "07 Football Jersey",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-07-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-07",
+    "name": "07 Football Jersey",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-07-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-07",
+    "name": "07 Football Jersey",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-07-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-07",
+    "name": "07 Football Jersey",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-07-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-08",
+    "name": "08 Mesh Basketball Jersey",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-08-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-08",
+    "name": "08 Mesh Basketball Jersey",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-08-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-08",
+    "name": "08 Mesh Basketball Jersey",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-08-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-08",
+    "name": "08 Mesh Basketball Jersey",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-08-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-08",
+    "name": "08 Mesh Basketball Jersey",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-08-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-09",
+    "name": "09 Sleeveless Tank",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-09-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-09",
+    "name": "09 Sleeveless Tank",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-09-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-09",
+    "name": "09 Sleeveless Tank",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-09-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-09",
+    "name": "09 Sleeveless Tank",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-09-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-09",
+    "name": "09 Sleeveless Tank",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-09-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-10",
+    "name": "10 Knit Quarter-Zip",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-10-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-10",
+    "name": "10 Knit Quarter-Zip",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-10-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-10",
+    "name": "10 Knit Quarter-Zip",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-10-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-10",
+    "name": "10 Knit Quarter-Zip",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-10-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-10",
+    "name": "10 Knit Quarter-Zip",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-10-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-11",
+    "name": "11 Baggy Denim Jeans",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-11-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-11",
+    "name": "11 Baggy Denim Jeans",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-11-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-11",
+    "name": "11 Baggy Denim Jeans",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-11-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-11",
+    "name": "11 Baggy Denim Jeans",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-11-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-11",
+    "name": "11 Baggy Denim Jeans",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-11-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-12",
+    "name": "12 Cargo Pants",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-12-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-12",
+    "name": "12 Cargo Pants",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-12-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-12",
+    "name": "12 Cargo Pants",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-12-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-12",
+    "name": "12 Cargo Pants",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-12-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-12",
+    "name": "12 Cargo Pants",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-12-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-13",
+    "name": "13 Wide-Leg Trousers",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-13-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-13",
+    "name": "13 Wide-Leg Trousers",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-13-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-13",
+    "name": "13 Wide-Leg Trousers",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-13-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-13",
+    "name": "13 Wide-Leg Trousers",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-13-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-13",
+    "name": "13 Wide-Leg Trousers",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-13-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-14",
+    "name": "14 Denim Shorts",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-14-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-14",
+    "name": "14 Denim Shorts",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-14-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-14",
+    "name": "14 Denim Shorts",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-14-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-14",
+    "name": "14 Denim Shorts",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-14-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-14",
+    "name": "14 Denim Shorts",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-14-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-15",
+    "name": "15 Mesh Shorts",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-15-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-15",
+    "name": "15 Mesh Shorts",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-15-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-15",
+    "name": "15 Mesh Shorts",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-15-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-15",
+    "name": "15 Mesh Shorts",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-15-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-15",
+    "name": "15 Mesh Shorts",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-15-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-16",
+    "name": "16 Varsity Jacket",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-16-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-16",
+    "name": "16 Varsity Jacket",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-16-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-16",
+    "name": "16 Varsity Jacket",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-16-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-16",
+    "name": "16 Varsity Jacket",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-16-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-16",
+    "name": "16 Varsity Jacket",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-16-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-17",
+    "name": "17 Bomber Jacket",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-17-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-17",
+    "name": "17 Bomber Jacket",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-17-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-17",
+    "name": "17 Bomber Jacket",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-17-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-17",
+    "name": "17 Bomber Jacket",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-17-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-17",
+    "name": "17 Bomber Jacket",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-17-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-18",
+    "name": "18 Track Jacket",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-18-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-18",
+    "name": "18 Track Jacket",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-18-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-18",
+    "name": "18 Track Jacket",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-18-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-18",
+    "name": "18 Track Jacket",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-18-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-18",
+    "name": "18 Track Jacket",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-18-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-19",
+    "name": "19 Windbreaker",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-19-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-19",
+    "name": "19 Windbreaker",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-19-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-19",
+    "name": "19 Windbreaker",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-19-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-19",
+    "name": "19 Windbreaker",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-19-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-19",
+    "name": "19 Windbreaker",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-19-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-20",
+    "name": "20 Puffer Vest",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-20-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-20",
+    "name": "20 Puffer Vest",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-20-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-20",
+    "name": "20 Puffer Vest",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-20-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-20",
+    "name": "20 Puffer Vest",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-20-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-20",
+    "name": "20 Puffer Vest",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-20-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-21",
+    "name": "21 Face Cap",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-21-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-21",
+    "name": "21 Face Cap",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-21-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-21",
+    "name": "21 Face Cap",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-21-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-21",
+    "name": "21 Face Cap",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-21-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-21",
+    "name": "21 Face Cap",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-21-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-22",
+    "name": "22 Beanie",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-22-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-22",
+    "name": "22 Beanie",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-22-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-22",
+    "name": "22 Beanie",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-22-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-22",
+    "name": "22 Beanie",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-22-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-22",
+    "name": "22 Beanie",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-22-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-23",
+    "name": "23 Crossbody Bag",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-23-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-23",
+    "name": "23 Crossbody Bag",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-23-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-23",
+    "name": "23 Crossbody Bag",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-23-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-23",
+    "name": "23 Crossbody Bag",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-23-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-23",
+    "name": "23 Crossbody Bag",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-23-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-24",
+    "name": "24 Belt",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-24-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-24",
+    "name": "24 Belt",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-24-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-24",
+    "name": "24 Belt",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-24-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-24",
+    "name": "24 Belt",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-24-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-24",
+    "name": "24 Belt",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-24-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-25",
+    "name": "25 Socks",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-25-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-25",
+    "name": "25 Socks",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-25-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-25",
+    "name": "25 Socks",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-25-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-25",
+    "name": "25 Socks",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-25-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-25",
+    "name": "25 Socks",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-25-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-26",
+    "name": "26 Boxer Briefs",
+    "colour": "Jet Black",
+    "hero": "/images/catalogue/season-26-jet-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-26",
+    "name": "26 Boxer Briefs",
+    "colour": "Dark Burgundy",
+    "hero": "/images/catalogue/season-26-dark-burgundy-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-26",
+    "name": "26 Boxer Briefs",
+    "colour": "Charcoal Grey",
+    "hero": "/images/catalogue/season-26-charcoal-grey-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-26",
+    "name": "26 Boxer Briefs",
+    "colour": "Deep Olive/Black",
+    "hero": "/images/catalogue/season-26-deep-olive-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  },
+  {
+    "product_id": "vn-season01-26",
+    "name": "26 Boxer Briefs",
+    "colour": "Bone/Black",
+    "hero": "/images/catalogue/season-26-bone-black-front.webp",
+    "hero_exists": true,
+    "present_views": [
+      "front",
+      "back",
+      "side"
+    ],
+    "missing_required_views": [],
+    "notes": []
+  }
+]

@@ -1,0 +1,5496 @@
+[
+  {
+    "id": "vn-season01-01",
+    "slug": "season-01-01-oversized-graphic-tee",
+    "name": "01 Oversized Graphic Tee",
+    "category": "T-shirts",
+    "description": "Oversized silhouette; dark resist pattern; small chest emblem and large back emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 3500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-01-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-01-jet-black-s",
+          "M": "vn-season01-01-jet-black-m",
+          "L": "vn-season01-01-jet-black-l",
+          "XL": "vn-season01-01-jet-black-xl",
+          "XXL": "vn-season01-01-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-01-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-01-dark-burgundy-s",
+          "M": "vn-season01-01-dark-burgundy-m",
+          "L": "vn-season01-01-dark-burgundy-l",
+          "XL": "vn-season01-01-dark-burgundy-xl",
+          "XXL": "vn-season01-01-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-01-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-01-charcoal-grey-s",
+          "M": "vn-season01-01-charcoal-grey-m",
+          "L": "vn-season01-01-charcoal-grey-l",
+          "XL": "vn-season01-01-charcoal-grey-xl",
+          "XXL": "vn-season01-01-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-01-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-01-deep-olive-black-s",
+          "M": "vn-season01-01-deep-olive-black-m",
+          "L": "vn-season01-01-deep-olive-black-l",
+          "XL": "vn-season01-01-deep-olive-black-xl",
+          "XXL": "vn-season01-01-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-01-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-01-bone-black-s",
+          "M": "vn-season01-01-bone-black-m",
+          "L": "vn-season01-01-bone-black-l",
+          "XL": "vn-season01-01-bone-black-xl",
+          "XXL": "vn-season01-01-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-01-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-01-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-01-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-01-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-01-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-01-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-01-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-01-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-01-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-01-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-01-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-01-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-01-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-01-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-01-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Oversized Graphic Tee",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Oversized silhouette; dark resist pattern; small chest emblem and large back emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 35000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-01-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Oversized Graphic Tee \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-02",
+    "slug": "season-01-02-fitted-tee",
+    "name": "02 Fitted Tee",
+    "category": "T-shirts",
+    "description": "Fitted silhouette; tonal texture and restrained branding. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 2500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-02-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-02-jet-black-s",
+          "M": "vn-season01-02-jet-black-m",
+          "L": "vn-season01-02-jet-black-l",
+          "XL": "vn-season01-02-jet-black-xl",
+          "XXL": "vn-season01-02-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-02-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-02-dark-burgundy-s",
+          "M": "vn-season01-02-dark-burgundy-m",
+          "L": "vn-season01-02-dark-burgundy-l",
+          "XL": "vn-season01-02-dark-burgundy-xl",
+          "XXL": "vn-season01-02-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-02-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-02-charcoal-grey-s",
+          "M": "vn-season01-02-charcoal-grey-m",
+          "L": "vn-season01-02-charcoal-grey-l",
+          "XL": "vn-season01-02-charcoal-grey-xl",
+          "XXL": "vn-season01-02-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-02-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-02-deep-olive-black-s",
+          "M": "vn-season01-02-deep-olive-black-m",
+          "L": "vn-season01-02-deep-olive-black-l",
+          "XL": "vn-season01-02-deep-olive-black-xl",
+          "XXL": "vn-season01-02-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-02-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-02-bone-black-s",
+          "M": "vn-season01-02-bone-black-m",
+          "L": "vn-season01-02-bone-black-l",
+          "XL": "vn-season01-02-bone-black-xl",
+          "XXL": "vn-season01-02-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-02-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-02-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-02-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-02-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-02-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-02-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-02-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-02-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-02-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-02-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-02-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-02-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-02-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-02-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-02-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Fitted Tee \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Fitted Tee",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Fitted silhouette; tonal texture and restrained branding.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 25000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-02-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Fitted Tee \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-03",
+    "slug": "season-01-03-long-sleeve-tee",
+    "name": "03 Long-Sleeve Tee",
+    "category": "T-shirts",
+    "description": "Long sleeves; patterned fabric and reference logo placement. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 3500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-03-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-03-jet-black-s",
+          "M": "vn-season01-03-jet-black-m",
+          "L": "vn-season01-03-jet-black-l",
+          "XL": "vn-season01-03-jet-black-xl",
+          "XXL": "vn-season01-03-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-03-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-03-dark-burgundy-s",
+          "M": "vn-season01-03-dark-burgundy-m",
+          "L": "vn-season01-03-dark-burgundy-l",
+          "XL": "vn-season01-03-dark-burgundy-xl",
+          "XXL": "vn-season01-03-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-03-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-03-charcoal-grey-s",
+          "M": "vn-season01-03-charcoal-grey-m",
+          "L": "vn-season01-03-charcoal-grey-l",
+          "XL": "vn-season01-03-charcoal-grey-xl",
+          "XXL": "vn-season01-03-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-03-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-03-deep-olive-black-s",
+          "M": "vn-season01-03-deep-olive-black-m",
+          "L": "vn-season01-03-deep-olive-black-l",
+          "XL": "vn-season01-03-deep-olive-black-xl",
+          "XXL": "vn-season01-03-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-03-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-03-bone-black-s",
+          "M": "vn-season01-03-bone-black-m",
+          "L": "vn-season01-03-bone-black-l",
+          "XL": "vn-season01-03-bone-black-xl",
+          "XXL": "vn-season01-03-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-03-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-03-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-03-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-03-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-03-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-03-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-03-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-03-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-03-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-03-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-03-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-03-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-03-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-03-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-03-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Long-Sleeve Tee",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Long sleeves; patterned fabric and reference logo placement.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 35000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-03-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Long-Sleeve Tee \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-04",
+    "slug": "season-01-04-polo-shirt",
+    "name": "04 Polo Shirt",
+    "category": "Shirts and polos",
+    "description": "Collared polo silhouette with contrast panel detailing. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 4500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-04-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-04-jet-black-s",
+          "M": "vn-season01-04-jet-black-m",
+          "L": "vn-season01-04-jet-black-l",
+          "XL": "vn-season01-04-jet-black-xl",
+          "XXL": "vn-season01-04-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-04-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-04-dark-burgundy-s",
+          "M": "vn-season01-04-dark-burgundy-m",
+          "L": "vn-season01-04-dark-burgundy-l",
+          "XL": "vn-season01-04-dark-burgundy-xl",
+          "XXL": "vn-season01-04-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-04-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-04-charcoal-grey-s",
+          "M": "vn-season01-04-charcoal-grey-m",
+          "L": "vn-season01-04-charcoal-grey-l",
+          "XL": "vn-season01-04-charcoal-grey-xl",
+          "XXL": "vn-season01-04-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-04-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-04-deep-olive-black-s",
+          "M": "vn-season01-04-deep-olive-black-m",
+          "L": "vn-season01-04-deep-olive-black-l",
+          "XL": "vn-season01-04-deep-olive-black-xl",
+          "XXL": "vn-season01-04-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-04-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-04-bone-black-s",
+          "M": "vn-season01-04-bone-black-m",
+          "L": "vn-season01-04-bone-black-l",
+          "XL": "vn-season01-04-bone-black-xl",
+          "XXL": "vn-season01-04-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-04-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-04-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-04-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-04-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-04-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-04-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-04-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-04-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-04-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-04-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-04-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-04-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-04-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-04-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-04-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Polo Shirt \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Polo Shirt",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Collared polo silhouette with contrast panel detailing.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 45000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-04-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Polo Shirt \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-05",
+    "slug": "season-01-05-rugby-shirt",
+    "name": "05 Rugby Shirt",
+    "category": "Shirts and polos",
+    "description": "Striped rugby construction with contrasting collar and circular chest badge. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 5500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-05-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-05-jet-black-s",
+          "M": "vn-season01-05-jet-black-m",
+          "L": "vn-season01-05-jet-black-l",
+          "XL": "vn-season01-05-jet-black-xl",
+          "XXL": "vn-season01-05-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-05-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-05-dark-burgundy-s",
+          "M": "vn-season01-05-dark-burgundy-m",
+          "L": "vn-season01-05-dark-burgundy-l",
+          "XL": "vn-season01-05-dark-burgundy-xl",
+          "XXL": "vn-season01-05-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-05-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-05-charcoal-grey-s",
+          "M": "vn-season01-05-charcoal-grey-m",
+          "L": "vn-season01-05-charcoal-grey-l",
+          "XL": "vn-season01-05-charcoal-grey-xl",
+          "XXL": "vn-season01-05-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-05-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-05-deep-olive-black-s",
+          "M": "vn-season01-05-deep-olive-black-m",
+          "L": "vn-season01-05-deep-olive-black-l",
+          "XL": "vn-season01-05-deep-olive-black-xl",
+          "XXL": "vn-season01-05-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-05-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-05-bone-black-s",
+          "M": "vn-season01-05-bone-black-m",
+          "L": "vn-season01-05-bone-black-l",
+          "XL": "vn-season01-05-bone-black-xl",
+          "XXL": "vn-season01-05-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-05-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-05-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-05-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-05-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-05-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-05-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-05-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-05-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-05-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-05-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-05-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-05-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-05-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-05-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-05-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Rugby Shirt \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Rugby Shirt",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Striped rugby construction with contrasting collar and circular chest badge.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 55000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-05-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Rugby Shirt \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-06",
+    "slug": "season-01-06-button-up-shirt",
+    "name": "06 Button-Up Shirt",
+    "category": "Shirts and polos",
+    "description": "Relaxed short-sleeve button-up silhouette; patterned fabric; camp collar. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 5000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-06-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-06-jet-black-s",
+          "M": "vn-season01-06-jet-black-m",
+          "L": "vn-season01-06-jet-black-l",
+          "XL": "vn-season01-06-jet-black-xl",
+          "XXL": "vn-season01-06-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-06-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-06-dark-burgundy-s",
+          "M": "vn-season01-06-dark-burgundy-m",
+          "L": "vn-season01-06-dark-burgundy-l",
+          "XL": "vn-season01-06-dark-burgundy-xl",
+          "XXL": "vn-season01-06-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-06-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-06-charcoal-grey-s",
+          "M": "vn-season01-06-charcoal-grey-m",
+          "L": "vn-season01-06-charcoal-grey-l",
+          "XL": "vn-season01-06-charcoal-grey-xl",
+          "XXL": "vn-season01-06-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-06-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-06-deep-olive-black-s",
+          "M": "vn-season01-06-deep-olive-black-m",
+          "L": "vn-season01-06-deep-olive-black-l",
+          "XL": "vn-season01-06-deep-olive-black-xl",
+          "XXL": "vn-season01-06-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-06-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-06-bone-black-s",
+          "M": "vn-season01-06-bone-black-m",
+          "L": "vn-season01-06-bone-black-l",
+          "XL": "vn-season01-06-bone-black-xl",
+          "XXL": "vn-season01-06-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-06-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-06-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-06-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-06-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-06-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-06-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-06-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-06-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-06-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-06-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-06-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-06-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-06-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-06-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-06-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Button-Up Shirt",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Relaxed short-sleeve button-up silhouette; patterned fabric; camp collar.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 50000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-06-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Button-Up Shirt \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-07",
+    "slug": "season-01-07-football-jersey",
+    "name": "07 Football Jersey",
+    "category": "Jerseys",
+    "description": "V-neck football jersey; contrast shoulder and side panels; chest wordmark and emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 4000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-07-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-07-jet-black-s",
+          "M": "vn-season01-07-jet-black-m",
+          "L": "vn-season01-07-jet-black-l",
+          "XL": "vn-season01-07-jet-black-xl",
+          "XXL": "vn-season01-07-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-07-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-07-dark-burgundy-s",
+          "M": "vn-season01-07-dark-burgundy-m",
+          "L": "vn-season01-07-dark-burgundy-l",
+          "XL": "vn-season01-07-dark-burgundy-xl",
+          "XXL": "vn-season01-07-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-07-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-07-charcoal-grey-s",
+          "M": "vn-season01-07-charcoal-grey-m",
+          "L": "vn-season01-07-charcoal-grey-l",
+          "XL": "vn-season01-07-charcoal-grey-xl",
+          "XXL": "vn-season01-07-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-07-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-07-deep-olive-black-s",
+          "M": "vn-season01-07-deep-olive-black-m",
+          "L": "vn-season01-07-deep-olive-black-l",
+          "XL": "vn-season01-07-deep-olive-black-xl",
+          "XXL": "vn-season01-07-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-07-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-07-bone-black-s",
+          "M": "vn-season01-07-bone-black-m",
+          "L": "vn-season01-07-bone-black-l",
+          "XL": "vn-season01-07-bone-black-xl",
+          "XXL": "vn-season01-07-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-07-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-07-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-07-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-07-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-07-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-07-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-07-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-07-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-07-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-07-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-07-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-07-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-07-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-07-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-07-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Football Jersey \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Football Jersey",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "V-neck football jersey; contrast shoulder and side panels; chest wordmark and emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 40000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-07-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Football Jersey \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-08",
+    "slug": "season-01-08-mesh-basketball-jersey",
+    "name": "08 Mesh Basketball Jersey",
+    "category": "Jerseys",
+    "description": "Mesh basketball jersey; ribbed neckline and armholes; diagonal graphic and numbered back. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 4000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-08-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-08-jet-black-s",
+          "M": "vn-season01-08-jet-black-m",
+          "L": "vn-season01-08-jet-black-l",
+          "XL": "vn-season01-08-jet-black-xl",
+          "XXL": "vn-season01-08-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-08-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-08-dark-burgundy-s",
+          "M": "vn-season01-08-dark-burgundy-m",
+          "L": "vn-season01-08-dark-burgundy-l",
+          "XL": "vn-season01-08-dark-burgundy-xl",
+          "XXL": "vn-season01-08-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-08-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-08-charcoal-grey-s",
+          "M": "vn-season01-08-charcoal-grey-m",
+          "L": "vn-season01-08-charcoal-grey-l",
+          "XL": "vn-season01-08-charcoal-grey-xl",
+          "XXL": "vn-season01-08-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-08-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-08-deep-olive-black-s",
+          "M": "vn-season01-08-deep-olive-black-m",
+          "L": "vn-season01-08-deep-olive-black-l",
+          "XL": "vn-season01-08-deep-olive-black-xl",
+          "XXL": "vn-season01-08-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-08-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-08-bone-black-s",
+          "M": "vn-season01-08-bone-black-m",
+          "L": "vn-season01-08-bone-black-l",
+          "XL": "vn-season01-08-bone-black-xl",
+          "XXL": "vn-season01-08-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-08-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-08-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-08-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-08-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-08-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-08-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-08-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-08-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-08-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-08-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-08-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-08-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-08-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-08-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-08-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Mesh Basketball Jersey",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Mesh basketball jersey; ribbed neckline and armholes; diagonal graphic and numbered back.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 40000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-08-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Mesh Basketball Jersey \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-09",
+    "slug": "season-01-09-sleeveless-tank",
+    "name": "09 Sleeveless Tank",
+    "category": "Singlets and tanks",
+    "description": "Sleeveless tank; tonal topographic design; small chest emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 2500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-09-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-09-jet-black-s",
+          "M": "vn-season01-09-jet-black-m",
+          "L": "vn-season01-09-jet-black-l",
+          "XL": "vn-season01-09-jet-black-xl",
+          "XXL": "vn-season01-09-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-09-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-09-dark-burgundy-s",
+          "M": "vn-season01-09-dark-burgundy-m",
+          "L": "vn-season01-09-dark-burgundy-l",
+          "XL": "vn-season01-09-dark-burgundy-xl",
+          "XXL": "vn-season01-09-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-09-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-09-charcoal-grey-s",
+          "M": "vn-season01-09-charcoal-grey-m",
+          "L": "vn-season01-09-charcoal-grey-l",
+          "XL": "vn-season01-09-charcoal-grey-xl",
+          "XXL": "vn-season01-09-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-09-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-09-deep-olive-black-s",
+          "M": "vn-season01-09-deep-olive-black-m",
+          "L": "vn-season01-09-deep-olive-black-l",
+          "XL": "vn-season01-09-deep-olive-black-xl",
+          "XXL": "vn-season01-09-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-09-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-09-bone-black-s",
+          "M": "vn-season01-09-bone-black-m",
+          "L": "vn-season01-09-bone-black-l",
+          "XL": "vn-season01-09-bone-black-xl",
+          "XXL": "vn-season01-09-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-09-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-09-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-09-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-09-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-09-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-09-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-09-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-09-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-09-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-09-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-09-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-09-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-09-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-09-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-09-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Sleeveless Tank",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Sleeveless tank; tonal topographic design; small chest emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 25000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-09-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Sleeveless Tank \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-10",
+    "slug": "season-01-10-knit-quarter-zip",
+    "name": "10 Knit Quarter-Zip",
+    "category": "Knitwear",
+    "description": "Ribbed knit quarter-zip; stand collar and chest emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 6500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-10-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-10-jet-black-s",
+          "M": "vn-season01-10-jet-black-m",
+          "L": "vn-season01-10-jet-black-l",
+          "XL": "vn-season01-10-jet-black-xl",
+          "XXL": "vn-season01-10-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-10-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-10-dark-burgundy-s",
+          "M": "vn-season01-10-dark-burgundy-m",
+          "L": "vn-season01-10-dark-burgundy-l",
+          "XL": "vn-season01-10-dark-burgundy-xl",
+          "XXL": "vn-season01-10-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-10-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-10-charcoal-grey-s",
+          "M": "vn-season01-10-charcoal-grey-m",
+          "L": "vn-season01-10-charcoal-grey-l",
+          "XL": "vn-season01-10-charcoal-grey-xl",
+          "XXL": "vn-season01-10-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-10-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-10-deep-olive-black-s",
+          "M": "vn-season01-10-deep-olive-black-m",
+          "L": "vn-season01-10-deep-olive-black-l",
+          "XL": "vn-season01-10-deep-olive-black-xl",
+          "XXL": "vn-season01-10-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-10-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-10-bone-black-s",
+          "M": "vn-season01-10-bone-black-m",
+          "L": "vn-season01-10-bone-black-l",
+          "XL": "vn-season01-10-bone-black-xl",
+          "XXL": "vn-season01-10-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-10-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-10-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-10-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-10-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-10-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-10-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-10-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-10-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-10-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-10-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-10-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-10-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-10-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-10-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-10-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Knit Quarter-Zip",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Ribbed knit quarter-zip; stand collar and chest emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 65000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-10-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Knit Quarter-Zip \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-11",
+    "slug": "season-01-11-baggy-denim-jeans",
+    "name": "11 Baggy Denim Jeans",
+    "category": "Jeans",
+    "description": "Baggy denim silhouette; outlined rear-pocket emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 6500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-11-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-11-jet-black-s",
+          "M": "vn-season01-11-jet-black-m",
+          "L": "vn-season01-11-jet-black-l",
+          "XL": "vn-season01-11-jet-black-xl",
+          "XXL": "vn-season01-11-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-11-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-11-dark-burgundy-s",
+          "M": "vn-season01-11-dark-burgundy-m",
+          "L": "vn-season01-11-dark-burgundy-l",
+          "XL": "vn-season01-11-dark-burgundy-xl",
+          "XXL": "vn-season01-11-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-11-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-11-charcoal-grey-s",
+          "M": "vn-season01-11-charcoal-grey-m",
+          "L": "vn-season01-11-charcoal-grey-l",
+          "XL": "vn-season01-11-charcoal-grey-xl",
+          "XXL": "vn-season01-11-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-11-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-11-deep-olive-black-s",
+          "M": "vn-season01-11-deep-olive-black-m",
+          "L": "vn-season01-11-deep-olive-black-l",
+          "XL": "vn-season01-11-deep-olive-black-xl",
+          "XXL": "vn-season01-11-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-11-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-11-bone-black-s",
+          "M": "vn-season01-11-bone-black-m",
+          "L": "vn-season01-11-bone-black-l",
+          "XL": "vn-season01-11-bone-black-xl",
+          "XXL": "vn-season01-11-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-11-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-11-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-11-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-11-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-11-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-11-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-11-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-11-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-11-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-11-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-11-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-11-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-11-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-11-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-11-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Baggy Denim Jeans",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Baggy denim silhouette; outlined rear-pocket emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 65000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-11-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Baggy Denim Jeans \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-12",
+    "slug": "season-01-12-cargo-pants",
+    "name": "12 Cargo Pants",
+    "category": "Trousers and utility pants",
+    "description": "Relaxed cargo silhouette; statement utility pockets. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 5500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-12-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-12-jet-black-s",
+          "M": "vn-season01-12-jet-black-m",
+          "L": "vn-season01-12-jet-black-l",
+          "XL": "vn-season01-12-jet-black-xl",
+          "XXL": "vn-season01-12-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-12-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-12-dark-burgundy-s",
+          "M": "vn-season01-12-dark-burgundy-m",
+          "L": "vn-season01-12-dark-burgundy-l",
+          "XL": "vn-season01-12-dark-burgundy-xl",
+          "XXL": "vn-season01-12-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-12-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-12-charcoal-grey-s",
+          "M": "vn-season01-12-charcoal-grey-m",
+          "L": "vn-season01-12-charcoal-grey-l",
+          "XL": "vn-season01-12-charcoal-grey-xl",
+          "XXL": "vn-season01-12-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-12-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-12-deep-olive-black-s",
+          "M": "vn-season01-12-deep-olive-black-m",
+          "L": "vn-season01-12-deep-olive-black-l",
+          "XL": "vn-season01-12-deep-olive-black-xl",
+          "XXL": "vn-season01-12-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-12-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-12-bone-black-s",
+          "M": "vn-season01-12-bone-black-m",
+          "L": "vn-season01-12-bone-black-l",
+          "XL": "vn-season01-12-bone-black-xl",
+          "XXL": "vn-season01-12-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-12-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-12-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-12-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-12-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-12-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-12-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-12-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-12-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-12-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-12-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-12-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-12-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-12-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-12-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-12-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Cargo Pants \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Cargo Pants",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Relaxed cargo silhouette; statement utility pockets.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 55000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-12-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Cargo Pants \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-13",
+    "slug": "season-01-13-wide-leg-trousers",
+    "name": "13 Wide-Leg Trousers",
+    "category": "Trousers and utility pants",
+    "description": "Wide-leg silhouette; pinstripe treatment and branded waistband. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 6000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-13-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-13-jet-black-s",
+          "M": "vn-season01-13-jet-black-m",
+          "L": "vn-season01-13-jet-black-l",
+          "XL": "vn-season01-13-jet-black-xl",
+          "XXL": "vn-season01-13-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-13-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-13-dark-burgundy-s",
+          "M": "vn-season01-13-dark-burgundy-m",
+          "L": "vn-season01-13-dark-burgundy-l",
+          "XL": "vn-season01-13-dark-burgundy-xl",
+          "XXL": "vn-season01-13-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-13-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-13-charcoal-grey-s",
+          "M": "vn-season01-13-charcoal-grey-m",
+          "L": "vn-season01-13-charcoal-grey-l",
+          "XL": "vn-season01-13-charcoal-grey-xl",
+          "XXL": "vn-season01-13-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-13-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-13-deep-olive-black-s",
+          "M": "vn-season01-13-deep-olive-black-m",
+          "L": "vn-season01-13-deep-olive-black-l",
+          "XL": "vn-season01-13-deep-olive-black-xl",
+          "XXL": "vn-season01-13-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-13-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-13-bone-black-s",
+          "M": "vn-season01-13-bone-black-m",
+          "L": "vn-season01-13-bone-black-l",
+          "XL": "vn-season01-13-bone-black-xl",
+          "XXL": "vn-season01-13-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-13-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-13-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-13-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-13-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-13-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-13-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-13-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-13-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-13-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-13-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-13-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-13-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-13-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-13-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-13-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Wide-Leg Trousers",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Wide-leg silhouette; pinstripe treatment and branded waistband.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 60000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-13-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Wide-Leg Trousers \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-14",
+    "slug": "season-01-14-denim-shorts",
+    "name": "14 Denim Shorts",
+    "category": "Shorts",
+    "description": "Relaxed denim shorts; rear-pocket badge. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 4000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-14-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-14-jet-black-s",
+          "M": "vn-season01-14-jet-black-m",
+          "L": "vn-season01-14-jet-black-l",
+          "XL": "vn-season01-14-jet-black-xl",
+          "XXL": "vn-season01-14-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-14-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-14-dark-burgundy-s",
+          "M": "vn-season01-14-dark-burgundy-m",
+          "L": "vn-season01-14-dark-burgundy-l",
+          "XL": "vn-season01-14-dark-burgundy-xl",
+          "XXL": "vn-season01-14-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-14-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-14-charcoal-grey-s",
+          "M": "vn-season01-14-charcoal-grey-m",
+          "L": "vn-season01-14-charcoal-grey-l",
+          "XL": "vn-season01-14-charcoal-grey-xl",
+          "XXL": "vn-season01-14-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-14-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-14-deep-olive-black-s",
+          "M": "vn-season01-14-deep-olive-black-m",
+          "L": "vn-season01-14-deep-olive-black-l",
+          "XL": "vn-season01-14-deep-olive-black-xl",
+          "XXL": "vn-season01-14-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-14-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-14-bone-black-s",
+          "M": "vn-season01-14-bone-black-m",
+          "L": "vn-season01-14-bone-black-l",
+          "XL": "vn-season01-14-bone-black-xl",
+          "XXL": "vn-season01-14-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-14-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-14-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-14-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-14-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-14-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-14-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-14-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-14-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-14-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-14-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-14-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-14-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-14-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-14-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-14-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Denim Shorts \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Denim Shorts",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Relaxed denim shorts; rear-pocket badge.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 40000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-14-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Denim Shorts \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-15",
+    "slug": "season-01-15-mesh-shorts",
+    "name": "15 Mesh Shorts",
+    "category": "Shorts",
+    "description": "Mesh shorts; angular stripe detailing; drawstring waist. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 3000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-15-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-15-jet-black-s",
+          "M": "vn-season01-15-jet-black-m",
+          "L": "vn-season01-15-jet-black-l",
+          "XL": "vn-season01-15-jet-black-xl",
+          "XXL": "vn-season01-15-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-15-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-15-dark-burgundy-s",
+          "M": "vn-season01-15-dark-burgundy-m",
+          "L": "vn-season01-15-dark-burgundy-l",
+          "XL": "vn-season01-15-dark-burgundy-xl",
+          "XXL": "vn-season01-15-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-15-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-15-charcoal-grey-s",
+          "M": "vn-season01-15-charcoal-grey-m",
+          "L": "vn-season01-15-charcoal-grey-l",
+          "XL": "vn-season01-15-charcoal-grey-xl",
+          "XXL": "vn-season01-15-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-15-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-15-deep-olive-black-s",
+          "M": "vn-season01-15-deep-olive-black-m",
+          "L": "vn-season01-15-deep-olive-black-l",
+          "XL": "vn-season01-15-deep-olive-black-xl",
+          "XXL": "vn-season01-15-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-15-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-15-bone-black-s",
+          "M": "vn-season01-15-bone-black-m",
+          "L": "vn-season01-15-bone-black-l",
+          "XL": "vn-season01-15-bone-black-xl",
+          "XXL": "vn-season01-15-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-15-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-15-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-15-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-15-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-15-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-15-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-15-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-15-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-15-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-15-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-15-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-15-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-15-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-15-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-15-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Mesh Shorts \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Mesh Shorts",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Mesh shorts; angular stripe detailing; drawstring waist.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 30000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-15-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Mesh Shorts \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-16",
+    "slug": "season-01-16-varsity-jacket",
+    "name": "16 Varsity Jacket",
+    "category": "Jackets and coats",
+    "description": "Varsity silhouette; contrast sleeves; chest badge and large back branding. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 11000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-16-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-16-jet-black-s",
+          "M": "vn-season01-16-jet-black-m",
+          "L": "vn-season01-16-jet-black-l",
+          "XL": "vn-season01-16-jet-black-xl",
+          "XXL": "vn-season01-16-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-16-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-16-dark-burgundy-s",
+          "M": "vn-season01-16-dark-burgundy-m",
+          "L": "vn-season01-16-dark-burgundy-l",
+          "XL": "vn-season01-16-dark-burgundy-xl",
+          "XXL": "vn-season01-16-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-16-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-16-charcoal-grey-s",
+          "M": "vn-season01-16-charcoal-grey-m",
+          "L": "vn-season01-16-charcoal-grey-l",
+          "XL": "vn-season01-16-charcoal-grey-xl",
+          "XXL": "vn-season01-16-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-16-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-16-deep-olive-black-s",
+          "M": "vn-season01-16-deep-olive-black-m",
+          "L": "vn-season01-16-deep-olive-black-l",
+          "XL": "vn-season01-16-deep-olive-black-xl",
+          "XXL": "vn-season01-16-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-16-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-16-bone-black-s",
+          "M": "vn-season01-16-bone-black-m",
+          "L": "vn-season01-16-bone-black-l",
+          "XL": "vn-season01-16-bone-black-xl",
+          "XXL": "vn-season01-16-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-16-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-16-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-16-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-16-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-16-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-16-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-16-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-16-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-16-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-16-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-16-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-16-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-16-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-16-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-16-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Varsity Jacket \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Varsity Jacket",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Varsity silhouette; contrast sleeves; chest badge and large back branding.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 110000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-16-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Varsity Jacket \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-17",
+    "slug": "season-01-17-bomber-jacket",
+    "name": "17 Bomber Jacket",
+    "category": "Jackets and coats",
+    "description": "Bomber silhouette; tonal patterned shell; ribbed collar, cuffs and hem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 9500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-17-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-17-jet-black-s",
+          "M": "vn-season01-17-jet-black-m",
+          "L": "vn-season01-17-jet-black-l",
+          "XL": "vn-season01-17-jet-black-xl",
+          "XXL": "vn-season01-17-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-17-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-17-dark-burgundy-s",
+          "M": "vn-season01-17-dark-burgundy-m",
+          "L": "vn-season01-17-dark-burgundy-l",
+          "XL": "vn-season01-17-dark-burgundy-xl",
+          "XXL": "vn-season01-17-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-17-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-17-charcoal-grey-s",
+          "M": "vn-season01-17-charcoal-grey-m",
+          "L": "vn-season01-17-charcoal-grey-l",
+          "XL": "vn-season01-17-charcoal-grey-xl",
+          "XXL": "vn-season01-17-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-17-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-17-deep-olive-black-s",
+          "M": "vn-season01-17-deep-olive-black-m",
+          "L": "vn-season01-17-deep-olive-black-l",
+          "XL": "vn-season01-17-deep-olive-black-xl",
+          "XXL": "vn-season01-17-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-17-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-17-bone-black-s",
+          "M": "vn-season01-17-bone-black-m",
+          "L": "vn-season01-17-bone-black-l",
+          "XL": "vn-season01-17-bone-black-xl",
+          "XXL": "vn-season01-17-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-17-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-17-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-17-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-17-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-17-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-17-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-17-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-17-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-17-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-17-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-17-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-17-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-17-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-17-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-17-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Bomber Jacket \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Bomber Jacket",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Bomber silhouette; tonal patterned shell; ribbed collar, cuffs and hem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 95000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-17-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Bomber Jacket \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-18",
+    "slug": "season-01-18-track-jacket",
+    "name": "18 Track Jacket",
+    "category": "Jackets and coats",
+    "description": "Stand-collar track jacket; diagonal contrast panels; chest wordmark. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 7500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-18-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-18-jet-black-s",
+          "M": "vn-season01-18-jet-black-m",
+          "L": "vn-season01-18-jet-black-l",
+          "XL": "vn-season01-18-jet-black-xl",
+          "XXL": "vn-season01-18-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-18-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-18-dark-burgundy-s",
+          "M": "vn-season01-18-dark-burgundy-m",
+          "L": "vn-season01-18-dark-burgundy-l",
+          "XL": "vn-season01-18-dark-burgundy-xl",
+          "XXL": "vn-season01-18-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-18-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-18-charcoal-grey-s",
+          "M": "vn-season01-18-charcoal-grey-m",
+          "L": "vn-season01-18-charcoal-grey-l",
+          "XL": "vn-season01-18-charcoal-grey-xl",
+          "XXL": "vn-season01-18-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-18-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-18-deep-olive-black-s",
+          "M": "vn-season01-18-deep-olive-black-m",
+          "L": "vn-season01-18-deep-olive-black-l",
+          "XL": "vn-season01-18-deep-olive-black-xl",
+          "XXL": "vn-season01-18-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-18-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-18-bone-black-s",
+          "M": "vn-season01-18-bone-black-m",
+          "L": "vn-season01-18-bone-black-l",
+          "XL": "vn-season01-18-bone-black-xl",
+          "XXL": "vn-season01-18-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-18-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-18-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-18-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-18-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-18-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-18-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-18-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-18-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-18-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-18-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-18-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-18-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-18-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-18-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-18-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Track Jacket \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Track Jacket",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Stand-collar track jacket; diagonal contrast panels; chest wordmark.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 75000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-18-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Track Jacket \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-19",
+    "slug": "season-01-19-windbreaker",
+    "name": "19 Windbreaker",
+    "category": "Windbreakers",
+    "description": "Lightweight windbreaker silhouette; angular camouflage treatment. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 8500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-19-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-19-jet-black-s",
+          "M": "vn-season01-19-jet-black-m",
+          "L": "vn-season01-19-jet-black-l",
+          "XL": "vn-season01-19-jet-black-xl",
+          "XXL": "vn-season01-19-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-19-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-19-dark-burgundy-s",
+          "M": "vn-season01-19-dark-burgundy-m",
+          "L": "vn-season01-19-dark-burgundy-l",
+          "XL": "vn-season01-19-dark-burgundy-xl",
+          "XXL": "vn-season01-19-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-19-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-19-charcoal-grey-s",
+          "M": "vn-season01-19-charcoal-grey-m",
+          "L": "vn-season01-19-charcoal-grey-l",
+          "XL": "vn-season01-19-charcoal-grey-xl",
+          "XXL": "vn-season01-19-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-19-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-19-deep-olive-black-s",
+          "M": "vn-season01-19-deep-olive-black-m",
+          "L": "vn-season01-19-deep-olive-black-l",
+          "XL": "vn-season01-19-deep-olive-black-xl",
+          "XXL": "vn-season01-19-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-19-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-19-bone-black-s",
+          "M": "vn-season01-19-bone-black-m",
+          "L": "vn-season01-19-bone-black-l",
+          "XL": "vn-season01-19-bone-black-xl",
+          "XXL": "vn-season01-19-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-19-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-19-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-19-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-19-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-19-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-19-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-19-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-19-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-19-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-19-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-19-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-19-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-19-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-19-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-19-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Windbreaker \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Windbreaker",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Lightweight windbreaker silhouette; angular camouflage treatment.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 85000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-19-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Windbreaker \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-20",
+    "slug": "season-01-20-puffer-vest",
+    "name": "20 Puffer Vest",
+    "category": "Jackets and coats",
+    "description": "Quilted puffer vest; stand collar; chest badge. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 8500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-20-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-20-jet-black-s",
+          "M": "vn-season01-20-jet-black-m",
+          "L": "vn-season01-20-jet-black-l",
+          "XL": "vn-season01-20-jet-black-xl",
+          "XXL": "vn-season01-20-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-20-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-20-dark-burgundy-s",
+          "M": "vn-season01-20-dark-burgundy-m",
+          "L": "vn-season01-20-dark-burgundy-l",
+          "XL": "vn-season01-20-dark-burgundy-xl",
+          "XXL": "vn-season01-20-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-20-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-20-charcoal-grey-s",
+          "M": "vn-season01-20-charcoal-grey-m",
+          "L": "vn-season01-20-charcoal-grey-l",
+          "XL": "vn-season01-20-charcoal-grey-xl",
+          "XXL": "vn-season01-20-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-20-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-20-deep-olive-black-s",
+          "M": "vn-season01-20-deep-olive-black-m",
+          "L": "vn-season01-20-deep-olive-black-l",
+          "XL": "vn-season01-20-deep-olive-black-xl",
+          "XXL": "vn-season01-20-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-20-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-20-bone-black-s",
+          "M": "vn-season01-20-bone-black-m",
+          "L": "vn-season01-20-bone-black-l",
+          "XL": "vn-season01-20-bone-black-xl",
+          "XXL": "vn-season01-20-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-20-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-20-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-20-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-20-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-20-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-20-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-20-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-20-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-20-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-20-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-20-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-20-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-20-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-20-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-20-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Puffer Vest \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Puffer Vest",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Quilted puffer vest; stand collar; chest badge.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 85000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-20-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Puffer Vest \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-21",
+    "slug": "season-01-21-face-cap",
+    "name": "21 Face Cap",
+    "category": "Headwear",
+    "description": "Curved-peak face cap; front V emblem and rear strap wordmark. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 3000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-21-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Jet Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-21-jet-black-one-size"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-21-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Dark Burgundy, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-21-dark-burgundy-one-size"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-21-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Charcoal Grey, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-21-charcoal-grey-one-size"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-21-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-21-deep-olive-black-one-size"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-21-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Bone/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-21-bone-black-one-size"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-21-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-21-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-21-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-21-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-21-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-21-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-21-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-21-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-21-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-21-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-21-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-21-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-21-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-21-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-21-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Face Cap \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Face Cap",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Curved-peak face cap; front V emblem and rear strap wordmark.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "approved",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 30000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-21-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Face Cap \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-22",
+    "slug": "season-01-22-beanie",
+    "name": "22 Beanie",
+    "category": "Headwear",
+    "description": "Ribbed beanie with folded cuff and V emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 2000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-22-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Jet Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-22-jet-black-one-size"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-22-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Dark Burgundy, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-22-dark-burgundy-one-size"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-22-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Charcoal Grey, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-22-charcoal-grey-one-size"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-22-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-22-deep-olive-black-one-size"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-22-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Bone/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-22-bone-black-one-size"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-22-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-22-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-22-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-22-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-22-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-22-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-22-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-22-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-22-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-22-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-22-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-22-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-22-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-22-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-22-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Beanie \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Beanie",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Ribbed beanie with folded cuff and V emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 20000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-22-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Beanie \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-23",
+    "slug": "season-01-23-crossbody-bag",
+    "name": "23 Crossbody Bag",
+    "category": "Bags",
+    "description": "Structured crossbody bag with V badge and adjustable strap. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 3500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-23-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Jet Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-23-jet-black-one-size"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-23-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Dark Burgundy, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-23-dark-burgundy-one-size"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-23-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Charcoal Grey, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-23-charcoal-grey-one-size"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-23-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-23-deep-olive-black-one-size"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-23-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Bone/Black, front view",
+        "stock": {
+          "One size": 0
+        },
+        "variantIds": {
+          "One size": "vn-season01-23-bone-black-one-size"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-23-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-23-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-23-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-23-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-23-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-23-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-23-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-23-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-23-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-23-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-23-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-23-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-23-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-23-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-23-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Crossbody Bag \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Crossbody Bag",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Structured crossbody bag with V badge and adjustable strap.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 35000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-23-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Crossbody Bag \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-24",
+    "slug": "season-01-24-belt",
+    "name": "24 Belt",
+    "category": "Fashion accessories",
+    "description": "Belt with signature V buckle. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 2500000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-24-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Jet Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-24-jet-black-size-pending"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-24-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Dark Burgundy, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-24-dark-burgundy-size-pending"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-24-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Charcoal Grey, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-24-charcoal-grey-size-pending"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-24-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-24-deep-olive-black-size-pending"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-24-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Bone/Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-24-bone-black-size-pending"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-24-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-24-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-24-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-24-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-24-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-24-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-24-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-24-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-24-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-24-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-24-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-24-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-24-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-24-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-24-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Belt \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Belt",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Belt with signature V buckle.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 25000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-24-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Belt \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-25",
+    "slug": "season-01-25-socks",
+    "name": "25 Socks",
+    "category": "Underwear and socks",
+    "description": "Ribbed crew socks with V emblem. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 2000000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-25-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Jet Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-25-jet-black-size-pending"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-25-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Dark Burgundy, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-25-dark-burgundy-size-pending"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-25-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Charcoal Grey, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-25-charcoal-grey-size-pending"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-25-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-25-deep-olive-black-size-pending"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-25-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Bone/Black, front view",
+        "stock": {
+          "Size pending": 0
+        },
+        "variantIds": {
+          "Size pending": "vn-season01-25-bone-black-size-pending"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-25-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-25-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-25-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-25-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-25-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-25-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-25-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-25-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-25-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-25-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-25-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-25-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-25-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-25-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-25-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Socks \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Socks",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Ribbed crew socks with V emblem.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One pair",
+      "availability": "preview",
+      "priceStatus": "approved",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 20000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-25-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Socks \u2014 Jet Black, front view"
+  },
+  {
+    "id": "vn-season01-26",
+    "slug": "season-01-26-boxer-briefs",
+    "name": "26 Boxer Briefs",
+    "category": "Underwear and socks",
+    "description": "Boxer briefs with tonal topographic pattern and branded waistband. Part of the Vanta Noir Season 01 collection.",
+    "priceKobo": 1200000,
+    "color": "Jet Black",
+    "colorways": [
+      {
+        "name": "Jet Black",
+        "slug": "jet-black",
+        "hex": "#171719",
+        "imageUrl": "/images/catalogue/season-26-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Jet Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-26-jet-black-s",
+          "M": "vn-season01-26-jet-black-m",
+          "L": "vn-season01-26-jet-black-l",
+          "XL": "vn-season01-26-jet-black-xl",
+          "XXL": "vn-season01-26-jet-black-xxl"
+        }
+      },
+      {
+        "name": "Dark Burgundy",
+        "slug": "dark-burgundy",
+        "hex": "#541f2d",
+        "imageUrl": "/images/catalogue/season-26-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Dark Burgundy, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-26-dark-burgundy-s",
+          "M": "vn-season01-26-dark-burgundy-m",
+          "L": "vn-season01-26-dark-burgundy-l",
+          "XL": "vn-season01-26-dark-burgundy-xl",
+          "XXL": "vn-season01-26-dark-burgundy-xxl"
+        }
+      },
+      {
+        "name": "Charcoal Grey",
+        "slug": "charcoal-grey",
+        "hex": "#4d4f50",
+        "imageUrl": "/images/catalogue/season-26-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Charcoal Grey, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-26-charcoal-grey-s",
+          "M": "vn-season01-26-charcoal-grey-m",
+          "L": "vn-season01-26-charcoal-grey-l",
+          "XL": "vn-season01-26-charcoal-grey-xl",
+          "XXL": "vn-season01-26-charcoal-grey-xxl"
+        }
+      },
+      {
+        "name": "Deep Olive/Black",
+        "slug": "deep-olive-black",
+        "hex": "#3c402e",
+        "imageUrl": "/images/catalogue/season-26-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Deep Olive/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-26-deep-olive-black-s",
+          "M": "vn-season01-26-deep-olive-black-m",
+          "L": "vn-season01-26-deep-olive-black-l",
+          "XL": "vn-season01-26-deep-olive-black-xl",
+          "XXL": "vn-season01-26-deep-olive-black-xxl"
+        }
+      },
+      {
+        "name": "Bone/Black",
+        "slug": "bone-black",
+        "hex": "#e3d7c4",
+        "imageUrl": "/images/catalogue/season-26-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Bone/Black, front view",
+        "stock": {
+          "S": 0,
+          "M": 0,
+          "L": 0,
+          "XL": 0,
+          "XXL": 0
+        },
+        "variantIds": {
+          "S": "vn-season01-26-bone-black-s",
+          "M": "vn-season01-26-bone-black-m",
+          "L": "vn-season01-26-bone-black-l",
+          "XL": "vn-season01-26-bone-black-xl",
+          "XXL": "vn-season01-26-bone-black-xxl"
+        }
+      }
+    ],
+    "images": [
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-26-jet-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Jet Black, front view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-26-jet-black-back.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Jet Black, back view"
+      },
+      {
+        "color": "Jet Black",
+        "imageUrl": "/images/catalogue/season-26-jet-black-side.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Jet Black, side view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-26-dark-burgundy-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Dark Burgundy, front view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-26-dark-burgundy-back.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Dark Burgundy, back view"
+      },
+      {
+        "color": "Dark Burgundy",
+        "imageUrl": "/images/catalogue/season-26-dark-burgundy-side.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Dark Burgundy, side view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-26-charcoal-grey-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Charcoal Grey, front view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-26-charcoal-grey-back.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Charcoal Grey, back view"
+      },
+      {
+        "color": "Charcoal Grey",
+        "imageUrl": "/images/catalogue/season-26-charcoal-grey-side.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Charcoal Grey, side view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-26-deep-olive-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Deep Olive/Black, front view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-26-deep-olive-black-back.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Deep Olive/Black, back view"
+      },
+      {
+        "color": "Deep Olive/Black",
+        "imageUrl": "/images/catalogue/season-26-deep-olive-black-side.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Deep Olive/Black, side view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-26-bone-black-front.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Bone/Black, front view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-26-bone-black-back.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Bone/Black, back view"
+      },
+      {
+        "color": "Bone/Black",
+        "imageUrl": "/images/catalogue/season-26-bone-black-side.webp",
+        "imageAlt": "Vanta Noir Boxer Briefs \u2014 Bone/Black, side view"
+      }
+    ],
+    "details": {
+      "audience": "unisex",
+      "collection": "Season 01",
+      "garmentType": "Boxer Briefs",
+      "fit": "",
+      "fabric": "",
+      "fabricWeight": "",
+      "features": "Boxer briefs with tonal topographic pattern and branded waistband.",
+      "care": "",
+      "modelSizing": "",
+      "contents": "One item",
+      "availability": "preview",
+      "priceStatus": "proposed",
+      "dispatchNote": "",
+      "shippingWeightGrams": 0,
+      "seoTitle": "",
+      "seoDescription": "",
+      "measurementType": "garment",
+      "sizeNotes": "Final measurements and fit will be confirmed from the approved sample before release.",
+      "sizeGuide": null,
+      "sizeChart": [],
+      "suggestedPriceNgn": 12000
+    },
+    "featured": false,
+    "imageUrl": "/images/catalogue/season-26-jet-black-front.webp",
+    "imageAlt": "Vanta Noir Boxer Briefs \u2014 Jet Black, front view"
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "products": {
+    "p05-3:R5:C1": {
+      "name": "Coach Jacket",
+      "colour": "Jet Black / Platinum",
+      "hex": "#171719",
+      "description": "A relaxed coach jacket with a pointed collar, snap front and slanted welt pockets.",
+      "features": "Pointed collar\nSnap front\nSlanted welt pockets\nGathered cuffs and hem"
+    },
+    "p05-3:R5:C2": {
+      "name": "Rib-collar Bomber Jacket",
+      "colour": "Dark Burgundy / Black",
+      "hex": "#541f2d",
+      "description": "A burgundy bomber with a black rib collar, zipped front and a utility sleeve pocket.",
+      "features": "Ribbed collar, cuffs and hem\nZip front\nSleeve utility pocket"
+    },
+    "p05-3:R5:C3": {
+      "name": "Varsity Jacket",
+      "colour": "Black / Bone",
+      "hex": "#171719",
+      "description": "A varsity jacket with a black body, bone sleeves and striped rib trims.",
+      "features": "Contrast bone sleeves\nStriped rib trims\nSnap front\nContrast welt pockets"
+    },
+    "p05-3:R5:C4": {
+      "name": "Hooded Convertible Shell Jacket",
+      "colour": "Deep Olive / Charcoal",
+      "hex": "#424837",
+      "description": "An olive hooded shell with charcoal panels, a covered front fastening and welt pockets.",
+      "features": "Attached hood\nCharcoal shoulder and side panels\nCovered front fastening\nElastic cuffs"
+    },
+    "p05-3:R5:C5": {
+      "name": "Diamond-quilted Vest",
+      "colour": "Jet Black",
+      "hex": "#171719",
+      "description": "A sleeveless diamond-quilted layer with a pointed collar and snap front.",
+      "features": "Diamond quilt pattern\nSleeveless silhouette\nPointed collar\nSnap front"
+    },
+    "p05-3:R5:A2": {
+      "name": "Contrast-collar Coach Jacket",
+      "colour": "Dark Burgundy / Black",
+      "hex": "#541f2d",
+      "description": "A burgundy coach jacket with a contrasting black pointed collar and snap front.",
+      "features": "Contrast black collar\nSnap front\nSlanted pockets\nGathered cuffs and hem"
+    },
+    "p05-3:R5:A4": {
+      "name": "Snap-front Panel Coach Jacket",
+      "colour": "Bone / Black",
+      "hex": "#ddd5c7",
+      "description": "A bone coach jacket with a matching pointed collar, chest seam and contrasting black snap fastenings.",
+      "features": "Bone pointed collar with black inner facing\nHorizontal chest seam\nSnap front\nBlack pocket openings"
+    },
+    "p05-3:R5:A5": {
+      "name": "Zip-front Carbon Coach Jacket",
+      "colour": "Carbon / Reflective Silver",
+      "hex": "#55575a",
+      "description": "A textured carbon-grey coach jacket with a dark collar, panel seams and zip front.",
+      "features": "Carbon-texture design\nDark pointed collar\nHorizontal chest seam\nZip front"
+    }
+  },
+  "aliases": [
+    {
+      "source_id": "p05-3:R5:A1",
+      "target_source_id": "p05-3:R5:C1",
+      "visually_reviewed": true,
+      "evidence": "Black/platinum palette, pointed collar, snap placket, slant pockets and small chest/sleeve marks match at source resolution."
+    },
+    {
+      "source_id": "p05-3:R5:A3",
+      "target_source_id": "p05-3:R5:C4",
+      "visually_reviewed": true,
+      "evidence": "Olive/charcoal hooded construction, upper chest seam and covered placket match at source resolution. Tiny emblem linework cannot be established from the source."
+    }
+  ]
+}

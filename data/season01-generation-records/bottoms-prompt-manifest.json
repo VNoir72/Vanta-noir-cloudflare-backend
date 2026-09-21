@@ -1,0 +1,227 @@
+[
+  {
+    "style": "11",
+    "color": "jet-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-11-jet-black.png",
+    "prompt": "Precisely recolor the supplied ecommerce jeans triptych. Keep every silhouette, seam, pocket, plain leg, embroidery outline geometry, texture, framing, background, lighting, and front/back/side viewpoint identical. Change ONLY the denim fabric color across ALL THREE views to Jet Black. Jet black washed denim with subtle cream outline embroidered rear-pocket V. Do not add cargo pockets, stripes, panels, logos or copy. Output high resolution landscape3072x1536.",
+    "note": "Recolored from consistent burgundy template to remove design drift; reviewed",
+    "design": "Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.",
+    "colour": "Jet Black"
+  },
+  {
+    "style": "11",
+    "color": "dark-burgundy",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-11-dark-burgundy.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.\nColorway: Dark Burgundy: deep dark wine burgundy main fabric with black accents; preserve pattern in tonal shades",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.",
+    "colour": "Dark Burgundy"
+  },
+  {
+    "style": "11",
+    "color": "charcoal-grey",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-11-charcoal-grey.png",
+    "prompt": "Precisely recolor the supplied ecommerce jeans triptych. Keep every silhouette, seam, pocket, plain leg, embroidery outline geometry, texture, framing, background, lighting, and front/back/side viewpoint identical. Change ONLY the denim fabric color across ALL THREE views to Charcoal Grey. Charcoal grey washed denim with subtle cream outline embroidered rear-pocket V. Do not add cargo pockets, stripes, panels, logos or copy. Output high resolution landscape3072x1536.",
+    "note": "Recolored from consistent burgundy template to remove design drift; reviewed",
+    "design": "Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.",
+    "colour": "Charcoal Grey"
+  },
+  {
+    "style": "11",
+    "color": "deep-olive-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-11-deep-olive-black.png",
+    "prompt": "Precisely recolor the supplied ecommerce jeans triptych. Keep every silhouette, seam, pocket, plain leg, embroidery outline geometry, texture, framing, background, lighting, and front/back/side viewpoint identical. Change ONLY the denim fabric color across ALL THREE views to Deep Olive/Black. Deep olive washed denim with black stitching and black outlined rear-pocket V; no new black panels. Do not add cargo pockets, stripes, panels, logos or copy. Output high resolution landscape3072x1536.",
+    "note": "Recolored from consistent burgundy template to remove design drift; reviewed",
+    "design": "Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.",
+    "colour": "Deep Olive/Black"
+  },
+  {
+    "style": "11",
+    "color": "bone-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-11-bone-black.png",
+    "prompt": "Precisely recolor the supplied ecommerce jeans triptych. Keep every silhouette, seam, pocket, plain leg, embroidery outline geometry, texture, framing, background, lighting, and front/back/side viewpoint identical. Change ONLY the denim fabric color across ALL THREE views to Bone/Black. Warm bone ivory denim, black outline embroidered rear-pocket V and black stitching, no new black panels. Do not add cargo pockets, stripes, panels, logos or copy. Output high resolution landscape3072x1536.",
+    "note": "Recolored from consistent burgundy template to remove design drift; reviewed",
+    "design": "Baggy Denim Jeans: extremely relaxed wide baggy full-length washed denim, five-pocket construction, belt loops, button fly, contrast stitch, subtle worn faded texture. Large outlined angular winged V embroidery centered on rear back pocket, exactly like garment 11 and BACK POCKET detail. Minimal front branding; do not place back pocket logo on front.",
+    "colour": "Bone/Black"
+  },
+  {
+    "style": "12",
+    "color": "jet-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-12-jet-black.png",
+    "prompt": "Precise product recoloring edit. Keep exact supplied triptych construction, pocket count and geometry, seams, silhouettes, textile texture/pattern, logos and their location, composition, background, lighting and three views unchanged. Change ONLY main fabric to Jet Black. Jet black main fabric. No burgundy stripes or accents. NO new panels, pockets, patterns, stripes, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent charcoal template to remove design drift; reviewed",
+    "design": "Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.",
+    "colour": "Jet Black"
+  },
+  {
+    "style": "12",
+    "color": "dark-burgundy",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-12-dark-burgundy.png",
+    "prompt": "Precise product recoloring edit. Keep exact supplied triptych construction, pocket count and geometry, seams, silhouettes, textile texture/pattern, logos and their location, composition, background, lighting and three views unchanged. Change ONLY main fabric to Dark Burgundy. Dark burgundy wine main fabric, black existing pocket flaps. NO new panels, pockets, patterns, stripes, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent charcoal template to remove design drift; reviewed",
+    "design": "Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.",
+    "colour": "Dark Burgundy"
+  },
+  {
+    "style": "12",
+    "color": "charcoal-grey",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-12-charcoal-grey.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.\nFocus exclusively on garment 12. No denim texture or pockets from garment 11. Colorway: Charcoal Grey: charcoal grey main fabric with black accents; preserve texture and pattern in tonal shades",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.",
+    "colour": "Charcoal Grey"
+  },
+  {
+    "style": "12",
+    "color": "deep-olive-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-12-deep-olive-black.png",
+    "prompt": "Precise product recoloring edit. Keep exact supplied triptych construction, pocket count and geometry, seams, silhouettes, textile texture/pattern, logos and their location, composition, background, lighting and three views unchanged. Change ONLY main fabric to Deep Olive/Black. Deep muted olive main fabric, black existing pocket flaps and small existing accent inserts only. NO new panels, pockets, patterns, stripes, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent charcoal template to remove design drift; reviewed",
+    "design": "Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.",
+    "colour": "Deep Olive/Black"
+  },
+  {
+    "style": "12",
+    "color": "bone-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-12-bone-black.png",
+    "prompt": "Precise product recoloring edit. Keep exact supplied triptych construction, pocket count and geometry, seams, silhouettes, textile texture/pattern, logos and their location, composition, background, lighting and three views unchanged. Change ONLY main fabric to Bone/Black. Warm bone main fabric, black existing pocket flaps and small existing accent inserts only. NO new panels, pockets, patterns, stripes, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent charcoal template to remove design drift; reviewed",
+    "design": "Cargo Pants: relaxed straight wide leg full-length structured technical cotton cargo pants, belt-loop waistband, angular diagonal thigh cargo pockets with flap closures, layered utilitarian pocket panel seams and small cream winged V on one cargo flap exactly like garment 12 and POCKET DETAIL.",
+    "colour": "Bone/Black"
+  },
+  {
+    "style": "13",
+    "color": "jet-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-13-jet-black.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Jet Black. Very dark jet black fabric retaining CLEAR visible fine grey vertical broken PINSTRIPES exactly like reference. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.",
+    "colour": "Jet Black"
+  },
+  {
+    "style": "13",
+    "color": "dark-burgundy",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-13-dark-burgundy.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.\nFocus exclusively on garment 13. NO denim or cargo pockets. Colorway: Dark Burgundy: deep dark wine burgundy main fabric with black accents; preserve pattern in tonal shades",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.",
+    "colour": "Dark Burgundy"
+  },
+  {
+    "style": "13",
+    "color": "charcoal-grey",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-13-charcoal-grey.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.\nFocus exclusively on garment 13. NO denim or cargo pockets. Colorway: Charcoal Grey: charcoal grey main fabric with black accents; preserve texture and pattern in tonal shades",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.",
+    "colour": "Charcoal Grey"
+  },
+  {
+    "style": "13",
+    "color": "deep-olive-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-13-deep-olive-black.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.\nFocus exclusively on garment 13. NO denim or cargo pockets. Colorway: Deep Olive/Black: deep muted olive main fabric with black panels and pocket accents; preserve all original panel geometry",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.",
+    "colour": "Deep Olive/Black"
+  },
+  {
+    "style": "13",
+    "color": "bone-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-13-bone-black.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.\nFocus exclusively on garment 13. NO denim or cargo pockets. Colorway: Bone/Black: warm ivory bone main fabric, black accents and black embroidery for readability; preserve all original panel geometry",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Wide-Leg Trousers: tailored loose flowing very wide full-length legs, subtle fine vertical broken pinstripe pattern, high waistband with minimal small VANTA NOIR wordmark tab at rear waistband, pleated front, slant pockets, refined dark tailoring, exactly garment 13.",
+    "colour": "Bone/Black"
+  },
+  {
+    "style": "14",
+    "color": "jet-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-14-jet-black.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.\nFocus exclusively on garment 14. NO cargo pockets, no extra panels, no burgundy stripes. Colorway: Jet Black: jet black base with subtly lighter black texture; retain burgundy stripe accents where reference has them",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.",
+    "colour": "Jet Black"
+  },
+  {
+    "style": "14",
+    "color": "dark-burgundy",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-14-dark-burgundy.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Dark Burgundy. Deep dark burgundy wine fabric. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.",
+    "colour": "Dark Burgundy"
+  },
+  {
+    "style": "14",
+    "color": "charcoal-grey",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-14-charcoal-grey.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Charcoal Grey. Charcoal grey fabric. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.",
+    "colour": "Charcoal Grey"
+  },
+  {
+    "style": "14",
+    "color": "deep-olive-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-14-deep-olive-black.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Deep Olive/Black. Deep olive fabric with black branding and stitching. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.",
+    "colour": "Deep Olive/Black"
+  },
+  {
+    "style": "14",
+    "color": "bone-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-14-bone-black.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Bone/Black. Warm ivory bone fabric with black branding and stitching. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Denim Shorts: relaxed wide knee-length washed denim shorts, classic five pockets, belt loops button zip, contrast stitching, circular VANTA NOIR winged V badge centered on rear back pocket exactly garment 14 BACK POCKET detail; small matching badge front thigh as source. Subtle worn faded denim.",
+    "colour": "Bone/Black"
+  },
+  {
+    "style": "15",
+    "color": "jet-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-15-jet-black.png",
+    "prompt": "Use case: product-mockup. Create a faithful luxury VANTA NOIR Season 01 ecommerce product image from the numbered garment on the supplied collection reference. Reference image is design source only; do not reproduce the board. Output high-resolution 3072x1536 landscape studio triptych, three equal invisible panels, left FRONT view, middle BACK view, right SIDE view of the SAME garment with exact same colorway. Full garment waist to hem uncropped, each view centered in its own third with generous margins for extraction. Invisible ghost mannequin, realistic fabric and construction, light warm grey seamless background and soft even studio light. No human, shoes, other garments, headers, labels, frames, dividers or additional copy. Preserve reference silhouette, branding, patterns and panels. Any old slogan only where it exists changes to 'Presence. Power. Precision.' No extra slogan.\nSubject: Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.\nFocus exclusively on garment 15. NO denim or cargo pockets. Colorway: Jet Black: jet black base with subtly lighter black texture; retain burgundy stripe accents where reference has them",
+    "note": "Built-in imagegen; reviewed",
+    "design": "Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.",
+    "colour": "Jet Black"
+  },
+  {
+    "style": "15",
+    "color": "dark-burgundy",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-15-dark-burgundy.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Dark Burgundy. Deep dark burgundy wine fabric. Preserve EXACT identical burgundy angular stripe shapes in all views, including their positions; keep drawcords black. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.",
+    "colour": "Dark Burgundy"
+  },
+  {
+    "style": "15",
+    "color": "charcoal-grey",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-15-charcoal-grey.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Charcoal Grey. Charcoal grey fabric. Preserve EXACT identical burgundy angular stripe shapes in all views, including their positions; keep drawcords black. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.",
+    "colour": "Charcoal Grey"
+  },
+  {
+    "style": "15",
+    "color": "deep-olive-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-15-deep-olive-black.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Deep Olive/Black. Deep olive fabric with black branding and stitching. Preserve EXACT identical burgundy angular stripe shapes in all views, including their positions; keep drawcords black. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.",
+    "colour": "Deep Olive/Black"
+  },
+  {
+    "style": "15",
+    "color": "bone-black",
+    "path": "/workspace/scratch/69a695bb6954/vd-assets/season-15-bone-black.png",
+    "prompt": "Precise product recoloring edit. Keep supplied triptych exact construction, ALL stripe/pattern geometry, pocket count, seams, silhouettes, textile texture, logos and their position, composition, background and three views unchanged. Change ONLY main fabric to Bone/Black. Warm ivory bone fabric with black branding and stitching. Preserve EXACT identical burgundy angular stripe shapes in all views, including their positions; keep drawcords black. NO new panels, pockets, patterns, logos or text. Full garment unchanged and uncropped. High resolution 3072x1536 landscape.",
+    "note": "Recolored from consistent master to remove design drift; reviewed",
+    "design": "Mesh Shorts: relaxed basketball mesh shorts ending near knees, elastic waist, long black drawcords with tiny VANTA NOIR wordmark, angular dark burgundy velocity stripes/panels preserved across fabric, cream winged V near wearer's left lower leg; exact garment 15 silhouette and branding, breathable perforated mesh.",
+    "colour": "Bone/Black"
+  }
+]

@@ -1,0 +1,852 @@
+{
+  "sourceSpreadsheet": "Vanta-Noir-Product-Catalogue-and-Prices(1).xlsx",
+  "products": [
+    {
+      "productId": "vn-design-01",
+      "name": "Night Wall Oversized T-shirt",
+      "priceRef": "P002",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-01-05-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Bone Ink",
+        "Charcoal / Steel Grey",
+        "Dark Burgundy / Bone",
+        "Deep Olive / Black",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-02",
+      "name": "Concrete Signal Oversized T-shirt",
+      "priceRef": "P002",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-01-05-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Bone",
+        "Burgundy / Black",
+        "Deep Olive / Champagne",
+        "Midnight Navy / Steel"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-03",
+      "name": "After Dark Handstyle Oversized T-shirt",
+      "priceRef": "P002",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-01-05-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Bone",
+        "Charcoal / Silver",
+        "Burgundy / Champagne",
+        "Olive / Bone",
+        "Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-04",
+      "name": "Orbital Wall Map Oversized T-shirt",
+      "priceRef": "P002",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-01-05-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Steel",
+        "Charcoal / Bone",
+        "Bone / Black",
+        "Deep Olive / Silver",
+        "Navy / Champagne"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-05",
+      "name": "Cut-Through Oversized T-shirt",
+      "priceRef": "P002",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-01-05-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / White",
+        "Charcoal / Burgundy",
+        "Burgundy / Bone",
+        "Olive / Black",
+        "Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-06",
+      "name": "Vector Fit Fitted T-shirt",
+      "priceRef": "P001",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-06-10-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Bone",
+        "Burgundy / Black",
+        "Deep Olive / Champagne",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-07",
+      "name": "Second Skin Signal Fitted T-shirt",
+      "priceRef": "P001",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-06-10-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Silver",
+        "Charcoal / Steel",
+        "Bone / Black",
+        "Burgundy / Bone",
+        "Olive / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-08",
+      "name": "After Dark Rib Fitted T-shirt",
+      "priceRef": "P001",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-06-10-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Charcoal",
+        "Charcoal / Black",
+        "Bone / Champagne",
+        "Burgundy / Black",
+        "Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-09",
+      "name": "Street Frame Fitted T-shirt",
+      "priceRef": "P001",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-06-10-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Bone",
+        "Charcoal / Burgundy",
+        "Burgundy / Silver",
+        "Olive / Bone",
+        "Navy / Champagne"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-10",
+      "name": "Cutline Core Fitted T-shirt",
+      "priceRef": "P001",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-06-10-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Silver",
+        "Bone / Black",
+        "Burgundy / Champagne",
+        "Deep Olive / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-11",
+      "name": "Vector Sleeve Long-sleeve T-shirt",
+      "priceRef": "P003",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-11-15-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Bone",
+        "Burgundy / Black",
+        "Deep Olive / Champagne",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-12",
+      "name": "Night Grid Long-sleeve T-shirt",
+      "priceRef": "P003",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-11-15-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Steel",
+        "Charcoal / Silver",
+        "Bone / Black",
+        "Burgundy / Bone",
+        "Olive / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-13",
+      "name": "Double-Layer Signal Long-sleeve T-shirt",
+      "priceRef": "P003",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-11-15-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Bone",
+        "Charcoal / Burgundy",
+        "Burgundy / Silver",
+        "Olive / Champagne",
+        "Navy / Steel"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-14",
+      "name": "After Dark Raglan Long-sleeve T-shirt",
+      "priceRef": "P003",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-11-15-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Bone",
+        "Charcoal / Steel",
+        "Bone / Black",
+        "Burgundy / Champagne",
+        "Deep Olive / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-15",
+      "name": "Street Map Sleeve Long-sleeve T-shirt",
+      "priceRef": "P003",
+      "categoryId": "C01",
+      "source": "Vanta-Noir-11-15-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Bone",
+        "Burgundy / Black",
+        "Olive / Bone",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-16",
+      "name": "Vector Pique Polo",
+      "priceRef": "P004",
+      "categoryId": "C02",
+      "source": "Vanta-Noir-16-20-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Carbon Charcoal / Bone",
+        "Burgundy / Black",
+        "Deep Olive / Champagne",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-17",
+      "name": "Tech Zip Polo",
+      "priceRef": "P004",
+      "categoryId": "C02",
+      "source": "Vanta-Noir-16-20-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Steel",
+        "Charcoal / Silver",
+        "Bone / Black",
+        "Burgundy / Bone",
+        "Olive / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-18",
+      "name": "Panel Court Polo",
+      "priceRef": "P004",
+      "categoryId": "C02",
+      "source": "Vanta-Noir-16-20-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Bone",
+        "Charcoal / Burgundy",
+        "Burgundy / Silver",
+        "Deep Olive / Champagne",
+        "Navy / Steel"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-19",
+      "name": "After Dark Knit Polo",
+      "priceRef": "P007",
+      "categoryId": "C02",
+      "source": "Vanta-Noir-16-20-Front-Back-Side.pdf",
+      "colours": [
+        "Black / Charcoal",
+        "Charcoal / Bone",
+        "Bone / Black",
+        "Burgundy / Champagne",
+        "Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-design-20",
+      "name": "Street Signal Polo",
+      "priceRef": "P004",
+      "categoryId": "C02",
+      "source": "Vanta-Noir-16-20-Front-Back-Side.pdf",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal / Bone",
+        "Burgundy / Black",
+        "Olive / Bone",
+        "Midnight Navy / Silver"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p005",
+      "name": "Shadow Utility Button-Up",
+      "priceRef": "P005",
+      "categoryId": "C02",
+      "source": "Batch 46 Shadow Utility Button-Up",
+      "colours": [
+        "Jet Black / Platinum",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p006",
+      "name": "Motion Rugby Shirt",
+      "priceRef": "P006",
+      "categoryId": "C02",
+      "source": "Technical Motion Board, jersey row",
+      "colours": [
+        "Black / Ivory",
+        "Burgundy / Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p007",
+      "name": "Axis Knit Polo",
+      "priceRef": "P007",
+      "categoryId": "C02",
+      "source": "Batch 51 Axis knit polo",
+      "colours": [
+        "Black / Ivory",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p008",
+      "name": "Baseline Split Basketball Jersey",
+      "priceRef": "P008",
+      "categoryId": "C03",
+      "source": "Batch 31 Baseline split basketball jersey",
+      "colours": [
+        "Jet Black",
+        "Bone / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p009",
+      "name": "Reflective Outline Singlet",
+      "priceRef": "P009",
+      "categoryId": "C04",
+      "source": "Technical Motion Board, sleeveless row",
+      "colours": [
+        "Jet Black",
+        "Bone / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p010",
+      "name": "Mock-Neck Sweatshirt",
+      "priceRef": "P010",
+      "categoryId": "C05",
+      "source": "Premium outerwear board, mock-neck knit layer",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p011",
+      "name": "Shadow Cable Quarter-Zip",
+      "priceRef": "P011",
+      "categoryId": "C06",
+      "source": "Batch 56 Shadow Cable Quarter-Zip",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p012",
+      "name": "Stealth Oversized Hoodie",
+      "priceRef": "P012",
+      "categoryId": "C05",
+      "source": "Existing Stealth set, hoodie only",
+      "colours": [
+        "Jet Black",
+        "Dark Burgundy"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p013",
+      "name": "Cropped Zip Hoodie",
+      "priceRef": "P013",
+      "categoryId": "C05",
+      "source": "Women\u2019s streetwear development board",
+      "colours": [
+        "Charcoal",
+        "Jet Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p014",
+      "name": "Axis Straight Jean",
+      "priceRef": "P014",
+      "categoryId": "C07",
+      "source": "Batch 66 Axis Straight Jean",
+      "colours": [
+        "Washed Black",
+        "Indigo"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p015",
+      "name": "Relaxed Carpenter Jean",
+      "priceRef": "P015",
+      "categoryId": "C07",
+      "source": "Denim workwear board, relaxed carpenter",
+      "colours": [
+        "Washed Black",
+        "Indigo"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p016",
+      "name": "Relaxed Cargo Pant",
+      "priceRef": "P016",
+      "categoryId": "C08",
+      "source": "Technical Motion Board, relaxed cargo",
+      "colours": [
+        "Olive",
+        "Jet Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p017",
+      "name": "Pleated Wide Trouser",
+      "priceRef": "P017",
+      "categoryId": "C08",
+      "source": "Premium outerwear board, pleated trouser",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p018",
+      "name": "Wide-Leg Track Pant",
+      "priceRef": "P018",
+      "categoryId": "C09",
+      "source": "Technical Motion Board, technical bottom",
+      "colours": [
+        "Black / Platinum",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p019",
+      "name": "Motion Mesh Shorts",
+      "priceRef": "P019",
+      "categoryId": "C10",
+      "source": "Technical Motion Board, sleeveless set shorts",
+      "colours": [
+        "Jet Black",
+        "Bone"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p020",
+      "name": "Denim Bermuda Shorts",
+      "priceRef": "P020",
+      "categoryId": "C10",
+      "source": "Denim workwear board, work shorts",
+      "colours": [
+        "Indigo",
+        "Washed Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p021",
+      "name": "Pleated Utility Shorts",
+      "priceRef": "P021",
+      "categoryId": "C10",
+      "source": "Denim workwear board, utility shorts",
+      "colours": [
+        "Jet Black",
+        "Bone"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p022",
+      "name": "Core Swim Shorts",
+      "priceRef": "P022",
+      "categoryId": "C10",
+      "source": "New concept requested for catalogue completion",
+      "colours": [
+        "Jet Black",
+        "Olive"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p024",
+      "name": "Cropped Hoodie and Wide-Leg Set",
+      "priceRef": "P024",
+      "categoryId": "C11",
+      "source": "Women\u2019s sport and streetwear boards",
+      "colours": [
+        "Charcoal",
+        "Jet Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p028",
+      "name": "Motion Sleeveless Short Set",
+      "priceRef": "P028",
+      "categoryId": "C14",
+      "source": "Technical Motion Board, mock-neck set",
+      "colours": [
+        "Jet Black",
+        "Bone / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p029",
+      "name": "Camp-Collar Trouser Set",
+      "priceRef": "P029",
+      "categoryId": "C14",
+      "source": "Unisex batch 01, camp-collar shirt and trousers",
+      "colours": [
+        "Bone",
+        "Jet Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p030",
+      "name": "Trucker Denim Set",
+      "priceRef": "P030",
+      "categoryId": "C14",
+      "source": "Denim workwear board",
+      "colours": [
+        "Indigo",
+        "Washed Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p031",
+      "name": "Contour Activewear Set",
+      "priceRef": "P031",
+      "categoryId": "C15",
+      "source": "Women\u2019s sport development board",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p032",
+      "name": "Motion Hooded Windbreaker",
+      "priceRef": "P032",
+      "categoryId": "C16",
+      "source": "Technical Motion Board, hooded windbreaker",
+      "colours": [
+        "Jet Black",
+        "Deep Olive / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p033",
+      "name": "Motion Stand-Collar Track Jacket",
+      "priceRef": "P033",
+      "categoryId": "C17",
+      "source": "Technical Motion Board, stand-collar set jacket",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p034",
+      "name": "Longline Denim Overshirt",
+      "priceRef": "P034",
+      "categoryId": "C17",
+      "source": "Denim workwear board, overshirt",
+      "colours": [
+        "Washed Black",
+        "Indigo"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p035",
+      "name": "Oversized Trucker Denim Jacket",
+      "priceRef": "P035",
+      "categoryId": "C17",
+      "source": "Denim workwear board, trucker",
+      "colours": [
+        "Indigo",
+        "Washed Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p036",
+      "name": "Core Bomber Jacket",
+      "priceRef": "P036",
+      "categoryId": "C17",
+      "source": "Unisex batch 01, bomber",
+      "colours": [
+        "Jet Black",
+        "Burgundy"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p037",
+      "name": "Court Varsity Jacket",
+      "priceRef": "P037",
+      "categoryId": "C17",
+      "source": "Unisex batch 01, varsity",
+      "colours": [
+        "Black / Ivory",
+        "Burgundy / Black"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p038",
+      "name": "Short Puffer Jacket",
+      "priceRef": "P038",
+      "categoryId": "C17",
+      "source": "Premium outerwear board, short puffer",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p039",
+      "name": "Long Technical Coat",
+      "priceRef": "P039",
+      "categoryId": "C17",
+      "source": "Premium outerwear board, technical coat",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p040",
+      "name": "Boxy Racer Jacket \u2014 Faux Leather",
+      "priceRef": "P040",
+      "categoryId": "C17",
+      "source": "Premium outerwear board, boxy racer; material option pending",
+      "colours": [
+        "Jet Black",
+        "Burgundy"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p041",
+      "name": "Boxy Racer Jacket \u2014 Genuine Leather",
+      "priceRef": "P041",
+      "categoryId": "C17",
+      "source": "Premium outerwear board, boxy racer; material option pending",
+      "colours": [
+        "Jet Black",
+        "Burgundy"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p042",
+      "name": "Apex Checker Cap",
+      "priceRef": "P042",
+      "categoryId": "C18",
+      "source": "New catalogue concept: tonal checkerboard headwear",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p043",
+      "name": "Rib Knit Beanie",
+      "priceRef": "P043",
+      "categoryId": "C18",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p044",
+      "name": "Transit Crossbody Bag",
+      "priceRef": "P044",
+      "categoryId": "C19",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p045",
+      "name": "Technical Backpack",
+      "priceRef": "P045",
+      "categoryId": "C19",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p046",
+      "name": "Transit Gym Duffel",
+      "priceRef": "P046",
+      "categoryId": "C19",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p047",
+      "name": "V Buckle Belt",
+      "priceRef": "P047",
+      "categoryId": "C21",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p048",
+      "name": "Angular Sunglasses",
+      "priceRef": "P048",
+      "categoryId": "C21",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Bone"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p049",
+      "name": "Architectural Crew Socks",
+      "priceRef": "P049",
+      "categoryId": "C20",
+      "source": "Architectural socks pattern direction; new store render",
+      "colours": [
+        "Jet Black",
+        "Bone"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p050",
+      "name": "Topographic Boxer Briefs",
+      "priceRef": "P050",
+      "categoryId": "C20",
+      "source": "Topographic contour pattern direction; new store render",
+      "colours": [
+        "Jet Black",
+        "Charcoal Grey"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p051",
+      "name": "Core Gloves",
+      "priceRef": "P051",
+      "categoryId": "C21",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p052",
+      "name": "Tonal Scarf",
+      "priceRef": "P052",
+      "categoryId": "C21",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Charcoal"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    },
+    {
+      "productId": "vn-p053",
+      "name": "Core Sports Bottle",
+      "priceRef": "P053",
+      "categoryId": "C22",
+      "source": "New catalogue concept",
+      "colours": [
+        "Jet Black",
+        "Bone"
+      ],
+      "approval": "Design preview; proposed price; no confirmed stock"
+    }
+  ],
+  "coreProducts": {
+    "P023": "vn-stealth",
+    "P025": "vn-hooded-performance",
+    "P026": "vn-stand-collar-performance",
+    "P027": "vn-windbreaker"
+  },
+  "scope": "20 individually named designs from the finished 01\u201320 store-image catalogues, plus a representative design for every other spreadsheet product type. This is not a claim that every historical batch has been imported."
+}

@@ -1,0 +1,536 @@
+{
+  "checked_at_utc": "2026-09-20T12:36:10.643662+00:00",
+  "sample_size": 30,
+  "prior_sample_overlap": 0,
+  "files_with_correction_needs": 12,
+  "files_without_major_visible_mismatch": 18,
+  "all_files_have_exactly_three_view_groups": true,
+  "omitted_set_garment_components": 0,
+  "additional_pictured_alternatives": 0,
+  "slogan_audit": {
+    "visual_SPEED_findings": 0,
+    "ocr_files_completed": 30,
+    "ocr_SPEED_findings": 0,
+    "ocr_evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/spot03-ocr.json",
+    "limitation": "OCR cannot certify tiny curved badge lettering; visual review supplements it."
+  },
+  "records": [
+    {
+      "source_id": "p04-3:R5:C1",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-c1.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906812045415865,
+      "reviewed_file_bytes": 1899045,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Varsity shape, contrast sleeves and large back stack retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-3:R5:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906850366095561,
+      "reviewed_file_bytes": 1780126,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Burgundy/black bomber and sleeve utility pocket retained; back inferred.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-3:R5:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906877654609863,
+      "reviewed_file_bytes": 1748266,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Olive coach, snap opening and source back wordmark retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-3:R5:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906901675064127,
+      "reviewed_file_bytes": 1705459,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source side view of bone cropped work jacket has a black wing on upper sleeve. Generated sleeve is plain.",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "omitted_sleeve_art",
+          "visible_mismatch": "Source side view of bone cropped work jacket has a black wing on upper sleeve. Generated sleeve is plain.",
+          "recommended_correction": "Restore the source black upper-sleeve wing; preserve current pockets and bone construction.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-batch-outerwear.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p04-3:R5:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906928611571411,
+      "reviewed_file_bytes": 1813726,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source technical shell shows a pointed fold-down collar in front/side. Render has a substantial hood and stand opening instead.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "hood_added_collar_changed",
+          "visible_mismatch": "Source technical shell shows a pointed fold-down collar in front/side. Render has a substantial hood and stand opening instead.",
+          "recommended_correction": "Replace hood with source pointed collar in all three views; preserve sleeve stripes and black shell.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-batch-outerwear.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p04-3:R5:A5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r5-a5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment01-batch05.json",
+      "reviewed_file_mtime_ns": 1789906780004809962,
+      "reviewed_file_bytes": 1922836,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source carbon/reflective colour garment has a pointed collar; render adds a hood.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "hood_added_collar_changed",
+          "visible_mismatch": "Source carbon/reflective colour garment has a pointed collar; render adds a hood.",
+          "recommended_correction": "Match source pointed collar without hood. Compare sleeve reflective geometry against this specific art panel.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-batch-outerwear.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p03-3:19",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-19.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907514927988630,
+      "reviewed_file_bytes": 1638928,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Crewneck cut and stack retained; source single flat does not explicitly identify front versus back. See ambiguity.",
+      "findings": []
+    },
+    {
+      "source_id": "p03-3:20",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-20.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907515159502754,
+      "reviewed_file_bytes": 2251445,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Patterned overshirt, chest pockets and long sleeves retained; exact motif geometry approximate.",
+      "findings": []
+    },
+    {
+      "source_id": "p03-3:21",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-21.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907515003648548,
+      "reviewed_file_bytes": 1404126,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Coach jacket and small chest wordmark retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p03-3:22",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-22.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907515240835553,
+      "reviewed_file_bytes": 2230515,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source black textured bomber has pale horizontal stripes in ribbed cuffs and bottom hem. Render cuffs/hem are plain black.",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "rib_trim_omitted",
+          "visible_mismatch": "Source black textured bomber has pale horizontal stripes in ribbed cuffs and bottom hem. Render cuffs/hem are plain black.",
+          "recommended_correction": "Restore the source pale cuff and hem rib stripes consistently across views.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-common-outerwear.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p03-3:23",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-23.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907515078074180,
+      "reviewed_file_bytes": 1901365,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Varsity back stack, sleeve badge and striped rib retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p03-3:24",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-24.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907515319638840,
+      "reviewed_file_bytes": 1631579,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source windbreaker visibly has a hood behind its front collar. Generated front/back/side are hoodless with a stand collar.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "hood_omitted",
+          "visible_mismatch": "Source windbreaker visibly has a hood behind its front collar. Generated front/back/side are hoodless with a stand collar.",
+          "recommended_correction": "Restore source hood in all views, maintaining curved pale chest piping.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-common-outerwear.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p04-2:19:ALT:charcoal",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-19-charcoal.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-extras.json",
+      "reviewed_file_mtime_ns": 1789906902455078973,
+      "reviewed_file_bytes": 1791492,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Charcoal horizontal-baffle vest alternative retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-2:23",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-23.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-batch04.json",
+      "reviewed_file_mtime_ns": 1789907168814364992,
+      "reviewed_file_bytes": 1575758,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Asymmetric sling bag, zipper/strap and front branding retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-2:24",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-24.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-batch04.json",
+      "reviewed_file_mtime_ns": 1789906527130479529,
+      "reviewed_file_bytes": 1899832,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Camo tote and circular front badge retained; slogan visually reads Presence.Power.Precision.",
+      "findings": []
+    },
+    {
+      "source_id": "p04-2:25",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-25.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-batch04.json",
+      "reviewed_file_mtime_ns": 1789906639129576406,
+      "reviewed_file_bytes": 1516367,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source TransitForm belt has a sculpted wing-shaped metal buckle with no enclosing rectangular plate. Render uses a rectangular black/silver plaque with a wing logo.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "buckle_identity",
+          "visible_mismatch": "Source TransitForm belt has a sculpted wing-shaped metal buckle with no enclosing rectangular plate. Render uses a rectangular black/silver plaque with a wing logo.",
+          "recommended_correction": "Use the pictured wing-shaped metal buckle; keep belt leather and consistent rear hardware.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-accessories.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p04-2:26",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-26.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-batch04.json",
+      "reviewed_file_mtime_ns": 1789906484759678892,
+      "reviewed_file_bytes": 1880207,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Topographic socks with wing; exactly3 view groups (front pair, back pair, side single).",
+      "findings": []
+    },
+    {
+      "source_id": "p04-2:27:ALT:burgundy",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-27-burgundy.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p04-extras.json",
+      "reviewed_file_mtime_ns": 1789906902463109714,
+      "reviewed_file_bytes": 1641566,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Burgundy topographic boxer briefs and waistband branding retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p06-3:R1:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r1-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row1.json",
+      "reviewed_file_mtime_ns": 1789905616697074683,
+      "reviewed_file_bytes": 1520387,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source rear panelled tracksuit jacket has a hood and black back carrying pale wordmark. Render is hoodless and invents a broad silver stripe across rear with dark wordmark.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "back_construction_and_art",
+          "visible_mismatch": "Source rear panelled tracksuit jacket has a hood and black back carrying pale wordmark. Render is hoodless and invents a broad silver stripe across rear with dark wordmark.",
+          "recommended_correction": "Restore source hood/back construction and black upper-back field with pale wordmark; retain source front silver panel. Check source cropped trouser proportion when reconciling set.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-panel-set.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p06-3:R4:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r4-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row4.json",
+      "reviewed_file_mtime_ns": 1789907239233511588,
+      "reviewed_file_bytes": 1655503,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source cropped boxy shell front has pointed fold-down collar. Render changes it to upright stand collar.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "collar_construction",
+          "visible_mismatch": "Source cropped boxy shell front has pointed fold-down collar. Render changes it to upright stand collar.",
+          "recommended_correction": "Restore source pointed collar, keeping cropped boxy body. Rear collar/hood shape in tiny source is ambiguous; inspect enlarged crop before defining concealed hood.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-sport-shells.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p06-3:R4:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r4-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row4.json",
+      "reviewed_file_mtime_ns": 1789907239237695983,
+      "reviewed_file_bytes": 1698022,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source pullover back uses narrow pale piping around the upper yoke/wordmark. Render adds a broad solid reflective horizontal band across the back.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "back_panel_changed",
+          "visible_mismatch": "Source pullover back uses narrow pale piping around the upper yoke/wordmark. Render adds a broad solid reflective horizontal band across the back.",
+          "recommended_correction": "Restore narrow upper-back yoke outline/piping and remove invented broad rear band; keep source front pocket/band construction.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-sport-shells.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p06-3:R4:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r4-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row4.json",
+      "reviewed_file_mtime_ns": 1789907239242285272,
+      "reviewed_file_bytes": 1771510,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Sleeveless fullzip vest-shell and large rear wing retained; detachable sleeves not separately pictured in source.",
+      "findings": []
+    },
+    {
+      "source_id": "p06-3:R4:A2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r4-a2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row4.json",
+      "reviewed_file_mtime_ns": 1789907239206431610,
+      "reviewed_file_bytes": 1861508,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Plaid hooded shell with consistent front/back/side pattern retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p06-3:R4:A4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r4-a4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row4.json",
+      "reviewed_file_mtime_ns": 1789907239215390156,
+      "reviewed_file_bytes": 1671761,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source bone/black shell has predominantly bone outer sleeves with black angular side/underarm panels and black cuffs. Render makes sleeves predominantly solid black.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "sleeve_colour_block_changed",
+          "visible_mismatch": "Source bone/black shell has predominantly bone outer sleeves with black angular side/underarm panels and black cuffs. Render makes sleeves predominantly solid black.",
+          "recommended_correction": "Restore bone outer sleeves and the source limited black side/underarm panels across all views.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-sport-shells.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p01-2:14",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-14.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789905736621727807,
+      "reviewed_file_bytes": 2308780,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Washed denim trucker and large outline back wing retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p01-2:15",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-15.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789905775568665715,
+      "reviewed_file_bytes": 1890847,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Burgundy-sleeve varsity with chest circle badge, sleeve wordmark and back wordmark retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p01-2:17",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-17.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906341351248590,
+      "reviewed_file_bytes": 1863865,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source leather-look bomber has an upper-sleeve utility pocket with vertical light lettering/detail. Render upper sleeves are plain.",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "sleeve_utility_detail_omitted",
+          "visible_mismatch": "Source leather-look bomber has an upper-sleeve utility pocket with vertical light lettering/detail. Render upper sleeves are plain.",
+          "recommended_correction": "Restore source sleeve utility pocket and its visible light detailing; preserve rib collar and metal chest wing.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-leather-bomber.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p01-2:18",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-18.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906432513201437,
+      "reviewed_file_bytes": 1479465,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Source track jacket shows olive lower torso side inserts beside the pocket area and pale cuff bands. Render front torso sides/cuffs are black, omitting these visible details.",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "lower_side_panels_and_cuff_trim",
+          "visible_mismatch": "Source track jacket shows olive lower torso side inserts beside the pocket area and pale cuff bands. Render front torso sides/cuffs are black, omitting these visible details.",
+          "recommended_correction": "Restore olive lower side-body inserts and pale cuff bands while retaining shoulder/sleeve olive blocks and chest wordmark.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref03-afterhours-lower.png"
+        }
+      ],
+      "resolution": "Corrected replacement inspected by owner against flagged source details."
+    },
+    {
+      "source_id": "p01-2:21",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-21.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906440686638498,
+      "reviewed_file_bytes": 1559730,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Crossbody front stack, strap and pockets retained.",
+      "findings": []
+    },
+    {
+      "source_id": "p01-2:25",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-25.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906341351248590,
+      "reviewed_file_bytes": 1836696,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "observation": "Topographic boxer briefs and waistband branding retained; added small front-leg wing is not apparent in tiny source and should not be treated as source-certified.",
+      "findings": []
+    }
+  ],
+  "source_ambiguities": [
+    {
+      "source_id": "p03-3:19",
+      "note": "Only one crewneck flat is shown. Its high neckline could be a back view, but no front/back label proves it. Render places stack on front; verify intended placement before declaring exact source fidelity."
+    },
+    {
+      "source_id": "p06-3:R1:C3",
+      "note": "Source jacket front reads stand collar while rear clearly shows hood. Preserve both depicted construction features; do not silently flatten source ambiguity into generic stand-collar set."
+    },
+    {
+      "source_id": "p06-3:R4:C3",
+      "note": "Source front has pointed collar; rear rounded collar/hood shape is too small to certify hidden-hood construction."
+    }
+  ],
+  "limitations": [
+    "Bounded sample only, not approval of all assets.",
+    "Exactly3 view groups permits a pair of socks within one front/back group.",
+    "Small raster source is insufficient to certify exact pattern repeat or tiny logo strokes."
+  ]
+}

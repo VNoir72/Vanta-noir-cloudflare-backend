@@ -1,0 +1,422 @@
+{
+  "/images/vanta-hero.png": [
+    {
+      "src": "/images/vanta-hero-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hero-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hero-1600.webp",
+      "width": 1600
+    }
+  ],
+  "/images/vanta-hooded-performance-charcoal-grey-clean.png": [
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hooded-performance-charcoal-grey.png": [
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-charcoal-grey-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hooded-performance-dark-burgundy.png": [
+    {
+      "src": "/images/vanta-hooded-performance-dark-burgundy-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-dark-burgundy-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-dark-burgundy-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hooded-performance-deep-olive-black.png": [
+    {
+      "src": "/images/vanta-hooded-performance-deep-olive-black-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-deep-olive-black-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-deep-olive-black-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hooded-performance-set-clean.png": [
+    {
+      "src": "/images/vanta-hooded-performance-set-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-set-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-set-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hooded-performance-set.png": [
+    {
+      "src": "/images/vanta-hooded-performance-set-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hooded-performance-set-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hooded-performance-set-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-hoodie.png": [
+    {
+      "src": "/images/vanta-hoodie-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-hoodie-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-hoodie-1254.webp",
+      "width": 1254
+    }
+  ],
+  "/images/vanta-light-theme-backdrop.png": [
+    {
+      "src": "/images/vanta-light-theme-backdrop-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-light-theme-backdrop-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-light-theme-backdrop-1600.webp",
+      "width": 1600
+    }
+  ],
+  "/images/vanta-noir-emblem.png": [
+    {
+      "src": "/images/vanta-noir-emblem-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-noir-emblem-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-noir-emblem-1536.webp",
+      "width": 1536
+    }
+  ],
+  "/images/vanta-noir-header-logo.png": [
+    {
+      "src": "/images/vanta-noir-header-logo-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-noir-header-logo-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-noir-header-logo-1600.webp",
+      "width": 1600
+    }
+  ],
+  "/images/vanta-stand-collar-performance-charcoal-grey-clean.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stand-collar-performance-charcoal-grey.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-charcoal-grey-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stand-collar-performance-dark-burgundy.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-dark-burgundy-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-dark-burgundy-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-dark-burgundy-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stand-collar-performance-deep-olive-black.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-deep-olive-black-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-deep-olive-black-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-deep-olive-black-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stand-collar-performance-set-clean.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-set-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-set-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-set-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stand-collar-performance-set.png": [
+    {
+      "src": "/images/vanta-stand-collar-performance-set-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-set-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stand-collar-performance-set-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-charcoal-grey-clean.png": [
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-charcoal-grey.png": [
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-charcoal-grey-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-dark-burgundy.png": [
+    {
+      "src": "/images/vanta-stealth-dark-burgundy-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-dark-burgundy-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-dark-burgundy-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-deep-olive-black.png": [
+    {
+      "src": "/images/vanta-stealth-deep-olive-black-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-deep-olive-black-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-deep-olive-black-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-set-clean.png": [
+    {
+      "src": "/images/vanta-stealth-set-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-set-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-set-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-stealth-set.png": [
+    {
+      "src": "/images/vanta-stealth-set-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-stealth-set-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-stealth-set-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-charcoal-grey-clean.png": [
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-charcoal-grey.png": [
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-charcoal-grey-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-dark-burgundy.png": [
+    {
+      "src": "/images/vanta-windbreaker-dark-burgundy-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-dark-burgundy-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-dark-burgundy-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-deep-olive-black.png": [
+    {
+      "src": "/images/vanta-windbreaker-deep-olive-black-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-deep-olive-black-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-deep-olive-black-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-set-clean.png": [
+    {
+      "src": "/images/vanta-windbreaker-set-clean-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-set-clean-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-set-clean-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker-set.png": [
+    {
+      "src": "/images/vanta-windbreaker-set-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-set-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-set-1122.webp",
+      "width": 1122
+    }
+  ],
+  "/images/vanta-windbreaker.png": [
+    {
+      "src": "/images/vanta-windbreaker-480.webp",
+      "width": 480
+    },
+    {
+      "src": "/images/vanta-windbreaker-960.webp",
+      "width": 960
+    },
+    {
+      "src": "/images/vanta-windbreaker-1254.webp",
+      "width": 1254
+    }
+  ]
+}

@@ -1,0 +1,698 @@
+{
+  "men-top": {
+    "title": "Men\u2019s tops and outerwear",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/mens_tops_alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "chest",
+      "waist"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "chest": [
+          35,
+          37.5
+        ],
+        "waist": [
+          29,
+          32
+        ]
+      },
+      {
+        "size": "M",
+        "chest": [
+          37.5,
+          41
+        ],
+        "waist": [
+          32,
+          35
+        ]
+      },
+      {
+        "size": "L",
+        "chest": [
+          41,
+          44
+        ],
+        "waist": [
+          35,
+          38
+        ]
+      },
+      {
+        "size": "XL",
+        "chest": [
+          44,
+          48.5
+        ],
+        "waist": [
+          38,
+          43
+        ]
+      },
+      {
+        "size": "XXL",
+        "chest": [
+          48.5,
+          53.5
+        ],
+        "waist": [
+          43,
+          47.5
+        ]
+      }
+    ]
+  },
+  "men-bottom": {
+    "title": "Men\u2019s trousers and shorts",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/mens_bottoms_alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "waist": [
+          29,
+          32
+        ],
+        "hip": [
+          35,
+          37.5
+        ]
+      },
+      {
+        "size": "M",
+        "waist": [
+          32,
+          35
+        ],
+        "hip": [
+          37.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "waist": [
+          35,
+          38
+        ],
+        "hip": [
+          41,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "waist": [
+          38,
+          43
+        ],
+        "hip": [
+          44,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "waist": [
+          43,
+          47.5
+        ],
+        "hip": [
+          47,
+          50.5
+        ]
+      }
+    ]
+  },
+  "men-set": {
+    "title": "Men\u2019s matching sets",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/mens_tops_alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "chest",
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "chest": [
+          35,
+          37.5
+        ],
+        "waist": [
+          29,
+          32
+        ],
+        "hip": [
+          35,
+          37.5
+        ]
+      },
+      {
+        "size": "M",
+        "chest": [
+          37.5,
+          41
+        ],
+        "waist": [
+          32,
+          35
+        ],
+        "hip": [
+          37.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "chest": [
+          41,
+          44
+        ],
+        "waist": [
+          35,
+          38
+        ],
+        "hip": [
+          41,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "chest": [
+          44,
+          48.5
+        ],
+        "waist": [
+          38,
+          43
+        ],
+        "hip": [
+          44,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "chest": [
+          48.5,
+          53.5
+        ],
+        "waist": [
+          43,
+          47.5
+        ],
+        "hip": [
+          47,
+          50.5
+        ]
+      }
+    ]
+  },
+  "women-top": {
+    "title": "Women\u2019s tops and outerwear",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/womens-tops-alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "bust",
+      "waist"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "bust": [
+          32.5,
+          35.5
+        ],
+        "waist": [
+          26,
+          29
+        ]
+      },
+      {
+        "size": "M",
+        "bust": [
+          35.5,
+          38
+        ],
+        "waist": [
+          29,
+          31.5
+        ]
+      },
+      {
+        "size": "L",
+        "bust": [
+          38,
+          41
+        ],
+        "waist": [
+          31.5,
+          34.5
+        ]
+      },
+      {
+        "size": "XL",
+        "bust": [
+          41,
+          44.5
+        ],
+        "waist": [
+          34.5,
+          38.5
+        ]
+      },
+      {
+        "size": "XXL",
+        "bust": [
+          44.5,
+          48.5
+        ],
+        "waist": [
+          38.5,
+          42.5
+        ]
+      }
+    ]
+  },
+  "women-bottom": {
+    "title": "Women\u2019s trousers, shorts and skirts",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/womens-bottoms-alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "waist": [
+          26,
+          29
+        ],
+        "hip": [
+          35.5,
+          38.5
+        ]
+      },
+      {
+        "size": "M",
+        "waist": [
+          29,
+          31.5
+        ],
+        "hip": [
+          38.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "waist": [
+          31.5,
+          34.5
+        ],
+        "hip": [
+          41,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "waist": [
+          34.5,
+          38.5
+        ],
+        "hip": [
+          44,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "waist": [
+          38.5,
+          42.5
+        ],
+        "hip": [
+          47,
+          50
+        ]
+      }
+    ]
+  },
+  "women-set": {
+    "title": "Women\u2019s matching sets",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/womens-tops-alpha",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "bust",
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "bust": [
+          32.5,
+          35.5
+        ],
+        "waist": [
+          26,
+          29
+        ],
+        "hip": [
+          35.5,
+          38.5
+        ]
+      },
+      {
+        "size": "M",
+        "bust": [
+          35.5,
+          38
+        ],
+        "waist": [
+          29,
+          31.5
+        ],
+        "hip": [
+          38.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "bust": [
+          38,
+          41
+        ],
+        "waist": [
+          31.5,
+          34.5
+        ],
+        "hip": [
+          41,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "bust": [
+          41,
+          44.5
+        ],
+        "waist": [
+          34.5,
+          38.5
+        ],
+        "hip": [
+          44,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "bust": [
+          44.5,
+          48.5
+        ],
+        "waist": [
+          38.5,
+          42.5
+        ],
+        "hip": [
+          47,
+          50
+        ]
+      }
+    ]
+  },
+  "women-onepiece": {
+    "title": "Women\u2019s dresses and bodysuits",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/womens-skirt-dress",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "bust",
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "bust": [
+          32.5,
+          35.5
+        ],
+        "waist": [
+          26,
+          29
+        ],
+        "hip": [
+          35.5,
+          38.5
+        ]
+      },
+      {
+        "size": "M",
+        "bust": [
+          35.5,
+          38
+        ],
+        "waist": [
+          29,
+          31.5
+        ],
+        "hip": [
+          38.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "bust": [
+          38,
+          41
+        ],
+        "waist": [
+          31.5,
+          34.5
+        ],
+        "hip": [
+          41,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "bust": [
+          41,
+          44.5
+        ],
+        "waist": [
+          34.5,
+          38.5
+        ],
+        "hip": [
+          44,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "bust": [
+          44.5,
+          48.5
+        ],
+        "waist": [
+          38.5,
+          42.5
+        ],
+        "hip": [
+          47,
+          50
+        ]
+      }
+    ]
+  },
+  "men-underwear": {
+    "title": "Men\u2019s boxer briefs",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/underwear",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "waist"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "waist": [
+          28,
+          30
+        ]
+      },
+      {
+        "size": "M",
+        "waist": [
+          32,
+          34
+        ]
+      },
+      {
+        "size": "L",
+        "waist": [
+          36,
+          38
+        ]
+      },
+      {
+        "size": "XL",
+        "waist": [
+          40,
+          42
+        ]
+      },
+      {
+        "size": "XXL",
+        "waist": [
+          44,
+          46
+        ]
+      }
+    ]
+  },
+  "women-underwear": {
+    "title": "Women\u2019s briefs",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/underwear",
+    "checked": "2026-09-20",
+    "measurementType": "body circumference",
+    "sourceUnit": "in",
+    "fields": [
+      "waist",
+      "hip"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "waist": [
+          26.5,
+          29
+        ],
+        "hip": [
+          36,
+          38
+        ]
+      },
+      {
+        "size": "M",
+        "waist": [
+          29.5,
+          31.5
+        ],
+        "hip": [
+          38.5,
+          41
+        ]
+      },
+      {
+        "size": "L",
+        "waist": [
+          32,
+          34.5
+        ],
+        "hip": [
+          41.5,
+          44
+        ]
+      },
+      {
+        "size": "XL",
+        "waist": [
+          35,
+          38
+        ],
+        "hip": [
+          44.5,
+          47
+        ]
+      },
+      {
+        "size": "XXL",
+        "waist": [
+          38.5,
+          42.5
+        ],
+        "hip": [
+          47.5,
+          50.5
+        ]
+      }
+    ]
+  },
+  "women-bra": {
+    "title": "Women\u2019s sports bras and bralettes",
+    "brand": "Nike",
+    "sourceUrl": "https://www.nike.com/size-fit/womens-bras",
+    "checked": "2026-09-20",
+    "measurementType": "bra band and cup",
+    "sourceUnit": "US bra size",
+    "fields": [
+      "bandCup"
+    ],
+    "rows": [
+      {
+        "size": "S",
+        "bandCup": "32C\u201332E / 34A\u201334C"
+      },
+      {
+        "size": "M",
+        "bandCup": "34D\u201334E / 36A\u201336C"
+      },
+      {
+        "size": "L",
+        "bandCup": "36D\u201336E / 38A\u201338C"
+      },
+      {
+        "size": "XL",
+        "bandCup": "38D\u201338E / 40A\u201340C"
+      },
+      {
+        "size": "XXL",
+        "bandCup": "40D\u201340E / 42A\u201342C"
+      }
+    ]
+  }
+}

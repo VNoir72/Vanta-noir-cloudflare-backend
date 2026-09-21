@@ -1,0 +1,347 @@
+[
+  {
+    "id": "vn-pdf-p04-3-r3-a2",
+    "oldName": "Mens Shirt — Charcoal Broken Pinstripe",
+    "oldCategory": "Shirts and polos",
+    "oldDescription": "Mens Shirt — Charcoal Broken Pinstripe from the Vanta Noir Mens Batch 01 collection.",
+    "name": "Charcoal pinstripe short-sleeve pocket shirt",
+    "category": "Shirts and polos",
+    "description": "Charcoal pinstripe short-sleeve pocket shirt. Based on the supplied VD.pdf reference p04-3-r3-a2. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Mens Shirt — Charcoal Broken Pinstripe",
+        "value": "Charcoal pinstripe short-sleeve pocket shirt"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One shirt"
+      },
+      "features": {
+        "old": null,
+        "value": "Charcoal pinstripe short-sleeve pocket shirt\nMens Batch 01\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p05-3-r1-c4",
+    "oldName": "Split-panel Tee",
+    "oldCategory": "T-shirts",
+    "oldDescription": "Split-panel Tee from the Vanta Noir Unisex Batch 01 collection.",
+    "name": "Round-neck short-sleeve split-panel tee",
+    "category": "T-shirts",
+    "description": "Round-neck short-sleeve split-panel tee. Based on the supplied VD.pdf reference p05-3-r1-c4. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Split-panel Tee",
+        "value": "Round-neck short-sleeve split-panel tee"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One top"
+      },
+      "features": {
+        "old": null,
+        "value": "Round-neck short-sleeve split-panel tee\nUnisex Batch 01\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r3-a2",
+    "oldName": "Charcoal grid knit top",
+    "oldCategory": "Knitwear",
+    "oldDescription": "Charcoal grid knit top. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R3:A2. Front, back and side design views shown.",
+    "name": "Charcoal grid long-sleeve mock-neck knit top",
+    "category": "Knitwear",
+    "description": "Charcoal grid long-sleeve mock-neck knit top. Based on the supplied VD.pdf reference p09-2-r3-a2. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Charcoal grid knit top",
+        "value": "Charcoal grid long-sleeve mock-neck knit top"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One top"
+      },
+      "features": {
+        "old": "Charcoal grid knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Charcoal grid long-sleeve mock-neck knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r3-a5",
+    "oldName": "Navy ribbed knit top",
+    "oldCategory": "Knitwear",
+    "oldDescription": "Navy ribbed knit top. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R3:A5. Front, back and side design views shown.",
+    "name": "Navy long-sleeve mock-neck rib knit top",
+    "category": "Knitwear",
+    "description": "Navy long-sleeve mock-neck rib knit top. Based on the supplied VD.pdf reference p09-2-r3-a5. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Navy ribbed knit top",
+        "value": "Navy long-sleeve mock-neck rib knit top"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One top"
+      },
+      "features": {
+        "old": "Navy ribbed knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Navy long-sleeve mock-neck rib knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r4-a2",
+    "oldName": "Charcoal pinstripe blazer and wide shorts",
+    "oldCategory": "Casual and denim sets",
+    "oldDescription": "Charcoal pinstripe blazer and wide shorts. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R4:A2. Front, back and side design views shown.",
+    "name": "Charcoal belted pinstripe blazer mini dress",
+    "category": "Dresses",
+    "description": "Charcoal belted pinstripe blazer mini dress. Based on the supplied VD.pdf reference p09-2-r4-a2. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Charcoal pinstripe blazer and wide shorts",
+        "value": "Charcoal belted pinstripe blazer mini dress"
+      },
+      "contents": {
+        "old": "Complete set",
+        "value": "One dress with belt"
+      },
+      "features": {
+        "old": "Charcoal pinstripe blazer and wide shorts\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Charcoal belted pinstripe blazer mini dress\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r4-a3",
+    "oldName": "Burgundy cropped blazer and tailored shorts",
+    "oldCategory": "Casual and denim sets",
+    "oldDescription": "Burgundy cropped blazer and tailored shorts. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R4:A3. Front, back and side design views shown.",
+    "name": "Burgundy belted double-breasted coat mini dress",
+    "category": "Dresses",
+    "description": "Burgundy belted double-breasted coat mini dress. Based on the supplied VD.pdf reference p09-2-r4-a3. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Burgundy cropped blazer and tailored shorts",
+        "value": "Burgundy belted double-breasted coat mini dress"
+      },
+      "contents": {
+        "old": "Complete set",
+        "value": "One dress with belt"
+      },
+      "features": {
+        "old": "Burgundy cropped blazer and tailored shorts\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Burgundy belted double-breasted coat mini dress\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r3-a4",
+    "oldName": "Olive ribbed knit top",
+    "oldCategory": "Knitwear",
+    "oldDescription": "Olive ribbed knit top. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R3:A4. Front, back and side design views shown.",
+    "name": "Olive long-sleeve mock-neck rib knit top",
+    "category": "Knitwear",
+    "description": "Olive long-sleeve mock-neck rib knit top. Based on the supplied VD.pdf reference p09-2-r3-a4. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Olive ribbed knit top",
+        "value": "Olive long-sleeve mock-neck rib knit top"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One top"
+      },
+      "features": {
+        "old": "Olive ribbed knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Olive long-sleeve mock-neck rib knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r3-a3",
+    "oldName": "Burgundy quarter-zip knit top",
+    "oldCategory": "Knitwear",
+    "oldDescription": "Burgundy quarter-zip knit top. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R3:A3. Front, back and side design views shown.",
+    "name": "Burgundy long-sleeve quarter-zip knit top",
+    "category": "Knitwear",
+    "description": "Burgundy long-sleeve quarter-zip knit top. Based on the supplied VD.pdf reference p09-2-r3-a3. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Burgundy quarter-zip knit top",
+        "value": "Burgundy long-sleeve quarter-zip knit top"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One top"
+      },
+      "features": {
+        "old": "Burgundy quarter-zip knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Burgundy long-sleeve quarter-zip knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r4-a4",
+    "oldName": "Bone cropped blazer and tailored shorts",
+    "oldCategory": "Casual and denim sets",
+    "oldDescription": "Bone cropped blazer and tailored shorts. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R4:A4. Front, back and side design views shown.",
+    "name": "Bone cropped double-breasted jacket and A-line mini skirt",
+    "category": "Casual and denim sets",
+    "description": "Bone cropped double-breasted jacket and A-line mini skirt. Based on the supplied VD.pdf reference p09-2-r4-a4. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Bone cropped blazer and tailored shorts",
+        "value": "Bone cropped double-breasted jacket and A-line mini skirt"
+      },
+      "contents": {
+        "old": "Complete set",
+        "value": "Jacket and mini skirt"
+      },
+      "features": {
+        "old": "Bone cropped blazer and tailored shorts\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Bone cropped double-breasted jacket and A-line mini skirt\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r4-a5",
+    "oldName": "Navy knit jacket and tailored shorts",
+    "oldCategory": "Casual and denim sets",
+    "oldDescription": "Navy knit jacket and tailored shorts. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R4:A5. Front, back and side design views shown.",
+    "name": "Navy zip jacket and tailored shorts",
+    "category": "Casual and denim sets",
+    "description": "Navy zip jacket and tailored shorts. Based on the supplied VD.pdf reference p09-2-r4-a5. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Navy knit jacket and tailored shorts",
+        "value": "Navy zip jacket and tailored shorts"
+      },
+      "contents": {
+        "old": "Complete set",
+        "value": "Jacket and shorts"
+      },
+      "features": {
+        "old": "Navy knit jacket and tailored shorts\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Navy zip jacket and tailored shorts\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r5-c3",
+    "oldName": "Quilted bomber",
+    "oldCategory": "Jackets and coats",
+    "oldDescription": "Quilted bomber. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R5:C3. Front, back and side design views shown.",
+    "name": "Olive camo quilted bomber jacket",
+    "category": "Jackets and coats",
+    "description": "Olive camo quilted bomber jacket. Based on the supplied VD.pdf reference p09-2-r5-c3. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Quilted bomber",
+        "value": "Olive camo quilted bomber jacket"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One jacket"
+      },
+      "features": {
+        "old": "Quilted bomber\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Olive camo quilted bomber jacket\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r3-a1",
+    "oldName": "Black and ivory knit top",
+    "oldCategory": "Casual and denim sets",
+    "oldDescription": "Black and ivory knit top. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R3:A1. Front, back and side design views shown.",
+    "name": "Black ivory-trim long-sleeve crew-neck knit top",
+    "category": "Knitwear",
+    "description": "Black ivory-trim long-sleeve crew-neck knit top. Based on the supplied VD.pdf reference p09-2-r3-a1. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Black and ivory knit top",
+        "value": "Black ivory-trim long-sleeve crew-neck knit top"
+      },
+      "contents": {
+        "old": "Complete set",
+        "value": "One top"
+      },
+      "features": {
+        "old": "Black and ivory knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Black ivory-trim long-sleeve crew-neck knit top\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r5-a5",
+    "oldName": "Puffer / insulated — Bone",
+    "oldCategory": "Jackets and coats",
+    "oldDescription": "Puffer / insulated — Bone. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R5:A5. Front, back and side design views shown.",
+    "name": "Bone cropped hooded shell jacket",
+    "category": "Jackets and coats",
+    "description": "Bone cropped hooded shell jacket. Based on the supplied VD.pdf reference p09-2-r5-a5. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Puffer / insulated — Bone",
+        "value": "Bone cropped hooded shell jacket"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One jacket"
+      },
+      "features": {
+        "old": "Puffer / insulated — Bone\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Bone cropped hooded shell jacket\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p15-3-r2-c3",
+    "oldName": "Fitted overshirt",
+    "oldCategory": "Jackets and coats",
+    "oldDescription": "Fitted overshirt. Based on Womens Denim & Workwear — Batch 3, supplied VD.pdf reference p15-3:R2:C3. Front, back and side design views shown.",
+    "name": "Fitted long-sleeve button-front denim overshirt",
+    "category": "Shirts and polos",
+    "description": "Fitted long-sleeve button-front denim overshirt. Based on the supplied VD.pdf reference p15-3-r2-c3. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Fitted overshirt",
+        "value": "Fitted long-sleeve button-front denim overshirt"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One shirt"
+      },
+      "features": {
+        "old": "Fitted overshirt\nWomens Denim & Workwear — Batch 3\nFront, back and side design views",
+        "value": "Fitted long-sleeve button-front denim overshirt\nWomens Denim & Workwear — Batch 3\nFront, back and side design views"
+      }
+    }
+  },
+  {
+    "id": "vn-pdf-p09-2-r5-a2",
+    "oldName": "Puffer / insulated — Charcoal",
+    "oldCategory": "Jackets and coats",
+    "oldDescription": "Puffer / insulated — Charcoal. Based on Batch 5 — Womens Elevated Street & Outerwear, supplied VD.pdf reference p09-2:R5:A2. Front, back and side design views shown.",
+    "name": "Charcoal cropped hooded puffer jacket",
+    "category": "Jackets and coats",
+    "description": "Charcoal cropped hooded puffer jacket. Based on the supplied VD.pdf reference p09-2-r5-a2. Front, back and side design views shown.",
+    "detailFields": {
+      "garmentType": {
+        "old": "Puffer / insulated — Charcoal",
+        "value": "Charcoal cropped hooded puffer jacket"
+      },
+      "contents": {
+        "old": "One item",
+        "value": "One jacket"
+      },
+      "features": {
+        "old": "Puffer / insulated — Charcoal\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views",
+        "value": "Charcoal cropped hooded puffer jacket\nBatch 5 — Womens Elevated Street & Outerwear\nFront, back and side design views"
+      }
+    }
+  }
+]

@@ -1,0 +1,973 @@
+[
+  {
+    "product_id": "vn-pdf-p04-3-r3-a2",
+    "source_board": "p04-3.png",
+    "source_crop": "row 3, colourway/pattern panel 2",
+    "issue": "Board has a flap chest pocket; current image omits it.",
+    "correction_brief": "Restore source charcoal pinstripe shirt pocket; retain full button front and short sleeves. Do not use pocketless shirt image as its construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p04-3-r3-a2-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p04-3.png",
+    "sourceBounds": [
+      1227,
+      448,
+      1334,
+      562
+    ],
+    "oldURLs": [
+      "/images/catalogue/pdf-p04-3-r3-a2-back.webp",
+      "/images/catalogue/pdf-p04-3-r3-a2-front.webp",
+      "/images/catalogue/pdf-p04-3-r3-a2-side.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Men's charcoal broken-pinstripe full-button short-sleeve shirt, pointed collar, straight hip hem, ONE flap pocket on wearer's left chest (right in front image) with small Vanta Noir wing mark above pocket. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-1f6dda76-14ca-4db8-a9b9-64312557c440.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p04-3-r3-a2-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          654,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p04-3-r3-a2-corrected-back.webp",
+        "bounds": [
+          654,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p04-3-r3-a2-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p04-3-r3-a2.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r3-a1",
+    "source_board": "p09-2.png",
+    "source_crop": "row 3, colourway/pattern panel 1",
+    "issue": "Current image shows a dress instead of source A-panel knit top (and A3/A4 also wrong sleeve/neck construction).",
+    "correction_brief": "Long-sleeve crew-neck fitted hip-length knit TOP, black with ivory neck/cuffs/hem. Match right-hand source panel, not neighboring C construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a1-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1009,
+      402,
+      1112,
+      548
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r3-a1-ee3682ca97-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted hip-length long-sleeve black ribbed knit TOP, round crew neck with ivory edging, ivory cuff bands and wide ivory hem band. Small ivory wing logo wearer's left chest. This ends at HIP, not a dress. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-c8d61459-19f7-4f4b-a0ed-ec3cf88870b5.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a1-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a1-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a1-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r3-a1.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r3-a2",
+    "source_board": "p09-2.png",
+    "source_crop": "row 3, colourway/pattern panel 2",
+    "issue": "Current image shows a dress instead of source A-panel knit top (and A3/A4 also wrong sleeve/neck construction).",
+    "correction_brief": "Long-sleeve mock-neck fitted hip-length knit TOP in charcoal windowpane grid. Match right-hand source panel, not neighboring C construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a2-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1112,
+      402,
+      1216,
+      548
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r3-a2-88c02cde31-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted hip-length long-sleeve charcoal windowpane grid knit TOP, high mock neck, small ivory wing chest logo and cuff marks. Ends at HIP, not a dress. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-eb0307eb-6157-48c8-a3c6-e2a0b975753d.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a2-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a2-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a2-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r3-a2.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r3-a3",
+    "source_board": "p09-2.png",
+    "source_crop": "row 3, colourway/pattern panel 3",
+    "issue": "Current image shows a dress instead of source A-panel knit top (and A3/A4 also wrong sleeve/neck construction).",
+    "correction_brief": "Long-sleeve quarter-zip collared fitted hip-length knit TOP in burgundy. Match right-hand source panel, not neighboring C construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a3-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1216,
+      402,
+      1320,
+      548
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r3-a3-4aebb27cda-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted hip-length long-sleeve deep burgundy ribbed knit TOP with small stand/mock collar and short quarter-zip neck opening as reference. Small ivory wing on left chest, small cuff emblems. Not a dress, no short sleeves. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-7f2377bf-73da-4196-aef5-b3234598e47a.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a3-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          661,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a3-corrected-back.webp",
+        "bounds": [
+          661,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a3-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r3-a3.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r3-a4",
+    "source_board": "p09-2.png",
+    "source_crop": "row 3, colourway/pattern panel 4",
+    "issue": "Current image shows a dress instead of source A-panel knit top (and A3/A4 also wrong sleeve/neck construction).",
+    "correction_brief": "Long-sleeve mock-neck fitted hip-length ribbed knit TOP in olive. Match right-hand source panel, not neighboring C construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a4-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1320,
+      402,
+      1424,
+      548
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r3-a4-4f7f12c4e1-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted hip-length long-sleeve deep olive ribbed knit TOP, close mock neck, small ivory wing left chest and cuff logos. Not sleeveless, not a dress. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-1e75d552-9aa7-4d21-8772-b44825e9fb53.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "refinementPrompt": "Use case: precise-object-edit. Image1 is edit target; image2 source reference. Correct only neck opening on all three views to a continuous plain CLOSED MOCK NECK pullover. REMOVE all buttons, zippers, and front plackets, continue matching vertical knit ribs seamlessly across that former opening. Keep hip length, long sleeves, fitted silhouette, colour and wing logo unchanged. Retain entire triptych, three full complete separated front/back/right-side views with neutral grey background. No labels or added elements.",
+    "firstGeneratedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-ccbfc31c-3b4c-47cd-a444-988a9a91dc0b.png",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a4-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          640,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a4-corrected-back.webp",
+        "bounds": [
+          640,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a4-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r3-a4.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r3-a5",
+    "source_board": "p09-2.png",
+    "source_crop": "row 3, colourway/pattern panel 5",
+    "issue": "Current image shows a dress instead of source A-panel knit top (and A3/A4 also wrong sleeve/neck construction).",
+    "correction_brief": "Long-sleeve mock-neck fitted hip-length ribbed knit TOP in navy. Match right-hand source panel, not neighboring C construction.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a5-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1424,
+      402,
+      1528,
+      548
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r3-a5-01ed312d61-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted hip-length long-sleeve midnight navy ribbed knit TOP, close mock neck, small ivory wing chest and cuff logos. Not a dress. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-1aa93abc-85f6-4ca1-9441-20fd96c5133a.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "refinementPrompt": "Use case: precise-object-edit. Image1 is edit target; image2 source reference. Correct only neck opening on all three views to a continuous plain CLOSED MOCK NECK pullover. REMOVE all buttons, zippers, and front plackets, continue matching vertical knit ribs seamlessly across that former opening. Keep hip length, long sleeves, fitted silhouette, colour and wing logo unchanged. Retain entire triptych, three full complete separated front/back/right-side views with neutral grey background. No labels or added elements.",
+    "firstGeneratedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-5661d208-a945-4df9-aa68-1e8d6b599820.png",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a5-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a5-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r3-a5-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r3-a5.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r4-a2",
+    "source_board": "p09-2.png",
+    "source_crop": "row 4, colourway/pattern panel 2",
+    "issue": "Current catalogue image includes long trousers; source right-hand A panel shows a short coordinated look.",
+    "correction_brief": "Rebuild exact right-hand row 4 panel 2: keep its own top construction and short bottom; do not borrow long-trouser C-panel image. Retain separate charts until corrected.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a2-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1112,
+      548,
+      1216,
+      706
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r4-a2-b39933d1a1-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's charcoal pinstripe belted longline blazer MINI DRESS exactly as reference: notch lapels, long sleeves, fitted waist with belt, flap hip pockets, short upper-thigh hem. No separate long trousers. Wing left chest. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-dd705fca-5e40-41ed-b0ee-1c6332e0f042.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a2-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          560,
+          1024
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a2-corrected-back.webp",
+        "bounds": [
+          560,
+          0,
+          1129,
+          1024
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a2-corrected-side.webp",
+        "bounds": [
+          1129,
+          0,
+          1536,
+          1024
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r4-a2.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r4-a3",
+    "source_board": "p09-2.png",
+    "source_crop": "row 4, colourway/pattern panel 3",
+    "issue": "Current catalogue image includes long trousers; source right-hand A panel shows a short coordinated look.",
+    "correction_brief": "Rebuild exact right-hand row 4 panel 3: keep its own top construction and short bottom; do not borrow long-trouser C-panel image. Retain separate charts until corrected.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a3-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1216,
+      548,
+      1320,
+      706
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r4-a3-bb263660eb-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's deep burgundy belted double-breasted short COAT DRESS exactly as reference: notch lapels, long sleeves, gold-toned buttons and rectangular belt buckle, flared short upper-thigh hem, ivory wing chest/cuffs. No trousers. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-9d5ccce6-0da9-47d6-bd75-324761a2dfc2.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a3-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a3-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a3-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r4-a3.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r4-a4",
+    "source_board": "p09-2.png",
+    "source_crop": "row 4, colourway/pattern panel 4",
+    "issue": "Current catalogue image includes long trousers; source right-hand A panel shows a short coordinated look.",
+    "correction_brief": "Rebuild exact right-hand row 4 panel 4: keep its own top construction and short bottom; do not borrow long-trouser C-panel image. Retain separate charts until corrected.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a4-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1320,
+      548,
+      1424,
+      706
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r4-a4-0d68eab932-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's bone coordinated cropped double-breasted blazer jacket and matching short A-line pleated MINI SKIRT exactly as reference. Long sleeves, four dark front buttons, narrow dark waist accent, small chest and cuff wing branding. No long trousers. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-1a3c3edb-a48c-4a0e-8eb3-af3293dc80de.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a4-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          561,
+          1024
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a4-corrected-back.webp",
+        "bounds": [
+          561,
+          0,
+          1129,
+          1024
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a4-corrected-side.webp",
+        "bounds": [
+          1129,
+          0,
+          1536,
+          1024
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r4-a4.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r4-a5",
+    "source_board": "p09-2.png",
+    "source_crop": "row 4, colourway/pattern panel 5",
+    "issue": "Current catalogue image includes long trousers; source right-hand A panel shows a short coordinated look.",
+    "correction_brief": "Rebuild exact right-hand row 4 panel 5: keep its own top construction and short bottom; do not borrow long-trouser C-panel image. Retain separate charts until corrected.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a5-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1424,
+      548,
+      1528,
+      706
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r4-a5-f45c54a9d2-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's navy coordinated fitted long-sleeve stand-collar zip jacket and matching tailored SHORTS exactly as reference. White slim piping down center zipper and waistband, ivory wing left chest and cuff marks. No long trousers. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-20fb63bd-56f4-4802-8e86-dce1ae83de1e.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a5-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a5-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r4-a5-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r4-a5.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r5-a2",
+    "source_board": "p09-2.png",
+    "source_crop": "row 5, colourway/pattern panel 2",
+    "issue": "Current image invents matching insulated trousers absent from source.",
+    "correction_brief": "Show only cropped hooded puffer jacket as right-hand row 5 panel 2, with correct quilt channels/colour and no trousers.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a2-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1112,
+      706,
+      1216,
+      825
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r5-a2-9b4bda2e34-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's charcoal grey CROPPED HOODED PUFFER JACKET only, exact source quilt-channel spacing, full zip, long sleeves, wing chest logo and cuff patch; no trousers or other garment. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-891eb29e-0819-49af-90d4-05ed6303fc1e.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a2-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          665,
+          864
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a2-corrected-back.webp",
+        "bounds": [
+          665,
+          0,
+          1338,
+          864
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a2-corrected-side.webp",
+        "bounds": [
+          1338,
+          0,
+          1821,
+          864
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r5-a2.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r5-a5",
+    "source_board": "p09-2.png",
+    "source_crop": "row 5, colourway/pattern panel 5",
+    "issue": "Current image invents matching insulated trousers absent from source.",
+    "correction_brief": "Show only cropped hooded puffer jacket as right-hand row 5 panel 5, with correct quilt channels/colour and no trousers.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a5-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      1424,
+      706,
+      1528,
+      825
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r5-a5-926ffb0068-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's bone ivory CROPPED HOODED insulated SHELL JACKET only, smooth fabric panels like source (do not invent inflated horizontal quilting), black center zip, vertical pocket zips, small chest wing and lower/cuff wing marks. No trousers. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-726e59a0-00cc-4d90-b4bc-0e62557fb853.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a5-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          648,
+          887
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a5-corrected-back.webp",
+        "bounds": [
+          648,
+          0,
+          1304,
+          887
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-a5-corrected-side.webp",
+        "bounds": [
+          1304,
+          0,
+          1774,
+          887
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r5-a5.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p09-2-r5-c3",
+    "source_board": "p09-2.png",
+    "source_crop": "row 5, construction panel 3",
+    "issue": "Current image invents full camo trouser set for Quilted bomber.",
+    "correction_brief": "Recreate source C3 camo quilted bomber only, rib/stand collar, no hood and no trouser.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-c3-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p09-2.png",
+    "sourceBounds": [
+      505,
+      706,
+      672,
+      825
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p09-2-r5-c3-af0cb37b1d-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's olive-and-black CAMO QUILTED BOMBER JACKET only, ribbed stand collar, no hood, full zip, long sleeves, black rib cuffs/hem, small ivory wing chest and larger wing back per source. No trousers. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-632bd582-d37c-468c-98d7-26be19011b9f.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-c3-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          682,
+          866
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-c3-corrected-back.webp",
+        "bounds": [
+          682,
+          0,
+          1350,
+          866
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p09-2-r5-c3-corrected-side.webp",
+        "bounds": [
+          1350,
+          0,
+          1817,
+          866
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p09-2-r5-c3.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p15-3-r2-c3",
+    "source_board": "p15-3.png",
+    "source_crop": "row 2, construction panel 3",
+    "issue": "Named fitted overshirt is shown as wrap denim top.",
+    "correction_brief": "Restore source row 2 C3 fitted long-sleeve button-front denim overshirt; C4 wrap construction is distinct.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p15-3-r2-c3-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p15-3.png",
+    "sourceBounds": [
+      365,
+      321,
+      472,
+      455
+    ],
+    "oldURLs": [
+      "/images/catalogue/resumed-p15-3-r2-c3-233a137885-views.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Women's fitted faded-indigo long-sleeve button-front DENIM OVERSHIRT: pointed collar, two chest pockets, small ivory wing above wearer's left pocket, shaped waist, curved hip-length shirttail hem, metal buttons, turn-back cuffs. Not a wrap top; no waist tie. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-762f8be5-056c-403c-96f4-bd83a2425324.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p15-3-r2-c3-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          576,
+          1024
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p15-3-r2-c3-corrected-back.webp",
+        "bounds": [
+          576,
+          0,
+          1150,
+          1024
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p15-3-r2-c3-corrected-side.webp",
+        "bounds": [
+          1150,
+          0,
+          1536,
+          1024
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p15-3-r2-c3.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  },
+  {
+    "product_id": "vn-pdf-p05-3-r1-c4",
+    "source_board": "p05-3.png",
+    "source_crop": "row 1, construction panel 4",
+    "issue": "Split-panel tee currently has polo collar and placket.",
+    "correction_brief": "Restore round-neck short-sleeve split-panel tee from C4 source; no collar/placket.",
+    "requires_new_asset": true,
+    "referencePath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p05-3-r1-c4-reference.png",
+    "sourceBoardPath": "/workspace/scratch/b58a6b3f1479/references/vd-boards/p05-3.png",
+    "sourceBounds": [
+      749,
+      134,
+      929,
+      243
+    ],
+    "oldURLs": [
+      "/images/catalogue/pdf-p05-3-r1-c4-back.webp",
+      "/images/catalogue/pdf-p05-3-r1-c4-front.webp",
+      "/images/catalogue/pdf-p05-3-r1-c4-side.webp"
+    ],
+    "prompt": "Use case: product-mockup. Create a premium photorealistic ghost-mannequin ecommerce product image faithfully translating the exact supplied small SOURCE BOARD CROP. Primary reference is this crop, preserve its cut, garment category, material, colour, sleeves, hems, pockets and Vanta Noir wing branding. Subject: Unisex black-and-charcoal split-panel short-sleeve TEE, round ribbed crew neck, boxy hip length, asymmetrical dark tonal vertical panel on front and curved side seam, small ivory wing left chest. No polo collar and NO front placket or buttons. Output ONE wide image with precisely THREE COMPLETE views of this same garment, left FRONT, middle BACK, right RIGHT-SIDE. Each entire garment silhouette must be inside its own equal-width third, centered, same scale, with at least 10% clear neutral margin around each silhouette. Uniform light neutral grey studio background, soft light, fine material detail. No humans, mannequins, hangers, annotations, view labels, borders, dividers or extra garments. Do not copy any source-board labels or neighboring garment. Infer unshown back and side conservatively consistent with front, without adding new decorations.",
+    "generatedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-a84100df-43c2-4dad-a3c7-75ab6285ec91.png",
+    "reviewed": true,
+    "reviewStatus": "approved",
+    "refinementPrompt": "Use case: precise-object-edit. Image1 is edit target; image2 source reference. Correct only construction panels on all three views: remove raglan shoulder panels and symmetric lower rectangular panels. Use ordinary SET-IN short sleeves and an ASYMMETRIC vertical dark-charcoal fabric strip on wearer's RIGHT front side running from shoulder all the way to hem, with black remaining body; curved side seam. Keep round ribbed crew neck, NO collar/placket/buttons. Match the source C4 tee silhouette. Retain entire triptych, three full complete separated front/back/right-side views with neutral grey background. No labels or added elements.",
+    "firstGeneratedPath": "/workspace/scratch/b58a6b3f1479/generated_images/exec-fd049217-97a2-46b2-b4be-55e5624c0abe.png",
+    "logoRestorePrompt": "Use case: precise-object-edit. Preserve this exact image and all three complete garment views, same pixels/layout/material/silhouette/construction, dark vertical asymmetric panel, crew neck and no buttons. ONLY restore one SMALL IVORY VANTA NOIR ANGULAR WING-V EMBLEM to the wearer's LEFT CHEST on the front-view shirt (viewer right chest). The emblem should be a sharp symmetrical stacked chevron wing V, as shown on the supplied original source reference, around 5 percent shirt body width. No letters or other decorations. Keep back plain. Do not remove or change any panel seams, or add collar, placket, labels or borders.",
+    "views": [
+      {
+        "label": "front",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p05-3-r1-c4-corrected-front.webp",
+        "bounds": [
+          0,
+          0,
+          710,
+          809
+        ]
+      },
+      {
+        "label": "back",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p05-3-r1-c4-corrected-back.webp",
+        "bounds": [
+          710,
+          0,
+          1429,
+          809
+        ]
+      },
+      {
+        "label": "side",
+        "path": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/vn-pdf-p05-3-r1-c4-corrected-side.webp",
+        "bounds": [
+          1429,
+          0,
+          1944,
+          809
+        ]
+      }
+    ],
+    "cutScores": [
+      0,
+      0
+    ],
+    "generationMethod": "built-in image_gen",
+    "reviewFinding": "Correction brief checked against exact source crop; complete front/back/side silhouettes separated through neutral background. Inferred unshown surfaces are generated reconstructions, not production specifications.",
+    "savedGeneratedPath": "/workspace/scratch/b58a6b3f1479/assets-corrected-views/generations/vn-pdf-p05-3-r1-c4.png",
+    "numericMeasurementNote": "Do not infer or fabricate numeric measurements from imagery. Preserve source charts; flag mappings incompatible with corrected garment category.",
+    "pixelExactCropVerified": true
+  }
+]

@@ -1,0 +1,516 @@
+{
+  "checked_at_utc": "2026-09-20T12:40:43.360088+00:00",
+  "sample_size": 30,
+  "eligible_reviewed_handoffs": 25,
+  "already_pending_owner_correction_count": 5,
+  "new_correction_files": 4,
+  "eligible_files_without_major_visible_mismatch": 21,
+  "prior_sample_overlap": 0,
+  "all_files_have_exactly_three_view_groups": true,
+  "omitted_set_garment_components": 0,
+  "additional_pictured_alternatives": 0,
+  "slogan_audit": {
+    "OCR": "Not repeated; root performs global OCR.",
+    "visual_SPEED_findings": 0
+  },
+  "records": [
+    {
+      "source_id": "p06-2:R1:C1",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-c1.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, construction garment/group 1 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907574039407920,
+      "reviewed_file_bytes": 1434234,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, construction garment/group 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907574039407920,
+      "reviewed_file_bytes": 1468298,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907574052795197,
+      "reviewed_file_bytes": 1481932,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, construction garment/group 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907574039407920,
+      "reviewed_file_bytes": 1517242,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, construction garment/group 5 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907444106205186,
+      "reviewed_file_bytes": 1408365,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:A1",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-a1.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, art/colour garment panel 1 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907473365201116,
+      "reviewed_file_bytes": 1482905,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:A2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-a2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, art/colour garment panel 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907498073550570,
+      "reviewed_file_bytes": 1583992,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:A3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-a3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, art/colour garment panel 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907523160279339,
+      "reviewed_file_bytes": 1463454,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:A4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-a4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, art/colour garment panel 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907549662557932,
+      "reviewed_file_bytes": 1865612,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-2:R1:A5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-2-r1-a5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-2.png",
+      "source_position": "Family row 1, art/colour garment panel 5 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment03-p06-r1.json",
+      "reviewed_file_mtime_ns": 1789907574058309134,
+      "reviewed_file_bytes": 1533720,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p07-2:R1:C1",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p07-2-r1-c1.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p07-2.png",
+      "source_position": "Family row 1, construction garment/group 1 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907033517800776,
+      "reviewed_file_bytes": 1528832,
+      "already_pending": true,
+      "result": "already_pending_owner_correction",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "high",
+          "visible_mismatch": "Source jacket has large rear wing and plain straight trousers. Render omits rear wing and invents large cargo pockets.",
+          "recommended_correction": "Restore rear wing and source plain trousers.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/full04-p07-2.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p07-2:R1:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p07-2-r1-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p07-2.png",
+      "source_position": "Family row 1, construction garment/group 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907033516885707,
+      "reviewed_file_bytes": 1693969,
+      "already_pending": true,
+      "result": "already_pending_owner_correction",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "high",
+          "visible_mismatch": "Source plain funnel-neck pullover has centered front wordmark and rear wing/wordmark. Render adds half-zip, substitutes chest wing and leaves back blank.",
+          "recommended_correction": "Match source neckline and front/back artwork.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/full04-p07-2.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p07-2:R1:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p07-2-r1-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p07-2.png",
+      "source_position": "Family row 1, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906941438831714,
+      "reviewed_file_bytes": 1584866,
+      "already_pending": true,
+      "result": "already_pending_owner_correction",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "high",
+          "visible_mismatch": "Source half-zip jacket has broad pale horizontal lower-front band and pale lower edge. Render omits these features.",
+          "recommended_correction": "Restore source lower jacket panel/band geometry.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/full04-p07-2.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p07-2:R2:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p07-2-r2-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p07-2.png",
+      "source_position": "Family row 2, construction garment/group 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907385581269164,
+      "reviewed_file_bytes": 1934249,
+      "already_pending": true,
+      "result": "already_pending_owner_correction",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "medium",
+          "visible_mismatch": "Source olive tank has prominent rear wing. Generated back is plain.",
+          "recommended_correction": "Restore source rear wing.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/full04-p07-2.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p07-2:R2:A2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p07-2-r2-a2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p07-2.png",
+      "source_position": "Family row 2, art/colour garment panel 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907101203338238,
+      "reviewed_file_bytes": 2115409,
+      "already_pending": true,
+      "result": "already_pending_owner_correction",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "high",
+          "visible_mismatch": "Source art B has all-over Adire tank front and patterned shorts front/back. Render uses mostly plain bone with small corner/side pattern inserts, resembling primary C2 instead.",
+          "recommended_correction": "Use art B specifically: all-over patterned tank front, plain bone wordmark back, patterned shorts on both sides.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/full04-p07-2.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p05-2:R2:C1",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r2-c1.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 2, construction garment/group 1 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907215958208046,
+      "reviewed_file_bytes": 1654669,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R2:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r2-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 2, construction garment/group 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907215965063279,
+      "reviewed_file_bytes": 1983812,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R2:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r2-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 2, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907215961063202,
+      "reviewed_file_bytes": 1793194,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R2:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r2-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 2, construction garment/group 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906639430119458,
+      "reviewed_file_bytes": 1651263,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R5:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r5-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 5, construction garment/group 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907103544236998,
+      "reviewed_file_bytes": 1604796,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R5:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r5-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 5, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907207606037043,
+      "reviewed_file_bytes": 2051707,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R5:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r5-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 5, construction garment/group 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907207628901761,
+      "reviewed_file_bytes": 1820925,
+      "already_pending": false,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "high",
+          "visible_mismatch": "Source racer has angular pale shoulder/chest yoke trim and two horizontal chest pockets. Render substitutes curved vertical body piping and omits both chest pockets.",
+          "recommended_correction": "Restore source angular shoulder/chest geometry and two chest pockets; retain source stand collar and rear wing.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref04-women-outerwear.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p05-2:R5:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r5-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 5, construction garment/group 5 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907215973063433,
+      "reviewed_file_bytes": 1764922,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p05-2:R3:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r3-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 3, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789906792653049189,
+      "reviewed_file_bytes": 1977604,
+      "already_pending": false,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "medium",
+          "visible_mismatch": "Source mesh basketball jersey back has pale horizontal band above hem and distinct lower mesh panel. Render omits band/panel and retains only bottom-edge trim.",
+          "recommended_correction": "Restore source rear lower horizontal band and panel.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref04-women-tops.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p05-2:R3:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r3-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 3, construction garment/group 4 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907033519471865,
+      "reviewed_file_bytes": 1685891,
+      "already_pending": false,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "medium",
+          "visible_mismatch": "Source rugby front has two symmetric chest wings. Render shows only one.",
+          "recommended_correction": "Restore second front chest wing in pictured position.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref04-women-tops.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p05-2:R3:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p05-2-r3-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p05-2.png",
+      "source_position": "Family row 3, construction garment/group 5 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment05-manifest.json",
+      "reviewed_file_mtime_ns": 1789907033522688904,
+      "reviewed_file_bytes": 1840733,
+      "already_pending": false,
+      "result": "correction_needed",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": [
+        {
+          "severity": "medium",
+          "visible_mismatch": "Source baseball jersey has pale sleeve 24 artwork. Render sleeves are unprinted.",
+          "recommended_correction": "Restore source sleeve number artwork consistently in front/back/side.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref04-women-tops.png"
+        }
+      ]
+    },
+    {
+      "source_id": "p06-3:R3:C2",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r3-c2.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "source_position": "Family row 3, construction garment/group 2 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row3.json",
+      "reviewed_file_mtime_ns": 1789906585085077051,
+      "reviewed_file_bytes": 1513517,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-3:R3:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r3-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "source_position": "Family row 3, construction garment/group 3 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row3.json",
+      "reviewed_file_mtime_ns": 1789906585089077128,
+      "reviewed_file_bytes": 1870851,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p06-3:R3:C5",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r3-c5.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "source_position": "Family row 3, construction garment/group 5 from left",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/manifest-assignment04-p06-3-row3.json",
+      "reviewed_file_mtime_ns": 1789906585097077282,
+      "reviewed_file_bytes": 1586081,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    },
+    {
+      "source_id": "p03-3:30",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p03-3-30.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-3.png",
+      "source_position": "Product panel 30 in board reading order",
+      "manifest": "/workspace/scratch/69a695bb6954/vd-completion/new/assignment-02-manifest.json",
+      "reviewed_file_mtime_ns": 1789907986615796372,
+      "reviewed_file_bytes": 1947134,
+      "already_pending": false,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "view_groups": 3,
+      "front_back_side_present": true,
+      "findings": []
+    }
+  ],
+  "source_ambiguities": [
+    {
+      "source_id": "p07-2:R2:C4",
+      "note": "Source shorts drawings differ in olive/black colouring; preserve source evidence and resolve deliberately when correcting. This is already pending owner work."
+    },
+    {
+      "source_id": "p05-2:R5:C5",
+      "note": "Open source coat obscures fastening layout. Do not assert single-versus-double-breasted discrepancy from this small flat alone."
+    }
+  ],
+  "limitations": [
+    "Bounded source comparison only, not whole-catalogue approval.",
+    "Five selected provisional assignment05 records were discovered already pending; findings retained as already_pending and are not new work requests.",
+    "Tiny source text and exact motif strokes not certified."
+  ]
+}

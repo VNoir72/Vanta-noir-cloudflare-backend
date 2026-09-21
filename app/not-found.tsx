@@ -1,0 +1,2 @@
+import { StoreShell } from "@/components/store-shell";
+export default function NotFound(){return <StoreShell><section className="dn-page-intro"><span className="dn-eyebrow">404 / PAGE NOT FOUND</span><h1>Let’s get you back.</h1><p>This page is unavailable. Explore the collection or get help with an order.</p></section><div className="dn-inline-links"><a className="dn-primary" href="/">Explore the collection</a><a className="dn-text-link" href="/help-center">Customer care</a></div></StoreShell>;}

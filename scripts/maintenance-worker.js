@@ -1,0 +1,1 @@
+export default {fetch(){return new Response("Vanta Noir is being updated. Please try again shortly.",{status:503,headers:{"content-type":"text/plain; charset=utf-8","retry-after":"600","cache-control":"no-store"}})}};

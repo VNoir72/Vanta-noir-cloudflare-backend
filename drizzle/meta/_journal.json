@@ -1,0 +1,62 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1787903600146,
+      "tag": "0000_square_stranger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788263684291,
+      "tag": "0001_flimsy_justice",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789722774532,
+      "tag": "0002_known_maria_hill",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1789727694758,
+      "tag": "0003_curvy_killmonger",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1789728119822,
+      "tag": "0004_reflective_meltdown",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1789830301854,
+      "tag": "0005_damp_vin_gonzales",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1789895249025,
+      "tag": "0006_catalogue_product_images",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1789899472714,
+      "tag": "0007_presence_power_precision",
+      "breakpoints": true
+    }
+  ]
+}

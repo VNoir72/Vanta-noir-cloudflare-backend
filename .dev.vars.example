@@ -1,0 +1,4 @@
+AUTH_PROVIDER="cloudflare-access"
+STOREFRONT_URL="https://vantanoir.store"
+ALLOWED_ORIGINS="https://vantanoir.store,https://www.vantanoir.store"
+# Add real credentials only to .dev.vars locally or Worker secrets in Cloudflare.

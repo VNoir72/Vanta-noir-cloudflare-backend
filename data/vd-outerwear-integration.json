@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-21",
+  "source": "Vd.pdf",
+  "products": [
+    "vn-pdf-p05-3-r5-c1",
+    "vn-pdf-p05-3-r5-c2",
+    "vn-pdf-p05-3-r5-c3",
+    "vn-pdf-p05-3-r5-c4",
+    "vn-pdf-p05-3-r5-c5",
+    "vn-pdf-p05-3-r5-a2",
+    "vn-pdf-p05-3-r5-a4",
+    "vn-pdf-p05-3-r5-a5"
+  ],
+  "integrated_source_ids": [
+    "p05-3:R5:C1",
+    "p05-3:R5:C2",
+    "p05-3:R5:C3",
+    "p05-3:R5:C4",
+    "p05-3:R5:C5",
+    "p05-3:R5:A2",
+    "p05-3:R5:A4",
+    "p05-3:R5:A5"
+  ],
+  "aliases": [
+    {
+      "source_id": "p05-3:R5:A1",
+      "target_source_id": "p05-3:R5:C1",
+      "visually_reviewed": true,
+      "evidence": "Black/platinum palette, pointed collar, snap placket, slant pockets and small chest/sleeve marks match at source resolution."
+    },
+    {
+      "source_id": "p05-3:R5:A3",
+      "target_source_id": "p05-3:R5:C4",
+      "visually_reviewed": true,
+      "evidence": "Olive/charcoal hooded construction, upper chest seam and covered placket match at source resolution. Tiny emblem linework cannot be established from the source."
+    }
+  ],
+  "total_products": 682
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Vanta Noir",
+  "short_name": "Vanta Noir",
+  "description": "Technical streetwear and performance apparel from Vanta Noir.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#191c16",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

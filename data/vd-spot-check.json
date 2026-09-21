@@ -1,0 +1,239 @@
+{
+  "checked_at_utc": "2026-09-20T12:05:30.137360+00:00",
+  "sample_size": 15,
+  "sample_coverage": "9 Femme triptychs from3collections;6 triptychs spanning all5 assignment manifests",
+  "sample_files_with_correction_needs": 3,
+  "sample_files_without_major_visible_mismatch": 12,
+  "additional_coverage_findings": 2,
+  "sample_omitted_set_components": 0,
+  "summary": "All sampled files contain complete front/back/side groups and no omitted set garments. Three files need concrete source corrections. Two additional pictured Femme01 shirt alternatives need coverage entries.",
+  "records": [
+    {
+      "source_id": "p02-2:07",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-2-07.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "reviewed_file_mtime_ns": 1789904049837449567,
+      "reviewed_file_bytes": 1909450,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Crop jersey, burgundy diagonal front, ivory V-neck and back01 retained; three views coherent.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p02-2:11",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-2-11.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "reviewed_file_mtime_ns": 1789904205558371757,
+      "reviewed_file_bytes": 1852579,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Grid/tan primary version reconstructed coherently. Separate floral front illustrated beside it is not represented by this file; see coverage findings.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p02-2:21",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-2-21.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "reviewed_file_mtime_ns": 1789904563403214801,
+      "reviewed_file_bytes": 1710285,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Black adire slip dress with bone side inserts and slit retained; three views coherent.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p02-3:05",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-3-05.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-3.png",
+      "reviewed_file_mtime_ns": 1789903854771078882,
+      "reviewed_file_bytes": 1936828,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Floral asymmetric wrap and tie construction retained; source only provides front, so back/side are derived.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p02-3:09",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-3-09.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-3.png",
+      "reviewed_file_mtime_ns": 1789904110429630029,
+      "reviewed_file_bytes": 2240153,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "High-waist wide denim with light curved contrast panels retained; three views coherent.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p02-3:17",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-3-17.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-3.png",
+      "reviewed_file_mtime_ns": 1789904413736864496,
+      "reviewed_file_bytes": 1796409,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Cropped tailored blazer with burgundy/olive/black blocks and badge retained.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p03-2:01",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p03-2-01.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-2.png",
+      "reviewed_file_mtime_ns": 1789903874487104671,
+      "reviewed_file_bytes": 1937393,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Complete hoodie+pants set in all three views; curved adire panels, cropped hood and wide pants retained.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p03-2:02",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p03-2-02.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-2.png",
+      "reviewed_file_mtime_ns": 1789903874482669853,
+      "reviewed_file_bytes": 1699841,
+      "result": "correction_needed",
+      "observation": "Complete set and colour panels retained, but front wordmark placement differs from source.",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "artwork_placement",
+          "visible_mismatch": "Source front VANTA NOIR is centered and split across the zipper. Generated front places a smaller complete wordmark on wearer left chest.",
+          "recommended_correction": "Center the front VANTA NOIR wordmark across the zip as shown in Hero B; preserve the existing full set and three views.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-hero-b.png"
+        }
+      ],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography.",
+      "resolution": "Corrected centered wordmark across front zipper; owner inspected replacement."
+    },
+    {
+      "source_id": "p03-2:03",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p03-2-03.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p03-2.png",
+      "reviewed_file_mtime_ns": 1789903874487104671,
+      "reviewed_file_bytes": 1909810,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Complete cropped utility jacket+cargo pants in all three views; cargo pockets and olive/black construction retained.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p04-3:R1:A3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r1-a3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "reviewed_file_mtime_ns": 1789905095140735762,
+      "reviewed_file_bytes": 2121342,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Bone/black resist-pattern tee retained; inferred back and side use consistent print family.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p04-3:R1:C3",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-3-r1-c3.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-3.png",
+      "reviewed_file_mtime_ns": 1789905178202324125,
+      "reviewed_file_bytes": 1772062,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Bone center/black side split-panel tee retained; three views coherent.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p01-3:07",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-3-07.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-3.png",
+      "reviewed_file_mtime_ns": 1789905625708250118,
+      "reviewed_file_bytes": 1575795,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Burgundy/black striped long-sleeve rugby, badge and upper-back wordmark retained.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p04-2:03",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p04-2-03.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p04-2.png",
+      "reviewed_file_mtime_ns": 1789905387454453631,
+      "reviewed_file_bytes": 1926648,
+      "result": "no_major_visible_mismatch_in_spot_check",
+      "observation": "Black/grey botanical-resist camp shirt retained; three views coherent.",
+      "findings": [],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography."
+    },
+    {
+      "source_id": "p06-3:R1:C4",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p06-3-r1-c4.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p06-3.png",
+      "reviewed_file_mtime_ns": 1789905341752514216,
+      "reviewed_file_bytes": 1609968,
+      "result": "correction_needed",
+      "observation": "Complete tracksuit, but hooded anorak replaced by hoodless stand-collar top; trouser hem treatment also changed.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "garment_construction",
+          "visible_mismatch": "Source construction04 Half-Zip Anorak clearly has a hood in front and back. Generated top is hoodless with a stand collar in all views.",
+          "recommended_correction": "Regenerate or edit this set with the source hooded half-zip anorak in all three views. Keep half zip and pouch, and follow source trousers rather than treating this as the adjacent funnel-neck style.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-anorak.png"
+        },
+        {
+          "severity": "medium",
+          "type": "trouser_construction",
+          "visible_mismatch": "Source front trousers are loose/cropped with substantial width at hem; generated trousers read as long tapered elastic-cuff joggers. Source back hem is less gathered than generated front.",
+          "recommended_correction": "Restore the loose lower-leg width and cropped proportion seen in source, checking front/back hem consistency.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-anorak.png"
+        }
+      ],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography.",
+      "resolution": "Regenerated with hood, half zip and loose cropped open hems; inspected by owner after correction."
+    },
+    {
+      "source_id": "p01-2:02",
+      "file": "/workspace/scratch/69a695bb6954/vd-completion/new/pdf-p01-2-02.png",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p01-2.png",
+      "reviewed_file_mtime_ns": 1789905507901352673,
+      "reviewed_file_bytes": 1947988,
+      "result": "correction_needed",
+      "observation": "Hockey cut and main chest graphic retained, but olive hem/cuffs and sleeve detail not preserved.",
+      "findings": [
+        {
+          "severity": "high",
+          "type": "colour_block_and_omitted_artwork",
+          "visible_mismatch": "Source hockey jersey has olive cuff bands and an olive bottom hem with small ivory corner inserts above. Generated has black cuffs and a continuous ivory hem stripe. The large wing in the source sleeve-detail inset is absent from generated sleeves.",
+          "recommended_correction": "Restore olive cuff and hem bands, small ivory corner inserts and the sleeve wing placement indicated in the detail inset; maintain the corrected Presence. Power. Precision. wording.",
+          "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-hockey.png"
+        }
+      ],
+      "scope": "Visual construction/pattern/angle spot check, not approval of production specifications or exact tiny typography.",
+      "resolution": "Corrected olive cuffs and hem, and large cream sleeve wings; owner inspected replacement."
+    }
+  ],
+  "coverage_findings": [
+    {
+      "source_id": "p02-2:11:alternate-right",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "related_file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-2-11.png",
+      "severity": "high",
+      "type": "omitted_pictured_alternative",
+      "observation": "Slot11 contains TWO front-facing shirts: tan/black grid at left and black/light floral at right. Both have visible front collars/plackets. The current triptych and its manifest explicitly use FIRST/LEFT only. The floral alternative is not a back view.",
+      "recommended_correction": "Add a separate source reference and triptych for the pictured right floral camp-collar shirt; do not change the coherent grid version into mixed front/back patterns.",
+      "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-camp-pair.png"
+    },
+    {
+      "source_id": "p02-2:10:alternate-right",
+      "source_board": "/workspace/scratch/69a695bb6954/vd-source/boards/p02-2.png",
+      "related_file": "/workspace/scratch/69a695bb6954/vd-completion/new/vd-p02-2-10.png",
+      "severity": "high",
+      "type": "omitted_pictured_alternative",
+      "observation": "Adjacent slot10 likewise has two front-facing satin shirts with different pattern/logo placements. Current manifest explicitly says use first garment; a second pictured alternative remains to cover. This is a source/manifest coverage finding beyond the15 rendered samples.",
+      "recommended_correction": "Add the second pictured satin shirt as an alternative source reference; compare left-chest wordmark versus low-front wing and pattern before deciding a shared construction master.",
+      "evidence": "/workspace/scratch/69a695bb6954/vd-completion/qa/ref-camp-pair.png"
+    }
+  ],
+  "limitations": [
+    "Representative sample only; do not extrapolate approval to all current assets.",
+    "Source details are small raster illustrations; tiny pattern geometry and logo strokes cannot be certified pixel-exact.",
+    "Some reference backs/sides are absent and generated conservatively; this audit distinguishes visible contradictions from inference.",
+    "The740 construction/look-slot count does not include these two early within-slot alternate shirt illustrations as separate rows; counts should be amended in a future coverage revision."
+  ]
+}
