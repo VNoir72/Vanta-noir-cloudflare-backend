@@ -65,6 +65,9 @@ export async function PATCH(request: Request) {
 
     const parsed = productSchema.safeParse(body);
     if (!parsed.success || !parsed.data.id) return invalidPayload();
+    if (parsed.data.variants.some(variant => variant.id && variant.expectedStock === undefined)) {
+      return Response.json({error:"Refresh the admin page and reopen this product before saving."},{status:409});
+    }
     const product = await saveAdminProduct(parsed.data, auth.email);
     return Response.json({ product });
   } catch (error) {

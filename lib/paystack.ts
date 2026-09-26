@@ -1,6 +1,7 @@
 import { runtimeEnv } from "@/lib/runtime-env";
 
 type PaystackTransaction = {
+  domain?: 'test' | 'live';
   status: string;
   reference: string;
   amount: number;

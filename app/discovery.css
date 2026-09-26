@@ -280,3 +280,35 @@ html,body { overflow-x:clip; }
 .dn-development-spec,.dn-development-spec > div,.dn-target-table { min-width:0; max-width:100%; }
 .dn-target-table { width:100%; }
 .dn-options .dn-development-spec p {font-size:14px;line-height:1.6;color:#59645c}
+
+/* Keep complete product artwork visible in mixed source aspect ratios. */
+.dn-card-image { background:#f2f2ee; }
+.dn-card-image img { object-fit:contain; }
+.dn-card-price strong { overflow-wrap:anywhere; }
+@media (pointer:coarse) {
+  .dn-card-swatches button,.dn-swatches button,.dn-filter-sizes button { min-width:44px; min-height:44px; }
+  .dn-heart { width:44px; height:44px; }
+  .dn-quantity button { min-width:44px; min-height:44px; }
+}
+@media (max-width:640px) {
+  .dn-search input,.dn-form input,.dn-form select,.dn-form textarea { font-size:16px; }
+  .dn-card-color,.dn-card-size { font-size:11px; }
+  .dn-card h3 { font-size:13px; }
+  .dn-card-price strong { font-size:13px; }
+  .dn-card-price>span { font-size:10px; }
+  .dn-card-label { max-width:calc(100% - 65px); font-size:9px; }
+  .dn-card-swatches { flex-wrap:wrap; }
+}
+
+/* Campaign media and artwork-only links share the existing responsive hero frame. */
+.dn-hero > picture {position:absolute;inset:0;display:block;}
+.dn-hero > picture > img {width:100%;height:100%;object-fit:cover;}
+.dn-hero-art-link {position:absolute;inset:0;z-index:3;}
+.dn-hero-art-link:focus-visible {outline:3px solid #caf577;outline-offset:-5px;}
+.dn-hero .dn-lime {display:inline-flex;text-decoration:none;align-items:center;gap:24px;}
+
+.dn-hero {height:auto;min-height:330px;}
+.dn-hero[data-artwork="true"]:after {display:none;}
+.dn-hero-content {overflow-wrap:anywhere;}
+@media(max-width:1000px){.dn-hero{min-height:315px;}}
+@media(max-width:640px){.dn-hero{min-height:280px;}}

@@ -4,6 +4,9 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
+# Never serve accidentally uploaded source, backups or credentials.
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
+RewriteRule ^(?:backups|node_modules|drizzle|lib|app|tests|portable)(?:/|$) - [F,L,NC]
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
 RewriteRule ^ https://vantanoir.store%{REQUEST_URI} [R=301,L,NE]
@@ -19,8 +22,16 @@ RewriteRule ^products/([a-z0-9-]+)$ products/$1.html [END]
 RewriteRule ^products/[a-z0-9-]+$ products/_dynamic.html [END]
 </IfModule>
 
+<FilesMatch "(?i)(?:^\.env(?:\..*)?$|^package(?:-lock)?\.json$|^wrangler.*\.jsonc?$|\.(?:sql|sqlite|sqlite3|db|cjs|map|zip|bak)$)">
+Require all denied
+</FilesMatch>
+
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set Content-Security-Policy "frame-ancestors 'none'; object-src 'none'; base-uri 'self'"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set Strict-Transport-Security "max-age=31536000"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 <FilesMatch "\.(html|js)$">
 Header set Cache-Control "no-cache"

@@ -69,3 +69,5 @@
  .vn-ref-metric-label{flex-wrap:wrap}
  .vn-ref-footer{overflow-wrap:anywhere}
 }
+
+.vn-quality{margin-bottom:24px}.vn-quality summary{cursor:pointer;font-weight:600;padding:8px 0}.vn-quality p{margin:12px 0;line-height:1.6}.vn-quality select{max-width:100%;padding:10px;background:#fff;color:#111;border:1px solid #d8d8d8;border-radius:6px}.vn-quality ul{list-style:none;padding:0;margin:16px 0}.vn-quality li{border-top:1px solid #ddd}.vn-quality li button{display:flex;flex-direction:column;gap:5px;width:100%;padding:14px 0;text-align:left}.vn-quality small{line-height:1.5}.vn-quality .vn-control-actions button{padding:10px}.vn-quality button:disabled{opacity:.45}

@@ -1,3 +1,6 @@
+import { receiptDigest } from "./receipt-access";
+import { addressLineWithPostalCode } from "./checkout-address";
+import { shippingCountryName } from "./shipping-countries";
 import {quotePromotion} from "./operations";
 import {
   CATALOG_SEED,
@@ -26,6 +29,7 @@ export type ProductImageInput = {
 };
 
 export type ProductVariantInput = {
+  expectedStock?: number;
   id?: string;
   sku: string;
   size: string;
@@ -58,6 +62,7 @@ export type AdminProductImage = {
 };
 
 export type AdminProductVariant = {
+  expectedStock?: number;
   id: string;
   sku: string;
   size: string;
@@ -95,6 +100,8 @@ export type CheckoutCustomer = {
   phone: string;
   addressLine1: string;
   addressLine2: string;
+  countryCode?: string;
+  postalCode?: string;
   city: string;
   state: string;
 };
@@ -473,6 +480,7 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
       color: variant.color,
       colorHex: variant.colorHex || fallbackColorHex(variant.color),
       stock: Number(variant.stock),
+      expectedStock: Number(variant.stock),
       active: Boolean(variant.active),
     })),
   }));
@@ -551,6 +559,7 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
       color,
       colorHex,
       stock: variant.stock,
+      expectedStock: variant.expectedStock,
     };
   });
 
@@ -678,7 +687,9 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
              size = excluded.size,
              color = excluded.color,
              color_hex = excluded.color_hex,
-             stock = excluded.stock,
+             stock = CASE WHEN (? IS NOT NULL AND product_variants.stock <> ?)
+               OR excluded.stock < COALESCE((SELECT SUM(quantity) FROM stock_reservations WHERE variant_id=product_variants.id AND expires_at>CURRENT_TIMESTAMP),0)
+               THEN NULL ELSE excluded.stock END,
              active = 1,
              updated_at = CURRENT_TIMESTAMP`,
         )
@@ -690,6 +701,8 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
           variant.color,
           variant.colorHex,
           variant.stock,
+          variant.expectedStock ?? null,
+          variant.expectedStock ?? null,
         ),
     );
 
@@ -700,7 +713,15 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
       : db.prepare("DELETE FROM product_variants WHERE id = ?").bind(variant.id),
   );
   const auditStatements = variants.map(v => db.prepare("INSERT INTO stock_adjustments (variant_id,old_stock,new_stock,reason,actor) SELECT id,stock,?,'Product editor',? FROM product_variants WHERE id=? AND stock<>?").bind(v.stock,actor,v.id,v.stock));
-  await db.batch([productStatement, ...imageStatements, ...auditStatements, ...variantStatements, ...removalStatements]);
+  // A NOT NULL violation in the conditional stock assignment aborts the entire
+  // D1 batch, including metadata/images. A sale must never be overwritten by
+  // inventory from a product editor opened before that sale.
+  try {
+    await db.batch([productStatement, ...imageStatements, ...auditStatements, ...variantStatements, ...removalStatements]);
+  } catch (error) {
+    if (String(error).includes('product_variants.stock')) throw new Error('Stock changed or is reserved for checkout. Reopen the product and review current stock before saving.');
+    throw error;
+  }
 
   const saved = await getAdminProduct(productId);
   if (!saved) throw new Error("Product could not be saved.");
@@ -813,14 +834,16 @@ export async function createPendingOrder(args: {
   if (totalKobo !== args.expectedTotalKobo) throw new Error("The prices or delivery charge have changed. Please refresh your bag before paying.");
   const id = crypto.randomUUID();
   const reference = `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
+  const receiptToken=`${crypto.randomUUID()}-${crypto.randomUUID()}`;
+  const receiptAccess=JSON.stringify({digest:await receiptDigest(receiptToken),expires:Date.now()+7*24*60*60*1000});
 
   const statements = [
     db
       .prepare(
         `INSERT INTO orders
           (id, reference, email, first_name, last_name, phone, address_line_1,
-           address_line_2, city, state, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
-         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+           address_line_2, city, state, country, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
+         SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
          WHERE (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND NOT EXISTS (
            SELECT 1 FROM json_each(?) c
            LEFT JOIN product_variants v ON v.id = json_extract(c.value, '$.variantId')
@@ -840,9 +863,10 @@ export async function createPendingOrder(args: {
         args.customer.lastName,
         args.customer.phone,
         args.customer.addressLine1,
-        args.customer.addressLine2,
+        addressLineWithPostalCode(args.customer),
         args.customer.city,
         args.customer.state,
+        shippingCountryName(args.customer.countryCode),
         subtotalKobo,
         args.shippingKobo,
         totalKobo, discountKobo, promotion?.code||"",
@@ -872,13 +896,14 @@ export async function createPendingOrder(args: {
     ),
   ];
 
+  statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(`receipt-access:${reference}`,receiptAccess,id));
   statements.push(...resolved.map(item => db.prepare(
     "INSERT INTO stock_reservations (id, order_id, variant_id, quantity, expires_at) SELECT ?, ?, ?, ?, datetime('now', '+15 minutes') WHERE EXISTS (SELECT 1 FROM orders WHERE id = ?)"
   ).bind(crypto.randomUUID(), id, item.variantId, item.quantity, id)));
   const results = await db.batch(statements);
   if (!results[0].meta.changes) throw new Error("An item was just reserved or changed. Please refresh your bag and try again.");
   if (args.deliveryEstimate) await db.prepare("UPDATE orders SET delivery_estimate=? WHERE id=?").bind(args.deliveryEstimate, id).run();
-  return { id, reference, subtotalKobo, shippingKobo: args.shippingKobo, totalKobo };
+  return { id, reference, receiptToken, subtotalKobo, shippingKobo: args.shippingKobo, totalKobo };
 }
 
 export async function markOrderPaymentError(reference: string) {
@@ -987,6 +1012,7 @@ export async function markOrderPaid(args: {
   amountKobo: number;
   eventKey: string;
   eventType: string;
+  paymentDomain?: 'test' | 'live';
 }) {
   const db = getDbBinding();
   const order = await getOrderByReference(args.reference);
@@ -1013,6 +1039,8 @@ export async function markOrderPaid(args: {
     ).bind(order.id, order.id, order.id, allocationToken),
     db.prepare("DELETE FROM stock_reservations WHERE order_id = ?").bind(order.id),
     db.prepare("INSERT OR IGNORE INTO payment_events (event_key, reference, event_type) VALUES (?, ?, ?)").bind(args.eventKey, args.reference, args.eventType),
+    db.prepare("INSERT OR IGNORE INTO store_meta (key,value) SELECT ?,? WHERE EXISTS (SELECT 1 FROM orders WHERE id=? AND allocation_token=?)")
+      .bind(`verified-payment:${args.reference}`,args.paymentDomain==='live'?'live':args.paymentDomain==='test'?'test':'unknown',order.id,allocationToken),
     db.prepare("UPDATE orders SET allocation_token = NULL WHERE id = ? AND allocation_token = ?").bind(order.id, allocationToken),
   ]);
   await queueOrderEmail(args.reference,"payment");
@@ -1021,7 +1049,7 @@ export async function markOrderPaid(args: {
 
 export type AdminOrder = {
   id: string; reference: string; email: string; firstName: string; lastName: string;
-  phone: string; addressLine1: string; addressLine2: string; city: string; state: string;
+  phone: string; addressLine1: string; addressLine2: string; city: string; state: string; country: string;
   totalKobo: number; status: string; paymentStatus: string; createdAt: string;
   carrier: string; trackingNumber: string; trackingUrl: string; deliveryEstimate: string;
   items: Array<{ productName: string; size: string; color: string; quantity: number }>;
@@ -1041,7 +1069,7 @@ export async function listAdminOrders(options: OrderQuery = {}): Promise<AdminOr
   await ensureCatalogSeeded(); const db=getDbBinding(); const {where,args}=orderQuery(options);
   const page=Math.max(1,Math.min(10000,Math.floor(options.page ?? 1)));
   const rows=await db.prepare(`SELECT id,reference,email,first_name AS firstName,last_name AS lastName,total_kobo AS totalKobo,status,payment_status AS paymentStatus,
-    phone,address_line_1 AS addressLine1,address_line_2 AS addressLine2,city,state,created_at AS createdAt,
+    phone,address_line_1 AS addressLine1,address_line_2 AS addressLine2,city,state,country,created_at AS createdAt,
     carrier,tracking_number AS trackingNumber,tracking_url AS trackingUrl,delivery_estimate AS deliveryEstimate
     FROM orders WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET ?`).bind(...args,(page-1)*50).all<Omit<AdminOrder,"items">>();
   if(!rows.results.length)return [];

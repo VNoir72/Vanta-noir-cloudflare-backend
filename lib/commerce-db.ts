@@ -4,6 +4,7 @@ import { getDbBinding, runtimeEnv } from "./runtime-env";
 import { commerceSettingsSchema, defaultCommerceSettings, type CommerceSettings } from "./commerce-config";
 import { formatNaira } from "./catalog";
 import { SITE_URL } from "./seo";
+import { queueReleaseAlerts, releaseAvailable } from './merchandising-db';
 
 export async function getCommerceSettings(): Promise<CommerceSettings> {
   const row=await getDbBinding().prepare("SELECT value FROM store_meta WHERE key = 'commerce_settings'").first<{value:string}>();
@@ -50,6 +51,7 @@ export async function queueOrderEmail(reference:string,event:string){
 export async function processEmailOutbox(limit=10){
   if(!emailReady())return {sent:0,configured:false};
   const db=getDbBinding(),env=runtimeEnv(); let sent=0;
+  const releaseChecks=new Map<string,Promise<boolean>>();
   await db.prepare("UPDATE email_outbox SET status='pending' WHERE status='sending' AND locked_at < datetime('now','-5 minutes')").run();
   // Provider idempotency keys expire after 24 hours. Ambiguous older attempts require a manual delivery check.
   await db.prepare("UPDATE email_outbox SET status='review',last_error='Check provider delivery before resending; retry window expired.' WHERE status='pending' AND attempts>0 AND created_at < datetime('now','-23 hours')").run();
@@ -63,6 +65,14 @@ export async function processEmailOutbox(limit=10){
       const subscriptionId=row.eventKey.split(":")[1];
       const subscriber=await db.prepare("SELECT status,token FROM subscribers WHERE id=?").bind(subscriptionId).first<{status:string;token:string}>();
       if(!subscriber || subscriber.status === "unsubscribed" || !row.eventKey.endsWith(subscriber.token)){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+      if(row.eventKey.split(':')[2]==='release') {
+        if(subscriber.status!=='active'){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+        const productId=decodeURIComponent(row.eventKey.split(':')[4]);
+        if(!releaseChecks.has(productId))releaseChecks.set(productId,releaseAvailable(productId));
+        if(!await releaseChecks.get(productId)) {
+          await db.prepare("UPDATE email_outbox SET status='pending',attempts=MAX(0,attempts-1),next_attempt_at=datetime('now','+1 hour') WHERE id=?").bind(row.id).run();continue;
+        }
+      }
     }
     try {
       const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,"Content-Type":"application/json","Idempotency-Key":row.id},body:JSON.stringify({from:env.EMAIL_FROM,to:[row.recipient],subject:row.subject,text:row.body,html:renderEmailHtml(row.subject,row.body),...(env.EMAIL_REPLY_TO ? {reply_to:env.EMAIL_REPLY_TO} : {})}),signal:AbortSignal.timeout(12000)});
@@ -74,21 +84,25 @@ export async function processEmailOutbox(limit=10){
   return {sent,configured:true};
 }
 
-export const subscriptionSchema=z.object({email:z.string().trim().toLowerCase().email().max(200),kind:z.enum(["newsletter","restock"]),variantId:z.string().trim().max(160).default(""),consent:z.literal(true)});
+export const subscriptionSchema=z.object({email:z.string().trim().toLowerCase().email().max(200),kind:z.enum(["newsletter","restock","release"]),variantId:z.string().trim().max(160).default(""),productId:z.string().trim().max(160).default(""),consent:z.literal(true)});
 export async function subscribe(input:z.infer<typeof subscriptionSchema>){
   const db=getDbBinding();
+  if(input.kind==='release') {
+    const item=await db.prepare("SELECT id FROM products WHERE id=? AND active=1 AND status='published'").bind(input.productId).first();
+    if(!item)throw new Error('This product is no longer available for release alerts.');
+  }
   if(input.kind === "restock"){
     const item=await db.prepare("SELECT v.id FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.id=? AND v.active=1 AND p.status='published'").bind(input.variantId).first();
     if(!item)throw new Error("This size is no longer available for restock alerts.");
   }
-  const variantId=input.kind === "restock" ? input.variantId : "";
+  const variantId=input.kind === "release" ? input.productId : input.kind === "restock" ? input.variantId : "";
   const existing=await db.prepare("SELECT id,status,token FROM subscribers WHERE email=? AND kind=? AND variant_id=?").bind(input.email,input.kind,variantId).first<{id:string;status:string;token:string}>();
   if(existing?.status === "active" || existing?.status === "pending")return;
   const id=existing?.id ?? crypto.randomUUID(),token=crypto.randomUUID()+crypto.randomUUID();
   await db.batch([
     db.prepare("INSERT INTO subscribers (id,email,kind,variant_id,token,status) VALUES (?,?,?,?,?,'pending') ON CONFLICT(email,kind,variant_id) DO UPDATE SET token=excluded.token,status='pending',updated_at=CURRENT_TIMESTAMP WHERE subscribers.status NOT IN ('active','pending')").bind(id,input.email,input.kind,variantId,token),
     db.prepare("INSERT OR IGNORE INTO email_outbox (id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS (SELECT 1 FROM subscribers WHERE id=? AND token=?)")
-      .bind(crypto.randomUUID(),`subscription:${id}:confirm:${token}`,input.email,"Confirm your email · Vanta Noir",`Please confirm that you requested ${input.kind === "restock" ? "a restock alert" : "Vanta Noir collection news"}.\n\nConfirm: ${runtimeEnv().STOREFRONT_URL || SITE_URL}/email-preferences?token=${token}&action=confirm\n\nIf you did not request this, you can ignore this email.\nVanta Noir`,id,token),
+      .bind(crypto.randomUUID(),`subscription:${id}:confirm:${token}`,input.email,"Confirm your email · Vanta Noir",`Please confirm that you requested ${input.kind === "release" ? "a release alert for a Vanta Noir product" : input.kind === "restock" ? "a restock alert" : "Vanta Noir collection news"}.\n\nConfirm: ${runtimeEnv().STOREFRONT_URL || SITE_URL}/email-preferences?token=${token}&action=confirm\n\nIf you did not request this, you can ignore this email.\nVanta Noir`,id,token),
   ]);
 }
 export async function confirmSubscription(token:string){
@@ -120,7 +134,7 @@ export async function queueLowStockAlerts(){
   if(rows.results.length)await queueEmail(`low-stock:${new Date().toISOString().slice(0,10)}`,email,"Low stock · Vanta Noir",`${rows.results.length} variations are at or below ${settings.lowStockThreshold} units.\n\n${rows.results.map(v=>`${v.name} · ${v.sku}: ${v.stock}`).join("\n")}\n\nOpen Store admin to update inventory.`);
 }
 export async function runCommerceMaintenance(){
-  await queueRestockAlerts(); await queueLowStockAlerts();
+  await queueRestockAlerts(); await queueLowStockAlerts(); await queueReleaseAlerts();
   await getDbBinding().prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
   return processEmailOutbox();
 }

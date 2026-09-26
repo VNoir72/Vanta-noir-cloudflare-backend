@@ -6,6 +6,7 @@ const measurement = z.number().positive().max(400).nullable().optional();
 export const productDetailsSchema = z.object({
   audience: z.enum(["unisex", "men", "women"]).default("unisex"),
   collection: short,
+  releaseDate: z.union([z.literal(''),z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value=>{const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;},'Enter a valid release date')]).default(''),
   garmentType: short,
   fit: short,
   fabric: z.string().trim().max(1500).default(""),

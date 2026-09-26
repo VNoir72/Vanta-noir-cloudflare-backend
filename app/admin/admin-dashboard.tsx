@@ -58,6 +58,8 @@ import { VARIANT_SIZES, storeSizeSchema, compareSizes } from "@/lib/sizing";
 import { formatNaira, STORE_SIZES } from "@/lib/catalog";
 import type { AdminAnalytics, AdminOrder, AdminProduct, ProductStatus } from "@/lib/store-db";
 import { allowedOrderStatuses } from "@/lib/order-status";
+import { CatalogueQuality } from "./catalogue-quality";
+import { ReleasePanel } from './release-panel';
 import { ProductProperties } from "./product-properties";
 import { OperationsPanel } from "./operations-panel";
 import { CommercePanel } from "./commerce-panel";
@@ -68,6 +70,7 @@ import {Sheet,SheetContent,SheetTitle,SheetDescription} from "@/components/ui/sh
 import StoreImage from "@/components/store-image";
 
 type InventoryRow = {
+  expectedStock?: number;
   id: string;
   productId: string;
   sku: string;
@@ -88,6 +91,7 @@ type ProductImageDraft = {
 };
 
 type ProductVariantDraft = {
+  expectedStock?: number;
   id?: string;
   sku: string;
   size: string;
@@ -141,6 +145,7 @@ function productFormFromRecord(product: AdminProduct): ProductForm {
     color: variant.color,
     colorHex: variant.colorHex,
     stock: String(variant.stock),
+    expectedStock: variant.stock,
   }));
 
   return {
@@ -325,6 +330,7 @@ export function AdminDashboard({
         color: variant.color.trim(),
         colorHex: variant.colorHex || "#101112",
         stock: Number(variant.stock || 0),
+        expectedStock: variant.expectedStock,
       })),
     };
 
@@ -428,12 +434,14 @@ export function AdminDashboard({
       const response = await fetch("/api/admin/inventory", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ variantId, stock }),
+        body: JSON.stringify({ variantId, stock, expectedStock: inventory.find(row=>row.id===variantId)?.expectedStock ?? inventory.find(row=>row.id===variantId)?.stock }),
       });
-      if (!response.ok) throw new Error("Update failed.");
+      const result = await response.json() as {error?:string};
+      if (!response.ok) throw new Error(result.error || "Update failed.");
+      setInventory(current=>current.map(row=>row.id===variantId?{...row,stock,expectedStock:stock}:row));
       toast.success("Stock updated.");
-    } catch {
-      toast.error("Stock could not be updated.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Stock could not be updated.");
     } finally {
       setBusy(null);
     }
@@ -464,6 +472,7 @@ export function AdminDashboard({
         {section === "media" && <section className="vn-control-panel"><h2>Product images</h2><p>Choose a product to upload images and assign each view to its colourway.</p><Input aria-label="Search images by product" placeholder="Find a product" value={productQuery} onChange={e=>{setProductQuery(e.target.value);setProductPage(1);}}/><div className="vn-control-media">{matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=><button key={product.id} onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt={product.name} sizes="240px"/><span>{product.name}</span><small>{product.images.length} images</small></button>)}</div><div className="vn-control-actions"><Button disabled={currentProductPage===1} onClick={()=>setProductPage(currentProductPage-1)}>Previous</Button><span>Page {currentProductPage} of {productPages}</span><Button disabled={currentProductPage===productPages} onClick={()=>setProductPage(currentProductPage+1)}>Next</Button></div></section>}
 
         <section className="mt-12" id="product-studio" hidden={section !== "products"}>
+          {section === "products" && <><ReleasePanel products={products}/><CatalogueQuality products={products} onEdit={openProduct}/></>}
           <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Catalogue control</p>
@@ -632,7 +641,7 @@ export function AdminDashboard({
                         <p className="mt-1 text-xs text-white/35">{order.city}, {order.state}</p>
                         <details className="mt-2 max-w-sm whitespace-normal text-xs leading-6 text-white/65">
                           <summary className="cursor-pointer text-white underline">Order &amp; delivery details</summary>
-                          <p className="mt-2">{order.addressLine1}{order.addressLine2 ? `, ${order.addressLine2}` : ""}, {order.city}, {order.state}, Nigeria</p>
+                          <p className="mt-2">{order.addressLine1}{order.addressLine2 ? `, ${order.addressLine2}` : ""}, {order.city}, {order.state}, {order.country || "Nigeria"}</p>
                           <p>{order.email} · {order.phone}</p>
                           <ul className="mt-2 space-y-1">
                             {order.items.map((item, index) => <li key={index}>{item.quantity} × {item.productName} · {item.color} · {item.size}</li>)}
@@ -707,7 +716,7 @@ export function AdminDashboard({
                           value={row.stock}
                           onChange={(event) => {
                             const stock = Number(event.target.value);
-                            setInventory((current) => current.map((item) => item.id === row.id ? { ...item, stock } : item));
+                            setInventory((current) => current.map((item) => item.id === row.id ? { ...item, expectedStock: item.expectedStock ?? item.stock, stock } : item));
                           }}
                           className="h-9 w-20 rounded-none border-white/15 bg-black/20 text-white"
                           aria-label={`${row.productName} size ${row.size} stock`}

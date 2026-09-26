@@ -1,7 +1,18 @@
 import { z } from "zod";
+import { heroSchema, collectionLabelsSchema } from './storefront-design';
+import { SHIPPING_COUNTRIES } from './shipping-countries';
 
 export const NIGERIA_STATES = ["Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT Abuja", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"];
 export const commerceSettingsSchema = z.object({
+  hero: heroSchema.default({}),
+  collectionLabels: collectionLabelsSchema.default([]),
+  internationalEnabled: z.boolean().default(false),
+  internationalDutiesNote: z.string().trim().max(600).default(''),
+  internationalZones: z.array(z.object({
+    countryCode:z.string().refine(v=>v!=='NG'&&SHIPPING_COUNTRIES.some(c=>c[0]===v),'Choose a supported destination.'),
+    feeKobo:z.number().int().min(0).max(100000000),
+    estimate:z.string().trim().min(3).max(160),
+  })).max(23).default([]).refine(zones=>new Set(zones.map(z=>z.countryCode)).size===zones.length,'Each international destination must be unique.'),
   supportEmail: z.union([z.string().trim().email().max(200), z.literal("")]).default(""),
   acceptingOrders: z.boolean().default(false),
   inventoryConfirmed: z.boolean().default(false),
@@ -14,7 +25,7 @@ export const commerceSettingsSchema = z.object({
     estimate: z.string().trim().min(3).max(160),
   })).max(38).default([]).refine(zones => new Set(zones.map(z => z.state)).size === zones.length, "Each delivery zone must be unique."),
   lowStockThreshold: z.number().int().min(0).max(100).default(3),
-});
+}).refine(s=>!s.internationalEnabled||(s.internationalZones.length>0&&s.internationalDutiesNote.length>=10), 'Add international rates and explain customs / import charges before enabling international shipping.');
 export type CommerceSettings = z.infer<typeof commerceSettingsSchema>;
 export function defaultCommerceSettings() { return commerceSettingsSchema.parse({}); }
 export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled: boolean, shippingFeeKobo: number | null = null) {
@@ -27,7 +38,14 @@ export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled:
   if (!settings.inventoryConfirmed) issues.push("Confirm product prices and actual stock");
   return issues;
 }
-export function shippingQuote(settings: { shippingZones?: CommerceSettings["shippingZones"]; shippingFeeKobo?: number | null; deliveryNote?: string; dispatchNote?: string }, state: string) {
+export function publicCommerceSettings(settings:CommerceSettings):CommerceSettings {
+  return settings.internationalEnabled?settings:{...settings,internationalZones:[],internationalDutiesNote:''};
+}
+export function shippingQuote(settings: Partial<CommerceSettings> & { shippingFeeKobo?: number | null }, state: string, countryCode='NG') {
+  if(countryCode!=='NG') {
+    const zone=settings.internationalEnabled?settings.internationalZones?.find(z=>z.countryCode===countryCode):undefined;
+    return {feeKobo:zone?.feeKobo??null,estimate:zone?.estimate??'',dispatchNote:settings.dispatchNote??'',supported:Boolean(zone)};
+  }
   const zones = settings.shippingZones ?? [];
   const normalized = state.trim().toLowerCase();
   const zone = zones.find(z => z.state.toLowerCase() === normalized) ?? zones.find(z => z.state === "*");

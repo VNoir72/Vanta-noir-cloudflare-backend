@@ -15,6 +15,7 @@ const variantSchema = z.object({
   size: storeSizeSchema,
   color: z.string().trim().min(1).max(100),
   colorHex: z.string().trim().regex(/^#[0-9a-f]{6}$/i),
+  expectedStock: z.number().int().min(0).max(100_000).optional(),
   stock: z.number().int().min(0).max(100_000),
 });
 

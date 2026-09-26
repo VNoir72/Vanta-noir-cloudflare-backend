@@ -32,3 +32,16 @@ console.log(`Verified ${files.length} rendered pages and ${checked} local links/
 const catalog=JSON.parse(await readFile("portable/catalog-snapshot.json","utf8"));
 for(const product of catalog){const html=await readFile(resolve(root,`products/${product.slug}.html`),"utf8");assert.match(html,/dn-product-specs/,`${product.slug} needs its specifications`);}
 console.log(`Verified product specifications on ${catalog.length} product pages.`);
+
+const home=await readFile(resolve(root,"index.html"),"utf8");
+assert.doesNotMatch(home,/THE VANTA NOIR EDIT\s*\/\s*001|<h2>Shop by category<\/h2>|aria-label="Discover by style"/);
+assert.match(home,/aria-label="Shop by category"/); // Keep the top navigation.
+// The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
+const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
+const javascript=await readFile(resolve(root,entry.slice(1)),"utf8");
+assert.match(javascript,/Current campaign/);
+assert.doesNotMatch(javascript,/THE VANTA NOIR EDIT\s*\/\s*001|dn-hero-index/);
+const security=await readFile(resolve(root,".htaccess"),"utf8");
+for(const header of ['X-Frame-Options','Content-Security-Policy','Permissions-Policy','Strict-Transport-Security'])assert.ok(security.includes(header));
+assert.ok(security.includes('Require all denied'));
+console.log('Campaign markup, duplicate navigation removal and static-host security rules passed.');

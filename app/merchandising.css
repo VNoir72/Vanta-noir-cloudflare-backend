@@ -1,0 +1,31 @@
+.vn-home-merch{padding-block:20px 40px}
+.vn-home-merch section{scroll-margin-top:160px;margin-block:44px}
+.vn-home-merch .dn-section-intro>a{display:flex;gap:8px;align-items:center;min-height:44px}
+.vn-drop-nav{display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:18px}
+.vn-drop-nav a{padding:12px 18px;background:var(--secondary);border-radius:24px;font-weight:600}
+.vn-drop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 18px}
+.vn-drop-card{min-width:0}
+.vn-drop-photo{position:relative;display:block;aspect-ratio:4/5;background:#f2f2ee;overflow:hidden;border-radius:8px}
+.vn-drop-photo img{width:100%;height:100%;object-fit:contain}
+.vn-drop-photo>span{position:absolute;top:12px;left:12px;max-width:calc(100% - 24px);padding:5px 10px;background:#fff;color:#191a18;border-radius:20px;font-size:11px;font-weight:600}
+.vn-drop-card h3{font-size:15px;font-weight:600;margin:14px 0 6px;overflow-wrap:anywhere}
+.vn-drop-card>p{font-size:13px}
+.vn-drop-notify{display:flex;gap:8px;align-items:center;min-height:44px;margin-top:8px;font-weight:600}
+.vn-drop-card .vn-signup{padding-block:12px}
+.vn-drop-card .vn-signup-row{flex-direction:column;gap:8px}
+.vn-drop-card .vn-signup input[type=email]{min-width:0;width:100%;font-size:16px}
+.vn-drop-card .vn-signup button{min-height:44px}
+.vn-drop-card .vn-consent-label{font-size:12px}
+.vn-drop-empty{background:var(--secondary);padding:28px;border-radius:8px}
+.vn-drop-empty .vn-signup{max-width:500px;margin-top:18px}
+.vn-drop-announcement{display:flex;align-items:center;justify-content:center;gap:16px;background:var(--dn-lime);color:#171916;padding:16px;border-radius:8px;font-weight:600;min-height:48px}
+.vn-stock-note{font-size:13px;font-weight:600;padding:10px 0}
+.vn-home-merch .dn-section-intro p{margin-top:8px;color:#55584f;max-width:55ch}
+.vn-release-admin>summary{font-size:17px;font-weight:600;cursor:pointer;min-height:44px}
+.vn-release-admin p{margin-block:14px;max-width:90ch}
+.vn-release-admin>label{display:block;margin-block:16px}
+.vn-release-admin select{display:block;width:100%;max-width:650px;min-height:44px;padding:10px;border:1px solid #d4d7dc;border-radius:8px;background:white;color:#171916}
+.vn-release-admin h3{font-size:16px;font-weight:600;margin-top:24px}
+.vn-release-admin input[type=checkbox]{width:18px;height:18px;flex-shrink:0}
+@media(max-width:1000px){.vn-drop-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.vn-drop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}.vn-drop-card h3{font-size:13px}.vn-drop-photo>span{top:8px;left:8px;font-size:10px}.vn-drop-nav{gap:8px}.vn-drop-nav a{padding:12px;font-size:12px}.vn-drop-announcement{font-size:13px}.vn-home-merch section{margin-block:30px}}

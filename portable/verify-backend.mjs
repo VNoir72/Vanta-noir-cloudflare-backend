@@ -39,7 +39,17 @@ try{
  const legacyDenied=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/legacy');assert.equal(legacyDenied.status,403);
  const aliasWebhook=await mf.dispatchFetch('https://api.vantanoir.store/api/paystack/webhook',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});assert.ok(aliasWebhook.status>=400,'Unsigned webhook alias must fail');
  const denied=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/orders');assert.equal(denied.status,403);
+ assert.equal(payload.checkout.internationalEnabled,false);assert.deepEqual(payload.checkout.internationalZones,[]);
+ assert.equal(cat.headers.get('X-Frame-Options'),'DENY');assert.match(cat.headers.get('Content-Security-Policy'),/frame-ancestors 'none'/);
+ const noReceipt=await mf.dispatchFetch('https://api.vantanoir.store/api/payments/verify?reference=VN-PRIVATE-TEST');assert.equal(noReceipt.status,403);
  const authHeaders={'cf-access-jwt-assertion':token,Origin:'https://api.vantanoir.store',Host:'api.vantanoir.store'};
+ assert.deepEqual(payload.merchandising.sales,[]);assert.equal(payload.merchandising.stockBadgesEnabled,false);
+ assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases')).status,403);
+ const releases=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases',{headers:authHeaders});assert.equal(releases.status,200);assert.deepEqual((await releases.json()).campaigns,[]);
+ const closedRelease=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases',{method:'POST',headers:{...authHeaders,'Content-Type':'application/json'},body:JSON.stringify({productId:payload.products[0].id,confirmed:true})});assert.equal(closedRelease.status,400,'Compiled release route cannot announce unavailable stock/sender');
+ const stagedSettings={internationalEnabled:false,internationalZones:[{countryCode:'GB',feeKobo:5000000,estimate:'Test only'}],internationalDutiesNote:'Buyer pays import charges.',hero:{title:'Test campaign'}};
+ const saved=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/commerce',{method:'POST',headers:{...authHeaders,'Content-Type':'application/json'},body:JSON.stringify({action:'settings',settings:stagedSettings})});assert.equal(saved.status,200);
+ const settingsResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/store-settings');const publicSettings=await settingsResponse.json();assert.equal(publicSettings.hero.title,'Test campaign');assert.deepEqual(publicSettings.internationalZones,[]);assert.equal(publicSettings.internationalDutiesNote,'');
  const admin=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/orders',{headers:authHeaders});assert.equal(admin.status,200);assert.deepEqual((await admin.json()).orders,[]);
  const pageStarted=performance.now(); const adminPage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{...authHeaders,Accept:'text/html'}});assert.equal(adminPage.status,200);const html=await adminPage.text();console.log(`Admin HTML: ${Math.round(performance.now()-pageStarted)} ms, ${Buffer.byteLength(html)} bytes`);assert.match(html,/Loading your dashboard/);assert.ok(Buffer.byteLength(html)<150_000,"Admin HTML must not embed the full catalogue");assert.match(html,/Presence. Power. Precision./);assert.doesNotMatch(html,/signin-with-chatgpt|codex-preview/);
  // The browser loads these independently after the lightweight authenticated page.

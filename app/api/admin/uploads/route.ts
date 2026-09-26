@@ -1,3 +1,4 @@
+import { matchesImageSignature } from "@/lib/image-signature";
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
 import { runtimeEnv } from "@/lib/runtime-env";
 
@@ -23,6 +24,9 @@ export async function POST(request: Request) {
   if (!(file instanceof File)) return Response.json({ error: "Choose an image first." }, { status: 400 });
   if (!CONTENT_TYPES.has(file.type)) return Response.json({ error: "Use a JPG, PNG, WebP, or AVIF image." }, { status: 400 });
   if (!file.size || file.size > MAX_IMAGE_BYTES) return Response.json({ error: "Choose a non-empty image of 12 MB or smaller." }, { status: 400 });
+
+  const signature=new Uint8Array(await file.slice(0,64).arrayBuffer());
+  if(!matchesImageSignature(signature,file.type))return Response.json({error:"The file contents do not match its image type."},{status:400});
 
   const extension = CONTENT_TYPES.get(file.type);
   const key = `products/${crypto.randomUUID()}.${extension}`;

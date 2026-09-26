@@ -28,7 +28,8 @@ export function PaymentResult({ reference }: { reference: string }) {
     setState("checking");
     async function verify() {
       try {
-        const response = await fetch(apiUrl(`/api/payments/verify?reference=${encodeURIComponent(reference)}`), { cache: "no-store", signal: controller.signal });
+        let receiptToken="";try{receiptToken=sessionStorage.getItem(`vn-receipt:${reference}`)||"";}catch{/* Use private guest tracking when browser storage is unavailable. */}
+        const response = await fetch(apiUrl(`/api/payments/verify?reference=${encodeURIComponent(reference)}`), { cache: "no-store", headers:{"X-Receipt-Token":receiptToken}, signal: controller.signal });
         const payload = await response.json() as { order?: PaymentOrder; message?: string; error?: string };
         if (!active) return;
         if (!response.ok) throw new Error(payload.error || "Payment confirmation is temporarily unavailable.");

@@ -51,11 +51,11 @@ export function SizeGuide({ product, selectedSize = "", onSelectSize, stock }: P
         {bodyReference && <TabsContent value="body" className="dn-size-panel"><BodySizeReference productId={product.id} unit={unit} onUnitChange={changeUnit}/></TabsContent>}
         <TabsContent value="measurements" className="dn-size-panel">
           {(developmentTarget || guide?.status === "reference") && <p className="dn-sizing-reference"><strong>Provisional size guide{developmentTarget ? ` · ${developmentTarget.revision}` : ''}</strong>Based on sampling specifications. Final garment measurements are awaiting sample approval.</p>}
-          {(guide?.notes || details.fit) && <p className="dn-size-fit">{details.fit || guide?.notes}</p>}
+          {(details.fit || (!developmentTarget && guide?.notes)) && <p className="dn-size-fit">{details.fit || guide?.notes}</p>}
           {details.modelSizing && <p className="dn-size-fit">{details.modelSizing}</p>}
           <div className="dn-size-toolbar"><span>{guide ? "Garment measurements" : `${details.measurementType === "body" ? "Body" : "Garment"} measurements`}</span><div className="dn-size-units" role="group" aria-label="Measurement unit">{(["cm", "in"] as const).map(value => <button type="button" aria-pressed={unit === value} onClick={() => changeUnit(value)} key={value}>{value === "in" ? "inches" : "cm"}</button>)}</div></div>
           {developmentTarget ? <>
-            <p className="dn-size-explainer">The same measurements appear in the manufacturer catalogue. Widths are measured across the garment laid flat, unless the row says circumference.</p>
+            <p className="dn-size-explainer">Compare these provisional measurements with a similar garment you own. Widths are measured laid flat, unless the row says circumference. Contact customer care to confirm fit before ordering.</p>
             <GarmentTargets productId={product.id} unit={unit} compact/>{chosen && !(STORE_SIZES as readonly string[]).includes(chosen) && <p role="status">Measurements for {chosen} are not yet published.</p>}
             <p className="dn-size-scroll-hint">Scroll the table sideways for all five sizes →</p>
             {guide?.sections.length && onSelectSize ? <div className="dn-guide-sizes" role="group" aria-label="Choose a size">{selectable.map(size => <button type="button" key={size} aria-pressed={chosen === size} aria-label={`${(SIZE_NAMES as Record<string,string>)[size] ?? size} (${size})${stock && !stock[size] ? ", out of stock" : ""}`} onClick={() => setChosen(size)}>{size}</button>)}</div> : null}

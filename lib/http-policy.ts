@@ -24,6 +24,10 @@ export function checkApiRequest(request: Request, settings: Settings): Response 
 export function secureResponse(response: Response, request: Request, settings: Settings) {
   const headers = new Headers(response.headers);
   headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("X-Frame-Options", "DENY");
+  headers.set("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  if(new URL(request.url).protocol==="https:")headers.set("Strict-Transport-Security", "max-age=31536000");
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   const path = new URL(request.url).pathname;
   // HTML and RSC payloads contain release-specific chunk URLs. Reusing them
@@ -41,7 +45,7 @@ export function secureResponse(response: Response, request: Request, settings: S
     headers.set("Access-Control-Allow-Origin", origin);
     headers.append("Vary", "Origin");
     headers.set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-    headers.set("Access-Control-Allow-Headers", "Content-Type");
+    headers.set("Access-Control-Allow-Headers", "Content-Type, X-Receipt-Token");
     headers.set("Access-Control-Max-Age", "600");
   }
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });

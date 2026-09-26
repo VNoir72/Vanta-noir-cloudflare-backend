@@ -32,5 +32,5 @@ export async function POST(request:Request){
   if(body?.action==="return"){await updateReturn(returnUpdateSchema.parse(body.data),auth.email);return Response.json({ok:true});}
   if(body?.action==="review"){const input=z.object({id:z.string().max(100),status:z.enum(["published","rejected","pending"])}).parse(body.data);const result=await getDbBinding().prepare("UPDATE product_reviews SET status=? WHERE id=?").bind(input.status,input.id).run();return Response.json({ok:Boolean(result.meta.changes)});}
   return Response.json({error:"Unknown action."},{status:400});
- }catch(e){const message=e instanceof z.ZodError ? e.issues[0]?.message : e instanceof Error ? e.message : "Could not save changes.";return Response.json({error:/^(Return|Move|Refund|Record|Only|This request|Each delivery|Choose a|Invalid|Expected)/.test(message||"")?message:"Could not save changes. Check the fields and try again."},{status:400});}
+ }catch(e){const message=e instanceof z.ZodError ? e.issues[0]?.message : e instanceof Error ? e.message : "Could not save changes.";return Response.json({error:/^(Return|Move|Refund|Record|Only|This request|Each |Choose a|Use a|Add international|Invalid|Expected)/.test(message||"")?message:"Could not save changes. Check the fields and try again."},{status:400});}
 }

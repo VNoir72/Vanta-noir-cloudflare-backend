@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { build } from 'esbuild';
-import { Miniflare } from 'miniflare';
+import { Miniflare } from './miniflare.mjs';
 import { mkdir, readdir, readFile } from 'node:fs/promises';
 import { generateKeyPair, exportJWK, SignJWT } from 'jose';
 
@@ -28,6 +28,14 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   const details={audience:'men',fit:'Sample fit information',fabric:'Confirmed material',care:'Follow the garment label',collection:'Test collection',sizeChart:[{size:'M',chest:60,waist:40}],measurementType:'garment'};
   const save=await request('/api/admin/products','PATCH',{...editable,details,images:[...editable.images,{color:color.name,imageUrl:'/images/detail-test.png',imageAlt:'Test detail'}]},true);assert.equal(save.status,200,JSON.stringify(await save.clone().json()));
   const updated=(await rpc('listCatalog')).find(p=>p.id===product.id);assert.equal(updated.details.audience,'men');assert.equal(updated.details.sizeChart[0].chest,60);assert.ok(updated.images.some(i=>i.imageAlt==='Test detail'));
+  // Saving a stale editor must roll back all changes, not restore sold units.
+  const beforeRace=(await rpc('listAdminProducts')).find(p=>p.id===product.id);
+  await rpc('sql','UPDATE product_variants SET stock=3 WHERE id=?',variantId);
+  const stale=await request('/api/admin/products','PATCH',{...beforeRace,name:'Must not save stale edit'},true);
+  assert.equal(stale.status,400);
+  assert.match((await stale.json()).error,/Stock changed|reserved/);
+  assert.equal((await rpc('listAdminProducts')).find(p=>p.id===product.id).name,beforeRace.name);
+  assert.equal((await rpc('sql','SELECT stock FROM product_variants WHERE id=?',variantId)).results[0].stock,3);
   const settings={supportEmail:'care@example.com',acceptingOrders:true,inventoryConfirmed:true,dispatchNote:'Confirmed dispatch',returnPolicy:'Confirmed test return policy',shippingZones:[{state:'Lagos',feeKobo:300000,estimate:'Confirmed test window'},{state:'Ogun',feeKobo:500000,estimate:'Other test window'}]};await rpc('saveCommerceSettings',settings);
   const customer={email:'buyer@example.com',firstName:'Test',lastName:'Buyer',phone:'08000000000',addressLine1:'10 Test Street',addressLine2:'',city:'Ikeja',state:'Lagos'};
   await rpc('saveCommerceSettings',{...settings,acceptingOrders:false});
@@ -35,6 +43,7 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   await rpc('saveCommerceSettings',settings);
   let response=await request('/api/checkout','POST',{customer,cart:[{variantId,quantity:1}],expectedTotalKobo:product.priceKobo+200000});assert.equal(response.status,400,'Client cannot choose the old shipping fee');
   response=await request('/api/checkout','POST',{customer:{...customer,state:'Kano'},cart:[{variantId,quantity:1}],expectedTotalKobo:product.priceKobo+300000});assert.equal(response.status,400,'Unsupported state cannot checkout');
+  await rpc('sql','UPDATE product_variants SET stock=5 WHERE id=?',variantId);
   const order=await rpc('createPendingOrder',{customer,cart:[{variantId,quantity:1}],shippingKobo:300000,expectedTotalKobo:product.priceKobo+300000});
   await rpc('queueOrderEmail',order.reference,'payment');
   assert.equal((await rpc('sql',"SELECT COUNT(*) AS n FROM email_outbox WHERE event_key=?",`order:${order.reference}:payment`)).results[0].n,0,'Unpaid orders cannot queue payment confirmations');

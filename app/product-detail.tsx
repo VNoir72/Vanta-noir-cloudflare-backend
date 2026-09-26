@@ -1,4 +1,5 @@
 "use client";
+import { shopperCollectionLabel } from "@/lib/catalog-search";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Heart, ShoppingBag, ZoomIn } from "lucide-react";
@@ -50,7 +51,7 @@ export function ProductDetail({ product, products, selectedSize, selectedColor, 
         {images.length > 1 && <div className="vn-gallery-thumbs" aria-label="Product images">{images.map((image,i) => <button key={`${image.imageUrl}-${i}`} aria-label={`View image ${i+1}`} aria-pressed={imageIndex === i} onClick={() => setImageIndex(i)}><Image src={image.imageUrl} alt={image.imageAlt} sizes="100px" /></button>)}</div>}
       </div>
       <div className="vn-product-summary">
-        <p className="vn-eyebrow">{details.collection || product.category} · {details.audience}</p>
+        <p className="vn-eyebrow">{shopperCollectionLabel(details.collection || product.category,checkout?.collectionLabels)} · {details.audience}</p>
         <h1>{product.name}</h1><p className="vn-product-price">{formatNaira(product.priceKobo)}</p>
         <p className="vn-product-description">{product.description}</p>
         {details.fit && <p>{details.fit}</p>}

@@ -1,3 +1,5 @@
+import { canReadReceipt } from "@/lib/receipt-access";
+import { rateLimit } from "@/lib/commerce-db";
 import { verifyPaystackTransaction } from "@/lib/paystack";
 import { getOrderByReference, getPublicPaymentOrder, markOrderPaid } from "@/lib/store-db";
 
@@ -10,6 +12,8 @@ export async function GET(request: Request) {
   }
 
   try {
+    if(!await rateLimit(request,"receipt",60,600))return Response.json({error:"Please wait before checking again."},{status:429});
+    if(!await canReadReceipt(reference,request.headers.get("X-Receipt-Token")))return Response.json({error:"For your privacy, use Track your order below with your reference and checkout email or phone. Do not pay again."},{status:403});
     const existing = await getOrderByReference(reference);
     if (!existing) {
       return Response.json({ error: "Order not found." }, { status: 404 });
@@ -35,6 +39,7 @@ export async function GET(request: Request) {
       amountKobo: transaction.amount,
       eventKey: `verify:${reference}`,
       eventType: "verify.success",
+      paymentDomain: transaction.domain,
     });
     return Response.json({ order: await getPublicPaymentOrder(reference) }, { headers: { "Cache-Control": "no-store" } });
   } catch {

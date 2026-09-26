@@ -2,15 +2,17 @@ import { getCommerceSettings } from "@/lib/commerce-db";
 import { listCatalog } from "@/lib/store-db";
 import { configuredShippingFeeKobo } from "@/lib/runtime-env";
 import { isPaystackConfigured } from "@/lib/paystack";
-import { checkoutSetupIssues } from "@/lib/commerce-config";
+import { checkoutSetupIssues, publicCommerceSettings } from "@/lib/commerce-config";
+import { salesSignals } from '@/lib/merchandising-db';
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const [products, settings] = await Promise.all([listCatalog(), getCommerceSettings()]);
-    return Response.json({ products, checkout: {
-      shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...settings,
+    const [products, settings, sales] = await Promise.all([listCatalog(), getCommerceSettings(), salesSignals().catch(()=>[])]);
+    const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo()).length===0;
+    return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
+      shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings),
       checkoutReady: settings.acceptingOrders && checkoutSetupIssues(settings, isPaystackConfigured(), configuredShippingFeeKobo()).length === 0,
     } }, { headers: { "Cache-Control": "no-store" } });
   } catch {

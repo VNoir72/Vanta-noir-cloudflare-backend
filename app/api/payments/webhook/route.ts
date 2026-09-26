@@ -4,6 +4,7 @@ import { verifyPaystackWebhook } from "@/lib/paystack";
 type PaystackWebhook = {
   event?: string;
   data?: {
+    domain?: 'test' | 'live';
     id?: number;
     status?: string;
     amount?: number;
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
         amountKobo: event.data.amount,
         eventKey: `webhook:${event.data.id ?? event.data.reference}`,
         eventType: event.event,
+        paymentDomain: event.data.domain,
       });
     } catch {
       return new Response("Unable to apply payment", { status: 500 });

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NIGERIA_STATES, type CommerceSettings } from "@/lib/commerce-config";
 import { exportCsv } from "./order-tools";
 import { formatNaira } from "@/lib/catalog";
+import { StoreDesignFields, InternationalShippingFields } from "./store-design-fields";
 import { toast } from "sonner";
 type ReturnCase={id:string;version:number;reference:string;email:string;kind:string;reason:string;itemsJson:string;status:string;notes:string;refundKobo:number;refundReference:string;refundStatus:string;restocked:number};
 type Payload={settings:CommerceSettings;emailConfigured:boolean;paymentsConfigured:boolean;setupIssues:string[];hasMore:boolean;reviews:Array<{id:string;productName:string;displayName:string;rating:number;body:string;status:string}>;returns:ReturnCase[];emails:Array<{id:string;recipient:string;subject:string;status:string;attempts:number;lastError:string}>;subscribers:Array<{id:string;email:string;kind:string;variantId:string;status:string;createdAt:string}>;stock:Array<{id:number;sku:string;old_stock:number;new_stock:number;reason:string;actor:string;created_at:string}>};
@@ -18,6 +19,9 @@ export function CommercePanel(){
       {data.setupIssues.length?<ul>{data.setupIssues.map(issue=><li key={issue}>{issue}</li>)}</ul>:<p>Your required checkout settings are complete. Use Paystack test mode before switching to live payments.</p>}
       <p>Review every product’s prices, available quantities, photos and size measurements. Publish only information confirmed for the items you will ship.</p>
     </div>
+    <StoreDesignFields settings={settings} onChange={setSettings} busy={busy} onUploadChange={setBusy}/>
+    <InternationalShippingFields settings={settings} onChange={setSettings} busy={busy}/>
+    <button className="vn-pill" disabled={busy} onClick={()=>action("settings",settings)}>Save settings</button>
     <details className="vn-product-disclosure"><summary>Launch settings, delivery &amp; customer care</summary><div className="vn-admin-fields mt-5"><label>Customer care email<input type="email" value={settings.supportEmail} onChange={e=>setSettings({...settings,supportEmail:e.target.value})}/></label><label>Low-stock threshold<input type="number" min={0} max={100} value={settings.lowStockThreshold} onChange={e=>setSettings({...settings,lowStockThreshold:Number(e.target.value)})}/></label><label>Dispatch timing<input maxLength={240} placeholder="Enter your confirmed dispatch timing" value={settings.dispatchNote} onChange={e=>setSettings({...settings,dispatchNote:e.target.value})}/></label><label>General delivery information<textarea maxLength={500} value={settings.deliveryNote} onChange={e=>setSettings({...settings,deliveryNote:e.target.value})}/></label></div>
       <div className="vn-admin-fields mt-5"><label>Returns, exchanges &amp; refunds policy<textarea rows={8} maxLength={6000} placeholder="Enter your confirmed return window, eligible conditions, return postage responsibility, exchange process and refund timing." value={settings.returnPolicy} onChange={e=>setSettings({...settings,returnPolicy:e.target.value})}/></label></div>
       <label className="vn-launch-check"><input type="checkbox" checked={settings.inventoryConfirmed} onChange={e=>setSettings({...settings,inventoryConfirmed:e.target.checked})}/>I have checked the product prices and replaced sample stock with actual quantities.</label>

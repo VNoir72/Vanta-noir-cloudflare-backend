@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { build } from "esbuild";
-import { Miniflare } from "miniflare";
+import { Miniflare } from "./miniflare.mjs";
 import { readFile, readdir, mkdir } from "node:fs/promises";
 import { createHmac } from "node:crypto";
 import { generateKeyPair, exportJWK, SignJWT } from "jose";
@@ -134,7 +134,7 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     const payment = { reference: order.reference, amountKobo: order.totalKobo, eventKey: "callback", eventType: "verify.success" };
     await Promise.all([rpc("markOrderPaid", payment), rpc("markOrderPaid", { ...payment, eventKey: "webhook" })]);
     assert.equal((await rpc("sql", "SELECT stock FROM product_variants WHERE id = ?", id)).results[0].stock, 0, "Duplicate payment handling must decrement once");
-    const confirmed = await mf.dispatchFetch(`https://api.vantanoir.store/api/payments/verify?reference=${order.reference}`);
+    const confirmed = await mf.dispatchFetch(`https://api.vantanoir.store/api/payments/verify?reference=${order.reference}`,{headers:{"X-Receipt-Token":order.receiptToken}});
     const confirmation = await confirmed.json();
     assert.equal(confirmation.order.paymentStatus, "paid");
     assert.equal(confirmation.order.items[0].variantId, id);
@@ -161,6 +161,7 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     }
     await rpc("sql", "INSERT INTO store_meta(key,value) VALUES('commerce_settings',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", JSON.stringify({supportEmail:"care@example.com",acceptingOrders:true,inventoryConfirmed:true,dispatchNote:"Test dispatch",deliveryNote:"Test delivery",returnPolicy:"Test return policy"}));
     const secondId = Object.values(product.colorways[1].variantIds)[0];
+    await rpc("sql", "UPDATE product_variants SET stock=2 WHERE id=?", secondId);
     const checkoutArgs = { customer, cart: [{ variantId: secondId, quantity: 1 }], expectedTotalKobo: product.priceKobo + 200000 };
     const started = await mf.dispatchFetch("https://api.vantanoir.store/api/checkout", { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://vantanoir.store" }, body: JSON.stringify(checkoutArgs) });
     assert.equal(started.status, 200);
