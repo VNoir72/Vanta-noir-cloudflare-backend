@@ -40,3 +40,9 @@ export function homepageStockBadge(product:CatalogProduct,data:MerchandisingData
   return data.stockBadgesEnabled&&!isPreview(product)&&product.details?.availability!=='preorder'&&total>0&&total<=3
     ? `Low stock · ${total} left across sizes` : '';
 }
+
+// Grouped colourways can originate from several catalogue records. Count each once.
+export function bestSellerUnits(product: CatalogProduct, data: MerchandisingData) {
+  const ids=new Set([product.id,...product.colorways.map(c=>c.sourceProductId).filter(Boolean)]);
+  return data.sales.reduce((total,row)=>total+(ids.has(row.productId)&&Number.isFinite(row.units30)&&row.units30>0?row.units30:0),0);
+}

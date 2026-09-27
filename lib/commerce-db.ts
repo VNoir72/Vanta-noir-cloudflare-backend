@@ -4,7 +4,7 @@ import { getDbBinding, runtimeEnv } from "./runtime-env";
 import { commerceSettingsSchema, defaultCommerceSettings, type CommerceSettings } from "./commerce-config";
 import { formatNaira } from "./catalog";
 import { SITE_URL } from "./seo";
-import { queueReleaseAlerts, releaseAvailable } from './merchandising-db';
+import { queueReleaseAlerts, releaseAvailable, releaseStoreReady } from './merchandising-db';
 
 export async function getCommerceSettings(): Promise<CommerceSettings> {
   const row=await getDbBinding().prepare("SELECT value FROM store_meta WHERE key = 'commerce_settings'").first<{value:string}>();
@@ -63,8 +63,11 @@ export async function processEmailOutbox(limit=10){
     // A queued marketing or restock email must respect an unsubscribe that happened after it was queued.
     if(row.eventKey.startsWith("subscription:")){
       const subscriptionId=row.eventKey.split(":")[1];
-      const subscriber=await db.prepare("SELECT status,token FROM subscribers WHERE id=?").bind(subscriptionId).first<{status:string;token:string}>();
+      const subscriber=await db.prepare("SELECT status,token,variant_id AS variantId FROM subscribers WHERE id=?").bind(subscriptionId).first<{status:string;token:string;variantId:string}>();
       if(!subscriber || subscriber.status === "unsubscribed" || !row.eventKey.endsWith(subscriber.token)){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+      if(row.eventKey.split(':')[2]==='restock' && !await restockAvailable(subscriber.variantId)) {
+        await db.prepare("UPDATE email_outbox SET status='pending',attempts=MAX(0,attempts-1),next_attempt_at=datetime('now','+1 hour') WHERE id=?").bind(row.id).run();continue;
+      }
       if(row.eventKey.split(':')[2]==='release') {
         if(subscriber.status!=='active'){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
         const productId=decodeURIComponent(row.eventKey.split(':')[4]);
@@ -114,12 +117,22 @@ export async function unsubscribe(token:string){
   const result=await getDbBinding().prepare("UPDATE subscribers SET status='unsubscribed',updated_at=CURRENT_TIMESTAMP WHERE token=?").bind(token).run();
   return Boolean(result.meta.changes);
 }
+// Use the exact subscribed variant, including stock held by active checkouts.
+const restockEligibility = `v.active=1 AND p.active=1 AND p.status='published' AND p.price_kobo>0
+  AND v.size<>'Size pending'
+  AND COALESCE(json_extract(CASE WHEN json_valid(p.details_json) THEN p.details_json ELSE '{}' END,'$.availability'),'in_stock')='in_stock'
+  AND COALESCE(json_extract(CASE WHEN json_valid(p.details_json) THEN p.details_json ELSE '{}' END,'$.priceStatus'),'approved')='approved'
+  AND v.stock-COALESCE((SELECT SUM(quantity) FROM stock_reservations WHERE variant_id=v.id AND expires_at>CURRENT_TIMESTAMP),0)>0`;
+async function restockAvailable(variantId:string) {
+  if(!await releaseStoreReady())return false;
+  return Boolean(await getDbBinding().prepare(`SELECT v.id FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.id=? AND ${restockEligibility}`).bind(variantId).first());
+}
 export async function queueRestockAlerts(){
+  if(!emailReady() || !await releaseStoreReady())return;
   const db=getDbBinding();
   const rows=await db.prepare(`SELECT s.id,s.email,s.token,p.slug,p.name,v.size,v.color FROM subscribers s
     JOIN product_variants v ON v.id=s.variant_id JOIN products p ON p.id=v.product_id
-    WHERE s.kind='restock' AND s.status='active' AND v.active=1 AND p.active=1 AND p.status='published'
-      AND v.stock-COALESCE((SELECT SUM(quantity) FROM stock_reservations WHERE variant_id=v.id AND expires_at>CURRENT_TIMESTAMP),0)>0 LIMIT 50`)
+    WHERE s.kind='restock' AND s.status='active' AND ${restockEligibility} ORDER BY s.id LIMIT 50`)
     .all<{id:string;email:string;token:string;slug:string;name:string;size:string;color:string}>();
   for(const row of rows.results){
     const url=runtimeEnv().STOREFRONT_URL || SITE_URL;

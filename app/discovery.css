@@ -312,3 +312,20 @@ html,body { overflow-x:clip; }
 .dn-hero-content {overflow-wrap:anywhere;}
 @media(max-width:1000px){.dn-hero{min-height:315px;}}
 @media(max-width:640px){.dn-hero{min-height:280px;}}
+
+/* Compact artwork inside generous touch targets. */
+.dn-card,.dn-results,.dn-card-info { min-width:0; }
+.dn-card-swatches { gap:0; flex-wrap:nowrap; overflow-x:auto; max-width:100%; margin:4px 0; }
+.dn-card-swatches button { flex:0 0 36px; width:36px; height:40px; min-width:36px; min-height:40px; padding:8px; background:transparent; border:0; box-shadow:none; display:grid; place-items:center; }
+.dn-card-swatches button span { display:block; width:18px; height:18px; border:2px solid white; border-radius:50%; background:var(--swatch); box-shadow:0 0 0 1px #c6cbc1; }
+.dn-card-swatches button[aria-pressed="true"] { box-shadow:none; }
+.dn-card-swatches button[aria-pressed="true"] span { box-shadow:0 0 0 2px #20271c; }
+.dn-card-swatches button:focus-visible { outline:2px solid #20271c; outline-offset:-2px; }
+.dn-card-color { flex-wrap:wrap; gap:5px; }
+.dn-card-color .dn-card-size { display:block; flex-basis:100%; max-width:none; margin-left:0; text-align:left; font-size:11px; line-height:1.5; overflow-wrap:anywhere; color:#5d6555; }
+.dn-card-price { flex-wrap:wrap; }
+.dn-card-price>span { overflow-wrap:anywhere; }
+.dn-hero .dn-lime { color:#18220e; }
+@media(pointer:coarse) { .dn-card-swatches button { flex-basis:44px; width:44px; height:44px; min-width:44px; min-height:44px; } }
+@media(min-width:641px) and (max-width:1100px) { .dn-product-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px 16px; } }
+@media(max-width:640px) { .dn-product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 12px; } .dn-card-image { aspect-ratio:3/4; } .dn-card h3 { font-size:13px; line-height:1.4; } .dn-card-label { display:block; max-width:calc(100% - 54px); white-space:normal; overflow-wrap:anywhere; font-size:9px; line-height:1.3; } .dn-card-color { font-size:11px; line-height:1.4; } }

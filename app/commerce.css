@@ -88,3 +88,23 @@
 @media(max-width:700px) { .dn-customer-main { padding-top:28px;padding-bottom:35px; }.dn-page-intro { margin-bottom:26px; }.dn-page-intro h1 { letter-spacing:-1.4px; }.dn-page-intro>p { font-size:14px; }.dn-checkout-grid,.dn-care-grid,.dn-about-grid { grid-template-columns:1fr; }.dn-checkout-grid { gap:0; }.dn-order-summary { position:static; }.dn-field-grid { gap:16px; }.dn-panel { padding:20px; }.dn-panel h2 { font-size:21px; }.dn-about-grid { gap:22px; }.dn-about-grid>img { aspect-ratio:4/3; }.dn-customer-app .dn-footer { padding-bottom:20px; }.dn-header-actions>a:first-child { display:none; }.dn-customer-app .dn-categories { gap:21px; }.dn-categories>a { font-size:10px; }.dn-customer-app .dn-search input,.dn-search input { font-size:16px; }.dn-notice { font-size:13px;padding:16px; }.dn-payment-result h1 { font-size:30px; }.dn-customer-app .vn-form-grid { grid-template-columns:1fr; }.vn-analytics-choice { left:12px!important;right:12px!important;bottom:80px!important;max-width:none!important;width:auto!important;font-size:12px; }.dn-customer-app~.vn-analytics-choice { bottom:12px!important; }.dn-faq,.dn-track { scroll-margin-top:175px; } }
 
 .dn-newsletter { grid-column:1/-1;border-top:1px solid #dce4d2;padding:24px 0; }.dn-app .vn-signup { color:#435a31;max-width:650px; }.dn-app .vn-signup-row input { border-color:#bfccaF;background:#fff;color:#24391a;font-size:16px; }.dn-app .vn-signup-row button { background:#293e1c;color:#fff;border-radius:4px; }.dn-app .vn-consent-label { color:#5c714a;font-size:12px;line-height:1.8; }.dn-app .vn-signup p { color:#526a3f; }.dn-size-options button[data-soldout=true] { color:#8b9683;text-decoration:line-through; }.dn-size-options button[data-soldout=true][aria-pressed=true] { border-color:#72865f; }
+
+/* Newsletter has a clear heading and a separate accessible email label. */
+.dn-app .vn-newsletter-title {font-size:clamp(22px,2.4vw,30px);line-height:1.2;letter-spacing:-.5px;margin:0;color:#20271c;}
+.dn-app .vn-signup > .vn-email-label {display:block;font-size:14px;font-weight:600;margin-top:20px;}
+.dn-app .vn-signup > .vn-email-label + .vn-signup-row {margin-top:8px;}
+.dn-newsletter {padding-block:32px;}
+
+.vn-newsletter-popup {width:calc(100vw - 32px)!important;max-width:480px!important;max-height:calc(100dvh - 32px);overflow-y:auto;display:block!important;padding:36px 28px 24px!important;background:#fafaf7!important;color:#20251e!important;border:1px solid #dce0d6!important;border-radius:12px!important;}
+.vn-newsletter-popup .vn-newsletter-brand {font-size:11px;letter-spacing:3px;text-align:center;margin:0 30px 16px;}
+.vn-newsletter-popup [data-slot=dialog-title] {font-size:28px;line-height:1.15;text-align:center;outline:none;margin:0 12px 18px;}
+.vn-newsletter-popup .vn-signup>p {color:#52594e;font-size:14px;line-height:1.5;}
+.vn-newsletter-popup .vn-signup>.vn-email-label {display:block;font-size:14px;margin-top:20px;}
+.vn-newsletter-popup .vn-signup-row {flex-direction:column;margin-top:8px;}
+.vn-newsletter-popup .vn-signup-row input {background:white;color:#20251e;border:1px solid #939b8b;border-radius:4px;font-size:16px;}
+.vn-newsletter-popup .vn-signup-row button {background:#caf577;color:#18220e;min-height:46px;border-radius:4px;font-weight:600;}
+.vn-newsletter-popup .vn-consent-label {color:#52594e;font-size:12px;line-height:1.6;}
+.vn-newsletter-popup a,.vn-newsletter-continue {text-decoration:underline;}
+.vn-newsletter-continue {display:block;margin:20px auto 0;min-height:44px;font-size:14px;}
+.vn-newsletter-popup [data-slot=dialog-close] {width:44px;height:44px;display:grid;place-items:center;top:4px;right:4px;}
+@media(max-width:380px){.vn-newsletter-popup{padding:30px 20px 18px!important;}.vn-newsletter-popup [data-slot=dialog-title]{font-size:24px;}}

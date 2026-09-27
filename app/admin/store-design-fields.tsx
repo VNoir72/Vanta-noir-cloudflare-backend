@@ -1,13 +1,14 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { CommerceSettings } from '@/lib/commerce-config';
 import { SHIPPING_COUNTRIES } from '@/lib/shipping-countries';
-import { shopperCollectionLabel } from '@/lib/catalog-search';
+import { CollectionNameEditor } from './collection-name-editor';
 
 type Props={settings:CommerceSettings;onChange:(settings:CommerceSettings)=>void;busy:boolean;onUploadChange?:(value:boolean)=>void};
 export function StoreDesignFields({settings,onChange,busy,onUploadChange}:Props) {
   const [uploading,setUploading]=useState(false),[error,setError]=useState('');
   const hero=settings.hero;
+  const latestSettings=useRef(settings);latestSettings.current=settings;
   async function upload(file:File|undefined,key:'image'|'mobileImage') {
     if(!file)return;setUploading(true);onUploadChange?.(true);setError('');
     try {
@@ -15,7 +16,7 @@ export function StoreDesignFields({settings,onChange,busy,onUploadChange}:Props)
       const response=await fetch('/api/admin/uploads',{method:'POST',body:form,signal:AbortSignal.timeout(60000)});
       const result=await response.json() as {url?:string;error?:string};
       if(!response.ok||!result.url)throw new Error(result.error||'Image upload failed.');
-      onChange({...settings,hero:{...hero,[key]:result.url}});
+      onChange({...latestSettings.current,hero:{...latestSettings.current.hero,[key]:result.url}});
     }catch(e){setError(e instanceof Error?e.message:'Upload failed.');}finally{setUploading(false);onUploadChange?.(false);}
   }
   return <fieldset disabled={busy||uploading} className="vn-product-disclosure"><legend>Homepage hero &amp; collection names</legend>
@@ -25,9 +26,7 @@ export function StoreDesignFields({settings,onChange,busy,onUploadChange}:Props)
     <div className="vn-admin-fields"><label>Image description<input maxLength={240} value={hero.alt} onChange={e=>onChange({...settings,hero:{...hero,alt:e.target.value}})}/></label><label>Image focal point<select value={hero.focus} onChange={e=>onChange({...settings,hero:{...hero,focus:e.target.value as typeof hero.focus}})}><option>left</option><option>center</option><option>right</option></select></label>
       {(['kicker','title','body','buttonText','buttonLink'] as const).map(key=><label key={key}>{{kicker:'Small heading',title:'Headline',body:'Description',buttonText:'Button / image link label',buttonLink:'Store link (for example /#collection)'}[key]}<textarea value={hero[key]} maxLength={{kicker:100,title:120,body:300,buttonText:50,buttonLink:500}[key]} onChange={e=>onChange({...settings,hero:{...hero,[key]:e.target.value}})}/></label>)}
     </div><label className="vn-launch-check"><input type="checkbox" checked={hero.showText} onChange={e=>onChange({...settings,hero:{...hero,showText:e.target.checked}})}/>Show text and button over the image (turn off for artwork that already includes text).</label>
-    <h3>Customer-facing collection names</h3><p>“Batch” numbers are hidden automatically. To give a collection a different name, enter its existing collection name exactly and the label buyers should see. Existing product links stay valid. You can also edit a product’s Collection field under Products.</p>
-    {settings.collectionLabels.map((row,i)=><div className="vn-admin-fields" key={i}><label>Existing collection name<input maxLength={200} value={row.source} onChange={e=>onChange({...settings,collectionLabels:settings.collectionLabels.map((r,n)=>n===i?{...r,source:e.target.value}:r)})}/></label><label>Name buyers see<input maxLength={100} placeholder={shopperCollectionLabel(row.source)} value={row.label} onChange={e=>onChange({...settings,collectionLabels:settings.collectionLabels.map((r,n)=>n===i?{...r,label:e.target.value}:r)})}/></label><button type="button" onClick={()=>onChange({...settings,collectionLabels:settings.collectionLabels.filter((_,n)=>n!==i)})}>Remove rename</button></div>)}
-    <button type="button" className="vn-pill" disabled={settings.collectionLabels.length>=100} onClick={()=>onChange({...settings,collectionLabels:[...settings.collectionLabels,{source:'',label:''}]})}>Rename a collection</button>
+    <CollectionNameEditor settings={settings} onChange={onChange} busy={busy||uploading}/>
   </fieldset>;
 }
 export function InternationalShippingFields({settings,onChange,busy}:Props) {

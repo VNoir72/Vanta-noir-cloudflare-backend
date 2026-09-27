@@ -241,10 +241,11 @@ export function AdminDashboard({
         fetch("/api/admin/analytics"),
       ]);
       if (!ordersResponse.ok || !inventoryResponse.ok || !analyticsResponse.ok) throw new Error("Refresh failed.");
-      const ordersPayload = (await ordersResponse.json()) as { orders: AdminOrder[] };
+      const ordersPayload = (await ordersResponse.json()) as { orders: AdminOrder[]; total:number; hasMore:boolean };
       const inventoryPayload = (await inventoryResponse.json()) as { inventory: InventoryRow[] };
       const analyticsPayload = (await analyticsResponse.json()) as { analytics: AdminAnalytics };
       setOrders(ordersPayload.orders);
+      setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
       setInventory(inventoryPayload.inventory);
       setAnalytics(analyticsPayload.analytics);
       const productsResponse = await fetch("/api/admin/products");
@@ -260,11 +261,13 @@ export function AdminDashboard({
   }
 
   function openNewProduct() {
+    if(uploadingImage!==null||busy==="product-save")return;
     setSection("products");
     setProductForm(emptyProductForm());
   }
 
   function openProduct(product: AdminProduct) {
+    if(uploadingImage!==null||busy==="product-save")return;
     setSection("products");
     setProductForm(productFormFromRecord(product));
   }
@@ -279,12 +282,12 @@ export function AdminDashboard({
   }
 
   async function uploadImage(index: number, file: File | undefined) {
-    if (!file || !productForm) return;
+    if (!file || !productForm || uploadingImage!==null || busy==="product-save") return;
     setUploadingImage(index);
     try {
       const body = new FormData();
       body.set("file", file);
-      const response = await fetch("/api/admin/uploads", { method: "POST", body });
+      const response = await fetch("/api/admin/uploads", { method: "POST", body, signal:AbortSignal.timeout(60000) });
       const payload = (await response.json().catch(() => ({}))) as { url?: string; error?: string };
       if (!response.ok || !payload.url) throw new Error(payload.error ?? "Image could not be uploaded.");
       setProductForm(current => current ? { ...current, images: current.images.map((image, imageIndex) => imageIndex === index ? { ...image, imageUrl: payload.url! } : image) } : current);
@@ -297,7 +300,7 @@ export function AdminDashboard({
   }
 
   async function saveProduct() {
-    if (!productForm) return;
+    if (!productForm || uploadingImage!==null || busy==="product-save") return;
     const priceNaira = Number(productForm.priceNaira.replaceAll(",", "").trim());
     if (!Number.isFinite(priceNaira) || priceNaira <= 0) {
       toast.error("Enter a valid price in naira.");
@@ -588,18 +591,18 @@ export function AdminDashboard({
             </div>
 
             {productForm ? (
-              <Sheet open onOpenChange={open=>{if(!open)setProductForm(null);}}><SheetContent className="vn-studio-sheet" showCloseButton={false}><SheetTitle className="sr-only">Product studio</SheetTitle><SheetDescription className="sr-only">Edit product details, colourway images and inventory.</SheetDescription><ProductEditor
+              <Sheet open onOpenChange={open=>{if(!open&&uploadingImage===null&&busy!=="product-save")setProductForm(null);}}><SheetContent className="vn-studio-sheet" showCloseButton={false}><SheetTitle className="sr-only">Product studio</SheetTitle><SheetDescription className="sr-only">Edit product details, colourway images and inventory.</SheetDescription><fieldset disabled={uploadingImage!==null||busy==="product-save"} style={{minWidth:0}}><ProductEditor
                 options={options}
                 uploadingImage={uploadingImage}
                 uploadImage={uploadImage}
                 form={productForm}
                 isNew={!productForm.id}
-                busy={busy === "product-save"}
+                busy={busy === "product-save"||uploadingImage!==null}
                 setForm={setProductForm}
-                onClose={() => setProductForm(null)}
+                onClose={() => {if(uploadingImage===null&&busy!=="product-save")setProductForm(null);}}
                 onSave={saveProduct}
                 onDelete={() => { if (productForm.id) void deleteProduct(productForm.id); }}
-              /></SheetContent></Sheet>
+              /></fieldset></SheetContent></Sheet>
             ) : null}
           </div>
         </section>

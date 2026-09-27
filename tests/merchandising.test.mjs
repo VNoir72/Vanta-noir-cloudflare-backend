@@ -127,3 +127,13 @@ test('release integration: live payment evidence, refunds, opt-in, authorisation
   assert.equal((await rpc('sql',"SELECT COUNT(*) AS n FROM email_outbox WHERE recipient='late@example.com' AND event_key LIKE '%:release:%'")).results[0].n,0,'New subscribers do not receive old announcements');
  } finally {await mf.dispose();}
 });
+
+test('best seller ranks count verified units once per source product across grouped colours',()=>{
+ const a={...product,id:'a',colorways:[{sourceProductId:'a'},{sourceProductId:'b'},{sourceProductId:'b'}]};
+ const b={...product,id:'c',colorways:[]};
+ const data={sales:[{productId:'a',units30:2},{productId:'b',units30:5},{productId:'c',units30:6}],stockBadgesEnabled:false};
+ assert.equal(logic.bestSellerUnits(a,data),7);
+ assert.equal(logic.bestSellerUnits(b,data),6);
+ assert.deepEqual([b,a].sort((x,y)=>logic.bestSellerUnits(y,data)-logic.bestSellerUnits(x,data)).map(p=>p.id),['a','c']);
+ assert.equal(logic.bestSellerUnits(a,logic.EMPTY_MERCHANDISING),0);
+});

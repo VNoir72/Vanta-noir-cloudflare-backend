@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { getDbBinding, isAdminEmail, runtimeEnv } from './runtime-env';
-import { saveAdminProduct, listAdminProducts, listAdminOrders, updateOrderStatus, updateOrderTracking } from './store-db';
+import { saveAdminProduct, listAdminProducts, listAdminOrders, countAdminOrders, updateOrderStatus, updateOrderTracking } from './store-db';
 import {queueEmail} from './commerce-db';
 import { productSchema } from './product-input';
 import {roleResources,type StaffRole} from "./operations-permissions";
@@ -63,10 +63,14 @@ export async function allocateExchange(input:unknown,actor:string){
  const result=await db.batch(stmts);if(!result[0].meta.changes)throw new Error('Replacement stock is unavailable, this request changed, or replacements were already allocated.');await audit(actor,'exchange allocated',v.returnId);
 }
 export async function operationsData(resource:string,params:URLSearchParams){
- const db=getDbBinding(),page=Math.max(1,Math.min(10000,Number(params.get('page'))||1)),offset=(page-1)*50;
+ const db=getDbBinding(),page=Math.max(1,Math.min(10000,Math.floor(Number(params.get('page'))||1))),offset=(page-1)*50;
  if(resource==='bulk')return {products:await listAdminProducts()};
  if(resource==='inventory'){const search=`%${(params.get('q')||'').slice(0,100)}%`;return {rows:(await db.prepare(`SELECT a.*,v.sku,p.name FROM stock_adjustments a LEFT JOIN product_variants v ON v.id=a.variant_id LEFT JOIN products p ON p.id=v.product_id WHERE COALESCE(v.sku,'') LIKE ? OR a.reason LIKE ? ORDER BY a.id DESC LIMIT 51 OFFSET ?`).bind(search,search,offset).all()).results};}
- if(resource==='orders'){return {orders:await listAdminOrders({page,status:params.get('status')||'',query:params.get('q')||''}),counts:(await db.prepare('SELECT status,COUNT(*) AS count FROM orders GROUP BY status').all()).results};}
+ if(resource==='orders'){
+  const options={page,status:params.get('status')||'',query:params.get('q')||''};
+  const [orders,total,counts]=await Promise.all([listAdminOrders(options),countAdminOrders(options),db.prepare('SELECT status,COUNT(*) AS count FROM orders GROUP BY status').all()]);
+  return {orders,total,page,hasMore:page*50<total,counts:counts.results};
+ }
  if(resource==='returns')return {returns:(await db.prepare('SELECT r.*,o.reference,e.items_json AS replacements,e.status AS exchange_status,e.carrier AS exchange_carrier,e.tracking_number AS exchange_tracking FROM return_requests r JOIN orders o ON o.id=r.order_id LEFT JOIN exchanges e ON e.return_id=r.id ORDER BY r.created_at DESC LIMIT 51 OFFSET ?').bind(offset).all()).results,variants:(await db.prepare('SELECT v.id,v.product_id,v.size,v.color,v.stock,v.active,p.name FROM product_variants v JOIN products p ON p.id=v.product_id').all()).results};
  if(resource==='promotions')return {promotions:(await db.prepare(`SELECT p.*,(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=p.code AND o.payment_status='paid') AS redeemed FROM promotions p ORDER BY starts_at DESC LIMIT 100`).all()).results};
  if(resource==='reports'){const from=params.get('from')||'1970-01-01',to=params.get('to')||'2999-12-31';if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to)||from>to)throw new Error('Choose a valid date range.');

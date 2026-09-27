@@ -38,7 +38,15 @@ test('operations: stock conflicts, promotion limits, exchanges, signed tracking 
  await assert.rejects(rpc('updateReturn',{...ret,version:2,status:'received',refundKobo:p.priceKobo},'owner@example.com'),/after discounts/);
  const exchange={returnId:returned.id,items:[{originalVariantId:variantId,variantId:replacement,quantity:1}]};const attempts=await Promise.allSettled([rpc('allocateExchange',exchange,'owner@example.com'),rpc('allocateExchange',exchange,'owner@example.com')]);assert.equal(attempts.filter(r=>r.status==='fulfilled').length,1);assert.equal((await rpc('sql','SELECT stock FROM product_variants WHERE id=?',replacement)).results[0].stock,9);
  await rpc('exchangeTracking',{returnId:returned.id,carrier:'Test',trackingNumber:'REPLACE-1',status:'shipped'},'owner@example.com');assert.equal((await rpc('getGuestOrder',order.reference,customer.email,'')).returnRequest.exchangeTracking,'REPLACE-1');
- const owner=await jwt('owner@example.com'),analyst=await jwt('analyst@example.com');await rpc('saveStaff',{email:'analyst@example.com',role:'analyst',active:true},'owner@example.com');assert.equal((await req('reports',analyst)).status,200);assert.equal((await req('orders',analyst)).status,403);assert.equal((await req('reports',analyst,{action:'stock',data:{variantId,expectedStock:7,stock:99,reason:'Not allowed'}})).status,403);assert.equal((await req('staff',owner)).status,200);
+ const owner=await jwt('owner@example.com'),analyst=await jwt('analyst@example.com');
+ const pageResult=await req('orders&page=1.5',owner);assert.equal(pageResult.status,200);
+ const pageData=await pageResult.json();assert.equal(pageData.page,1);assert.equal(pageData.total,1);assert.equal(pageData.hasMore,false);
+ const logResult=await req('inventory&page=1.5',owner);assert.equal(logResult.status,200,'Fractional pages cannot break SQLite offsets');
+ for(let i=1;i<50;i++)await rpc('sql',`INSERT INTO orders(id,reference,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,total_kobo,status,payment_status) SELECT ?,?,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,total_kobo,status,payment_status FROM orders WHERE id=?`,'page-'+i,'page-ref-'+i,order.id);
+ const fullPage=await (await req('orders',owner)).json();assert.equal(fullPage.orders.length,50);assert.equal(fullPage.hasMore,false,'Exactly 50 orders has no empty next page');
+ const filteredPage=await (await req('orders&q='+order.reference,owner)).json();assert.equal(filteredPage.total,1);assert.equal(filteredPage.hasMore,false);
+
+await rpc('saveStaff',{email:'analyst@example.com',role:'analyst',active:true},'owner@example.com');assert.equal((await req('reports',analyst)).status,200);assert.equal((await req('orders',analyst)).status,403);assert.equal((await req('reports',analyst,{action:'stock',data:{variantId,expectedStock:7,stock:99,reason:'Not allowed'}})).status,403);assert.equal((await req('staff',owner)).status,200);
  await rpc('saveStaff',{email:'analyst@example.com',role:'analyst',active:false},'owner@example.com');assert.equal((await req('reports',analyst)).status,403,'Revoked user denied with still-valid JWT');
  }finally{await mf.dispose();}
 });
