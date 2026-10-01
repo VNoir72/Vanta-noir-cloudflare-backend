@@ -39,7 +39,7 @@ export function CheckoutForm() {
       window.location.assign(target.href);
     }catch(e){setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"The payment service took too long. Please check your order with customer care before trying again.");submitting.current=false;setBusy(false);}
   }
-  return <StoreShell><a className="dn-back" href="/?bag=1"><ArrowLeft size={16}/>Back to your bag</a><div className="dn-page-intro"><span className="dn-eyebrow">YOUR NEXT EVERYDAY UNIFORM</span><h1>Make it yours.</h1><p>Guest checkout. All prices in Nigerian naira.</p></div>
+  return <StoreShell checkout><a className="dn-back" href="/?bag=1"><ArrowLeft size={16}/>Back to your bag</a><div className="dn-page-intro"><span className="dn-eyebrow">PRESENCE. POWER. PRECISION.</span><h1>Checkout.</h1><p>Make it yours. Guest checkout in Nigerian naira.</p></div>
     {loading?<div className="dn-panel" role="status">Loading your bag and delivery options…</div>:!settings?<div className="dn-panel"><p role="alert">{error}</p><button className="dn-primary" onClick={()=>setRetry(n=>n+1)}>Try again</button></div>:!cart.length?<div className="dn-empty"><ShoppingBag size={38}/><h2>Your bag is empty.</h2><p>Choose a piece and a size to get started.</p><a className="dn-primary" href="/#collection">Explore the collection <ArrowRight size={16}/></a></div>:<>
       {!settings.checkoutReady&&<div className="dn-notice" role="status"><strong>Online orders are not open yet.</strong><p>You can review your bag and explore delivery options. Payments will open when the store is ready. <a href="/contact">Contact customer care</a></p></div>}
       {notice&&<p className="dn-notice" role="status">{notice}</p>}
