@@ -1,0 +1,14 @@
+Payment acceptance marks
+
+Visa and Mastercard: unmodified SVG files from Datatrans payment-logos.
+https://github.com/datatrans/payment-logos
+https://github.com/datatrans/payment-logos/blob/master/assets/cards/visa.svg
+https://github.com/datatrans/payment-logos/blob/master/assets/cards/mastercard.svg
+Distributed by that project under CC BY-SA 4.0; see LICENSE-datatrans.txt.
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Apple Pay: unmodified official Apple Pay mark, downloaded 1 October 2026.
+https://developer.apple.com/apple-pay/marketing/Apple-Pay-Mark.zip
+https://developer.apple.com/apple-pay/marketing/
+
+All trademarks remain the property of their respective owners.

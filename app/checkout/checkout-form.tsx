@@ -10,6 +10,7 @@ import { shippingCountryName, postalCodeRequired } from "@/lib/shipping-countrie
 import { NIGERIA_STATES, shippingQuote } from "@/lib/commerce-config";
 import { readStorage, writeStorage } from "@/lib/browser-store";
 import { trackCommerce } from "@/lib/analytics";
+import { PaymentMethods } from "@/components/payment-methods";
 
 export function CheckoutForm() {
   const [cart,setCart]=useState<CartItem[]>([]),[settings,setSettings]=useState<CheckoutSettings|null>(null);
@@ -56,7 +57,8 @@ export function CheckoutForm() {
         <a className="dn-text-link" href="/?bag=1">Edit your bag</a><label>Promotion code<input maxLength={32} value={code} onChange={e=>{setCode(e.target.value.toUpperCase());setPromotion(null);}}/></label><button type="button" className="dn-text-link" disabled={busy||quoting||!code.trim()} onClick={()=>void applyCode()}>{quoting?"Checking…":"Apply code"}</button>{promotion&&<p role="status">{promotion.code} applied · Save {formatNaira(promotion.discountKobo)}</p>}<dl className="dn-totals"><div><dt>Subtotal</dt><dd>{formatNaira(subtotal)}</dd></div>{promotion&&<div><dt>Discount</dt><dd>−{formatNaira(promotion.discountKobo)}</dd></div>}<div><dt>Delivery</dt><dd>{countryCode==="NG"&&!state?"Select a state":delivery.feeKobo===null?"Unavailable":delivery.feeKobo===0?"Free":formatNaira(delivery.feeKobo)}</dd></div><div className="dn-total"><dt>Total</dt><dd>{(state||countryCode!=="NG")&&total!==null?formatNaira(total):"—"}</dd></div></dl>
         <label className="dn-checkbox"><input type="checkbox" required/>I have read the <a href="/terms-of-service" target="_blank" rel="noreferrer">terms</a> and <a href="/shipping-returns" target="_blank" rel="noreferrer">delivery & returns policy</a>.</label>
         {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Opening Paystack…":settings.checkoutReady?"Continue to Paystack":"Payments opening soon"}<ArrowRight size={17}/></button>
-        <p className="dn-small">Pay securely with the methods available on Paystack. Your card details are entered on Paystack. <a href="/privacy-policy">Privacy policy</a></p>
+        <PaymentMethods/>
+        <p className="dn-small">Choose your payment method on Paystack. Your card details are entered there securely. <a href="/privacy-policy">Privacy policy</a></p>
       </aside></form></>}
   </StoreShell>;
 }
