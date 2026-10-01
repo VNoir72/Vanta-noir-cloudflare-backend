@@ -1,3 +1,4 @@
+import {rewardAdminData} from './rewards-db';
 import { z } from 'zod';
 import { getDbBinding, isAdminEmail, runtimeEnv } from './runtime-env';
 import { saveAdminProduct, listAdminProducts, listAdminOrders, countAdminOrders, updateOrderStatus, updateOrderTracking } from './store-db';
@@ -50,10 +51,11 @@ export async function quotePromotion(code:string,items:Array<{productId:string;l
  return {discountKobo:Math.min(Math.max(0,subtotal-100),p.kind==='percent'?Math.floor(subtotal*p.value/100):p.value),promotion:p};
 }
 export async function allocateExchange(input:unknown,actor:string){
- const v=z.object({returnId:z.string().min(1),items:z.array(z.object({originalVariantId:z.string().min(1),variantId:z.string().min(1),quantity:z.number().int().min(1).max(5)})).min(1).max(20)}).parse(input),db=getDbBinding();
+ const v=z.object({returnId:z.string().min(1),items:z.array(z.object({originalVariantId:z.string().min(1),variantId:z.string().min(1),quantity:z.number().int().min(1).max(6)})).min(1).max(21)}).parse(input),db=getDbBinding();
  if(new Set(v.items.map(i=>i.originalVariantId)).size!==v.items.length||new Set(v.items.map(i=>i.variantId)).size!==v.items.length)throw new Error('Choose one replacement per returned variant.');
  const r=await db.prepare(`SELECT r.*,o.reference FROM return_requests r JOIN orders o ON o.id=r.order_id WHERE r.id=? AND r.kind='exchange' AND r.status='received'`).bind(v.returnId).first<{items_json:string;reference:string;version:number}>();
- if(!r)throw new Error('Receive and inspect the exchange before allocating replacements.');const originals=JSON.parse(r.items_json) as Array<{variantId:string;quantity:number}>;
+ if(!r)throw new Error('Receive and inspect the exchange before allocating replacements.');const returned=JSON.parse(r.items_json) as Array<{variantId:string;quantity:number}>;
+ const originals=Array.from(returned.reduce((m,i)=>{m.set(i.variantId,(m.get(i.variantId)||0)+i.quantity);return m;},new Map<string,number>()),([variantId,quantity])=>({variantId,quantity}));
  if(originals.length!==v.items.length||v.items.some(i=>!originals.some(o=>o.variantId===i.originalVariantId&&o.quantity===i.quantity)))throw new Error('Replacement quantities must match the received items.');
  const token=crypto.randomUUID(),key=`exchange:${v.returnId}`;
  const gate='EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)';
@@ -72,9 +74,9 @@ export async function operationsData(resource:string,params:URLSearchParams){
   return {orders,total,page,hasMore:page*50<total,counts:counts.results};
  }
  if(resource==='returns')return {returns:(await db.prepare('SELECT r.*,o.reference,e.items_json AS replacements,e.status AS exchange_status,e.carrier AS exchange_carrier,e.tracking_number AS exchange_tracking FROM return_requests r JOIN orders o ON o.id=r.order_id LEFT JOIN exchanges e ON e.return_id=r.id ORDER BY r.created_at DESC LIMIT 51 OFFSET ?').bind(offset).all()).results,variants:(await db.prepare('SELECT v.id,v.product_id,v.size,v.color,v.stock,v.active,p.name FROM product_variants v JOIN products p ON p.id=v.product_id').all()).results};
- if(resource==='promotions')return {promotions:(await db.prepare(`SELECT p.*,(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=p.code AND o.payment_status='paid') AS redeemed FROM promotions p ORDER BY starts_at DESC LIMIT 100`).all()).results};
+ if(resource==='promotions')return {...await rewardAdminData(),promotions:(await db.prepare(`SELECT p.*,(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=p.code AND o.payment_status='paid') AS redeemed FROM promotions p ORDER BY starts_at DESC LIMIT 100`).all()).results};
  if(resource==='reports'){const from=params.get('from')||'1970-01-01',to=params.get('to')||'2999-12-31';if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to)||from>to)throw new Error('Choose a valid date range.');
- const [sales,refunds,bestsellers]=await Promise.all([db.prepare(`SELECT COUNT(*) AS orders,COALESCE(SUM(total_kobo),0) AS revenue,COALESCE(SUM(discount_kobo),0) AS discounts,COALESCE(SUM(shipping_kobo),0) AS delivery FROM orders WHERE payment_status='paid' AND date(paid_at) BETWEEN ? AND ?`).bind(from,to).first(),db.prepare(`SELECT COALESCE(SUM(refund_kobo),0) AS amount FROM return_requests WHERE refund_status='completed' AND date(updated_at) BETWEEN ? AND ?`).bind(from,to).first(),db.prepare(`SELECT i.product_name,i.size,i.color,SUM(i.quantity) AS units,SUM(i.line_total_kobo) AS gross FROM order_items i JOIN orders o ON o.id=i.order_id WHERE o.payment_status='paid' AND date(o.paid_at) BETWEEN ? AND ? GROUP BY i.product_id,i.product_name,i.size,i.color ORDER BY units DESC LIMIT 100`).bind(from,to).all()]);return {sales,refunds,bestsellers:bestsellers.results};}
+ const [sales,refunds,bestsellers]=await Promise.all([db.prepare(`SELECT COUNT(*) AS orders,COALESCE(SUM(total_kobo),0) AS revenue,COALESCE(SUM(discount_kobo),0) AS discounts,COALESCE(SUM(shipping_kobo),0) AS delivery FROM orders WHERE payment_status='paid' AND date(paid_at) BETWEEN ? AND ?`).bind(from,to).first(),db.prepare(`SELECT COALESCE(SUM(refund_kobo),0) AS amount FROM return_requests WHERE refund_status='completed' AND date(updated_at) BETWEEN ? AND ?`).bind(from,to).first(),db.prepare(`SELECT i.product_name,i.size,i.color,SUM(i.quantity) AS units,SUM(i.line_total_kobo) AS gross FROM order_items i JOIN orders o ON o.id=i.order_id WHERE i.is_gift=0 AND o.payment_status='paid' AND date(o.paid_at) BETWEEN ? AND ? GROUP BY i.product_id,i.product_name,i.size,i.color ORDER BY units DESC LIMIT 100`).bind(from,to).all()]);return {sales,refunds,bestsellers:bestsellers.results};}
  if(resource==='staff')return {staff:(await db.prepare('SELECT email,role,active FROM admin_staff ORDER BY email').all()).results};
  if(resource==='activity')return {rows:(await db.prepare('SELECT * FROM admin_audit ORDER BY id DESC LIMIT 51 OFFSET ?').bind(offset).all()).results};
  if(resource==='courier')return {connected:!!runtimeEnv().COURIER_WEBHOOK_SECRET,events:(await db.prepare('SELECT * FROM courier_events ORDER BY created_at DESC LIMIT 50').all()).results};

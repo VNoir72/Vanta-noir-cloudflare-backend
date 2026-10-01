@@ -8,6 +8,8 @@ import { configuredShippingFeeKobo, storefrontOrigin } from "@/lib/runtime-env";
 import { createPendingOrder, markOrderPaymentError } from "@/lib/store-db";
 
 const checkoutSchema = z.object({
+  rewardCode: z.string().trim().toUpperCase().max(48).default(""),
+  expectedRewardSignature: z.string().max(300).default(""),
   promotionCode: z.string().trim().toUpperCase().max(32).default(""),
   expectedTotalKobo: z.number().int().positive().max(100_000_000_000),
   customer: checkoutCustomerSchema,
@@ -84,7 +86,7 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    const message = error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion/.test(error.message)
+    const message = error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward/.test(error.message)
       ? error.message : "Checkout could not be created. Please refresh your bag and try again.";
     return Response.json({ error: message }, { status: 400 });
   }

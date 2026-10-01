@@ -17,7 +17,8 @@
     "db:migrate": "wrangler d1 migrations apply DB --remote --config wrangler.deploy.jsonc",
     "db:import-catalog": "wrangler d1 execute DB --remote --config wrangler.deploy.jsonc --file portable/catalog-import.sql",
     "db:upgrade": "node scripts/upgrade-database.mjs",
-    "maintenance": "wrangler deploy scripts/maintenance-worker.js --config wrangler.deploy.jsonc"
+    "maintenance": "wrangler deploy scripts/maintenance-worker.js --config wrangler.deploy.jsonc",
+    "db:rewards": "node scripts/upgrade-rewards.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

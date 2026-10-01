@@ -1,3 +1,4 @@
+import {saveRewardCampaign,drawRewardWinners} from '@/lib/rewards-db';
 import {getDbBinding} from '@/lib/runtime-env';
 import {z} from 'zod';
 import {adminAuthStateFromRequest} from '@/lib/admin-auth';
@@ -6,11 +7,13 @@ import {updateReturn,returnUpdateSchema} from '@/lib/commerce-db';
 import {updateOrderTracking} from '@/lib/store-db';
 export const dynamic='force-dynamic';
 export async function GET(request:Request){const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status});const p=new URL(request.url).searchParams,resource=p.get('resource')||'orders';if(!permits(auth.role,resource))return Response.json({error:'Access denied.'},{status:403});try{return Response.json(await operationsData(resource,p),{headers:{'Cache-Control':'no-store'}});}catch{return Response.json({error:'This section could not load. Try again.'},{status:503});}}
-const actionResource:Record<string,string>={stock:'inventory',prices:'bulk',import:'bulk',promotion:'promotions',staff:'staff',exchange:'returns','exchange-tracking':'returns',return:'returns',order:'orders',tracking:'orders'};
+const actionResource:Record<string,string>={stock:'inventory',prices:'bulk',import:'bulk',promotion:'promotions',reward:'promotions','reward-draw':'promotions',staff:'staff',exchange:'returns','exchange-tracking':'returns',return:'returns',order:'orders',tracking:'orders'};
 export async function POST(request:Request){const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status});if(Number(request.headers.get('content-length'))>1000000)return Response.json({error:'Upload at most 25 products per batch.'},{status:413});const raw=await request.text();if(raw.length>1000000)return Response.json({error:'Upload at most 25 products per batch.'},{status:413});let body:{action:string;data?:unknown};try{body=z.object({action:z.string(),data:z.unknown()}).parse(JSON.parse(raw));}catch{return Response.json({error:'Invalid request.'},{status:400});}const resource=actionResource[body.action];if(!resource||!permits(auth.role,resource))return Response.json({error:'Access denied.'},{status:403});try{let result:unknown={ok:true};const data=body.data;
  if(body.action==='stock')await adjustStock(data,auth.email);
  if(body.action==='prices')result=await bulkPrices(data,auth.email);
  if(body.action==='import')result=await importProducts(data,auth.email);
+ if(body.action==='reward')result=await saveRewardCampaign(data,auth.email);
+ if(body.action==='reward-draw')result=await drawRewardWinners(data,auth.email);
  if(body.action==='promotion')await savePromotion(data,auth.email);
  if(body.action==='staff')await saveStaff(data,auth.email);
  if(body.action==='exchange')await allocateExchange(data,auth.email);
