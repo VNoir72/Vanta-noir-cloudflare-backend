@@ -14,7 +14,7 @@ test('Shop all retains every catalogue record including previews and proposed pr
  assert.ok(products.length>600);
  assert.equal(products.filter(p=>matchesCategory(p,'All')).length,products.length);
  for(const category of categories){
-  for(const p of products.filter(p=>p.category===category.name)){
+  for(const p of products.filter(p=>p.category===category.name && !['vn-pdf-p01-2-17','vn-pdf-p07-2-r1-a4','vn-pdf-p07-2-r1-a5'].includes(p.id))){
    assert.equal(matchesCategory(p,category.id),true,p.id);
    assert.equal(matchesCategory(p,category.section),true,p.id);
   }
@@ -27,4 +27,10 @@ test('Best sellers has no invented sales and New arrivals remains an optional fi
   if(preview)assert.equal(matchesCategory(p,'New arrivals'),false);
  }
  assert.doesNotMatch(source,/<HomepageMerchandising\b/);
+});
+
+test('reviewed bomber is outerwear and stand-collar sets are performance sets',()=>{
+ const bomber=products.find(p=>p.id==='vn-pdf-p01-2-17');
+ assert.ok(bomber);assert.equal(matchesCategory(bomber,'Outerwear'),true);assert.equal(matchesCategory(bomber,'Matching Sets'),false);
+ for(const id of ['vn-pdf-p07-2-r1-a4','vn-pdf-p07-2-r1-a5'])assert.equal(matchesCategory(products.find(p=>p.id===id),'C12'),true);
 });

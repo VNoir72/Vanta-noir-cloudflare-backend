@@ -10,6 +10,7 @@ function rememberDismissal(){sessionDismissed=String(Date.now());try{localStorag
 function rememberSignup(){sessionSubscribed='1';try{localStorage.setItem(SUBSCRIBED,'1');}catch{}}
 export function NewsletterPopup(){
   const [open,setOpen]=useState(false);
+  const [submitted,setSubmitted]=useState(false);
   const title=useRef<HTMLHeadingElement>(null);
   useEffect(()=>{
     if(!newsletterPage(window.location.pathname))return;
@@ -24,10 +25,10 @@ export function NewsletterPopup(){
     return()=>{window.clearInterval(timer);window.removeEventListener('scroll',scroll);};
   },[]);
   function close(){rememberDismissal();setOpen(false);}
-  return <Dialog open={open} onOpenChange={value=>{if(!value)close();}}><DialogContent className="vn-newsletter-popup" aria-describedby={undefined} onOpenAutoFocus={e=>{e.preventDefault();title.current?.focus();}}>
+  return <>{submitted&&<p className="vn-newsletter-success" role="status">Request saved. Check your email to confirm your subscription.<button type="button" aria-label="Dismiss signup confirmation" onClick={()=>setSubmitted(false)}>×</button></p>}<Dialog open={open} onOpenChange={value=>{if(!value)close();}}><DialogContent className="vn-newsletter-popup" aria-describedby={undefined} onOpenAutoFocus={e=>{e.preventDefault();title.current?.focus();}}>
     <p className="vn-newsletter-brand">VANTA NOIR</p>
     <DialogTitle ref={title} tabIndex={-1}>Stay updated with Vanta Noir</DialogTitle>
-    <CustomerSignup hideHeading onSubscribed={rememberSignup}/>
+    <CustomerSignup hideHeading onSubscribed={()=>{rememberSignup();setSubmitted(true);close();}}/>
     <button type="button" className="vn-newsletter-continue" onClick={close}>Continue shopping</button>
-  </DialogContent></Dialog>;
+  </DialogContent></Dialog></>;
 }
