@@ -343,24 +343,32 @@ export function AdminDashboard({
         method: productForm.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(30000),
       });
       const responsePayload = (await response.json().catch(() => ({}))) as { product?: AdminProduct; error?: string };
       if (!response.ok || !responsePayload.product) throw new Error(responsePayload.error ?? "Product could not be saved.");
       replaceProduct(responsePayload.product);
-      setProductForm(productFormFromRecord(responsePayload.product));
-      const [inventoryResponse, analyticsResponse] = await Promise.all([
-        fetch("/api/admin/inventory"),
-        fetch("/api/admin/analytics"),
-      ]);
-      if (inventoryResponse.ok) {
-        const inventoryPayload = (await inventoryResponse.json()) as { inventory: InventoryRow[] };
-        setInventory(inventoryPayload.inventory);
-      }
-      if (analyticsResponse.ok) {
-        const analyticsPayload = (await analyticsResponse.json()) as { analytics: AdminAnalytics };
-        setAnalytics(analyticsPayload.analytics);
-      }
+      setProductForm(null);
       toast.success(productForm.id ? "Product updated." : "Product created.");
+
+      // The product is already saved. A secondary refresh must not report a save failure.
+      const refreshed = await Promise.allSettled([
+        (async () => {
+          const response = await fetch("/api/admin/inventory", { signal: AbortSignal.timeout(10000) });
+          if (!response.ok) throw new Error("Inventory refresh failed.");
+          const payload = (await response.json()) as { inventory: InventoryRow[] };
+          setInventory(payload.inventory);
+        })(),
+        (async () => {
+          const response = await fetch("/api/admin/analytics", { signal: AbortSignal.timeout(10000) });
+          if (!response.ok) throw new Error("Analytics refresh failed.");
+          const payload = (await response.json()) as { analytics: AdminAnalytics };
+          setAnalytics(payload.analytics);
+        })(),
+      ]);
+      if (refreshed.some(result => result.status === "rejected")) {
+        toast.warning("Your product is saved. Use Refresh to update the remaining dashboard figures.");
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Product could not be saved.");
     } finally {
