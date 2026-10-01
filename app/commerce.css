@@ -115,3 +115,7 @@
 .vn-payment-marks img { display:block; width:62px; height:40px; object-fit:contain; }
 .vn-payment-methods .vn-payment-methods-note { margin:10px 0 0; max-width:380px; color:inherit; opacity:.72; font-size:11px; line-height:1.6; }
 .dn-footer>.vn-payment-methods { grid-column:1/-1; margin-top:0; }
+
+.dn-rewards{border:1px solid #d9d1c3;background:#f7f4ed;padding:16px;margin:18px 0;color:#292721;border-radius:4px;text-align:left}
+.dn-rewards strong{font-size:14px;display:block}.dn-rewards p{font-size:13px;line-height:1.5;margin:8px 0}.dn-rewards small{font-size:11px;line-height:1.5;display:block;opacity:.75}
+.dn-bag-summary .dn-rewards{display:block}.dn-bag-summary .dn-rewards p{margin:8px 0}

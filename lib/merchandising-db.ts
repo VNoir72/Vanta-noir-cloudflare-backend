@@ -17,7 +17,7 @@ export async function salesSignals(): Promise<SalesSignal[]> {
         WHERE r.order_id=o.id AND r.refund_status='completed' AND json_extract(j.value,'$.id')=i.id),0)) AS quantity
     FROM order_items i JOIN orders o ON o.id=i.order_id
     JOIN store_meta m ON m.key='verified-payment:'||o.reference AND m.value='live'
-    WHERE o.payment_status='paid' AND o.status IN ('paid','processing','shipped','delivered')
+    WHERE i.is_gift=0 AND o.payment_status='paid' AND o.status IN ('paid','processing','shipped','delivered')
       AND datetime(o.paid_at)>=datetime('now','-30 days') AND datetime(o.paid_at)<=datetime('now')
   ) SELECT product_id AS productId,SUM(quantity) AS units30,
     COUNT(DISTINCT CASE WHEN quantity>0 THEN order_id END) AS orders30,

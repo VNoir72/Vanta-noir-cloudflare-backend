@@ -125,6 +125,7 @@ export const orderItems = sqliteTable(
     quantity: integer("quantity").notNull(),
     unitPriceKobo: integer("unit_price_kobo").notNull(),
     lineTotalKobo: integer("line_total_kobo").notNull(),
+    isGift: integer("is_gift").notNull().default(0),
   },
   (table) => [index("order_items_order_idx").on(table.orderId)],
 );
@@ -233,3 +234,14 @@ export const courierEvents = sqliteTable("courier_events", {
   id:text("id").primaryKey(), reference:text("reference").notNull(), status:text("status").notNull(),
   createdAt:text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const rewardCampaigns = sqliteTable('reward_campaigns', {
+  id: text('id').primaryKey(), configJson: text('config_json').notNull(), code: text('code').unique(),
+  version: integer('version').notNull().default(1), active: integer('active').notNull().default(0),
+  startsAt: text('starts_at').notNull(), endsAt: text('ends_at').notNull(),
+}, t=>[index('reward_campaigns_active_idx').on(t.active,t.startsAt,t.endsAt)]);
+export const orderRewards = sqliteTable('order_rewards', {
+  orderId: text('order_id').primaryKey().references(()=>orders.id), campaignId: text('campaign_id').notNull().references(()=>rewardCampaigns.id),
+  title: text('title').notNull(), shippingSavingsKobo: integer('shipping_savings_kobo').notNull().default(0),
+  giftVariantId: text('gift_variant_id').notNull().default(''), maxUses: integer('max_uses').notNull().default(0),
+},t=>[index('order_rewards_campaign_idx').on(t.campaignId,t.orderId)]);

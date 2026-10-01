@@ -166,7 +166,7 @@ export async function listReviews(productId:string,page=1){
   return {reviews:rows.results.slice(0,10),hasMore:rows.results.length>10};
 }
 
-export const returnSchema=z.object({reference:z.string().trim().min(3).max(120),email:z.string().trim().email().max(200),kind:z.enum(["return","exchange"]),reason:z.string().trim().min(10).max(2000),items:z.array(z.object({id:z.number().int().positive(),quantity:z.number().int().min(1).max(5)})).min(1).max(20).refine(items=>new Set(items.map(i=>i.id)).size===items.length)});
+export const returnSchema=z.object({reference:z.string().trim().min(3).max(120),email:z.string().trim().email().max(200),kind:z.enum(["return","exchange"]),reason:z.string().trim().min(10).max(2000),items:z.array(z.object({id:z.number().int().positive(),quantity:z.number().int().min(1).max(5)})).min(1).max(21).refine(items=>new Set(items.map(i=>i.id)).size===items.length)});
 export async function requestReturn(input:z.infer<typeof returnSchema>){
   const db=getDbBinding();
   const order=await db.prepare("SELECT id,email FROM orders WHERE reference=? AND lower(email)=lower(?) AND payment_status='paid' AND status IN ('shipped','delivered')").bind(input.reference,input.email).first<{id:string;email:string}>();

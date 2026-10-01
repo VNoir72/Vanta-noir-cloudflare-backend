@@ -1,3 +1,4 @@
+import {quoteRewards,rewardCapacitySql} from './rewards-db';
 import { receiptDigest } from "./receipt-access";
 import { addressLineWithPostalCode } from "./checkout-address";
 import { shippingCountryName } from "./shipping-countries";
@@ -107,6 +108,7 @@ export type CheckoutCustomer = {
 };
 
 type ResolvedItem = {
+  isGift?: boolean;
   variantId: string;
   productId: string;
   productName: string;
@@ -775,6 +777,8 @@ export async function createPendingOrder(args: {
   expectedTotalKobo: number;
   deliveryEstimate?: string;
   promotionCode?: string;
+  rewardCode?: string;
+  expectedRewardSignature?: string;
 }) {
   await ensureCatalogSeeded();
   const db = getDbBinding();
@@ -830,7 +834,16 @@ export async function createPendingOrder(args: {
 
   const subtotalKobo = resolved.reduce((sum, item) => sum + item.lineTotalKobo, 0);
   const {discountKobo,promotion}=await quotePromotion(args.promotionCode||"",resolved);
-  const totalKobo = subtotalKobo + args.shippingKobo - discountKobo;
+  const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart});
+  if (reward.quote.signature !== (args.expectedRewardSignature || '')) throw new Error('Your reward changed. Refresh checkout to review your gift and delivery before paying.');
+  const shippingKobo = reward.quote.shippingKobo!;
+  const totalKobo = subtotalKobo + shippingKobo - discountKobo;
+  const allocations = resolved.map(i=>({...i}));
+  if (reward.gift) {
+    const g=reward.gift, allocation=allocations.find(i=>i.variantId===g.variantId);
+    if(allocation) allocation.quantity++; else allocations.push({...g,quantity:1,lineTotalKobo:g.unitPriceKobo});
+    resolved.push({...g,productName:'Free gift · '+g.productName,quantity:1,unitPriceKobo:0,lineTotalKobo:0,isGift:true});
+  }
   if (totalKobo !== args.expectedTotalKobo) throw new Error("The prices or delivery charge have changed. Please refresh your bag before paying.");
   const id = crypto.randomUUID();
   const reference = `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
@@ -844,7 +857,7 @@ export async function createPendingOrder(args: {
           (id, reference, email, first_name, last_name, phone, address_line_1,
            address_line_2, city, state, country, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
          SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-         WHERE (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND NOT EXISTS (
+         WHERE (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
            SELECT 1 FROM json_each(?) c
            LEFT JOIN product_variants v ON v.id = json_extract(c.value, '$.variantId')
            LEFT JOIN products p ON p.id = v.product_id
@@ -868,18 +881,19 @@ export async function createPendingOrder(args: {
         args.customer.state,
         shippingCountryName(args.customer.countryCode),
         subtotalKobo,
-        args.shippingKobo,
+        shippingKobo,
         totalKobo, discountKobo, promotion?.code||"",
         promotion?.code||"",promotion?.code||"",promotion?.version||0,new Date().toISOString(),new Date().toISOString(),
-        JSON.stringify(resolved),
+        reward.campaign?.id||"",reward.campaign?.id||"",reward.campaign?.version||0,new Date().toISOString(),new Date().toISOString(),
+        JSON.stringify(allocations),
       ),
     ...resolved.map((item) =>
       db
         .prepare(
           `INSERT INTO order_items
             (order_id, product_id, variant_id, product_name, size, color,
-             quantity, unit_price_kobo, line_total_kobo)
-           SELECT ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM orders WHERE id = ?)`,
+             quantity, unit_price_kobo, line_total_kobo, is_gift)
+           SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM orders WHERE id = ?)`,
         )
         .bind(
           id,
@@ -891,19 +905,21 @@ export async function createPendingOrder(args: {
           item.quantity,
           item.unitPriceKobo,
           item.lineTotalKobo,
+          item.isGift ? 1 : 0,
           id,
         ),
     ),
   ];
 
+  if(reward.campaign) statements.push(db.prepare("INSERT INTO order_rewards(order_id,campaign_id,title,shipping_savings_kobo,gift_variant_id,max_uses) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(id,reward.campaign.id,reward.campaign.title,reward.quote.shippingSavingsKobo,reward.gift?.variantId||'',reward.campaign.maxUses,id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(`receipt-access:${reference}`,receiptAccess,id));
-  statements.push(...resolved.map(item => db.prepare(
+  statements.push(...allocations.map(item => db.prepare(
     "INSERT INTO stock_reservations (id, order_id, variant_id, quantity, expires_at) SELECT ?, ?, ?, ?, datetime('now', '+15 minutes') WHERE EXISTS (SELECT 1 FROM orders WHERE id = ?)"
   ).bind(crypto.randomUUID(), id, item.variantId, item.quantity, id)));
   const results = await db.batch(statements);
   if (!results[0].meta.changes) throw new Error("An item was just reserved or changed. Please refresh your bag and try again.");
   if (args.deliveryEstimate) await db.prepare("UPDATE orders SET delivery_estimate=? WHERE id=?").bind(args.deliveryEstimate, id).run();
-  return { id, reference, receiptToken, subtotalKobo, shippingKobo: args.shippingKobo, totalKobo };
+  return { id, reference, receiptToken, subtotalKobo, shippingKobo, totalKobo };
 }
 
 export async function markOrderPaymentError(reference: string) {
@@ -1025,14 +1041,17 @@ export async function markOrderPaid(args: {
     db.prepare(`UPDATE orders SET payment_status = 'paid', allocation_token = ?, paid_at = CURRENT_TIMESTAMP,
       updated_at = CURRENT_TIMESTAMP,
       status = CASE WHEN status = 'cancelled' OR EXISTS (
+        SELECT 1 FROM order_rewards own WHERE own.order_id=orders.id AND own.max_uses>0 AND own.max_uses<=
+          (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='paid')
+      ) OR EXISTS (
         SELECT 1 FROM order_items oi LEFT JOIN product_variants v ON v.id = oi.variant_id
         WHERE oi.order_id = orders.id AND (v.id IS NULL OR
-          v.stock - COALESCE((SELECT SUM(r.quantity) FROM stock_reservations r WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < oi.quantity)
+          v.stock - COALESCE((SELECT SUM(r.quantity) FROM stock_reservations r WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < (SELECT SUM(quantity) FROM order_items needed WHERE needed.order_id=oi.order_id AND needed.variant_id=oi.variant_id))
       ) THEN 'paid_stock_review' ELSE 'paid' END
       WHERE id = ? AND payment_status <> 'paid'`).bind(allocationToken, order.id),
-    db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-i.quantity,?,'payment' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=? AND status='paid')`).bind(`Sale ${args.reference}`,order.id,order.id,allocationToken),
+    db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-SUM(i.quantity),?,'payment' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=? AND status='paid') GROUP BY v.id`).bind(`Sale ${args.reference}`,order.id,order.id,allocationToken),
     db.prepare(`UPDATE product_variants SET stock = stock - (
-        SELECT oi.quantity FROM order_items oi WHERE oi.order_id = ? AND oi.variant_id = product_variants.id
+        SELECT SUM(oi.quantity) FROM order_items oi WHERE oi.order_id = ? AND oi.variant_id = product_variants.id
       ), updated_at = CURRENT_TIMESTAMP
       WHERE id IN (SELECT variant_id FROM order_items WHERE order_id = ?)
         AND EXISTS (SELECT 1 FROM orders WHERE id = ? AND allocation_token = ? AND status = 'paid')`
@@ -1130,7 +1149,7 @@ export async function getAdminAnalytics(): Promise<AdminAnalytics> {
          FROM order_items oi
          JOIN products p ON p.id = oi.product_id
          JOIN orders o ON o.id = oi.order_id
-         WHERE o.payment_status = 'paid'
+         WHERE oi.is_gift=0 AND o.payment_status = 'paid'
          GROUP BY p.category
          ORDER BY units DESC, p.category ASC`,
       )
@@ -1162,7 +1181,7 @@ export async function getAdminAnalytics(): Promise<AdminAnalytics> {
   });
 
   const [best,fulfilment] = await Promise.all([
-    db.prepare(`SELECT oi.product_id AS productId, MAX(oi.product_name) AS name, SUM(oi.quantity) AS units, SUM(oi.line_total_kobo) AS revenueKobo FROM order_items oi JOIN orders o ON o.id=oi.order_id WHERE o.payment_status='paid' AND o.status<>'cancelled' AND o.created_at>=date('now','-29 day') GROUP BY oi.product_id ORDER BY revenueKobo DESC LIMIT 3`).all<{productId:string;name:string;units:number;revenueKobo:number}>(),
+    db.prepare(`SELECT oi.product_id AS productId, MAX(oi.product_name) AS name, SUM(oi.quantity) AS units, SUM(oi.line_total_kobo) AS revenueKobo FROM order_items oi JOIN orders o ON o.id=oi.order_id WHERE oi.is_gift=0 AND o.payment_status='paid' AND o.status<>'cancelled' AND o.created_at>=date('now','-29 day') GROUP BY oi.product_id ORDER BY revenueKobo DESC LIMIT 3`).all<{productId:string;name:string;units:number;revenueKobo:number}>(),
     db.prepare("SELECT COUNT(*) AS n FROM orders WHERE payment_status='paid' AND status IN ('paid','processing')").first<{n:number}>()
   ]);
   return {
@@ -1194,10 +1213,10 @@ export async function updateOrderStatus(reference: string, status: string) {
         SELECT 1 FROM order_items oi LEFT JOIN product_variants v ON v.id = oi.variant_id
         WHERE oi.order_id = orders.id AND (v.id IS NULL OR
           v.stock - COALESCE((SELECT SUM(r.quantity) FROM stock_reservations r
-            WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < oi.quantity)
+            WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < (SELECT SUM(quantity) FROM order_items needed WHERE needed.order_id=oi.order_id AND needed.variant_id=oi.variant_id))
       ))`).bind(status, token, order.id, order.status, order.paymentStatus, allocateStock ? 1 : 0),
-    ...(allocateStock ? [db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-i.quantity,?,'payment review' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?)`).bind(`Sale ${reference}`,order.id,order.id,token),db.prepare(`UPDATE product_variants SET stock = stock - (
-        SELECT quantity FROM order_items WHERE order_id = ? AND variant_id = product_variants.id
+    ...(allocateStock ? [db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-SUM(i.quantity),?,'payment review' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?) GROUP BY v.id`).bind(`Sale ${reference}`,order.id,order.id,token),db.prepare(`UPDATE product_variants SET stock = stock - (
+        SELECT SUM(quantity) FROM order_items WHERE order_id = ? AND variant_id = product_variants.id
       ), updated_at = CURRENT_TIMESTAMP WHERE id IN (SELECT variant_id FROM order_items WHERE order_id = ?)
       AND EXISTS (SELECT 1 FROM orders WHERE id = ? AND allocation_token = ?)`)
       .bind(order.id, order.id, order.id, token)] : []),
