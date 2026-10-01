@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./discovery.css";
 import "./commerce.css";
+import "./checkout-experience.css";
 import { AnalyticsConsent } from "@/components/analytics-consent";
 import { SITE_URL, pageMetadata } from "@/lib/seo";
 export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" } as const;

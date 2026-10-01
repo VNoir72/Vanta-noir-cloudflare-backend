@@ -22,10 +22,10 @@ export function StoreFooter({ department }: { department?: string } = {}) {
     <div className="dn-footer-bottom"><span>© {new Date().getFullYear()} Vanta Noir</span><a href="/terms-of-service">Terms</a><a href="/privacy-policy">Privacy</a><a href="/privacy-choices">Cookie choices</a></div>
   </footer>{settings.emailEnabled&&<NewsletterPopup/>}</>;
 }
-export function StoreShell({ children }: { children: ReactNode }) {
+export function StoreShell({ children, checkout = false }: { children: ReactNode; checkout?: boolean }) {
   const audience=useDepartment();
   const shop=(category="All")=>collectionLink({audience,category,collection:"All",query:""});
-  return <div className="dn-app dn-customer-app"><a className="dn-skip" href="#main-content">Skip to content</a>
+  return <div className={`dn-app dn-customer-app${checkout ? " vn-checkout-shell" : ""}`}><a className="dn-skip" href="#main-content">Skip to content</a>
     <div className="dn-announcement"><span><span className="dn-dot" />Built to move. Made to stand out.</span><span>NIGERIA · NGN ₦</span></div>
     <header className="dn-header"><div className="dn-mainbar dn-wrap"><a className="dn-logo" href={shop()} aria-label="Vanta Noir home"><img src="/images/vanta-noir-header-logo-480.webp" alt="" /><span>VANTA NOIR<small>PRESENCE. POWER. PRECISION.</small></span></a>
       <form className="dn-search" action="/" role="search"><input type="hidden" name="audience" value={audience}/><Search size={19} /><input name="q" aria-label="Search the collection" placeholder="Search hoodies, tracksuits, colours…" maxLength={120} /><button className="dn-search-submit" aria-label="Search"><ArrowRight size={18}/></button></form>
