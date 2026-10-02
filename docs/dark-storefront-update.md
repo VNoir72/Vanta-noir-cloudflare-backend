@@ -1,6 +1,18 @@
 # Dark storefront update
 
-This updates the existing storefront, product pages, bag and checkout to the approved dark forest/charcoal theme. The original R03 horizontal logo contours are preserved, with a pale ivory-gold emblem (`#F3EBDD`) and white lettering. The mobile logo is smaller.
+This updates the existing storefront, product pages, bag and checkout to the dark theme, corrected against the recovered 1 October desktop/mobile design boards. The original R03 horizontal logo contours are preserved, with a pale ivory-gold emblem (`#F3EBDD`) and white lettering. The mobile logo is compact. Catalogue photography and product names remain the real store assets; illustrative mockup products are not substituted for saleable products.
+
+## Visual correction after review
+
+The first implementation did not match the approved previews closely enough. This revision was compared directly with `Compact two-tone Vanta Noir storefront.png`, `Vanta Noir filter comparison: desktop and mobile.png`, and the mobile checkout board.
+
+- Compact Shop for segments and two-column Collection choices replace long radio lists. Product type, Drop, Colour, Size and Price now expand individually.
+- Filter and Sort controls sit together. Desktop opens the sidebar alongside the catalogue heading; mobile retains fixed Clear all / Apply filters actions.
+- Mobile collections form one swipeable row. The compact mobile header has a functioning shop menu.
+- Homepage desktop cards use the image/details side-by-side arrangement; catalogue cards remain vertical and mobile remains two columns. Pale-green View details buttons, shorter spacing and near-black surfaces follow the reference.
+- Mobile checkout has an expandable order summary; country/state precede city/address, and code inputs have adjacent Apply buttons.
+
+These are layout and interaction corrections, not a claim of pixel-identical generated photography. Review the new code-rendered screenshots before merging. No production deployment was performed.
 
 ## Shopping filters
 

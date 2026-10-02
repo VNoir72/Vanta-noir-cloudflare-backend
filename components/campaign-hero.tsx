@@ -5,7 +5,7 @@ import { heroSchema, type HeroSettings } from '@/lib/storefront-design';
 export function CampaignHero({value}:{value?:HeroSettings}) {
   const hero=value??heroSchema.parse({});
   return <section className="dn-hero" aria-label="Current campaign" data-artwork={!hero.showText} style={{"--campaign-focus":hero.focus,"--campaign-mobile-focus":hero.focus === "center" ? "70%" : hero.focus} as CSSProperties}>
-    <picture>{hero.mobileImage&&<source media="(max-width: 700px)" srcSet={hero.mobileImage}/>}<StoreImage src={hero.image} alt={hero.alt} sizes="(max-width: 700px) 100vw, 75vw" priority style={{objectPosition:hero.focus}}/></picture>
+    <picture>{hero.mobileImage&&<source media="(max-width: 700px)" srcSet={hero.mobileImage}/>}<StoreImage src={hero.image} alt={hero.alt} sizes={hero.mobileImage ? "(max-width: 700px) 100vw, 75vw" : "(max-width: 700px) 1100px, 75vw"} priority style={{objectPosition:hero.focus}}/></picture>
     {hero.showText?<div className="dn-hero-content">
       {hero.kicker&&<span className="dn-hero-kicker"><span className="dn-dot"/> {hero.kicker}</span>}
       {hero.title&&<h1 style={{whiteSpace:'pre-line'}}>{hero.title}</h1>}
