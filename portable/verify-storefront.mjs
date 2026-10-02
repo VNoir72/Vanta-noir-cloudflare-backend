@@ -35,7 +35,7 @@ console.log(`Verified product specifications on ${catalog.length} product pages.
 
 const home=await readFile(resolve(root,"index.html"),"utf8");
 assert.doesNotMatch(home,/THE VANTA NOIR EDIT\s*\/\s*001/);
-assert.match(home,/aria-label="Shop by category"/); // Keep the top navigation.
+assert.match(home,/aria-label="Shop by collection"/); // Keep the top navigation.
 // The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
 const javascript=await readFile(resolve(root,entry.slice(1)),"utf8");
