@@ -21,8 +21,9 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - run: php -l portable/storefront-gateway.php
       - run: npm run typecheck
-      - run: node --test tests/approved-storefront.test.mjs
+      - run: node --test tests/approved-storefront.test.mjs tests/catalog-visibility.test.mjs tests/rollout-visibility.test.mjs tests/namecheap-visibility.test.mjs
       - run: npm run build
       - run: npm run verify:release
       - run: npm run build:storefront

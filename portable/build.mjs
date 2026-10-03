@@ -23,6 +23,10 @@ const pages = [...Object.values(SEO_PAGES), ...snapshot.map(product => ({...prod
   { path: "/404.html", title: "Page not found | Vanta Noir", description: "This page is unavailable.", noindex: true },
 ];
 for (const page of pages) {
+  const isProduct = page.path.startsWith('/products/');
+  // No names, images, JSON-LD or inventory from a build-time snapshot on product routes.
+  // The PHP gateway supplies metadata only after a live publication check.
+  if (isProduct) Object.assign(page, { title: "Vanta Noir", description: "Explore the Vanta Noir collection.", image: SOCIAL_IMAGE.url, noindex: true, product: null });
   const { html, products } = render(page.path, snapshot);
   const canonical = new URL(page.path, SITE_URL).href;
   const output = page.path === "/" ? `${root}/index.html` : page.path === "/404.html" ? `${root}/404.html` : `${root}${page.path}.html`;
@@ -38,8 +42,9 @@ for (const path of Object.keys(imageManifest)) {
 }
 await writeFile(`${root}/store-config.js`, 'window.VANTA_NOIR_CONFIG = Object.freeze({apiBaseUrl:"https://api.vantanoir.store"});\n');
 await writeFile(`${root}/robots.txt`, `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /checkout\nDisallow: /email-preferences\nSitemap: ${SITE_URL}/sitemap.xml\n`);
-await writeFile(`${root}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.filter(page=>!page.noindex).map(page => `<url><loc>${SITE_URL}${page.path}</loc></url>`).join("")}</urlset>`);
+await writeFile(`${root}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.filter(page=>!page.noindex && !page.path.startsWith("/products/")).map(page => `<url><loc>${SITE_URL}${page.path}</loc></url>`).join("")}</urlset>`);
 await cp("portable/namecheap.htaccess", `${root}/.htaccess`);
+await cp("portable/storefront-gateway.php", `${root}/storefront-gateway.php`);
 const reconciliation=JSON.parse(await readFile("data/season01-reconciliation.json","utf8"));
 const redirects=reconciliation.filter(row=>row.oldSlug).map(row=>`RewriteRule ^products/${row.oldSlug}/?$ /products/${row.newSlug} [R=301,L]`).join("\n");
 const htaccess=await readFile(`${root}/.htaccess`,"utf8");

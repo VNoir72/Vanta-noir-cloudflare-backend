@@ -27,7 +27,7 @@ def package(root, output, base=None, repair_code=False):
             name = path.relative_to(root).as_posix()
             if name == 'storefront-release.json':
                 continue
-            if repair_code and not (name.endswith('.html') or name.startswith('assets/') or name in {'.htaccess', 'store-config.js', 'robots.txt', 'sitemap.xml'}):
+            if repair_code and not (name.endswith(('.html', '.php')) or name.startswith('assets/') or name in {'.htaccess', 'store-config.js', 'robots.txt', 'sitemap.xml'}):
                 continue
             data = path.read_bytes()
             if previous and name in old_names and previous.read(name) == data:
@@ -35,7 +35,7 @@ def package(root, output, base=None, repair_code=False):
             files.append((name, data))
         # Public checksums identify a mixed upload without exposing source or credentials.
         controls = {name: hashlib.sha256(data).hexdigest() for name, data in files
-                    if name.endswith('.html') or name.startswith('assets/') or name in {'.htaccess', 'store-config.js'}}
+                    if name.endswith(('.html', '.php')) or name.startswith('assets/') or name in {'.htaccess', 'store-config.js'}}
         manifest = {'schema': 1, 'packagedAt': datetime.now(timezone.utc).isoformat(),
                     'kind': 'code-repair' if repair_code else ('delta' if base else 'full'),
                     'files': controls}

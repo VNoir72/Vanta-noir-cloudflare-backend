@@ -54,7 +54,7 @@ function read(key: string): unknown { try { return JSON.parse(localStorage.getIt
 function write(key: string, value: unknown) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Shopping works without browser storage. */ } }
 
 export function Storefront({ products: initialProducts, sizes, detailSlug }: { products: CatalogProduct[]; sizes: string[]; detailSlug?: string }) {
-  const [products, setProducts] = useState(()=>initialProducts.map(individualProductViews));
+  const [products, setProducts] = useState<CatalogProduct[]>([]);
   const settings = useStoreSettings();
   const displayCurrency=useDisplayCurrency();
   const {options}=useCatalogOptions();
@@ -128,6 +128,9 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     const timeout = setTimeout(() => controller.abort(), 15000);
     let active = true;
     setCatalogError(false);
+    setCatalogLoaded(false);
+    setProducts([]);
+    setQuick(null);
     fetch(apiUrl("/api/catalog"), { cache: "no-store", signal: controller.signal })
       .then(async response => {
         if (!response.ok) throw new Error("Catalogue unavailable");
@@ -138,11 +141,20 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
         setProducts(current);
         setMerchandising(data.merchandising??EMPTY_MERCHANDISING);
         setCart(bag => reconcileCart(bag, current));
+        const visibleKeys = new Set(catalogStyles(current).flatMap(p => p.colorways.map(c => keyOf(p,c))));
+        setSaved(keys => keys.filter(key => visibleKeys.has(key)));
         setCatalogLoaded(true);
       }).catch(() => { if (active) setCatalogError(true); })
       .finally(() => clearTimeout(timeout));
     return () => { active = false; clearTimeout(timeout); controller.abort(); };
   }, [catalogRetry]);
+  useEffect(() => {
+    const refresh = () => { if (document.visibilityState === "visible") setCatalogRetry(value => value + 1); };
+    document.addEventListener("visibilitychange", refresh);
+    const restored = (event: PageTransitionEvent) => { if (event.persisted) refresh(); };
+    window.addEventListener("pageshow", restored);
+    return () => { document.removeEventListener("visibilitychange", refresh); window.removeEventListener("pageshow", restored); };
+  }, []);
   useEffect(() => { if (hydrated) write(CART_KEY, cart); }, [cart, hydrated]);
   useEffect(() => { if (hydrated) write(SAVED_KEY, saved); }, [saved, hydrated]);
   useEffect(() => {
@@ -217,10 +229,15 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const subtotal = cart.reduce((sum, item) => sum + item.priceKobo * item.quantity, 0);
   const activeFilters = Number(category !== "All") + Number(audienceFilter !== "All") + Number(collectionFilter !== "All") + Number(colorFilter !== "All") + Number(sizeFilter !== "All") + Number(priceFilter !== "All"||priceRange[0]>0||priceRange[1]<10000000)+Number(dropFilter!=="All")+Number(inStockOnly);
   const detailProduct = detailSlug ? displayProducts.find(p => p.slug === detailSlug || p.colorways.some(c=>c.sourceSlug===detailSlug)) : undefined;
+  useEffect(() => {
+    if (detailSlug && catalogLoaded && !catalogError && !detailProduct) {
+      window.location.replace("/#collection");
+    }
+  }, [detailSlug, catalogLoaded, catalogError, detailProduct]);
   const selectedColor = detailProduct?.colorways.find(c => c.slug === detailColor) ?? detailProduct?.colorways.find(c=>c.sourceSlug===detailSlug) ?? detailProduct?.colorways[0];
   const detailEntry = detailProduct && selectedColor ? { product: detailProduct, color: selectedColor, key: keyOf(detailProduct, selectedColor) } : null;
-  const currentState = useRef({ entries, cart });
-  currentState.current = { entries, cart };
+  const currentState = useRef({ entries, cart, products });
+  currentState.current = { entries, cart, products };
 
   const pageTracked = useRef(false);
   useEffect(() => {
@@ -287,7 +304,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
       } },
       { name: "read_bag", description: "Read the current shopping bag. Does not place an order.", inputSchema: { type: "object", properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true, untrustedContentHint: false }, execute(input) {
         if (!input || typeof input !== "object" || Object.keys(input).length) throw new Error("No arguments are accepted.");
-        return { items: currentState.current.cart.map(({ name, size, color, quantity, priceKobo }) => ({ name, size, color, quantity, priceKobo })), currency: "NGN", checkoutPath: "/checkout" };
+        return { items: reconcileCart(currentState.current.cart, currentState.current.products).map(({ name, size, color, quantity, priceKobo }) => ({ name, size, color, quantity, priceKobo })), currency: "NGN", checkoutPath: "/checkout" };
       } },
       { name: "open_product_options", description: "Open quick shop for a product slug and colour slug to select a size. Does not add to bag.", inputSchema: { type: "object", properties: { slug: { type: "string" }, colour: { type: "string" } }, required: ["slug", "colour"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false }, execute(input) {
         const args = input as { slug?: unknown; colour?: unknown };
@@ -361,7 +378,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
       {showHomepageMerch && catalogLoaded && !catalogError && <HomepageMerchandising products={displayProducts.filter(p=>matchesAudience(p,audienceFilter))} data={merchandising} formatPrice={displayCurrency.format} emailEnabled={Boolean(settings.emailEnabled)}/>}
       {catalogError && <div className="dn-notice dn-wrap" role="alert"><strong>Current prices and stock could not be loaded.</strong><p>Your saved bag is unchanged. Please retry before adding items.</p><button className="dn-primary" onClick={()=>setCatalogRetry(value=>value+1)}>Retry catalogue</button></div>}
       {detailSlug && !catalogLoaded && !detailEntry && <section className="dn-panel dn-wrap"><h1>Loading product…</h1><p role="status">Checking the current collection.</p></section>}
-      {detailSlug && catalogLoaded && !detailEntry && <section className="dn-panel dn-wrap"><h1>This piece is unavailable.</h1><p>It may no longer be in the collection. Explore the available pieces below or contact customer care.</p></section>}
+
       {detailEntry && <section className="dn-product-page dn-wrap"><a className="dn-back" href={collectionLink(browseContext)}><ArrowLeft size={16} />Back to the collection</a><div className="dn-detail-grid"><ProductGallery key={detailEntry.key} product={detailEntry.product} color={detailEntry.color} mainImage={photo(detailEntry.color)}/>{renderProductOptions(detailEntry)}</div><ProductReviews productId={detailEntry.color.sourceProductId??detailEntry.product.id}/></section>}
       <section id="collection" ref={catalogRef} className="dn-collection dn-wrap"><div className="dn-section-intro dn-collection-heading"><div><span className="dn-eyebrow">{savedOnly ? "YOUR PERSONAL EDIT" : detailSlug ? "KEEP DISCOVERING" : "GOOD FINDS. YOUR WAY."}</span><CollectionHeading>{savedOnly ? "Your saved pieces" : query ? `Results for “${query}”` : category === "All" ? detailSlug ? "More to explore" : "Discover your next favourite" : categoryLabel}</CollectionHeading><p>{category === "Best sellers" ? "Popular purchases, ranked by recent sales" : "Select a colour to explore"}</p></div>{category !== "Best sellers" && <div className="dn-sort"><span>Sort by</span><Select value={sort} onValueChange={setSort}><SelectTrigger aria-label="Sort products"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="featured">Featured</SelectItem><SelectItem value="vd">Latest additions</SelectItem><SelectItem value="low">Price: low to high</SelectItem><SelectItem value="high">Price: high to low</SelectItem></SelectContent></Select></div>}</div>
       <div className="dn-catalog-layout"><div className="dn-results"><div className="approved-toolbar"><button className="approved-filter-trigger" onClick={()=>setFiltersOpen(true)}>Filters{activeFilters?` (${activeFilters})`:''}<SlidersHorizontal size={16}/></button><label className="approved-sort"><span className="sr-only">Sort products</span><select aria-label="Sort products" value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">Featured</option><option value="vd">Latest additions</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label></div>
@@ -373,7 +390,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     <StoreFooter department={audienceFilter}/>
     <nav className="dn-mobile-nav" aria-label="Mobile shopping"><a href={collectionLink({audience:audienceFilter,category:"All",collection:"All",query:""})}><Sparkles size={19} /><span>Discover</span></a><button onClick={() => browse()}><Search size={19} /><span>Shop</span></button><button onClick={showSaved}><Heart size={19} /><span>Saved{saved.length > 0 ? ` (${saved.length})` : ""}</span></button><button onClick={() => setBagOpen(true)}><ShoppingBag size={19} /><span>Bag ({count})</span></button></nav>
     <Dialog open={Boolean(quick)} onOpenChange={open => { if (!open) setQuick(null); }}><DialogContent className="dn-quick-dialog" aria-describedby="quick-description"><DialogTitle className="sr-only">Quick shop</DialogTitle><DialogDescription id="quick-description" className="sr-only">Choose a colour and size before adding this piece to your bag.</DialogDescription>{quick && <><ProductGallery key={quick.key} product={quick.product} color={quick.color} mainImage={photo(quick.color)}/>{renderProductOptions(quick)}</>}</DialogContent></Dialog>
-    <Sheet open={bagOpen} onOpenChange={setBagOpen}><SheetContent className="dn-bag"><div className="dn-bag-heading"><SheetTitle>Your bag <span>({count})</span></SheetTitle><SheetDescription>Your next everyday uniform.</SheetDescription></div>{cart.length ? <><div className="dn-bag-items">{cart.map(item => <div className="dn-bag-item" key={item.variantId}><StoreImage src={photo({ imageUrl: item.imageUrl, name: item.color })} alt={`${item.name} in ${item.color}`} sizes="96px" /><div><h3>{item.name.replace(/^\d+\s+/, "")}</h3><p>{item.color} · {item.size}</p><strong>{displayCurrency.format(item.priceKobo)}</strong><div className="dn-quantity"><button onClick={() => quantity(item.variantId, -1)} aria-label={`Decrease ${item.name} quantity`}><Minus size={13} /></button><span>{item.quantity}</span><button disabled={item.quantity >= (inventory.get(item.variantId)?.available ?? 0)} onClick={() => quantity(item.variantId, 1)} aria-label={`Increase ${item.name} quantity`}><Plus size={13} /></button></div></div><button className="dn-remove" aria-label={`Remove ${item.name}`} onClick={() => { trackCommerce("remove_from_cart",[item]); setCart(current => current.filter(i => i.variantId !== item.variantId)); }}><Trash2 size={16} /></button></div>)}</div><div className="dn-bag-summary"><BagRewards cart={cart} open={bagOpen}/><div><span>Subtotal</span><strong>{displayCurrency.format(subtotal)}</strong></div><p>Delivery is calculated for your address at checkout.</p><a className="dn-primary" href="/checkout">Continue to checkout <ArrowRight size={16}/></a><button className="dn-continue" onClick={() => setBagOpen(false)}>Continue exploring <ArrowRight size={15} /></button><small>Review your delivery fee and total before payment.</small></div></> : <div className="dn-empty dn-bag-empty"><ShoppingBag size={42} /><h3>Make it yours.</h3><p>Your bag is waiting for your next favourite.</p><button className="dn-primary" onClick={() => { setBagOpen(false); browse(); }}>Explore the collection <ArrowRight size={16} /></button></div>}</SheetContent></Sheet>
+    <Sheet open={bagOpen} onOpenChange={setBagOpen}><SheetContent className="dn-bag"><div className="dn-bag-heading"><SheetTitle>Your bag <span>({count})</span></SheetTitle><SheetDescription>Your next everyday uniform.</SheetDescription></div>{!catalogLoaded || catalogError ? <p role="status">Loading your bag…</p> : cart.length ? <><div className="dn-bag-items">{cart.map(item => <div className="dn-bag-item" key={item.variantId}><StoreImage src={photo({ imageUrl: item.imageUrl, name: item.color })} alt={`${item.name} in ${item.color}`} sizes="96px" /><div><h3>{item.name.replace(/^\d+\s+/, "")}</h3><p>{item.color} · {item.size}</p><strong>{displayCurrency.format(item.priceKobo)}</strong><div className="dn-quantity"><button onClick={() => quantity(item.variantId, -1)} aria-label={`Decrease ${item.name} quantity`}><Minus size={13} /></button><span>{item.quantity}</span><button disabled={item.quantity >= (inventory.get(item.variantId)?.available ?? 0)} onClick={() => quantity(item.variantId, 1)} aria-label={`Increase ${item.name} quantity`}><Plus size={13} /></button></div></div><button className="dn-remove" aria-label={`Remove ${item.name}`} onClick={() => { trackCommerce("remove_from_cart",[item]); setCart(current => current.filter(i => i.variantId !== item.variantId)); }}><Trash2 size={16} /></button></div>)}</div><div className="dn-bag-summary"><BagRewards cart={cart} open={bagOpen}/><div><span>Subtotal</span><strong>{displayCurrency.format(subtotal)}</strong></div><p>Delivery is calculated for your address at checkout.</p><a className="dn-primary" href="/checkout">Continue to checkout <ArrowRight size={16}/></a><button className="dn-continue" onClick={() => setBagOpen(false)}>Continue exploring <ArrowRight size={15} /></button><small>Review your delivery fee and total before payment.</small></div></> : <div className="dn-empty dn-bag-empty"><ShoppingBag size={42} /><h3>Make it yours.</h3><p>Your bag is waiting for your next favourite.</p><button className="dn-primary" onClick={() => { setBagOpen(false); browse(); }}>Explore the collection <ArrowRight size={16} /></button></div>}</SheetContent></Sheet>
     <Dialog open={filtersOpen} onOpenChange={setFiltersOpen}><DialogContent className="approved-filter-modal"><header><DialogTitle>Find your fit</DialogTitle><DialogDescription>Filter the collection your way.</DialogDescription></header>{renderFilters()}<footer><button onClick={clearFilters}>Clear all</button><button className="dn-lime" onClick={()=>setFiltersOpen(false)}>Show {filtered.length} results <ArrowRight size={16}/></button></footer></DialogContent></Dialog>
     <Dialog open={Boolean(help)} onOpenChange={open => { if (!open) setHelp(null); }}><DialogContent className="dn-help"><DialogTitle>{help}</DialogTitle><DialogDescription>{help === "The Vanta Noir identity" ? "Presence. Power. Precision. Fashion with a distinct point of view." : "A little more information, before you choose."}</DialogDescription>{help === "The Vanta Noir identity" ? <><p>Vanta Noir brings together individuality, quiet confidence and purposeful design, with an athletic influence.</p><p>Explore streetwear, denim, knitwear, outerwear, athletic pieces and everyday accessories.</p></> : help === "Size & fit" ? <><p>Size range: S, M, L, XL and XXL. The Stealth set has a relaxed, baggy silhouette. Performance pieces have an athletic fit.</p><p>Open Size & fit guide beside the size selector on any product. Compare the top and trousers separately, switch between cm and inches, and follow the measuring instructions. Provisional charts are clearly labelled until physical samples are approved.</p></> : help === "Privacy" ? <p>Your bag and saved pieces stay on this device. Optional analytics is controlled by your privacy choice. Read the privacy policy for details.</p> : help === "Delivery & returns" ? <p>See the delivery and returns policy for current rates, timing and eligibility.</p> : <><p>Need help with a style, size or an order? Contact our customer care team.</p><a className="dn-primary" href="/contact">Contact customer care <ArrowRight size={16} /></a></>}</DialogContent></Dialog>
     <div className={`dn-toast ${message ? "visible" : ""}`} role="status" aria-live="polite">{message && <><Check size={17} />{message}</>}</div>
