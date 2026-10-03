@@ -20,3 +20,9 @@ export const heroSchema=z.object({
 export type HeroSettings=z.infer<typeof heroSchema>;
 export const collectionLabelsSchema=z.array(z.object({source:z.string().trim().min(1).max(200),label:z.string().trim().min(1).max(100)})).max(100)
   .refine(rows=>new Set(rows.map(row=>row.source)).size===rows.length,'Each collection label must be unique.');
+
+export const aboutImageSchema=z.object({
+  image:image.default('/images/vanta-hero.png'),
+  alt:z.string().trim().min(3).max(240).default('Vanta Noir campaign — technical streetwear in motion'),
+  focus:z.enum(['left','center','right']).default('center'),
+});
