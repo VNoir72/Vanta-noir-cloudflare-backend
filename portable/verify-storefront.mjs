@@ -45,3 +45,11 @@ const security=await readFile(resolve(root,".htaccess"),"utf8");
 for(const header of ['X-Frame-Options','Content-Security-Policy','Permissions-Policy','Strict-Transport-Security'])assert.ok(security.includes(header));
 assert.ok(security.includes('Require all denied'));
 console.log('Campaign markup and static-host security rules passed.');
+
+// Prevent a pre-studio bundle from passing release validation with new photos beside it.
+const studioPhotos=JSON.parse(await readFile("lib/product-photo-assets.json","utf8"));
+for(const image of new Set(Object.values(studioPhotos))){
+  assert.ok(javascript.includes(image),`Application bundle does not map studio image: ${image}`);
+  assert.ok((await stat(resolve(root,"."+image))).isFile(),`Missing studio image: ${image}`);
+}
+console.log(`Verified studio mapping and delivery files for ${Object.keys(studioPhotos).length} photographs.`);
