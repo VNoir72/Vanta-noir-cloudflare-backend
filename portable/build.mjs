@@ -5,7 +5,7 @@ import { resolve, dirname } from "node:path";
 
 await build({ configFile: resolve("portable/vite.config.ts") });
 await build({ configFile: resolve("portable/vite.config.ts"), build: { ssr: resolve("portable/render.tsx"), outDir: "outputs/static-renderer", manifest: false } });
-const { render, SEO_PAGES, SITE_URL, SOCIAL_IMAGE, productSeo, productJsonLd, defaultProducts } = await import(resolve("outputs/static-renderer/render.js"));
+const { render, SEO_PAGES, SITE_URL, SOCIAL_IMAGE, productSeo, productJsonLd, defaultProducts, individualProductViews } = await import(resolve("outputs/static-renderer/render.js"));
 const root = resolve("outputs/namecheap");
 const manifest = JSON.parse(await readFile(`${root}/.vite/manifest.json`, "utf8"));
 const entry = manifest["portable/entry.tsx"];
@@ -14,6 +14,7 @@ const json = value => JSON.stringify(value).replaceAll("<", "\\u003c");
 let snapshot;
 try { snapshot = JSON.parse(await readFile("portable/catalog-snapshot.json", "utf8")); } catch { /* Initial development builds use the curated seed. */ }
 snapshot ??= defaultProducts;
+snapshot = snapshot.map(individualProductViews);
 const pages = [...Object.values(SEO_PAGES), ...snapshot.map(product => ({...productSeo(product),product})),
   { path: "/products/_dynamic", title: "Vanta Noir product", description: "Explore the Vanta Noir collection.", noindex:true },
   { path: "/email-preferences", title: "Email preferences | Vanta Noir", description: "Manage your Vanta Noir email preferences.", noindex: true },
