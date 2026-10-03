@@ -166,7 +166,7 @@ export async function submitReview(input:z.infer<typeof reviewSchema>){
 }
 export async function listReviews(productId:string,page=1){
   const rows=await getDbBinding().prepare(`SELECT r.id,r.display_name AS displayName,r.rating,r.fit,r.body,r.created_at AS createdAt,p.name AS productName
-    FROM product_reviews r JOIN products p ON p.id=r.product_id WHERE r.status='published' AND p.status='published' AND (?='' OR r.product_id=?) ORDER BY r.created_at DESC,r.id DESC LIMIT 11 OFFSET ?`).bind(productId,productId,(page-1)*10).all();
+    FROM product_reviews r JOIN products p ON p.id=r.product_id WHERE r.status='published' AND p.active=1 AND p.status='published' AND (?='' OR r.product_id=?) ORDER BY r.created_at DESC,r.id DESC LIMIT 11 OFFSET ?`).bind(productId,productId,(page-1)*10).all();
   return {reviews:rows.results.slice(0,10),hasMore:rows.results.length>10};
 }
 
