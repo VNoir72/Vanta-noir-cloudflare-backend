@@ -2360,7 +2360,10 @@
         "/images/catalogue/vn-p053-jet-black-back.webp",
         "/images/catalogue/vn-p053-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p053-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p053",
@@ -2681,7 +2684,10 @@
         "/images/catalogue/season-05-bone-black-back.webp",
         "/images/catalogue/season-05-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-05-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-06",
@@ -2692,7 +2698,10 @@
         "/images/catalogue/season-06-jet-black-back.webp",
         "/images/catalogue/season-06-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-06-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-06",
@@ -2703,7 +2712,10 @@
         "/images/catalogue/season-06-dark-burgundy-back.webp",
         "/images/catalogue/season-06-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-06-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-06",
@@ -2714,7 +2726,10 @@
         "/images/catalogue/season-06-charcoal-grey-back.webp",
         "/images/catalogue/season-06-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-06-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-06",
@@ -2753,7 +2768,10 @@
         "/images/catalogue/season-07-jet-black-back.webp",
         "/images/catalogue/season-07-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-07-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-07",
@@ -2764,7 +2782,10 @@
         "/images/catalogue/season-07-dark-burgundy-back.webp",
         "/images/catalogue/season-07-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-07-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-07",
@@ -2775,7 +2796,10 @@
         "/images/catalogue/season-07-charcoal-grey-back.webp",
         "/images/catalogue/season-07-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-07-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-07",
@@ -2814,7 +2838,10 @@
         "/images/catalogue/season-08-jet-black-back.webp",
         "/images/catalogue/season-08-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-08-jet-black-left-r04.webp"
     },
     {
       "productId": "vn-season01-08",
@@ -2825,7 +2852,10 @@
         "/images/catalogue/season-08-dark-burgundy-back.webp",
         "/images/catalogue/season-08-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-08-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-08",
@@ -2836,7 +2866,10 @@
         "/images/catalogue/season-08-charcoal-grey-back.webp",
         "/images/catalogue/season-08-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-08-charcoal-grey-left-r04.webp"
     },
     {
       "productId": "vn-season01-08",
@@ -2847,7 +2880,10 @@
         "/images/catalogue/season-08-deep-olive-black-back.webp",
         "/images/catalogue/season-08-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-08-deep-olive-black-left-r04.webp"
     },
     {
       "productId": "vn-season01-08",
@@ -2872,7 +2908,10 @@
         "/images/catalogue/season-09-jet-black-back.webp",
         "/images/catalogue/season-09-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-09-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-09",
@@ -2883,7 +2922,10 @@
         "/images/catalogue/season-09-dark-burgundy-back.webp",
         "/images/catalogue/season-09-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-09-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-09",
@@ -2894,7 +2936,10 @@
         "/images/catalogue/season-09-charcoal-grey-back.webp",
         "/images/catalogue/season-09-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-09-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-09",
@@ -2905,7 +2950,10 @@
         "/images/catalogue/season-09-deep-olive-black-back.webp",
         "/images/catalogue/season-09-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-09-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-09",
@@ -2916,7 +2964,10 @@
         "/images/catalogue/season-09-bone-black-back.webp",
         "/images/catalogue/season-09-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-09-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-10",
@@ -2927,7 +2978,10 @@
         "/images/catalogue/season-10-jet-black-back.webp",
         "/images/catalogue/season-10-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-10-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-10",
@@ -2938,7 +2992,10 @@
         "/images/catalogue/season-10-dark-burgundy-back.webp",
         "/images/catalogue/season-10-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-10-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-10",
@@ -2991,7 +3048,10 @@
         "/images/catalogue/season-11-jet-black-back.webp",
         "/images/catalogue/season-11-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-11-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-11",
@@ -3002,7 +3062,10 @@
         "/images/catalogue/season-11-dark-burgundy-back.webp",
         "/images/catalogue/season-11-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-11-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-11",
@@ -3013,7 +3076,10 @@
         "/images/catalogue/season-11-charcoal-grey-back.webp",
         "/images/catalogue/season-11-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-11-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-11",
@@ -3024,7 +3090,10 @@
         "/images/catalogue/season-11-deep-olive-black-back.webp",
         "/images/catalogue/season-11-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-11-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-11",
@@ -3035,7 +3104,10 @@
         "/images/catalogue/season-11-bone-black-back.webp",
         "/images/catalogue/season-11-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-11-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-12",
@@ -3046,7 +3118,10 @@
         "/images/catalogue/season-12-jet-black-back.webp",
         "/images/catalogue/season-12-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-12-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-12",
@@ -3057,7 +3132,10 @@
         "/images/catalogue/season-12-dark-burgundy-back.webp",
         "/images/catalogue/season-12-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-12-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-12",
@@ -3068,7 +3146,10 @@
         "/images/catalogue/season-12-charcoal-grey-back.webp",
         "/images/catalogue/season-12-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-12-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-12",
@@ -3079,7 +3160,10 @@
         "/images/catalogue/season-12-deep-olive-black-back.webp",
         "/images/catalogue/season-12-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-12-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-12",
@@ -3090,7 +3174,10 @@
         "/images/catalogue/season-12-bone-black-back.webp",
         "/images/catalogue/season-12-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-12-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-13",
@@ -3101,7 +3188,10 @@
         "/images/catalogue/season-13-jet-black-back.webp",
         "/images/catalogue/season-13-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-13-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-13",
@@ -3112,7 +3202,10 @@
         "/images/catalogue/season-13-dark-burgundy-back.webp",
         "/images/catalogue/season-13-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-13-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-13",
@@ -3123,7 +3216,10 @@
         "/images/catalogue/season-13-charcoal-grey-back.webp",
         "/images/catalogue/season-13-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-13-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-13",
@@ -3134,7 +3230,10 @@
         "/images/catalogue/season-13-deep-olive-black-back.webp",
         "/images/catalogue/season-13-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-13-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-13",
@@ -3145,7 +3244,10 @@
         "/images/catalogue/season-13-bone-black-back.webp",
         "/images/catalogue/season-13-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-13-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-14",
@@ -3156,7 +3258,10 @@
         "/images/catalogue/season-14-jet-black-back.webp",
         "/images/catalogue/season-14-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-14-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-14",
@@ -3167,7 +3272,10 @@
         "/images/catalogue/season-14-dark-burgundy-back.webp",
         "/images/catalogue/season-14-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-14-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-14",
@@ -3178,7 +3286,10 @@
         "/images/catalogue/season-14-charcoal-grey-back.webp",
         "/images/catalogue/season-14-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-14-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-14",
@@ -3189,7 +3300,10 @@
         "/images/catalogue/season-14-deep-olive-black-back.webp",
         "/images/catalogue/season-14-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-14-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-14",
@@ -3200,7 +3314,10 @@
         "/images/catalogue/season-14-bone-black-back.webp",
         "/images/catalogue/season-14-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-14-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-15",
@@ -3211,7 +3328,10 @@
         "/images/catalogue/season-15-jet-black-back.webp",
         "/images/catalogue/season-15-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-15-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-15",
@@ -3222,7 +3342,10 @@
         "/images/catalogue/season-15-dark-burgundy-back.webp",
         "/images/catalogue/season-15-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-15-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-15",
@@ -3233,7 +3356,10 @@
         "/images/catalogue/season-15-charcoal-grey-back.webp",
         "/images/catalogue/season-15-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-15-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-15",
@@ -3244,7 +3370,10 @@
         "/images/catalogue/season-15-deep-olive-black-back.webp",
         "/images/catalogue/season-15-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-15-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-15",
@@ -3255,7 +3384,10 @@
         "/images/catalogue/season-15-bone-black-back.webp",
         "/images/catalogue/season-15-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-15-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-16",
@@ -3266,7 +3398,10 @@
         "/images/catalogue/season-16-jet-black-back.webp",
         "/images/catalogue/season-16-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-16-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-16",
@@ -3277,7 +3412,10 @@
         "/images/catalogue/season-16-dark-burgundy-back.webp",
         "/images/catalogue/season-16-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-16-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-16",
@@ -3288,7 +3426,10 @@
         "/images/catalogue/season-16-charcoal-grey-back.webp",
         "/images/catalogue/season-16-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-16-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-16",
@@ -3299,7 +3440,10 @@
         "/images/catalogue/season-16-deep-olive-black-back.webp",
         "/images/catalogue/season-16-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-16-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-16",
@@ -3310,7 +3454,10 @@
         "/images/catalogue/season-16-bone-black-back.webp",
         "/images/catalogue/season-16-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-16-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-17",
@@ -3321,7 +3468,10 @@
         "/images/catalogue/season-17-jet-black-back.webp",
         "/images/catalogue/season-17-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-17-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-17",
@@ -3332,7 +3482,10 @@
         "/images/catalogue/season-17-dark-burgundy-back.webp",
         "/images/catalogue/season-17-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-17-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-17",
@@ -3343,7 +3496,10 @@
         "/images/catalogue/season-17-charcoal-grey-back.webp",
         "/images/catalogue/season-17-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-17-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-17",
@@ -3354,7 +3510,10 @@
         "/images/catalogue/season-17-deep-olive-black-back.webp",
         "/images/catalogue/season-17-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-17-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-17",
@@ -3365,7 +3524,10 @@
         "/images/catalogue/season-17-bone-black-back.webp",
         "/images/catalogue/season-17-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-17-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-18",
@@ -3376,7 +3538,10 @@
         "/images/catalogue/season-18-jet-black-back.webp",
         "/images/catalogue/season-18-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-18-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-18",
@@ -3387,7 +3552,10 @@
         "/images/catalogue/season-18-dark-burgundy-back.webp",
         "/images/catalogue/season-18-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-18-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-18",
@@ -3398,7 +3566,10 @@
         "/images/catalogue/season-18-charcoal-grey-back.webp",
         "/images/catalogue/season-18-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-18-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-18",
@@ -3409,7 +3580,10 @@
         "/images/catalogue/season-18-deep-olive-black-back.webp",
         "/images/catalogue/season-18-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-18-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-18",
@@ -3420,7 +3594,10 @@
         "/images/catalogue/season-18-bone-black-back.webp",
         "/images/catalogue/season-18-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-18-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-19",
@@ -3431,7 +3608,10 @@
         "/images/catalogue/season-19-jet-black-back.webp",
         "/images/catalogue/season-19-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-19-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-19",
@@ -3442,7 +3622,10 @@
         "/images/catalogue/season-19-dark-burgundy-back.webp",
         "/images/catalogue/season-19-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-19-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-19",
@@ -3453,7 +3636,10 @@
         "/images/catalogue/season-19-charcoal-grey-back.webp",
         "/images/catalogue/season-19-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-19-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-19",
@@ -3464,7 +3650,10 @@
         "/images/catalogue/season-19-deep-olive-black-back.webp",
         "/images/catalogue/season-19-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-19-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-19",
@@ -3475,7 +3664,10 @@
         "/images/catalogue/season-19-bone-black-back.webp",
         "/images/catalogue/season-19-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-19-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-20",
@@ -3486,7 +3678,10 @@
         "/images/catalogue/season-20-jet-black-back.webp",
         "/images/catalogue/season-20-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-20-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-20",
@@ -3497,7 +3692,10 @@
         "/images/catalogue/season-20-dark-burgundy-back.webp",
         "/images/catalogue/season-20-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-20-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-20",
@@ -3508,7 +3706,10 @@
         "/images/catalogue/season-20-charcoal-grey-back.webp",
         "/images/catalogue/season-20-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-20-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-20",
@@ -3519,7 +3720,10 @@
         "/images/catalogue/season-20-deep-olive-black-back.webp",
         "/images/catalogue/season-20-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-20-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-20",
@@ -3530,7 +3734,10 @@
         "/images/catalogue/season-20-bone-black-back.webp",
         "/images/catalogue/season-20-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-20-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-21",
@@ -3541,7 +3748,10 @@
         "/images/catalogue/season-21-jet-black-back.webp",
         "/images/catalogue/season-21-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-21-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-21",
@@ -3552,7 +3762,10 @@
         "/images/catalogue/season-21-dark-burgundy-back.webp",
         "/images/catalogue/season-21-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-21-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-21",
@@ -3563,7 +3776,10 @@
         "/images/catalogue/season-21-charcoal-grey-back.webp",
         "/images/catalogue/season-21-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-21-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-21",
@@ -3574,7 +3790,10 @@
         "/images/catalogue/season-21-deep-olive-black-back.webp",
         "/images/catalogue/season-21-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-21-deep-olive-black-left-r04.webp"
     },
     {
       "productId": "vn-season01-21",
@@ -3585,7 +3804,10 @@
         "/images/catalogue/season-21-bone-black-back.webp",
         "/images/catalogue/season-21-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-21-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-22",
@@ -3596,7 +3818,10 @@
         "/images/catalogue/season-22-jet-black-back.webp",
         "/images/catalogue/season-22-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-22-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-22",
@@ -3607,7 +3832,10 @@
         "/images/catalogue/season-22-dark-burgundy-back.webp",
         "/images/catalogue/season-22-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-22-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-22",
@@ -3618,7 +3846,10 @@
         "/images/catalogue/season-22-charcoal-grey-back.webp",
         "/images/catalogue/season-22-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-22-charcoal-grey-left-r04.webp"
     },
     {
       "productId": "vn-season01-22",
@@ -3629,7 +3860,10 @@
         "/images/catalogue/season-22-deep-olive-black-back.webp",
         "/images/catalogue/season-22-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-22-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-22",
@@ -3640,7 +3874,10 @@
         "/images/catalogue/season-22-bone-black-back.webp",
         "/images/catalogue/season-22-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-22-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-23",
@@ -3651,7 +3888,10 @@
         "/images/catalogue/season-23-jet-black-back.webp",
         "/images/catalogue/season-23-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-23-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-23",
@@ -3662,7 +3902,10 @@
         "/images/catalogue/season-23-dark-burgundy-back.webp",
         "/images/catalogue/season-23-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-23-dark-burgundy-left-r04.webp"
     },
     {
       "productId": "vn-season01-23",
@@ -3673,7 +3916,10 @@
         "/images/catalogue/season-23-charcoal-grey-back.webp",
         "/images/catalogue/season-23-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-23-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-23",
@@ -3684,7 +3930,10 @@
         "/images/catalogue/season-23-deep-olive-black-back.webp",
         "/images/catalogue/season-23-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-23-deep-olive-black-left-r04.webp"
     },
     {
       "productId": "vn-season01-23",
@@ -3695,7 +3944,10 @@
         "/images/catalogue/season-23-bone-black-back.webp",
         "/images/catalogue/season-23-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-23-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-24",
@@ -3706,7 +3958,10 @@
         "/images/catalogue/season-24-jet-black-back.webp",
         "/images/catalogue/season-24-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-24-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-24",
@@ -3717,7 +3972,10 @@
         "/images/catalogue/season-24-dark-burgundy-back.webp",
         "/images/catalogue/season-24-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-24-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-24",
@@ -3728,7 +3986,10 @@
         "/images/catalogue/season-24-charcoal-grey-back.webp",
         "/images/catalogue/season-24-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-24-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-24",
@@ -3739,7 +4000,10 @@
         "/images/catalogue/season-24-deep-olive-black-back.webp",
         "/images/catalogue/season-24-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-24-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-24",
@@ -3750,7 +4014,10 @@
         "/images/catalogue/season-24-bone-black-back.webp",
         "/images/catalogue/season-24-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-24-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-25",
@@ -3761,7 +4028,10 @@
         "/images/catalogue/season-25-jet-black-back.webp",
         "/images/catalogue/season-25-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-25-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-25",
@@ -3772,7 +4042,10 @@
         "/images/catalogue/season-25-dark-burgundy-back.webp",
         "/images/catalogue/season-25-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-25-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-25",
@@ -3783,7 +4056,10 @@
         "/images/catalogue/season-25-charcoal-grey-back.webp",
         "/images/catalogue/season-25-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-25-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-25",
@@ -3794,7 +4070,10 @@
         "/images/catalogue/season-25-deep-olive-black-back.webp",
         "/images/catalogue/season-25-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-25-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-25",
@@ -3805,7 +4084,10 @@
         "/images/catalogue/season-25-bone-black-back.webp",
         "/images/catalogue/season-25-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-season01-25-bone-black-left-r04.webp"
     },
     {
       "productId": "vn-season01-26",
@@ -3816,7 +4098,10 @@
         "/images/catalogue/season-26-jet-black-back.webp",
         "/images/catalogue/season-26-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-26-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-26",
@@ -3827,7 +4112,10 @@
         "/images/catalogue/season-26-dark-burgundy-back.webp",
         "/images/catalogue/season-26-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-26-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-26",
@@ -3838,7 +4126,10 @@
         "/images/catalogue/season-26-charcoal-grey-back.webp",
         "/images/catalogue/season-26-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-26-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-26",
@@ -3849,7 +4140,10 @@
         "/images/catalogue/season-26-deep-olive-black-back.webp",
         "/images/catalogue/season-26-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-26-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-26",
@@ -3860,7 +4154,10 @@
         "/images/catalogue/season-26-bone-black-back.webp",
         "/images/catalogue/season-26-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-26-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-01",
@@ -3871,7 +4168,10 @@
         "/images/catalogue/pdf-p01-2-01-back.webp",
         "/images/catalogue/pdf-p01-2-01-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-01-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-02",
@@ -3882,7 +4182,10 @@
         "/images/catalogue/pdf-p01-2-02-back.webp",
         "/images/catalogue/pdf-p01-2-02-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-02-black-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-03",
@@ -3893,7 +4196,10 @@
         "/images/catalogue/pdf-p01-2-03-back.webp",
         "/images/catalogue/pdf-p01-2-03-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-03-black-burgundy-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-04",
@@ -3904,7 +4210,10 @@
         "/images/catalogue/pdf-p01-2-04-back.webp",
         "/images/catalogue/pdf-p01-2-04-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-04-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-05",
@@ -3915,7 +4224,10 @@
         "/images/catalogue/pdf-p01-2-05-back.webp",
         "/images/catalogue/pdf-p01-2-05-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-05-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-06",
@@ -3926,7 +4238,10 @@
         "/images/catalogue/pdf-p01-2-06-back.webp",
         "/images/catalogue/pdf-p01-2-06-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-06-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-07",
@@ -3937,7 +4252,10 @@
         "/images/catalogue/pdf-p01-2-07-back.webp",
         "/images/catalogue/pdf-p01-2-07-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-07-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-08",
@@ -3948,7 +4266,10 @@
         "/images/catalogue/pdf-p01-2-08-back.webp",
         "/images/catalogue/pdf-p01-2-08-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-08-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-09",
@@ -3959,7 +4280,10 @@
         "/images/catalogue/pdf-p01-2-09-back.webp",
         "/images/catalogue/pdf-p01-2-09-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-09-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-10",
@@ -3970,7 +4294,10 @@
         "/images/catalogue/pdf-p01-2-10-back.webp",
         "/images/catalogue/pdf-p01-2-10-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-10-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-11",
@@ -3981,7 +4308,10 @@
         "/images/catalogue/pdf-p01-2-11-back.webp",
         "/images/catalogue/pdf-p01-2-11-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-11-black-pinstripe-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-12",
@@ -3992,7 +4322,10 @@
         "/images/catalogue/pdf-p01-2-12-back.webp",
         "/images/catalogue/pdf-p01-2-12-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-12-black-pinstripe-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-13",
@@ -4003,7 +4336,10 @@
         "/images/catalogue/pdf-p01-2-13-back.webp",
         "/images/catalogue/pdf-p01-2-13-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-13-black-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-14",
@@ -4014,7 +4350,10 @@
         "/images/catalogue/pdf-p01-2-14-back.webp",
         "/images/catalogue/pdf-p01-2-14-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-14-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-15",
@@ -4025,7 +4364,10 @@
         "/images/catalogue/pdf-p01-2-15-back.webp",
         "/images/catalogue/pdf-p01-2-15-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-15-black-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-16",
@@ -4036,7 +4378,10 @@
         "/images/catalogue/pdf-p01-2-16-back.webp",
         "/images/catalogue/pdf-p01-2-16-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-16-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-17",
@@ -4047,7 +4392,10 @@
         "/images/catalogue/pdf-p01-2-17-back.webp",
         "/images/catalogue/pdf-p01-2-17-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-17-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-18",
@@ -4058,7 +4406,10 @@
         "/images/catalogue/pdf-p01-2-18-back.webp",
         "/images/catalogue/pdf-p01-2-18-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-18-black-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-19",
@@ -4069,7 +4420,10 @@
         "/images/catalogue/pdf-p01-2-19-back.webp",
         "/images/catalogue/pdf-p01-2-19-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-19-black-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-20",
@@ -4080,7 +4434,10 @@
         "/images/catalogue/pdf-p01-2-20-back.webp",
         "/images/catalogue/pdf-p01-2-20-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-20-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-21",
@@ -4091,7 +4448,10 @@
         "/images/catalogue/pdf-p01-2-21-back.webp",
         "/images/catalogue/pdf-p01-2-21-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-21-black-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-22",
@@ -4102,7 +4462,10 @@
         "/images/catalogue/pdf-p01-2-22-back.webp",
         "/images/catalogue/pdf-p01-2-22-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-22-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-23",
@@ -4113,7 +4476,10 @@
         "/images/catalogue/pdf-p01-2-23-back.webp",
         "/images/catalogue/pdf-p01-2-23-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-23-black-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-24",
@@ -4124,7 +4490,10 @@
         "/images/catalogue/pdf-p01-2-24-back.webp",
         "/images/catalogue/pdf-p01-2-24-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-24-bone-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-2-25",
@@ -4135,7 +4504,10 @@
         "/images/catalogue/pdf-p01-2-25-back.webp",
         "/images/catalogue/pdf-p01-2-25-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-2-25-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-01",
@@ -4146,7 +4518,10 @@
         "/images/catalogue/pdf-p01-3-01-back.webp",
         "/images/catalogue/pdf-p01-3-01-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-01-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-02",
@@ -4157,7 +4532,10 @@
         "/images/catalogue/pdf-p01-3-02-back.webp",
         "/images/catalogue/pdf-p01-3-02-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-02-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-03",
@@ -4168,7 +4546,10 @@
         "/images/catalogue/pdf-p01-3-03-back.webp",
         "/images/catalogue/pdf-p01-3-03-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-03-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-04",
@@ -4179,7 +4560,10 @@
         "/images/catalogue/pdf-p01-3-04-back.webp",
         "/images/catalogue/pdf-p01-3-04-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-04-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-05",
@@ -4190,7 +4574,10 @@
         "/images/catalogue/pdf-p01-3-05-back.webp",
         "/images/catalogue/pdf-p01-3-05-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-05-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-06",
@@ -4201,7 +4588,10 @@
         "/images/catalogue/pdf-p01-3-06-back.webp",
         "/images/catalogue/pdf-p01-3-06-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-06-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-07",
@@ -4212,7 +4602,10 @@
         "/images/catalogue/pdf-p01-3-07-back.webp",
         "/images/catalogue/pdf-p01-3-07-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-07-black-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-08",
@@ -4223,7 +4616,10 @@
         "/images/catalogue/pdf-p01-3-08-back.webp",
         "/images/catalogue/pdf-p01-3-08-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-08-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-09",
@@ -4234,7 +4630,10 @@
         "/images/catalogue/pdf-p01-3-09-back.webp",
         "/images/catalogue/pdf-p01-3-09-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-09-black-pinstripe-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-10",
@@ -4245,7 +4644,10 @@
         "/images/catalogue/pdf-p01-3-10-back.webp",
         "/images/catalogue/pdf-p01-3-10-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-10-washed-black-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-11",
@@ -4256,7 +4658,10 @@
         "/images/catalogue/pdf-p01-3-11-back.webp",
         "/images/catalogue/pdf-p01-3-11-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-11-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-12",
@@ -4267,7 +4672,10 @@
         "/images/catalogue/pdf-p01-3-12-back.webp",
         "/images/catalogue/pdf-p01-3-12-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-12-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-13",
@@ -4278,7 +4686,10 @@
         "/images/catalogue/pdf-p01-3-13-back.webp",
         "/images/catalogue/pdf-p01-3-13-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-13-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-14",
@@ -4289,7 +4700,10 @@
         "/images/catalogue/pdf-p01-3-14-back.webp",
         "/images/catalogue/pdf-p01-3-14-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-14-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-15",
@@ -4300,7 +4714,10 @@
         "/images/catalogue/pdf-p01-3-15-back.webp",
         "/images/catalogue/pdf-p01-3-15-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-15-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-16",
@@ -4311,7 +4728,10 @@
         "/images/catalogue/pdf-p01-3-16-back.webp",
         "/images/catalogue/pdf-p01-3-16-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-16-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-17",
@@ -4322,7 +4742,10 @@
         "/images/catalogue/pdf-p01-3-17-back.webp",
         "/images/catalogue/pdf-p01-3-17-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-17-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-18",
@@ -4333,7 +4756,10 @@
         "/images/catalogue/pdf-p01-3-18-back.webp",
         "/images/catalogue/pdf-p01-3-18-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-18-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-19",
@@ -4344,7 +4770,10 @@
         "/images/catalogue/pdf-p01-3-19-back.webp",
         "/images/catalogue/pdf-p01-3-19-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-19-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-20",
@@ -4355,7 +4784,10 @@
         "/images/catalogue/pdf-p01-3-20-back.webp",
         "/images/catalogue/pdf-p01-3-20-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-20-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-21",
@@ -4366,7 +4798,10 @@
         "/images/catalogue/pdf-p01-3-21-back.webp",
         "/images/catalogue/pdf-p01-3-21-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-21-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-22",
@@ -4377,7 +4812,10 @@
         "/images/catalogue/pdf-p01-3-22-back.webp",
         "/images/catalogue/pdf-p01-3-22-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-22-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-22",
@@ -4388,7 +4826,10 @@
         "/images/catalogue/pdf-p01-3-22-bone-back.webp",
         "/images/catalogue/pdf-p01-3-22-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-22-bone-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p01-3-23",
@@ -4399,7 +4840,10 @@
         "/images/catalogue/pdf-p01-3-23-back.webp",
         "/images/catalogue/pdf-p01-3-23-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p01-3-23-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-01",
@@ -4410,7 +4854,10 @@
         "/images/catalogue/pdf-p03-3-01-back.webp",
         "/images/catalogue/pdf-p03-3-01-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-01-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-02",
@@ -4421,7 +4868,10 @@
         "/images/catalogue/pdf-p03-3-02-back.webp",
         "/images/catalogue/pdf-p03-3-02-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-02-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-03",
@@ -4432,7 +4882,10 @@
         "/images/catalogue/pdf-p03-3-03-back.webp",
         "/images/catalogue/pdf-p03-3-03-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-03-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-04",
@@ -4443,7 +4896,10 @@
         "/images/catalogue/pdf-p03-3-04-back.webp",
         "/images/catalogue/pdf-p03-3-04-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-04-black-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-05",
@@ -4454,7 +4910,10 @@
         "/images/catalogue/pdf-p03-3-05-back.webp",
         "/images/catalogue/pdf-p03-3-05-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-05-black-with-grey-pattern-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-06",
@@ -4465,7 +4924,10 @@
         "/images/catalogue/pdf-p03-3-06-back.webp",
         "/images/catalogue/pdf-p03-3-06-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-06-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-07",
@@ -4476,7 +4938,10 @@
         "/images/catalogue/pdf-p03-3-07-back.webp",
         "/images/catalogue/pdf-p03-3-07-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-07-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-08",
@@ -4487,7 +4952,10 @@
         "/images/catalogue/pdf-p03-3-08-back.webp",
         "/images/catalogue/pdf-p03-3-08-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-08-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-09",
@@ -4498,7 +4966,10 @@
         "/images/catalogue/pdf-p03-3-09-back.webp",
         "/images/catalogue/pdf-p03-3-09-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-09-faded-indigo-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-10",
@@ -4509,7 +4980,10 @@
         "/images/catalogue/pdf-p03-3-10-back.webp",
         "/images/catalogue/pdf-p03-3-10-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-10-faded-indigo-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-11",
@@ -4520,7 +4994,10 @@
         "/images/catalogue/pdf-p03-3-11-back.webp",
         "/images/catalogue/pdf-p03-3-11-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-11-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-12",
@@ -4531,7 +5008,10 @@
         "/images/catalogue/pdf-p03-3-12-back.webp",
         "/images/catalogue/pdf-p03-3-12-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-12-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-13",
@@ -4542,7 +5022,10 @@
         "/images/catalogue/pdf-p03-3-13-back.webp",
         "/images/catalogue/pdf-p03-3-13-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-13-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-14",
@@ -4553,7 +5036,10 @@
         "/images/catalogue/pdf-p03-3-14-back.webp",
         "/images/catalogue/pdf-p03-3-14-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-14-shadow-plaid-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-15",
@@ -4564,7 +5050,10 @@
         "/images/catalogue/pdf-p03-3-15-back.webp",
         "/images/catalogue/pdf-p03-3-15-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-15-black-with-ivory-geometric-lines-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-16",
@@ -4575,7 +5064,10 @@
         "/images/catalogue/pdf-p03-3-16-back.webp",
         "/images/catalogue/pdf-p03-3-16-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-16-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-17",
@@ -4586,7 +5078,10 @@
         "/images/catalogue/pdf-p03-3-17-back.webp",
         "/images/catalogue/pdf-p03-3-17-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-17-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-18",
@@ -4597,7 +5092,10 @@
         "/images/catalogue/pdf-p03-3-18-back.webp",
         "/images/catalogue/pdf-p03-3-18-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-18-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-19",
@@ -4608,7 +5106,10 @@
         "/images/catalogue/pdf-p03-3-19-back.webp",
         "/images/catalogue/pdf-p03-3-19-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-19-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-20",
@@ -4619,7 +5120,10 @@
         "/images/catalogue/pdf-p03-3-20-back.webp",
         "/images/catalogue/pdf-p03-3-20-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-20-black-with-grey-resist-print-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-21",
@@ -4630,7 +5134,10 @@
         "/images/catalogue/pdf-p03-3-21-back.webp",
         "/images/catalogue/pdf-p03-3-21-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-21-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-22",
@@ -4641,7 +5148,10 @@
         "/images/catalogue/pdf-p03-3-22-back.webp",
         "/images/catalogue/pdf-p03-3-22-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-22-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-23",
@@ -4652,7 +5162,10 @@
         "/images/catalogue/pdf-p03-3-23-back.webp",
         "/images/catalogue/pdf-p03-3-23-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-23-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-24",
@@ -4663,7 +5176,10 @@
         "/images/catalogue/pdf-p03-3-24-back.webp",
         "/images/catalogue/pdf-p03-3-24-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-24-black-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-25",
@@ -4674,7 +5190,10 @@
         "/images/catalogue/pdf-p03-3-25-back.webp",
         "/images/catalogue/pdf-p03-3-25-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-25-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-26",
@@ -4685,7 +5204,10 @@
         "/images/catalogue/pdf-p03-3-26-back.webp",
         "/images/catalogue/pdf-p03-3-26-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-26-black-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-27",
@@ -4696,7 +5218,10 @@
         "/images/catalogue/pdf-p03-3-27-back.webp",
         "/images/catalogue/pdf-p03-3-27-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-27-black-with-grey-resist-print-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-28",
@@ -4707,7 +5232,10 @@
         "/images/catalogue/pdf-p03-3-28-back.webp",
         "/images/catalogue/pdf-p03-3-28-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-28-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-29",
@@ -4718,7 +5246,10 @@
         "/images/catalogue/pdf-p03-3-29-back.webp",
         "/images/catalogue/pdf-p03-3-29-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-29-black-with-grey-topographic-lines-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-30",
@@ -4729,7 +5260,10 @@
         "/images/catalogue/pdf-p03-3-30-back.webp",
         "/images/catalogue/pdf-p03-3-30-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-30-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-31",
@@ -4740,7 +5274,10 @@
         "/images/catalogue/pdf-p03-3-31-back.webp",
         "/images/catalogue/pdf-p03-3-31-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-31-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-32",
@@ -4751,7 +5288,10 @@
         "/images/catalogue/pdf-p03-3-32-burgundy-back.webp",
         "/images/catalogue/pdf-p03-3-32-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-32-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-32",
@@ -4762,7 +5302,10 @@
         "/images/catalogue/pdf-p03-3-32-olive-back.webp",
         "/images/catalogue/pdf-p03-3-32-olive-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-32-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-33",
@@ -4773,7 +5316,10 @@
         "/images/catalogue/pdf-p03-3-33-back.webp",
         "/images/catalogue/pdf-p03-3-33-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-33-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p03-3-33",
@@ -4784,7 +5330,10 @@
         "/images/catalogue/pdf-p03-3-33-burgundy-back.webp",
         "/images/catalogue/pdf-p03-3-33-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p03-3-33-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-2-19",
@@ -4795,7 +5344,10 @@
         "/images/catalogue/pdf-p04-2-19-charcoal-back.webp",
         "/images/catalogue/pdf-p04-2-19-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-2-19-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-2-26",
@@ -4806,7 +5358,10 @@
         "/images/catalogue/pdf-p04-2-26-bone-back.webp",
         "/images/catalogue/pdf-p04-2-26-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-2-26-bone-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-2-26",
@@ -4817,7 +5372,10 @@
         "/images/catalogue/pdf-p04-2-26-olive-back.webp",
         "/images/catalogue/pdf-p04-2-26-olive-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-2-26-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-2-26",
@@ -4828,7 +5386,10 @@
         "/images/catalogue/pdf-p04-2-26-burgundy-back.webp",
         "/images/catalogue/pdf-p04-2-26-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-2-26-burgundy-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-2-27",
@@ -4839,7 +5400,10 @@
         "/images/catalogue/pdf-p04-2-27-burgundy-back.webp",
         "/images/catalogue/pdf-p04-2-27-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-2-27-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-a1",
@@ -4850,7 +5414,10 @@
         "/images/catalogue/pdf-p04-3-r1-a1-back.webp",
         "/images/catalogue/pdf-p04-3-r1-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-a1-jet-black-carbon-texture-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-a2",
@@ -4861,7 +5428,10 @@
         "/images/catalogue/pdf-p04-3-r1-a2-back.webp",
         "/images/catalogue/pdf-p04-3-r1-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-a2-charcoal-shadow-plaid-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-a3",
@@ -4872,7 +5442,10 @@
         "/images/catalogue/pdf-p04-3-r1-a3-back.webp",
         "/images/catalogue/pdf-p04-3-r1-a3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-a3-bone-black-adire-noir-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-a4",
@@ -4883,7 +5456,10 @@
         "/images/catalogue/pdf-p04-3-r1-a4-back.webp",
         "/images/catalogue/pdf-p04-3-r1-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-a4-dark-burgundy-velocity-graphic-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-a5",
@@ -4894,7 +5470,10 @@
         "/images/catalogue/pdf-p04-3-r1-a5-back.webp",
         "/images/catalogue/pdf-p04-3-r1-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-a5-deep-olive-urban-camo-noir-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-c1",
@@ -4905,7 +5484,10 @@
         "/images/catalogue/pdf-p04-3-r1-c1-back.webp",
         "/images/catalogue/pdf-p04-3-r1-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-c2",
@@ -4916,7 +5498,10 @@
         "/images/catalogue/pdf-p04-3-r1-c2-back.webp",
         "/images/catalogue/pdf-p04-3-r1-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-c2-black-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-c3",
@@ -4927,7 +5512,10 @@
         "/images/catalogue/pdf-p04-3-r1-c3-back.webp",
         "/images/catalogue/pdf-p04-3-r1-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-c3-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-c4",
@@ -4938,7 +5526,10 @@
         "/images/catalogue/pdf-p04-3-r1-c4-back.webp",
         "/images/catalogue/pdf-p04-3-r1-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r1-c5",
@@ -4949,7 +5540,10 @@
         "/images/catalogue/pdf-p04-3-r1-c5-back.webp",
         "/images/catalogue/pdf-p04-3-r1-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r1-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-a1",
@@ -4960,7 +5554,10 @@
         "/images/catalogue/pdf-p04-3-r2-a1-back.webp",
         "/images/catalogue/pdf-p04-3-r2-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-a1-jet-black-platinum-velocity-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-a2",
@@ -4971,7 +5568,10 @@
         "/images/catalogue/pdf-p04-3-r2-a2-back.webp",
         "/images/catalogue/pdf-p04-3-r2-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-a2-burgundy-charcoal-shadow-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-a3",
@@ -4982,7 +5582,10 @@
         "/images/catalogue/pdf-p04-3-r2-a3-back.webp",
         "/images/catalogue/pdf-p04-3-r2-a3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-a3-olive-black-urban-camo-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-a4",
@@ -4993,7 +5596,10 @@
         "/images/catalogue/pdf-p04-3-r2-a4-back.webp",
         "/images/catalogue/pdf-p04-3-r2-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-a4-bone-black-badge-edition-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-a5",
@@ -5004,7 +5610,10 @@
         "/images/catalogue/pdf-p04-3-r2-a5-back.webp",
         "/images/catalogue/pdf-p04-3-r2-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-a5-midnight-navy-charcoal-carbon-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-c1",
@@ -5015,7 +5624,10 @@
         "/images/catalogue/pdf-p04-3-r2-c1-back.webp",
         "/images/catalogue/pdf-p04-3-r2-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-c2",
@@ -5026,7 +5638,10 @@
         "/images/catalogue/pdf-p04-3-r2-c2-back.webp",
         "/images/catalogue/pdf-p04-3-r2-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-c2-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-c3",
@@ -5037,7 +5652,10 @@
         "/images/catalogue/pdf-p04-3-r2-c3-back.webp",
         "/images/catalogue/pdf-p04-3-r2-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-c3-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-c4",
@@ -5048,7 +5666,10 @@
         "/images/catalogue/pdf-p04-3-r2-c4-back.webp",
         "/images/catalogue/pdf-p04-3-r2-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-c4-black-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r2-c5",
@@ -5059,7 +5680,10 @@
         "/images/catalogue/pdf-p04-3-r2-c5-back.webp",
         "/images/catalogue/pdf-p04-3-r2-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r2-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-a1",
@@ -5070,7 +5694,10 @@
         "/images/catalogue/pdf-p04-3-r3-a1-back.webp",
         "/images/catalogue/pdf-p04-3-r3-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-a1-black-adire-resist-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-a2",
@@ -5081,7 +5708,10 @@
         "/images/catalogue/corrected-vn-pdf-p04-3-r3-a2-back.webp",
         "/images/catalogue/corrected-vn-pdf-p04-3-r3-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-a2-charcoal-broken-pinstripe-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-a3",
@@ -5092,7 +5722,10 @@
         "/images/catalogue/pdf-p04-3-r3-a3-back.webp",
         "/images/catalogue/pdf-p04-3-r3-a3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-a3-burgundy-black-color-block-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-a4",
@@ -5103,7 +5736,10 @@
         "/images/catalogue/pdf-p04-3-r3-a4-back.webp",
         "/images/catalogue/pdf-p04-3-r3-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-a4-olive-charcoal-carbon-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-a5",
@@ -5114,7 +5750,10 @@
         "/images/catalogue/pdf-p04-3-r3-a5-back.webp",
         "/images/catalogue/pdf-p04-3-r3-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-a5-bone-black-shadow-grid-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-c1",
@@ -5125,7 +5764,10 @@
         "/images/catalogue/pdf-p04-3-r3-c1-back.webp",
         "/images/catalogue/pdf-p04-3-r3-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-c1-black-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-c2",
@@ -5147,7 +5789,10 @@
         "/images/catalogue/pdf-p04-3-r3-c3-back.webp",
         "/images/catalogue/pdf-p04-3-r3-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-c3-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-c4",
@@ -5158,7 +5803,10 @@
         "/images/catalogue/pdf-p04-3-r3-c4-back.webp",
         "/images/catalogue/pdf-p04-3-r3-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r3-c5",
@@ -5169,7 +5817,10 @@
         "/images/catalogue/pdf-p04-3-r3-c5-back.webp",
         "/images/catalogue/pdf-p04-3-r3-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r3-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-a5",
@@ -5180,7 +5831,10 @@
         "/images/catalogue/pdf-p04-3-r4-a5-back.webp",
         "/images/catalogue/pdf-p04-3-r4-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-a5-jet-black-carbon-nylon-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-c1",
@@ -5191,7 +5845,10 @@
         "/images/catalogue/pdf-p04-3-r4-c1-back.webp",
         "/images/catalogue/pdf-p04-3-r4-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-c1-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-c2",
@@ -5202,7 +5859,10 @@
         "/images/catalogue/pdf-p04-3-r4-c2-back.webp",
         "/images/catalogue/pdf-p04-3-r4-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-c2-faded-indigo-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-c3",
@@ -5213,7 +5873,10 @@
         "/images/catalogue/pdf-p04-3-r4-c3-back.webp",
         "/images/catalogue/pdf-p04-3-r4-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-c3-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-c4",
@@ -5224,7 +5887,10 @@
         "/images/catalogue/pdf-p04-3-r4-c4-back.webp",
         "/images/catalogue/pdf-p04-3-r4-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r4-c5",
@@ -5235,7 +5901,10 @@
         "/images/catalogue/pdf-p04-3-r4-c5-back.webp",
         "/images/catalogue/pdf-p04-3-r4-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r4-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-a1",
@@ -5246,7 +5915,10 @@
         "/images/catalogue/pdf-p04-3-r5-a1-back.webp",
         "/images/catalogue/pdf-p04-3-r5-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-a1-jet-black-platinum-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-a2",
@@ -5257,7 +5929,10 @@
         "/images/catalogue/pdf-p04-3-r5-a2-back.webp",
         "/images/catalogue/pdf-p04-3-r5-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-a2-burgundy-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-a3",
@@ -5268,7 +5943,10 @@
         "/images/catalogue/pdf-p04-3-r5-a3-back.webp",
         "/images/catalogue/pdf-p04-3-r5-a3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-a3-olive-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-a4",
@@ -5279,7 +5957,10 @@
         "/images/catalogue/pdf-p04-3-r5-a4-back.webp",
         "/images/catalogue/pdf-p04-3-r5-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-a4-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-a5",
@@ -5290,7 +5971,10 @@
         "/images/catalogue/pdf-p04-3-r5-a5-back.webp",
         "/images/catalogue/pdf-p04-3-r5-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-a5-carbon-texture-reflective-silver-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-c1",
@@ -5301,7 +5985,10 @@
         "/images/catalogue/pdf-p04-3-r5-c1-back.webp",
         "/images/catalogue/pdf-p04-3-r5-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-c1-black-ivory-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-c2",
@@ -5312,7 +5999,10 @@
         "/images/catalogue/pdf-p04-3-r5-c2-back.webp",
         "/images/catalogue/pdf-p04-3-r5-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-c2-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-c3",
@@ -5323,7 +6013,10 @@
         "/images/catalogue/pdf-p04-3-r5-c3-back.webp",
         "/images/catalogue/pdf-p04-3-r5-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-c3-olive-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-c4",
@@ -5334,7 +6027,10 @@
         "/images/catalogue/pdf-p04-3-r5-c4-back.webp",
         "/images/catalogue/pdf-p04-3-r5-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-c4-bone-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p04-3-r5-c5",
@@ -5345,7 +6041,10 @@
         "/images/catalogue/pdf-p04-3-r5-c5-back.webp",
         "/images/catalogue/pdf-p04-3-r5-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p04-3-r5-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r1-c1",
@@ -5378,7 +6077,10 @@
         "/images/catalogue/pdf-p05-2-r1-c3-back.webp",
         "/images/catalogue/pdf-p05-2-r1-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r1-c3-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r1-c4",
@@ -5411,7 +6113,10 @@
         "/images/catalogue/pdf-p05-2-r2-c1-back.webp",
         "/images/catalogue/pdf-p05-2-r2-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r2-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r2-c2",
@@ -5422,7 +6127,10 @@
         "/images/catalogue/pdf-p05-2-r2-c2-back.webp",
         "/images/catalogue/pdf-p05-2-r2-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r2-c2-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r2-c3",
@@ -5433,7 +6141,10 @@
         "/images/catalogue/pdf-p05-2-r2-c3-back.webp",
         "/images/catalogue/pdf-p05-2-r2-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r2-c3-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r2-c4",
@@ -5444,7 +6155,10 @@
         "/images/catalogue/pdf-p05-2-r2-c4-back.webp",
         "/images/catalogue/pdf-p05-2-r2-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r2-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r3-c1",
@@ -5455,7 +6169,10 @@
         "/images/catalogue/pdf-p05-2-r3-c1-back.webp",
         "/images/catalogue/pdf-p05-2-r3-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r3-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r3-c2",
@@ -5466,7 +6183,10 @@
         "/images/catalogue/pdf-p05-2-r3-c2-back.webp",
         "/images/catalogue/pdf-p05-2-r3-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r3-c2-black-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r4-c1",
@@ -5488,7 +6208,10 @@
         "/images/catalogue/pdf-p05-2-r4-c2-back.webp",
         "/images/catalogue/pdf-p05-2-r4-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r4-c2-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r4-c3",
@@ -5510,7 +6233,10 @@
         "/images/catalogue/pdf-p05-2-r4-c4-back.webp",
         "/images/catalogue/pdf-p05-2-r4-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r4-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r4-c5",
@@ -5521,7 +6247,10 @@
         "/images/catalogue/pdf-p05-2-r4-c5-back.webp",
         "/images/catalogue/pdf-p05-2-r4-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r4-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-2-r5-c1",
@@ -5565,7 +6294,10 @@
         "/images/catalogue/pdf-p05-2-r5-c5-back.webp",
         "/images/catalogue/pdf-p05-2-r5-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-2-r5-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-a1",
@@ -5576,7 +6308,10 @@
         "/images/catalogue/pdf-p05-3-r1-a1-back.webp",
         "/images/catalogue/pdf-p05-3-r1-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-a1-jet-black-carbon-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-a1",
@@ -5587,7 +6322,10 @@
         "/images/catalogue/pdf-p05-3-r1-a2-back.webp",
         "/images/catalogue/pdf-p05-3-r1-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-a1-charcoal-shadow-plaid-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-a1",
@@ -5598,7 +6336,10 @@
         "/images/catalogue/pdf-p05-3-r1-a3-back.webp",
         "/images/catalogue/pdf-p05-3-r1-a3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-a1-bone-black-adire-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-a1",
@@ -5609,7 +6350,10 @@
         "/images/catalogue/pdf-p05-3-r1-a5-back.webp",
         "/images/catalogue/pdf-p05-3-r1-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-a1-deep-olive-urban-camo-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-a1",
@@ -5620,7 +6364,10 @@
         "/images/catalogue/pdf-p05-3-r1-a4-back.webp",
         "/images/catalogue/pdf-p05-3-r1-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-a1-burgundy-velocity-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-c1",
@@ -5631,7 +6378,10 @@
         "/images/catalogue/pdf-p05-3-r1-c1-back.webp",
         "/images/catalogue/pdf-p05-3-r1-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-c2",
@@ -5642,7 +6392,10 @@
         "/images/catalogue/pdf-p05-3-r1-c2-back.webp",
         "/images/catalogue/pdf-p05-3-r1-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-c2-bone-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-c3",
@@ -5653,7 +6406,10 @@
         "/images/catalogue/pdf-p05-3-r1-c3-back.webp",
         "/images/catalogue/pdf-p05-3-r1-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-c3-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-c4",
@@ -5664,7 +6420,10 @@
         "/images/catalogue/corrected-vn-pdf-p05-3-r1-c4-back.webp",
         "/images/catalogue/corrected-vn-pdf-p05-3-r1-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p05-3-r1-c5",
@@ -5675,7 +6434,10 @@
         "/images/catalogue/pdf-p05-3-r1-c5-back.webp",
         "/images/catalogue/pdf-p05-3-r1-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p05-3-r1-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r1-a1",
@@ -5686,7 +6448,10 @@
         "/images/catalogue/pdf-p06-2-r1-a1-back.webp",
         "/images/catalogue/pdf-p06-2-r1-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r1-a1-jet-black-platinum-velocity-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r1-a1",
@@ -5741,7 +6506,10 @@
         "/images/catalogue/pdf-p06-2-r1-c1-back.webp",
         "/images/catalogue/pdf-p06-2-r1-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r1-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r1-c2",
@@ -5785,7 +6553,10 @@
         "/images/catalogue/pdf-p06-2-r1-c5-back.webp",
         "/images/catalogue/pdf-p06-2-r1-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r1-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r2-a1",
@@ -5796,7 +6567,10 @@
         "/images/catalogue/pdf-p06-2-r2-a1-back.webp",
         "/images/catalogue/pdf-p06-2-r2-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r2-a1-black-reflective-outline-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r2-a2",
@@ -5807,7 +6581,10 @@
         "/images/catalogue/pdf-p06-2-r2-a2-back.webp",
         "/images/catalogue/pdf-p06-2-r2-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r2-a2-bone-black-adire-noir-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r2-a3",
@@ -5829,7 +6606,10 @@
         "/images/catalogue/pdf-p06-2-r2-a4-back.webp",
         "/images/catalogue/pdf-p06-2-r2-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r2-a4-olive-camo-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r2-a5",
@@ -5884,7 +6664,10 @@
         "/images/catalogue/pdf-p06-2-r2-c4-back.webp",
         "/images/catalogue/pdf-p06-2-r2-c4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r2-c4-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r2-c5",
@@ -5895,7 +6678,10 @@
         "/images/catalogue/pdf-p06-2-r2-c5-back.webp",
         "/images/catalogue/pdf-p06-2-r2-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r2-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r3-a2",
@@ -5950,7 +6736,10 @@
         "/images/catalogue/pdf-p06-2-r3-a5-back.webp",
         "/images/catalogue/pdf-p06-2-r3-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r3-c1-navy-carbon-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r3-c2",
@@ -5961,7 +6750,10 @@
         "/images/catalogue/pdf-p06-2-r3-c2-back.webp",
         "/images/catalogue/pdf-p06-2-r3-c2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-2-r3-c2-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-2-r3-c3",
@@ -6038,7 +6830,10 @@
         "/images/catalogue/pdf-p06-3-r1-a4-back.webp",
         "/images/catalogue/pdf-p06-3-r1-a4-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r1-a4-olive-urban-camo-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r1-a5",
@@ -6104,7 +6899,10 @@
         "/images/catalogue/pdf-p06-3-r1-c5-back.webp",
         "/images/catalogue/pdf-p06-3-r1-c5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r1-c5-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r2-a1",
@@ -6115,7 +6913,10 @@
         "/images/catalogue/pdf-p06-3-r2-a1-back.webp",
         "/images/catalogue/pdf-p06-3-r2-a1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r2-a1-black-reflective-outline-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r2-a2",
@@ -6126,7 +6927,10 @@
         "/images/catalogue/pdf-p06-3-r2-a2-back.webp",
         "/images/catalogue/pdf-p06-3-r2-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r2-a2-bone-black-adire-noir-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r2-a3",
@@ -6170,7 +6974,10 @@
         "/images/catalogue/pdf-p06-3-r2-c1-back.webp",
         "/images/catalogue/pdf-p06-3-r2-c1-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r2-c1-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r2-c2",
@@ -6291,7 +7098,10 @@
         "/images/catalogue/pdf-p06-3-r3-c3-back.webp",
         "/images/catalogue/pdf-p06-3-r3-c3-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r3-c3-black-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r3-c4",
@@ -6335,7 +7145,10 @@
         "/images/catalogue/pdf-p06-3-r4-a2-back.webp",
         "/images/catalogue/pdf-p06-3-r4-a2-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r4-a2-charcoal-shadow-plaid-right-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r4-a3",
@@ -6478,7 +7291,10 @@
         "/images/catalogue/pdf-p06-3-r5-a5-back.webp",
         "/images/catalogue/pdf-p06-3-r5-a5-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-pdf-p06-3-r5-a5-navy-silver-left-r04.webp"
     },
     {
       "productId": "vn-pdf-p06-3-r5-c2",
@@ -10783,6 +11599,6 @@
       "status": "pending-orientation-review"
     }
   ],
-  "completed": 204,
-  "remaining": 727
+  "completed": 476,
+  "remaining": 455
 }
