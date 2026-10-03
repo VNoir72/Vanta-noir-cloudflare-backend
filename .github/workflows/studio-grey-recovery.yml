@@ -1,0 +1,78 @@
+name: Restore approved studio-grey garment photos
+on:
+  push:
+    branches: [codex/studio-grey-recovery-2026-10-03]
+    paths:
+      - .github/workflows/studio-grey-recovery.yml
+      - scripts/match-studio-backgrounds.py
+      - data/studio-grey-profile.json
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-grey-recovery
+  cancel-in-progress: false
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: pip install 'rembg[cpu]==2.0.67' pillow scipy
+      - run: python scripts/match-studio-backgrounds.py --workers 2 --shards 8 --shard ${{ matrix.shard }}
+        env:
+          OMP_NUM_THREADS: '1'
+      - uses: actions/upload-artifact@v6
+        with:
+          name: studio-photos-${{ matrix.shard }}
+          path: public/images/catalogue/studio-grey/
+          retention-days: 30
+          if-no-files-found: error
+  release:
+    needs: photos
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: studio-photos-*
+          merge-multiple: true
+          path: public/images/catalogue/studio-grey/
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: node scripts/verify-studio-images.mjs
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run verify:release
+      - run: npm run build:storefront
+      - run: npm run verify:storefront
+      - name: Save processed photographs to recovery branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/images/catalogue/studio-grey/
+          git diff --cached --quiet || git commit -m 'Restore 3724 approved studio-grey garment views'
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Package Namecheap update
+        run: python scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-studio-grey-update.zip
+      - uses: actions/upload-artifact@v6
+        with:
+          name: vanta-noir-studio-grey-update
+          path: outputs/vanta-noir-studio-grey-update.zip
+          retention-days: 30
+          if-no-files-found: error
