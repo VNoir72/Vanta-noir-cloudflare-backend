@@ -29,3 +29,5 @@
 .vn-release-admin input[type=checkbox]{width:18px;height:18px;flex-shrink:0}
 @media(max-width:1000px){.vn-drop-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.vn-drop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}.vn-drop-card h3{font-size:13px}.vn-drop-photo>span{top:8px;left:8px;font-size:10px}.vn-drop-nav{gap:8px}.vn-drop-nav a{padding:12px;font-size:12px}.vn-drop-announcement{font-size:13px}.vn-home-merch section{margin-block:30px}}
+
+.featured-viewport{overflow:hidden;touch-action:pan-y pinch-zoom}.featured-track{display:flex;margin-left:-18px}.featured-slide{flex:0 0 25%;min-width:0;padding-left:18px}.featured-controls{display:flex;gap:8px}.featured-controls button{display:grid;place-items:center;width:44px;height:44px;border:1px solid #dce2d5;border-radius:99px}.featured-controls button:focus-visible{outline:2px solid #26321d;outline-offset:2px}.featured-controls button:disabled{opacity:.45}@media(max-width:1000px){.featured-slide{flex-basis:33.333%}}@media(max-width:640px){.featured-slide{flex-basis:50%;padding-left:12px}.featured-track{margin-left:-12px}.featured-controls{gap:4px}}

@@ -142,9 +142,13 @@ export async function queueRestockAlerts(){
 }
 export async function queueLowStockAlerts(){
   const email=runtimeEnv().ADMIN_EMAIL;if(!email)return;
-  const settings=await getCommerceSettings(),db=getDbBinding();
+  const db=getDbBinding(),eventKey=`low-stock:${new Date().toISOString().slice(0,10)}`;
+  // The outbox already owns retries. Do not rescan the entire inventory after
+  // today's notification has been queued (including pending/review messages).
+  if(await db.prepare('SELECT id FROM email_outbox WHERE event_key=? LIMIT 1').bind(eventKey).first())return;
+  const settings=await getCommerceSettings();
   const rows=await db.prepare("SELECT p.name,v.sku,v.stock FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.active=1 AND p.status='published' AND v.stock<=? ORDER BY v.stock,v.sku LIMIT 100").bind(settings.lowStockThreshold).all<{name:string;sku:string;stock:number}>();
-  if(rows.results.length)await queueEmail(`low-stock:${new Date().toISOString().slice(0,10)}`,email,"Low stock · Vanta Noir",`${rows.results.length} variations are at or below ${settings.lowStockThreshold} units.\n\n${rows.results.map(v=>`${v.name} · ${v.sku}: ${v.stock}`).join("\n")}\n\nOpen Store admin to update inventory.`);
+  if(rows.results.length)await queueEmail(eventKey,email,"Low stock · Vanta Noir",`${rows.results.length} variations are at or below ${settings.lowStockThreshold} units.\n\n${rows.results.map(v=>`${v.name} · ${v.sku}: ${v.stock}`).join("\n")}\n\nOpen Store admin to update inventory.`);
 }
 export async function runCommerceMaintenance(){
   await queueRestockAlerts(); await queueLowStockAlerts(); await queueReleaseAlerts();

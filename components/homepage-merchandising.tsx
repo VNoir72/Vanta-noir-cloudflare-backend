@@ -1,6 +1,7 @@
 "use client";
 import '@/app/merchandising.css';
 import { useState } from 'react';
+import {FeaturedDrop} from './featured-drop';
 import { ArrowRight, Bell } from 'lucide-react';
 import StoreImage from './store-image';
 import { CustomerSignup } from './customer-signup';
@@ -20,7 +21,7 @@ export function HomepageMerchandising({products,data,emailEnabled,formatPrice=fo
     </article>;})}</div>;
   }
   return <div className="vn-home-merch dn-wrap">
-    <section id="new-arrivals" aria-labelledby="new-arrivals-title"><div className="dn-section-intro"><div><span className="dn-eyebrow">THE LATEST DROP</span><h2 id="new-arrivals-title">New Arrivals</h2><p>Fresh releases. A new expression of Vanta Noir.</p></div><a href="#collection">Explore everything <ArrowRight size={16}/></a></div>{sections.newArrivals.length?cards(sections.newArrivals,'New'):<div className="vn-drop-empty"><h3>Our next drop is on its way.</h3><p>Explore the collection and get to know what’s coming.</p>{emailEnabled&&<CustomerSignup/>}</div>}</section>
+    <FeaturedDrop products={sections.featured} formatPrice={formatPrice}/>
     {sections.bestSellers.length>0&&<section id="best-sellers" aria-labelledby="best-sellers-title"><div className="dn-section-intro"><div><span className="dn-eyebrow">CHOSEN BY OUR CUSTOMERS</span><h2 id="best-sellers-title">Best Sellers</h2><p>Popular purchases, with extra weight for the last seven days.</p></div></div>{cards(sections.bestSellers,'Best seller')}</section>}
 
   </div>;

@@ -1,4 +1,6 @@
 "use client";
+import {PriceFilter} from "@/components/price-filter";
+import {replaceBrowseUrl} from "@/lib/browse-history";
 import {useDisplayCurrency} from "@/lib/display-currency";
 import {garmentName} from "@/lib/product-names";
 import {BagRewards} from "@/components/reward-progress";
@@ -152,7 +154,9 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     for(const [key,value] of [['minPrice',priceRange[0]>0?String(priceRange[0]):''],['maxPrice',priceRange[1]<10000000?String(priceRange[1]):''],['drop',dropFilter==='All'?'':dropFilter],['inStock',inStockOnly?'1':'']]){if(value)url.searchParams.set(key,value);else url.searchParams.delete(key)}
     if (detailSlug && detailColor) url.searchParams.set('colour',detailColor);
     if(bagOpen) url.searchParams.set('bag','1'); else url.searchParams.delete('bag');
-    window.history.replaceState(window.history.state,'',url.pathname+url.search+url.hash);
+    const next=url.pathname+url.search+url.hash;
+    const timer=window.setTimeout(()=>replaceBrowseUrl(window.history,window.location.pathname+window.location.search+window.location.hash,next),300);
+    return ()=>window.clearTimeout(timer);
   }, [hydrated,audienceFilter,category,collectionFilter,query,detailSlug,detailColor,colorFilter,sizeFilter,priceFilter,sort,savedOnly,bagOpen,priceRange,dropFilter,inStockOnly]);
   useEffect(() => { if (!message) return; const id = setTimeout(() => setMessage(""), 3800); return () => clearTimeout(id); }, [message]);
 
@@ -301,7 +305,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     const drops=[...new Set(displayProducts.map(nameOf))].filter(n=>n.toLowerCase().includes(dropQuery.toLowerCase())).sort();
     return <div className="approved-filter-body">
       <fieldset className="filter-wide"><legend>Shop for</legend><div className="filter-pills">{[["All","Everyone"],["women","Women"],["men","Men"],["unisex","Unisex"]].map(([v,l])=>pill(v,audienceFilter,chooseAudience,l))}</div></fieldset>
-      <fieldset className="filter-wide"><legend>Price</legend><div className="filter-price-values"><span>{formatNaira(priceRange[0]*100)}</span><span>{formatNaira(priceRange[1]*100)}{priceRange[1]===10000000?'+':''}</span></div><div className="filter-range"><div className="filter-track"/><div className="filter-fill" style={{left:`${priceRange[0]/100000}%`,right:`${100-priceRange[1]/100000}%`}}/><input aria-label="Minimum price in naira" type="range" min="0" max="10000000" step="1000" value={priceRange[0]} onChange={e=>setPriceRange([Math.min(+e.target.value,priceRange[1]),priceRange[1]])}/><input aria-label="Maximum price in naira" type="range" min="0" max="10000000" step="1000" value={priceRange[1]} onChange={e=>setPriceRange([priceRange[0],Math.max(+e.target.value,priceRange[0])])}/></div><small>Drag either handle. ₦10,000,000+ includes all higher prices.</small></fieldset>
+      <PriceFilter value={priceRange} onCommit={setPriceRange}/>
       <fieldset><legend>Category</legend><div className="filter-pills">{['All',...SHOP_SECTIONS].map(v=>pill(v,category,setCategory,v==='All'?'All categories':v))}</div></fieldset>
       <fieldset><legend>Collection</legend><div className="filter-pills">{['All',...availableCollections].map(v=>pill(v,collectionFilter,setCollectionFilter,v==='All'?'All collections':v))}</div></fieldset>
       <fieldset><legend>Product type</legend><div className="filter-pills filter-scroll">{availableCategories.map(c=>pill(c.id,category,setCategory,c.name))}</div></fieldset>
@@ -326,7 +330,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
       <div className="dn-swatches">{product.colorways.map(color => <button key={color.slug} style={{ "--swatch": swatchBackground(color.name,color.hex) } as React.CSSProperties} aria-label={`Choose ${color.name}`} aria-pressed={color.slug === entry.color.slug} onClick={() => { setSelectedSize(""); if (quick) setQuick({ product, color, key: keyOf(product, color) }); else setDetailColor(color.slug); }}><span /></button>)}</div>
       <div className="dn-option-heading">{productSizes.length===1 && productSizes[0]==="One size" ? "Size" : "Select size"} {productSizes.some(s=>sizes.includes(s)) && <SizeGuide product={sourceProduct} selectedSize={selectedSize} onSelectSize={setSelectedSize} stock={entry.color.stock}/>}</div>
       <div className="dn-size-options">{productSizes.map(size => <button key={size} data-soldout={!entry.color.stock[size]} aria-label={`${size}${!entry.color.stock[size] ? " — out of stock" : ""}`} aria-pressed={selectedSize === size} onClick={() => setSelectedSize(size)}>{size}</button>)}</div>
-      <button className="dn-primary dn-add" disabled={!catalogLoaded || catalogError || preview || soldOut || Boolean(selectedSize && !entry.color.stock[selectedSize])} onClick={() => add(entry)}><ShoppingBag size={18} />{!catalogLoaded ? "Checking availability…" : catalogError ? "Availability unavailable" : preview ? "Coming soon" : soldOut ? "Sold out" : selectedSize ? entry.color.stock[selectedSize] ? "Add to bag" : "This size is sold out" : "Choose a size to add"}{product.details?.priceStatus !== "proposed" && <span>{displayCurrency.format(product.priceKobo)}</span>}</button>
+      <button className="dn-primary dn-add" disabled={!catalogLoaded || catalogError || preview || soldOut || Boolean(selectedSize && !entry.color.stock[selectedSize])} onClick={() => add(entry)}><ShoppingBag size={18} />{catalogError ? "Availability unavailable" : !catalogLoaded ? "Checking availability…" : preview ? "Coming soon" : soldOut ? "Sold out" : selectedSize ? entry.color.stock[selectedSize] ? "Add to bag" : "This size is sold out" : "Choose a size to add"}{product.details?.priceStatus !== "proposed" && <span>{displayCurrency.format(product.priceKobo)}</span>}</button>
       {catalogLoaded&&!catalogError&&sellingFast(sourceProduct,merchandising)&&<p className="vn-stock-note">Selling fast · based on verified purchases in the last 7 days</p>}
       {catalogLoaded&&!catalogError&&lowStockMessage(sourceProduct,selectedSize,entry.color.stock[selectedSize]??0,merchandising.stockBadgesEnabled)&&<p className="vn-stock-note" role="status">{lowStockMessage(sourceProduct,selectedSize,entry.color.stock[selectedSize]??0,merchandising.stockBadgesEnabled)}</p>}
       {settings.emailEnabled&&preview&&<CustomerSignup key={`release-${sourceProduct.id}`} productId={sourceProduct.id}/>}
@@ -354,7 +358,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
       </div><div className="dn-service-row dn-wrap"><span><Check size={16} />Complete matching sets</span><span><Sparkles size={16} />Reflective signature details</span><span><ShoppingBag size={16} />Clear prices in naira</span><button onClick={() => setHelp("Size & fit")}>Find your fit <ArrowRight size={15} /></button></div>
       </>}
       {showHomepageMerch && <section className="dn-discover dn-wrap" aria-label="Discover by style"><div className="dn-section-intro"><div><span className="dn-eyebrow">FIND YOUR DIRECTION</span><h2>Shop by category</h2></div><button onClick={() => browse()}>Explore everything <ArrowRight size={15} /></button></div><div className="dn-shortcuts">{SHOP_SECTIONS.map(section=>({title:section,note:`Explore ${section.toLowerCase()}`,src:audienceProducts.find(p=>categoryFor(p)?.section===section)?.colorways[0]?.imageUrl,category:section})).filter(item=>item.src).map(item => <button key={item.title} onClick={() => browse(item.category)}><div><StoreImage src={item.src!} alt="" sizes="130px" /></div><span><strong>{item.title}</strong><small>{item.note}</small></span><ArrowRight size={17} /></button>)}</div></section>}
-      {showHomepageMerch && catalogLoaded && !catalogError && <HomepageMerchandising products={displayProducts} data={merchandising} formatPrice={displayCurrency.format} emailEnabled={Boolean(settings.emailEnabled)}/>}
+      {showHomepageMerch && catalogLoaded && !catalogError && <HomepageMerchandising products={displayProducts.filter(p=>matchesAudience(p,audienceFilter))} data={merchandising} formatPrice={displayCurrency.format} emailEnabled={Boolean(settings.emailEnabled)}/>}
       {catalogError && <div className="dn-notice dn-wrap" role="alert"><strong>Current prices and stock could not be loaded.</strong><p>Your saved bag is unchanged. Please retry before adding items.</p><button className="dn-primary" onClick={()=>setCatalogRetry(value=>value+1)}>Retry catalogue</button></div>}
       {detailSlug && !catalogLoaded && !detailEntry && <section className="dn-panel dn-wrap"><h1>Loading product…</h1><p role="status">Checking the current collection.</p></section>}
       {detailSlug && catalogLoaded && !detailEntry && <section className="dn-panel dn-wrap"><h1>This piece is unavailable.</h1><p>It may no longer be in the collection. Explore the available pieces below or contact customer care.</p></section>}

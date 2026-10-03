@@ -14,18 +14,19 @@ const {CustomerSignup}=await import(pathToFileURL(resolve('work/merch-render/cus
 const {CampaignHero}=await import(pathToFileURL(resolve('work/merch-render/campaign-hero.js')));
 const ready={id:'ready',name:'New <script>not-code</script>',slug:'new-shirt',imageUrl:'/images/test.webp',imageAlt:'A shirt',priceKobo:3000000,featured:true,details:{availability:'in_stock',priceStatus:'approved',releaseDate:new Date().toISOString().slice(0,10)},colorways:[{imageUrl:'/images/test.webp',stock:{M:2,L:1}}]};
 const preview={...ready,id:'preview',slug:'preview-shirt',details:{...ready.details,availability:'preview',priceStatus:'proposed'}};
-test('homepage renders correct sections, product links, accessible notify controls and honest badges',()=>{
+test('homepage features selected products without a New Arrivals shelf',()=>{
  const html=renderToStaticMarkup(createElement(HomepageMerchandising,{products:[ready,preview],emailEnabled:true,data:{stockBadgesEnabled:true,sales:[{productId:'ready',units30:9,orders30:4,units7:5,orders7:3}]}}));
- for(const id of ['new-arrivals','featured-pieces','coming-soon','best-sellers'])assert.ok(html.includes(`id="${id}"`));
+ for(const id of ['featured-pieces','best-sellers'])assert.ok(html.includes(`id="${id}"`));
  assert.ok(html.includes('href="/products/new-shirt"'));
- assert.ok(html.includes('Selling fast'));assert.ok(html.includes('Low stock · 3 left across sizes'));assert.ok(html.includes('Price at launch'));
- assert.ok(html.includes('aria-expanded="false"'));assert.ok(html.includes('aria-controls="release-form-coming-soon-preview"'));
- const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length,'A featured preview also in Coming Soon must not duplicate DOM IDs');
+ assert.ok(!html.includes('Selling fast')); assert.ok(html.includes('Low stock · 3 left across sizes'));assert.ok(html.includes('Price at launch'));
+ assert.ok(!html.includes('id="new-arrivals"'));assert.ok(!html.includes('id="coming-soon"'));
+ assert.ok(html.includes('aria-roledescription="carousel"'));assert.ok(html.includes('Featured Drop'));
+ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length,'Homepage sections must not duplicate DOM IDs');
  assert.ok(!html.includes('<script>not-code</script>'));assert.ok(html.includes('&lt;script&gt;'));
 });
 test('no-sales and disabled-email render does not fabricate popularity or offer unavailable signup',()=>{
  const html=renderToStaticMarkup(createElement(HomepageMerchandising,{products:[preview],emailEnabled:false,data:{sales:[],stockBadgesEnabled:false}}));
- assert.ok(!html.includes('id="best-sellers"'));assert.ok(!html.includes('Selling fast'));assert.ok(!html.includes('Low stock'));assert.ok(!html.includes('Notify me'));assert.ok(html.includes('Our next drop is on its way'));
+ assert.ok(!html.includes('id="best-sellers"'));assert.ok(!html.includes('Selling fast'));assert.ok(!html.includes('Low stock'));assert.ok(!html.includes('Notify me'));assert.ok(html.includes('Featured Drop'));assert.ok(!html.includes('id="new-arrivals"'));
 });
 test('release signup is product-specific and requires email and explicit consent',()=>{
  const html=renderToStaticMarkup(createElement(CustomerSignup,{productId:'preview'}));
