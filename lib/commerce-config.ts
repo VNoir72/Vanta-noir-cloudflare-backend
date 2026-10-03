@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { heroSchema, collectionLabelsSchema } from './storefront-design';
+import { heroSchema, collectionLabelsSchema, aboutImageSchema } from './storefront-design';
 import { SHIPPING_COUNTRIES } from './shipping-countries';
 
 export const NIGERIA_STATES = ["Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT Abuja", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"];
 export const commerceSettingsSchema = z.object({
   hero: heroSchema.default({}),
+  aboutImage: aboutImageSchema.default({}),
   collectionLabels: collectionLabelsSchema.default([]),
   internationalEnabled: z.boolean().default(false),
   internationalDutiesNote: z.string().trim().max(600).default(''),
