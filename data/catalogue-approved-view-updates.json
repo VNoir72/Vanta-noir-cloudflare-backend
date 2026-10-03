@@ -1,0 +1,615 @@
+[
+  {
+    "productId": "vn-stealth",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-stealth-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stealth-jet-black-front.webp",
+      "/images/catalogue/vn-stealth-jet-black-back.webp",
+      "/images/catalogue/vn-stealth-jet-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/approved/vn-stealth-jet-black-front-r03.webp",
+      "back": "/images/catalogue/approved/vn-stealth-jet-black-back-r03.webp",
+      "left": "/images/catalogue/approved/vn-stealth-jet-black-left-r03.webp",
+      "right": "/images/catalogue/approved/vn-stealth-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stealth",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/vn-stealth-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stealth-dark-burgundy-front.webp",
+      "/images/catalogue/vn-stealth-dark-burgundy-back.webp",
+      "/images/catalogue/vn-stealth-dark-burgundy-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/approved/vn-stealth-dark-burgundy-front-r03.webp",
+      "back": "/images/catalogue/approved/vn-stealth-dark-burgundy-back-r03.webp",
+      "left": "/images/catalogue/approved/vn-stealth-dark-burgundy-left-r03.webp",
+      "right": "/images/catalogue/approved/vn-stealth-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stealth",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/vn-stealth-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stealth-charcoal-grey-front.webp",
+      "/images/catalogue/vn-stealth-charcoal-grey-back.webp",
+      "/images/catalogue/vn-stealth-charcoal-grey-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/approved/vn-stealth-charcoal-grey-front-r03.webp",
+      "back": "/images/catalogue/approved/vn-stealth-charcoal-grey-back-r03.webp",
+      "left": "/images/catalogue/approved/vn-stealth-charcoal-grey-left-r03.webp",
+      "right": "/images/catalogue/approved/vn-stealth-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stealth",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/vn-stealth-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stealth-deep-olive-black-front.webp",
+      "/images/catalogue/vn-stealth-deep-olive-black-back.webp",
+      "/images/catalogue/vn-stealth-deep-olive-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/approved/vn-stealth-deep-olive-black-front-r03.webp",
+      "back": "/images/catalogue/approved/vn-stealth-deep-olive-black-back-r03.webp",
+      "left": "/images/catalogue/approved/vn-stealth-deep-olive-black-left-r03.webp",
+      "right": "/images/catalogue/approved/vn-stealth-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-hooded-performance",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-hooded-performance-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-hooded-performance-jet-black-front.webp",
+      "/images/catalogue/vn-hooded-performance-jet-black-back.webp",
+      "/images/catalogue/vn-hooded-performance-jet-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-hooded-performance-jet-black-front.webp",
+      "back": "/images/catalogue/vn-hooded-performance-jet-black-back.webp",
+      "left": "/images/catalogue/vn-hooded-performance-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-hooded-performance-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-hooded-performance",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/vn-hooded-performance-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-hooded-performance-dark-burgundy-front.webp",
+      "/images/catalogue/vn-hooded-performance-dark-burgundy-back.webp",
+      "/images/catalogue/vn-hooded-performance-dark-burgundy-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-hooded-performance-dark-burgundy-front.webp",
+      "back": "/images/catalogue/vn-hooded-performance-dark-burgundy-back.webp",
+      "left": "/images/catalogue/vn-hooded-performance-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-hooded-performance-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-hooded-performance",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/vn-hooded-performance-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-hooded-performance-charcoal-grey-front.webp",
+      "/images/catalogue/vn-hooded-performance-charcoal-grey-back.webp",
+      "/images/catalogue/vn-hooded-performance-charcoal-grey-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-hooded-performance-charcoal-grey-front.webp",
+      "back": "/images/catalogue/vn-hooded-performance-charcoal-grey-back.webp",
+      "left": "/images/catalogue/vn-hooded-performance-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-hooded-performance-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-hooded-performance",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/vn-hooded-performance-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-hooded-performance-deep-olive-black-front.webp",
+      "/images/catalogue/vn-hooded-performance-deep-olive-black-back.webp",
+      "/images/catalogue/vn-hooded-performance-deep-olive-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-hooded-performance-deep-olive-black-front.webp",
+      "back": "/images/catalogue/vn-hooded-performance-deep-olive-black-back.webp",
+      "left": "/images/catalogue/vn-hooded-performance-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-hooded-performance-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stand-collar-performance",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-stand-collar-performance-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stand-collar-performance-jet-black-front.webp",
+      "/images/catalogue/vn-stand-collar-performance-jet-black-back.webp",
+      "/images/catalogue/vn-stand-collar-performance-jet-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-stand-collar-performance-jet-black-front.webp",
+      "back": "/images/catalogue/vn-stand-collar-performance-jet-black-back.webp",
+      "left": "/images/catalogue/vn-stand-collar-performance-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-stand-collar-performance-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stand-collar-performance",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/vn-stand-collar-performance-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stand-collar-performance-dark-burgundy-front.webp",
+      "/images/catalogue/vn-stand-collar-performance-dark-burgundy-back.webp",
+      "/images/catalogue/vn-stand-collar-performance-dark-burgundy-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-stand-collar-performance-dark-burgundy-front.webp",
+      "back": "/images/catalogue/vn-stand-collar-performance-dark-burgundy-back.webp",
+      "left": "/images/catalogue/vn-stand-collar-performance-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-stand-collar-performance-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stand-collar-performance",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/vn-stand-collar-performance-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stand-collar-performance-charcoal-grey-front.webp",
+      "/images/catalogue/vn-stand-collar-performance-charcoal-grey-back.webp",
+      "/images/catalogue/vn-stand-collar-performance-charcoal-grey-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-stand-collar-performance-charcoal-grey-front.webp",
+      "back": "/images/catalogue/vn-stand-collar-performance-charcoal-grey-back.webp",
+      "left": "/images/catalogue/vn-stand-collar-performance-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-stand-collar-performance-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-stand-collar-performance",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/vn-stand-collar-performance-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-stand-collar-performance-deep-olive-black-front.webp",
+      "/images/catalogue/vn-stand-collar-performance-deep-olive-black-back.webp",
+      "/images/catalogue/vn-stand-collar-performance-deep-olive-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-stand-collar-performance-deep-olive-black-front.webp",
+      "back": "/images/catalogue/vn-stand-collar-performance-deep-olive-black-back.webp",
+      "left": "/images/catalogue/vn-stand-collar-performance-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-stand-collar-performance-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-windbreaker",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-windbreaker-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-windbreaker-jet-black-front.webp",
+      "/images/catalogue/vn-windbreaker-jet-black-back.webp",
+      "/images/catalogue/vn-windbreaker-jet-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-windbreaker-jet-black-front.webp",
+      "back": "/images/catalogue/vn-windbreaker-jet-black-back.webp",
+      "left": "/images/catalogue/vn-windbreaker-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-windbreaker-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-windbreaker",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/vn-windbreaker-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-windbreaker-dark-burgundy-front.webp",
+      "/images/catalogue/vn-windbreaker-dark-burgundy-back.webp",
+      "/images/catalogue/vn-windbreaker-dark-burgundy-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-windbreaker-dark-burgundy-front.webp",
+      "back": "/images/catalogue/vn-windbreaker-dark-burgundy-back.webp",
+      "left": "/images/catalogue/vn-windbreaker-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-windbreaker-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-windbreaker",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/vn-windbreaker-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-windbreaker-charcoal-grey-front.webp",
+      "/images/catalogue/vn-windbreaker-charcoal-grey-back.webp",
+      "/images/catalogue/vn-windbreaker-charcoal-grey-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-windbreaker-charcoal-grey-front.webp",
+      "back": "/images/catalogue/vn-windbreaker-charcoal-grey-back.webp",
+      "left": "/images/catalogue/vn-windbreaker-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-windbreaker-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-windbreaker",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/vn-windbreaker-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-windbreaker-deep-olive-black-front.webp",
+      "/images/catalogue/vn-windbreaker-deep-olive-black-back.webp",
+      "/images/catalogue/vn-windbreaker-deep-olive-black-side.webp"
+    ],
+    "views": {
+      "front": "/images/catalogue/vn-windbreaker-deep-olive-black-front.webp",
+      "back": "/images/catalogue/vn-windbreaker-deep-olive-black-back.webp",
+      "left": "/images/catalogue/vn-windbreaker-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-windbreaker-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-01",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/season-01-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-01-jet-black-front.webp",
+      "/images/catalogue/season-01-jet-black-back.webp",
+      "/images/catalogue/season-01-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-01-jet-black-front.webp",
+      "back": "/images/catalogue/season-01-jet-black-back.webp",
+      "left": "/images/catalogue/season-01-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-01-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-01",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/season-01-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-01-dark-burgundy-front.webp",
+      "/images/catalogue/season-01-dark-burgundy-back.webp",
+      "/images/catalogue/season-01-dark-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-01-dark-burgundy-front.webp",
+      "back": "/images/catalogue/season-01-dark-burgundy-back.webp",
+      "left": "/images/catalogue/season-01-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-01-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-01",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-01-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-01-charcoal-grey-front.webp",
+      "/images/catalogue/season-01-charcoal-grey-back.webp",
+      "/images/catalogue/season-01-charcoal-grey-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-01-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-01-charcoal-grey-back.webp",
+      "left": "/images/catalogue/season-01-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-01-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-01",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-01-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-01-deep-olive-black-front.webp",
+      "/images/catalogue/season-01-deep-olive-black-back.webp",
+      "/images/catalogue/season-01-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-01-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-01-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-01-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-01-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-01",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-01-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-01-bone-black-front.webp",
+      "/images/catalogue/season-01-bone-black-back.webp",
+      "/images/catalogue/season-01-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-01-bone-black-front.webp",
+      "back": "/images/catalogue/season-01-bone-black-back.webp",
+      "left": "/images/catalogue/season-01-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-01-bone-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-02",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/season-02-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-02-jet-black-front.webp",
+      "/images/catalogue/season-02-jet-black-back.webp",
+      "/images/catalogue/season-02-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-02-jet-black-front.webp",
+      "back": "/images/catalogue/season-02-jet-black-back.webp",
+      "left": "/images/catalogue/season-02-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-02-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-02",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/season-02-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-02-dark-burgundy-front.webp",
+      "/images/catalogue/season-02-dark-burgundy-back.webp",
+      "/images/catalogue/season-02-dark-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-02-dark-burgundy-front.webp",
+      "back": "/images/catalogue/season-02-dark-burgundy-back.webp",
+      "left": "/images/catalogue/season-02-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-02-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-02",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-02-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-02-charcoal-grey-front.webp",
+      "/images/catalogue/season-02-charcoal-grey-back.webp",
+      "/images/catalogue/season-02-charcoal-grey-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-02-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-02-charcoal-grey-back.webp",
+      "left": "/images/catalogue/season-02-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-02-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-02",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-02-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-02-deep-olive-black-front.webp",
+      "/images/catalogue/season-02-deep-olive-black-back.webp",
+      "/images/catalogue/season-02-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-02-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-02-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-02-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-02-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-02",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-02-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-02-bone-black-front.webp",
+      "/images/catalogue/season-02-bone-black-back.webp",
+      "/images/catalogue/season-02-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-02-bone-black-front.webp",
+      "back": "/images/catalogue/season-02-bone-black-back.webp",
+      "left": "/images/catalogue/season-02-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-02-bone-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-03",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/season-03-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-03-jet-black-front.webp",
+      "/images/catalogue/season-03-jet-black-back.webp",
+      "/images/catalogue/season-03-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-03-jet-black-front.webp",
+      "back": "/images/catalogue/season-03-jet-black-back.webp",
+      "left": "/images/catalogue/season-03-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-03-jet-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-03",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/season-03-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-03-dark-burgundy-front.webp",
+      "/images/catalogue/season-03-dark-burgundy-back.webp",
+      "/images/catalogue/season-03-dark-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-03-dark-burgundy-front.webp",
+      "back": "/images/catalogue/season-03-dark-burgundy-back.webp",
+      "left": "/images/catalogue/season-03-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-03-dark-burgundy-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-03",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-03-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-03-charcoal-grey-front.webp",
+      "/images/catalogue/season-03-charcoal-grey-back.webp",
+      "/images/catalogue/season-03-charcoal-grey-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-03-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-03-charcoal-grey-back.webp",
+      "left": "/images/catalogue/season-03-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-03-charcoal-grey-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-03",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-03-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-03-deep-olive-black-front.webp",
+      "/images/catalogue/season-03-deep-olive-black-back.webp",
+      "/images/catalogue/season-03-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-03-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-03-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-03-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-03-deep-olive-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-03",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-03-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-03-bone-black-front.webp",
+      "/images/catalogue/season-03-bone-black-back.webp",
+      "/images/catalogue/season-03-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-03-bone-black-front.webp",
+      "back": "/images/catalogue/season-03-bone-black-back.webp",
+      "left": "/images/catalogue/season-03-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-03-bone-black-right-r03.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-04",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/season-04-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-04-jet-black-front.webp",
+      "/images/catalogue/season-04-jet-black-back.webp",
+      "/images/catalogue/season-04-jet-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/season-04-jet-black-front.webp",
+      "back": "/images/catalogue/season-04-jet-black-back.webp",
+      "left": "/images/catalogue/approved/vn-season01-04-jet-black-left-r03.webp",
+      "right": "/images/catalogue/season-04-jet-black-side.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-04",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/season-04-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-04-dark-burgundy-front.webp",
+      "/images/catalogue/season-04-dark-burgundy-back.webp",
+      "/images/catalogue/season-04-dark-burgundy-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/season-04-dark-burgundy-front.webp",
+      "back": "/images/catalogue/season-04-dark-burgundy-back.webp",
+      "left": "/images/catalogue/approved/vn-season01-04-dark-burgundy-left-r03.webp",
+      "right": "/images/catalogue/season-04-dark-burgundy-side.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-04",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-04-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-04-charcoal-grey-front.webp",
+      "/images/catalogue/season-04-charcoal-grey-back.webp",
+      "/images/catalogue/season-04-charcoal-grey-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/season-04-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-04-charcoal-grey-back.webp",
+      "left": "/images/catalogue/approved/vn-season01-04-charcoal-grey-left-r03.webp",
+      "right": "/images/catalogue/season-04-charcoal-grey-side.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-04",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-04-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-04-deep-olive-black-front.webp",
+      "/images/catalogue/season-04-deep-olive-black-back.webp",
+      "/images/catalogue/season-04-deep-olive-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/season-04-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-04-deep-olive-black-back.webp",
+      "left": "/images/catalogue/approved/vn-season01-04-deep-olive-black-left-r03.webp",
+      "right": "/images/catalogue/season-04-deep-olive-black-side.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-04",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-04-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-04-bone-black-front.webp",
+      "/images/catalogue/season-04-bone-black-back.webp",
+      "/images/catalogue/season-04-bone-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/season-04-bone-black-front.webp",
+      "back": "/images/catalogue/season-04-bone-black-back.webp",
+      "left": "/images/catalogue/approved/vn-season01-04-bone-black-left-r03.webp",
+      "right": "/images/catalogue/season-04-bone-black-side.webp"
+    }
+  },
+  {
+    "productId": "vn-vd-p02-2-20",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vd-p02-2-20-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vd-p02-2-20-front.webp",
+      "/images/catalogue/vd-p02-2-20-back.webp",
+      "/images/catalogue/vd-p02-2-20-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vd-p02-2-20-front.webp",
+      "back": "/images/catalogue/vd-p02-2-20-back.webp",
+      "left": "/images/catalogue/vd-p02-2-20-side.webp",
+      "right": "/images/catalogue/approved/vn-vd-p02-2-20-jet-black-right-r03.webp"
+    }
+  }
+]

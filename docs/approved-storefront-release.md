@@ -30,3 +30,23 @@ Back up public_html before uploading the Namecheap package. Extract the archive 
 ## Image audit
 
 Run `node scripts/audit-product-views.mjs` to inventory missing and ambiguous views. The live audit found 682 products / 931 colourways; 920 use a generic side view. Do not assume all side images show the same side. Left and right always refer to the wearer. Do not mirror branding. Generated images require visual review against the approved master and garment reference before inclusion. The full catalogue image pass is not yet complete.
+
+
+### Reviewed image batch included
+
+49 generated and reviewed WebP assets cover 37 colourways across nine styles. All four colourways of Stealth now use the dark-burgundy R03 construction and master spire/wordmark. The other performance sets and windbreaker receive the missing right views. All five colourways of the graphic tee, fitted tee, long-sleeve tee and polo have four labelled views; the polo's existing side is Right, so its new view is Left. The Jet Black Ribbed Midi Dress also has a new Right view.
+
+This covers every colourway of the eight styles currently marked `in_stock` with approved prices (this catalogue status does not imply positive inventory). The remaining preview catalogue is not claimed as image-complete. No stock, availability, prices, orders or payment settings were changed.
+
+Reviewed mappings are in `data/catalogue-approved-view-updates.json`; product images are in `public/images/catalogue/approved/`. The transformation applies on catalogue reads, so these views do not require a database migration. It preserves unrelated merchant-uploaded images and skips colourways whose front was replaced by a merchant.
+
+Optional persistence into D1, only after the frontend assets are published:
+
+```bash
+node scripts/apply-approved-views.mjs
+node scripts/apply-approved-views.mjs --apply
+```
+
+The apply command first exports a database backup. It updates only known image URLs and labels. Publication is not complete until the Cloudflare Worker and Namecheap public_html package are both published.
+
+Generation used the built-in image editor. Prompt instructions: derive the missing wearer's side from that exact colourway's Front/Back/Side references; preserve fabric, silhouette, seams, pattern, contrast panels and logo positions; use the master angular spire instead of feathered emblems; match the existing ghost-mannequin photography and background; do not mirror branding or add marks. Stealth additionally follows the R03 four-view tech pack. Generated outputs were inspected and compressed to WebP for the storefront.

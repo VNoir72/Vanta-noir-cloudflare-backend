@@ -21,3 +21,20 @@ test('recent sales boost ranking and grouped colourways are counted once',()=>{
  assert.ok(bestSellerScore({...p,id:'b'},data)>bestSellerScore(p,data));
  assert.equal(bestSellerScore({...p,colorways:[{sourceProductId:'a'},{sourceProductId:'b'},{sourceProductId:'b'}]},data),26);
 });
+
+const viewsBuild=await build({entryPoints:['lib/catalog-images.ts'],bundle:true,write:false,platform:'node',format:'esm'});
+const {individualProductViews}=await import('data:text/javascript;base64,'+Buffer.from(viewsBuild.outputFiles[0].text).toString('base64'));
+const {readFileSync,existsSync}=await import('node:fs');
+const reviewed=JSON.parse(readFileSync('data/catalogue-approved-view-updates.json','utf8'));
+test('reviewed colourways have four existing assets, correct labels and idempotent conversion',()=>{
+ for(const row of reviewed){
+  const product={id:row.productId,name:'Garment',imageAlt:'Garment',imageUrl:row.legacyFront,color:row.color,colorways:[{name:row.color,imageUrl:row.legacyFront}],images:row.legacyImages.map(imageUrl=>({color:row.color,imageUrl,imageAlt:'Side'}))};
+  const result=individualProductViews(product);
+  assert.equal(result.images.length,4,row.productId+' '+row.color);
+  assert.deepEqual(result.images.map(i=>i.imageAlt.match(/(front|back|left|right) view/)[1]),['front','back','left','right']);
+  for(const path of Object.values(row.views))assert.ok(existsSync('public'+path),path);
+  assert.deepEqual(individualProductViews(result),result);
+  const custom={...product,imageUrl:'/custom.webp',colorways:[{name:row.color,imageUrl:'/custom.webp'}],images:[{color:row.color,imageUrl:'/custom.webp',imageAlt:'Custom'}]};
+  assert.deepEqual(individualProductViews(custom),custom);
+ }
+});
