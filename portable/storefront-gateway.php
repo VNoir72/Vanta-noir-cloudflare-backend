@@ -39,6 +39,8 @@ if ($sitemap) {
 if (($data['slug'] ?? '') !== $slug || !isset($data['title'], $data['description'])) { http_response_code(503); exit; }
 $html = file_get_contents(__DIR__ . '/products/_dynamic.html');
 if ($html === false) { http_response_code(503); exit; }
+// Bootstrap the canonical product path even when the incoming URL ends in .html.
+$html = str_replace('"path":"/products/_dynamic"', '"path":"/products/' . $slug . '"', $html);
 $canonical = 'https://vantanoir.store/products/' . $slug;
 $image = $data['image'] ?? '';
 if (strpos($image, '/') === 0 && strpos($image, '//') !== 0) $image = 'https://vantanoir.store' . $image;
