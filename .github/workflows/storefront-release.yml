@@ -28,7 +28,9 @@ jobs:
       - run: npm run build:storefront
       - run: npm run verify:storefront
       - name: Package public_html contents
-        run: cd outputs/namecheap && zip -qr ../vanta-noir-namecheap-update.zip .
+        run: |
+          python3 tests/namecheap-archive.test.py
+          python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip
       - uses: actions/upload-artifact@v6
         with:
           name: vanta-noir-namecheap-update
