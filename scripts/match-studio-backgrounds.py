@@ -52,6 +52,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--limit',type=int)
     parser.add_argument('--workers',type=int,default=4)
+    parser.add_argument('--shard',type=int,default=0)
+    parser.add_argument('--shards',type=int,default=1)
     args=parser.parse_args()
     rows=json.loads((ROOT/'data/catalogue-approved-view-updates.json').read_text())
     urls=sorted({url for row in rows for url in row['views'].values()})
@@ -59,7 +61,9 @@ def main():
         raise ValueError('Duplicate output names')
     mapping={u:'/images/catalogue/studio-grey/'+Path(u).name for u in urls}
     (ROOT/'lib/product-photo-assets.json').write_text(json.dumps(mapping,indent=2)+'\n')
-    selected=urls[:args.limit] if args.limit else urls
+    if not 0 <= args.shard < args.shards:raise ValueError('Invalid shard')
+    selected=urls[args.shard::args.shards]
+    selected=selected[:args.limit] if args.limit else selected
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         for index,name in enumerate(pool.map(process,selected),1):
             if index%20==0 or index==len(selected):print(f'{index}/{len(selected)} {name}',flush=True)
