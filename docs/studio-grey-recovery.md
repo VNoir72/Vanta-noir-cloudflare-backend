@@ -14,3 +14,10 @@ verifies the complete set and both website builds, and commits only the generate
 back to that branch. It produces the Namecheap archive with 0644/0755 permissions. It does not
 deploy production or alter the database. Cloudflare deployment follows a verified completed
 commit; the Namecheap ZIP must separately be extracted into the existing public_html folder.
+
+Final visual QA found four inset-panel segmentation defects. The corrected
+photographs are retained in source control. When regenerating this collection,
+run `python scripts/repair-studio-insets.py` after the eight batches have been
+assembled and before verification or packaging. It crops only the segmentation
+input; the original garment pixels, dimensions, grey profile and shadow method
+remain unchanged. It also clears the reviewed armhole and sunglasses openings.
