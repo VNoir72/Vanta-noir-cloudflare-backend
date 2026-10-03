@@ -2294,5 +2294,1161 @@
       "left": "/images/catalogue/vn-p030-washed-black-side.webp",
       "right": "/images/catalogue/approved/vn-p030-washed-black-right-r04.webp"
     }
+  },
+  {
+    "productId": "vn-design-10",
+    "color": "Deep Olive / Black",
+    "legacyFront": "/images/catalogue/design-10-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-10-deep-olive-black-front.webp",
+      "/images/catalogue/design-10-deep-olive-black-back.webp",
+      "/images/catalogue/design-10-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/design-10-deep-olive-black-front.webp",
+      "back": "/images/catalogue/design-10-deep-olive-black-back.webp",
+      "left": "/images/catalogue/design-10-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-design-10-deep-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-design-15",
+    "color": "Midnight Navy / Silver",
+    "legacyFront": "/images/catalogue/design-15-midnight-navy-silver-front-ppp.webp",
+    "legacyImages": [
+      "/images/catalogue/design-15-midnight-navy-silver-front-ppp.webp",
+      "/images/catalogue/design-15-midnight-navy-silver-back-ppp.webp",
+      "/images/catalogue/design-15-midnight-navy-silver-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/design-15-midnight-navy-silver-front-ppp.webp",
+      "back": "/images/catalogue/design-15-midnight-navy-silver-back-ppp.webp",
+      "left": "/images/catalogue/approved/vn-design-15-midnight-navy-silver-left-r04.webp",
+      "right": "/images/catalogue/design-15-midnight-navy-silver-side.webp"
+    }
+  },
+  {
+    "productId": "vn-design-15",
+    "color": "Olive / Bone",
+    "legacyFront": "/images/catalogue/design-15-olive-bone-front-ppp.webp",
+    "legacyImages": [
+      "/images/catalogue/design-15-olive-bone-front-ppp.webp",
+      "/images/catalogue/design-15-olive-bone-back-ppp.webp",
+      "/images/catalogue/design-15-olive-bone-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/design-15-olive-bone-front-ppp.webp",
+      "back": "/images/catalogue/design-15-olive-bone-back-ppp.webp",
+      "left": "/images/catalogue/approved/vn-design-15-olive-bone-left-r04.webp",
+      "right": "/images/catalogue/design-15-olive-bone-side.webp"
+    }
+  },
+  {
+    "productId": "vn-design-16",
+    "color": "Midnight Navy / Silver",
+    "legacyFront": "/images/catalogue/design-16-midnight-navy-silver-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-16-midnight-navy-silver-front.webp",
+      "/images/catalogue/design-16-midnight-navy-silver-back.webp",
+      "/images/catalogue/design-16-midnight-navy-silver-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/design-16-midnight-navy-silver-front.webp",
+      "back": "/images/catalogue/design-16-midnight-navy-silver-back.webp",
+      "left": "/images/catalogue/design-16-midnight-navy-silver-side.webp",
+      "right": "/images/catalogue/approved/vn-design-16-midnight-navy-silver-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-design-17",
+    "color": "Burgundy / Bone",
+    "legacyFront": "/images/catalogue/design-17-burgundy-bone-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-17-burgundy-bone-front.webp",
+      "/images/catalogue/design-17-burgundy-bone-back.webp",
+      "/images/catalogue/design-17-burgundy-bone-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/design-17-burgundy-bone-front.webp",
+      "back": "/images/catalogue/design-17-burgundy-bone-back.webp",
+      "left": "/images/catalogue/design-17-burgundy-bone-side.webp",
+      "right": "/images/catalogue/approved/vn-design-17-burgundy-bone-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-design-17",
+    "color": "Olive / Black",
+    "legacyFront": "/images/catalogue/design-17-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-17-olive-black-front.webp",
+      "/images/catalogue/design-17-olive-black-back.webp",
+      "/images/catalogue/design-17-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/design-17-olive-black-front.webp",
+      "back": "/images/catalogue/design-17-olive-black-back.webp",
+      "left": "/images/catalogue/design-17-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-design-17-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-design-18",
+    "color": "Navy / Steel",
+    "legacyFront": "/images/catalogue/design-18-navy-steel-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-18-navy-steel-front.webp",
+      "/images/catalogue/design-18-navy-steel-back-ppp.webp",
+      "/images/catalogue/design-18-navy-steel-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/design-18-navy-steel-front.webp",
+      "back": "/images/catalogue/design-18-navy-steel-back-ppp.webp",
+      "left": "/images/catalogue/approved/vn-design-18-navy-steel-left-r04.webp",
+      "right": "/images/catalogue/design-18-navy-steel-side.webp"
+    }
+  },
+  {
+    "productId": "vn-design-20",
+    "color": "Midnight Navy / Silver",
+    "legacyFront": "/images/catalogue/design-20-midnight-navy-silver-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-20-midnight-navy-silver-front.webp",
+      "/images/catalogue/design-20-midnight-navy-silver-back.webp",
+      "/images/catalogue/design-20-midnight-navy-silver-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/design-20-midnight-navy-silver-front.webp",
+      "back": "/images/catalogue/design-20-midnight-navy-silver-back.webp",
+      "left": "/images/catalogue/approved/vn-design-20-midnight-navy-silver-left-r04.webp",
+      "right": "/images/catalogue/design-20-midnight-navy-silver-side.webp"
+    }
+  },
+  {
+    "productId": "vn-design-20",
+    "color": "Olive / Bone",
+    "legacyFront": "/images/catalogue/design-20-olive-bone-front.webp",
+    "legacyImages": [
+      "/images/catalogue/design-20-olive-bone-front.webp",
+      "/images/catalogue/design-20-olive-bone-back.webp",
+      "/images/catalogue/design-20-olive-bone-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/design-20-olive-bone-front.webp",
+      "back": "/images/catalogue/design-20-olive-bone-back.webp",
+      "left": "/images/catalogue/approved/vn-design-20-olive-bone-left-r04.webp",
+      "right": "/images/catalogue/design-20-olive-bone-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p010",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p010-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p010-charcoal-front.webp",
+      "/images/catalogue/vn-p010-charcoal-back.webp",
+      "/images/catalogue/vn-p010-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p010-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p010-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p010-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p010-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p010",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p010-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p010-jet-black-front.webp",
+      "/images/catalogue/vn-p010-jet-black-back.webp",
+      "/images/catalogue/vn-p010-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p010-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p010-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p010-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p010-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p012",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p012-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p012-jet-black-front.webp",
+      "/images/catalogue/vn-p012-jet-black-back.webp",
+      "/images/catalogue/vn-p012-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p012-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p012-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p012-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p012-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p014",
+    "color": "Indigo",
+    "legacyFront": "/images/catalogue/vn-p014-indigo-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p014-indigo-front.webp",
+      "/images/catalogue/vn-p014-indigo-back.webp",
+      "/images/catalogue/vn-p014-indigo-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p014-indigo-front.webp",
+      "back": "/images/catalogue/vn-p014-indigo-back.webp",
+      "left": "/images/catalogue/vn-p014-indigo-side.webp",
+      "right": "/images/catalogue/approved/vn-p014-indigo-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p014",
+    "color": "Washed Black",
+    "legacyFront": "/images/catalogue/vn-p014-washed-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p014-washed-black-front.webp",
+      "/images/catalogue/vn-p014-washed-black-back.webp",
+      "/images/catalogue/vn-p014-washed-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p014-washed-black-front.webp",
+      "back": "/images/catalogue/vn-p014-washed-black-back.webp",
+      "left": "/images/catalogue/vn-p014-washed-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p014-washed-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p015",
+    "color": "Indigo",
+    "legacyFront": "/images/catalogue/vn-p015-indigo-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p015-indigo-front.webp",
+      "/images/catalogue/vn-p015-indigo-back.webp",
+      "/images/catalogue/vn-p015-indigo-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p015-indigo-front.webp",
+      "back": "/images/catalogue/vn-p015-indigo-back.webp",
+      "left": "/images/catalogue/approved/vn-p015-indigo-left-r04.webp",
+      "right": "/images/catalogue/vn-p015-indigo-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p015",
+    "color": "Washed Black",
+    "legacyFront": "/images/catalogue/vn-p015-washed-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p015-washed-black-front.webp",
+      "/images/catalogue/vn-p015-washed-black-back.webp",
+      "/images/catalogue/vn-p015-washed-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p015-washed-black-front.webp",
+      "back": "/images/catalogue/vn-p015-washed-black-back.webp",
+      "left": "/images/catalogue/approved/vn-p015-washed-black-left-r04.webp",
+      "right": "/images/catalogue/vn-p015-washed-black-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p018",
+    "color": "Black / Platinum",
+    "legacyFront": "/images/catalogue/vn-p018-black-platinum-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p018-black-platinum-front.webp",
+      "/images/catalogue/vn-p018-black-platinum-back.webp",
+      "/images/catalogue/vn-p018-black-platinum-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p018-black-platinum-front.webp",
+      "back": "/images/catalogue/vn-p018-black-platinum-back.webp",
+      "left": "/images/catalogue/approved/vn-p018-black-platinum-left-r04.webp",
+      "right": "/images/catalogue/vn-p018-black-platinum-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p018",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p018-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p018-charcoal-front.webp",
+      "/images/catalogue/vn-p018-charcoal-back.webp",
+      "/images/catalogue/vn-p018-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p018-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p018-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p018-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p018-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p021",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p021-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p021-jet-black-front.webp",
+      "/images/catalogue/vn-p021-jet-black-back.webp",
+      "/images/catalogue/vn-p021-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p021-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p021-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p021-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p021-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p022",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p022-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p022-jet-black-front.webp",
+      "/images/catalogue/vn-p022-jet-black-back.webp",
+      "/images/catalogue/vn-p022-jet-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p022-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p022-jet-black-back.webp",
+      "left": "/images/catalogue/approved/vn-p022-jet-black-left-r04.webp",
+      "right": "/images/catalogue/approved/vn-p022-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p022",
+    "color": "Olive",
+    "legacyFront": "/images/catalogue/vn-p022-olive-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p022-olive-front.webp",
+      "/images/catalogue/vn-p022-olive-back.webp",
+      "/images/catalogue/vn-p022-olive-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p022-olive-front.webp",
+      "back": "/images/catalogue/vn-p022-olive-back.webp",
+      "left": "/images/catalogue/vn-p022-olive-side.webp",
+      "right": "/images/catalogue/approved/vn-p022-olive-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p024",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p024-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p024-charcoal-front.webp",
+      "/images/catalogue/vn-p024-charcoal-back.webp",
+      "/images/catalogue/vn-p024-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p024-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p024-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p024-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p024-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p024",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p024-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p024-jet-black-front.webp",
+      "/images/catalogue/vn-p024-jet-black-back.webp",
+      "/images/catalogue/vn-p024-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p024-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p024-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p024-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p024-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p028",
+    "color": "Bone / Black",
+    "legacyFront": "/images/catalogue/vn-p028-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p028-bone-black-front.webp",
+      "/images/catalogue/vn-p028-bone-black-back.webp",
+      "/images/catalogue/vn-p028-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p028-bone-black-front.webp",
+      "back": "/images/catalogue/vn-p028-bone-black-back.webp",
+      "left": "/images/catalogue/vn-p028-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p028-bone-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p029",
+    "color": "Bone",
+    "legacyFront": "/images/catalogue/vn-p029-bone-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p029-bone-front.webp",
+      "/images/catalogue/vn-p029-bone-back.webp",
+      "/images/catalogue/vn-p029-bone-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p029-bone-front.webp",
+      "back": "/images/catalogue/vn-p029-bone-back.webp",
+      "left": "/images/catalogue/vn-p029-bone-side.webp",
+      "right": "/images/catalogue/approved/vn-p029-bone-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p029",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p029-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p029-jet-black-front.webp",
+      "/images/catalogue/vn-p029-jet-black-back.webp",
+      "/images/catalogue/vn-p029-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p029-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p029-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p029-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p029-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p030",
+    "color": "Indigo",
+    "legacyFront": "/images/catalogue/vn-p030-indigo-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p030-indigo-front.webp",
+      "/images/catalogue/vn-p030-indigo-back.webp",
+      "/images/catalogue/vn-p030-indigo-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p030-indigo-front.webp",
+      "back": "/images/catalogue/vn-p030-indigo-back.webp",
+      "left": "/images/catalogue/vn-p030-indigo-side.webp",
+      "right": "/images/catalogue/approved/vn-p030-indigo-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p031",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p031-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p031-charcoal-front.webp",
+      "/images/catalogue/vn-p031-charcoal-back.webp",
+      "/images/catalogue/vn-p031-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p031-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p031-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p031-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p031-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p031",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p031-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p031-jet-black-front.webp",
+      "/images/catalogue/vn-p031-jet-black-back.webp",
+      "/images/catalogue/vn-p031-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p031-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p031-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p031-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p031-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p032",
+    "color": "Deep Olive / Black",
+    "legacyFront": "/images/catalogue/vn-p032-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p032-deep-olive-black-front.webp",
+      "/images/catalogue/vn-p032-deep-olive-black-back.webp",
+      "/images/catalogue/vn-p032-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p032-deep-olive-black-front.webp",
+      "back": "/images/catalogue/vn-p032-deep-olive-black-back.webp",
+      "left": "/images/catalogue/vn-p032-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p032-deep-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p032",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p032-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p032-jet-black-front.webp",
+      "/images/catalogue/vn-p032-jet-black-back.webp",
+      "/images/catalogue/vn-p032-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p032-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p032-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p032-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p032-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p034",
+    "color": "Indigo",
+    "legacyFront": "/images/catalogue/vn-p034-indigo-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p034-indigo-front.webp",
+      "/images/catalogue/vn-p034-indigo-back.webp",
+      "/images/catalogue/vn-p034-indigo-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p034-indigo-front.webp",
+      "back": "/images/catalogue/vn-p034-indigo-back.webp",
+      "left": "/images/catalogue/vn-p034-indigo-side.webp",
+      "right": "/images/catalogue/approved/vn-p034-indigo-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p034",
+    "color": "Washed Black",
+    "legacyFront": "/images/catalogue/vn-p034-washed-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p034-washed-black-front.webp",
+      "/images/catalogue/vn-p034-washed-black-back.webp",
+      "/images/catalogue/vn-p034-washed-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p034-washed-black-front.webp",
+      "back": "/images/catalogue/vn-p034-washed-black-back.webp",
+      "left": "/images/catalogue/vn-p034-washed-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p034-washed-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p035",
+    "color": "Indigo",
+    "legacyFront": "/images/catalogue/vn-p035-indigo-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p035-indigo-front.webp",
+      "/images/catalogue/vn-p035-indigo-back.webp",
+      "/images/catalogue/vn-p035-indigo-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p035-indigo-front.webp",
+      "back": "/images/catalogue/vn-p035-indigo-back.webp",
+      "left": "/images/catalogue/vn-p035-indigo-side.webp",
+      "right": "/images/catalogue/approved/vn-p035-indigo-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p035",
+    "color": "Washed Black",
+    "legacyFront": "/images/catalogue/vn-p035-washed-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p035-washed-black-front.webp",
+      "/images/catalogue/vn-p035-washed-black-back.webp",
+      "/images/catalogue/vn-p035-washed-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p035-washed-black-front.webp",
+      "back": "/images/catalogue/vn-p035-washed-black-back.webp",
+      "left": "/images/catalogue/vn-p035-washed-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p035-washed-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p038",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p038-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p038-charcoal-front.webp",
+      "/images/catalogue/vn-p038-charcoal-back.webp",
+      "/images/catalogue/vn-p038-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p038-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p038-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p038-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p038-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p038",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p038-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p038-jet-black-front.webp",
+      "/images/catalogue/vn-p038-jet-black-back.webp",
+      "/images/catalogue/vn-p038-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p038-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p038-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p038-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p038-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p039",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p039-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p039-charcoal-front.webp",
+      "/images/catalogue/vn-p039-charcoal-back.webp",
+      "/images/catalogue/vn-p039-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p039-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p039-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p039-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p039-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p039",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p039-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p039-jet-black-front.webp",
+      "/images/catalogue/vn-p039-jet-black-back.webp",
+      "/images/catalogue/vn-p039-jet-black-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p039-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p039-jet-black-back.webp",
+      "left": "/images/catalogue/approved/vn-p039-jet-black-left-r04.webp",
+      "right": "/images/catalogue/vn-p039-jet-black-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p040",
+    "color": "Burgundy",
+    "legacyFront": "/images/catalogue/vn-p040-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p040-burgundy-front.webp",
+      "/images/catalogue/vn-p040-burgundy-back.webp",
+      "/images/catalogue/vn-p040-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p040-burgundy-front.webp",
+      "back": "/images/catalogue/vn-p040-burgundy-back.webp",
+      "left": "/images/catalogue/vn-p040-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-p040-burgundy-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p040",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p040-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p040-jet-black-front.webp",
+      "/images/catalogue/vn-p040-jet-black-back.webp",
+      "/images/catalogue/vn-p040-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p040-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p040-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p040-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p040-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p041",
+    "color": "Burgundy",
+    "legacyFront": "/images/catalogue/vn-p041-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p041-burgundy-front.webp",
+      "/images/catalogue/vn-p041-burgundy-back.webp",
+      "/images/catalogue/vn-p041-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p041-burgundy-front.webp",
+      "back": "/images/catalogue/vn-p041-burgundy-back.webp",
+      "left": "/images/catalogue/vn-p041-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-p041-burgundy-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p041",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p041-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p041-jet-black-front.webp",
+      "/images/catalogue/vn-p041-jet-black-back.webp",
+      "/images/catalogue/vn-p041-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p041-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p041-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p041-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p041-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p042",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p042-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p042-charcoal-front.webp",
+      "/images/catalogue/vn-p042-charcoal-back.webp",
+      "/images/catalogue/vn-p042-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p042-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p042-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p042-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p042-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p042",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p042-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p042-jet-black-front.webp",
+      "/images/catalogue/vn-p042-jet-black-back.webp",
+      "/images/catalogue/vn-p042-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p042-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p042-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p042-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p042-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p045",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p045-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p045-charcoal-front.webp",
+      "/images/catalogue/vn-p045-charcoal-back.webp",
+      "/images/catalogue/vn-p045-charcoal-side.webp"
+    ],
+    "existingSide": "right",
+    "views": {
+      "front": "/images/catalogue/vn-p045-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p045-charcoal-back.webp",
+      "left": "/images/catalogue/approved/vn-p045-charcoal-left-r04.webp",
+      "right": "/images/catalogue/vn-p045-charcoal-side.webp"
+    }
+  },
+  {
+    "productId": "vn-p045",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p045-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p045-jet-black-front.webp",
+      "/images/catalogue/vn-p045-jet-black-back.webp",
+      "/images/catalogue/vn-p045-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p045-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p045-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p045-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p045-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p046",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p046-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p046-charcoal-front.webp",
+      "/images/catalogue/vn-p046-charcoal-back.webp",
+      "/images/catalogue/vn-p046-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p046-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p046-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p046-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p046-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p046",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p046-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p046-jet-black-front.webp",
+      "/images/catalogue/vn-p046-jet-black-back.webp",
+      "/images/catalogue/vn-p046-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p046-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p046-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p046-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p046-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p048",
+    "color": "Bone",
+    "legacyFront": "/images/catalogue/vn-p048-bone-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p048-bone-front.webp",
+      "/images/catalogue/vn-p048-bone-back.webp",
+      "/images/catalogue/vn-p048-bone-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p048-bone-front.webp",
+      "back": "/images/catalogue/vn-p048-bone-back.webp",
+      "left": "/images/catalogue/vn-p048-bone-side.webp",
+      "right": "/images/catalogue/approved/vn-p048-bone-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p048",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p048-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p048-jet-black-front.webp",
+      "/images/catalogue/vn-p048-jet-black-back.webp",
+      "/images/catalogue/vn-p048-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p048-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p048-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p048-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p048-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p051",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p051-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p051-charcoal-front.webp",
+      "/images/catalogue/vn-p051-charcoal-back.webp",
+      "/images/catalogue/vn-p051-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p051-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p051-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p051-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p051-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p051",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p051-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p051-jet-black-front.webp",
+      "/images/catalogue/vn-p051-jet-black-back.webp",
+      "/images/catalogue/vn-p051-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p051-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p051-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p051-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p051-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p052",
+    "color": "Charcoal",
+    "legacyFront": "/images/catalogue/vn-p052-charcoal-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p052-charcoal-front.webp",
+      "/images/catalogue/vn-p052-charcoal-back.webp",
+      "/images/catalogue/vn-p052-charcoal-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p052-charcoal-front.webp",
+      "back": "/images/catalogue/vn-p052-charcoal-back.webp",
+      "left": "/images/catalogue/vn-p052-charcoal-side.webp",
+      "right": "/images/catalogue/approved/vn-p052-charcoal-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p052",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/vn-p052-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p052-jet-black-front.webp",
+      "/images/catalogue/vn-p052-jet-black-back.webp",
+      "/images/catalogue/vn-p052-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p052-jet-black-front.webp",
+      "back": "/images/catalogue/vn-p052-jet-black-back.webp",
+      "left": "/images/catalogue/vn-p052-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-p052-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-p053",
+    "color": "Bone",
+    "legacyFront": "/images/catalogue/vn-p053-bone-front.webp",
+    "legacyImages": [
+      "/images/catalogue/vn-p053-bone-front.webp",
+      "/images/catalogue/vn-p053-bone-back.webp",
+      "/images/catalogue/vn-p053-bone-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/vn-p053-bone-front.webp",
+      "back": "/images/catalogue/vn-p053-bone-back.webp",
+      "left": "/images/catalogue/vn-p053-bone-side.webp",
+      "right": "/images/catalogue/approved/vn-p053-bone-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-05",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-05-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-05-charcoal-grey-front.webp",
+      "/images/catalogue/season-05-charcoal-grey-back.webp",
+      "/images/catalogue/season-05-charcoal-grey-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-05-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-05-charcoal-grey-back.webp",
+      "left": "/images/catalogue/season-05-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-05-charcoal-grey-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-05",
+    "color": "Dark Burgundy",
+    "legacyFront": "/images/catalogue/season-05-dark-burgundy-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-05-dark-burgundy-front.webp",
+      "/images/catalogue/season-05-dark-burgundy-back.webp",
+      "/images/catalogue/season-05-dark-burgundy-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-05-dark-burgundy-front.webp",
+      "back": "/images/catalogue/season-05-dark-burgundy-back.webp",
+      "left": "/images/catalogue/season-05-dark-burgundy-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-05-dark-burgundy-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-05",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-05-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-05-deep-olive-black-front.webp",
+      "/images/catalogue/season-05-deep-olive-black-back.webp",
+      "/images/catalogue/season-05-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-05-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-05-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-05-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-05-deep-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-05",
+    "color": "Jet Black",
+    "legacyFront": "/images/catalogue/season-05-jet-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-05-jet-black-front.webp",
+      "/images/catalogue/season-05-jet-black-back.webp",
+      "/images/catalogue/season-05-jet-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-05-jet-black-front.webp",
+      "back": "/images/catalogue/season-05-jet-black-back.webp",
+      "left": "/images/catalogue/season-05-jet-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-05-jet-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-06",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-06-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-06-bone-black-front.webp",
+      "/images/catalogue/season-06-bone-black-back.webp",
+      "/images/catalogue/season-06-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-06-bone-black-front.webp",
+      "back": "/images/catalogue/season-06-bone-black-back.webp",
+      "left": "/images/catalogue/season-06-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-06-bone-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-06",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-06-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-06-deep-olive-black-front.webp",
+      "/images/catalogue/season-06-deep-olive-black-back.webp",
+      "/images/catalogue/season-06-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-06-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-06-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-06-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-06-deep-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-07",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-07-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-07-bone-black-front.webp",
+      "/images/catalogue/season-07-bone-black-back.webp",
+      "/images/catalogue/season-07-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-07-bone-black-front.webp",
+      "back": "/images/catalogue/season-07-bone-black-back.webp",
+      "left": "/images/catalogue/season-07-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-07-bone-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-07",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-07-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-07-deep-olive-black-front.webp",
+      "/images/catalogue/season-07-deep-olive-black-back.webp",
+      "/images/catalogue/season-07-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-07-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-07-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-07-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-07-deep-olive-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-08",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-08-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-08-bone-black-front.webp",
+      "/images/catalogue/season-08-bone-black-back.webp",
+      "/images/catalogue/season-08-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-08-bone-black-front.webp",
+      "back": "/images/catalogue/season-08-bone-black-back.webp",
+      "left": "/images/catalogue/season-08-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-08-bone-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-10",
+    "color": "Bone/Black",
+    "legacyFront": "/images/catalogue/season-10-bone-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-10-bone-black-front.webp",
+      "/images/catalogue/season-10-bone-black-back.webp",
+      "/images/catalogue/season-10-bone-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-10-bone-black-front.webp",
+      "back": "/images/catalogue/season-10-bone-black-back.webp",
+      "left": "/images/catalogue/season-10-bone-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-10-bone-black-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-10",
+    "color": "Charcoal Grey",
+    "legacyFront": "/images/catalogue/season-10-charcoal-grey-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-10-charcoal-grey-front.webp",
+      "/images/catalogue/season-10-charcoal-grey-back.webp",
+      "/images/catalogue/season-10-charcoal-grey-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-10-charcoal-grey-front.webp",
+      "back": "/images/catalogue/season-10-charcoal-grey-back.webp",
+      "left": "/images/catalogue/season-10-charcoal-grey-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-10-charcoal-grey-right-r04.webp"
+    }
+  },
+  {
+    "productId": "vn-season01-10",
+    "color": "Deep Olive/Black",
+    "legacyFront": "/images/catalogue/season-10-deep-olive-black-front.webp",
+    "legacyImages": [
+      "/images/catalogue/season-10-deep-olive-black-front.webp",
+      "/images/catalogue/season-10-deep-olive-black-back.webp",
+      "/images/catalogue/season-10-deep-olive-black-side.webp"
+    ],
+    "existingSide": "left",
+    "views": {
+      "front": "/images/catalogue/season-10-deep-olive-black-front.webp",
+      "back": "/images/catalogue/season-10-deep-olive-black-back.webp",
+      "left": "/images/catalogue/season-10-deep-olive-black-side.webp",
+      "right": "/images/catalogue/approved/vn-season01-10-deep-olive-black-right-r04.webp"
+    }
   }
 ]

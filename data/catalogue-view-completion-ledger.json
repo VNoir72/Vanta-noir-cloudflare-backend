@@ -890,7 +890,10 @@
         "/images/catalogue/design-10-deep-olive-black-back.webp",
         "/images/catalogue/design-10-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-design-10-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-design-11",
@@ -1223,7 +1226,10 @@
         "/images/catalogue/design-15-olive-bone-back-ppp.webp",
         "/images/catalogue/design-15-olive-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-design-15-olive-bone-left-r04.webp"
     },
     {
       "productId": "vn-design-15",
@@ -1234,7 +1240,10 @@
         "/images/catalogue/design-15-midnight-navy-silver-back-ppp.webp",
         "/images/catalogue/design-15-midnight-navy-silver-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-design-15-midnight-navy-silver-left-r04.webp"
     },
     {
       "productId": "vn-design-16",
@@ -1301,7 +1310,10 @@
         "/images/catalogue/design-16-midnight-navy-silver-back.webp",
         "/images/catalogue/design-16-midnight-navy-silver-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-design-16-midnight-navy-silver-right-r04.webp"
     },
     {
       "productId": "vn-design-17",
@@ -1354,7 +1366,10 @@
         "/images/catalogue/design-17-burgundy-bone-back.webp",
         "/images/catalogue/design-17-burgundy-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-design-17-burgundy-bone-right-r04.webp"
     },
     {
       "productId": "vn-design-17",
@@ -1365,7 +1380,10 @@
         "/images/catalogue/design-17-olive-black-back.webp",
         "/images/catalogue/design-17-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-design-17-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-design-18",
@@ -1432,7 +1450,10 @@
         "/images/catalogue/design-18-navy-steel-back-ppp.webp",
         "/images/catalogue/design-18-navy-steel-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-design-18-navy-steel-left-r04.webp"
     },
     {
       "productId": "vn-design-19",
@@ -1555,7 +1576,10 @@
         "/images/catalogue/design-20-olive-bone-back.webp",
         "/images/catalogue/design-20-olive-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-design-20-olive-bone-left-r04.webp"
     },
     {
       "productId": "vn-design-20",
@@ -1566,7 +1590,10 @@
         "/images/catalogue/design-20-midnight-navy-silver-back.webp",
         "/images/catalogue/design-20-midnight-navy-silver-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-design-20-midnight-navy-silver-left-r04.webp"
     },
     {
       "productId": "vn-p007",
@@ -1605,7 +1632,10 @@
         "/images/catalogue/vn-p010-jet-black-back.webp",
         "/images/catalogue/vn-p010-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p010-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p010",
@@ -1616,7 +1646,10 @@
         "/images/catalogue/vn-p010-charcoal-back.webp",
         "/images/catalogue/vn-p010-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p010-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p012",
@@ -1627,7 +1660,10 @@
         "/images/catalogue/vn-p012-jet-black-back.webp",
         "/images/catalogue/vn-p012-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p012-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p012",
@@ -1680,7 +1716,10 @@
         "/images/catalogue/vn-p014-washed-black-back.webp",
         "/images/catalogue/vn-p014-washed-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p014-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-p014",
@@ -1691,7 +1730,10 @@
         "/images/catalogue/vn-p014-indigo-back.webp",
         "/images/catalogue/vn-p014-indigo-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p014-indigo-right-r04.webp"
     },
     {
       "productId": "vn-p015",
@@ -1702,7 +1744,10 @@
         "/images/catalogue/vn-p015-washed-black-back.webp",
         "/images/catalogue/vn-p015-washed-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p015-washed-black-left-r04.webp"
     },
     {
       "productId": "vn-p015",
@@ -1713,7 +1758,10 @@
         "/images/catalogue/vn-p015-indigo-back.webp",
         "/images/catalogue/vn-p015-indigo-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p015-indigo-left-r04.webp"
     },
     {
       "productId": "vn-p018",
@@ -1724,7 +1772,10 @@
         "/images/catalogue/vn-p018-black-platinum-back.webp",
         "/images/catalogue/vn-p018-black-platinum-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p018-black-platinum-left-r04.webp"
     },
     {
       "productId": "vn-p018",
@@ -1735,7 +1786,10 @@
         "/images/catalogue/vn-p018-charcoal-back.webp",
         "/images/catalogue/vn-p018-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p018-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p021",
@@ -1746,7 +1800,10 @@
         "/images/catalogue/vn-p021-jet-black-back.webp",
         "/images/catalogue/vn-p021-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p021-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p021",
@@ -1771,7 +1828,10 @@
         "/images/catalogue/vn-p022-jet-black-back.webp",
         "/images/catalogue/vn-p022-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p022-jet-black-left-r04.webp"
     },
     {
       "productId": "vn-p022",
@@ -1782,7 +1842,10 @@
         "/images/catalogue/vn-p022-olive-back.webp",
         "/images/catalogue/vn-p022-olive-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p022-olive-right-r04.webp"
     },
     {
       "productId": "vn-p024",
@@ -1793,7 +1856,10 @@
         "/images/catalogue/vn-p024-charcoal-back.webp",
         "/images/catalogue/vn-p024-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p024-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p024",
@@ -1804,7 +1870,10 @@
         "/images/catalogue/vn-p024-jet-black-back.webp",
         "/images/catalogue/vn-p024-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p024-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p028",
@@ -1829,7 +1898,10 @@
         "/images/catalogue/vn-p028-bone-black-back.webp",
         "/images/catalogue/vn-p028-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p028-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-p029",
@@ -1840,7 +1912,10 @@
         "/images/catalogue/vn-p029-bone-back.webp",
         "/images/catalogue/vn-p029-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p029-bone-right-r04.webp"
     },
     {
       "productId": "vn-p029",
@@ -1851,7 +1926,10 @@
         "/images/catalogue/vn-p029-jet-black-back.webp",
         "/images/catalogue/vn-p029-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p029-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p030",
@@ -1862,7 +1940,10 @@
         "/images/catalogue/vn-p030-indigo-back.webp",
         "/images/catalogue/vn-p030-indigo-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p030-indigo-right-r04.webp"
     },
     {
       "productId": "vn-p030",
@@ -1887,7 +1968,10 @@
         "/images/catalogue/vn-p031-jet-black-back.webp",
         "/images/catalogue/vn-p031-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p031-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p031",
@@ -1898,7 +1982,10 @@
         "/images/catalogue/vn-p031-charcoal-back.webp",
         "/images/catalogue/vn-p031-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p031-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p032",
@@ -1909,7 +1996,10 @@
         "/images/catalogue/vn-p032-jet-black-back.webp",
         "/images/catalogue/vn-p032-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p032-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p032",
@@ -1920,7 +2010,10 @@
         "/images/catalogue/vn-p032-deep-olive-black-back.webp",
         "/images/catalogue/vn-p032-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p032-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-p034",
@@ -1931,7 +2024,10 @@
         "/images/catalogue/vn-p034-washed-black-back.webp",
         "/images/catalogue/vn-p034-washed-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p034-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-p034",
@@ -1942,7 +2038,10 @@
         "/images/catalogue/vn-p034-indigo-back.webp",
         "/images/catalogue/vn-p034-indigo-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p034-indigo-right-r04.webp"
     },
     {
       "productId": "vn-p035",
@@ -1953,7 +2052,10 @@
         "/images/catalogue/vn-p035-indigo-back.webp",
         "/images/catalogue/vn-p035-indigo-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p035-indigo-right-r04.webp"
     },
     {
       "productId": "vn-p035",
@@ -1964,7 +2066,10 @@
         "/images/catalogue/vn-p035-washed-black-back.webp",
         "/images/catalogue/vn-p035-washed-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p035-washed-black-right-r04.webp"
     },
     {
       "productId": "vn-p038",
@@ -1975,7 +2080,10 @@
         "/images/catalogue/vn-p038-jet-black-back.webp",
         "/images/catalogue/vn-p038-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p038-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p038",
@@ -1986,7 +2094,10 @@
         "/images/catalogue/vn-p038-charcoal-back.webp",
         "/images/catalogue/vn-p038-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p038-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p039",
@@ -1997,7 +2108,10 @@
         "/images/catalogue/vn-p039-jet-black-back.webp",
         "/images/catalogue/vn-p039-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p039-jet-black-left-r04.webp"
     },
     {
       "productId": "vn-p039",
@@ -2008,7 +2122,10 @@
         "/images/catalogue/vn-p039-charcoal-back.webp",
         "/images/catalogue/vn-p039-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p039-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p040",
@@ -2019,7 +2136,10 @@
         "/images/catalogue/vn-p040-jet-black-back.webp",
         "/images/catalogue/vn-p040-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p040-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p040",
@@ -2030,7 +2150,10 @@
         "/images/catalogue/vn-p040-burgundy-back.webp",
         "/images/catalogue/vn-p040-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p040-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-p041",
@@ -2041,7 +2164,10 @@
         "/images/catalogue/vn-p041-jet-black-back.webp",
         "/images/catalogue/vn-p041-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p041-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p041",
@@ -2052,7 +2178,10 @@
         "/images/catalogue/vn-p041-burgundy-back.webp",
         "/images/catalogue/vn-p041-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p041-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-p042",
@@ -2063,7 +2192,10 @@
         "/images/catalogue/vn-p042-jet-black-back.webp",
         "/images/catalogue/vn-p042-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p042-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p042",
@@ -2074,7 +2206,10 @@
         "/images/catalogue/vn-p042-charcoal-back.webp",
         "/images/catalogue/vn-p042-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p042-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p045",
@@ -2085,7 +2220,10 @@
         "/images/catalogue/vn-p045-jet-black-back.webp",
         "/images/catalogue/vn-p045-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p045-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p045",
@@ -2096,7 +2234,10 @@
         "/images/catalogue/vn-p045-charcoal-back.webp",
         "/images/catalogue/vn-p045-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "right",
+      "generatedView": "left",
+      "asset": "public/images/catalogue/approved/vn-p045-charcoal-left-r04.webp"
     },
     {
       "productId": "vn-p046",
@@ -2107,7 +2248,10 @@
         "/images/catalogue/vn-p046-jet-black-back.webp",
         "/images/catalogue/vn-p046-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p046-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p046",
@@ -2118,7 +2262,10 @@
         "/images/catalogue/vn-p046-charcoal-back.webp",
         "/images/catalogue/vn-p046-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p046-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p048",
@@ -2129,7 +2276,10 @@
         "/images/catalogue/vn-p048-jet-black-back.webp",
         "/images/catalogue/vn-p048-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p048-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p048",
@@ -2140,7 +2290,10 @@
         "/images/catalogue/vn-p048-bone-back.webp",
         "/images/catalogue/vn-p048-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p048-bone-right-r04.webp"
     },
     {
       "productId": "vn-p051",
@@ -2151,7 +2304,10 @@
         "/images/catalogue/vn-p051-jet-black-back.webp",
         "/images/catalogue/vn-p051-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p051-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p051",
@@ -2162,7 +2318,10 @@
         "/images/catalogue/vn-p051-charcoal-back.webp",
         "/images/catalogue/vn-p051-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p051-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p052",
@@ -2173,7 +2332,10 @@
         "/images/catalogue/vn-p052-jet-black-back.webp",
         "/images/catalogue/vn-p052-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p052-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-p052",
@@ -2184,7 +2346,10 @@
         "/images/catalogue/vn-p052-charcoal-back.webp",
         "/images/catalogue/vn-p052-charcoal-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p052-charcoal-right-r04.webp"
     },
     {
       "productId": "vn-p053",
@@ -2206,7 +2371,10 @@
         "/images/catalogue/vn-p053-bone-back.webp",
         "/images/catalogue/vn-p053-bone-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-p053-bone-right-r04.webp"
     },
     {
       "productId": "vn-season01-01",
@@ -2457,7 +2625,10 @@
         "/images/catalogue/season-05-jet-black-back.webp",
         "/images/catalogue/season-05-jet-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-05-jet-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-05",
@@ -2468,7 +2639,10 @@
         "/images/catalogue/season-05-dark-burgundy-back.webp",
         "/images/catalogue/season-05-dark-burgundy-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-05-dark-burgundy-right-r04.webp"
     },
     {
       "productId": "vn-season01-05",
@@ -2479,7 +2653,10 @@
         "/images/catalogue/season-05-charcoal-grey-back.webp",
         "/images/catalogue/season-05-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-05-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-05",
@@ -2490,7 +2667,10 @@
         "/images/catalogue/season-05-deep-olive-black-back.webp",
         "/images/catalogue/season-05-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-05-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-05",
@@ -2545,7 +2725,10 @@
         "/images/catalogue/season-06-deep-olive-black-back.webp",
         "/images/catalogue/season-06-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-06-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-06",
@@ -2556,7 +2739,10 @@
         "/images/catalogue/season-06-bone-black-back.webp",
         "/images/catalogue/season-06-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-06-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-07",
@@ -2600,7 +2786,10 @@
         "/images/catalogue/season-07-deep-olive-black-back.webp",
         "/images/catalogue/season-07-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-07-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-07",
@@ -2611,7 +2800,10 @@
         "/images/catalogue/season-07-bone-black-back.webp",
         "/images/catalogue/season-07-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-07-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-08",
@@ -2666,7 +2858,10 @@
         "/images/catalogue/season-08-bone-black-back.webp",
         "/images/catalogue/season-08-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-08-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-09",
@@ -2754,7 +2949,10 @@
         "/images/catalogue/season-10-charcoal-grey-back.webp",
         "/images/catalogue/season-10-charcoal-grey-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-10-charcoal-grey-right-r04.webp"
     },
     {
       "productId": "vn-season01-10",
@@ -2765,7 +2963,10 @@
         "/images/catalogue/season-10-deep-olive-black-back.webp",
         "/images/catalogue/season-10-deep-olive-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-10-deep-olive-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-10",
@@ -2776,7 +2977,10 @@
         "/images/catalogue/season-10-bone-black-back.webp",
         "/images/catalogue/season-10-bone-black-side.webp"
       ],
-      "status": "pending-orientation-review"
+      "status": "complete",
+      "existingSide": "left",
+      "generatedView": "right",
+      "asset": "public/images/catalogue/approved/vn-season01-10-bone-black-right-r04.webp"
     },
     {
       "productId": "vn-season01-11",
@@ -10579,6 +10783,6 @@
       "status": "pending-orientation-review"
     }
   ],
-  "completed": 136,
-  "remaining": 795
+  "completed": 204,
+  "remaining": 727
 }
