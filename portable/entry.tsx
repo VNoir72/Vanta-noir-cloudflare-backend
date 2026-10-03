@@ -7,3 +7,5 @@ import "@/app/checkout-experience.css";
 
 const data = JSON.parse(document.getElementById("store-data")!.textContent!);
 hydrateRoot(document.getElementById("root")!, <App path={data.path} products={data.products} />);
+
+import "@/app/approved-storefront.css";

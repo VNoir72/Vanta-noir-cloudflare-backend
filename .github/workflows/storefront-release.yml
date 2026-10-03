@@ -1,0 +1,37 @@
+name: Verify storefront and prepare Namecheap update
+on:
+  push:
+    branches: [codex/approved-storefront-2026-10-03]
+  pull_request:
+    branches: [vanta-update-30]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: storefront-release-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: node --test tests/approved-storefront.test.mjs
+      - run: npm run build
+      - run: npm run verify:release
+      - run: npm run build:storefront
+      - run: npm run verify:storefront
+      - name: Package public_html contents
+        run: cd outputs/namecheap && zip -qr ../vanta-noir-namecheap-update.zip .
+      - uses: actions/upload-artifact@v6
+        with:
+          name: vanta-noir-namecheap-update
+          path: outputs/vanta-noir-namecheap-update.zip
+          retention-days: 14
+          if-no-files-found: error

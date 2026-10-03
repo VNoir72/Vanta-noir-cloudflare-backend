@@ -10,16 +10,16 @@ export function availableUnits(product: CatalogProduct) {
   return product.colorways.reduce((sum,c)=>sum+Object.entries(c.stock).reduce((n,[size,stock])=>n+(size==='Size pending'?0:Math.max(0,Math.floor(stock))),0),0);
 }
 export function isNewArrival(product: CatalogProduct, now=Date.now()) {
-  const date=product.details?.releaseDate;
+  const date=product.details?.releaseDate || product.createdAt;
   if(!date || isPreview(product))return false;
-  const released=Date.parse(date+'T00:00:00Z');
+  const released=Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(date)?date+'T00:00:00Z':date.includes('T')?date:date.replace(' ','T')+'Z');
   return Number.isFinite(released) && released<=now && now-released<30*86400000;
 }
 export function homepageSections(products: CatalogProduct[], data: MerchandisingData, now=Date.now()) {
   const signals=new Map(data.sales.map(row=>[row.productId,row]));
   const bestSellers=products.filter(p=>{
     const s=signals.get(p.id);return !isPreview(p) && s && s.units30>=3 && s.orders30>=2;
-  }).sort((a,b)=>(signals.get(b.id)?.units30??0)-(signals.get(a.id)?.units30??0)||a.id.localeCompare(b.id)).slice(0,8);
+  }).sort((a,b)=>bestSellerScore(b,data)-bestSellerScore(a,data)||a.id.localeCompare(b.id)).slice(0,8);
   return {
     newArrivals:products.filter(p=>isNewArrival(p,now)).sort((a,b)=>(b.details?.releaseDate??'').localeCompare(a.details?.releaseDate??'')||a.id.localeCompare(b.id)).slice(0,8),
     featured:products.filter(p=>p.featured).slice(0,8),
@@ -45,4 +45,16 @@ export function homepageStockBadge(product:CatalogProduct,data:MerchandisingData
 export function bestSellerUnits(product: CatalogProduct, data: MerchandisingData) {
   const ids=new Set([product.id,...product.colorways.map(c=>c.sourceProductId).filter(Boolean)]);
   return data.sales.reduce((total,row)=>total+(ids.has(row.productId)&&Number.isFinite(row.units30)&&row.units30>0?row.units30:0),0);
+}
+
+// Weight recent purchases twice, while retaining the 30-day sales base.
+export function bestSellerScore(product: CatalogProduct, data: MerchandisingData) {
+ const ids=new Set([product.id,...product.colorways.map(c=>c.sourceProductId).filter(Boolean)]);
+ return data.sales.reduce((score,s)=>score+(ids.has(s.productId)?Math.max(0,s.units30)+Math.max(0,s.units7):0),0);
+}
+export function confirmedSoldOut(product: CatalogProduct, stock?: Record<string,number>) {
+ if(isPreview(product)||product.details?.availability==='preorder')return false;
+ const counts=stock?Object.entries(stock):product.colorways.flatMap(c=>Object.entries(c.stock));
+ const known=counts.filter(([size])=>size!=='Size pending');
+ return known.length>0&&known.every(([,n])=>Number.isFinite(n)&&n===0);
 }
