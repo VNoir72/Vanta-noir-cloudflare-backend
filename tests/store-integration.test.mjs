@@ -52,18 +52,28 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     const catalogResponse = await mf.dispatchFetch("https://api.vantanoir.store/api/catalog", { headers: { Origin: "https://vantanoir.store" } });
     assert.equal(catalogResponse.headers.get("Access-Control-Allow-Origin"), "https://vantanoir.store");
     const { products, checkout: settings } = await catalogResponse.json();
+    const approved = JSON.parse(await readFile("data/catalogue-approved-view-updates.json", "utf8"));
+    const expectedImages = p => {
+      let images=p.images;
+      for(const row of approved.filter(r=>r.productId===p.id)) {
+        const owned=new Set([...row.legacyImages,...Object.values(row.views)]);
+        images=images.filter(i=>i.color!==row.color||!owned.has(i.imageUrl));
+        images=[...images,...Object.values(row.views).map(imageUrl=>({imageUrl,color:row.color}))];
+      }
+      return new Set(images.map(i=>i.imageUrl));
+    };
     const completion = JSON.parse(await readFile("data/vd-completion-products.json", "utf8"));
     assert.equal(products.length, 78 + completion.length);
     for (const expected of completion) {
       const actual = products.find(p=>p.id===expected.id);
-      assert.equal(actual.images.length, expected.images.length);
+      assert.deepEqual(new Set(actual.images.map(i=>i.imageUrl)), expectedImages(expected));
       assert.equal(actual.details.availability, "preview");
       assert.ok(actual.colorways.every(c=>Object.values(c.stock).every(n=>n===0)));
     }
     const viewUpdates = JSON.parse(await readFile("data/catalogue-view-updates.json", "utf8"));
     for (const update of viewUpdates) {
       const actual=products.find(p=>p.id===update.id);
-      assert.deepEqual(new Set(actual.images.map(i=>i.imageUrl)),new Set(update.images.map(i=>i.imageUrl)));
+      assert.deepEqual(new Set(actual.images.map(i=>i.imageUrl)),expectedImages(update));
     }
     if (completion.length) {
       const restored=products.find(p=>p.id===completion[0].id);
@@ -73,7 +83,7 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
       await rpc("importVdCompletionCatalogue");
       assert.equal((await rpc("sql","SELECT stock FROM product_variants WHERE id=?",variant)).results[0].stock,7);
       assert.equal((await rpc("sql","SELECT name FROM products WHERE id=?",restored.id)).results[0].name,'Merchant edited name');
-      assert.equal((await rpc("sql","SELECT COUNT(*) AS n FROM product_images WHERE product_id=?",restored.id)).results[0].n,restored.images.length);
+      assert.equal((await rpc("sql","SELECT COUNT(*) AS n FROM product_images WHERE product_id=?",restored.id)).results[0].n,completion[0].images.length);
     }
     await rpc("importVdCompletionCatalogue");
     assert.equal((await rpc("listCatalog")).length, products.length);
@@ -85,11 +95,11 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     assert.equal(seasonProducts.length,26);
     for (const p of seasonProducts) {
       assert.equal(p.colorways.length,5);
-      assert.equal(p.images.length,15);
+      assert.equal(p.images.length,20);
       for (const c of p.colorways) {
         const views=p.images.filter(i=>i.color===c.name);
-        assert.equal(views.length,3);
-        for (const view of ["front","back","side"]) assert.ok(views.some(i=>i.imageUrl.endsWith(`-${view}.webp`)));
+        assert.equal(views.length,4);
+        for (const view of ["front","back","left","right"]) assert.ok(views.some(i=>i.imageAlt.toLowerCase().includes(`${view} view`)));
         assert.ok(Object.values(c.stock).every(stock=>stock===0));
       }
     }
@@ -118,7 +128,7 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     assert.deepEqual(Object.keys(bagProduct.colorways[0].stock),["One size"]);
     for(const p of products.filter(p=>p.id.startsWith("vn-design-"))){
       assert.equal(p.colorways.length,5);
-      for(const c of p.colorways){const views=p.images.filter(i=>i.color===c.name);assert.equal(views.length,3);assert.ok(views.every(i=>i.imageAlt.includes(c.name)));}
+      for(const c of p.colorways){const views=p.images.filter(i=>i.color===c.name);assert.equal(views.length,4);assert.ok(views.every(i=>i.imageAlt.includes(c.name)));}
     }
     assert.equal(settings.shippingFeeKobo, 200000);
     const product = products[0], color = product.colorways[0], size = Object.keys(color.stock)[0], id = color.variantIds[size];

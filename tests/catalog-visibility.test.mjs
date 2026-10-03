@@ -26,7 +26,7 @@ test('Best sellers has no invented sales and New arrivals remains an optional fi
   assert.equal(matchesCategory(p,'Best sellers'),false);
   if(preview)assert.equal(matchesCategory(p,'New arrivals'),false);
  }
- assert.doesNotMatch(source,/<HomepageMerchandising\b/);
+ assert.match(source,/category === "Best sellers"/);
 });
 
 test('reviewed bomber is outerwear and stand-collar sets are performance sets',()=>{

@@ -897,7 +897,7 @@ function ProductEditor({
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black/15 px-4 py-3">
               <div>
                 <Label className="text-xs text-white/75">Featured product</Label>
-                <p className="mt-1 text-[11px] text-white/35">Featured products lead the published collection.</p>
+                <p className="mt-1 text-[11px] text-white/35">Show this product in the automatically rotating Featured Drop on the homepage. New arrivals can be featured too.</p>
               </div>
               <Switch checked={form.featured} onCheckedChange={(checked) => updateField("featured", checked)} aria-label="Featured product" />
             </div>
