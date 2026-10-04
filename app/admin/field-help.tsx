@@ -4,9 +4,9 @@ import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/u
 const guides:Array<[RegExp,string]>=[
  [/price|amount.*₦|naira/i,'Enter the amount in naira (₦), not kobo. For example, enter 30000 for ₦30,000. Use Save price or Save edited prices to apply it. Staff submissions wait for owner approval.'],
  [/stock|quantity|on hand/i,'Enter the actual number you have for this size and colour. Zero prevents purchases of that variation. Reserved units belong to checkouts in progress. Save the changed row to update availability; do not enter sample quantities for stock you do not have.'],
- [/staff email/i,'Enter the email this staff member will use for the sign-in code. Choose their role and enable access, then Save access. Cloudflare checks this list automatically. Delete access removes them and rejects their pending requests.'],
+ [/staff email/i,'Enter the email this staff member will use for the sign-in code. Choose their role and enable access, then Add staff or Save changes. Cloudflare checks this list automatically. Delete removes them and rejects their pending requests.'],
  [/staff role/i,'Catalogue: products and stock. Fulfilment: orders and delivery. Support: orders and returns. Analyst: sales reports. Only the owner manages staff and approves changes.'],
- [/staff access/i,'Enabled allows this email to sign in with its assigned role. Disabled blocks dashboard and API access. Save access applies this choice.'],
+ [/staff access/i,'Enabled allows this email to sign in with its assigned role. Disabled blocks dashboard and API access. Add staff or Save changes applies this choice.'],
  [/status|publish|archive/i,'Published products appear in the store when they have active variations. Drafts are private. Archived products are hidden but retained for history. Publishing does not add stock. Save the product to apply your choice.'],
  [/availability/i,'Ready-to-buy products require stock. Preview products can be shown without being purchasable. Preorders still require an intentional stock allocation. Choose the appropriate option and save the product.'],
  [/colour|color|design tag/i,'Use a consistent colour or design name for the variation and its gallery photos so the correct images appear together. Save the product after editing.'],
