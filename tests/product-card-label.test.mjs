@@ -14,3 +14,12 @@ test('admin garment type takes precedence; names provide a nonempty fallback',()
  assert.equal(productCardLabel({id:'custom',name:'03 Hooded Performance Tracksuit',category:'Sets'}),'Hooded Performance Tracksuit');
  for(const p of products) assert.ok(productCardLabel(p).length,p.id);
 });
+
+const namesBuild=await build({entryPoints:['lib/product-names.ts'],bundle:true,write:false,platform:'node',format:'esm'});
+const {garmentName}=await import('data:text/javascript;base64,'+Buffer.from(namesBuild.outputFiles[0].text).toString('base64'));
+test('shopper names remove repeated segments and internal illustration notes without losing design details',()=>{
+ assert.equal(garmentName('Satin / tailored set — Satin / tailored set — Black'),'Satin / tailored set — Black');
+ assert.equal(garmentName('Short-sleeve jersey, crossed spray art (extra unlabelled illustration)'),'Short-sleeve jersey, crossed spray art');
+ assert.equal(garmentName('03 hooded set — Blue'),'Hooded set — Blue');
+ assert.equal(garmentName('VANTA NOIR — VN 72'),'VANTA NOIR — VN 72');
+});

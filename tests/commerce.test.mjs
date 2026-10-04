@@ -36,7 +36,8 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   assert.match((await stale.json()).error,/Stock changed|reserved/);
   assert.equal((await rpc('listAdminProducts')).find(p=>p.id===product.id).name,beforeRace.name);
   assert.equal((await rpc('sql','SELECT stock FROM product_variants WHERE id=?',variantId)).results[0].stock,3);
-  const settings={supportEmail:'care@example.com',acceptingOrders:true,inventoryConfirmed:true,dispatchNote:'Confirmed dispatch',returnPolicy:'Confirmed test return policy',shippingZones:[{state:'Lagos',feeKobo:300000,estimate:'Confirmed test window'},{state:'Ogun',feeKobo:500000,estimate:'Other test window'}]};await rpc('saveCommerceSettings',settings);
+  const settings={supportEmail:'care@example.com',supportPhone:'+234 800 123 4567',processingNote:'Orders are accepted all day; processing starts the next business day.',acceptingOrders:true,inventoryConfirmed:true,dispatchNote:'Confirmed dispatch',returnPolicy:'Confirmed test return policy',shippingZones:[{state:'Lagos',feeKobo:300000,estimate:'Confirmed test window'},{state:'Ogun',feeKobo:500000,estimate:'Other test window'}]};await rpc('saveCommerceSettings',settings);
+  const publicSettings=await (await request('/api/store-settings')).json();assert.equal(publicSettings.supportPhone,settings.supportPhone);assert.equal(publicSettings.processingNote,settings.processingNote);
   const customer={email:'buyer@example.com',firstName:'Test',lastName:'Buyer',phone:'08000000000',addressLine1:'10 Test Street',addressLine2:'',city:'Ikeja',state:'Lagos'};
   await rpc('saveCommerceSettings',{...settings,acceptingOrders:false});
   assert.equal((await request('/api/checkout','POST',{customer,cart:[{variantId,quantity:1}],expectedTotalKobo:product.priceKobo+300000})).status,503,'A paused store cannot create an order even when Paystack is configured');

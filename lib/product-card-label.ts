@@ -1,3 +1,4 @@
+import { garmentName } from './product-names';
 import type { CatalogProduct } from './catalog';
 
 // Card badges describe the garment; navigation categories may group several types.
@@ -10,5 +11,5 @@ export function productCardLabel(product: Pick<CatalogProduct,'id'|'name'|'categ
   };
   if (verified[product.id]) return verified[product.id];
   const garment = product.details?.garmentType?.trim() || product.name.trim();
-  return garment.replace(/^\d+\s+/, '').split(/\s+[—–]\s+/)[0].trim() || product.category.split(' · ')[0];
+  return garmentName(garment).split(/\s+[—–]\s+/)[0].trim() || product.category.split(' · ')[0];
 }

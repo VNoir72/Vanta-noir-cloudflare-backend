@@ -15,6 +15,8 @@ export const commerceSettingsSchema = z.object({
     estimate:z.string().trim().min(3).max(160),
   })).max(23).default([]).refine(zones=>new Set(zones.map(z=>z.countryCode)).size===zones.length,'Each international destination must be unique.'),
   supportEmail: z.union([z.string().trim().email().max(200), z.literal("")]).default(""),
+  supportPhone: z.string().trim().max(40).refine(value => !value || /^\+?[\d ()-]+$/.test(value) && value.replace(/\D/g, "").length >= 7, "Enter a valid phone number, including country code.").default(""),
+  processingNote: z.string().trim().min(10).max(500).default("Orders are welcome around the clock. Processing begins on the next business day, Monday to Friday, excluding public holidays. Delivery timing is shown separately at checkout."),
   acceptingOrders: z.boolean().default(false),
   inventoryConfirmed: z.boolean().default(false),
   returnPolicy: z.string().trim().max(6000).default(""),
