@@ -12,10 +12,17 @@ export async function reconcilePendingPayments(){
  let confirmed=0;
  await Promise.allSettled(rows.results.map(async({reference})=>{
   await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind('payment-check:'+reference,new Date().toISOString()).run();
+  let stage='provider';
   try{const transaction=await verifyPaystackTransaction(reference);
+   await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind('payment-diagnostic:'+reference,JSON.stringify({at:new Date().toISOString(),stage,status:transaction.status,currency:transaction.currency,amount:transaction.amount,domain:transaction.domain,referenceMatches:transaction.reference===reference})).run();
    if(transaction.status!=='success'||transaction.currency!=='NGN'||transaction.reference!==reference||!Number.isSafeInteger(transaction.amount))return;
+   stage='apply';
    await markOrderPaid({reference,amountKobo:transaction.amount,eventKey:`reconcile:${reference}`,eventType:'verify.reconciliation',paymentDomain:transaction.domain});confirmed++;
-  }catch{ /* Keep pending. A later run or signed webhook can safely retry. */ }
+  }catch(error){
+   // Private operational record; never log credentials, provider payloads or customer details.
+   const message=(error instanceof Error?error.message:'Unknown verification error').replace(/(?:sk|pk)_(?:test|live)_[A-Za-z0-9]+/g,'[redacted]').slice(0,240);
+   await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind('payment-diagnostic:'+reference,JSON.stringify({at:new Date().toISOString(),stage,error:message})).run();
+  }
  }));
  return {checked:rows.results.length,confirmed};
 }

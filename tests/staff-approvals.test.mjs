@@ -61,6 +61,8 @@ test('owner approval is required at every staff write boundary; payment verifica
   const order=await rpc('createPendingOrder',{customer,cart:[{variantId,quantity:1}],shippingKobo:0,expectedTotalKobo:p.priceKobo+100});
   paystack.set(order.reference,{status:'success',reference:order.reference,currency:'NGN',amount:order.totalKobo+1,domain:'test'});
   await rpc('reconcilePendingPayments');assert.equal((await rpc('getOrderByReference',order.reference)).paymentStatus,'pending','Mismatched amount cannot mark paid');
+  const diagnostic=JSON.parse((await db.prepare("SELECT value FROM store_meta WHERE key=?").bind('payment-diagnostic:'+order.reference).first()).value);
+  assert.equal(diagnostic.stage,'apply');assert.equal(diagnostic.error,'Payment amount mismatch.');
   await db.prepare("DELETE FROM store_meta WHERE key='payment-reconciliation'").run();paystack.get(order.reference).amount=order.totalKobo;
   assert.equal((await rpc('reconcilePendingPayments')).confirmed,1);const paid=await rpc('getOrderByReference',order.reference);assert.equal(paid.paymentStatus,'paid');assert.equal(paid.status,'paid');const afterPaid=await stock(variantId);
   const beforeVerify=verifies;await rpc('reconcilePendingPayments');assert.equal(verifies,beforeVerify,'Cron cooldown prevents repeated provider calls');
