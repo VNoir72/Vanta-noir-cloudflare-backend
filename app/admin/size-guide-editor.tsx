@@ -20,6 +20,7 @@ export function SizeGuideEditor({ productId, value, onChange, sizes = [] }: { si
     save(parsed.data);
   };
   return <details className="vn-product-disclosure"><summary>Size &amp; fit charts</summary>
+    <p>For socks, caps and other accessories, use Manufacturer measurements above. Top / bottom charts are for clothing; do not put a head circumference in a chest-width field.</p>
     <MeasurementLibrary onApply={next=>{if(guide.sections.length&&!window.confirm("Replace this product’s current chart with a provisional reference?"))return;save(next);}}/>
     <p>Sizes from this product’s variations appear below. Add a size under Variations to include it in the chart. Enter centimetres with garments laid flat. Chest, waist and hip values are widths across one side; divide a full garment circumference by two before entering it. Lengths stay unchanged.</p>
     {productId && referenceSizeGuide(productId) && <p className="text-sm">The initial charts come from your 100-pair manufacturer package, revision 6 (pages 5, 12 and 16). Width conventions and final measurements must be checked against physical samples. Saving edits overrides the reference for this product only.</p>}

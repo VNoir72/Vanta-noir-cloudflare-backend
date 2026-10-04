@@ -850,7 +850,7 @@ function ProductEditor({
           </div>
         </section>
 
-        <ProductProperties sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
+        <ProductProperties productName={form.name} sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
         <section className="space-y-4">
           <div className="flex items-end justify-between gap-4">
             <div>
