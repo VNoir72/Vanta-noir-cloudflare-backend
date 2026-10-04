@@ -490,7 +490,7 @@ function DashboardContent({
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Catalogue control</p>
               <h2 className="mt-2 font-sans text-4xl">Product studio</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/45">
-                Create and maintain products here. Only published products with active variations appear in the storefront.
+                Create and maintain products here. Published products appear in the storefront. Draft and archived products stay hidden. Zero stock stops purchases; publishing alone does not add stock.
               </p>
             </div>
             <Button onClick={openNewProduct} className="h-11 rounded-full bg-[#00ff66] px-5 text-xs uppercase tracking-[0.18em] text-[#090909] hover:bg-[#7affaf]">
@@ -788,6 +788,7 @@ function ProductEditor({
 
   return (
     <form onSubmit={(event) => { event.preventDefault(); onSave(); }} className="vn-studio-form">
+      <div className="vn-studio-top-save"><Button type="submit" disabled={busy} className="vn-control-primary"><Save/>{busy?'Saving…':isNew?'Create product':'Save changes'}</Button></div>
       <div className="flex items-start justify-between gap-5 border-b border-white/10 px-5 py-5 sm:px-7">
         <div>
           <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Vanta Noir / Product studio</p>

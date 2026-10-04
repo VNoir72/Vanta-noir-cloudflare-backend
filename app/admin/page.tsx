@@ -1,3 +1,4 @@
+import {AdminFieldHelp} from "./field-help";
 import {UnsavedChangesProvider} from "./unsaved-changes";
 import {OperationsPanel} from "./operations-panel";
 import Link from "next/link";
@@ -54,6 +55,6 @@ export default async function AdminPage() {
     );
   }
 
-  if(role!=="owner") return <main className="min-h-screen bg-[#090909] p-5 text-white"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><UnsavedChangesProvider><OperationsPanel role={role}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
-  return <AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} />;
+  if(role!=="owner") return <main className="min-h-screen bg-[#090909] p-5 text-white"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
+  return <><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} /></>;
 }
