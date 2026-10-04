@@ -11,8 +11,8 @@ export function CustomerSignup({ variantId, productId, label, hideHeading=false,
     event.preventDefault(); if(submitting.current)return; submitting.current=true; setBusy(true); setMessage(""); setError(false);
     try {
       const response = await fetch(apiUrl("/api/subscriptions"), { method: "POST", headers: { "Content-Type": "application/json" }, signal:AbortSignal.timeout(15000), body: JSON.stringify({ email, kind: productId ? 'release' : variantId ? "restock" : "newsletter", productId:productId??'', variantId: variantId ?? "", consent: true }) });
-      const payload = await response.json() as {error?: string}; if (!response.ok) throw new Error(payload.error || "Please try again.");
-      setMessage("Your request is saved. Check your email for a confirmation link."); setEmail(""); onSubscribed?.();
+      const payload = await response.json() as {error?: string;emailEnabled?:boolean}; if (!response.ok) throw new Error(payload.error || "Please try again.");
+      setMessage(payload.emailEnabled ? "Your request is saved. Check your email for a confirmation link." : "Your request is saved. We’ll send a confirmation link when email updates become available. Alerts begin only after you confirm."); setEmail(""); onSubscribed?.();
     } catch (e) { setError(true); setMessage(e instanceof Error && e.name==='TimeoutError' ? 'The request timed out. Please try again.' : e instanceof Error ? e.message : "Please try again."); } finally { submitting.current=false;setBusy(false); }
   }
   return <form className="vn-signup" onSubmit={submit}>
