@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-04",
+  "servedImagesChecked": 28,
+  "servedImagesHashMatched": 28,
+  "galleryRowsUpdated": 28,
+  "primaryProductRowsUpdated": 3,
+  "derivedColorwayImagesUpdated": 12,
+  "approvedCatalogImageChanges": 43,
+  "affectedProductsHaveNoOtherChanges": true,
+  "allBackViewsUnchanged": true,
+  "checkoutUnchanged": true,
+  "merchandisingUnchanged": true,
+  "concurrentUnrelatedStockChangesObserved": {
+    "fieldCount": 19,
+    "productIds": [
+      "vn-season01-25",
+      "vn-season01-26",
+      "vn-p042"
+    ],
+    "action": "Preserved; image-only SQL does not write stock."
+  }
+}
