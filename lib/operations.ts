@@ -83,5 +83,16 @@ export async function operationsData(resource:string,params:URLSearchParams){
  throw new Error('Unknown section.');
 }
 export async function saveStaff(input:unknown,actor:string){const v=z.object({email:z.string().trim().toLowerCase().email().max(200),role:z.enum(['catalogue','fulfilment','support','analyst']),active:z.boolean()}).parse(input);if(isAdminEmail(v.email))throw new Error('The owner role cannot be changed here.');await getDbBinding().batch([getDbBinding().prepare('INSERT INTO admin_staff(email,role,active) VALUES(?,?,?) ON CONFLICT(email) DO UPDATE SET role=excluded.role,active=excluded.active,updated_at=CURRENT_TIMESTAMP').bind(v.email,v.role,v.active?1:0),auditStatement(actor,'staff permissions',v.email,JSON.stringify({role:v.role,active:v.active}))]);}
+export async function deleteStaff(input:unknown,actor:string){
+ if(!isAdminEmail(actor))throw new Error('Only the owner can remove staff.');
+ const {email}=z.object({email:z.string().trim().toLowerCase().email().max(200)}).parse(input);
+ if(isAdminEmail(email))throw new Error('The owner account cannot be removed.');
+ const db=getDbBinding();
+ await db.batch([
+  db.prepare("UPDATE admin_approvals SET status='rejected',reviewer=?,review_note='Staff access removed by owner',reviewed_at=CURRENT_TIMESTAMP WHERE actor=? AND status='pending'").bind(actor,email),
+  db.prepare('DELETE FROM admin_staff WHERE email=?').bind(email),
+  auditStatement(actor,'staff access removed',email,'Access revoked; pending requests rejected. Previous activity retained.')
+ ]);
+}
 export async function orderAction(input:unknown,actor:string,role:StaffRole){const v=z.object({reference:z.string().min(3).max(120),status:z.enum(['paid','processing','shipped','delivered','cancelled','paid_stock_review'])}).parse(input);if(role!=='owner'&&!['processing','shipped','delivered'].includes(v.status))throw new Error('Only the owner can change payment-review or cancellation status.');await updateOrderStatus(v.reference,v.status);await audit(actor,'order status',v.reference,v.status);}
 export async function exchangeTracking(input:unknown,actor:string){const v=z.object({returnId:z.string().min(1),carrier:z.string().trim().min(1).max(100),trackingNumber:z.string().trim().min(1).max(160),status:z.enum(['shipped','delivered'])}).parse(input);const r=await getDbBinding().prepare("UPDATE exchanges SET carrier=?,tracking_number=?,status=? WHERE return_id=? AND (status='allocated' AND ?='shipped' OR status='shipped' AND ? IN ('shipped','delivered'))").bind(v.carrier,v.trackingNumber,v.status,v.returnId,v.status,v.status).run();if(!r.meta.changes)throw new Error('Allocate replacements before dispatch and dispatch before delivery.');await audit(actor,'exchange tracking',v.returnId,v.status);const order=await getDbBinding().prepare('SELECT o.email,o.reference FROM return_requests r JOIN orders o ON o.id=r.order_id WHERE r.id=?').bind(v.returnId).first<{email:string;reference:string}>();if(order)await queueEmail(`exchange:${v.returnId}:${v.status}:${v.trackingNumber}`,order.email,`Replacement ${v.status} · ${order.reference}`,`Your replacements are ${v.status}. Courier: ${v.carrier}. Tracking: ${v.trackingNumber}.`);}

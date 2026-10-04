@@ -1,3 +1,4 @@
+import {accessKeys,evaluateAccess} from '../lib/access-evaluation';
 import * as approvals from '../app/api/admin/approvals/route';
 import * as inventory from '../app/api/admin/inventory/route';
 import * as reconciliation from '../lib/payment-reconciliation';
@@ -27,7 +28,9 @@ import * as products from "../app/api/admin/products/route";
 import { POST as checkout } from "../app/api/checkout/route";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
 const routes: Record<string, Record<string, (request: Request) => Promise<Response>>> = {
-  '/api/admin/approvals':{GET:approvals.GET,POST:approvals.POST},
+  '/api/access/keys':{GET:accessKeys},
+ '/api/access/evaluate':{POST:evaluateAccess},
+ '/api/admin/approvals':{GET:approvals.GET,POST:approvals.POST},
  '/api/admin/inventory':{GET:inventory.GET,PATCH:inventory.PATCH},
  '/api/payments/webhook':{POST:paymentWebhook},
  '/api/rewards/quote':{POST:rewardQuote},

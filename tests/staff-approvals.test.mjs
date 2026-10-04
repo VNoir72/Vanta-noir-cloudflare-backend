@@ -7,10 +7,10 @@ import {generateKeyPair,exportJWK,SignJWT} from 'jose';
 import {createHmac} from 'node:crypto';
 test('owner approval is required at every staff write boundary; payment verification remains automatic',async()=>{
  await mkdir('work',{recursive:true});await build({entryPoints:['tests/commerce-worker.ts'],outfile:'work/approval-test-worker.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
- const {publicKey,privateKey}=await generateKeyPair('RS256'),issuer='https://approval-test.cloudflareaccess.com',jwk={...await exportJWK(publicKey),kid:'approval',alg:'RS256',use:'sig'};
+ const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true}),issuer='https://approval-test.cloudflareaccess.com',jwk={...await exportJWK(publicKey),kid:'approval',alg:'RS256',use:'sig'};
  const jwt=email=>new SignJWT({email}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuer(issuer).setAudience('approval').setIssuedAt().setExpirationTime('10m').sign(privateKey);
  const paystack=new Map();let verifies=0;
- const mf=new Miniflare({modules:true,scriptPath:'work/approval-test-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],r2Buckets:['BUCKET'],bindings:{ADMIN_EMAIL:'owner@example.com',AUTH_PROVIDER:'cloudflare-access',CF_ACCESS_TEAM_DOMAIN:issuer,CF_ACCESS_AUD:'approval',PAYSTACK_SECRET_KEY:'sk_test_fixture'},outboundService:async req=>{if(req.url===issuer+'/cdn-cgi/access/certs')return Response.json({keys:[jwk]});assert.equal(req.method,'GET');assert.match(req.url,/^https:\/\/api.paystack.co\/transaction\/verify\//);verifies++;return Response.json({status:true,data:paystack.get(decodeURIComponent(req.url.split('/').pop()))||{status:'pending'}});}});
+ const mf=new Miniflare({modules:true,scriptPath:'work/approval-test-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],r2Buckets:['BUCKET'],bindings:{ADMIN_EMAIL:'owner@example.com',AUTH_PROVIDER:'cloudflare-access',CF_ACCESS_TEAM_DOMAIN:issuer,CF_ACCESS_AUD:'approval',PAYSTACK_SECRET_KEY:'sk_test_fixture',ACCESS_EVALUATION_SIGNING_JWK:JSON.stringify({...await exportJWK(privateKey),kid:'evaluation'})},outboundService:async req=>{if(req.url===issuer+'/cdn-cgi/access/certs')return Response.json({keys:[jwk]});assert.equal(req.method,'GET');assert.match(req.url,/^https:\/\/api.paystack.co\/transaction\/verify\//);verifies++;return Response.json({status:true,data:paystack.get(decodeURIComponent(req.url.split('/').pop()))||{status:'pending'}});}});
  try{
   const db=await mf.getD1Database('DB');for(const f of (await readdir('drizzle')).filter(f=>f.endsWith('.sql')).sort())await db.batch((await readFile('drizzle/'+f,'utf8')).replaceAll('--> statement-breakpoint','').split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
   const rpc=async(action,...args)=>{const r=await mf.dispatchFetch('https://api.example.com/test',{method:'POST',body:JSON.stringify({action,args})});const p=await r.json();assert.equal(r.status,200,p?.error);return p;};
@@ -21,6 +21,19 @@ test('owner approval is required at every staff write boundary; payment verifica
   const stock=async id=>(await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(id).first()).stock;
   const products=await rpc('listCatalog'),p=products[0],variantId=p.colorways[0].variantIds.S;
   await db.prepare('UPDATE product_variants SET stock=10 WHERE product_id=?').bind(p.id).run();
+  // Every staff role sees only its assigned resources, even via a direct API URL.
+  const resources=['orders','bulk','inventory','returns','promotions','reports','courier','staff','activity'];
+  const permissions={catalogue:['bulk','inventory'],fulfilment:['orders','courier'],support:['orders','returns'],analyst:['reports']};
+  for(const [role,allowed] of Object.entries(permissions))for(const resource of resources){const response=await request(role,'operations?resource='+resource);assert.equal(response.status,allowed.includes(resource)?200:403,role+': '+resource);}
+  const publicKeys=await (await mf.dispatchFetch('https://api.example.com/api/access/keys')).json();assert.equal(publicKeys.keys[0].d,undefined);
+  const evaluate=async(email,expiry='1m')=>{const token=await new SignJWT({identity:{email},nonce:'test-nonce'}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuedAt().setExpirationTime(expiry).sign(privateKey);return mf.dispatchFetch('https://api.example.com/api/access/evaluate',{method:'POST',body:JSON.stringify({token})});};
+  const {jwtVerify}=await import('jose');
+  const decision=async email=>{const r=await evaluate(email);assert.equal(r.status,200);return (await jwtVerify((await r.json()).token,publicKey)).payload;};
+  assert.equal((await decision('catalogue@example.com')).success,true);
+  assert.equal((await decision('unknown@example.com')).success,false);
+  assert.equal((await decision('owner@example.com')).success,true);
+  assert.equal((await evaluate('catalogue@example.com','-1m')).status,403);
+  assert.equal((await mf.dispatchFetch('https://api.example.com/api/access/evaluate',{method:'POST',body:JSON.stringify({token:'forged'})})).status,403);
   const patch={variantId,expectedStock:10,stock:12};
   const simultaneous=await Promise.all([queue('catalogue','inventory','PATCH',patch),queue('catalogue','inventory','PATCH',patch)]);assert.equal(simultaneous[0],simultaneous[1]);const first=simultaneous[0];assert.equal(await stock(variantId),10);
   assert.equal(await queue('catalogue','inventory','PATCH',patch),first,'Duplicate pending submissions are reused');
@@ -61,6 +74,15 @@ test('owner approval is required at every staff write boundary; payment verifica
   const returnData={id:returned.id,version:0,status:'approved',notes:'Please return your item.',refundKobo:0,refundReference:'',refundStatus:'none',restock:false};
   const returnId=await queue('support','operations','POST',{action:'return',data:returnData});assert.equal((await db.prepare('SELECT status FROM return_requests WHERE id=?').bind(returned.id).first()).status,'requested');assert.equal((await (await review(returnId)).json()).status,'approved');
   assert.equal((await request('support','operations','POST',{action:'return',data:{...returnData,version:1,refundKobo:100,refundStatus:'completed'}})).status,400);
+  await rpc('saveStaff',{email:'catalogue@example.com',role:'catalogue',active:true},'owner@example.com');
+  const removedRequest=await queue('catalogue','inventory','PATCH',{variantId,expectedStock:await stock(variantId),stock:30});
+  assert.equal((await request('catalogue','operations','POST',{action:'staff-delete',data:{email:'other@example.com'}})).status,403);
+  assert.equal((await request('owner','operations','POST',{action:'staff-delete',data:{email:'owner@example.com'}})).status,400);
+  assert.equal((await request('owner','operations','POST',{action:'staff-delete',data:{email:'catalogue@example.com'}})).status,200);
+  assert.equal((await request('catalogue','operations?resource=bulk')).status,403,'Existing JWT is denied immediately after deletion');
+  assert.equal((await decision('catalogue@example.com')).success,false,'Cloudflare evaluation denies removed staff');
+  assert.equal((await db.prepare('SELECT status FROM admin_approvals WHERE id=?').bind(removedRequest).first()).status,'rejected');
+  await rpc('saveStaff',{email:'new-staff@example.com',role:'catalogue',active:true},'owner@example.com');assert.equal((await decision('new-staff@example.com')).success,true,'New email is automatically eligible for sign-in');
   console.log('Verified pending, approve, reject, concurrent review, stale records, private images, product/import boundaries, role revocation, orders, tracking, returns and payment reconciliation.');
  }finally{await mf.dispose();}
 });

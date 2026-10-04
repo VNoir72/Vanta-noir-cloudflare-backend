@@ -136,3 +136,22 @@
 .vn-collection-callout{height:auto}
 @media(min-width:1024px){.vn-control-sidebar .vn-control-brand{font-size:16px;letter-spacing:2px;gap:10px;white-space:nowrap}.vn-control-brand img{flex-shrink:0}}
 .vn-approval-details .vn-change-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}.vn-change-table th,.vn-change-table td{padding:12px;text-align:left;border-bottom:1px solid #354630}.vn-approval-details .vn-proposal-value{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}.vn-approval-details .vn-nested-fields{padding-left:12px;border-left:1px solid #354630}
+
+/* Reference layout: four summary cards, two aligned rows, with attention above artwork. */
+.vn-ref-grid{grid-template-areas:"revenue best" "orders attention";grid-template-columns:minmax(0,1.72fr) minmax(0,1fr);align-items:stretch}
+.vn-ref-grid>.vn-revenue{grid-area:revenue}.vn-ref-grid>.vn-ref-card:nth-child(2){grid-area:best;grid-row:auto}
+.vn-ref-orders{grid-area:orders}.vn-ref-right{grid-area:attention;display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start}
+.vn-ref-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.vn-ref-metrics article{min-height:154px;padding:22px}.vn-ref-metrics p:last-child{font-size:10px}
+.vn-ref-grid>.vn-ref-card:nth-child(2){display:flex;flex-direction:column}.vn-ref-grid>.vn-ref-card:nth-child(2)>.vn-ref-footnote{margin-top:auto;padding-top:16px}
+.vn-ref-empty{flex:1;min-height:200px}.vn-revenue-chart{height:260px}.vn-ref-right>section:last-child{min-height:170px}
+.vn-collection-callout{min-height:170px}.vn-ref-right .vn-ref-card{padding:24px}
+.vn-studio-footer{position:sticky;bottom:0;z-index:5}.vn-studio-top-save{display:flex;justify-content:flex-end;gap:12px;position:sticky;top:0;background:#141d12;z-index:6;padding:12px 0}
+.vn-price-toolbar{display:flex;align-items:end;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:4;background:#111514;padding:14px 0;border-bottom:1px solid #354630}
+.vn-price-toolbar>span{font-size:12px;color:#b5d5a1;padding:12px 0}.vn-price-table{max-height:65vh;overflow:auto}.vn-price-table thead{position:sticky;top:0;background:#151d16;z-index:1}.vn-price-table td:last-child{white-space:nowrap}
+.vn-field-info,.ops-panel button.vn-field-info{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border:1px solid #819475!important;border-radius:50%!important;width:20px!important;height:20px!important;min-height:20px!important;padding:0!important;margin:4px 6px!important;background:#1c281c!important;color:#d9edcb!important;font:600 12px/1 Georgia,serif!important;text-transform:none!important;letter-spacing:0!important;flex-shrink:0;cursor:pointer}
+.vn-help-dialog{position:fixed;inset:0;margin:auto;width:min(430px,calc(100vw - 32px));padding:26px;background:#131c15;color:#edf1eb;border:1px solid #52684a;border-radius:16px;z-index:500}.vn-help-dialog::backdrop{background:#0009}.vn-help-dialog h2{font-size:20px;line-height:1.4}.vn-help-dialog p{font:14px/1.8 system-ui;margin:16px 0}.vn-help-dialog>button{padding:10px 20px;border-radius:8px;background:#b7d5a2;color:#101810}
+@media(min-width:1024px){.vn-control-sidebar{width:clamp(210px,15.55vw,268px)}.vn-control-content{margin-left:clamp(210px,15.55vw,268px)}.vn-control-header>.vn-control-actions{flex-basis:auto;margin-left:auto}.vn-control-header{align-items:center}.vn-ref-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.vn-ref-grid{grid-template-columns:minmax(0,1.72fr) minmax(0,1fr)}}
+@media(min-width:1024px) and (max-width:1350px){.vn-ref-metrics{gap:12px}.vn-ref-metrics article{padding:14px;min-height:160px}.vn-ref-metric-label{font-size:10px}.vn-ref-metrics .vn-metric-value strong{font-size:24px}.vn-sparkline{width:35px;flex-basis:35px}.vn-ref-grid{gap:18px}.vn-best-row{flex-wrap:wrap}.vn-best-row>strong{margin-left:auto}.vn-ref-card{padding:18px}.vn-ref-orders{padding:0}}
+@media(max-width:1023px){.vn-ref-grid{grid-template-areas:"revenue" "best" "orders" "attention";grid-template-columns:minmax(0,1fr)}.vn-ref-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.vn-ref-right{grid-template-rows:auto}.vn-price-toolbar{position:static}.vn-ref-card-head{flex-wrap:wrap}}
+@media(max-width:420px){.vn-ref-metrics article{padding:13px}.vn-ref-metrics .vn-metric-value strong{font-size:22px}}
