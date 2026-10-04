@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,copyFile,writeFile,rm,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {spawn} from 'node:child_process';
+import {spawn,spawnSync} from 'node:child_process';
 import {once} from 'node:events';
 
-test('Namecheap gateway hides old URLs, restores published URLs and fails closed',async()=>{
+test('Namecheap gateway hides old URLs, restores published URLs and fails closed',{skip:spawnSync('php',['-v']).error?'PHP runtime is not installed':false},async()=>{
  const dir=await mkdtemp(join(tmpdir(),'vn-visibility-'));
  let server;
  try {
@@ -37,5 +37,5 @@ test('Namecheap gateway hides old URLs, restores published URLs and fails closed
   assert.doesNotMatch(restoredHtml, /"path":"\/products\/_dynamic"/);
   await fixture(503,{error:'offline'});const outage=await get('/products/later-drop');assert.equal(outage.status,503);assert.doesNotMatch(await outage.text(),/later-drop|Back in store|unavailable/);
   await fixture(200,{slugs:['first-drop']});const map=await get('/sitemap.xml');const xml=await map.text();assert.match(xml,/first-drop/);assert.doesNotMatch(xml,/later-drop/);
- } finally { if(server){server.kill();await once(server,'exit')} await rm(dir,{recursive:true,force:true}); }
+ } finally { if(server?.pid&&server.exitCode===null){const exited=once(server,'exit');server.kill();await exited} await rm(dir,{recursive:true,force:true}); }
 });

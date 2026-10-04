@@ -9,6 +9,7 @@ const {storefrontVisibility}=modules.find(m=>m.storefrontVisibility);
 const {reconcileCart}=modules.find(m=>m.reconcileCart);
 const sqlite=new DatabaseSync(':memory:');
 sqlite.exec("CREATE TABLE products(slug TEXT PRIMARY KEY,name TEXT,description TEXT,image_url TEXT,details_json TEXT,active INTEGER,status TEXT); INSERT INTO products VALUES('first-drop','First Drop','New garment','/images/first.webp','{}',1,'published'),('later-drop','Later Drop','Private garment','/images/later.webp','{}',0,'draft');");
+sqlite.exec("ALTER TABLE products ADD COLUMN id TEXT; ALTER TABLE products ADD COLUMN category TEXT DEFAULT 'Streetwear'; ALTER TABLE products ADD COLUMN price_kobo INTEGER DEFAULT 3000000; UPDATE products SET id=slug; CREATE TABLE product_variants(id TEXT,product_id TEXT,active INTEGER,stock INTEGER); CREATE TABLE stock_reservations(variant_id TEXT,quantity INTEGER,expires_at TEXT); INSERT INTO product_variants VALUES('first-m','first-drop',1,2);");
 const db={prepare(sql){const statement=sqlite.prepare(sql);return {all:async()=>({results:statement.all()}),bind(...args){return {first:async()=>statement.get(...args)??null}}}}};
 const request=query=>new Request('https://api.vantanoir.store/api/storefront-visibility?'+query);
 test('draft and archived garments expose no name or metadata; republishing restores them',async()=>{
@@ -40,4 +41,13 @@ test('storefront has no snapshot fallback or unavailable-product message',async(
  assert.match(renderer,/const initial: CatalogProduct\[\] = \[\]/);
  const config=await readFile('portable/namecheap.htaccess','utf8');
  assert.match(config,/storefront-gateway\.php/);
+});
+
+test('live product search markup reflects stock and omits preview offers',async()=>{
+ const metadata=async()=>(await (await storefrontVisibility(request('slug=first-drop'),db)).json()).structuredData;
+ assert.equal((await metadata()).offers.availability,'https://schema.org/InStock');
+ sqlite.exec("INSERT INTO stock_reservations VALUES('first-m',2,'2999-01-01')");
+ assert.equal((await metadata()).offers.availability,'https://schema.org/OutOfStock');
+ sqlite.exec(`UPDATE products SET details_json='{"availability":"preview"}' WHERE slug='first-drop'`);
+ assert.equal((await metadata()).offers,undefined);
 });

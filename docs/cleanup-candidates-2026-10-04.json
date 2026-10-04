@@ -1,0 +1,429 @@
+{
+  "objects": 305,
+  "totalBytes": 35282212,
+  "candidateCount": 84,
+  "candidateBytes": 6383388,
+  "candidates": [
+    {
+      "key": "products/13d4331ee90dcecced6add2d7bf7a267.webp",
+      "size": 77546,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/165e628c-5ef9-4947-b77b-7b37895429d6.webp",
+      "size": 38816,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/18200333-829d-4188-a526-c5203d1f9cc8.webp",
+      "size": 55320,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/1b7086f6-31c8-4d00-910c-5c5a61d00ad0.webp",
+      "size": 83096,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/2585c05d-0660-4a05-9871-56d3b64ad45b.webp",
+      "size": 65510,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/27020004-0be1-4b24-803f-3361d5b6b88f.webp",
+      "size": 61652,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/2df49e34-7af8-4381-acac-cbb8231ca4e7.webp",
+      "size": 143220,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/32c296a7-1ae4-4263-b72e-ce196b4030f6.webp",
+      "size": 243008,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/34f31f93-d4df-4d84-840c-b1f388c93116.webp",
+      "size": 45440,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/3645451f-e489-4eea-ba37-0ae289df5b17.webp",
+      "size": 55230,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/36dcd880-cedf-42d7-aff0-2ad69275c2bf.webp",
+      "size": 64282,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/39a25137ea882a5dfd207b08e660bda8.webp",
+      "size": 99992,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/3a227836-2623-456e-8222-ff67cd6c38d2.webp",
+      "size": 95496,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/41ffbd8155c4ede12c13b99bec992cac.webp",
+      "size": 48456,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/422ed176-15a8-4cca-9a49-796aed7493ef.webp",
+      "size": 46888,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/43346381-2897-4670-b222-8b66fd512996.webp",
+      "size": 140260,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/45201d89-eef0-4a0f-9a2f-546542743dd4.webp",
+      "size": 130968,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/455a51f6-9869-456f-bc1d-5885af240105.webp",
+      "size": 105994,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/46e6f182-646c-4749-bcd5-2cdd0f986c41.webp",
+      "size": 50270,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/4aaa5ad8-907a-4ee0-8fc5-f8ee09b81588.webp",
+      "size": 149086,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/4abee911-2024-487a-8e7f-20b15952897e.webp",
+      "size": 56056,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/54fc151c-6451-4ea3-aacf-902f3aa0f888.webp",
+      "size": 46452,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/582619d5-2c35-442f-b09e-d5b0d5d36e2c.webp",
+      "size": 36852,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/5aaa213d-7f99-4ae6-9979-ad2d175005aa.webp",
+      "size": 39702,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/5f75dc17-8252-468e-a7e2-23d2b838105d.webp",
+      "size": 99752,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/633087e19f7fd6a4e3f75647db061986.webp",
+      "size": 63458,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/635b99c77645db68695781f5783efd57.webp",
+      "size": 63948,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/642fc78f-79f7-468f-9f5a-2d65797c40c8.webp",
+      "size": 92292,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/651a625f-ee32-4667-9f9e-aa65c143cd34.webp",
+      "size": 124940,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/65f1f232-3529-45ad-bb14-929af4830d6a.webp",
+      "size": 68276,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/6614d0ae-981f-4a01-bc93-98682d01615a.webp",
+      "size": 120106,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/66949aec6d0ef0b7901df0652152a494.webp",
+      "size": 49178,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/6ef1a3f83aba00475aaffd3c64e24407.webp",
+      "size": 63620,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/73789d8c-bb12-4ef5-ae52-3f5b144709b3.webp",
+      "size": 157900,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/75bfdb63-1a0c-4584-817c-14fc8c5c3461.webp",
+      "size": 93906,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/77fdd4f1-5312-45b3-bb03-faee1a0727b3.webp",
+      "size": 127946,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/785ac35f-2279-4308-ad4b-f0f8c12f50dc.webp",
+      "size": 70292,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/788b1fce-eddd-4eb8-a954-b326c62b1099.webp",
+      "size": 39672,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/7b24ea3d955069f84fb2f9f640168c84.webp",
+      "size": 46772,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/84f99243-e84b-4853-ab97-b844899dbe30.webp",
+      "size": 10024,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/851617d76839387272f947a745c2fae6.webp",
+      "size": 65206,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/88e232da-03af-41c8-b6dd-755aa41e3478.webp",
+      "size": 48870,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/8cdf3bdb-6435-46fa-8d62-7c9c089db9e1.webp",
+      "size": 44692,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/8dbae876-a443-4a35-8b61-5d4844b6d2c9.webp",
+      "size": 79314,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/8eee19f5-ae72-4cfe-865d-fd00862222f1.webp",
+      "size": 76014,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/909b3ed673625532e4eb0b6a3cafcbf3.webp",
+      "size": 59852,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/92ad53c4-bd52-4d24-8048-914ded123d0e.webp",
+      "size": 23100,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/94e703c5-735a-498c-834f-fc4c1e2a67d7.webp",
+      "size": 41356,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/980e8595-cbf4-4a33-806b-eb24f8c6f186.webp",
+      "size": 92076,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/a0fe2e22-d4bd-4a95-9b92-d10e6ce1fe11.webp",
+      "size": 47766,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/a235b4ae-6346-41c1-8926-31bcd8efd0f6.webp",
+      "size": 55334,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/a4bd6030-a3b2-4fde-8fd9-bf6e2c7d7de4.webp",
+      "size": 63936,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/a822a95104f951f5121faad3e3b1d473.webp",
+      "size": 56366,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/b3a5f0ef-20c9-45ca-8a32-662c9068c3c2.webp",
+      "size": 9492,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/bdda3bbd-29fa-4afe-84b1-92b60c5bcb0d.webp",
+      "size": 46262,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/beee1c21-55f2-42ad-bc30-13c454aa1e61.webp",
+      "size": 92532,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/c2bb2ebb-ba1e-48d8-9901-e39e1e6d97f3.webp",
+      "size": 28132,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/cab550cb-df39-4756-a63a-4d101d12452f.webp",
+      "size": 150228,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/cb6c42ed-ddd8-4bd6-a8b4-c7018399abf0.webp",
+      "size": 82164,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/cc3e1e8f-fed3-462e-a5be-6628f9b2a983.webp",
+      "size": 98656,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/cd53c827-63e3-41a3-a222-b4b66f044778.webp",
+      "size": 65424,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d0884991-4d8a-4bc2-94e8-52aefa699ae1.webp",
+      "size": 59412,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d0d62bcd-2d78-4343-9e42-8eacc60caab8.webp",
+      "size": 115322,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d17fa2e2-2399-44e1-a013-58c65818f107.webp",
+      "size": 80418,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d4a74004-7ed1-4b1f-aaf4-099279851d03.webp",
+      "size": 54166,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d5a6af2c3f46092fcb8bfa15faee29bd.webp",
+      "size": 57744,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d61388f2520df1c34444cf87299c0190.webp",
+      "size": 57762,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d6441684-2384-467f-a4e6-2b538dc41e1e.webp",
+      "size": 50214,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/d81dfd0d-c36b-481e-a857-90f364b7be04.webp",
+      "size": 60004,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/dbe31112-bdfd-43f5-ac64-95e3ee671f3d.webp",
+      "size": 48606,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/dd97ae2a85cbd21c9297ab85d48cc384.webp",
+      "size": 39430,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/dfbaaa81-6d78-4db1-bbc1-b2468d12d224.webp",
+      "size": 146074,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e1bccb4d-a1b4-42a8-a3e7-8f6f98f6270c.webp",
+      "size": 53142,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e22e01d4-d973-46aa-a618-7a97cb7e55ab.webp",
+      "size": 65224,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e279111d-354c-48ea-90d2-c2925c331966.webp",
+      "size": 98438,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e28046cdfb64c1d6bd30c85d40e96147.webp",
+      "size": 90008,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e7b78fc3-8b9a-49fe-a955-edbd9f59b1ff.webp",
+      "size": 64786,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/e85aceb1-4501-44f4-9b01-48207ca50b6b.webp",
+      "size": 145196,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/ead6ba72-dd33-4506-ba60-ed7d9fe46ab6.webp",
+      "size": 95508,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/ecfb77ac887d82435ead83aebc1f4895.webp",
+      "size": 62786,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/ef6aa28a-f4ee-4ac4-9c5a-ba59f24e8dbb.webp",
+      "size": 61496,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/f3bc66e57f2d35c3e03bd6d7fdaad3d2.webp",
+      "size": 71988,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/f7880bb0-9ca1-439f-9fed-750c68b6d58d.webp",
+      "size": 71038,
+      "referencedInTrackedSource": true
+    },
+    {
+      "key": "products/f8c52f38-e046-45bf-8747-d3991bdd5c6f.webp",
+      "size": 136180,
+      "referencedInTrackedSource": true
+    }
+  ],
+  "status": "Review only. No objects deleted. Recheck live references and retain a recoverable backup before approved removal."
+}
