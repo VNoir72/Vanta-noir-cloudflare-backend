@@ -64,6 +64,16 @@ try{
   if(resource==="inventory") assert.ok(result.inventory.length>4000,"Exercise the full stock dataset");
   console.log(`Admin ${resource}: ${Math.round(performance.now()-started)} ms`);
  }
+ // Inventory writes and confirmations are exercised only in this isolated test database.
+ const stockBefore=await (await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{headers:authHeaders})).json();
+ const stockRow=stockBefore.inventory.find(r=>r.active&&r.productStatus==='published');
+ assert.equal(stockRow.reserved,0);assert.equal(stockRow.available,0);
+ const stockHeaders={...authHeaders,'Content-Type':'application/json'};
+ const stockWrite=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{method:'PATCH',headers:stockHeaders,body:JSON.stringify({variantId:stockRow.id,expectedStock:0,stock:8})});
+ assert.equal(stockWrite.status,200);const stockSaved=await stockWrite.json();assert.equal(stockSaved.row.stock,8);assert.equal(stockSaved.row.available,8);
+ const staleWrite=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{method:'PATCH',headers:stockHeaders,body:JSON.stringify({variantId:stockRow.id,expectedStock:0,stock:2})});assert.equal(staleWrite.status,409);
+ const invalidStock=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{method:'PATCH',headers:stockHeaders,body:JSON.stringify({variantId:stockRow.id,expectedStock:8,stock:''})});assert.equal(invalidStock.status,400);
+ const history=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/operations?resource=inventory&q='+encodeURIComponent(stockRow.productName),{headers:authHeaders});assert.equal(history.status,200);const historyRows=(await history.json()).rows;assert.ok(historyRows.some(r=>r.variant_id===stockRow.id&&r.new_stock===8&&r.color===stockRow.color&&r.size===stockRow.size));
  const invalidPage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{...authHeaders,'cf-access-jwt-assertion':'invalid',Accept:'text/html'}});
  assert.match(await invalidPage.text(),/Private access is locked/);
  const legacyAllowed=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/legacy',{headers:authHeaders});assert.equal(legacyAllowed.status,200);

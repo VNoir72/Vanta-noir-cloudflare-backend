@@ -67,7 +67,7 @@ export async function allocateExchange(input:unknown,actor:string){
 export async function operationsData(resource:string,params:URLSearchParams){
  const db=getDbBinding(),page=Math.max(1,Math.min(10000,Math.floor(Number(params.get('page'))||1))),offset=(page-1)*50;
  if(resource==='bulk')return {products:await listAdminProducts()};
- if(resource==='inventory'){const search=`%${(params.get('q')||'').slice(0,100)}%`;return {rows:(await db.prepare(`SELECT a.*,v.sku,p.name FROM stock_adjustments a LEFT JOIN product_variants v ON v.id=a.variant_id LEFT JOIN products p ON p.id=v.product_id WHERE COALESCE(v.sku,'') LIKE ? OR a.reason LIKE ? ORDER BY a.id DESC LIMIT 51 OFFSET ?`).bind(search,search,offset).all()).results};}
+ if(resource==='inventory'){const search=`%${(params.get('q')||'').slice(0,100)}%`;return {rows:(await db.prepare(`SELECT a.*,v.sku,v.color,v.size,p.name FROM stock_adjustments a LEFT JOIN product_variants v ON v.id=a.variant_id LEFT JOIN products p ON p.id=v.product_id WHERE COALESCE(v.sku,'') LIKE ? OR a.reason LIKE ? OR COALESCE(p.name,'') LIKE ? OR COALESCE(v.color,'') LIKE ? OR COALESCE(v.size,'') LIKE ? ORDER BY a.id DESC LIMIT 51 OFFSET ?`).bind(search,search,search,search,search,offset).all()).results};}
  if(resource==='orders'){
   const options={page,status:params.get('status')||'',query:params.get('q')||''};
   const [orders,total,counts]=await Promise.all([listAdminOrders(options),countAdminOrders(options),db.prepare('SELECT status,COUNT(*) AS count FROM orders GROUP BY status').all()]);

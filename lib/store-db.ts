@@ -1106,17 +1106,21 @@ export async function updateOrderTracking(reference:string,input:{carrier:string
   await queueOrderEmail(reference,`tracking:${key}`);
 }
 
-export async function listInventory() {
+export async function listInventory(variantId?: string) {
   await ensureCatalogSeeded();
   const db = getDbBinding();
   const rows = await db
     .prepare(
       `SELECT v.id, v.product_id AS productId, v.sku, p.name AS productName,
               v.size, v.color, v.stock, v.active,
+              COALESCE(r.reserved,0) AS reserved, MAX(0,v.stock-COALESCE(r.reserved,0)) AS available,
               p.price_kobo AS priceKobo, p.status AS productStatus
        FROM product_variants v JOIN products p ON p.id = v.product_id
+       LEFT JOIN (SELECT variant_id,SUM(quantity) AS reserved FROM stock_reservations WHERE expires_at>CURRENT_TIMESTAMP GROUP BY variant_id) r ON r.variant_id=v.id
+       ${variantId ? "WHERE v.id = ?" : ""}
        ORDER BY p.name, v.color, v.size, v.id`,
     )
+    .bind(...(variantId ? [variantId] : []))
     .all();
   return rows.results;
 }
