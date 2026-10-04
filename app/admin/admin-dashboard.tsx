@@ -6,7 +6,8 @@ import Link from "next/link";
 import {useCatalogOptions} from "@/lib/use-catalog-options";
 import {CatalogOptionsEditor} from "./catalog-options-editor";
 import {defaultOptions} from "@/lib/catalog-options";
-import {OverviewPanel} from "./overview-panel";
+import {AdminSearch,NotificationBell,CustomersPanel,IntegrationStatus,type AdminTarget} from './management-tools';
+import {OverviewPanel,ReportControls} from "./overview-panel";
 import {LayoutDashboard,Layers,ChartNoAxesCombined,Tag,Settings,ExternalLink,Search,PanelLeft,ArrowUpRight} from "lucide-react";
 import "./control-center.css";
 import { LegacyRecords } from "./legacy-records";
@@ -186,16 +187,26 @@ function DashboardContent({
   const [section, setSectionState] = useState("overview");
   const navigate=useAdminNavigation();
   const setSection=(next:string)=>{if(next!==section)navigate(()=>setSectionState(next));};
-  const [operationsStart,setOperationsStart]=useState<string|undefined>();
+  const [operationsStart,setOperationsStart]=useState<string|undefined>('reports');
+  const [lowStockThreshold,setLowStockThreshold]=useState(3);
   const [mobileNav,setMobileNav]=useState(false);
   useEffect(()=>setMobileNav(false),[section]);
-  const sections = ["overview", "products", "orders", "inventory", "collections", "analytics", "discounts", "media", "operations", "settings"];
+  const sections = ["overview", "products", "orders", "inventory", "customers", "returns", "collections", "analytics", "discounts", "delivery", "media", "operations", "staff", "activity", "settings"];
+  const sectionLabels:Record<string,string>={collections:'Categories & colours',returns:'Returns & exchanges',staff:'Staff access',activity:'Activity',operations:'More tools'};
+  const operationSections:Record<string,string>={returns:'returns',delivery:'courier',staff:'staff',activity:'activity',discounts:'promotions'};
+  const [recentOrders,setRecentOrders]=useState(initialOrders),[campaignProductId,setCampaignProductId]=useState(''),[customerQuery,setCustomerQuery]=useState(''),[inventoryFilter,setInventoryFilter]=useState<'low'|'out'|'available'>('available'),[inventoryKey,setInventoryKey]=useState(0),[orderEntry,setOrderEntry]=useState(0),[fulfilmentCount,setFulfilmentCount]=useState(initialAnalytics.fulfilmentCount||0);
+  const [productStatusFilter,setProductStatusFilter]=useState('');
+  const [reportLoading,setReportLoading]=useState(false),[reportError,setReportError]=useState('');
+  const reportParams=useRef(new URLSearchParams()),reportRequest=useRef(0);
+  async function loadReport(params:URLSearchParams){const id=++reportRequest.current;setReportLoading(true);setReportError('');try{const r=await fetch('/api/admin/analytics?'+params,{cache:'no-store',signal:AbortSignal.timeout(25000)});const payload=await r.json() as {analytics:AdminAnalytics;error?:string};if(!r.ok)throw new Error(payload.error||'Report could not load.');if(id===reportRequest.current){reportParams.current=params;setAnalytics(payload.analytics);}}catch(e){if(id===reportRequest.current)setReportError((e as Error).message+' Previous report remains displayed.');}finally{if(id===reportRequest.current)setReportLoading(false);}}
+  function goTo(target:AdminTarget){navigate(()=>{if(target.section==='orders'){setOrderCustomerEmail(target.customerEmail||'');setOrderQuery(target.query||'');setOrderStatusFilter(target.status||'');setOrderFrom('');setOrderTo('');setOrderEntry(n=>n+1);}if(target.section==='products'){setProductQuery(target.query||'');setProductStatusFilter(target.productStatus||'');setProductPage(1);}if(target.section==='inventory'){setInventoryFilter(target.stockFilter||'available');setInventoryKey(n=>n+1);}if(target.section==='customers')setCustomerQuery(target.query||'');if(target.resource)setOperationsStart(target.resource);setSectionState(target.section);});}
   const [orders, setOrders] = useState(initialOrders);
+  const orderRequest=useRef(0);
   const [orderPage,setOrderPage]=useState(1), [orderTotal,setOrderTotal]=useState(initialOrders.length), [hasMoreOrders,setHasMoreOrders]=useState(initialOrders.length===50);
-  const [orderQuery,setOrderQuery]=useState(""),[orderStatusFilter,setOrderStatusFilter]=useState(""),[orderFrom,setOrderFrom]=useState(""),[orderTo,setOrderTo]=useState("");
-  function orderParams(page:number){return new URLSearchParams({page:String(page),query:orderQuery,status:orderStatusFilter,from:orderFrom,to:orderTo}).toString();}
-  async function loadOrders(page:number){setBusy("orders");try{const r=await fetch(`/api/admin/orders?${orderParams(page)}`);const payload=await r.json() as {orders:AdminOrder[];total:number;hasMore:boolean;error?:string};if(!r.ok)throw new Error(payload.error||"Could not load orders.");setOrders(payload.orders);setOrderPage(page);setOrderTotal(payload.total);setHasMoreOrders(payload.hasMore);}catch(e){toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{setBusy(null);}}
-  useEffect(()=>{void loadOrders(1);},[]);
+  const [orderCustomerEmail,setOrderCustomerEmail]=useState(""),[orderQuery,setOrderQuery]=useState(""),[orderStatusFilter,setOrderStatusFilter]=useState(""),[orderFrom,setOrderFrom]=useState(""),[orderTo,setOrderTo]=useState("");
+  function orderParams(page:number){return new URLSearchParams({page:String(page),query:orderQuery,customerEmail:orderCustomerEmail,status:orderStatusFilter,from:orderFrom,to:orderTo}).toString();}
+  async function loadOrders(page:number){const request=++orderRequest.current;setBusy("orders");try{const r=await fetch(`/api/admin/orders?${orderParams(page)}`,{cache:'no-store',signal:AbortSignal.timeout(20000)});const payload=await r.json() as {orders:AdminOrder[];total:number;hasMore:boolean;error?:string};if(!r.ok)throw new Error(payload.error||"Could not load orders.");if(request!==orderRequest.current)return;setOrders(payload.orders);setOrderPage(page);setOrderTotal(payload.total);setHasMoreOrders(payload.hasMore);}catch(e){if(request===orderRequest.current)toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{if(request===orderRequest.current)setBusy(null);}}
+  useEffect(()=>{if(section==='orders')void loadOrders(1);},[section,orderEntry]);
   const [inventory, setInventory] = useState(initialInventory);
   const [analytics, setAnalytics] = useState(initialAnalytics);
   const [products, setProducts] = useState(initialProducts);
@@ -205,8 +216,8 @@ function DashboardContent({
 
   const matchingProducts = useMemo(() => {
     const query = productQuery.trim().toLowerCase();
-    return products.filter(product => [product.name, product.id, product.category, product.details?.collection].join(" ").toLowerCase().includes(query));
-  }, [products, productQuery]);
+    return products.filter(product => (!productStatusFilter||product.status===productStatusFilter)&&[product.name, product.id, product.category, product.details?.collection,...product.variants.map(v=>v.sku)].join(" ").toLowerCase().includes(query));
+  }, [products, productQuery,productStatusFilter]);
   const productPages = Math.max(1, Math.ceil(matchingProducts.length / 24));
   const currentProductPage = Math.min(productPage, productPages);
 
@@ -221,9 +232,9 @@ function DashboardContent({
       orders: orders.length,
       paid: paid.length,
       revenue: paid.reduce((sum, order) => sum + order.totalKobo, 0),
-      lowStock: stockTotals(inventory).low,
+      lowStock: stockTotals(inventory,lowStockThreshold).low,
     };
-  }, [orders, inventory]);
+  }, [orders, inventory,lowStockThreshold]);
 
   async function refresh() {
     setBusy("refresh");
@@ -231,7 +242,7 @@ function DashboardContent({
       const [ordersResponse, inventoryResponse, analyticsResponse] = await Promise.all([
         fetch(`/api/admin/orders?${orderParams(orderPage)}`),
         fetch("/api/admin/inventory"),
-        fetch("/api/admin/analytics"),
+        fetch("/api/admin/analytics?"+reportParams.current),
       ]);
       if (!ordersResponse.ok || !inventoryResponse.ok || !analyticsResponse.ok) throw new Error("Refresh failed.");
       const ordersPayload = (await ordersResponse.json()) as { orders: AdminOrder[]; total:number; hasMore:boolean };
@@ -241,6 +252,7 @@ function DashboardContent({
       setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
       applyInventory(inventoryPayload.inventory);
       setAnalytics(analyticsPayload.analytics);
+      const recentResponse=await fetch("/api/admin/orders");if(recentResponse.ok)setRecentOrders(((await recentResponse.json()) as {orders:AdminOrder[]}).orders);
       const productsResponse = await fetch("/api/admin/products");
       if (!productsResponse.ok) throw new Error("Products refresh failed.");
       const productsPayload = (await productsResponse.json()) as { products: AdminProduct[] };
@@ -433,6 +445,8 @@ function DashboardContent({
       const payload=await response.json().catch(()=>({})) as {error?:string};
       if(!response.ok)throw new Error(payload.error||'Order status could not be updated.');
       setOrders(current=>current.map(order=>order.reference===reference?{...order,status}:order));
+      setRecentOrders(current=>current.map(order=>order.reference===reference?{...order,status}:order));
+      void loadReport(reportParams.current);
       toast.success(`${reference} moved to ${status.replaceAll('_',' ')}.`);
       try{await syncStock();}catch{toast.warning('Order saved. Refresh to update stock figures.');}
       return true;
@@ -444,22 +458,22 @@ function DashboardContent({
       <aside className={`vn-control-sidebar ${mobileNav?"is-open":""}`}>
         <a className="vn-control-brand" href="/"><StoreImage src="/images/vanta-noir-emblem-480.webp" alt="" sizes="38px"/><span>VANTA NOIR<small>ADMINISTRATION</small></span></a>
         <div className="vn-workspace-selector"><ShoppingBag size={18}/><div>Vanta Noir Store<small>Store administration</small></div></div>
-        <nav aria-label="Store administration">{sections.map((item,index) => {const Icon=({overview:LayoutDashboard,products:ShoppingBag,orders:PackageCheck,inventory:Boxes,collections:Layers,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:Layers,settings:Settings} as Record<string,typeof Boxes>)[item];return <div key={item}>{(index===0||item==='analytics')&&<p className="vn-nav-group">{index===0?'Workspace':'Growth & operations'}</p>}<button type="button" aria-current={section === item ? "page" : undefined} onClick={() => setSection(item)}><Icon size={18}/>{item==='collections'?'Categories & colours':item[0].toUpperCase()+item.slice(1)}{item==='products'&&<small>{products.length}</small>}</button></div>;})}</nav>
+        <nav aria-label="Store administration">{sections.map((item,index) => {const Icon=({overview:LayoutDashboard,products:ShoppingBag,orders:PackageCheck,inventory:Boxes,collections:Layers,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:Layers,settings:Settings,customers:ShoppingBag,returns:RotateCcw,delivery:PackageCheck,staff:Settings,activity:Layers} as Record<string,typeof Boxes>)[item];return <div key={item}>{(index===0||item==='analytics')&&<p className="vn-nav-group">{index===0?'Workspace':'Growth & operations'}</p>}<button type="button" aria-current={section === item ? "page" : undefined} onClick={() => setSection(item)}><Icon size={18}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}{item==='products'&&<small>{products.length}</small>}{item==='orders'&&fulfilmentCount>0&&<small title='Paid orders awaiting fulfilment'>{fulfilmentCount}</small>}</button></div>;})}</nav>
         <button className="vn-sidebar-prompt" onClick={()=>setSection('collections')}><Star size={22}/><strong>Built for your next move.</strong><p>Your next collection starts with a little intention.</p><span>Explore collections <ArrowUpRight size={14}/></span></button>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href="/";});}}><ExternalLink size={18}/> Visit storefront</a>
         <div className="vn-owner-block"><span className="vn-owner-avatar">VN</span><div><strong>Store owner</strong><p className="vn-control-owner">{adminName}</p><a className="vn-control-signout" href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></div>
       </aside>
       <div className="vn-control-content">
       <Toaster position="top-center" richColors />
-      <div className="vn-workspace-bar"><div><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={()=>setMobileNav(!mobileNav)}><PanelLeft size={18}/></button><span>Workspace</span><span>/</span><strong>{section[0].toUpperCase()+section.slice(1)}</strong></div><form onSubmit={e=>{e.preventDefault();setSection('products');setProductPage(1);}}><Search size={16}/><input aria-label="Search products" placeholder="Search products…" value={productQuery} onChange={e=>setProductQuery(e.target.value)}/></form><span className="vn-owner-avatar">VN</span></div>
+      <div className="vn-workspace-bar"><div><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={()=>setMobileNav(!mobileNav)}><PanelLeft size={18}/></button><span>Workspace</span><span>/</span><strong>{section[0].toUpperCase()+section.slice(1)}</strong></div><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details></div>
       <header className="vn-control-header">
-        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">Your brand, your numbers, your next move.</p></div>
-        <div className="vn-control-actions"><Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/> Refresh</Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
+        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">Your brand, your numbers, your next move.</p></div>
+        <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/> Refresh</Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
       </header>
 
       <div className="vn-control-body">
-        {(section === "overview" || section === "analytics") && <OverviewPanel analytics={analytics} orders={orders} products={products} lowStock={metrics.lowStock} onNavigate={setSection} onProduct={openProduct}/>}
-        {(section === "operations" || section === "discounts") && <OperationsPanel key={section} role="owner" initialSection={section === "discounts" ? "promotions" : operationsStart} onChanged={syncStock} />}
+        {(section === "overview" || section === "analytics") && <><div aria-live="polite">{reportLoading&&<p>Loading selected period…</p>}{reportError&&<p role="alert">{reportError}</p>}</div><OverviewPanel analytics={{...analytics,fulfilmentCount}} orders={recentOrders} products={products} lowStock={metrics.lowStock} onNavigate={goTo} onProduct={openProduct} campaignProductId={campaignProductId} onCampaignSaved={setCampaignProductId}/>{section==='analytics'&&<button className="vn-pill" onClick={()=>goTo({section:'operations',resource:'reports'})}>Open detailed sales and refund reports →</button>}</>}
+        {(section === "operations" || !!operationSections[section]) && <OperationsPanel key={section+operationsStart} role="owner" initialSection={operationSections[section]||operationsStart} dedicated={!!operationSections[section]} onChanged={syncStock} />}
         {section === "collections" && <><CatalogOptionsEditor options={options} onChange={setOptions}/><section className="vn-control-panel"><h2>Browse by category</h2><p>Select a category to manage its products. Collection and audience fields are available in each product’s details.</p><div className="vn-control-categories">{Array.from(new Set(products.map(p=>p.category))).sort().map(category=><button key={category} onClick={()=>{setProductQuery(category);setProductPage(1);setSection("products");}}>{category}<span>{products.filter(p=>p.category===category).length}</span></button>)}</div></section></>}
         {section === "media" && <section className="vn-control-panel"><h2>Product images</h2><p>Choose a product to upload images and assign each view to its colourway.</p><Input aria-label="Search images by product" placeholder="Find a product" value={productQuery} onChange={e=>{setProductQuery(e.target.value);setProductPage(1);}}/><div className="vn-control-media">{matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=><button key={product.id} onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt={product.name} sizes="240px"/><span>{product.name}</span><small>{product.images.length} images</small></button>)}</div><div className="vn-control-actions"><Button disabled={currentProductPage===1} onClick={()=>setProductPage(currentProductPage-1)}>Previous</Button><span>Page {currentProductPage} of {productPages}</span><Button disabled={currentProductPage===productPages} onClick={()=>setProductPage(currentProductPage+1)}>Next</Button></div></section>}
 
@@ -482,7 +496,7 @@ function DashboardContent({
             <div className="overflow-hidden border border-white/10 bg-[#101010]">
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/50">All products</p>
-                <Badge variant="outline" className="rounded-full border-white/15 text-white/45">{products.length} records</Badge>
+                <Badge variant="outline" className="rounded-full border-white/15 text-white/45">{products.length} records</Badge><select aria-label="Product status filter" value={productStatusFilter} onChange={e=>{setProductStatusFilter(e.target.value);setProductPage(1);}}><option value="">All product statuses</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select>
               </div>
               <div className="border-b border-white/10 p-4">
                 <Input aria-label="Search admin products" placeholder="Search name, collection or product code" value={productQuery} onChange={event => { setProductQuery(event.target.value); setProductPage(1); }} className="border-white/15 bg-black/20 text-white" />
@@ -604,7 +618,7 @@ function DashboardContent({
             </div>
             <Badge variant="outline" className="rounded-none border-white/15 text-white/50">{orderTotal} matching orders</Badge>
           </div>
-          <form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>setOrderQuery(e.target.value)} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
+          <form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>{setOrderQuery(e.target.value);setOrderCustomerEmail('');}} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option><option value="fulfil">Ready to fulfil</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
           <div className="vn-studio-form">
             <Table>
               <TableHeader>
@@ -662,9 +676,10 @@ function DashboardContent({
         </section>
 
         {section === "orders" && <div className="flex items-center gap-4 mt-5"><button className="vn-pill" disabled={orderPage===1||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage-1))}>Previous</button><span>Page {orderPage}</span><button className="vn-pill" disabled={!hasMoreOrders||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage+1))}>Next</button></div>}
-        {section === "settings" && <CommercePanel />}
+        {section === "settings" && <><IntegrationStatus/><CommercePanel view="settings" onNavigate={goTo} onThreshold={setLowStockThreshold}/></>}
+        {section === "customers"&&<><CustomersPanel key={customerQuery} initialQuery={customerQuery} onOrders={email=>goTo({section:'orders',query:email,customerEmail:email})}/><CommercePanel view="care" onNavigate={goTo}/></>}
         {section === "orders" && <LegacyRecords />}
-        <div hidden={section !== 'inventory'}><InventoryPanel rows={inventory} onSaved={stockSaved} onHistory={()=>navigate(()=>{setOperationsStart('inventory');setSectionState('operations');})}/></div>
+        <div hidden={section !== 'inventory'}><InventoryPanel key={inventoryKey} initialFilter={inventoryFilter} threshold={lowStockThreshold} rows={inventory} onSaved={stockSaved} onHistory={()=>navigate(()=>{setOperationsStart('inventory');setSectionState('operations');})}/></div>
       </div>
       </div>
     </main>

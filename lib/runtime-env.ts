@@ -1,5 +1,7 @@
 type RuntimeEnvironment = {
   DB?: D1Database;
+  GA4_PROPERTY_ID?: string;
+  GA4_SERVICE_ACCOUNT_JSON?: string;
   COURIER_WEBHOOK_SECRET?: string;
   BUCKET?: R2Bucket;
   PAYSTACK_SECRET_KEY?: string;
