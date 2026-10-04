@@ -40,6 +40,8 @@ export async function GET(request: Request) {
       eventKey: `verify:${reference}`,
       eventType: "verify.success",
       paymentDomain: transaction.domain,
+      requestedAmountKobo: transaction.requested_amount,
+      providerFeesKobo: transaction.fees,
     });
     return Response.json({ order: await getPublicPaymentOrder(reference) }, { headers: { "Cache-Control": "no-store" } });
   } catch {

@@ -1,5 +1,5 @@
-import { markOrderPaid } from "@/lib/store-db";
-import { verifyPaystackWebhook } from "@/lib/paystack";
+import { getOrderByReference, markOrderPaid } from "@/lib/store-db";
+import { verifyPaystackTransaction, verifyPaystackWebhook } from "@/lib/paystack";
 
 type PaystackWebhook = {
   event?: string;
@@ -8,6 +8,8 @@ type PaystackWebhook = {
     id?: number;
     status?: string;
     amount?: number;
+    requested_amount?: number | string | null;
+    fees?: number | null;
     currency?: string;
     reference?: string;
   };
@@ -36,12 +38,21 @@ export async function POST(request: Request) {
     event.data.reference
   ) {
     try {
+      let payment = event.data;
+      const order = await getOrderByReference(event.data.reference);
+      if (order && event.data.amount !== order.totalKobo && event.data.requested_amount == null) {
+        const verified = await verifyPaystackTransaction(event.data.reference);
+        if (verified.status !== "success" || verified.currency !== "NGN" || verified.reference !== event.data.reference) throw new Error("Payment is not verified.");
+        payment = verified;
+      }
       await markOrderPaid({
         reference: event.data.reference,
-        amountKobo: event.data.amount,
+        amountKobo: payment.amount!,
         eventKey: `webhook:${event.data.id ?? event.data.reference}`,
         eventType: event.event,
-        paymentDomain: event.data.domain,
+        paymentDomain: payment.domain,
+        requestedAmountKobo: payment.requested_amount,
+        providerFeesKobo: payment.fees,
       });
     } catch {
       return new Response("Unable to apply payment", { status: 500 });

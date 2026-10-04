@@ -43,6 +43,7 @@ export function PaymentReceipt({ order, onBack }: { order: PaymentOrder; onBack:
           <div><dt>Subtotal</dt><dd>{receiptMoney(totals.subtotalKobo)}</dd></div>
           {totals.discountKobo > 0 && <div><dt>Discount</dt><dd>−{receiptMoney(totals.discountKobo)}</dd></div>}
           <div><dt>Delivery</dt><dd>{receiptMoney(totals.shippingKobo)}</dd></div>
+          {!!order.paymentFeeKobo && <div><dt>Paystack processing fee</dt><dd>{receiptMoney(order.paymentFeeKobo)}</dd></div>}
           <div className="vn-receipt-total"><dt>Total paid</dt><dd>{receiptMoney(totals.totalKobo)}</dd></div>
         </dl>
         <p className="vn-receipt-stamp">PAID</p>

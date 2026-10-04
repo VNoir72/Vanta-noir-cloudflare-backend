@@ -1,3 +1,4 @@
+import { confirmedPaymentFee } from "./payment-amount";
 import {garmentName,catalogueWording} from "./product-names";
 import {quoteRewards,rewardCapacitySql} from './rewards-db';
 import { receiptDigest } from "./receipt-access";
@@ -964,7 +965,9 @@ export async function getPublicPaymentOrder(reference: string) {
     color, size, quantity, unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id = ?`).bind(order.id)
     .all<{ variantId: string; productName: string; color: string; size: string; quantity: number; unitPriceKobo: number }>();
   const { id: _id, ...publicOrder } = order;
-  return { ...publicOrder, items: items.results };
+  const paymentAmounts=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind(`verified-payment-amounts:${reference}`).first<{value:string}>();
+  const paymentFeeKobo=paymentAmounts ? Number(JSON.parse(paymentAmounts.value).paymentFeeKobo)||0 : 0;
+  return { ...publicOrder, paymentFeeKobo, items: items.results };
 }
 
 export async function getGuestOrder(reference: string, email: string, phone: string) {
@@ -1030,11 +1033,13 @@ export async function markOrderPaid(args: {
   eventKey: string;
   eventType: string;
   paymentDomain?: 'test' | 'live';
+  requestedAmountKobo?: number | string | null;
+  providerFeesKobo?: number | null;
 }) {
   const db = getDbBinding();
   const order = await getOrderByReference(args.reference);
   if (!order) throw new Error("Order not found.");
-  if (order.totalKobo !== args.amountKobo) throw new Error("Payment amount mismatch.");
+  const paymentFeeKobo = confirmedPaymentFee(order.totalKobo,args.amountKobo,args.requestedAmountKobo,args.providerFeesKobo);
   if (order.paymentStatus === "paid") { await queueOrderEmail(args.reference,"payment"); return order; }
 
   const allocationToken = crypto.randomUUID();
@@ -1061,6 +1066,8 @@ export async function markOrderPaid(args: {
     db.prepare("INSERT OR IGNORE INTO payment_events (event_key, reference, event_type) VALUES (?, ?, ?)").bind(args.eventKey, args.reference, args.eventType),
     db.prepare("INSERT OR IGNORE INTO store_meta (key,value) SELECT ?,? WHERE EXISTS (SELECT 1 FROM orders WHERE id=? AND allocation_token=?)")
       .bind(`verified-payment:${args.reference}`,args.paymentDomain==='live'?'live':args.paymentDomain==='test'?'test':'unknown',order.id,allocationToken),
+    db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?)")
+      .bind(`verified-payment-amounts:${args.reference}`,JSON.stringify({orderTotalKobo:order.totalKobo,chargedTotalKobo:args.amountKobo,paymentFeeKobo}),order.id,allocationToken),
     db.prepare("UPDATE orders SET allocation_token = NULL WHERE id = ? AND allocation_token = ?").bind(order.id, allocationToken),
   ]);
   await queueOrderEmail(args.reference,"payment");

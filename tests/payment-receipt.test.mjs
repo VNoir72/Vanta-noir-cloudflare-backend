@@ -50,3 +50,12 @@ test("download escapes order text and excludes private fields and receipt tokens
   assert.match(html, /Black &amp; Gold/);
   assert.match(html, /default-src 'none'/);
 });
+
+test("verified customer processing fees are itemised and included in the paid total", () => {
+  const withFee = { ...order, paymentFeeKobo: 177665 };
+  assert.equal(receiptTotals(withFee).totalKobo, 11477665);
+  const html = paymentReceiptHtml(withFee);
+  assert.match(html, /Paystack processing fee/);
+  assert.ok(html.includes("1,776.65"));
+  assert.ok(html.includes("114,776.65"));
+});
