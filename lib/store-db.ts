@@ -1,3 +1,4 @@
+import {garmentName,catalogueWording} from "./product-names";
 import {quoteRewards,rewardCapacitySql} from './rewards-db';
 import { receiptDigest } from "./receipt-access";
 import { addressLineWithPostalCode } from "./checkout-address";
@@ -354,16 +355,16 @@ export async function listCatalog() {
       return {
         id: product.id,
         slug: product.slug,
-        name: product.name,
+        name: garmentName(product.name),
         category: product.category,
         description: product.description,
         priceKobo: product.priceKobo,
         imageUrl: product.imageUrl,
-        imageAlt: product.imageAlt,
+        imageAlt: catalogueWording(product.imageAlt),
         color: colorways[0]?.name ?? "Default",
         colorways,
         details: productDetails(product.detailsJson),
-        images: (imagesByProduct.get(product.id) ?? []).map(image => ({ imageUrl: image.imageUrl, imageAlt: image.imageAlt, color: image.color })),
+        images: (imagesByProduct.get(product.id) ?? []).map(image => ({ imageUrl: image.imageUrl, imageAlt: catalogueWording(image.imageAlt), color: image.color })),
         createdAt: product.createdAt, updatedAt: product.updatedAt,
         featured: Boolean(product.featured),
       } satisfies CatalogProduct;
@@ -457,12 +458,12 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
   return productRows.results.map((product) => ({
     id: product.id,
     slug: product.slug,
-    name: product.name,
+    name: garmentName(product.name),
     category: product.category,
     description: product.description,
     priceKobo: Number(product.priceKobo),
     imageUrl: product.imageUrl,
-    imageAlt: product.imageAlt,
+    imageAlt: catalogueWording(product.imageAlt),
     status: normalizedProductStatus(product.status),
     featured: Boolean(product.featured),
     sortOrder: Number(product.sortOrder ?? 0),
@@ -472,7 +473,7 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
       id: image.id,
       color: image.color,
       imageUrl: image.imageUrl,
-      imageAlt: image.imageAlt,
+      imageAlt: catalogueWording(image.imageAlt),
       sortOrder: Number(image.sortOrder ?? 0),
     })),
     variants: (variantsByProduct.get(product.id) ?? []).map((variant) => ({

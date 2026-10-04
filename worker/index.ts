@@ -1,4 +1,5 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
+import {reconcilePendingPayments} from "../lib/payment-reconciliation";
 import { runCommerceMaintenance } from "../lib/commerce-db";
 import handler from "vinext/server/app-router-entry";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
@@ -20,7 +21,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil(runCommerceMaintenance()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil(Promise.allSettled([runCommerceMaintenance(),reconcilePendingPayments()])); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});

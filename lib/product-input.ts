@@ -1,3 +1,4 @@
+import {garmentName,catalogueWording} from "./product-names";
 import {z} from "zod";
 import {storeSizeSchema} from "./sizing";
 import {productDetailsSchema} from "./product-details";
@@ -6,7 +7,7 @@ const imageSchema = z.object({
   id: z.string().trim().max(160).optional(),
   color: z.string().trim().max(100).optional().default(""),
   imageUrl: z.string().trim().min(1).max(1200),
-  imageAlt: z.string().trim().max(240).default(""),
+  imageAlt: z.string().trim().max(240).default("").transform(catalogueWording),
 });
 
 const variantSchema = z.object({
@@ -22,7 +23,7 @@ const variantSchema = z.object({
 export const productSchema = z.object({
   id: z.string().trim().min(1).max(160).optional(),
   slug: z.string().trim().max(120).optional(),
-  name: z.string().trim().min(2).max(160),
+  name: z.string().trim().min(2).max(160).transform(garmentName),
   description: z.string().trim().min(1).max(4000),
   details: productDetailsSchema.default({}),
   category: z.string().trim().min(1).max(120),
