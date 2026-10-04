@@ -53,4 +53,9 @@ $html = preg_replace_callback('~<meta (?:name|property)="(description|og:title|o
     return '<meta ' . $attribute . '="' . $m[1] . '" content="' . esc($value) . '">';
 }, $html);
 $html = str_replace('</head>', '<link rel="canonical" href="' . esc($canonical) . '"><meta property="og:url" content="' . esc($canonical) . '"></head>', $html);
+// Only live, publication-checked product data enters search markup.
+if (isset($data['structuredData']) && is_array($data['structuredData'])) {
+    $json = json_encode($data['structuredData'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES);
+    if ($json !== false) $html = str_replace('</head>', '<script type="application/ld+json">' . $json . '</script></head>', $html);
+}
 header_remove('X-Robots-Tag'); header('Content-Type: text/html; charset=utf-8'); echo $html;

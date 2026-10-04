@@ -51,13 +51,15 @@ export async function releaseCampaigns() {
 }
 export async function queueReleaseAlerts() {
   if(!emailReady() || !await releaseStoreReady())return;
+  const pending=(await releaseCampaigns()).filter(d=>!d.completedAt);
+  if(!pending.length)return; // Do not read the whole catalogue on every idle maintenance run.
   const db=getDbBinding(),products=await listCatalog(),url=runtimeEnv().STOREFRONT_URL||SITE_URL;
   // Small batches leave room for stock checks and delivery on Worker/D1 plans.
   // A scheduled run queues at most 10 recipients in total. Repeated/concurrent runs
   // use the unique outbox event key, so they cannot duplicate a campaign message.
   let remaining=10;
   const availableProducts=new Map(products.filter(p=>!isPreview(p)&&availableUnits(p)>0).map(p=>[p.id,p]));
-  for(const drop of (await releaseCampaigns()).filter(d=>!d.completedAt&&availableProducts.has(d.productId)).slice(0,2)) {
+  for(const drop of pending.filter(d=>availableProducts.has(d.productId)).slice(0,2)) {
     if(!remaining)break;
     const p=availableProducts.get(drop.productId);
     if(!p||isPreview(p)||availableUnits(p)===0)continue;

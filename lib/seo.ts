@@ -6,8 +6,8 @@ export const SITE_URL = "https://vantanoir.store";
 export const SEO_PAGES = {
   home: {
     path: "/",
-    title: "Vanta Noir | Presence. Power. Precision.",
-    description: "Vanta Noir — Presence. Power. Precision. Discover distinctive streetwear, denim, knitwear, outerwear, athletic pieces and everyday accessories.",
+    title: "Vanta Noir | Streetwear & Activewear in Nigeria",
+    description: "Discover Vanta Noir streetwear and activewear in Nigeria: oversized tees, hoodie sets, baggy joggers, jerseys, outerwear and accessories. Presence. Power. Precision.",
   },
   about: {
     path: "/about",
