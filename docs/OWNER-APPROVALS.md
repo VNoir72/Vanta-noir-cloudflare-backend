@@ -26,3 +26,7 @@ The Cloudflare Access sign-in allowlist is separate from the staff role table. T
 - Dedicated isolated D1/R2/JWT tests cover concurrent submissions/reviews, stale records, rejection, staff isolation and revocation, products/imports, private images, order/tracking/returns, signed webhooks and reconciliation.
 - The compiled Worker is exercised in an isolated runtime before release.
 - Chromium layout checks cover 1440, 1024 and 390 pixels; owner review controls are exercised with fixture data.
+
+## Import fingerprint correction
+
+Post-deployment comparison detected that applying display normalization inside the historical importer changed its fingerprint and reinserted old gallery rows. Those exact timestamped import rows were removed after backup; all 682 published product galleries and colourway images match the pre-release baseline again. The importer now explicitly parses source metadata without display normalization, preserving the legacy fingerprint. A regression test checks that fingerprint and verifies that reading cleaned collection labels cannot resurrect a removed source gallery.

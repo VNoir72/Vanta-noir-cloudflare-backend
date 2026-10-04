@@ -6,7 +6,7 @@ const short = z.string().trim().max(240).default("");
 const measurement = z.number().positive().max(400).nullable().optional();
 export const productDetailsSchema = z.object({
   audience: z.enum(["unisex", "men", "women"]).default("unisex"),
-  collection: short.transform(collectionName),
+  collection: short,
   releaseDate: z.union([z.literal(''),z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value=>{const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;},'Enter a valid release date')]).default(''),
   garmentType: short,
   fit: short,
@@ -21,7 +21,7 @@ export const productDetailsSchema = z.object({
   priceStatus: z.enum(["approved", "proposed"]).default("approved"),
   dispatchNote: short,
   shippingWeightGrams: z.number().int().min(0).max(100000).default(0),
-  seoTitle: z.string().trim().max(100).default("").transform(catalogueWording),
+  seoTitle: z.string().trim().max(100).default(""),
   seoDescription: z.string().trim().max(200).default(""),
   measurementType: z.enum(["body", "garment"]).default("garment"),
   sizeNotes: z.string().trim().max(1500).default(""),
@@ -32,7 +32,7 @@ export const productDetailsSchema = z.object({
   })).max(30).default([]),
 });
 export type ProductDetails = z.infer<typeof productDetailsSchema>;
-export function productDetails(value?: unknown): ProductDetails {
-  try { return productDetailsSchema.parse(typeof value === "string" ? JSON.parse(value) : value ?? {}); }
+export function productDetails(value?: unknown, normalizeWording = true): ProductDetails {
+  try { const details=productDetailsSchema.parse(typeof value === "string" ? JSON.parse(value) : value ?? {}); return normalizeWording?{...details,collection:collectionName(details.collection),seoTitle:catalogueWording(details.seoTitle)}:details; }
   catch { return productDetailsSchema.parse({}); }
 }

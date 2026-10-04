@@ -1,4 +1,4 @@
-import {garmentName,catalogueWording} from "./product-names";
+import {garmentName,catalogueWording,collectionName} from "./product-names";
 import {z} from "zod";
 import {storeSizeSchema} from "./sizing";
 import {productDetailsSchema} from "./product-details";
@@ -25,7 +25,7 @@ export const productSchema = z.object({
   slug: z.string().trim().max(120).optional(),
   name: z.string().trim().min(2).max(160).transform(garmentName),
   description: z.string().trim().min(1).max(4000),
-  details: productDetailsSchema.default({}),
+  details: productDetailsSchema.default({}).transform(details=>({...details,collection:collectionName(details.collection),seoTitle:catalogueWording(details.seoTitle)})),
   category: z.string().trim().min(1).max(120),
   priceKobo: z.number().int().min(100).max(100_000_000_000),
   featured: z.boolean().default(false),

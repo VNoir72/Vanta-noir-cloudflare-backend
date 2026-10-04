@@ -13,7 +13,8 @@ export type CatalogueViewUpdate = {
 // Chunked JSON imports keep large reference collections below Worker query limits.
 // Stock and subsequent merchant edits stay authoritative after each atomic chunk.
 export async function importVdCompletionCatalogue() {
-  const products: CatalogProduct[] = newProducts.map(product=>({...product,details:productDetails(product.details)}));
+  // Import fingerprints must retain source wording; presentation cleanup must never replay galleries.
+  const products: CatalogProduct[] = newProducts.map(product=>({...product,details:productDetails(product.details,false)}));
   const updates = viewUpdates as CatalogueViewUpdate[];
   if (products.some(product=>!/^[-a-z0-9]+$/.test(product.id) || !/^[-a-z0-9]+$/.test(product.slug))) throw new Error('Invalid VD catalogue identity');
   if (!products.length && !updates.length) return;
