@@ -1,3 +1,4 @@
+import {connectEmailTracking} from './email-delivery';
 import { z } from "zod";
 import { renderEmailHtml } from "./email-template";
 import { getDbBinding, runtimeEnv } from "./runtime-env";
@@ -85,7 +86,12 @@ export async function processEmailOutbox(limit=10){
     try {
       const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,"Content-Type":"application/json","Idempotency-Key":row.id},body:JSON.stringify({from:env.EMAIL_FROM,to:[row.recipient],subject:row.subject,text:row.body,html:renderEmailHtml(row.subject,row.body),...(env.EMAIL_REPLY_TO ? {reply_to:env.EMAIL_REPLY_TO} : {})}),signal:AbortSignal.timeout(12000)});
       if(!response.ok)throw new Error(`Email service returned ${response.status}.`);
-      await db.prepare("UPDATE email_outbox SET status='sent',sent_at=CURRENT_TIMESTAMP,last_error='' WHERE id=?").bind(row.id).run();sent++;
+      const accepted=await response.json() as {id?:string};
+      if(typeof accepted.id!=='string'||!accepted.id)throw new Error('Email service returned no message identifier.');
+      await db.batch([
+        db.prepare("UPDATE email_outbox SET status='sent',sent_at=CURRENT_TIMESTAMP,last_error='' WHERE id=?").bind(row.id),
+        db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('email-provider:'+row.id,JSON.stringify({providerId:accepted.id}))
+      ]);sent++;
     }catch(error){await db.prepare("UPDATE email_outbox SET status=?,last_error=?,next_attempt_at=datetime('now',?) WHERE id=?")
       .bind(row.attempts>=8 ? "review" : "pending",error instanceof Error ? error.message : "Email service unavailable.",`+${Math.min(60,2**row.attempts)} minutes`,row.id).run();}
   }
@@ -164,7 +170,7 @@ export async function recoverPaymentEmails(){
   for(const row of rows.results) await queueOrderEmail(row.reference,'payment');
 }
 export async function runCommerceMaintenance(){
-  await Promise.allSettled([recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
+  await Promise.allSettled([connectEmailTracking(),recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
   await getDbBinding().prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
   return processEmailOutbox();
 }
