@@ -10,7 +10,7 @@ import {OverviewPanel} from "./overview-panel";
 import {LayoutDashboard,Layers,ChartNoAxesCombined,Tag,Settings,ExternalLink,Search,PanelLeft,ArrowUpRight} from "lucide-react";
 import "./control-center.css";
 import { LegacyRecords } from "./legacy-records";
-import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useMemo, useState, useRef, type Dispatch, type SetStateAction } from "react";
 import {
   Archive,
   ArrowLeft,
@@ -69,19 +69,11 @@ import { StudioImagery } from "./studio-imagery";
 import {Sheet,SheetContent,SheetTitle,SheetDescription} from "@/components/ui/sheet";
 import StoreImage from "@/components/store-image";
 
-type InventoryRow = {
-  expectedStock?: number;
-  id: string;
-  productId: string;
-  sku: string;
-  productName: string;
-  size: string;
-  color: string;
-  stock: number;
-  priceKobo: number;
-  active: number;
-  productStatus: string;
-};
+import {InventoryPanel} from './inventory-panel';
+import {stockTotals,parseStock,type InventoryRow} from '@/lib/admin-inventory';
+import {UnsavedChangesProvider,useUnsavedChanges,useAdminNavigation} from './unsaved-changes';
+import {OrderStatusEditor} from './order-status-editor';
+
 
 type ProductImageDraft = {
   id?: string;
@@ -173,7 +165,9 @@ function productFormFromRecord(product: AdminProduct): ProductForm {
   };
 }
 
-export function AdminDashboard({
+export function AdminDashboard(props: Parameters<typeof DashboardContent>[0]) { return <UnsavedChangesProvider><DashboardContent {...props}/></UnsavedChangesProvider>; }
+
+function DashboardContent({
   adminName,
   initialOrders,
   initialInventory,
@@ -189,7 +183,10 @@ export function AdminDashboard({
   signOutPath: string;
 }) {
   const {options,setOptions}=useCatalogOptions();
-  const [section, setSection] = useState("overview");
+  const [section, setSectionState] = useState("overview");
+  const navigate=useAdminNavigation();
+  const setSection=(next:string)=>{if(next!==section)navigate(()=>setSectionState(next));};
+  const [operationsStart,setOperationsStart]=useState<string|undefined>();
   const [mobileNav,setMobileNav]=useState(false);
   useEffect(()=>setMobileNav(false),[section]);
   const sections = ["overview", "products", "orders", "inventory", "collections", "analytics", "discounts", "media", "operations", "settings"];
@@ -202,23 +199,19 @@ export function AdminDashboard({
   const [inventory, setInventory] = useState(initialInventory);
   const [analytics, setAnalytics] = useState(initialAnalytics);
   const [products, setProducts] = useState(initialProducts);
+  const productsRef=useRef(products);productsRef.current=products;
   const [productQuery, setProductQuery] = useState("");
   const [productPage, setProductPage] = useState(1);
-  const [stockQuery, setStockQuery] = useState("");
-  const [stockPage, setStockPage] = useState(1);
+
   const matchingProducts = useMemo(() => {
     const query = productQuery.trim().toLowerCase();
     return products.filter(product => [product.name, product.id, product.category, product.details?.collection].join(" ").toLowerCase().includes(query));
   }, [products, productQuery]);
-  const matchingStock = useMemo(() => {
-    const query = stockQuery.trim().toLowerCase();
-    return inventory.filter(row => [row.productName, row.color, row.sku, row.size].join(" ").toLowerCase().includes(query));
-  }, [inventory, stockQuery]);
   const productPages = Math.max(1, Math.ceil(matchingProducts.length / 24));
   const currentProductPage = Math.min(productPage, productPages);
-  const stockPages = Math.max(1, Math.ceil(matchingStock.length / 50));
-  const currentStockPage = Math.min(stockPage, stockPages);
+
   const [productForm, setProductForm] = useState<ProductForm | null>(null);
+  const productBaseline=useRef("");
   const [busy, setBusy] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState<number | null>(null);
 
@@ -228,7 +221,7 @@ export function AdminDashboard({
       orders: orders.length,
       paid: paid.length,
       revenue: paid.reduce((sum, order) => sum + order.totalKobo, 0),
-      lowStock: inventory.filter((item) => item.stock <= 3).length,
+      lowStock: stockTotals(inventory).low,
     };
   }, [orders, inventory]);
 
@@ -246,7 +239,7 @@ export function AdminDashboard({
       const analyticsPayload = (await analyticsResponse.json()) as { analytics: AdminAnalytics };
       setOrders(ordersPayload.orders);
       setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
-      setInventory(inventoryPayload.inventory);
+      applyInventory(inventoryPayload.inventory);
       setAnalytics(analyticsPayload.analytics);
       const productsResponse = await fetch("/api/admin/products");
       if (!productsResponse.ok) throw new Error("Products refresh failed.");
@@ -260,17 +253,26 @@ export function AdminDashboard({
     }
   }
 
+  function applyInventory(rows:InventoryRow[]){
+    setInventory(rows);
+    const byId=new Map(rows.map(r=>[r.id,r]));
+    setProducts(current=>current.map(p=>({...p,variants:p.variants.map(v=>byId.has(v.id)?{...v,stock:byId.get(v.id)!.stock}:v)})));
+  }
+  function stockSaved(row:InventoryRow){
+    setInventory(current=>current.map(r=>r.id===row.id?row:r));
+    setProducts(current=>current.map(p=>p.id===row.productId?{...p,variants:p.variants.map(v=>v.id===row.id?{...v,stock:row.stock}:v)}:p));
+  }
+  async function syncStock(){const r=await fetch('/api/admin/inventory',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)throw new Error('Could not refresh inventory.');applyInventory(((await r.json()) as {inventory:InventoryRow[]}).inventory);}
   function openNewProduct() {
     if(uploadingImage!==null||busy==="product-save")return;
-    setSection("products");
-    setProductForm(emptyProductForm());
+    navigate(()=>{const form=emptyProductForm();productBaseline.current=JSON.stringify(form);setSectionState('products');setProductForm(form);});
   }
-
   function openProduct(product: AdminProduct) {
     if(uploadingImage!==null||busy==="product-save")return;
-    setSection("products");
-    setProductForm(productFormFromRecord(product));
+    navigate(()=>{const form=productFormFromRecord(productsRef.current.find(p=>p.id===product.id)||product);productBaseline.current=JSON.stringify(form);setSectionState('products');setProductForm(form);});
   }
+  function closeProduct(){navigate(()=>setProductForm(null));}
+  useUnsavedChanges({name:'Product editor',dirty:!!productForm&&JSON.stringify(productForm)!==productBaseline.current,busy:busy==='product-save'||uploadingImage!==null,save:saveProduct,discard:()=>setProductForm(null)});
 
   function replaceProduct(product: AdminProduct) {
     setProducts((current) => {
@@ -300,11 +302,12 @@ export function AdminDashboard({
   }
 
   async function saveProduct() {
-    if (!productForm || uploadingImage!==null || busy==="product-save") return;
+    if (!productForm || uploadingImage!==null || busy==="product-save") return false;
+    if(productForm.variants.some(v=>parseStock(v.stock)===null)){toast.error('Enter a whole stock quantity from 0 to 100,000 for every variation. Blank stock is not zero.');return false;}
     const priceNaira = Number(productForm.priceNaira.replaceAll(",", "").trim());
     if (!Number.isFinite(priceNaira) || priceNaira <= 0) {
       toast.error("Enter a valid price in naira.");
-      return;
+      return false;
     }
 
     const payload = {
@@ -332,7 +335,7 @@ export function AdminDashboard({
         size: variant.size.trim(),
         color: variant.color.trim(),
         colorHex: variant.colorHex || "#101112",
-        stock: Number(variant.stock || 0),
+        stock: parseStock(variant.stock)!,
         expectedStock: variant.expectedStock,
       })),
     };
@@ -357,7 +360,7 @@ export function AdminDashboard({
           const response = await fetch("/api/admin/inventory", { signal: AbortSignal.timeout(10000) });
           if (!response.ok) throw new Error("Inventory refresh failed.");
           const payload = (await response.json()) as { inventory: InventoryRow[] };
-          setInventory(payload.inventory);
+          applyInventory(payload.inventory);
         })(),
         (async () => {
           const response = await fetch("/api/admin/analytics", { signal: AbortSignal.timeout(10000) });
@@ -369,8 +372,10 @@ export function AdminDashboard({
       if (refreshed.some(result => result.status === "rejected")) {
         toast.warning("Your product is saved. Use Refresh to update the remaining dashboard figures.");
       }
+      return true;
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Product could not be saved.");
+      return false;
     } finally {
       setBusy(null);
     }
@@ -387,6 +392,7 @@ export function AdminDashboard({
       const responsePayload = (await response.json().catch(() => ({}))) as { product?: AdminProduct; error?: string };
       if (!response.ok || !responsePayload.product) throw new Error(responsePayload.error ?? "Product status could not be changed.");
       replaceProduct(responsePayload.product);
+      setInventory(current=>current.map(row=>row.productId===productId?{...row,productStatus:status}:row));
       if (productForm?.id === productId) setProductForm(productFormFromRecord(responsePayload.product));
       toast.success(`${responsePayload.product.name} is now ${PRODUCT_STATUS_LABELS[status].toLowerCase()}.`);
     } catch (error) {
@@ -410,6 +416,7 @@ export function AdminDashboard({
       const responsePayload = (await response.json().catch(() => ({}))) as { error?: string };
       if (!response.ok) throw new Error(responsePayload.error ?? "Product could not be deleted.");
       setProducts((current) => current.filter((entry) => entry.id !== productId));
+      setInventory(current=>current.filter(row=>row.productId!==productId));
       setProductForm(null);
       toast.success(`${product.name} was permanently deleted.`);
     } catch (error) {
@@ -422,40 +429,14 @@ export function AdminDashboard({
   async function setOrderStatus(reference: string, status: string) {
     setBusy(reference);
     try {
-      const response = await fetch("/api/admin/orders", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reference, status }),
-      });
-      if (!response.ok) throw new Error("Update failed.");
-      setOrders((current) =>
-        current.map((order) => (order.reference === reference ? { ...order, status } : order)),
-      );
-      toast.success(`${reference} moved to ${status.replaceAll("_", " ")}.`);
-    } catch {
-      toast.error("Order status could not be updated.");
-    } finally {
-      setBusy(null);
-    }
-  }
-
-  async function saveStock(variantId: string, stock: number) {
-    setBusy(variantId);
-    try {
-      const response = await fetch("/api/admin/inventory", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ variantId, stock, expectedStock: inventory.find(row=>row.id===variantId)?.expectedStock ?? inventory.find(row=>row.id===variantId)?.stock }),
-      });
-      const result = await response.json() as {error?:string};
-      if (!response.ok) throw new Error(result.error || "Update failed.");
-      setInventory(current=>current.map(row=>row.id===variantId?{...row,stock,expectedStock:stock}:row));
-      toast.success("Stock updated.");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Stock could not be updated.");
-    } finally {
-      setBusy(null);
-    }
+      const response=await fetch('/api/admin/orders',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference,status}),signal:AbortSignal.timeout(30000)});
+      const payload=await response.json().catch(()=>({})) as {error?:string};
+      if(!response.ok)throw new Error(payload.error||'Order status could not be updated.');
+      setOrders(current=>current.map(order=>order.reference===reference?{...order,status}:order));
+      toast.success(`${reference} moved to ${status.replaceAll('_',' ')}.`);
+      try{await syncStock();}catch{toast.warning('Order saved. Refresh to update stock figures.');}
+      return true;
+    }catch(e){toast.error(e instanceof Error?e.message:'Order status could not be updated.');return false;}finally{setBusy(null);}
   }
 
   return (
@@ -465,20 +446,20 @@ export function AdminDashboard({
         <div className="vn-workspace-selector"><ShoppingBag size={18}/><div>Vanta Noir Store<small>Store administration</small></div></div>
         <nav aria-label="Store administration">{sections.map((item,index) => {const Icon=({overview:LayoutDashboard,products:ShoppingBag,orders:PackageCheck,inventory:Boxes,collections:Layers,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:Layers,settings:Settings} as Record<string,typeof Boxes>)[item];return <div key={item}>{(index===0||item==='analytics')&&<p className="vn-nav-group">{index===0?'Workspace':'Growth & operations'}</p>}<button type="button" aria-current={section === item ? "page" : undefined} onClick={() => setSection(item)}><Icon size={18}/>{item==='collections'?'Categories & colours':item[0].toUpperCase()+item.slice(1)}{item==='products'&&<small>{products.length}</small>}</button></div>;})}</nav>
         <button className="vn-sidebar-prompt" onClick={()=>setSection('collections')}><Star size={22}/><strong>Built for your next move.</strong><p>Your next collection starts with a little intention.</p><span>Explore collections <ArrowUpRight size={14}/></span></button>
-        <a className="vn-sidebar-store" href="/"><ExternalLink size={18}/> Visit storefront</a>
-        <div className="vn-owner-block"><span className="vn-owner-avatar">VN</span><div><strong>Store owner</strong><p className="vn-control-owner">{adminName}</p><a className="vn-control-signout" href={signOutPath}>Sign out</a></div></div>
+        <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href="/";});}}><ExternalLink size={18}/> Visit storefront</a>
+        <div className="vn-owner-block"><span className="vn-owner-avatar">VN</span><div><strong>Store owner</strong><p className="vn-control-owner">{adminName}</p><a className="vn-control-signout" href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></div>
       </aside>
       <div className="vn-control-content">
       <Toaster position="top-center" richColors />
       <div className="vn-workspace-bar"><div><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={()=>setMobileNav(!mobileNav)}><PanelLeft size={18}/></button><span>Workspace</span><span>/</span><strong>{section[0].toUpperCase()+section.slice(1)}</strong></div><form onSubmit={e=>{e.preventDefault();setSection('products');setProductPage(1);}}><Search size={16}/><input aria-label="Search products" placeholder="Search products…" value={productQuery} onChange={e=>setProductQuery(e.target.value)}/></form><span className="vn-owner-avatar">VN</span></div>
       <header className="vn-control-header">
         <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">Your brand, your numbers, your next move.</p></div>
-        <div className="vn-control-actions"><Button variant="outline" onClick={refresh} disabled={busy === "refresh"}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/> Refresh</Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
+        <div className="vn-control-actions"><Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/> Refresh</Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
       </header>
 
       <div className="vn-control-body">
         {(section === "overview" || section === "analytics") && <OverviewPanel analytics={analytics} orders={orders} products={products} lowStock={metrics.lowStock} onNavigate={setSection} onProduct={openProduct}/>}
-        {(section === "operations" || section === "discounts") && <OperationsPanel key={section} role="owner" initialSection={section === "discounts" ? "promotions" : undefined} />}
+        {(section === "operations" || section === "discounts") && <OperationsPanel key={section} role="owner" initialSection={section === "discounts" ? "promotions" : operationsStart} onChanged={syncStock} />}
         {section === "collections" && <><CatalogOptionsEditor options={options} onChange={setOptions}/><section className="vn-control-panel"><h2>Browse by category</h2><p>Select a category to manage its products. Collection and audience fields are available in each product’s details.</p><div className="vn-control-categories">{Array.from(new Set(products.map(p=>p.category))).sort().map(category=><button key={category} onClick={()=>{setProductQuery(category);setProductPage(1);setSection("products");}}>{category}<span>{products.filter(p=>p.category===category).length}</span></button>)}</div></section></>}
         {section === "media" && <section className="vn-control-panel"><h2>Product images</h2><p>Choose a product to upload images and assign each view to its colourway.</p><Input aria-label="Search images by product" placeholder="Find a product" value={productQuery} onChange={e=>{setProductQuery(e.target.value);setProductPage(1);}}/><div className="vn-control-media">{matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=><button key={product.id} onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt={product.name} sizes="240px"/><span>{product.name}</span><small>{product.images.length} images</small></button>)}</div><div className="vn-control-actions"><Button disabled={currentProductPage===1} onClick={()=>setProductPage(currentProductPage-1)}>Previous</Button><span>Page {currentProductPage} of {productPages}</span><Button disabled={currentProductPage===productPages} onClick={()=>setProductPage(currentProductPage+1)}>Next</Button></div></section>}
 
@@ -537,7 +518,7 @@ export function AdminDashboard({
                           <Button
                             size="sm"
                             variant="outline"
-                            disabled={busy === `product-status-${product.id}`}
+                            disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "draft")}
                             className="h-8 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black"
                           >
@@ -547,7 +528,7 @@ export function AdminDashboard({
                           <Button
                             size="sm"
                             variant="outline"
-                            disabled={busy === `product-status-${product.id}`}
+                            disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "published")}
                             className="h-8 rounded-full border-[#00ff66]/35 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-[#00ff66] hover:bg-[#00ff66] hover:text-black"
                           >
@@ -557,7 +538,7 @@ export function AdminDashboard({
                           <Button
                             size="sm"
                             variant="outline"
-                            disabled={busy === `product-status-${product.id}`}
+                            disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "draft")}
                             className="h-8 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black"
                           >
@@ -568,7 +549,7 @@ export function AdminDashboard({
                           <Button
                             size="sm"
                             variant="ghost"
-                            disabled={busy === `product-status-${product.id}`}
+                            disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "archived")}
                             className="h-8 rounded-full px-3 text-[10px] uppercase tracking-[0.14em] text-white/35 hover:bg-white/10 hover:text-white"
                           >
@@ -599,7 +580,7 @@ export function AdminDashboard({
             </div>
 
             {productForm ? (
-              <Sheet open onOpenChange={open=>{if(!open&&uploadingImage===null&&busy!=="product-save")setProductForm(null);}}><SheetContent className="vn-studio-sheet" showCloseButton={false}><SheetTitle className="sr-only">Product studio</SheetTitle><SheetDescription className="sr-only">Edit product details, colourway images and inventory.</SheetDescription><fieldset disabled={uploadingImage!==null||busy==="product-save"} style={{minWidth:0}}><ProductEditor
+              <Sheet open onOpenChange={open=>{if(!open&&uploadingImage===null&&busy!=="product-save")closeProduct();}}><SheetContent className="vn-studio-sheet" showCloseButton={false}><SheetTitle className="sr-only">Product studio</SheetTitle><SheetDescription className="sr-only">Edit product details, colourway images and inventory.</SheetDescription><fieldset disabled={uploadingImage!==null||busy==="product-save"} style={{minWidth:0}}><ProductEditor
                 options={options}
                 uploadingImage={uploadingImage}
                 uploadImage={uploadImage}
@@ -607,7 +588,7 @@ export function AdminDashboard({
                 isNew={!productForm.id}
                 busy={busy === "product-save"||uploadingImage!==null}
                 setForm={setProductForm}
-                onClose={() => {if(uploadingImage===null&&busy!=="product-save")setProductForm(null);}}
+                onClose={() => {if(uploadingImage===null&&busy!=="product-save")closeProduct();}}
                 onSave={saveProduct}
                 onDelete={() => { if (productForm.id) void deleteProduct(productForm.id); }}
               /></fieldset></SheetContent></Sheet>
@@ -623,7 +604,7 @@ export function AdminDashboard({
             </div>
             <Badge variant="outline" className="rounded-none border-white/15 text-white/50">{orderTotal} matching orders</Badge>
           </div>
-          <form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();void loadOrders(1);}}><label>Search orders<input value={orderQuery} onChange={e=>setOrderQuery(e.target.value)} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
+          <form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>setOrderQuery(e.target.value)} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
           <div className="vn-studio-form">
             <Table>
               <TableHeader>
@@ -669,16 +650,8 @@ export function AdminDashboard({
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Select value={order.status} onValueChange={(status) => setOrderStatus(order.reference, status)} disabled={busy === order.reference}>
-                          <SelectTrigger className="w-44 rounded-none border-white/15 bg-black/20 text-white">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="border-white/15 bg-[#151515] text-white">
-                            {allowedOrderStatuses(order.status, order.paymentStatus).map((status) => (
-                              <SelectItem key={status} value={status}>{status.replaceAll("_", " ")}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <OrderStatusEditor key={`${order.reference}-${order.status}`} reference={order.reference} status={order.status} paymentStatus={order.paymentStatus} busy={busy!==null} onSave={setOrderStatus}/>
+
                       </TableCell>
                     </TableRow>
                   ))
@@ -688,74 +661,10 @@ export function AdminDashboard({
           </div>
         </section>
 
-        <div className="flex items-center gap-4 mt-5"><button className="vn-pill" disabled={orderPage===1||busy!==null} onClick={()=>loadOrders(orderPage-1)}>Previous</button><span>Page {orderPage}</span><button className="vn-pill" disabled={!hasMoreOrders||busy!==null} onClick={()=>loadOrders(orderPage+1)}>Next</button></div>
+        {section === "orders" && <div className="flex items-center gap-4 mt-5"><button className="vn-pill" disabled={orderPage===1||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage-1))}>Previous</button><span>Page {orderPage}</span><button className="vn-pill" disabled={!hasMoreOrders||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage+1))}>Next</button></div>}
         {section === "settings" && <CommercePanel />}
         {section === "orders" && <LegacyRecords />}
-        <section className="mt-16 pb-20" hidden={section !== "inventory"}>
-          <div className="mb-5">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-white/40">Catalogue</p>
-            <h2 className="mt-2 font-sans text-4xl">Stock by size</h2>
-          </div>
-          <Input aria-label="Search stock" placeholder="Search product, colour, SKU or size" value={stockQuery} onChange={event => { setStockQuery(event.target.value); setStockPage(1); }} className="mb-4 max-w-xl border-white/15 bg-black/20 text-white" />
-          <div className="vn-studio-form">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-white/10 hover:bg-transparent">
-                  <TableHead className="text-white/45">Product</TableHead>
-                  <TableHead className="text-white/45">Colour</TableHead>
-                  <TableHead className="text-white/45">SKU</TableHead>
-                  <TableHead className="text-white/45">Size</TableHead>
-                  <TableHead className="text-white/45">Price</TableHead>
-                  <TableHead className="text-white/45">Stock</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {!matchingStock.length && <TableRow><TableCell colSpan={6} className="h-24 text-center text-white/50">No stock rows match your search.</TableCell></TableRow>}
-                {matchingStock.slice((currentStockPage - 1) * 50, currentStockPage * 50).map((row) => (
-                  <TableRow key={row.id} className="border-white/10 hover:bg-white/[0.03]">
-                    <TableCell>{row.productName}</TableCell>
-                    <TableCell>{row.color}</TableCell>
-                    <TableCell className="font-mono text-xs text-white/45">{row.sku}</TableCell>
-                    <TableCell>{row.size}</TableCell>
-                    <TableCell>{formatNaira(row.priceKobo)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="number"
-                          min={0}
-                          max={10000}
-                          value={row.stock}
-                          onChange={(event) => {
-                            const stock = Number(event.target.value);
-                            setInventory((current) => current.map((item) => item.id === row.id ? { ...item, expectedStock: item.expectedStock ?? item.stock, stock } : item));
-                          }}
-                          className="h-9 w-20 rounded-none border-white/15 bg-black/20 text-white"
-                          aria-label={`${row.productName} size ${row.size} stock`}
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          disabled={busy === row.id}
-                          onClick={() => saveStock(row.id, row.stock)}
-                          className="rounded-none border-white/15 bg-transparent text-white hover:bg-white hover:text-black"
-                        >
-                          Save
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
-            <span className="text-white/60">{matchingStock.length} stock rows · Page {currentStockPage} of {stockPages}</span>
-            <div className="flex gap-2">
-              <Button variant="secondary" disabled={currentStockPage === 1} onClick={() => setStockPage(currentStockPage - 1)}>Previous stock page</Button>
-              <Button variant="secondary" disabled={currentStockPage === stockPages} onClick={() => setStockPage(currentStockPage + 1)}>Next stock page</Button>
-            </div>
-          </div>
-        </section>
+        <div hidden={section !== 'inventory'}><InventoryPanel rows={inventory} onSaved={stockSaved} onHistory={()=>navigate(()=>{setOperationsStart('inventory');setSectionState('operations');})}/></div>
       </div>
       </div>
     </main>
@@ -899,7 +808,7 @@ function ProductEditor({
                 <Label className="text-xs text-white/75">Featured product</Label>
                 <p className="mt-1 text-[11px] text-white/35">Show this product in the automatically rotating Featured Drop on the homepage. New arrivals can be featured too.</p>
               </div>
-              <Switch checked={form.featured} onCheckedChange={(checked) => updateField("featured", checked)} aria-label="Featured product" />
+              <span><Switch checked={form.featured} onCheckedChange={(checked) => updateField("featured", checked)} aria-label="Featured product" /><small className="block">{form.featured?"Featured: on":"Featured: off"} · takes effect after Save changes</small></span>
             </div>
             <div>
               <Label className="text-[10px] uppercase tracking-[0.16em] text-white/45">Store status</Label>

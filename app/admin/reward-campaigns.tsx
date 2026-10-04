@@ -1,4 +1,5 @@
 'use client';
+import {useOperationDraft,useAdminNavigation} from './unsaved-changes';
 import {useState,useRef,type FormEvent} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -13,10 +14,11 @@ type Save=(action:string,data:unknown)=>Promise<any>;
 const dateValue=(iso:string)=>{const d=new Date(iso);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);};
 const newCode=()=> 'VN-'+crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase();
 export function RewardCampaigns({campaigns,gifts,save,busy}:{campaigns:Campaign[];gifts:Gift[];save:Save;busy:boolean}){
+ const navigate=useAdminNavigation();
  const [creating,setCreating]=useState(false),[filter,setFilter]=useState('');
  const filtered=campaigns.filter(c=>(c.title+' '+c.code+' '+c.recipientEmail).toLowerCase().includes(filter.toLowerCase()));
  return <section className="ops-rewards" aria-label="Free shipping and gift campaigns"><h3>Free shipping & gifts</h3><p>Set separate spending amounts for delivery and a gift, or use the same amount to unlock both. Eligibility uses item prices before discount codes, excluding delivery and gifts. One reward campaign applies per order.</p>
- <Button variant="outline" disabled={busy} onClick={()=>setCreating(!creating)}>{creating?'Cancel new reward':'Create a reward'}</Button>
+ <Button variant="outline" disabled={busy} onClick={()=>navigate(()=>setCreating(!creating))}>{creating?'Cancel new reward':'Create a reward'}</Button>
  {creating&&<RewardForm gifts={gifts} save={save} busy={busy} onSaved={()=>setCreating(false)}/>}
  {campaigns.length>0&&<Label className="ops-field">Find a reward, code or recipient<Input value={filter} onChange={e=>setFilter(e.target.value)}/></Label>}
  {filtered.map(c=><details key={c.id+':'+c.version}><summary>{c.title} · {c.active?'Enabled':'Paused'} · {c.redeemed} paid uses</summary>
@@ -32,13 +34,14 @@ function RewardForm({row,gifts,save,busy,onSaved}:{row?:Campaign;gifts:Gift[];sa
  countries:row?.countries||['NG'],startsAt:dateValue(row?.startsAt||new Date().toISOString()),endsAt:dateValue(row?.endsAt||new Date(Date.now()+30*86400000).toISOString()),
  combineDiscounts:row?.combineDiscounts||false,access:row?.access||'automatic',code:row?.code||'',recipientEmail:row?.recipientEmail||'',
  maxUses:String(row?.maxUses??0),priority:String(row?.priority??0),active:row?.active||false}));
+ const draft=useOperationDraft('Reward '+(row?.title||'new'),v,setV,busy);
  const [error,setError]=useState(''),saving=useRef(false);
  const field=(key:'title'|'shippingAmount'|'giftAmount'|'startsAt'|'endsAt'|'code'|'recipientEmail'|'maxUses'|'priority',label:string,type='text')=><Label className="ops-field">{label}<Input type={type} value={v[key]} required={!['recipientEmail'].includes(key)} min={type==='number'?'0':undefined} max={key==='priority'?100:key==='maxUses'?1000000:type==='number'?1000000000:undefined} step={type==='number'?(['maxUses','priority'].includes(key)?'1':'0.01'):undefined} maxLength={key==='title'?100:key==='code'?48:key==='recipientEmail'?200:undefined} onChange={e=>setV({...v,[key]:e.target.value})}/></Label>;
  const check=(key:'shipping'|'gift'|'combineDiscounts'|'active',label:string)=><label className="ops-check"><input type="checkbox" checked={v[key]} onChange={e=>setV({...v,[key]:e.target.checked})}/>{label}</label>;
  async function submit(e:FormEvent){e.preventDefault();if(saving.current||busy)return;saving.current=true;setError('');try{
  const r=await save('reward',{id:row?.id||'',version:row?.version||0,title:v.title,active:v.active,shippingMinimumKobo:v.shipping?Math.round(Number(v.shippingAmount)*100):null,giftMinimumKobo:v.gift?Math.round(Number(v.giftAmount)*100):null,giftVariantId:v.gift?v.giftVariantId:'',countries:v.countries,
  startsAt:new Date(v.startsAt).toISOString(),endsAt:new Date(v.endsAt).toISOString(),combineDiscounts:v.combineDiscounts,access:v.access,code:v.access==='code'?v.code:'',recipientEmail:v.access==='code'?v.recipientEmail:'',maxUses:Number(v.maxUses),priority:Number(v.priority)});
- if(r)onSaved?.();
+ if(r){draft.markSaved();onSaved?.();}
  }catch{setError('Check the amounts and dates before saving.');}finally{saving.current=false;}}
  return <form className="ops-form" onSubmit={submit}><fieldset disabled={busy}><div className="ops-fields">{field('title','Offer name')}
  <Label className="ops-field">Who can claim it?<select value={v.access} onChange={e=>setV({...v,access:e.target.value as typeof v.access,maxUses:e.target.value==='code'&&v.maxUses==='0'?'1':v.maxUses,code:e.target.value==='code'?(v.code||newCode()):''})}><option value="automatic">Automatic for eligible shoppers</option><option value="code">People with a private reward code</option></select></Label></div>
