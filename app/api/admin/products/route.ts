@@ -1,3 +1,4 @@
+import {submitApproval,pendingResponse} from '@/lib/approvals';
 import { z } from "zod";
 import { productDetailsSchema } from "@/lib/product-details";
 import { storeSizeSchema } from "@/lib/sizing";
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
   if (!parsed.success) return invalidPayload();
 
   try {
+    if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'product:create',parsed.data));
     const product = await saveAdminProduct({ ...parsed.data, id: undefined }, auth.email);
     return Response.json({ product }, { status: 201 });
   } catch (error) {
@@ -59,6 +61,7 @@ export async function PATCH(request: Request) {
   const statusUpdate = statusSchema.safeParse(body);
   try {
     if (statusUpdate.success) {
+      if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'product:status',statusUpdate.data));
       const product = await setAdminProductStatus(statusUpdate.data.productId, statusUpdate.data.status);
       return Response.json({ product });
     }
@@ -68,6 +71,7 @@ export async function PATCH(request: Request) {
     if (parsed.data.variants.some(variant => variant.id && variant.expectedStock === undefined)) {
       return Response.json({error:"Refresh the admin page and reopen this product before saving."},{status:409});
     }
+    if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'product:update',parsed.data));
     const product = await saveAdminProduct(parsed.data, auth.email);
     return Response.json({ product });
   } catch (error) {

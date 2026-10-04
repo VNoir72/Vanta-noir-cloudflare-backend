@@ -30,7 +30,7 @@ export async function adminAuthStateFromRequest(request: Request) {
     return { ok: false as const, status: 403, error: "Admin access denied." };
   }
   const path=new URL(request.url).pathname;
-  const allowed = role === "owner" || path === "/admin" || path === "/api/admin/operations"
+  const allowed = role === "owner" || path === "/admin" || path === "/api/admin/operations" || (path === "/api/admin/approvals" && request.method === "GET")
     || (role === "catalogue" && ["/api/admin/products","/api/admin/inventory","/api/admin/uploads"].includes(path) && request.method!=="DELETE")
     || (role === "analyst" && path === "/api/admin/analytics" && request.method==="GET");
   if(!allowed)return {ok:false as const,status:403,error:"Your staff role cannot access this section."};

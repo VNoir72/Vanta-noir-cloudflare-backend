@@ -9,12 +9,12 @@ export async function GET(request:Request){
  const db=getDbBinding(),p=new URL(request.url).searchParams,resource=p.get('resource')||'attention';
  try{
   if(resource==='attention'){
-   const [orders,returns,emails,campaign,settings]=await Promise.all([
+   const [orders,returns,emails,campaign,settings,approvals]=await Promise.all([
     db.prepare(`SELECT status,COUNT(*) AS count,MAX(updated_at) AS latest FROM orders WHERE payment_status='paid' AND status IN ('paid','processing','paid_stock_review') GROUP BY status`).all(),
     db.prepare("SELECT COUNT(*) AS count,MAX(updated_at) AS latest FROM return_requests WHERE status IN ('requested','approved','received')").first(),
     db.prepare("SELECT COUNT(*) AS count,MAX(created_at) AS latest FROM email_outbox WHERE status='review' OR (status='pending' AND attempts>=8)").first(),
-    db.prepare("SELECT value FROM store_meta WHERE key='admin-overview-product'").first<{value:string}>(),getCommerceSettings()
-   ]);return Response.json({orders:orders.results,returns,emails,campaignProductId:campaign?.value||'',lowStockThreshold:settings.lowStockThreshold,checkedAt:new Date().toISOString()}, {headers});
+    db.prepare("SELECT value FROM store_meta WHERE key='admin-overview-product'").first<{value:string}>(),getCommerceSettings(),db.prepare("SELECT COUNT(*) AS count,MAX(created_at) AS latest FROM admin_approvals WHERE status='pending'").first()
+   ]);return Response.json({orders:orders.results,returns,emails,approvals,campaignProductId:campaign?.value||'',lowStockThreshold:settings.lowStockThreshold,checkedAt:new Date().toISOString()}, {headers});
   }
   if(resource==='search'){
    const query=(p.get('q')||'').trim().slice(0,120);if(query.length<2)return Response.json({orders:[],customers:[]},{headers});const like=`%${query.replace(/[\\%_]/g,'\\$&')}%`;

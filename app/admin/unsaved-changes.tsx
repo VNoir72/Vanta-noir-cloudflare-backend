@@ -20,3 +20,5 @@ export function useOperationDraft<T>(name:string,value:T,reset:(value:T)=>void,b
  useUnsavedChanges({name,dirty,busy:dirty&&busy,discard:()=>reset(baseline)});
  return {dirty,markSaved:()=>setBaseline(value)};
 }
+
+export function useAdminHasChanges(){const context=useContext(Context);return ()=>!!context&&Array.from(context.entries.values()).some(get=>{const e=get();return e.dirty||e.busy;});}

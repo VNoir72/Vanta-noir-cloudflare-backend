@@ -1,3 +1,4 @@
+import {collectionName,catalogueWording} from "./product-names";
 import { z } from "zod";
 import { sizeGuideSchema } from "./sizing";
 
@@ -5,7 +6,7 @@ const short = z.string().trim().max(240).default("");
 const measurement = z.number().positive().max(400).nullable().optional();
 export const productDetailsSchema = z.object({
   audience: z.enum(["unisex", "men", "women"]).default("unisex"),
-  collection: short,
+  collection: short.transform(collectionName),
   releaseDate: z.union([z.literal(''),z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value=>{const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;},'Enter a valid release date')]).default(''),
   garmentType: short,
   fit: short,
@@ -20,7 +21,7 @@ export const productDetailsSchema = z.object({
   priceStatus: z.enum(["approved", "proposed"]).default("approved"),
   dispatchNote: short,
   shippingWeightGrams: z.number().int().min(0).max(100000).default(0),
-  seoTitle: z.string().trim().max(100).default(""),
+  seoTitle: z.string().trim().max(100).default("").transform(catalogueWording),
   seoDescription: z.string().trim().max(200).default(""),
   measurementType: z.enum(["body", "garment"]).default("garment"),
   sizeNotes: z.string().trim().max(1500).default(""),

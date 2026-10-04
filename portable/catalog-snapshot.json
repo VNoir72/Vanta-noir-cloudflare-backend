@@ -314,12 +314,12 @@
   {
     "id": "vn-stealth",
     "slug": "stealth-hoodie-baggy-set",
-    "name": "01 Stealth Hoodie + Baggy Set",
+    "name": "STEALTH SET",
     "category": "Hoodie and jogger sets",
     "description": "A heavyweight brushed-cotton fleece set with a structured hood, reflective angular piping, and a genuinely baggy trouser silhouette.",
     "priceKobo": 11000000,
     "imageUrl": "/images/catalogue/vn-stealth-jet-black-front.webp",
-    "imageAlt": "01 Stealth Hoodie + Baggy Set — Jet Black, front view",
+    "imageAlt": "STEALTH SET — Jet Black, front view",
     "color": "Jet Black",
     "featured": false,
     "colorways": [
@@ -328,7 +328,7 @@
         "slug": "jet-black",
         "hex": "#101112",
         "imageUrl": "/images/catalogue/vn-stealth-jet-black-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Jet Black, front view",
+        "imageAlt": "STEALTH SET — Jet Black, front view",
         "stock": {
           "L": 0,
           "M": 0,
@@ -347,7 +347,7 @@
         "slug": "charcoal-grey",
         "hex": "#101112",
         "imageUrl": "/images/catalogue/vn-stealth-charcoal-grey-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Charcoal Grey, front view",
+        "imageAlt": "STEALTH SET — Charcoal Grey, front view",
         "stock": {
           "L": 0,
           "M": 0,
@@ -366,7 +366,7 @@
         "slug": "dark-burgundy",
         "hex": "#101112",
         "imageUrl": "/images/catalogue/vn-stealth-dark-burgundy-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Dark Burgundy, front view",
+        "imageAlt": "STEALTH SET — Dark Burgundy, front view",
         "stock": {
           "L": 0,
           "M": 0,
@@ -385,7 +385,7 @@
         "slug": "deep-olive-black",
         "hex": "#101112",
         "imageUrl": "/images/catalogue/vn-stealth-deep-olive-black-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Deep Olive/Black, front view",
+        "imageAlt": "STEALTH SET — Deep Olive/Black, front view",
         "stock": {
           "L": 0,
           "M": 0,
@@ -407,62 +407,62 @@
     "images": [
       {
         "imageUrl": "/images/catalogue/vn-stealth-jet-black-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Jet Black, front view",
+        "imageAlt": "STEALTH SET — Jet Black, front view",
         "color": "Jet Black"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-jet-black-back.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Jet Black, back view",
+        "imageAlt": "STEALTH SET — Jet Black, back view",
         "color": "Jet Black"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-jet-black-side.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Jet Black, side view",
+        "imageAlt": "STEALTH SET — Jet Black, side view",
         "color": "Jet Black"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-charcoal-grey-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Charcoal Grey, front view",
+        "imageAlt": "STEALTH SET — Charcoal Grey, front view",
         "color": "Charcoal Grey"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-charcoal-grey-back.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Charcoal Grey, back view",
+        "imageAlt": "STEALTH SET — Charcoal Grey, back view",
         "color": "Charcoal Grey"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-charcoal-grey-side.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Charcoal Grey, side view",
+        "imageAlt": "STEALTH SET — Charcoal Grey, side view",
         "color": "Charcoal Grey"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-dark-burgundy-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Dark Burgundy, front view",
+        "imageAlt": "STEALTH SET — Dark Burgundy, front view",
         "color": "Dark Burgundy"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-dark-burgundy-back.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Dark Burgundy, back view",
+        "imageAlt": "STEALTH SET — Dark Burgundy, back view",
         "color": "Dark Burgundy"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-dark-burgundy-side.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Dark Burgundy, side view",
+        "imageAlt": "STEALTH SET — Dark Burgundy, side view",
         "color": "Dark Burgundy"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-deep-olive-black-front.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Deep Olive/Black, front view",
+        "imageAlt": "STEALTH SET — Deep Olive/Black, front view",
         "color": "Deep Olive/Black"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-deep-olive-black-back.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Deep Olive/Black, back view",
+        "imageAlt": "STEALTH SET — Deep Olive/Black, back view",
         "color": "Deep Olive/Black"
       },
       {
         "imageUrl": "/images/catalogue/vn-stealth-deep-olive-black-side.webp",
-        "imageAlt": "01 Stealth Hoodie + Baggy Set — Deep Olive/Black, side view",
+        "imageAlt": "STEALTH SET — Deep Olive/Black, side view",
         "color": "Deep Olive/Black"
       }
     ]

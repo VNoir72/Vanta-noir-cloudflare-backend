@@ -1,3 +1,4 @@
+import {submitApproval,pendingResponse} from '@/lib/approvals';
 import { z } from "zod";
 
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
@@ -24,6 +25,7 @@ export async function PATCH(request: Request) {
   const parsed = updateSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: "Invalid stock update." }, { status: 400 });
   try {
+    if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'inventory',{...parsed.data,reason:'Inventory update'}));
     await adjustStock({...parsed.data,reason:"Inventory update"},auth.email);
     const row=(await listInventory(parsed.data.variantId))[0];
     return Response.json({ ok: true, row }, {headers:{"Cache-Control":"no-store"}});

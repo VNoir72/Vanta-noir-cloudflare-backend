@@ -1,3 +1,4 @@
+import {submitApproval,pendingResponse} from '@/lib/approvals';
 import { matchesImageSignature } from "@/lib/image-signature";
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
 import { runtimeEnv } from "@/lib/runtime-env";
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
   if(!matchesImageSignature(signature,file.type))return Response.json({error:"The file contents do not match its image type."},{status:400});
 
   const extension = CONTENT_TYPES.get(file.type);
-  const key = `products/${crypto.randomUUID()}.${extension}`;
+  const key = `${auth.role==='owner'?'products':'approval-staging'}/${crypto.randomUUID()}.${extension}`;
   await bucket.put(key, file.stream(), {
     httpMetadata: {
       contentType: file.type,
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
     },
   });
 
+  if(auth.role!=='owner'){try{return pendingResponse(await submitApproval(auth,'upload',{key,name:file.name.slice(0,255),contentType:file.type}));}catch{await bucket.delete(key);return Response.json({error:'Image could not be submitted for approval.'},{status:503});}}
   const origin = new URL(request.url).origin;
   return Response.json({ url: `${origin}/api/media/${key}` }, { status: 201 });
 }

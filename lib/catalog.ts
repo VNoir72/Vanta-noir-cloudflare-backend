@@ -107,7 +107,7 @@ export const CATALOG_SEED: CatalogSeed[] = [
   {
     id: "vn-stealth",
     slug: "stealth-hoodie-baggy-set",
-    name: "01 Stealth Hoodie + Baggy Set",
+    name: "STEALTH SET",
     category: "Hoodie and jogger sets",
     description:
       "A heavyweight brushed-cotton fleece set with a structured hood, reflective angular piping, and a genuinely baggy trouser silhouette.",
@@ -116,7 +116,7 @@ export const CATALOG_SEED: CatalogSeed[] = [
     imageAlt: "Vanta Noir Stealth hoodie and genuinely baggy pant set in Jet Black",
     color: "Jet Black",
     colorways: buildColorways(
-      "01 Stealth Hoodie + Baggy Set",
+      "STEALTH SET",
       STEALTH_IMAGES,
       {
         "Jet Black": { S: 2, M: 2, L: 2, XL: 1, XXL: 0 },

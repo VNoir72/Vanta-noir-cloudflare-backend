@@ -1,3 +1,4 @@
+import {collectionName} from "./product-names";
 import groups from '@/data/catalogue-colourway-groups.json';
 import { variantId, type CatalogProduct } from './catalog';
 
@@ -12,7 +13,7 @@ export function catalogStyles(products: CatalogProduct[], definitions: Colourway
   for (const group of definitions) {
     if (!group.reviewed) continue;
     const members = group.product_ids.map(id=>byId.get(id)).filter((p):p is CatalogProduct => Boolean(p));
-    if (members.length < 2 || members.some(p=>p.details?.audience!==group.audience || p.details?.collection!==group.collection || p.category!==members[0].category || p.priceKobo!==members[0].priceKobo || p.details?.availability!==members[0].details?.availability || p.details?.priceStatus!==members[0].details?.priceStatus)) continue;
+    if (members.length < 2 || members.some(p=>p.details?.audience!==group.audience || collectionName(p.details?.collection||'')!==collectionName(group.collection) || p.category!==members[0].category || p.priceKobo!==members[0].priceKobo || p.details?.availability!==members[0].details?.availability || p.details?.priceStatus!==members[0].details?.priceStatus)) continue;
     const colourNames = members.flatMap(p=>p.colorways.map(c=>c.name.toLowerCase().trim()));
     if (new Set(colourNames).size !== colourNames.length) continue;
     if (members.some(p=>hidden.has(p.id)||replacements.has(p.id))) continue;
