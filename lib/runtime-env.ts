@@ -14,6 +14,8 @@ type RuntimeEnvironment = {
   CF_ACCESS_TEAM_DOMAIN?: string;
   CF_ACCESS_AUD?: string;
   RESEND_API_KEY?: string;
+  RESEND_WEBHOOK_SECRET?: string;
+  EMAIL_WEBHOOK_URL?: string;
   EMAIL_FROM?: string;
   EMAIL_REPLY_TO?: string;
 };
