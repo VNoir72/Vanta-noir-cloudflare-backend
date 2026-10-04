@@ -1074,10 +1074,11 @@ export type AdminOrder = {
   items: Array<{ productName: string; size: string; color: string; quantity: number }>;
 };
 
-export type OrderQuery = { page?: number; query?: string; status?: string; from?: string; to?: string };
+export type OrderQuery = { page?: number; query?: string; customerEmail?:string; status?: string; from?: string; to?: string };
 function orderQuery(options: OrderQuery) {
+  const customerEmail=(options.customerEmail||'').trim().toLowerCase().slice(0,200);
   const query=(options.query ?? "").trim().slice(0,160), status=options.status ?? "", from=options.from ?? "", to=options.to ?? "";
-  return { where: `(?='' OR reference LIKE ? OR email LIKE ? OR first_name LIKE ? OR last_name LIKE ?) AND (?='' OR status=?) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[query,...Array(4).fill(`%${query}%`),status,status,from,from,to,to] };
+  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? OR email LIKE ? OR first_name LIKE ? OR last_name LIKE ?) AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(4).fill(`%${query}%`),status,status,status,from,from,to,to] };
 }
 export async function countAdminOrders(options: OrderQuery = {}) {
   const {where,args}=orderQuery(options);
@@ -1128,75 +1129,22 @@ export async function listInventory(variantId?: string) {
 export type AdminAnalytics = {
   bestSellers?: Array<{productId:string;name:string;units:number;revenueKobo:number}>;
   fulfilmentCount?: number;
-  trend: Array<{ label: string; revenueKobo: number; orders: number }>;
-  categoryMix: Array<{ category: string; units: number }>;
+  range?: import('./admin-reporting').ReportRange;
+  conversion?: import('./admin-ga4').ConversionReport;
+  trend: Array<{ label:string;date?:string;previousDate?:string;revenueKobo:number;orders:number;previousRevenueKobo?:number;previousOrders?:number }>;
+  categoryMix: Array<{category:string;units:number}>;
 };
-
-export async function getAdminAnalytics(): Promise<AdminAnalytics> {
-  await ensureCatalogSeeded();
-  const db = getDbBinding();
-  const [trendRows, demandRows, inventoryRows] = await Promise.all([
-    db
-      .prepare(
-        `SELECT substr(created_at, 1, 10) AS day,
-                SUM(CASE WHEN payment_status='paid' AND status<>'cancelled' THEN 1 ELSE 0 END) AS orders,
-                COALESCE(SUM(CASE WHEN payment_status = 'paid' AND status <> 'cancelled' THEN total_kobo ELSE 0 END), 0) AS revenueKobo
-         FROM orders
-         WHERE created_at >= date('now', '-29 day')
-         GROUP BY substr(created_at, 1, 10)
-         ORDER BY day ASC`,
-      )
-      .all<{ day: string; orders: number; revenueKobo: number }>(),
-    db
-      .prepare(
-        `SELECT p.category, COALESCE(SUM(oi.quantity), 0) AS units
-         FROM order_items oi
-         JOIN products p ON p.id = oi.product_id
-         JOIN orders o ON o.id = oi.order_id
-         WHERE oi.is_gift=0 AND o.payment_status = 'paid'
-         GROUP BY p.category
-         ORDER BY units DESC, p.category ASC`,
-      )
-      .all<{ category: string; units: number }>(),
-      db
-        .prepare(
-          `SELECT p.category, COALESCE(SUM(v.stock), 0) AS units
-         FROM product_variants v
-         JOIN products p ON p.id = v.product_id
-         WHERE p.status <> 'archived' AND v.active = 1
-         GROUP BY p.category
-         ORDER BY units DESC, p.category ASC`,
-      )
-      .all<{ category: string; units: number }>(),
-  ]);
-
-  const trendByDay = new Map(trendRows.results.map((row) => [row.day, row]));
-  const trend = Array.from({ length: 30 }, (_, index) => {
-    const date = new Date();
-    date.setUTCHours(0, 0, 0, 0);
-    date.setUTCDate(date.getUTCDate() - (29 - index));
-    const day = date.toISOString().slice(0, 10);
-    const row = trendByDay.get(day);
-    return {
-      label: date.toLocaleDateString("en-NG", { day: "2-digit", month: "short" }),
-      orders: Number(row?.orders ?? 0),
-      revenueKobo: Number(row?.revenueKobo ?? 0),
-    };
-  });
-
-  const [best,fulfilment] = await Promise.all([
-    db.prepare(`SELECT oi.product_id AS productId, MAX(oi.product_name) AS name, SUM(oi.quantity) AS units, SUM(oi.line_total_kobo) AS revenueKobo FROM order_items oi JOIN orders o ON o.id=oi.order_id WHERE oi.is_gift=0 AND o.payment_status='paid' AND o.status<>'cancelled' AND o.created_at>=date('now','-29 day') GROUP BY oi.product_id ORDER BY revenueKobo DESC LIMIT 3`).all<{productId:string;name:string;units:number;revenueKobo:number}>(),
-    db.prepare("SELECT COUNT(*) AS n FROM orders WHERE payment_status='paid' AND status IN ('paid','processing')").first<{n:number}>()
-  ]);
-  return {
-    bestSellers: best.results.map(p=>({...p,units:Number(p.units),revenueKobo:Number(p.revenueKobo)})),
-    fulfilmentCount: Number(fulfilment?.n||0),
-    trend,
-    categoryMix: (demandRows.results.length ? demandRows.results : inventoryRows.results).map((row) => ({
-      category: row.category,
-      units: Number(row.units),
-    })),
-  };
+export async function getAdminAnalytics(params=new URLSearchParams()):Promise<AdminAnalytics>{
+ const {reportRange,reportTrend}=await import('./admin-reporting');
+ const {conversionReport}=await import('./admin-ga4');
+ const range=reportRange(params);await ensureCatalogSeeded();const db=getDbBinding();
+ const [rows,demand,best,fulfilment,conversion]=await Promise.all([
+  db.prepare(`SELECT substr(created_at,1,10) AS day,COUNT(*) AS orders,COALESCE(SUM(total_kobo),0) AS revenueKobo FROM orders WHERE created_at>=? AND created_at<? AND payment_status='paid' AND status<>'cancelled' GROUP BY substr(created_at,1,10) ORDER BY day`).bind(range.previousFrom,range.endExclusive).all<{day:string;orders:number;revenueKobo:number}>(),
+  db.prepare(`SELECT p.category,SUM(oi.quantity) AS units FROM order_items oi JOIN products p ON p.id=oi.product_id JOIN orders o ON o.id=oi.order_id WHERE oi.is_gift=0 AND o.payment_status='paid' AND o.status<>'cancelled' AND o.created_at>=? AND o.created_at<? GROUP BY p.category ORDER BY units DESC`).bind(range.from,range.endExclusive).all<{category:string;units:number}>(),
+  db.prepare(`SELECT oi.product_id AS productId,MAX(oi.product_name) AS name,SUM(oi.quantity) AS units,SUM(oi.line_total_kobo) AS revenueKobo FROM order_items oi JOIN orders o ON o.id=oi.order_id WHERE oi.is_gift=0 AND o.payment_status='paid' AND o.status<>'cancelled' AND o.created_at>=? AND o.created_at<? GROUP BY oi.product_id ORDER BY revenueKobo DESC LIMIT 3`).bind(range.from,range.endExclusive).all<{productId:string;name:string;units:number;revenueKobo:number}>(),
+  db.prepare("SELECT COUNT(*) AS n FROM orders WHERE payment_status='paid' AND status IN ('paid','processing')").first<{n:number}>(),conversionReport(range)
+ ]);
+ return {range,conversion,trend:reportTrend(range,rows.results),bestSellers:best.results,fulfilmentCount:Number(fulfilment?.n||0),categoryMix:demand.results};
 }
 
 export async function updateOrderStatus(reference: string, status: string) {

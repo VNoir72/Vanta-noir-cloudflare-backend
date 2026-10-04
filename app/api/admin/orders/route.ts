@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   const auth = await adminAuthStateFromRequest(request);
   if (!auth.ok) return Response.json({ error: auth.error }, { status: auth.status });
   const params = new URL(request.url).searchParams;
-  const options = {page:Math.max(1,Math.min(10000,Math.floor(Number(params.get("page"))||1))),query:params.get("query")||"",status:params.get("status")||"",from:params.get("from")||"",to:params.get("to")||""};
+  const options = {page:Math.max(1,Math.min(10000,Math.floor(Number(params.get("page"))||1))),query:params.get("query")||"",customerEmail:params.get("customerEmail")||"",status:params.get("status")||"",from:params.get("from")||"",to:params.get("to")||""};
   const [orders,total] = await Promise.all([listAdminOrders(options),countAdminOrders(options)]);
   return Response.json({orders,total,page:options.page,hasMore:options.page*50<total});
 }

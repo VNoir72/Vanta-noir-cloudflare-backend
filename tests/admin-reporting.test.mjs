@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+const out=await build({entryPoints:['lib/admin-reporting.ts'],bundle:true,write:false,platform:'node',format:'esm'});
+const {reportRange,reportTrend,comparison}=await import('data:text/javascript;base64,'+Buffer.from(out.outputFiles[0].text).toString('base64'));
+const now=new Date('2026-10-04T17:00:00Z');
+test('date ranges are inclusive, UTC, and compare the immediately preceding equal period',()=>{assert.deepEqual(reportRange(new URLSearchParams('days=7'),now),{from:'2026-09-28',to:'2026-10-04',previousFrom:'2026-09-21',previousTo:'2026-09-27',days:7,endExclusive:'2026-10-05'});const leap=reportRange(new URLSearchParams('from=2024-02-28&to=2024-03-01'),now);assert.equal(leap.days,3);assert.equal(leap.previousTo,'2024-02-27');});
+test('reject impossible, future, reversed, fractional and excessive periods',()=>{for(const query of ['from=2026-02-30&to=2026-03-01','to=2026-10-05','from=2026-10-04&to=2026-10-03','days=1.5','days=367','from=2024-01-01&to=2026-01-01','from=hello'])assert.throws(()=>reportRange(new URLSearchParams(query),now));});
+test('missing days get real zeros and previous series aligns without shifting date labels',()=>{const range=reportRange(new URLSearchParams('days=2'),now);const points=reportTrend(range,[{day:'2026-10-01',orders:2,revenueKobo:400},{day:'2026-10-04',orders:1,revenueKobo:600}]);assert.equal(points[0].date,'2026-10-03');assert.equal(points[0].orders,0);assert.equal(points[0].previousOrders,2);assert.equal(points[1].revenueKobo,600);assert.equal(points[1].previousRevenueKobo,0);});
+test('comparison never fabricates a percentage from a zero baseline',()=>{assert.equal(comparison(50,0),'No previous baseline');assert.equal(comparison(0,0),'No change');assert.equal(comparison(120,100),'+20.0%');assert.equal(comparison(0,100),'-100.0%');});

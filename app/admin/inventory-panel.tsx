@@ -4,12 +4,12 @@ import {parseStock,matchesStockFilter,stockTotals,type InventoryRow,type StockFi
 import {useUnsavedChanges,useAdminNavigation} from './unsaved-changes';
 import {toast} from 'sonner';
 type Feedback={text:string;error?:boolean};
-export function InventoryPanel({rows,onSaved,onHistory}:{rows:InventoryRow[];onSaved:(row:InventoryRow)=>void;onHistory:()=>void}){
+export function InventoryPanel({rows,onSaved,onHistory,initialFilter='available',threshold=3}:{threshold?:number;initialFilter?:StockFilter;rows:InventoryRow[];onSaved:(row:InventoryRow)=>void;onHistory:()=>void}){
  const [drafts,setDrafts]=useState<Record<string,string>>({}),[feedback,setFeedback]=useState<Record<string,Feedback>>({}),[saving,setSaving]=useState<Record<string,boolean>>({});
  const batchLock=useRef(false),[batchSaving,setBatchSaving]=useState(false);
- const locks=useRef(new Set<string>()),[query,setQuery]=useState(''),[filter,setFilter]=useState<StockFilter>('available'),[page,setPage]=useState(1),[grouped,setGrouped]=useState(false);
- const navigate=useAdminNavigation(),totals=stockTotals(rows),dirtyRows=rows.filter(r=>drafts[r.id]!==undefined&&drafts[r.id]!==String(r.stock));
- const matching=useMemo(()=>rows.filter(r=>matchesStockFilter(r,filter)&&[r.productName,r.color,r.size,r.sku].join(' ').toLowerCase().includes(query.trim().toLowerCase())),[rows,query,filter]);
+ const locks=useRef(new Set<string>()),[query,setQuery]=useState(''),[filter,setFilter]=useState<StockFilter>(initialFilter),[page,setPage]=useState(1),[grouped,setGrouped]=useState(false);
+ const navigate=useAdminNavigation(),totals=stockTotals(rows,threshold),dirtyRows=rows.filter(r=>drafts[r.id]!==undefined&&drafts[r.id]!==String(r.stock));
+ const matching=useMemo(()=>rows.filter(r=>matchesStockFilter(r,filter,threshold)&&[r.productName,r.color,r.size,r.sku].join(' ').toLowerCase().includes(query.trim().toLowerCase())),[rows,query,filter,threshold]);
  const groups=Array.from(matching.reduce((m,r)=>{const g=m.get(r.productId)||{name:r.productName,stock:0,reserved:0,available:0,variants:0};g.stock+=r.stock;g.reserved+=r.reserved;g.available+=r.available;g.variants++;m.set(r.productId,g);return m;},new Map<string,{name:string;stock:number;reserved:number;available:number;variants:number}>()).values());
  const pages=Math.max(1,Math.ceil((grouped?groups.length:matching.length)/50)),currentPage=Math.min(page,pages);
  async function saveRow(row:InventoryRow){
