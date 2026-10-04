@@ -29,3 +29,32 @@ body:has(.approved-filter-modal) [data-slot="dialog-overlay"]{z-index:1000}.appr
 @media(hover:hover) and (pointer:fine){.dn-card:hover .dn-card-image img{transform:scale(1.025)}}
 @media(hover:none),(pointer:coarse){.dn-card:hover .dn-card-image img{transform:none}}
 @media(prefers-reduced-motion:reduce){.dn-app :is(.dn-lime,.dn-primary,.approved-filter-trigger,.dn-heart,.dn-quick-button,.dn-thumbnails button):active:not(:disabled),.dn-card:hover .dn-card-image img{transform:none}}
+
+/* Keep dismissal outside the scrolling product content, including tablet landscape. */
+.dn-quick-dialog{display:flex!important;flex-direction:column;overflow:hidden!important;width:min(920px,calc(100vw - 24px))!important;max-width:920px!important;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;border-radius:18px!important;background:#fff;color:#172014}
+.dn-quick-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none;padding:10px 14px 10px 24px;border-bottom:1px solid #e4e8df;background:#fff}
+.dn-quick-header h2{font-size:14px;letter-spacing:.04em}
+.dn-quick-close{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:#f1f5eb;color:#172014;cursor:pointer}
+.dn-quick-close:focus-visible{outline:2px solid #365020;outline-offset:2px}
+.dn-quick-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.dn-quick-body>.dn-gallery,.dn-quick-body>.dn-options{min-width:0}
+.dn-quick-body .dn-detail-photo{width:100%;height:auto;aspect-ratio:3/4;max-height:490px}
+.dn-quick-body .dn-thumbnails{padding:8px}
+.dn-image-dialog>[data-slot="dialog-close"]{z-index:2;display:grid;place-items:center;width:44px;height:44px;background:#fff;color:#172014;opacity:1;border-radius:50%}
+@media(max-width:700px){.dn-quick-body{grid-template-columns:minmax(0,1fr)}.dn-quick-body .dn-detail-photo{aspect-ratio:1;max-height:330px}.dn-quick-header{padding-left:20px}}
+
+/* The Vanta motion signature: a soft lift, a lime underline and tactile selections. */
+.dn-quick-dialog[data-state=open]{animation:vn-shop-in 260ms cubic-bezier(.23,1,.32,1)}
+.dn-quick-dialog[data-state=closed]{animation:vn-shop-out 160ms ease-in}
+@keyframes vn-shop-in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes vn-shop-out{to{opacity:0;transform:translateY(6px) scale(.985)}}
+.dn-detail-photo img{animation:vn-photo-in 220ms ease-out}
+@keyframes vn-photo-in{from{opacity:.45}to{opacity:1}}
+.dn-heart[aria-pressed=true] svg{animation:vn-heart-pop 260ms cubic-bezier(.23,1,.32,1)}
+@keyframes vn-heart-pop{0%{transform:scale(.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
+.dn-categories>button{position:relative}
+.dn-categories>button:after{content:'';position:absolute;bottom:0;left:14%;right:14%;height:3px;background:#c6f276;transform:scaleX(0);transform-origin:left;transition:transform 220ms cubic-bezier(.23,1,.32,1)}
+@media(hover:hover) and (pointer:fine){.dn-categories>button:hover:after{transform:scaleX(1)}.dn-quick-close:hover{background:#c6f276}}
+.dn-hero-content{animation:vn-editorial-in 550ms cubic-bezier(.23,1,.32,1)}
+@keyframes vn-editorial-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.dn-quick-dialog[data-state],.dn-detail-photo img,.dn-heart[aria-pressed=true] svg,.dn-hero-content{animation:none}.dn-categories>button:after{transition:none}.dn-toast{transition:none}}

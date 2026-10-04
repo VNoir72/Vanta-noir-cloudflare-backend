@@ -61,6 +61,7 @@ import type { AdminAnalytics, AdminOrder, AdminProduct, ProductStatus } from "@/
 import { allowedOrderStatuses } from "@/lib/order-status";
 import { CatalogueQuality } from "./catalogue-quality";
 import { ReleasePanel } from './release-panel';
+import { ProductReadiness } from "./product-readiness";
 import { ProductProperties } from "./product-properties";
 import {useAdminHasChanges} from "./unsaved-changes";
 import {ApprovalsPanel} from "./approvals-panel";
@@ -808,6 +809,7 @@ function ProductEditor({
       </div>
 
       <div className="space-y-8 p-5 sm:p-7">
+        <ProductReadiness status={form.status} priceNaira={form.priceNaira} details={form.details} variants={form.variants}/>
         <StudioImagery name={form.name} images={form.images} colors={form.variants.map(v=>v.color)} onChange={images=>updateField("images",images)} upload={uploadImage} busy={uploadingImage!==null}/>
         <section className="space-y-4">
           <div>
