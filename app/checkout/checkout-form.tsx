@@ -1,4 +1,5 @@
 "use client";
+import {checkoutAttempt} from "@/lib/checkout-attempt";
 import {RewardProgress,useRewardQuote} from "@/components/reward-progress";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, LockKeyhole, ShoppingBag } from "lucide-react";
@@ -37,10 +38,11 @@ export function CheckoutForm() {
   async function applyCode(){setQuoting(true);setError("");setPromotion(null);try{const r=await fetch(apiUrl("/api/promotions/quote"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))})});const data=await r.json() as {code:string;discountKobo:number;error?:string};if(!r.ok)throw new Error(data.error||"This code could not be applied.");setPromotion(data);}catch(e){setError(e instanceof Error?e.message:"Please try again.");}finally{setQuoting(false);}}
   async function pay(event:FormEvent<HTMLFormElement>){event.preventDefault();if(submitting.current||!settings?.checkoutReady||total===null||!cart.length||rewards.pending||rewards.error||!rewards.quote)return;submitting.current=true;setBusy(true);setError("");
     const fields=Object.fromEntries(new FormData(event.currentTarget));
-    try{const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))}),signal:AbortSignal.timeout(30000)});
-      const payload=await response.json() as {authorizationUrl?:string;reference?:string;receiptToken?:string;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
+    try{const checkoutData={expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...checkoutData,checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
+      const payload=await response.json() as {authorizationUrl?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
+      if(payload.reference&&payload.receiptToken){sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}
+      if(payload.complete||payload.checking){window.location.assign('/checkout/complete?reference='+encodeURIComponent(payload.reference!));return;}
       const target=new URL(payload.authorizationUrl||"");if(target.protocol!=="https:"||target.hostname!=="checkout.paystack.com")throw new Error("The payment link could not be verified. Please contact customer care.");
-      if(payload.reference&&payload.receiptToken){try{sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}catch{/* Payment still works; reference + contact details can retrieve the order. */}}
       window.location.assign(target.href);
     }catch(e){setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"The payment service took too long. Please check your order with customer care before trying again.");submitting.current=false;setBusy(false);}
   }
@@ -65,7 +67,7 @@ export function CheckoutForm() {
         <label className="dn-checkbox"><input type="checkbox" required/>I have read the <a href="/terms-of-service" target="_blank" rel="noreferrer">terms</a> and <a href="/shipping-returns" target="_blank" rel="noreferrer">delivery & returns policy</a>.</label>
         {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||rewards.pending||Boolean(rewards.error)||!rewards.quote||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Opening Paystack…":settings.checkoutReady?"Continue to Paystack":"Payments opening soon"}<ArrowRight size={17}/></button>
         <PaymentMethods/>
-        <p className="dn-small">Choose your payment method on Paystack. Your card details are entered there securely. <a href="/privacy-policy">Privacy policy</a></p>
+        <p className="dn-small">Paystack may add a processing fee to the order total. Review the final amount on Paystack before authorising payment. Choose your payment method on Paystack. Your card details are entered there securely. <a href="/privacy-policy">Privacy policy</a></p>
       </aside></form></>}
   </StoreShell>;
 }

@@ -1,3 +1,6 @@
+import * as checkoutPayments from "../lib/checkout-payment";
+import * as paymentUpdates from "../lib/payment-events";
+import {GET as paymentUpdatesRoute} from "../app/api/admin/payment-updates/route";
 import {accessKeys,evaluateAccess} from '../lib/access-evaluation';
 import * as approvals from '../app/api/admin/approvals/route';
 import * as inventory from '../app/api/admin/inventory/route';
@@ -28,7 +31,8 @@ import * as products from "../app/api/admin/products/route";
 import { POST as checkout } from "../app/api/checkout/route";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
 const routes: Record<string, Record<string, (request: Request) => Promise<Response>>> = {
-  '/api/access/keys':{GET:accessKeys},
+  '/api/admin/payment-updates':{GET:paymentUpdatesRoute},
+ '/api/access/keys':{GET:accessKeys},
  '/api/access/evaluate':{POST:evaluateAccess},
  '/api/admin/approvals':{GET:approvals.GET,POST:approvals.POST},
  '/api/admin/inventory':{GET:inventory.GET,PATCH:inventory.PATCH},
@@ -50,4 +54,4 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
   "/api/admin/products": { GET: products.GET, POST: products.POST, PATCH: products.PATCH, DELETE: products.DELETE },
   "/api/checkout": { POST: checkout },
 };
-export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};
+export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};

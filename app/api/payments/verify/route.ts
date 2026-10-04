@@ -31,6 +31,7 @@ export async function GET(request: Request) {
       return Response.json({
         order: await getPublicPaymentOrder(reference),
         message: "Payment has not been confirmed yet.",
+        providerStatus: transaction.status,
       });
     }
 

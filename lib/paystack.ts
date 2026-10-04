@@ -16,6 +16,10 @@ function secretKey() {
   return value && /^sk_(test|live)_/.test(value) ? value : null;
 }
 
+export function paymentMode(): 'live' | 'test' | 'unconfigured' {
+  const key=secretKey();return key?.startsWith('sk_live_')?'live':key?'test':'unconfigured';
+}
+
 export function isPaystackConfigured() {
   return Boolean(secretKey());
 }

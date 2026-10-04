@@ -3,11 +3,13 @@ import { z } from "zod";
 import { getCommerceSettings, rateLimit } from "@/lib/commerce-db";
 import { shippingQuote, checkoutSetupIssues } from "@/lib/commerce-config";
 
-import { initializePaystackTransaction, isPaystackConfigured } from "@/lib/paystack";
+import { isPaystackConfigured } from "@/lib/paystack";
 import { configuredShippingFeeKobo, storefrontOrigin } from "@/lib/runtime-env";
-import { createPendingOrder, markOrderPaymentError } from "@/lib/store-db";
+import { startCheckoutPayment } from "@/lib/checkout-payment";
+import { createPendingOrder } from "@/lib/store-db";
 
 const checkoutSchema = z.object({
+  checkoutAttempt: z.string().regex(/^[-a-f0-9]{73}$/).optional(),
   rewardCode: z.string().trim().toUpperCase().max(48).default(""),
   expectedRewardSignature: z.string().max(300).default(""),
   promotionCode: z.string().trim().toUpperCase().max(32).default(""),
@@ -65,26 +67,10 @@ export async function POST(request: Request) {
     });
     const callbackUrl = new URL("/checkout/complete", storefrontOrigin(request)).toString();
 
-    try {
-      const transaction = await initializePaystackTransaction({
-        email: parsed.data.customer.email,
-        amountKobo: order.totalKobo,
-        reference: order.reference,
-        callbackUrl,
-        customerName: `${parsed.data.customer.firstName} ${parsed.data.customer.lastName}`,
-      });
-      return Response.json({
-        authorizationUrl: transaction.authorization_url,
-        reference: order.reference,
-        receiptToken: order.receiptToken,
-      });
-    } catch {
-      await markOrderPaymentError(order.reference);
-      return Response.json(
-        { error: "Paystack could not start the payment. Please try again." },
-        { status: 502 },
-      );
-    }
+    return Response.json(await startCheckoutPayment({
+      email:parsed.data.customer.email,customerName:`${parsed.data.customer.firstName} ${parsed.data.customer.lastName}`,
+      reference:order.reference,receiptToken:order.receiptToken,callbackUrl,
+    }),{headers:{'Cache-Control':'no-store'}});
   } catch (error) {
     const message = error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward/.test(error.message)
       ? error.message : "Checkout could not be created. Please refresh your bag and try again.";

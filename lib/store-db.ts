@@ -773,6 +773,7 @@ export async function deleteAdminProduct(productId: string) {
 }
 
 export async function createPendingOrder(args: {
+  checkoutAttempt?: string;
   customer: CheckoutCustomer;
   cart: CartRequestItem[];
   shippingKobo: number;
@@ -784,6 +785,21 @@ export async function createPendingOrder(args: {
 }) {
   await ensureCatalogSeeded();
   const db = getDbBinding();
+  const attempt=args.checkoutAttempt;
+  if(attempt&&!/^[-a-f0-9]{73}$/.test(attempt))throw new Error('Invalid checkout attempt.');
+  const attemptHash=attempt?await receiptDigest(attempt):'';
+  const {checkoutAttempt:_attempt,...requestData}=args;
+  const requestHash=attempt?await receiptDigest(JSON.stringify(requestData)):'';
+  const reference = attempt ? `VN-${attemptHash.slice(0,32).toUpperCase()}` : `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
+  async function resume(){
+    const saved=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('checkout-request:'+reference).first<{value:string}>();
+    if(!saved)return null;
+    if(saved.value!==requestHash)throw new Error('Checkout details changed. Refresh checkout before paying.');
+    const order=await getOrderByReference(reference);if(!order)return null;
+    const totals=await db.prepare('SELECT subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo FROM orders WHERE id=?').bind(order.id).first<{subtotalKobo:number;shippingKobo:number}>();
+    return {id:order.id,reference,receiptToken:attempt!,subtotalKobo:totals!.subtotalKobo,shippingKobo:totals!.shippingKobo,totalKobo:order.totalKobo};
+  }
+  if(attempt){const existing=await resume();if(existing)return existing;}
   const uniqueVariantIds = [...new Set(args.cart.map((item) => item.variantId))];
   if (!args.cart.length || args.cart.length > 20 || uniqueVariantIds.length !== args.cart.length
     || args.cart.some(item => !Number.isSafeInteger(item.quantity) || item.quantity < 1 || item.quantity > 5)) throw new Error("Your bag is invalid. Please refresh it.");
@@ -848,8 +864,7 @@ export async function createPendingOrder(args: {
   }
   if (totalKobo !== args.expectedTotalKobo) throw new Error("The prices or delivery charge have changed. Please refresh your bag before paying.");
   const id = crypto.randomUUID();
-  const reference = `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
-  const receiptToken=`${crypto.randomUUID()}-${crypto.randomUUID()}`;
+  const receiptToken=attempt||`${crypto.randomUUID()}-${crypto.randomUUID()}`;
   const receiptAccess=JSON.stringify({digest:await receiptDigest(receiptToken),expires:Date.now()+7*24*60*60*1000});
 
   const statements = [
@@ -918,7 +933,9 @@ export async function createPendingOrder(args: {
   statements.push(...allocations.map(item => db.prepare(
     "INSERT INTO stock_reservations (id, order_id, variant_id, quantity, expires_at) SELECT ?, ?, ?, ?, datetime('now', '+15 minutes') WHERE EXISTS (SELECT 1 FROM orders WHERE id = ?)"
   ).bind(crypto.randomUUID(), id, item.variantId, item.quantity, id)));
-  const results = await db.batch(statements);
+  if(attempt) statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('checkout-request:'+reference,requestHash,id));
+  let results;
+  try{results=await db.batch(statements);}catch(error){if(attempt){const existing=await resume();if(existing)return existing;}throw error;}
   if (!results[0].meta.changes) throw new Error("An item was just reserved or changed. Please refresh your bag and try again.");
   if (args.deliveryEstimate) await db.prepare("UPDATE orders SET delivery_estimate=? WHERE id=?").bind(args.deliveryEstimate, id).run();
   return { id, reference, receiptToken, subtotalKobo, shippingKobo, totalKobo };
@@ -967,7 +984,9 @@ export async function getPublicPaymentOrder(reference: string) {
   const { id: _id, ...publicOrder } = order;
   const paymentAmounts=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind(`verified-payment-amounts:${reference}`).first<{value:string}>();
   const paymentFeeKobo=paymentAmounts ? Number(JSON.parse(paymentAmounts.value).paymentFeeKobo)||0 : 0;
-  return { ...publicOrder, paymentFeeKobo, items: items.results };
+  const diagnostic=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind('payment-diagnostic:'+reference).first<{value:string}>();
+  const providerStatus=diagnostic?JSON.parse(diagnostic.value).status:undefined;
+  return { ...publicOrder, providerStatus, paymentFeeKobo, items: items.results };
 }
 
 export async function getGuestOrder(reference: string, email: string, phone: string) {
@@ -1077,7 +1096,7 @@ export async function markOrderPaid(args: {
 export type AdminOrder = {
   id: string; reference: string; email: string; firstName: string; lastName: string;
   phone: string; addressLine1: string; addressLine2: string; city: string; state: string; country: string;
-  totalKobo: number; status: string; paymentStatus: string; createdAt: string;
+  totalKobo: number; status: string; paymentStatus: string; providerStatus?: string; createdAt: string;
   carrier: string; trackingNumber: string; trackingUrl: string; deliveryEstimate: string;
   items: Array<{ productName: string; size: string; color: string; quantity: number }>;
 };
@@ -1098,7 +1117,8 @@ export async function listAdminOrders(options: OrderQuery = {}): Promise<AdminOr
   const page=Math.max(1,Math.min(10000,Math.floor(options.page ?? 1)));
   const rows=await db.prepare(`SELECT id,reference,email,first_name AS firstName,last_name AS lastName,total_kobo AS totalKobo,status,payment_status AS paymentStatus,
     phone,address_line_1 AS addressLine1,address_line_2 AS addressLine2,city,state,country,created_at AS createdAt,
-    carrier,tracking_number AS trackingNumber,tracking_url AS trackingUrl,delivery_estimate AS deliveryEstimate
+    carrier,tracking_number AS trackingNumber,tracking_url AS trackingUrl,delivery_estimate AS deliveryEstimate,
+    (SELECT json_extract(value,'$.status') FROM store_meta WHERE key='payment-diagnostic:'||orders.reference) AS providerStatus
     FROM orders WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET ?`).bind(...args,(page-1)*50).all<Omit<AdminOrder,"items">>();
   if(!rows.results.length)return [];
   const items=await db.prepare(`SELECT order_id AS orderId,product_name AS productName,size,color,quantity FROM order_items WHERE order_id IN (${rows.results.map(()=>"?").join(",")})`).bind(...rows.results.map(o=>o.id)).all<AdminOrder["items"][number]&{orderId:string}>();

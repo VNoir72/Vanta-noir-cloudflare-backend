@@ -25,6 +25,8 @@ test('owner approval is required at every staff write boundary; payment verifica
   const resources=['orders','bulk','inventory','returns','promotions','reports','courier','staff','activity'];
   const permissions={catalogue:['bulk','inventory'],fulfilment:['orders','courier'],support:['orders','returns'],analyst:['reports']};
   for(const [role,allowed] of Object.entries(permissions))for(const resource of resources){const response=await request(role,'operations?resource='+resource);assert.equal(response.status,allowed.includes(resource)?200:403,role+': '+resource);}
+  assert.equal((await request('owner','payment-updates')).status,200);
+  assert.equal((await request('support','payment-updates')).status,403);
   const publicKeys=await (await mf.dispatchFetch('https://api.example.com/api/access/keys')).json();assert.equal(publicKeys.keys[0].d,undefined);
   const evaluate=async(email,expiry='1m')=>{const token=await new SignJWT({identity:{email},nonce:'test-nonce'}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuedAt().setExpirationTime(expiry).sign(privateKey);return mf.dispatchFetch('https://api.example.com/api/access/evaluate',{method:'POST',body:JSON.stringify({token})});};
   const {jwtVerify}=await import('jose');

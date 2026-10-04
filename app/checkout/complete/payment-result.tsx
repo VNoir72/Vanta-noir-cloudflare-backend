@@ -7,7 +7,7 @@ import { trackPurchase } from "@/lib/analytics";
 import { readStorage, writeStorage } from "@/lib/browser-store";
 import { CART_STORAGE_KEY, restoreCart } from "@/lib/cart";
 import { PaymentReceipt } from "@/components/payment-receipt";
-import { receiptMoney, type PaymentOrder } from "@/lib/payment-receipt";
+import { receiptMoney, receiptTotals, type PaymentOrder } from "@/lib/payment-receipt";
 
 type State = "checking" | "paid" | "review" | "pending" | "error";
 
@@ -32,12 +32,19 @@ export function PaymentResult({ reference }: { reference: string }) {
       try {
         let receiptToken="";try{receiptToken=sessionStorage.getItem(`vn-receipt:${reference}`)||"";}catch{/* Use private guest tracking when browser storage is unavailable. */}
         const response = await fetch(apiUrl(`/api/payments/verify?reference=${encodeURIComponent(reference)}`), { cache: "no-store", headers:{"X-Receipt-Token":receiptToken}, signal: controller.signal });
-        const payload = await response.json() as { order?: PaymentOrder; message?: string; error?: string };
+        const payload = await response.json() as { order?: PaymentOrder; message?: string; providerStatus?: string; error?: string };
         if (!active) return;
-        if (!response.ok) throw new Error(payload.error || "Payment confirmation is temporarily unavailable.");
+        if (!response.ok) {
+          if ((response.status===429||response.status>=500) && ++checks<6) {
+            setState("pending");setMessage("Confirmation is taking longer than usual. We are checking again automatically. Please do not pay again.");
+            timer=setTimeout(()=>void verify(),Math.min(30000,4000*checks));return;
+          }
+          throw new Error(payload.error || "Payment confirmation is temporarily unavailable. Please do not pay again.");
+        }
         const order = payload.order;
         if (order && order.reference !== reference) throw new Error("The order reference could not be verified. Please contact customer care.");
         if (order?.paymentStatus === "paid") {
+          try {const token=sessionStorage.getItem(`vn-receipt:${reference}`);if(token)for(const key of Object.keys(localStorage)){if(key.startsWith('vn-checkout-attempt:')&&localStorage.getItem(key)===token)localStorage.removeItem(key);}}catch{/* Confirmed payment remains visible when storage is unavailable. */}
           const review = order.status === "paid_stock_review" || order.status === "cancelled";
           setState(review ? "review" : "paid");
           setMessage(review ? "Your payment was received. Customer care is reviewing your order before fulfilment. Please contact us with the reference below." : "Payment successful. Thank you for choosing Vanta Noir.");
@@ -58,10 +65,13 @@ export function PaymentResult({ reference }: { reference: string }) {
           return;
         }
         setState("pending");
-        setMessage("Your payment is still being confirmed. Keep your reference and check again shortly; please do not pay twice.");
+        setMessage(payload.providerStatus==='failed' ? "Paystack reports this payment attempt failed. If your bank shows a debit, contact customer care with this reference before paying again." : payload.providerStatus==='abandoned' ? "This payment attempt was not completed. If you paid or see a debit, keep this reference and contact customer care before paying again." : "Your payment is still being confirmed. Keep your reference and check again shortly; please do not pay twice.");
         if (++checks < 6) timer = setTimeout(() => void verify(), 4000);
       } catch (error) {
         if (!active) return;
+        if (++checks<6 && !(error instanceof Error && /privacy|reference|wait before|temporarily unavailable/.test(error.message))) {
+          setState("pending");setMessage("The connection was interrupted. Checking again automatically; please do not pay again.");timer=setTimeout(()=>void verify(),Math.min(30000,4000*checks));return;
+        }
         setState("error");
         setMessage(error instanceof Error ? error.message : "We could not confirm payment yet. Please check again shortly.");
       }
@@ -85,7 +95,7 @@ export function PaymentResult({ reference }: { reference: string }) {
     </div>
     <div className="vn-confirmed-summary">
       <p className="vn-payment-reference"><span>ORDER REFERENCE</span>{reference}</p>
-      {verifiedOrder && <><ul>{verifiedOrder.items.map((item, index) => <li key={`${item.variantId}-${index}`}><strong>{item.productName}</strong><span>{item.color} · {item.size} · Qty {item.quantity}</span></li>)}</ul><div className="vn-confirmed-total"><span>Total paid</span><strong>{receiptMoney(verifiedOrder.totalKobo)}</strong></div></>}
+      {verifiedOrder && <><ul>{verifiedOrder.items.map((item, index) => <li key={`${item.variantId}-${index}`}><strong>{item.productName}</strong><span>{item.color} · {item.size} · Qty {item.quantity}</span></li>)}</ul><div className="vn-confirmed-total"><span>Total paid</span><strong>{receiptMoney(receiptTotals(verifiedOrder).totalKobo)}</strong></div></>}
     </div>
     <div className="vn-receipt-actions">
       {verifiedOrder && <button type="button" id="vn-view-receipt" className="vn-payment-primary" onClick={() => setShowReceipt(true)}><ReceiptText size={18}/>View receipt</button>}

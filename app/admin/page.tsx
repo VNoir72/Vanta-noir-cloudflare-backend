@@ -1,3 +1,5 @@
+import {PaymentUpdates} from "./payment-updates";
+import {paymentMode} from "@/lib/paystack";
 import {AdminFieldHelp} from "./field-help";
 import {UnsavedChangesProvider} from "./unsaved-changes";
 import {OperationsPanel} from "./operations-panel";
@@ -56,5 +58,5 @@ export default async function AdminPage() {
   }
 
   if(role!=="owner") return <main className="min-h-screen bg-[#090909] p-5 text-white"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
-  return <><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} /></>;
+  return <><section className="vn-control-content"><p role="status" className="bg-[#141414] px-5 py-3 text-sm text-white">Payments: <strong>{paymentMode().toUpperCase()}</strong> · {paymentMode()==='live'?'Checkout charges real money.':paymentMode()==='test'?'Test transactions only.':'Payments are not configured.'}</p><PaymentUpdates/></section><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} /></>;
 }
