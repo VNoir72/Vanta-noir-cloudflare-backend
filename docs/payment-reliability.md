@@ -1,0 +1,12 @@
+# Payment reliability update
+
+- Storefront checkout persists a random attempt capability across refreshes and tabs. Matching requests reuse their order/reference and saved Paystack link. Changing the request under an existing capability is rejected. Successful checkout clears that attempt from the browser so a later identical purchase is possible.
+- Existing storefront builds without the new capability remain compatible, but require the new Namecheap build for retry protection and corrected confirmation totals.
+- An ambiguous Paystack initialization timeout preserves its reference and stock reservation and sends the customer to verification, rather than silently starting another transaction. If Paystack never created that reference, customer care must review the attempt; this release does not guess whether a charge occurred.
+- Confirmation totals include authenticated customer-paid fees. Checkout explains that Paystack may add processing fees. Provider verification remains the authority for amount, currency and reference.
+- Temporary verification/network errors retry with bounded backoff; private receipt errors do not retry. Failed/abandoned provider observations are shown separately from fulfilment status and never treated as proof that a late successful charge cannot arrive.
+- Scheduled maintenance recovers missing customer confirmation and owner notification tasks for paid orders, including existing orders. Unique outbox event keys prevent duplicate notifications. Unrelated merchandising jobs cannot block processing the email queue.
+- Owner admin shows the configured payment environment. Signed refund/dispute events are retained as an append-only, deduplicated history and notify the owner. Review the provider dashboard before fulfilment. These notices do not issue money, automatically decide disputes, alter stock or overwrite manual return/accounting records. Missing order references are retained as unmatched alerts.
+- Email outbox `sent` means the email provider accepted the request, not confirmed inbox delivery. Resend delivery/bounce webhook configuration is still required and is not advertised as connected.
+
+Validation: unit/integration suite; concurrent order and initialization tests; changed-request rejection; ambiguous initialization timeout; paid-order email recovery; duplicate and invalid webhook signatures; owner-only event access; browser checks for total/receipt consistency, temporary recovery, failed-payment wording and receipt privacy.

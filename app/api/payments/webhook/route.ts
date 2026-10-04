@@ -1,3 +1,4 @@
+import {recordPaymentUpdate} from "@/lib/payment-events";
 import { getOrderByReference, markOrderPaid } from "@/lib/store-db";
 import { verifyPaystackTransaction, verifyPaystackWebhook } from "@/lib/paystack";
 
@@ -16,7 +17,9 @@ type PaystackWebhook = {
 };
 
 export async function POST(request: Request) {
+  if(Number(request.headers.get('content-length'))>1000000)return new Response('Payload too large',{status:413});
   const rawBody = await request.text();
+  if(rawBody.length>1000000)return new Response('Payload too large',{status:413});
   const verified = await verifyPaystackWebhook(
     rawBody,
     request.headers.get("x-paystack-signature"),
@@ -26,6 +29,7 @@ export async function POST(request: Request) {
   let event: PaystackWebhook;
   try {
     event = JSON.parse(rawBody) as PaystackWebhook;
+    if(!event || typeof event!=='object' || Array.isArray(event))throw new Error('Invalid payload');
   } catch {
     return new Response("Invalid payload", { status: 400 });
   }
@@ -59,5 +63,8 @@ export async function POST(request: Request) {
     }
   }
 
+  if(event.event && event.data){
+    try{await recordPaymentUpdate(event.event,event.data as Record<string,unknown>);}catch{return new Response('Unable to record payment update',{status:500});}
+  }
   return new Response("ok");
 }

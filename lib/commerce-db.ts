@@ -49,6 +49,8 @@ export async function queueOrderEmail(reference:string,event:string){
   const settings=await getCommerceSettings();
   const body=`Hi ${order.firstName},\n\n${subject} for ${reference}.\n${stockNote}\n\nYOUR ITEMS\n${items.results.map(i=>`${i.quantity} × ${i.name} · ${i.color} · ${i.size} — ${formatNaira(i.lineTotalKobo)}`).join("\n")}\n\nSubtotal: ${formatNaira(order.subtotalKobo)}\nDelivery: ${formatNaira(order.shippingKobo)}\n${order.discountKobo ? `Discount: −${formatNaira(order.discountKobo)}\n` : ""}Order total: ${formatNaira(order.totalKobo)}\n${paymentBreakdown}\nDELIVERY ADDRESS\n${[`${order.firstName} ${order.lastName}`,order.addressLine1,order.addressLine2,order.city,order.state,order.country].filter(Boolean).join("\n")}\n${order.deliveryEstimate ? `\nDelivery estimate: ${order.deliveryEstimate}\n` : ""}${order.carrier ? `\nCourier: ${order.carrier}\nTracking: ${order.trackingNumber}\n${order.trackingUrl}\n` : ""}\nTrack your order or request a return: ${runtimeEnv().STOREFRONT_URL || SITE_URL}/help-center#track-order\nUse your order reference and the email or phone used at checkout.\n\nQuestions? ${settings.supportEmail || `${runtimeEnv().STOREFRONT_URL || SITE_URL}/contact`}\nVanta Noir\nPresence. Power. Precision.`;
   await queueEmail(`order:${reference}:${event}`,order.email,`${subject} · ${reference}`,body);
+  const owner=runtimeEnv().ADMIN_EMAIL?.trim();
+  if(event==='payment' && owner) await queueEmail(`owner-order:${reference}:payment`,owner,`New paid order · ${reference}`,`Payment verified for ${reference}.\nOrder total: ${formatNaira(order.totalKobo)}${paymentBreakdown}\nStatus: ${order.status.replaceAll('_',' ')}\nOpen Store admin to review the order and arrange fulfilment. This notification does not mean the order has shipped.`);
 }
 
 export async function processEmailOutbox(limit=10){
@@ -153,8 +155,16 @@ export async function queueLowStockAlerts(){
   const rows=await db.prepare("SELECT p.name,v.sku,v.stock FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.active=1 AND p.status='published' AND v.stock<=? ORDER BY v.stock,v.sku LIMIT 100").bind(settings.lowStockThreshold).all<{name:string;sku:string;stock:number}>();
   if(rows.results.length)await queueEmail(eventKey,email,"Low stock · Vanta Noir",`${rows.results.length} variations are at or below ${settings.lowStockThreshold} units.\n\n${rows.results.map(v=>`${v.name} · ${v.sku}: ${v.stock}`).join("\n")}\n\nOpen Store admin to update inventory.`);
 }
+export async function recoverPaymentEmails(){
+  const db=getDbBinding(),owner=runtimeEnv().ADMIN_EMAIL?.trim();
+  const rows=await db.prepare(`SELECT reference FROM orders o WHERE payment_status='paid' AND (
+    NOT EXISTS(SELECT 1 FROM email_outbox WHERE event_key='order:'||o.reference||':payment')
+    OR (?=1 AND NOT EXISTS(SELECT 1 FROM email_outbox WHERE event_key='owner-order:'||o.reference||':payment'))
+  ) ORDER BY paid_at LIMIT 20`).bind(owner?1:0).all<{reference:string}>();
+  for(const row of rows.results) await queueOrderEmail(row.reference,'payment');
+}
 export async function runCommerceMaintenance(){
-  await queueRestockAlerts(); await queueLowStockAlerts(); await queueReleaseAlerts();
+  await Promise.allSettled([recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
   await getDbBinding().prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
   return processEmailOutbox();
 }

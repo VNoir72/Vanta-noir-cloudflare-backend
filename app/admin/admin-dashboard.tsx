@@ -659,6 +659,7 @@ function DashboardContent({
                           <ul className="mt-2 space-y-1">
                             {order.items.map((item, index) => <li key={index}>{item.quantity} × {item.productName} · {item.color} · {item.size}</li>)}
                           </ul>
+                          {order.paymentStatus!=='paid' && order.providerStatus && <p className="mt-2">Latest Paystack check: {order.providerStatus}. This is separate from the order’s fulfilment status.</p>}
                           {order.status === "paid_stock_review" && <p className="mt-2 text-amber-200">Payment received. Check inventory before moving to paid or processing; this allocates the stock.</p>}
                           <OrderTools key={`${order.reference}-${order.trackingNumber}`} order={order} onSaved={tracking=>setOrders(current=>current.map(o=>o.id===order.id?{...o,...tracking}:o))} />
                           <p className="mt-2 text-white/40">Cancelling an order does not issue a refund or return stock automatically. Manage refunds in Paystack and adjust returned stock in inventory.</p>
