@@ -5,6 +5,8 @@ type PaystackTransaction = {
   status: string;
   reference: string;
   amount: number;
+  requested_amount?: number | string | null;
+  fees?: number | null;
   currency: string;
   id?: number;
 };

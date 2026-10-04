@@ -22,7 +22,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil(Promise.allSettled([runCommerceMaintenance(),reconcilePendingPayments()])); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await reconcilePendingPayments().catch(()=>{}); await runCommerceMaintenance(); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});

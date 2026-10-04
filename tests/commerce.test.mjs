@@ -53,7 +53,7 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   assert.equal((await rpc('sql',"SELECT COUNT(*) AS n FROM email_outbox WHERE event_key=?",`order:${order.reference}:payment`)).results[0].n,1,'Duplicate payment queues one receipt');
   const receipt=(await rpc('sql',"SELECT body,subject FROM email_outbox WHERE event_key=?",`order:${order.reference}:payment`)).results[0];
   assert.match(receipt.subject,/Order confirmation/);
-  for(const detail of ['YOUR ITEMS','Subtotal:','Delivery:','Total:','10 Test Street','Ikeja','Presence. Power. Precision.']) assert.ok(receipt.body.includes(detail),detail);
+  for(const detail of ['YOUR ITEMS','Subtotal:','Delivery:','Order total:','10 Test Street','Ikeja','Presence. Power. Precision.']) assert.ok(receipt.body.includes(detail),detail);
   await rpc('updateOrderStatus',order.reference,'processing');await rpc('updateOrderStatus',order.reference,'shipped');await rpc('updateOrderStatus',order.reference,'delivered');
   await rpc('updateOrderTracking',order.reference,{carrier:'Test courier',trackingNumber:'LOCAL-123',trackingUrl:'https://courier.example/LOCAL-123',deliveryEstimate:'Test delivery window'});
   const guest=await rpc('getGuestOrder',order.reference,customer.email,'');assert.equal(guest.trackingNumber,'LOCAL-123');assert.ok(guest.items[0].id);assert.equal(await rpc('getGuestOrder',order.reference,'wrong@example.com',''),null);
