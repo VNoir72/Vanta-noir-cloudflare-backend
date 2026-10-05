@@ -74,6 +74,24 @@ test('integration: rollout switch, private receipts, admin authorization, addres
   await rpc('markOrderPaid',{reference:order.reference,amountKobo:checkout.expectedTotalKobo,eventKey:'test:'+order.reference,eventType:'test',paymentDomain:'test'});
   const email=(await rpc('sql','SELECT body FROM email_outbox WHERE event_key=?',`order:${order.reference}:payment`)).results[0];assert.match(email.body,/United Kingdom/);assert.match(email.body,/SW1A 1AA/);
   assert.equal((await rpc('listAdminOrders'))[0].country,'United Kingdom');
+  // Bounded adversarial burst against isolated Miniflare, never the live store.
+  const deniedBurst=await Promise.all(Array.from({length:40},()=>request('/api/admin/orders',null,false)));
+  assert.ok(deniedBurst.every(r=>r.status===403),'unauthorized burst must remain denied');
+  const malformed=await Promise.all(['{',JSON.stringify({reference:order.reference,status:'delivered',expectedStatus:'__proto__'}),JSON.stringify({reference:order.reference,status:'<script>alert(1)</script>'})].map(body=>mf.dispatchFetch('https://api.vantanoir.store/api/admin/orders',{method:'PATCH',headers:{Origin:'https://api.vantanoir.store','cf-access-jwt-assertion':token,'Content-Type':'application/json'},body})));
+  assert.ok(malformed.every(r=>r.status===400),'malformed updates must return controlled errors');
+  const change=async(status,expectedStatus,bulkVerified=true,authorized=true)=>mf.dispatchFetch('https://api.vantanoir.store/api/admin/orders',{method:'PATCH',headers:{'Content-Type':'application/json',Origin:'https://api.vantanoir.store',...(authorized?{'cf-access-jwt-assertion':token}:{})},body:JSON.stringify({reference:order.reference,status,expectedStatus,...(bulkVerified?{bulkVerified:true}:{})})});
+  assert.equal((await change('processing','paid',true,false)).status,403);
+  assert.equal((await change('delivered','paid')).status,409);
+  assert.equal((await change('processing','paid',false)).status,409);
+  const concurrent=await Promise.all(Array.from({length:8},()=>change('processing','paid')));
+  assert.equal(concurrent.filter(r=>r.status===200).length,1,'only one concurrent status update may succeed');
+  assert.ok(concurrent.every(r=>[200,409].includes(r.status)));
+  assert.equal((await change('shipped','processing')).status,409,'tracking must be saved first');
+  await rpc('updateOrderTracking',order.reference,{carrier:'Test carrier',trackingNumber:'TEST-ONLY',trackingUrl:'',deliveryEstimate:''});
+  assert.equal((await change('shipped','processing')).status,200);
+  assert.equal((await change('delivered','shipped')).status,200);
+  assert.equal((await change('processing','paid')).status,409,'delivered cannot move backwards');
+  const guestAfterBulk=await rpc('getGuestOrder',order.reference,customer.email,'');assert.equal(guestAfterBulk.status,'delivered');
   const path='/api/payments/verify?reference='+order.reference;
   assert.equal((await request(path)).status,403);
   assert.equal((await request(path,null,false,{'X-Receipt-Token':crypto.randomUUID()+'-'+crypto.randomUUID()})).status,403);

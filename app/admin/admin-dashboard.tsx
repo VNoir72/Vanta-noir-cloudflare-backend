@@ -79,6 +79,7 @@ import StoreImage from "@/components/store-image";
 import {InventoryPanel} from './inventory-panel';
 import {stockTotals,parseStock,type InventoryRow} from '@/lib/admin-inventory';
 import {UnsavedChangesProvider,useUnsavedChanges,useAdminNavigation} from './unsaved-changes';
+import {BulkOrders} from './bulk-orders';
 import {OrderStatusEditor} from './order-status-editor';
 
 
@@ -648,6 +649,7 @@ function DashboardContent({
             </div>
             <Badge variant="outline" className="rounded-none border-white/15 text-white/50">{orderTotal} matching orders</Badge>
           </div>
+          <BulkOrders disabled={busy!==null} onChanged={()=>{void loadOrders(orderPage);void loadReport(reportParams.current);}}/>
           <p className="vn-report-period">Verified Paystack payments update automatically. This list refreshes every 30 seconds when you have no unsaved edits.</p><form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>{setOrderQuery(e.target.value);setOrderCustomerEmail('');}} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option><option value="fulfil">Ready to fulfil</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
           <div className="vn-studio-form">
             <Table>

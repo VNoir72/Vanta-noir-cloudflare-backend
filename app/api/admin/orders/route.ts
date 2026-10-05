@@ -6,6 +6,8 @@ import { countAdminOrders, listAdminOrders, updateOrderStatus, updateOrderTracki
 export const dynamic = "force-dynamic";
 
 const updateSchema = z.object({
+  expectedStatus: z.enum(["paid","processing","shipped"]).optional(),
+  bulkVerified: z.literal(true).optional(),
   reference: z.string().trim().min(3).max(120),
   status: z.enum([
     "paid",
@@ -35,7 +37,7 @@ export async function PATCH(request: Request) {
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Invalid update." }, { status: 400 });
   try {
-    await updateOrderStatus(parsed.data.reference, parsed.data.status);
+    await updateOrderStatus(parsed.data.reference, parsed.data.status, parsed.data.expectedStatus, parsed.data.bulkVerified);
     return Response.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not update this order.";
