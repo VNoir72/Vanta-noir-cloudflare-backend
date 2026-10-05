@@ -220,7 +220,7 @@ function DashboardContent({
   const [orderPage,setOrderPage]=useState(1), [orderTotal,setOrderTotal]=useState(initialOrders.length), [hasMoreOrders,setHasMoreOrders]=useState(initialOrders.length===50);
   const [orderCustomerEmail,setOrderCustomerEmail]=useState(""),[orderQuery,setOrderQuery]=useState(""),[orderStatusFilter,setOrderStatusFilter]=useState(""),[orderFrom,setOrderFrom]=useState(""),[orderTo,setOrderTo]=useState("");
   function orderParams(page:number){return new URLSearchParams({page:String(page),query:orderQuery,customerEmail:orderCustomerEmail,status:orderStatusFilter,from:orderFrom,to:orderTo}).toString();}
-  async function loadOrders(page:number,silent=false){const request=++orderRequest.current;if(!silent)setBusy("orders");try{const r=await fetch(`/api/admin/orders?${orderParams(page)}`,{cache:'no-store',signal:AbortSignal.timeout(20000)});const payload=await r.json() as {orders:AdminOrder[];total:number;hasMore:boolean;error?:string};if(!r.ok)throw new Error(payload.error||"Could not load orders.");if(request!==orderRequest.current||(silent&&hasChanges()))return;setOrders(payload.orders);setOrderPage(page);setOrderTotal(payload.total);setHasMoreOrders(payload.hasMore);}catch(e){if(!silent&&request===orderRequest.current)toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{if(!silent&&request===orderRequest.current)setBusy(null);}}
+  async function loadOrders(page:number,silent=false){const request=++orderRequest.current;if(!silent)setBusy("orders");try{const payload=await adminRead<{orders:AdminOrder[];total:number;hasMore:boolean}>(`/api/admin/orders?${orderParams(page)}`,v=>hasArray('orders')(v)&&Number.isFinite(v.total)&&typeof v.hasMore==='boolean');if(request!==orderRequest.current||(silent&&hasChanges()))return;setOrders(payload.orders);setOrderPage(page);setOrderTotal(payload.total);setHasMoreOrders(payload.hasMore);}catch(e){if(!silent&&request===orderRequest.current)toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{if(!silent&&request===orderRequest.current)setBusy(null);}}
   useEffect(()=>{if(section==='orders')void loadOrders(1);},[section,orderEntry]);
   const orderRefresh=useRef(()=>{});orderRefresh.current=()=>{if(section==='orders'&&!document.hidden&&!hasChanges())void loadOrders(orderPage,true);};
   useEffect(()=>{const timer=setInterval(()=>orderRefresh.current(),30000);return()=>clearInterval(timer);},[]);
@@ -284,7 +284,7 @@ function DashboardContent({
     setInventory(current=>current.map(r=>r.id===row.id?row:r));
     setProducts(current=>current.map(p=>p.id===row.productId?{...p,variants:p.variants.map(v=>v.id===row.id?{...v,stock:row.stock}:v)}:p));
   }
-  async function syncStock(){const r=await fetch('/api/admin/inventory',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)throw new Error('Could not refresh inventory.');applyInventory(((await r.json()) as {inventory:InventoryRow[]}).inventory);}
+  async function syncStock(){const payload=await adminRead<{inventory:InventoryRow[]}>('/api/admin/inventory',hasArray('inventory'));applyInventory(payload.inventory);}
   function openNewProduct() {
     if(uploadingImage!==null||busy==="product-save")return;
     navigate(()=>{const form=emptyProductForm();productBaseline.current=JSON.stringify(form);setSectionState('products');setProductForm(form);});
