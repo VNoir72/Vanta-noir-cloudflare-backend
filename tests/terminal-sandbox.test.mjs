@@ -7,7 +7,7 @@ const pickup={line1:'Synthetic pickup',city:'Kaduna',state:'Kaduna',country:'NG'
 test('sandbox quotes stay on sandbox, never book, preserve packed weight and dimensions',async()=>{
  const calls=[];const report=await runSandboxQuotes('test-only',pickup,async(url,init)=>{calls.push(url);assert.ok(url.startsWith('https://sandbox.terminal.africa/v1/'));assert.equal(init.redirect,'manual');const body=JSON.parse(init.body);
  if(url.endsWith('/packaging')){assert.deepEqual([body.length,body.width,body.height],[53.34,30.48,12.7]);return Response.json({status:true,data:{packaging_id:'PA-test'}});}
- assert.equal(body.persist_data,false);assert.equal(body.cash_on_delivery,false);assert.equal(body.parcel.items[0].weight+0.1,5);assert.equal(body.pickup_address.line1,'Synthetic pickup');
+ assert.equal(body.delivery_address.first_name,undefined);assert.equal(body.delivery_address.email,undefined);assert.equal(body.persist_data,false);assert.equal(body.cash_on_delivery,false);assert.equal(body.parcel.items[0].weight+0.1,5);assert.equal(body.pickup_address.line1,'Synthetic pickup');
  if(body.delivery_address.state==='INVALID_TEST_STATE')return Response.json({status:false},{status:422});
  return Response.json({status:true,data:[{amount:5000,currency:'NGN',carrier_name:'Test Carrier',delivery_time:'Test window'},{amount:-1,currency:'NGN',carrier_name:'Invalid'},{amount:20,currency:'USD',carrier_name:'Wrong currency'}]});});
  assert.equal(calls.length,6);assert.equal(report.results.filter(r=>r.status==='quoted').length,4);assert.equal(report.results[4].status,'rejected');assert.equal(report.results[0].rates.length,1);assert.equal(report.bookingEnabled,false);
