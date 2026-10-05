@@ -3,6 +3,7 @@ import {getDbBinding,runtimeEnv} from './runtime-env';
 export const GA4_SCOPE='https://www.googleapis.com/auth/analytics.readonly';
 export const GA4_CALLBACK='https://api.vantanoir.store/api/admin/ga4/callback';
 export const GA4_COOKIE='__Host-vn-ga4';
+export class GA4OAuthError extends Error {constructor(public reason:string){super(reason);}}
 const recordKey='ga4-oauth-connection';
 type Connection={id:string;encrypted:string;property:string;at:string};
 export function oauthReady(){const e=runtimeEnv();return !!(e.GA4_OAUTH_CLIENT_ID&&e.GA4_OAUTH_CLIENT_SECRET&&/^\d+$/.test(e.GA4_PROPERTY_ID||''));}
@@ -21,17 +22,29 @@ export async function beginOAuth(owner:string){
  const url=new URL('https://accounts.google.com/o/oauth2/v2/auth');url.search=new URLSearchParams({client_id:runtimeEnv().GA4_OAUTH_CLIENT_ID!,redirect_uri:GA4_CALLBACK,response_type:'code',scope:GA4_SCOPE,access_type:'offline',prompt:'consent',state,code_challenge:await hash(verifier),code_challenge_method:'S256'}).toString();
  return {url:url.toString(),cookie};
 }
-async function tokenRequest(body:Record<string,string>){const e=runtimeEnv();const response=await fetch('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({...body,client_id:e.GA4_OAUTH_CLIENT_ID!,client_secret:e.GA4_OAUTH_CLIENT_SECRET!}),signal:AbortSignal.timeout(8000)});if(!response.ok)throw new Error('Google authorization expired or failed. Reconnect Google Analytics.');const p=await response.json() as {access_token?:string;refresh_token?:string;scope?:string;expires_in?:number};if(!p.access_token)throw new Error('Google did not return an access token.');return p;}
+async function tokenRequest(body:Record<string,string>){
+ const e=runtimeEnv();let response:Response;
+ try{response=await fetch('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({...body,client_id:e.GA4_OAUTH_CLIENT_ID!,client_secret:e.GA4_OAUTH_CLIENT_SECRET!}),signal:AbortSignal.timeout(8000)});}catch{throw new GA4OAuthError('google_unreachable');}
+ const p=await response.json().catch(()=>({})) as {error?:string;access_token?:string;refresh_token?:string;scope?:string;expires_in?:number};
+ if(!response.ok)throw new GA4OAuthError(p.error==='invalid_client'?'invalid_client':p.error==='invalid_grant'?'invalid_grant':'token_exchange');
+ if(!p.access_token)throw new GA4OAuthError('token_exchange');return p;
+}
 export async function finishOAuth(owner:string,state:string,code:string,cookie:string){
- const pending=await unseal<{state:string;verifier:string;owner:string;expires:number;property:string}>(cookie);
- if(!state||!code||pending.state!==state||pending.owner!==owner||pending.expires<Date.now()||pending.property!==runtimeEnv().GA4_PROPERTY_ID)throw new Error('Connection expired. Start again from Settings.');
+ let pending:{state:string;verifier:string;owner:string;expires:number;property:string};
+ try{pending=await unseal<typeof pending>(cookie);}catch{throw new GA4OAuthError('browser_state');}
+ if(!state||!code||pending.state!==state||pending.owner!==owner||pending.expires<Date.now()||pending.property!==runtimeEnv().GA4_PROPERTY_ID)throw new GA4OAuthError('browser_state');
  const claim=random();
- const used=await getDbBinding().prepare("UPDATE store_meta SET value=? WHERE key=? AND json_extract(value,'$.hash')=? AND CAST(json_extract(value,'$.expires') AS INTEGER)>?").bind(JSON.stringify({claim}),'ga4-oauth-state:'+owner,await hash(state),Date.now()).run();if(!used.meta.changes)throw new Error('Connection expired or already used.');
+ const used=await getDbBinding().prepare("UPDATE store_meta SET value=? WHERE key=? AND json_extract(value,'$.hash')=? AND CAST(json_extract(value,'$.expires') AS INTEGER)>?").bind(JSON.stringify({claim}),'ga4-oauth-state:'+owner,await hash(state),Date.now()).run();if(!used.meta.changes)throw new GA4OAuthError('browser_state');
  const p=await tokenRequest({grant_type:'authorization_code',code,redirect_uri:GA4_CALLBACK,code_verifier:pending.verifier});
- if(!p.refresh_token||!p.scope?.split(' ').includes(GA4_SCOPE))throw new Error('Allow read-only Analytics access and reconnect.');
+ if(!p.refresh_token)throw new GA4OAuthError('missing_refresh_token');
+ if(!p.scope?.split(' ').includes(GA4_SCOPE))throw new GA4OAuthError('missing_scope');
  // Verify the selected Google account can read this exact property before replacing a working connection.
  const probe=await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${pending.property}:runReport`,{method:'POST',headers:{Authorization:`Bearer ${p.access_token}`,'Content-Type':'application/json'},body:JSON.stringify({dateRanges:[{startDate:'yesterday',endDate:'today'}],metrics:[{name:'sessions'}],limit:1}),signal:AbortSignal.timeout(8000)});
- if(!probe.ok)throw new Error('This Google account cannot read the configured Analytics property.');
+ if(!probe.ok){
+  const error=await probe.json().catch(()=>({})) as {error?:{details?:{reason?:string}[]}};
+  const disabled=error.error?.details?.some(d=>d.reason==='SERVICE_DISABLED');
+  throw new GA4OAuthError(disabled?'api_disabled':probe.status===403?'property_access':probe.status===404?'property_missing':probe.status===429?'quota':'property_report');
+ }
  const c:Connection={id:random(),property:pending.property,at:new Date().toISOString(),encrypted:await seal({refreshToken:p.refresh_token})};
  const saved=await getDbBinding().batch([
   getDbBinding().prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.claim')=?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(recordKey,JSON.stringify(c),'ga4-oauth-state:'+owner,claim),
