@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {generateKeyPairSync} from 'node:crypto';
 import {build} from 'esbuild';
-const output=await build({entryPoints:['lib/admin-ga4.ts'],bundle:true,write:false,platform:'node',format:'esm',plugins:[{name:'test-env',setup(b){b.onResolve({filter:/runtime-env$/},()=>({path:'test-env',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export function runtimeEnv(){return globalThis.__ga4env||{};}'}));}}]});
+const output=await build({entryPoints:['lib/admin-ga4.ts'],bundle:true,write:false,platform:'node',format:'esm',plugins:[{name:'test-env',setup(b){b.onResolve({filter:/runtime-env$/},()=>({path:'test-env',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export function runtimeEnv(){return globalThis.__ga4env||{};} export function getDbBinding(){throw new Error("No fixture database");}'}));}}]});
 const {conversionReport}=await import('data:text/javascript;base64,'+Buffer.from(output.outputFiles[0].text).toString('base64'));
 const range={from:'2026-09-02',to:'2026-09-03',previousFrom:'2026-08-31',previousTo:'2026-09-01',days:2,endExclusive:'2026-09-04'};
 test('GA4 connection remains honest when absent, weights measured conversion by sessions, and caches requests',async()=>{

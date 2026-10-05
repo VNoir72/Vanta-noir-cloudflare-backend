@@ -28,7 +28,7 @@ export function secureResponse(response: Response, request: Request, settings: S
   headers.set("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   if(new URL(request.url).protocol==="https:")headers.set("Strict-Transport-Security", "max-age=31536000");
-  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  if (!headers.has("Referrer-Policy")) headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   const path = new URL(request.url).pathname;
   // HTML and RSC payloads contain release-specific chunk URLs. Reusing them
   // after publishing can request files that belonged to a previous release.

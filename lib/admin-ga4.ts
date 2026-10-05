@@ -1,3 +1,4 @@
+import {oauthConnection,oauthAccessToken} from './ga4-oauth';
 import {importPKCS8,SignJWT} from 'jose';
 import {runtimeEnv} from './runtime-env';
 import type {ReportRange} from './admin-reporting';
@@ -7,15 +8,20 @@ let tokenCache:{email:string;token:string;until:number}|undefined;
 export async function conversionReport(range:ReportRange):Promise<ConversionReport>{
  const env=runtimeEnv(),property=env.GA4_PROPERTY_ID?.trim(),credentials=env.GA4_SERVICE_ACCOUNT_JSON;
  const empty={current:null,previous:null,sessions:0,previousSessions:0,daily:{}};
- if(!property||!credentials)return {...empty,status:'not_configured',message:'Connect GA4 reporting in Settings to show measured purchase conversion.'};
- const key=`${property}:${range.from}:${range.to}`,cached=cache.get(key);if(cached&&cached.until>Date.now())return cached.value;
+ let connection:Awaited<ReturnType<typeof oauthConnection>>=null;
+ try{connection=await oauthConnection();}catch{return {...empty,status:'unavailable',message:'Google Analytics connection could not load. Retry in Settings.'};}
+ if(!property||(!credentials&&!connection))return {...empty,status:'not_configured',message:'Connect GA4 reporting in Settings to show measured purchase conversion.'};
+ const key=`${property}:${connection?.id||'service-account'}:${range.from}:${range.to}`,cached=cache.get(key);if(cached&&cached.until>Date.now())return cached.value;
  try{
   if(!/^\d+$/.test(property))throw new Error('Invalid property');
-  const account=JSON.parse(credentials) as {client_email:string;private_key:string};
-  let token=tokenCache?.email===account.client_email&&tokenCache.until>Date.now()?tokenCache.token:'';
+  let token=connection?await oauthAccessToken(connection):'';
+  if(!connection){
+  const account=JSON.parse(credentials!) as {client_email:string;private_key:string};
+  token=tokenCache?.email===account.client_email&&tokenCache.until>Date.now()?tokenCache.token:'';
   if(!token){const assertion=await new SignJWT({scope:'https://www.googleapis.com/auth/analytics.readonly'}).setProtectedHeader({alg:'RS256'}).setIssuer(account.client_email).setAudience('https://oauth2.googleapis.com/token').setIssuedAt().setExpirationTime('5m').sign(await importPKCS8(account.private_key,'RS256'));
    const response=await fetch('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({grant_type:'urn:ietf:params:oauth:grant-type:jwt-bearer',assertion}),signal:AbortSignal.timeout(8000)});
    if(!response.ok)throw new Error('Authentication failed');const payload=await response.json() as {access_token:string};if(!payload.access_token)throw new Error('Token missing');token=payload.access_token;tokenCache={email:account.client_email,token,until:Date.now()+50*60_000};
+  }
   }
   const response=await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({dateRanges:[{startDate:range.previousFrom,endDate:range.to}],dimensions:[{name:'date'}],metrics:[{name:'sessions'},{name:'sessionKeyEventRate:purchase'}],limit:1000}),signal:AbortSignal.timeout(8000)});
   if(!response.ok)throw new Error('Report unavailable');

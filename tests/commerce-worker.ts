@@ -1,3 +1,6 @@
+import * as ga4Route from '../app/api/admin/ga4/route';
+import {GET as ga4Callback} from '../app/api/admin/ga4/callback/route';
+import * as ga4Oauth from '../lib/ga4-oauth';
 import * as emailDelivery from "../lib/email-delivery";
 import * as emailDeliveryRoute from "../app/api/admin/email-delivery/route";
 import {POST as emailWebhook} from "../app/api/email/webhook/route";
@@ -34,6 +37,8 @@ import * as products from "../app/api/admin/products/route";
 import { POST as checkout } from "../app/api/checkout/route";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
 const routes: Record<string, Record<string, (request: Request) => Promise<Response>>> = {
+  '/api/admin/ga4':{GET:ga4Route.GET,POST:ga4Route.POST},
+  '/api/admin/ga4/callback':{GET:ga4Callback},
   '/api/admin/email-delivery':{GET:emailDeliveryRoute.GET,POST:emailDeliveryRoute.POST},
  '/api/email/webhook':{POST:emailWebhook},
  '/api/admin/payment-updates':{GET:paymentUpdatesRoute},
@@ -59,4 +64,4 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
   "/api/admin/products": { GET: products.GET, POST: products.POST, PATCH: products.PATCH, DELETE: products.DELETE },
   "/api/checkout": { POST: checkout },
 };
-export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};
+export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...ga4Oauth,...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};

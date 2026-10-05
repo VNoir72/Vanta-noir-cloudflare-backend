@@ -31,6 +31,7 @@
   ],
   "vars": {
     "AUTH_PROVIDER": "cloudflare-access",
+    "GA4_PROPERTY_ID": "554825546",
     "STOREFRONT_URL": "https://vantanoir.store",
     "ALLOWED_ORIGINS": "https://vantanoir.store,https://www.vantanoir.store",
     "EMAIL_WEBHOOK_URL": "https://api.vantanoir.store/api/email/webhook",
