@@ -1,3 +1,4 @@
+import {runTerminalJob} from '../lib/terminal-jobs';
 import {accessKeys,evaluateAccess} from "../lib/access-evaluation";
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import {reconcilePendingPayments} from "../lib/payment-reconciliation";
@@ -22,7 +23,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await reconcilePendingPayments().catch(()=>{}); await runCommerceMaintenance(); })()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await reconcilePendingPayments().catch(()=>{}); await runCommerceMaintenance(); await runTerminalJob().catch(()=>{}); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});

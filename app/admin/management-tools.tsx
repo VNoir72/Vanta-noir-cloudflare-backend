@@ -1,5 +1,6 @@
 'use client';
 import {adminRead,hasArray} from '@/lib/admin-read';
+import {TerminalConnection} from './terminal-connection';
 import {Ga4Connection} from './ga4-connection';
 import {useEffect,useRef,useState} from 'react';
 import {Bell,Search} from 'lucide-react';
@@ -36,5 +37,5 @@ export function CustomersPanel({initialQuery='',onOrders}:{initialQuery?:string;
 export function IntegrationStatus(){
  const [data,setData]=useState<Row|null>(null),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
  useEffect(()=>{let active=true;const controller=new AbortController();setError('');adminRead<Row>('/api/admin/management?resource=integrations',v=>typeof v?.paymentsConfigured==='boolean'&&typeof v?.emailConfigured==='boolean',{signal:controller.signal}).then(v=>{if(active)setData(v);}).catch(e=>{if(active)setError(e.message);});return()=>{active=false;controller.abort();};},[attempt]);
- return <section className="vn-control-panel"><h2>Connections</h2>{error&&<p role="alert">{error}</p>}<button className="vn-pill" onClick={()=>setAttempt(a=>a+1)}>Check connections</button>{data&&<><p>Paystack: {data.paymentsConfigured?'Configured':'Awaiting credentials'} · Order email: {data.emailConfigured?'Configured':'Awaiting credentials'}</p><Ga4Connection/><p>Courier: {data.courierReceiverConfigured?'Webhook receiver configured; a courier connection must also be arranged.':'Manual tracking available. Automatic courier updates await a provider connection.'}</p></>}</section>;
+ return <section className="vn-control-panel"><h2>Connections</h2>{error&&<p role="alert">{error}</p>}<button className="vn-pill" onClick={()=>setAttempt(a=>a+1)}>Check connections</button>{data&&<><p>Paystack: {data.paymentsConfigured?'Configured':'Awaiting credentials'} · Order email: {data.emailConfigured?'Configured':'Awaiting credentials'}</p><Ga4Connection/><TerminalConnection/><p>Courier: {data.courierReceiverConfigured?'Webhook receiver configured; a courier connection must also be arranged.':'Manual tracking available. Automatic courier updates await a provider connection.'}</p></>}</section>;
 }
