@@ -1,0 +1,22 @@
+'use client';
+import {useEffect,useRef,useState} from 'react';
+import {NIGERIA_STATES} from '@/lib/commerce-config';
+import type {PickupDetails,PickupRecord} from '@/lib/terminal-pickup';
+import {useUnsavedChanges} from './unsaved-changes';
+const blank:PickupDetails={line1:'',line2:'',city:'',state:'',country:'NG',first_name:'',last_name:'',phone:'',email:'',zip:''};
+export function TerminalPickup(){
+ const [value,setValue]=useState<PickupDetails>(blank),[baseline,setBaseline]=useState<PickupDetails>(blank),[revision,setRevision]=useState<string|null>(null),[ready,setReady]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState('');const lock=useRef(false);const dirty=JSON.stringify(value)!==JSON.stringify(baseline);
+ useUnsavedChanges({name:'Pickup details',dirty,busy,discard:()=>setValue(baseline)});
+ function apply(p:PickupRecord|null){setValue(p?.details||blank);setBaseline(p?.details||blank);setRevision(p?.revision||null);setSaved(p?.updatedAt||'');setReady(true);}
+ async function load(){if(lock.current)return;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/admin/terminal-pickup',{cache:'no-store',signal:AbortSignal.timeout(20000)});const d:any=await r.json();if(!r.ok)throw new Error(d.error||'Could not load pickup details.');apply(d.pickup);}catch(e){setError((e as Error).message);}finally{lock.current=false;setBusy(false);}}
+ useEffect(()=>{void load();},[]);
+ async function save(e:React.FormEvent){e.preventDefault();if(lock.current||!ready)return;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/admin/terminal-pickup',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({details:value,revision}),signal:AbortSignal.timeout(20000)});const d:any=await r.json();if(!r.ok)throw new Error(d.error||'Could not save pickup details.');apply(d.pickup);}catch(e){setError((e as Error).name==='TimeoutError'?'Save response timed out. Your edits are preserved. Reload saved details to check whether they were saved.':(e as Error).message);}finally{lock.current=false;setBusy(false);}}
+ return <section className="vn-product-disclosure" style={{minWidth:0,overflowWrap:'anywhere'}}><h3>Business pickup details</h3><p>Enter the address where your courier will collect parcels. These details are private to the owner. Saving prepares your pickup profile; it does not enable live shipping. Existing sandbox tests keep their separate test address.</p>
+ <form onSubmit={save}><fieldset disabled={!ready||busy} style={{border:0,padding:0,minWidth:0}}><div className="vn-admin-fields">
+ {([['line1','Pickup street address','text',200],['line2','Address line 2 (optional)','text',200],['city','Pickup city','text',100],['first_name','Contact first name','text',100],['last_name','Contact last name','text',100],['phone','Contact phone number','tel',25],['email','Contact email','email',254],['zip','Pickup postcode','text',6]] as const).map(([key,label,type,max])=><label key={key}>{label}<input aria-label={label} type={type} required={key!=='line2'} maxLength={max} value={value[key]} inputMode={key==='zip'?'numeric':undefined} pattern={key==='zip'?'[0-9]{6}':undefined} onChange={e=>setValue({...value,[key]:e.target.value})}/>{key==='phone'&&<small>Use 080… or +234…</small>}{key==='zip'&&<small>Use the six-digit postcode for the actual pickup address.</small>}</label>)}
+ <label>Pickup state<select required value={value.state} onChange={e=>setValue({...value,state:e.target.value})}><option value="">Choose state</option>{NIGERIA_STATES.map(v=><option key={v}>{v}</option>)}</select></label><label>Country<input value="Nigeria" readOnly/></label></div>
+ <button className="vn-pill" type="submit" disabled={!dirty}>{busy?'Saving…':'Save pickup details'}</button> <button className="vn-pill" type="button" disabled={!dirty} onClick={()=>setValue(baseline)}>Discard edits</button></fieldset></form>
+ <p role="status">{busy?'Please wait…':dirty?'Unsaved pickup changes':saved?'Pickup details saved ✓ · '+new Date(saved).toLocaleString():ready?'No business pickup address saved yet.':''}</p>{error&&<p role="alert">{error}</p>}
+ <button className="vn-pill" type="button" disabled={busy} onClick={()=>{if(!dirty||window.confirm('Reloading will replace your unsaved edits with the saved details. Continue?'))void load();}}>Reload saved pickup details</button>
+ </section>;
+}

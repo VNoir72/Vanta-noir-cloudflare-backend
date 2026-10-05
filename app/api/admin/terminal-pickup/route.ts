@@ -1,0 +1,10 @@
+import {z} from 'zod';
+import {adminAuthStateFromRequest} from '@/lib/admin-auth';
+import {rateLimit} from '@/lib/commerce-db';
+import {getPickupDetails,savePickupDetails,PickupConflict} from '@/lib/terminal-pickup';
+export const dynamic='force-dynamic';const headers={'Cache-Control':'no-store'};
+export async function GET(request:Request){const a=await adminAuthStateFromRequest(request);if(!a.ok)return Response.json({error:a.error},{status:a.status,headers});if(a.role!=='owner')return Response.json({error:'Owner access required.'},{status:403,headers});try{return Response.json({pickup:await getPickupDetails(),liveShippingEnabled:false},{headers});}catch{return Response.json({error:'Could not load pickup details. Try again.'},{status:503,headers});}}
+export async function PUT(request:Request){const a=await adminAuthStateFromRequest(request);if(!a.ok)return Response.json({error:a.error},{status:a.status,headers});if(a.role!=='owner'||request.headers.get('origin')!==new URL(request.url).origin)return Response.json({error:'Open these settings from the owner admin panel.'},{status:403,headers});
+ try{if(!await rateLimit(request,'terminal-pickup-save',30,3600))return Response.json({error:'Too many saves. Please wait and retry.'},{status:429,headers});const text=await request.text();if(text.length>8000)return Response.json({error:'Pickup details are too large.'},{status:413,headers});let body:any;try{body=JSON.parse(text);}catch{return Response.json({error:'Invalid request.'},{status:400,headers});}const pickup=await savePickupDetails(body.details,body.revision);return Response.json({pickup,liveShippingEnabled:false},{headers});}
+ catch(e){return Response.json({error:e instanceof PickupConflict?e.message:e instanceof z.ZodError?'Check the required address, name, email, Nigerian mobile number and six-digit postcode.':'Could not save. Your edits are still on this page; reload saved details to check whether the save completed.'},{status:e instanceof PickupConflict?409:e instanceof z.ZodError?400:503,headers});}
+}
