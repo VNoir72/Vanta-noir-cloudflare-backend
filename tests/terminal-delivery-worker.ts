@@ -1,0 +1,3 @@
+import {quoteDelivery,bookDelivery,refreshDeliveryTracking,deliverySession} from '../lib/terminal-delivery';
+import {GET,POST} from '../app/api/admin/terminal-shipping/route';
+export default {async fetch(r:Request){if(new URL(r.url).pathname.startsWith('/api/'))return r.method==='POST'?POST(r):GET(r);try{const b:any=await r.json();return Response.json(await (b.action==='quote'?quoteDelivery(b.input):b.action==='book'?bookDelivery(b.id,b.rateId,b.amount,b.confirmed):b.action==='track'?refreshDeliveryTracking(b.id):deliverySession(b.id)));}catch(e){return Response.json({error:(e as Error).message},{status:400});}}};
