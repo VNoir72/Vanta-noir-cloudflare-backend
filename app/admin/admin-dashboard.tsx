@@ -202,7 +202,7 @@ function DashboardContent({
   const [lowStockThreshold,setLowStockThreshold]=useState(3);
   const [mobileNav,setMobileNav]=useState(false);
   const mobileNavTrigger=useRef<HTMLButtonElement|null>(null);
-  useEffect(()=>setMobileNav(false),[section]);
+  useEffect(()=>{setMobileNav(false);document.querySelector('.vn-control-content')?.scrollTo({top:0,behavior:'instant'});window.scrollTo({top:0,behavior:'instant'});},[section]);
   useEffect(()=>{const mq=window.matchMedia("(min-width: 1024px)");const close=()=>{if(mq.matches)setMobileNav(false);};mq.addEventListener("change",close);return()=>mq.removeEventListener("change",close);},[]);
   const [connections,setConnections]=useState<ConnectionSummary|null>(null),[fulfilment,setFulfilment]=useState<FulfilmentCounts|null>(null),[emailOpen,setEmailOpen]=useState(false),[emailIssues,setEmailIssues]=useState<number|null>(null);
   useEffect(()=>{const controller=new AbortController();adminRead<ConnectionSummary>("/api/admin/management?resource=integrations",v=>typeof v?.paymentsConfigured==='boolean'&&typeof v?.emailConfigured==='boolean',{signal:controller.signal}).then(setConnections).catch(()=>{});return()=>controller.abort();},[]);

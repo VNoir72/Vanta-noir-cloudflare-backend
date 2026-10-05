@@ -26,3 +26,13 @@
 .vn-exact .vn-control-body>.vn-exact-catalogue,.vn-exact .vn-control-body>.vn-exact-connections{margin-top:14px}
 @media(min-width:1024px){.vn-exact-chart{height:155px}.vn-fulfilment-visual{min-height:155px}}
 @media(max-width:700px){.vn-exact-revenue:focus-within .vn-segments{display:none}.vn-chart-mobile-actions{gap:5px}.vn-chart-mobile-actions button{font-size:10px;padding:6px}.vn-exact-metrics strong{font-size:clamp(18px,5vw,23px)}}
+
+/* Reserve a separate navigation row: never float tabs over editable content. */
+@media(max-width:1023px){
+ .vn-exact{height:100vh;height:100dvh;min-height:0;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;}
+ .vn-exact .vn-control-content{grid-row:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;scroll-padding-top:88px;}
+ .vn-exact .vn-mobile-tabs{grid-row:2;position:relative;inset:auto;width:100%;background:#101518;backdrop-filter:none;}
+ .vn-exact .vn-control-body{padding-bottom:24px;flex-shrink:0;width:100%;}
+ .vn-exact .vn-workspace-bar{flex-shrink:0;}
+ .vn-exact .vn-approval-summary{flex-wrap:wrap;}
+}
