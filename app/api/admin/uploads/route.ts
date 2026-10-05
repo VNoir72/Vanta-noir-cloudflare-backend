@@ -31,12 +31,12 @@ export async function POST(request: Request) {
 
   const extension = CONTENT_TYPES.get(file.type);
   const key = `${auth.role==='owner'?'products':'approval-staging'}/${crypto.randomUUID()}.${extension}`;
-  await bucket.put(key, file.stream(), {
+  try { await bucket.put(key, file.stream(), {
     httpMetadata: {
       contentType: file.type,
       cacheControl: "public, max-age=31536000, immutable",
     },
-  });
+  }); } catch { return Response.json({error:"Image storage is temporarily unavailable. Your product has not been changed. Please retry the upload."},{status:503}); }
 
   if(auth.role!=='owner'){try{return pendingResponse(await submitApproval(auth,'upload',{key,name:file.name.slice(0,255),contentType:file.type}));}catch{await bucket.delete(key);return Response.json({error:'Image could not be submitted for approval.'},{status:503});}}
   const origin = new URL(request.url).origin;

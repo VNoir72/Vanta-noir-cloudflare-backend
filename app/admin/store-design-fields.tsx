@@ -8,16 +8,17 @@ type Props={settings:CommerceSettings;onChange:(settings:CommerceSettings)=>void
 export function StoreDesignFields({settings,onChange,busy,onUploadChange}:Props) {
   const [uploading,setUploading]=useState(false),[error,setError]=useState('');
   const hero=settings.hero;
+  const uploadLock=useRef(false);
   const latestSettings=useRef(settings);latestSettings.current=settings;
   async function upload(file:File|undefined,key:'image'|'mobileImage'|'aboutImage') {
-    if(!file)return;setUploading(true);onUploadChange?.(true);setError('');
+    if(!file||uploadLock.current)return;if(!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||!file.size||file.size>12*1024*1024){setError('Choose a JPG, PNG, WebP or AVIF image, no larger than 12 MB.');return;}uploadLock.current=true;setUploading(true);onUploadChange?.(true);setError('');
     try {
       const form=new FormData();form.set('file',file);
       const response=await fetch('/api/admin/uploads',{method:'POST',body:form,signal:AbortSignal.timeout(60000)});
       const result=await response.json() as {url?:string;error?:string};
       if(!response.ok||!result.url)throw new Error(result.error||'Image upload failed.');
       onChange(key==='aboutImage'?{...latestSettings.current,aboutImage:{...latestSettings.current.aboutImage,image:result.url}}:{...latestSettings.current,hero:{...latestSettings.current.hero,[key]:result.url}});
-    }catch(e){setError(e instanceof Error?e.message:'Upload failed.');}finally{setUploading(false);onUploadChange?.(false);}
+    }catch(e){setError(e instanceof Error?e.message:'Upload failed.');}finally{uploadLock.current=false;setUploading(false);onUploadChange?.(false);}
   }
   return <fieldset disabled={busy||uploading} className="vn-product-disclosure"><legend>Store images &amp; collection names</legend>
     <p>Upload campaign artwork, edit the wording and choose its destination. Changes go live after Save settings. Use landscape artwork for desktop; an optional mobile image can use a tighter crop. Images are public: never upload customer documents.</p>

@@ -83,5 +83,29 @@ test('integration: rollout switch, private receipts, admin authorization, addres
   assert.equal(await rpc('getGuestOrder',order.reference,'another@example.com',''),null);assert.ok(await rpc('getGuestOrder',order.reference,customer.email,''));
   assert.equal((await request('/api/admin/commerce',{action:'settings',settings:{...settings,internationalEnabled:false}},true)).status,200);assert.equal((await request('/api/checkout',checkout)).status,400);
   const form=new FormData();form.set('file',new File(['<html>not an image</html>'],'fake.png',{type:'image/png'}));const upload=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/uploads',{method:'POST',headers:{Origin:'https://api.vantanoir.store','cf-access-jwt-assertion':token},body:form});assert.equal(upload.status,400);assert.equal((await (await mf.getR2Bucket('BUCKET')).list()).objects.length,0);
+
+  // Real storage -> product -> public catalogue -> archive -> delete lifecycle.
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64');
+  const uploadFile=async(bytes,type='image/png',authorized=true)=>{const body=new FormData();body.set('file',new File([bytes],'front.png',{type}));const req=new Request('https://api.vantanoir.store/api/admin/uploads',{method:'POST',headers:{Origin:'https://api.vantanoir.store',...(authorized?{'cf-access-jwt-assertion':token}:{})},body});return mf.dispatchFetch(req.url,{method:'POST',headers:Object.fromEntries(req.headers),body:new Uint8Array(await req.arrayBuffer())});};
+  assert.equal((await uploadFile(png,'image/png',false)).status,403);
+  for(const [bytes,type] of [[new Uint8Array(),'image/png'],[png,'text/html'],[new Uint8Array(12*1024*1024+1),'image/png']])assert.equal((await uploadFile(bytes,type)).status,400);
+  const uploaded=await uploadFile(png);assert.equal(uploaded.status,201,await uploaded.clone().text());const {url:imageUrl}=await uploaded.json();assert.match(imageUrl,/\/api\/media\/products\/[a-f0-9-]+\.png$/);
+  const served=await mf.dispatchFetch(imageUrl);assert.equal(served.status,200);assert.equal(served.headers.get('content-type'),'image/png');assert.deepEqual(Buffer.from(await served.arrayBuffer()),png);
+  assert.equal((await mf.dispatchFetch(imageUrl,{headers:{'if-none-match':served.headers.get('etag')}})).status,304);
+  assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/media/approval-staging/private.png')).status,404);
+  const mutate=(method,body)=>mf.dispatchFetch('https://api.vantanoir.store/api/admin/products',{method,headers:{Origin:'https://api.vantanoir.store','Content-Type':'application/json','cf-access-jwt-assertion':token},body:JSON.stringify(body)});
+  const draft={name:'Upload lifecycle jacket',slug:'upload-lifecycle-jacket',description:'Isolated lifecycle test',category:'Outerwear',priceKobo:2500000,status:'draft',images:[{color:'Black',imageUrl,imageAlt:'Front view'}],variants:[{sku:'QA-UPLOAD-M',size:'M',color:'Black',colorHex:'#000000',stock:3}]};
+  const createdProduct=await mutate('POST',draft);assert.equal(createdProduct.status,201,await createdProduct.clone().text());let item=(await createdProduct.json()).product;
+  const visible=async()=> (await (await request('/api/catalog')).json()).products.find(p=>p.id===item.id);
+  assert.equal(await visible(),undefined);
+  for(const status of ['published','archived','draft','published']){assert.equal((await mutate('PATCH',{productId:item.id,status})).status,200);const shown=await visible();assert.equal(Boolean(shown),status==='published');if(shown){assert.equal(shown.images[0].imageUrl,imageUrl);assert.equal(shown.colorways[0].stock.M,3);}}
+  item=(await rpc('listAdminProducts')).find(p=>p.id===item.id);
+  const edited=await mutate('PATCH',{...item,images:[{color:'Black',imageUrl,imageAlt:'Replacement front'}],variants:item.variants.map(v=>({...v,stock:2,expectedStock:v.stock}))});assert.equal(edited.status,200,await edited.clone().text());assert.equal((await visible()).colorways[0].stock.M,2);assert.equal((await visible()).images[0].imageAlt,'Replacement front');
+  for(const bad of [null,[],{}, {...draft,priceKobo:-1},{...draft,images:[{imageUrl:'javascript:alert(1)'}]},{...draft,variants:[{...draft.variants[0],stock:-1}]}])assert.equal((await mutate('POST',bad)).status,400);
+  assert.equal((await mutate('DELETE',{productId:item.id})).status,200);assert.equal(await visible(),undefined);assert.equal((await rpc('listAdminProducts')).some(p=>p.id===item.id),false);
+  assert.equal((await mutate('DELETE',{productId:p.id})).status,400,'Ordered products must preserve order history');
+  settings={...settings,deliveryPolicy:'Delivery test policy\nTracking and delays',returnPolicy:'Return test policy\nExchanges and refunds'};
+  assert.equal((await request('/api/admin/commerce',{action:'settings',settings},true)).status,200);
+  const publishedPolicy=await (await request('/api/store-settings')).json();assert.equal(publishedPolicy.deliveryPolicy,settings.deliveryPolicy);assert.equal(publishedPolicy.returnPolicy,settings.returnPolicy);
  }finally{await mf.dispose();}
 });

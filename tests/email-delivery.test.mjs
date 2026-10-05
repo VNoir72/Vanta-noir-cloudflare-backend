@@ -36,7 +36,7 @@ test('Resend tracking verifies signatures and owner resends are confirmed, bound
  await rpc('processEmailOutbox',10);let data=await (await admin(owner)).json();const original=data.emails.find(e=>e.eventKey.endsWith(':payment'));assert.equal(original.deliveryStatus,'bounced','Webhook before send response mapping is retained');
  assert.equal((await hook({...event,type:'email.delivered',created_at:new Date(Date.now()-10000).toISOString()})).status,200);assert.equal((await rpc('emailDeliveryData')).emails[0].deliveryStatus,'bounced','Out of order delivered must not hide a bounce');
  assert.equal((await admin(owner,'POST',{...resend,confirmed:false})).status,400);
- const results=await Promise.all([admin(owner,'POST',resend),admin(owner,'POST',resend)]);assert.deepEqual(results.map(r=>r.status),[200,200]);
+ const results=await Promise.all([admin(owner,'POST',resend),admin(owner,'POST',resend)]);assert.deepEqual(results.map(r=>r.status),[200,200],JSON.stringify(await Promise.all(results.map(r=>r.clone().json()))));
  assert.equal((await admin(owner,'POST',{...resend,requestId:randomUUID()})).status,409);assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE event_key LIKE 'order:%:manual-confirmation:%'").first()).n,1);
  await rpc('processEmailOutbox',10);assert.equal(sends.filter(s=>s.to.includes('corrected@example.com')).length,1);assert.equal((await db.prepare('SELECT email FROM orders WHERE reference=?').bind(order.reference).first()).email,'buyer@example.com');
  assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM admin_audit WHERE action='resend order confirmation'").first()).n,1);

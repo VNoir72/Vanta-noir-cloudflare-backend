@@ -36,3 +36,10 @@
  .vn-exact .vn-workspace-bar{flex-shrink:0;}
  .vn-exact .vn-approval-summary{flex-wrap:wrap;}
 }
+
+/* Each pane owns its scroll; reaching an edge must not move the other pane. */
+.vn-exact{height:100vh;height:100dvh;min-height:0;overflow:hidden;box-sizing:border-box}
+.vn-exact .vn-control-sidebar{overscroll-behavior:contain;min-height:0;-webkit-overflow-scrolling:touch}
+.vn-exact .vn-control-content{height:100%;min-width:0;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-padding-top:88px;-webkit-overflow-scrolling:touch}
+.vn-exact .vn-control-body{min-width:0;width:100%;box-sizing:border-box}
+@media(max-width:1023px){.vn-exact .vn-control-content{height:auto}}

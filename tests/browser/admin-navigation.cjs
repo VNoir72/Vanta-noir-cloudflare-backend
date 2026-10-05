@@ -1,6 +1,6 @@
 // Run from repository root with Playwright installed; optional CHROMIUM_EXECUTABLE overrides its browser.
 const {spawn}=require('child_process');const {chromium}=require('playwright');const assert=require('assert/strict');
-(async()=>{const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--config','portable/vite.config.ts','--host','127.0.0.1','--port','5184']);try{await new Promise((resolve,reject)=>{server.stdout.on('data',b=>{if(b.toString().includes('Local:'))resolve()});server.on('exit',c=>reject(Error('server '+c)));server.stderr.on('data',b=>process.stderr.write(b));});const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE?{executablePath:process.env.CHROMIUM_EXECUTABLE}:{}),args:['--no-sandbox']});try{const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:1504,height:1046});await page.goto('http://127.0.0.1:5184/tests/browser/admin-navigation.html');await page.getByRole('heading',{name:'Store overview',exact:true}).waitFor();
+(async()=>{const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--config','portable/vite.config.ts','--host','127.0.0.1','--port','5184']);try{await new Promise((resolve,reject)=>{server.stdout.on('data',b=>{if(b.toString().includes('Local:'))resolve()});server.on('exit',c=>reject(Error('server '+c)));server.stderr.on('data',b=>process.stderr.write(b));});const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE?{executablePath:process.env.CHROMIUM_EXECUTABLE}:{}),args:['--no-sandbox']});try{const page=await browser.newPage({hasTouch:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:1504,height:1046});await page.goto('http://127.0.0.1:5184/tests/browser/admin-navigation.html');await page.getByRole('heading',{name:'Store overview',exact:true}).waitFor();
 for(const width of [390,768,820,1023,1024,1180,820,390]){
  await page.setViewportSize({width,height:900});await page.waitForTimeout(100);
  const mobile=width<1024,nav=page.getByRole('navigation',{name:mobile?'Quick navigation':'Store administration'});
@@ -12,7 +12,13 @@ for(const width of [390,768,820,1023,1024,1180,820,390]){
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'horizontal overflow '+width);
  }
  if(mobile){await page.getByRole('button',{name:'More navigation'}).click();await page.getByRole('dialog').getByRole('button',{name:'Products',exact:true}).click();await page.waitForTimeout(100);await page.getByRole('dialog').waitFor({state:'hidden'});await nav.getByRole('button',{name:'Overview',exact:true}).click();await page.getByRole('button',{name:'More navigation'}).click();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});}
- console.log('PASS navigation + scroll + bounds',width);
+ if(!mobile){
+  const positions=()=>page.evaluate(()=>({side:document.querySelector('.vn-control-sidebar').scrollTop,main:document.querySelector('.vn-control-content').scrollTop,body:window.scrollY}));
+  await page.locator('.vn-control-sidebar').hover();await page.mouse.wheel(0,2000);await page.waitForTimeout(200);const left=await positions();assert.equal(left.main,0,'sidebar moved main '+width);assert.equal(left.body,0,'sidebar moved document '+width);
+  await page.locator('.vn-control-content').hover();await page.mouse.wheel(0,2000);await page.waitForTimeout(200);const right=await positions();assert.equal(right.side,left.side,'main moved sidebar '+width);assert.equal(right.body,0,'main moved document '+width);
+  assert(await page.evaluate(()=>getComputedStyle(document.querySelector('.vn-control-sidebar')).overscrollBehaviorY==='contain'),'sidebar chains scroll');
+ }
+ console.log('PASS navigation + independent scroll + bounds',width);
 }
 await page.setViewportSize({width:820,height:600});
 await page.getByRole('button',{name:'Add product',exact:true}).click();
@@ -26,4 +32,34 @@ await page.getByRole('dialog').waitFor({state:'hidden'});
 await page.getByRole('button',{name:'More navigation'}).click();
 await page.setViewportSize({width:1180,height:820});await page.getByRole('dialog').waitFor({state:'hidden'});
 console.log('PASS unsaved editor protection and rotation with drawer open');
+await page.getByRole('button',{name:'Add product',exact:true}).click();
+const imageInput=page.locator('.vn-studio-upload input');
+const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64');
+for(const [i,view] of ['Front','Back','Left','Right'].entries()){
+ await page.locator('.vn-studio-tabs').getByRole('button',{name:view,exact:true}).click();
+ await imageInput.setInputFiles({name:'view.png',mimeType:'image/png',buffer:png});
+ await page.locator('.vn-studio-preview img').waitFor();
+ assert((await page.locator('.vn-studio-preview img').getAttribute('src')).includes('test-'+(i+1)+'.png'),'wrong view '+view);
+}
+await page.evaluate(()=>window.__qaUploadFail=true);
+await imageInput.setInputFiles({name:'view.png',mimeType:'image/png',buffer:png});
+await page.getByText('Storage unavailable. Retry upload.',{exact:true}).waitFor();
+assert((await page.locator('.vn-studio-preview img').getAttribute('src')).includes('test-4.png'),'failed upload replaced existing image');
+await page.evaluate(()=>window.__qaUploadFail=false);
+await imageInput.setInputFiles({name:'view.png',mimeType:'image/png',buffer:png});
+await page.waitForFunction(()=>document.querySelector('.vn-studio-preview img')?.getAttribute('src')?.includes('test-5.png'));
+await page.getByRole('button',{name:'Remove view',exact:true}).click();
+assert.equal(await page.locator('.vn-studio-preview img').count(),0);
+await page.locator('.vn-studio-tabs').getByRole('button',{name:'Front',exact:true}).click();
+assert((await page.locator('.vn-studio-preview img').getAttribute('src')).includes('test-1.png'),'removing right removed front');
+await page.getByRole('button',{name:'Close product editor'}).click();await page.getByRole('button',{name:'Discard and continue',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});
+console.log('PASS four image destinations, failed upload recovery, retry and remove');
+
+const sectionButtons=page.getByRole('navigation',{name:'Store administration'}).getByRole('button');
+for(const name of await sectionButtons.allTextContents()){
+ await page.getByRole('navigation',{name:'Store administration'}).getByRole('button',{name,exact:true}).click();await page.waitForTimeout(200);
+ assert(await page.locator('h1').count()>0,'blank section '+name);
+ console.log('PASS section renders',name);
+}
+
 assert.deepEqual(errors,[]);console.log('PASS all admin navigation regression checks');}finally{await browser.close()}}finally{server.kill()}})().catch(e=>{console.error(e);process.exitCode=1});
