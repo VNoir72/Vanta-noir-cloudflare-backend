@@ -25,8 +25,8 @@ export const commerceSettingsSchema = z.object({
   deliveryNote: z.string().trim().max(500).default(""),
   shippingZones: z.array(z.object({
     state: z.string().refine(value => value === "*" || NIGERIA_STATES.includes(value), "Choose a Nigerian state."),
-    feeKobo: z.number().int().min(0).max(10000000),
-    estimate: z.string().trim().min(3).max(160),
+    feeKobo: z.number().int().min(0).max(10000000).nullable(),
+    estimate: z.string().trim().max(160),
   })).max(38).default([]).refine(zones => new Set(zones.map(z => z.state)).size === zones.length, "Each delivery zone must be unique."),
   lowStockThreshold: z.number().int().min(0).max(100).default(3),
 }).refine(s=>!s.internationalEnabled||(s.internationalZones.length>0&&s.internationalDutiesNote.length>=10), 'Add international rates and explain customs / import charges before enabling international shipping.');
@@ -38,12 +38,16 @@ export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled:
   if (!settings.supportEmail) issues.push("Add your customer care email");
   if (!settings.dispatchNote) issues.push("Confirm dispatch timing");
   if (!settings.shippingZones.length && (shippingFeeKobo === null || !settings.deliveryNote)) issues.push("Set delivery rates and estimates");
+  if (settings.shippingZones.length && !settings.shippingZones.some(deliveryZoneReady)) issues.push("Complete at least one delivery zone fee and estimate");
   if (!settings.returnPolicy) issues.push("Publish your returns and exchange policy");
   if (!settings.inventoryConfirmed) issues.push("Confirm product prices and actual stock");
   return issues;
 }
+export function deliveryZoneReady(zone:CommerceSettings['shippingZones'][number]) { return zone.feeKobo!==null && zone.estimate.trim().length>=3; }
 export function publicCommerceSettings(settings:CommerceSettings):CommerceSettings {
-  return settings.internationalEnabled?settings:{...settings,internationalZones:[],internationalDutiesNote:''};
+  const shippingZones=settings.shippingZones.filter(deliveryZoneReady);
+  const publicSettings={...settings,shippingZones,acceptingOrders:settings.acceptingOrders&&(!settings.shippingZones.length||shippingZones.length>0)};
+  return settings.internationalEnabled?publicSettings:{...publicSettings,internationalZones:[],internationalDutiesNote:''};
 }
 export function shippingQuote(settings: Partial<CommerceSettings> & { shippingFeeKobo?: number | null }, state: string, countryCode='NG') {
   if(countryCode!=='NG') {
@@ -53,6 +57,7 @@ export function shippingQuote(settings: Partial<CommerceSettings> & { shippingFe
   const zones = settings.shippingZones ?? [];
   const normalized = state.trim().toLowerCase();
   const zone = zones.find(z => z.state.toLowerCase() === normalized) ?? zones.find(z => z.state === "*");
+  if (zone && !deliveryZoneReady(zone)) return {feeKobo:null,estimate:"",dispatchNote:settings.dispatchNote??"",supported:false};
   const feeKobo = zones.length ? (normalized ? zone?.feeKobo ?? null : null) : settings.shippingFeeKobo ?? null;
   return { feeKobo, estimate: zone?.estimate ?? settings.deliveryNote ?? "", dispatchNote: settings.dispatchNote ?? "", supported: !zones.length || !normalized || Boolean(zone) };
 }
