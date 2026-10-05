@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ComponentProps } from "react";
+import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
 import { AdminDashboard } from "./admin-dashboard";
 
 type DashboardProps = ComponentProps<typeof AdminDashboard>;
@@ -18,17 +19,9 @@ export function AdminDashboardLoader({ adminName, signOutPath, statusPanel }: Pi
     async function load() {
       setError("");
       try {
-        const read = async <T,>(path: string): Promise<T> => {
-          const response = await fetch(path, { signal: controller.signal, credentials: "same-origin", cache: "no-store", headers: { Accept: "application/json" } });
-          if (response.status === 401 || response.status === 403 || response.redirected) {
-            throw new Error("Your session has expired. Sign in again to open the dashboard.");
-          }
-          if (!response.ok) throw new Error("The dashboard could not load. Please retry.");
-          return response.json() as Promise<T>;
-        };
         const [orders, inventory, analytics, products] = await Promise.all([
-          read<{ orders: DashboardData["initialOrders"] }>("/api/admin/orders"), read<{ inventory: DashboardData["initialInventory"] }>("/api/admin/inventory"),
-          read<{ analytics: DashboardData["initialAnalytics"] }>("/api/admin/analytics"), read<{ products: DashboardData["initialProducts"] }>("/api/admin/products"),
+          adminRead<{ orders: DashboardData["initialOrders"] }>("/api/admin/orders",hasArray("orders"),{signal:controller.signal}), adminRead<{ inventory: DashboardData["initialInventory"] }>("/api/admin/inventory",hasArray("inventory"),{signal:controller.signal}),
+          adminRead<{ analytics: DashboardData["initialAnalytics"] }>("/api/admin/analytics",hasAnalytics,{signal:controller.signal}), adminRead<{ products: DashboardData["initialProducts"] }>("/api/admin/products",hasArray("products"),{signal:controller.signal}),
         ]);
         if (!Array.isArray(orders.orders) || !Array.isArray(inventory.inventory) || !Array.isArray(products.products) || !analytics.analytics) {
           throw new Error("The dashboard returned incomplete data. Please retry.");

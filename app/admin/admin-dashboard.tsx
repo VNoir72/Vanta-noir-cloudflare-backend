@@ -1,5 +1,6 @@
 "use client";
 
+import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
 import { resolvedProductDetails } from "@/lib/product-specs";
 
 import Link from "next/link";
@@ -249,27 +250,20 @@ function DashboardContent({
   async function refresh() {
     setBusy("refresh");
     try {
-      const [ordersResponse, inventoryResponse, analyticsResponse] = await Promise.all([
-        fetch(`/api/admin/orders?${orderParams(orderPage)}`),
-        fetch("/api/admin/inventory"),
-        fetch("/api/admin/analytics?"+reportParams.current),
+      const [ordersPayload, inventoryPayload, analyticsPayload, recentPayload, productsPayload] = await Promise.all([
+        adminRead<{orders:AdminOrder[];total:number;hasMore:boolean}>(`/api/admin/orders?${orderParams(orderPage)}`,hasArray('orders')),
+        adminRead<{inventory:InventoryRow[]}>('/api/admin/inventory',hasArray('inventory')),
+        adminRead<{analytics:AdminAnalytics}>('/api/admin/analytics?'+reportParams.current,hasAnalytics),
+        adminRead<{orders:AdminOrder[]}>('/api/admin/orders',hasArray('orders')),
+        adminRead<{products:AdminProduct[]}>('/api/admin/products',hasArray('products')),
       ]);
-      if (!ordersResponse.ok || !inventoryResponse.ok || !analyticsResponse.ok) throw new Error("Refresh failed.");
-      const ordersPayload = (await ordersResponse.json()) as { orders: AdminOrder[]; total:number; hasMore:boolean };
-      const inventoryPayload = (await inventoryResponse.json()) as { inventory: InventoryRow[] };
-      const analyticsPayload = (await analyticsResponse.json()) as { analytics: AdminAnalytics };
-      setOrders(ordersPayload.orders);
-      setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
-      applyInventory(inventoryPayload.inventory);
-      setAnalytics(analyticsPayload.analytics);
-      const recentResponse=await fetch("/api/admin/orders");if(recentResponse.ok)setRecentOrders(((await recentResponse.json()) as {orders:AdminOrder[]}).orders);
-      const productsResponse = await fetch("/api/admin/products");
-      if (!productsResponse.ok) throw new Error("Products refresh failed.");
-      const productsPayload = (await productsResponse.json()) as { products: AdminProduct[] };
-      setProducts(productsPayload.products);
+      // Publish one coherent snapshot only after every required read succeeds.
+      setOrders(ordersPayload.orders);setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
+      setInventory(inventoryPayload.inventory);setAnalytics(analyticsPayload.analytics);
+      setRecentOrders(recentPayload.orders);setProducts(productsPayload.products);
       toast.success("Dashboard refreshed.");
-    } catch {
-      toast.error("The dashboard could not refresh.");
+    } catch (error) {
+      toast.error((error instanceof Error?error.message:"The dashboard could not refresh.")+" Previous figures remain displayed.");
     } finally {
       setBusy(null);
     }

@@ -1,4 +1,5 @@
 'use client';
+import {adminRead} from '@/lib/admin-read';
 import {useEffect,useState,useRef} from 'react';
 import {Tabs,TabsList,TabsTrigger,TabsContent} from '@/components/ui/tabs';
 import {Button} from '@/components/ui/button';
@@ -31,8 +32,8 @@ export function OperationsPanel({role,initialSection,onChanged,dedicated=false}:
  useUnsavedChanges({name:'Operations save',dirty:false,busy,discard:()=>{}});
  useUnsavedChanges({name:'Bulk prices',dirty:Object.keys(prices).length>0,busy:busy&&Object.keys(prices).length>0,discard:()=>setPrices({})});
  useUnsavedChanges({name:'CSV import',dirty:csv.length>0,busy:busy&&csv.length>0,discard:()=>{setCsv('');setPreview([]);}});
- async function load(nextPage=page){if(section==='requests'){setLoading(false);return;}const id=++requestId.current;setLoading(true);setError('');try{const p=new URLSearchParams({resource:section,page:String(nextPage),q,status:status==='all'?'':status});if(from)p.set('from',from);if(to)p.set('to',to);const r=await fetch('/api/admin/operations?'+p);const value=await r.json() as Row;if(id!==requestId.current)return;if(!r.ok)throw new Error(value.error);setData(value);}catch(e){if(id===requestId.current){setError(e instanceof Error?e.message:'Could not load.');setData({});}}finally{if(id===requestId.current)setLoading(false);}}
- useEffect(()=>{void load();},[section,page,status,from,to]);
+ async function load(nextPage=page){if(section==='requests'){setLoading(false);return;}const id=++requestId.current;setLoading(true);setError('');try{const p=new URLSearchParams({resource:section,page:String(nextPage),q,status:status==='all'?'':status});if(from)p.set('from',from);if(to)p.set('to',to);const value=await adminRead<Row>('/api/admin/operations?'+p,v=>!!v&&typeof v==='object'&&!Array.isArray(v));if(id!==requestId.current)return;setData(value);}catch(e){if(id===requestId.current){setError((e instanceof Error?e.message:'Could not load.')+' Existing entries have been kept.');}}finally{if(id===requestId.current)setLoading(false);}}
+ useEffect(()=>{void load();return()=>{requestId.current++;};},[section,page,status,from,to]);
  async function save(action:string,values:unknown){if(savingLock.current)return null;savingLock.current=true;setBusy(true);setError('');setNotice('');try{const r=await fetch('/api/admin/operations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,data:values}),signal:AbortSignal.timeout(30000)});const v=await r.json() as Row;if(!r.ok)throw new Error(v.error);if(v.pending){setNotice('Submitted for owner approval. The live store is unchanged. Track it in My requests.');return Array.isArray(values)?values.map((row:Row)=>({...row,ok:true,pending:true})):v;}await load();setNotice(Array.isArray(v.result)&&v.result.some((r:Row)=>!r.ok)?'Some rows need attention. Review the results below.':'Changes saved ✓');try{await onChanged?.();}catch{setNotice('Changes saved. Use Refresh to update the other dashboard figures.');}return v.result;}catch(e){setError(e instanceof Error?e.message:'Could not save.');return null;}finally{savingLock.current=false;setBusy(false);}}
 
  async function savePrices(id?:string){
