@@ -1,5 +1,6 @@
 'use client';
 import './control-center.css';
+import {adminRead,hasArray} from '@/lib/admin-read';
 import {formatNaira} from '@/lib/catalog';
 import {useEffect,useRef,useState} from 'react';
 import {useUnsavedChanges} from './unsaved-changes';
@@ -21,7 +22,7 @@ export function ApprovalsPanel({owner=false,onChanged}:{owner?:boolean;onChanged
  const [requests,setRequests]=useState<Proposal[]>([]),[status,setStatus]=useState(owner?'pending':'all'),[page,setPage]=useState(1),[more,setMore]=useState(false),[pending,setPending]=useState(0),[error,setError]=useState(''),[notice,setNotice]=useState(''),[loading,setLoading]=useState(false),[busy,setBusy]=useState(''),[notes,setNotes]=useState<Record<string,string>>({});
  const serial=useRef(0),lock=useRef(false);
  useUnsavedChanges({name:'Approval review',dirty:Object.values(notes).some(Boolean),busy:!!busy,discard:()=>setNotes({})});
- async function load(){const n=++serial.current;setLoading(true);setError('');try{const r=await fetch('/api/admin/approvals?'+new URLSearchParams({status,page:String(page)}),{cache:'no-store'});const v=await r.json() as {requests:Proposal[];hasMore:boolean;pending:number;error?:string};if(!r.ok)throw new Error(v.error||'Request failed.');if(n!==serial.current)return;setRequests(v.requests);setMore(v.hasMore);setPending(v.pending);}catch(e){if(n===serial.current)setError((e as Error).message);}finally{if(n===serial.current)setLoading(false);}}
+ async function load(){const n=++serial.current;setLoading(true);setError('');try{const v=await adminRead<{requests:Proposal[];hasMore:boolean;pending:number}>('/api/admin/approvals?'+new URLSearchParams({status,page:String(page)}),hasArray('requests'));if(n!==serial.current)return;setRequests(v.requests);setMore(v.hasMore);setPending(v.pending);}catch(e){if(n===serial.current)setError((e as Error).message);}finally{if(n===serial.current)setLoading(false);}}
  useEffect(()=>{void load();return()=>{serial.current++;};},[status,page]);
  async function review(r:Proposal,decision:'approve'|'reject'){
   if(lock.current)return;lock.current=true;setBusy(r.id);setError('');setNotice('');

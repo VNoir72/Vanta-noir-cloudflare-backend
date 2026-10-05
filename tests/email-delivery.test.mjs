@@ -40,6 +40,10 @@ test('Resend tracking verifies signatures and owner resends are confirmed, bound
  assert.equal((await admin(owner,'POST',{...resend,requestId:randomUUID()})).status,409);assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE event_key LIKE 'order:%:manual-confirmation:%'").first()).n,1);
  await rpc('processEmailOutbox',10);assert.equal(sends.filter(s=>s.to.includes('corrected@example.com')).length,1);assert.equal((await db.prepare('SELECT email FROM orders WHERE reference=?').bind(order.reference).first()).email,'buyer@example.com');
  assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM admin_audit WHERE action='resend order confirmation'").first()).n,1);
+ await db.prepare('DELETE FROM store_meta WHERE key=?').bind('email-resend:'+order.reference).run();
+ const collisionId=randomUUID();const collision=await Promise.all([admin(owner,'POST',{...resend,requestId:collisionId,recipient:'one@example.com'}),admin(owner,'POST',{...resend,requestId:collisionId,recipient:'two@example.com'})]);
+ assert.deepEqual(collision.map(r=>r.status).sort(),[200,409],'A concurrent request ID cannot acknowledge a different recipient');
+ assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE event_key=?").bind('order:'+order.reference+':manual-confirmation:'+collisionId).first()).n,1);
  await db.prepare("DELETE FROM store_meta WHERE key IN ('email-webhook-config','email-webhook-setup-lock')").run();listDenied=true;await rpc('connectEmailTracking');assert.equal(creates,1);assert.equal((await rpc('emailTrackingState')).state,'setup_required');
  }finally{await mf.dispose();}
 });
