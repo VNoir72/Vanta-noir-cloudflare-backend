@@ -178,6 +178,7 @@ function DashboardContent({
   initialAnalytics,
   initialProducts,
   signOutPath,
+  statusPanel,
 }: {
   adminName: string;
   initialOrders: AdminOrder[];
@@ -185,6 +186,7 @@ function DashboardContent({
   initialAnalytics: AdminAnalytics;
   initialProducts: AdminProduct[];
   signOutPath: string;
+  statusPanel?: React.ReactNode;
 }) {
   const {options,setOptions}=useCatalogOptions();
   const [section, setSectionState] = useState("overview");
@@ -194,7 +196,9 @@ function DashboardContent({
   const [operationsStart,setOperationsStart]=useState<string|undefined>('reports');
   const [lowStockThreshold,setLowStockThreshold]=useState(3);
   const [mobileNav,setMobileNav]=useState(false);
+  const mobileNavTrigger=useRef<HTMLButtonElement|null>(null);
   useEffect(()=>setMobileNav(false),[section]);
+  useEffect(()=>{const mq=window.matchMedia("(min-width: 1024px)");const close=()=>{if(mq.matches)setMobileNav(false);};mq.addEventListener("change",close);return()=>mq.removeEventListener("change",close);},[]);
   const sections = ["overview", "products", "orders", "inventory", "customers", "returns", "collections", "analytics", "discounts", "delivery", "media", "operations", "approvals", "staff", "activity", "settings"];
   const sectionLabels:Record<string,string>={approvals:'Staff approvals',collections:'Categories & colours',returns:'Returns & exchanges',staff:'Staff access',activity:'Activity',operations:'More tools'};
   const operationSections:Record<string,string>={returns:'returns',delivery:'courier',staff:'staff',activity:'activity',discounts:'promotions'};
@@ -459,19 +463,24 @@ function DashboardContent({
     }catch(e){toast.error(e instanceof Error?e.message:'Order status could not be updated.');return false;}finally{setBusy(null);}
   }
 
-  return (
-    <main className="vn-control-center min-h-screen bg-[#090b0a] text-[#f4f4f4]">
-      <aside className={`vn-control-sidebar ${mobileNav?"is-open":""}`}>
+  const navigation = <>
         <a className="vn-control-brand" href="/"><StoreImage src="/images/vanta-noir-emblem-480.webp" alt="" sizes="38px"/><span>VANTA NOIR<small>ADMINISTRATION</small></span></a>
         <div className="vn-workspace-selector"><ShoppingBag size={18}/><div>Vanta Noir Store<small>Store administration</small></div></div>
-        <nav aria-label="Store administration">{sections.map((item,index) => {const Icon=({overview:LayoutDashboard,products:ShoppingBag,orders:PackageCheck,inventory:Boxes,collections:Layers,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:Layers,settings:Settings,customers:ShoppingBag,returns:RotateCcw,delivery:PackageCheck,approvals:PackageCheck,staff:Settings,activity:Layers} as Record<string,typeof Boxes>)[item];return <div key={item}>{(index===0||item==='analytics')&&<p className="vn-nav-group">{index===0?'Workspace':'Growth & operations'}</p>}<button type="button" aria-current={section === item ? "page" : undefined} onClick={() => setSection(item)}><Icon size={18}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}{item==='products'&&<small>{products.length}</small>}{item==='orders'&&fulfilmentCount>0&&<small title='Paid orders awaiting fulfilment'>{fulfilmentCount}</small>}</button></div>;})}</nav>
+        <nav aria-label="Store administration">{sections.map((item,index) => {const Icon=({overview:LayoutDashboard,products:ShoppingBag,orders:PackageCheck,inventory:Boxes,collections:Layers,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:Layers,settings:Settings,customers:ShoppingBag,returns:RotateCcw,delivery:PackageCheck,approvals:PackageCheck,staff:Settings,activity:Layers} as Record<string,typeof Boxes>)[item];return <div key={item}>{(index===0||item==='analytics')&&<p className="vn-nav-group">{index===0?'Workspace':'Growth & operations'}</p>}<button type="button" aria-current={section === item ? "page" : undefined} onClick={() => {setMobileNav(false);setSection(item);}}><Icon size={18}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}{item==='products'&&<small>{products.length}</small>}{item==='orders'&&fulfilmentCount>0&&<small title='Paid orders awaiting fulfilment'>{fulfilmentCount}</small>}</button></div>;})}</nav>
         <button className="vn-sidebar-prompt" onClick={()=>setSection('collections')}><Star size={22}/><strong>Built for your next move.</strong><p>Your next collection starts with a little intention.</p><span>Explore collections <ArrowUpRight size={14}/></span></button>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href="/";});}}><ExternalLink size={18}/> Visit storefront</a>
         <div className="vn-owner-block"><span className="vn-owner-avatar">VN</span><div><strong>Store owner</strong><p className="vn-control-owner">{adminName}</p><a className="vn-control-signout" href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></div>
-      </aside>
+      </>;
+
+  return (
+    <main className="vn-control-center min-h-screen bg-[#090b0a] text-[#f4f4f4]">
+      <aside className="vn-control-sidebar">{navigation}</aside>
+      <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent side="left" className="vn-mobile-drawer" onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
+      <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:LayoutDashboard},{id:'orders',label:'Orders',Icon:PackageCheck},{id:'products',label:'Products',Icon:ShoppingBag}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><PanelLeft size={20}/>More</button></nav>
       <div className="vn-control-content">
       <Toaster position="top-center" richColors />
-      <div className="vn-workspace-bar"><div><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={()=>setMobileNav(!mobileNav)}><PanelLeft size={18}/></button><span>Workspace</span><span>/</span><strong>{section[0].toUpperCase()+section.slice(1)}</strong></div><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details></div>
+      <div className="vn-workspace-bar"><div><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><PanelLeft size={18}/></button><span>Workspace</span><span>/</span><strong>{section[0].toUpperCase()+section.slice(1)}</strong></div><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details></div>
+      {statusPanel && <div className="vn-operational-status">{statusPanel}</div>}
       <header className="vn-control-header">
         <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">Your brand, your numbers, your next move.</p></div>
         <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/> Refresh</Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
