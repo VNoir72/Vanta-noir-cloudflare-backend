@@ -1,0 +1,3 @@
+import {GET,PUT} from '../app/api/admin/parcel-profiles/route';
+import {orderParcel,productParcel,saveProductParcel,packagingProfiles,savePackaging} from '../lib/parcel-profiles';
+export default {async fetch(r:Request){const p=new URL(r.url);if(p.pathname.startsWith('/api/'))return r.method==='PUT'?PUT(r):GET(r);try{const b:any=r.method==='POST'?await r.json():{};let v;if(p.pathname==='/item')v=r.method==='POST'?await saveProductParcel('p','L',b.data,b.revision):await productParcel('p','L');else if(p.pathname==='/packs')v=r.method==='POST'?await savePackaging(b.data,b.revision):await packagingProfiles();else v=await orderParcel('VN-TEST');return Response.json(v);}catch{return Response.json({error:'Invalid or conflicting write'},{status:400});}}};
