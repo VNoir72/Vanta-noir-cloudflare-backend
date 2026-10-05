@@ -37,7 +37,7 @@ export async function runSandboxQuotes(key:string,pickup:Record<string,string>,s
  try{
  const reply=await sandboxRequest(key,'/rates/shipment/quotes',{
  pickup_address:pickup,
- delivery_address:{city:d.city,state:d.state,country:'NG',line1:d.line1,zip:d.zip,first_name:'Sandbox',last_name:'Recipient',email:'recipient@example.com'},
+ delivery_address:{city:d.city,state:d.state,country:'NG',line1:d.line1,zip:d.zip},
  parcel:{description:'Synthetic clothing parcel — sandbox only',packaging:packaging.data.packaging_id,weight_unit:'kg',items:[{name:'Test clothing',description:'Synthetic test item',currency:'NGN',value:10000,weight:4.9,quantity:1}]},currency:'NGN',persist_data:false,cash_on_delivery:false
  },send);
  if(!reply.ok){results.push({destination:d.label,status:reply.httpStatus>=400&&reply.httpStatus<500?'rejected':'error',httpStatus:reply.httpStatus,rates:[],message:reply.message});continue;}
