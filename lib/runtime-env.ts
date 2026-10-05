@@ -2,6 +2,8 @@ type RuntimeEnvironment = {
   DB?: D1Database;
   ACCESS_EVALUATION_SIGNING_JWK?: string;
   GA4_PROPERTY_ID?: string;
+  GA4_OAUTH_CLIENT_ID?: string;
+  GA4_OAUTH_CLIENT_SECRET?: string;
   GA4_SERVICE_ACCOUNT_JSON?: string;
   COURIER_WEBHOOK_SECRET?: string;
   BUCKET?: R2Bucket;

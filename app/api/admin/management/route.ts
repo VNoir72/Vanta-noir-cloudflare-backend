@@ -1,3 +1,4 @@
+import {oauthConnection} from '@/lib/ga4-oauth';
 import {adminAuthStateFromRequest} from '@/lib/admin-auth';
 import {getDbBinding,runtimeEnv} from '@/lib/runtime-env';
 import {getCommerceSettings} from '@/lib/commerce-db';
@@ -27,7 +28,7 @@ export async function GET(request:Request){
    const query=(p.get('q')||'').trim().slice(0,120),page=Math.max(1,Math.min(10000,Math.floor(Number(p.get('page'))||1))),like=`%${query.replace(/[\\%_]/g,'\\$&')}%`;
    const rows=await db.prepare(`SELECT lower(email) AS email,MAX(first_name||' '||last_name) AS name,COUNT(*) AS orders,SUM(CASE WHEN payment_status='paid' AND status<>'cancelled' THEN 1 ELSE 0 END) AS paidOrders,COALESCE(SUM(CASE WHEN payment_status='paid' AND status<>'cancelled' THEN total_kobo ELSE 0 END),0) AS paidKobo,MAX(created_at) AS lastOrder FROM orders GROUP BY lower(email) HAVING lower(email) LIKE ? ESCAPE '\\' OR name LIKE ? ESCAPE '\\' ORDER BY lastOrder DESC LIMIT 51 OFFSET ?`).bind(like,like,(page-1)*50).all();return Response.json({customers:rows.results.slice(0,50),hasMore:rows.results.length>50,page},{headers});
   }
-  if(resource==='integrations'){const env=runtimeEnv();return Response.json({ga4Configured:!!(env.GA4_PROPERTY_ID&&env.GA4_SERVICE_ACCOUNT_JSON),paymentsConfigured:!!env.PAYSTACK_SECRET_KEY,emailConfigured:!!(env.RESEND_API_KEY&&env.EMAIL_FROM),courierReceiverConfigured:!!env.COURIER_WEBHOOK_SECRET},{headers});}
+  if(resource==='integrations'){const env=runtimeEnv();return Response.json({ga4Configured:!!(env.GA4_PROPERTY_ID&&(env.GA4_SERVICE_ACCOUNT_JSON||await oauthConnection())),paymentsConfigured:!!env.PAYSTACK_SECRET_KEY,emailConfigured:!!(env.RESEND_API_KEY&&env.EMAIL_FROM),courierReceiverConfigured:!!env.COURIER_WEBHOOK_SECRET},{headers});}
   return Response.json({error:'Unknown management section.'},{status:400,headers});
  }catch{return Response.json({error:'This section could not load. Please retry.'},{status:503,headers});}
 }
