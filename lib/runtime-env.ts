@@ -1,6 +1,7 @@
 type RuntimeEnvironment = {
   DB?: D1Database;
   TERMINAL_AFRICA_TEST_SECRET_KEY?: string;
+  TERMINAL_AFRICA_LIVE_SECRET_KEY?: string;
   ACCESS_EVALUATION_SIGNING_JWK?: string;
   GA4_PROPERTY_ID?: string;
   GA4_OAUTH_CLIENT_ID?: string;

@@ -1,0 +1,11 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {build} from 'esbuild';import {Miniflare} from './miniflare.mjs';
+test('live connection isolates live key, redacts wallet details, locks concurrent checks and fails closed',async()=>{
+ await build({entryPoints:['tests/terminal-live-worker.ts'],outfile:'work/terminal-live.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',external:['cloudflare:workers']});
+ let status=200,calls=0,body={status:true,data:{active:true,wallet_enabled:true,account_number:'PRIVATE-BANK',amount:900}};
+ const mf=new Miniflare({modules:true,scriptPath:'work/terminal-live.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{TERMINAL_AFRICA_LIVE_SECRET_KEY:'live-fixture',TERMINAL_AFRICA_TEST_SECRET_KEY:'test-fixture',AUTH_PROVIDER:'cloudflare-access',ADMIN_EMAIL:'owner@example.com'},outboundService:r=>{calls++;assert.equal(r.url,'https://api.terminal.africa/v1/users/wallet');assert.equal(r.method,'GET');assert.equal(r.headers.get('Authorization'),'Bearer live-fixture');return Response.json(body,{status});}});
+ try{const db=await mf.getD1Database('DB');await db.prepare('CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT)').run();for(const method of ['GET','POST'])assert.equal((await mf.dispatchFetch('https://test.local/api/admin/terminal-live',{method})).status,403);assert.equal(calls,0);
+ let v=await(await mf.dispatchFetch('https://test.local/check')).json();assert.equal(v.check.status,'connected');assert.equal(calls,1);assert.equal(v.pickupReady,false);assert.equal(v.bookingEnabled,false);assert.equal(v.checkoutEnabled,false);assert.ok(!JSON.stringify(v).includes('PRIVATE-BANK'));assert.ok(!JSON.stringify(v).includes('fixture'));
+ for(const code of [401,403,500]){status=code;body={message:'leaked live-fixture'};v=await(await mf.dispatchFetch('https://test.local/check')).json();assert.equal(v.check.status,'failed');assert.ok(!JSON.stringify(v).includes('live-fixture'));}
+ status=200;body={status:true,data:{}};v=await(await mf.dispatchFetch('https://test.local/check')).json();assert.equal(v.check.status,'failed');
+ }finally{await mf.dispose();}
+});
