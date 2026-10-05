@@ -62,4 +62,12 @@ for(const name of await sectionButtons.allTextContents()){
  console.log('PASS section renders',name);
 }
 
+await page.getByRole('navigation',{name:'Store administration'}).getByRole('button',{name:'Orders',exact:true}).click();
+await page.evaluate(()=>{const original=window.fetch;window.__bulkCalls=[];window.fetch=async(input,init)=>{if(String(input).includes('/api/admin/orders')){if(init?.method==='PATCH'){window.__bulkCalls.push(JSON.parse(init.body));await new Promise(r=>setTimeout(r,100));return Response.json({ok:true});}return Response.json({orders:[{id:'bulk-test',reference:'VN-BULK-TEST',firstName:'Test',lastName:'Buyer',city:'Kaduna',state:'Kaduna',status:'paid',paymentStatus:'paid',items:[{quantity:1,productName:'Test garment',color:'Black',size:'L'}]}],hasMore:false,total:1});}return original(input,init)}});
+await page.getByRole('button',{name:'Review all eligible paid orders'}).click();
+const confirm=page.getByRole('button',{name:'Confirm 1 orders as processing'});await confirm.waitFor();assert(await confirm.isDisabled());
+await page.getByRole('checkbox',{name:/I checked every listed order/}).check();await confirm.dblclick();
+await page.getByText(/1 orders updated. 0 not confirmed/).waitFor();assert.equal(await page.evaluate(()=>window.__bulkCalls.length),1,'double tap duplicated bulk action');
+assert.equal(await page.evaluate(()=>window.__bulkCalls[0].expectedStatus),'paid');
+console.log('PASS bulk review, verification gate and double-tap lock');
 assert.deepEqual(errors,[]);console.log('PASS all admin navigation regression checks');}finally{await browser.close()}}finally{server.kill()}})().catch(e=>{console.error(e);process.exitCode=1});

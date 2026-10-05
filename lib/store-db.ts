@@ -1175,10 +1175,17 @@ export async function getAdminAnalytics(params=new URLSearchParams()):Promise<Ad
  return {range,conversion,trend:reportTrend(range,rows.results),bestSellers:best.results,fulfilmentCount:Number(fulfilment?.n||0),categoryMix:demand.results};
 }
 
-export async function updateOrderStatus(reference: string, status: string) {
+export async function updateOrderStatus(reference: string, status: string, expectedStatus?: string, bulkVerified?: boolean) {
   const { allowedOrderStatuses } = await import("./order-status");
   const order = await getOrderByReference(reference);
   if (!order) throw new Error("Order not found.");
+  if(expectedStatus!==undefined||bulkVerified){
+    const {bulkOrderProblem,bulkSourceStatus}=await import('./bulk-orders');
+    if(!bulkVerified||!Object.hasOwn(bulkSourceStatus,status)||expectedStatus!==bulkSourceStatus[status as keyof typeof bulkSourceStatus])throw new Error("This order cannot be updated without a valid bulk review.");
+    const tracking=await getDbBinding().prepare('SELECT carrier,tracking_number AS trackingNumber FROM orders WHERE id=?').bind(order.id).first<{carrier:string;trackingNumber:string}>();
+    const problem=bulkOrderProblem({...order,...tracking},status as keyof typeof bulkSourceStatus);
+    if(problem)throw new Error(problem.startsWith('The order changed')?problem:'This order cannot be updated: '+problem);
+  }
   if (!allowedOrderStatuses(order.status, order.paymentStatus).includes(status)) {
     throw new Error("This order cannot move to that status. Payment must be confirmed before fulfilment.");
   }
@@ -1189,12 +1196,13 @@ export async function updateOrderStatus(reference: string, status: string) {
   const results = await db.batch([
     db.prepare(`UPDATE orders SET status = ?, allocation_token = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ? AND status = ? AND payment_status = ?
+      AND (? = 0 OR (trim(carrier)<>'' AND trim(tracking_number)<>''))
       AND (? = 0 OR NOT EXISTS (
         SELECT 1 FROM order_items oi LEFT JOIN product_variants v ON v.id = oi.variant_id
         WHERE oi.order_id = orders.id AND (v.id IS NULL OR
           v.stock - COALESCE((SELECT SUM(r.quantity) FROM stock_reservations r
             WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < (SELECT SUM(quantity) FROM order_items needed WHERE needed.order_id=oi.order_id AND needed.variant_id=oi.variant_id))
-      ))`).bind(status, token, order.id, order.status, order.paymentStatus, allocateStock ? 1 : 0),
+      ))`).bind(status, token, order.id, order.status, order.paymentStatus, bulkVerified && status!=="processing" ? 1 : 0, allocateStock ? 1 : 0),
     ...(allocateStock ? [db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-SUM(i.quantity),?,'payment review' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?) GROUP BY v.id`).bind(`Sale ${reference}`,order.id,order.id,token),db.prepare(`UPDATE product_variants SET stock = stock - (
         SELECT SUM(quantity) FROM order_items WHERE order_id = ? AND variant_id = product_variants.id
       ), updated_at = CURRENT_TIMESTAMP WHERE id IN (SELECT variant_id FROM order_items WHERE order_id = ?)
