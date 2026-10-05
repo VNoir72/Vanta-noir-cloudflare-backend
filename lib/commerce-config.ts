@@ -19,6 +19,7 @@ export const commerceSettingsSchema = z.object({
   processingNote: z.string().trim().min(10).max(500).default("Orders are welcome around the clock. Processing begins on the next business day, Monday to Friday, excluding public holidays. Delivery timing is shown separately at checkout."),
   acceptingOrders: z.boolean().default(false),
   inventoryConfirmed: z.boolean().default(false),
+  deliveryPolicy: z.string().trim().max(6000).default(""),
   returnPolicy: z.string().trim().max(6000).default(""),
   dispatchNote: z.string().trim().max(240).default(""),
   deliveryNote: z.string().trim().max(500).default(""),

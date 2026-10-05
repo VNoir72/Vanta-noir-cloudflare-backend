@@ -241,6 +241,7 @@ function DashboardContent({
   const [productForm, setProductForm] = useState<ProductForm | null>(null);
   const productBaseline=useRef("");
   const [busy, setBusy] = useState<string | null>(null);
+  const imageUploadInFlight=useRef(false),productMutationInFlight=useRef(false);
   const [uploadingImage, setUploadingImage] = useState<number | null>(null);
 
   const metrics = useMemo(() => {
@@ -306,7 +307,9 @@ function DashboardContent({
   }
 
   async function uploadImage(index: number, file: File | undefined) {
-    if (!file || !productForm || uploadingImage!==null || busy==="product-save") return;
+    if (!file || !productForm || imageUploadInFlight.current || uploadingImage!==null || busy==="product-save") return;
+    if(!["image/jpeg","image/png","image/webp","image/avif"].includes(file.type)||!file.size||file.size>12*1024*1024){toast.error("Choose a JPG, PNG, WebP or AVIF image, no larger than 12 MB.");return;}
+    imageUploadInFlight.current=true;
     setUploadingImage(index);
     try {
       const body = new FormData();
@@ -319,12 +322,13 @@ function DashboardContent({
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Image could not be uploaded.");
     } finally {
+      imageUploadInFlight.current=false;
       setUploadingImage(null);
     }
   }
 
   async function saveProduct() {
-    if (!productForm || uploadingImage!==null || busy==="product-save") return false;
+    if (!productForm || imageUploadInFlight.current || productMutationInFlight.current || uploadingImage!==null || busy==="product-save") return false;
     if(productForm.variants.some(v=>parseStock(v.stock)===null)){toast.error('Enter a whole stock quantity from 0 to 100,000 for every variation. Blank stock is not zero.');return false;}
     const priceNaira = Number(productForm.priceNaira.replaceAll(",", "").trim());
     if (!Number.isFinite(priceNaira) || priceNaira <= 0) {
@@ -362,6 +366,7 @@ function DashboardContent({
       })),
     };
 
+    productMutationInFlight.current=true;
     setBusy("product-save");
     try {
       const response = await fetch("/api/admin/products", {
@@ -399,17 +404,21 @@ function DashboardContent({
       toast.error(error instanceof Error ? error.message : "Product could not be saved.");
       return false;
     } finally {
+      productMutationInFlight.current=false;
       setBusy(null);
     }
   }
 
   async function changeProductStatus(productId: string, status: ProductStatus) {
+    if(productMutationInFlight.current||imageUploadInFlight.current)return;
+    productMutationInFlight.current=true;
     setBusy(`product-status-${productId}`);
     try {
       const response = await fetch("/api/admin/products", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId, status }),
+        signal: AbortSignal.timeout(30000),
       });
       const responsePayload = (await response.json().catch(() => ({}))) as { product?: AdminProduct; error?: string };
       if (!response.ok || !responsePayload.product) throw new Error(responsePayload.error ?? "Product status could not be changed.");
@@ -420,20 +429,24 @@ function DashboardContent({
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Product status could not be changed.");
     } finally {
+      productMutationInFlight.current=false;
       setBusy(null);
     }
   }
 
   async function deleteProduct(productId: string) {
+    if(productMutationInFlight.current||imageUploadInFlight.current)return;
     const product = products.find((entry) => entry.id === productId);
     if (!product || !window.confirm(`Permanently delete “${product.name}”? This cannot be undone.`)) return;
 
+    productMutationInFlight.current=true;
     setBusy(`product-delete-${productId}`);
     try {
       const response = await fetch("/api/admin/products", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId }),
+        signal: AbortSignal.timeout(30000),
       });
       const responsePayload = (await response.json().catch(() => ({}))) as { error?: string };
       if (!response.ok) throw new Error(responsePayload.error ?? "Product could not be deleted.");
@@ -444,6 +457,7 @@ function DashboardContent({
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Product could not be deleted.");
     } finally {
+      productMutationInFlight.current=false;
       setBusy(null);
     }
   }

@@ -89,11 +89,17 @@ export async function resendOrderConfirmation(input:{reference:string;recipient:
  const original=await db.prepare('SELECT subject,body FROM email_outbox WHERE event_key=?').bind(`order:${input.reference}:payment`).first<{subject:string;body:string}>();
  if(!original)throw new Error('The original confirmation is still being prepared. Try again shortly.');
  const messageId=crypto.randomUUID(),at=Date.now(),lockKey='email-resend:'+input.reference;
- const result=await db.batch([
+ let result;
+ try { result=await db.batch([
  db.prepare(`INSERT INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM email_outbox WHERE (event_key=? OR event_key LIKE ?) AND status IN ('pending','sending'))
  ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE CAST(json_extract(store_meta.value,'$.at') AS INTEGER)<?`).bind(lockKey,JSON.stringify({at,messageId}),`order:${input.reference}:payment`,`order:${input.reference}:manual-confirmation:%`,at-600000),
  db.prepare(`INSERT OR IGNORE INTO email_outbox(id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.messageId')=?)`).bind(messageId,key,input.recipient,original.subject,`Requested copy of the original payment confirmation.\nCurrent order status: ${order.status.replaceAll('_',' ')}.\n\n${original.body}`,lockKey,messageId),
- db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) SELECT ?,'resend order confirmation',?,? WHERE EXISTS(SELECT 1 FROM email_outbox WHERE id=?)").bind(actor,input.reference,`Recipient: ${input.recipient}; message: ${messageId}`,messageId)]);
+ db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) SELECT ?,'resend order confirmation',?,? WHERE EXISTS(SELECT 1 FROM email_outbox WHERE id=?)").bind(actor,input.reference,`Recipient: ${input.recipient}; message: ${messageId}`,messageId)]); } catch(error) {
+ // A competing retry may have committed this exact request while this write failed.
+ const existing=await db.prepare('SELECT id,recipient FROM email_outbox WHERE event_key=?').bind(key).first<{id:string;recipient:string}>();
+ if(existing){if(existing.recipient!==input.recipient)throw new Error('This resend request used a different recipient. Refresh before retrying.');return {queued:true,id:existing.id};}
+ throw error;
+ }
  if(!result[1].meta.changes){const existing=await db.prepare('SELECT id,recipient FROM email_outbox WHERE event_key=?').bind(key).first<{id:string;recipient:string}>();if(existing){if(existing.recipient!==input.recipient)throw new Error('This resend request used a different recipient. Refresh before retrying.');return {queued:true,id:existing.id};}throw new Error('A confirmation is already queued or was resent recently. Wait 10 minutes before requesting another copy.');}
  return {queued:true,id:messageId};
 }
