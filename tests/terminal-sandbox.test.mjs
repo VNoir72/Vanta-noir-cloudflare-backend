@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 await build({entryPoints:['lib/terminal-sandbox.ts'],outfile:'work/terminal-sandbox.mjs',bundle:true,format:'esm',platform:'node'});
-const {runSandboxQuotes,sandboxRequest,inchesToCm}=await import('../work/terminal-sandbox.mjs');
+const {runSandboxQuotes,sandboxRequest,inchesToCm,safeProviderMessage}=await import('../work/terminal-sandbox.mjs');
 const pickup={line1:'Synthetic pickup',city:'Kaduna',state:'Kaduna',country:'NG'};
 test('sandbox quotes stay on sandbox, never book, preserve packed weight and dimensions',async()=>{
  const calls=[];const report=await runSandboxQuotes('test-only',pickup,async(url,init)=>{calls.push(url);assert.ok(url.startsWith('https://sandbox.terminal.africa/v1/'));assert.equal(init.redirect,'manual');const body=JSON.parse(init.body);
@@ -16,3 +16,9 @@ test('missing keys, forbidden routes, authentication failures fail closed',async
 test('unavailable, malformed and network failures never become free delivery',async()=>{let n=0;const r=await runSandboxQuotes('key',pickup,async url=>{if(url.endsWith('/packaging'))return Response.json({status:true,data:{packaging_id:'PA-test'}});n++;if(n===1)return Response.json({status:true,data:[]});if(n===2)return new Response('bad');if(n===3)throw new Error('network');return Response.json({status:true,data:{}});});assert.equal(r.results[0].status,'unavailable');assert.ok(r.results.slice(1).every(r=>r.status==='error'));assert.ok(r.results.every(r=>r.rates.length===0));});
 
 test('redirect responses are not followed',async()=>{let calls=0;await assert.rejects(()=>runSandboxQuotes('key',pickup,async()=>{calls++;return new Response(null,{status:302,headers:{Location:'https://api.terminal.africa/v1/packaging'}});}),/HTTP 302/);assert.equal(calls,1);});
+
+test('provider validation messages redact credentials and request details',()=>{
+ const result=safeProviderMessage({message:'delivery_address.phone is required; key test-secret-value; Synthetic pickup; recipient@example.com; +2348123456789'},'test-secret-value',{line1:'Synthetic pickup'});
+ assert.match(result,/delivery_address.phone is required/);
+ for(const value of ['test-secret-value','Synthetic pickup','recipient@example.com','2348123456789'])assert.ok(!result.includes(value));
+});

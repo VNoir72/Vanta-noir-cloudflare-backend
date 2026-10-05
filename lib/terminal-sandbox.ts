@@ -9,13 +9,23 @@ export const destinations=[
  {label:'Invalid destination (negative test)',city:'INVALID_TEST_CITY',state:'INVALID_TEST_STATE',line1:'Synthetic invalid address',zip:'INVALID'}
 ];
 export function inchesToCm(n:number){if(!Number.isFinite(n)||n<=0||n>200)throw new Error('Invalid package measurement');return Math.round(n*254)/100;}
+export function safeProviderMessage(payload:unknown,key:string,body:unknown){
+ const p=payload as any;
+ const messages=[p?.message,...(Array.isArray(p?.errors)?p.errors.map((e:any)=>typeof e==='string'?e:e?.message):[])].filter((v):v is string=>typeof v==='string');
+ let text=messages.join('; ').slice(0,1500);
+ const sensitive:string[]=[key];
+ function collect(v:unknown){if(typeof v==='string'&&v.length>2)sensitive.push(v);else if(Array.isArray(v))v.forEach(collect);else if(v&&typeof v==='object')Object.values(v).forEach(collect);}
+ collect(body);
+ for(const v of sensitive.sort((a,b)=>b.length-a.length))if(v)text=text.split(v).join('[redacted]');
+ return text.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,'[email]').replace(/(?:Bearer\s+|(?:sk|pk)_(?:test|live)_)[A-Za-z0-9_.-]+/gi,'[credential]').replace(/\+?\d[\d ()-]{6,}\d/g,'[number]').replace(/[<>\x00-\x1f]/g,' ').slice(0,400)||'Provider did not return a successful quote.';
+}
 export async function sandboxRequest(key:string,path:'/packaging'|'/rates/shipment/quotes',body:unknown,send:typeof fetch=fetch){
  if(!key?.trim())throw new Error('Test secret is missing');
  if(!['/packaging','/rates/shipment/quotes'].includes(path))throw new Error('Sandbox operation not allowed');
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);
  try{const response=await send(TERMINAL_SANDBOX+path,{method:'POST',redirect:'manual',signal:controller.signal,headers:{Authorization:`Bearer ${key.trim()}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
  const payload=await response.json().catch(()=>null) as any;
- return {httpStatus:response.status,ok:response.ok&&payload?.status===true,data:payload?.data};
+ return {httpStatus:response.status,ok:response.ok&&payload?.status===true,data:payload?.data,message:safeProviderMessage(payload,key,body)};
  }finally{clearTimeout(timer);}
 }
 export async function runSandboxQuotes(key:string,pickup:Record<string,string>,send:typeof fetch=fetch):Promise<{mode:'sandbox';bookingEnabled:false;results:QuoteResult[];completedAt:string}>{
@@ -30,7 +40,7 @@ export async function runSandboxQuotes(key:string,pickup:Record<string,string>,s
  delivery_address:{city:d.city,state:d.state,country:'NG',line1:d.line1,zip:d.zip,first_name:'Sandbox',last_name:'Recipient',email:'recipient@example.com'},
  parcel:{description:'Synthetic clothing parcel — sandbox only',packaging:packaging.data.packaging_id,weight_unit:'kg',items:[{name:'Test clothing',description:'Synthetic test item',currency:'NGN',value:10000,weight:4.9,quantity:1}]},currency:'NGN',persist_data:false,cash_on_delivery:false
  },send);
- if(!reply.ok){results.push({destination:d.label,status:reply.httpStatus>=400&&reply.httpStatus<500?'rejected':'error',httpStatus:reply.httpStatus,rates:[],message:'Provider did not return a successful quote.'});continue;}
+ if(!reply.ok){results.push({destination:d.label,status:reply.httpStatus>=400&&reply.httpStatus<500?'rejected':'error',httpStatus:reply.httpStatus,rates:[],message:reply.message});continue;}
  if(!Array.isArray(reply.data)){results.push({destination:d.label,status:'error',httpStatus:reply.httpStatus,rates:[],message:'Provider returned an unexpected quote format.'});continue;}
  const rates=reply.data.filter((r:any)=>typeof r.amount==='number'&&Number.isFinite(r.amount)&&r.amount>0&&r.currency==='NGN'&&typeof r.carrier_name==='string').slice(0,30).map((r:any)=>({carrier:r.carrier_name.slice(0,100),amount:r.amount,currency:'NGN',delivery:typeof r.delivery_time==='string'?r.delivery_time.slice(0,160):'Not supplied'}));
  results.push({destination:d.label,status:rates.length?'quoted':'unavailable',httpStatus:reply.httpStatus,rates,message:d.state==='INVALID_TEST_STATE'&&rates.length?'Sandbox returned rates for invalid data; do not treat sandbox rates as address validation.':undefined});
