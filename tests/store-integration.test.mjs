@@ -172,6 +172,14 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     await rpc("sql", "INSERT INTO store_meta(key,value) VALUES('commerce_settings',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", JSON.stringify({supportEmail:"care@example.com",acceptingOrders:true,inventoryConfirmed:true,dispatchNote:"Test dispatch",deliveryNote:"Test delivery",returnPolicy:"Test return policy"}));
     const secondId = Object.values(product.colorways[1].variantIds)[0];
     await rpc("sql", "UPDATE product_variants SET stock=2 WHERE id=?", secondId);
+    // Malformed and hostile requests must fail before payment or reservation writes.
+    const beforeFuzz=await rpc("sql","SELECT COUNT(*) AS count FROM orders");
+    const invalid=[null,[],{}, {customer,cart:[]}, ...[-1,0,0.5,6,999999999].map(quantity=>({customer,cart:[{variantId:secondId,quantity}],expectedTotalKobo:1})),{customer,cart:[{variantId:"' OR 1=1 --",quantity:1}],expectedTotalKobo:1}];
+    for(const body of ['{bad json',...invalid.map(v=>JSON.stringify(v))]){
+      const response=await mf.dispatchFetch("https://api.vantanoir.store/api/checkout",{method:"POST",headers:{"Content-Type":"application/json",Origin:"https://vantanoir.store"},body});
+      assert.equal(response.status,400);const failure=await response.json();assert.equal(typeof failure.error,'string');assert(!/stack|SELECT |TypeError/.test(failure.error));
+    }
+    assert.deepEqual((await rpc("sql","SELECT COUNT(*) AS count FROM orders")).results,beforeFuzz.results,"Invalid requests cannot create orders");
     const checkoutArgs = { customer, cart: [{ variantId: secondId, quantity: 1 }], expectedTotalKobo: product.priceKobo + 200000 };
     const started = await mf.dispatchFetch("https://api.vantanoir.store/api/checkout", { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://vantanoir.store" }, body: JSON.stringify(checkoutArgs) });
     assert.equal(started.status, 200);

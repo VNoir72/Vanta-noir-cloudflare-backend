@@ -25,6 +25,7 @@ export function useRewardQuote({cart,countryCode='NG',state='',email='',code='',
     const timer=setTimeout(async()=>{const timeout=setTimeout(()=>{if(controller.signal.aborted)return;controller.abort();setResult({key,quote:null,error:'Checking rewards took too long. Please try again.'});},15000);try{
       const r=await fetch(apiUrl('/api/rewards/quote'),{method:'POST',headers:{'Content-Type':'application/json'},body:key,signal:controller.signal});
       const data=await r.json() as RewardQuote&{error?:string};if(!r.ok)throw new Error(data.error||'Rewards could not be checked.');
+      if(!data||typeof data.signature!=='string'||!['subtotalKobo','discountKobo','shippingSavingsKobo'].every(k=>Number.isSafeInteger((data as any)[k])&&(data as any)[k]>=0)||!['baseShippingKobo','shippingKobo','totalKobo'].every(k=>(data as any)[k]===null||(Number.isSafeInteger((data as any)[k])&&(data as any)[k]>=0)))throw new Error('Your total could not be verified. Please try again.');
       if(!controller.signal.aborted)setResult({key,quote:data,error:''});
     }catch(e){if(!controller.signal.aborted)setResult({key,quote:null,error:e instanceof Error?e.message:'Rewards could not be checked.'});}finally{clearTimeout(timeout);}},300);
     return()=>{clearTimeout(timer);controller.abort();};
