@@ -13,7 +13,7 @@ export async function sandboxRequest(key:string,path:'/packaging'|'/rates/shipme
  if(!key?.trim())throw new Error('Test secret is missing');
  if(!['/packaging','/rates/shipment/quotes'].includes(path))throw new Error('Sandbox operation not allowed');
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);
- try{const response=await send(TERMINAL_SANDBOX+path,{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:`Bearer ${key.trim()}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+ try{const response=await send(TERMINAL_SANDBOX+path,{method:'POST',redirect:'manual',signal:controller.signal,headers:{Authorization:`Bearer ${key.trim()}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
  const payload=await response.json().catch(()=>null) as any;
  return {httpStatus:response.status,ok:response.ok&&payload?.status===true,data:payload?.data};
  }finally{clearTimeout(timer);}
