@@ -11,7 +11,7 @@ export async function GET(request:Request){
  try{
   if(resource==='attention'){
    const [orders,returns,emails,campaign,settings,approvals]=await Promise.all([
-    db.prepare(`SELECT status,COUNT(*) AS count,MAX(updated_at) AS latest FROM orders WHERE payment_status='paid' AND status IN ('paid','processing','paid_stock_review') GROUP BY status`).all(),
+    db.prepare(`SELECT status,COUNT(*) AS count,MAX(updated_at) AS latest FROM orders WHERE payment_status='paid' AND status IN ('paid','processing','paid_stock_review','shipped','delivered') GROUP BY status`).all(),
     db.prepare("SELECT COUNT(*) AS count,MAX(updated_at) AS latest FROM return_requests WHERE status IN ('requested','approved','received')").first(),
     db.prepare("SELECT COUNT(*) AS count,MAX(created_at) AS latest FROM email_outbox WHERE status='review' OR (status='pending' AND attempts>=8)").first(),
     db.prepare("SELECT value FROM store_meta WHERE key='admin-overview-product'").first<{value:string}>(),getCommerceSettings(),db.prepare("SELECT COUNT(*) AS count,MAX(created_at) AS latest FROM admin_approvals WHERE status='pending'").first()

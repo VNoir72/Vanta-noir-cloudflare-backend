@@ -1,5 +1,4 @@
 import {ga4ErrorMessage} from '@/lib/ga4-errors';
-import {EmailDeliveryPanel} from "./email-delivery-panel";
 import {PaymentUpdates} from "./payment-updates";
 import {paymentMode} from "@/lib/paystack";
 import {AdminFieldHelp} from "./field-help";
@@ -61,5 +60,5 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
   }
 
   if(role!=="owner") return <main className="min-h-screen bg-[#090909] p-5 text-white"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
-  return <><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} statusPanel={<><p role="status" className="bg-[#141414] px-5 py-3 text-sm text-white">Payments: <strong>{paymentMode().toUpperCase()}</strong> · {paymentMode()==='live'?'Checkout charges real money.':paymentMode()==='test'?'Test transactions only.':'Payments are not configured.'}</p>{ga4Result&&<p role="status" className="bg-[#141414] px-5 py-3 text-sm text-white">{ga4Result==='connected'?'Google Analytics connected. Open Settings → Connections or refresh Analytics.':'Google Analytics connection was not completed. '+ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/><EmailDeliveryPanel/></>} /></>;
+  return <><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
 }
