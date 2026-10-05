@@ -9,7 +9,7 @@ type DashboardData = Pick<DashboardProps, "initialOrders" | "initialInventory" |
 
 // Keep catalogue-sized objects out of the server-rendered HTML/RSC response.
 // Every endpoint verifies the Access JWT and staff permissions independently.
-export function AdminDashboardLoader({ adminName, signOutPath, statusPanel }: Pick<DashboardProps, "adminName" | "signOutPath" | "statusPanel">) {
+export function AdminDashboardLoader({ adminName, signOutPath, statusPanel, paymentsMode }: Pick<DashboardProps, "adminName" | "signOutPath" | "statusPanel" | "paymentsMode">) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);
@@ -35,7 +35,7 @@ export function AdminDashboardLoader({ adminName, signOutPath, statusPanel }: Pi
     return () => controller.abort();
   }, [attempt]);
 
-  if (data) return <AdminDashboard adminName={adminName} signOutPath={signOutPath} statusPanel={statusPanel} {...data} />;
+  if (data) return <AdminDashboard adminName={adminName} signOutPath={signOutPath} statusPanel={statusPanel} paymentsMode={paymentsMode} {...data} />;
   return (
     <main className="grid min-h-screen place-items-center bg-[#090909] px-5 text-[#f4f1ea]">
       <section className="w-full max-w-xl border border-white/12 bg-[#101010] p-8 sm:p-12" aria-busy={!error}>

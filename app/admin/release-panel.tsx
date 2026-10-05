@@ -2,12 +2,13 @@
 import '../merchandising.css';
 import {useEffect,useRef,useState} from 'react';
 import type {AdminProduct} from '@/lib/store-db';
+import {adminRead} from '@/lib/admin-read';
 import type {SalesSignal} from '@/lib/merchandising';
 type ReleaseData={campaigns:Array<{productId:string;startedAt:string}>;sales:SalesSignal[]};
 export function ReleasePanel({products}:{products:AdminProduct[]}) {
   const [data,setData]=useState<ReleaseData|null>(null),[id,setId]=useState(''),[confirmed,setConfirmed]=useState(false),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
   const sending=useRef(false);
-  async function load(){try{const r=await fetch('/api/admin/releases',{cache:'no-store',signal:AbortSignal.timeout(15000)});const d=await r.json() as ReleaseData&{error?:string};if(!r.ok)throw Error(d.error||'Release tools unavailable.');setData(d);setError('');}catch(e){setError(e instanceof Error?e.message:'Release tools unavailable.');}}
+  async function load(){try{const d=await adminRead<ReleaseData>('/api/admin/releases',v=>Array.isArray(v?.campaigns)&&Array.isArray(v?.sales),{timeoutMs:15000});setData(d);setError('');}catch(e){setError(e instanceof Error?e.message:'Release tools unavailable.');}}
   useEffect(()=>{void load();},[]);
   const announced=Boolean(data?.campaigns.some(c=>c.productId===id));
   async function send(){if(sending.current||!confirmed||!id)return;sending.current=true;setBusy(true);setError('');setMessage('');try{const r=await fetch('/api/admin/releases',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(20000),body:JSON.stringify({productId:id,confirmed:true})});const d=await r.json() as {created?:boolean;error?:string};if(!r.ok)throw Error(d.error||'Announcement failed.');setMessage(d.created?'Release scheduled for confirmed subscribers. Check customer email delivery for progress.':'This release was already announced. It will not be sent twice.');setConfirmed(false);await load();}catch(e){setError(e instanceof Error?e.message:'Could not announce the release.');}finally{sending.current=false;setBusy(false);}}
