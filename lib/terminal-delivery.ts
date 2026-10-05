@@ -40,10 +40,10 @@ export async function quoteDelivery(raw:unknown){
  const existing=await read(id);if(existing){if(!['quoted','quote_failed'].includes(existing.session.stage)&&!(existing.session.stage==='quoting'&&Date.now()-Date.parse(existing.session.updatedAt)>180000))return existing.session;if(!await cas(id,existing.raw,s))return (await deliverySession(id))!;}else{const insert=await getDbBinding().prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind(prefix+id,JSON.stringify(s)).run();if(!insert.meta.changes)return (await deliverySession(id))!;}
  const claimed=await read(id);if(!claimed)throw new DeliveryError('Sandbox session could not be stored.');
  try{
- const pickup=await pickupConfig();const packaging=await deliveryRequest('/packaging',{name:'Vanta Noir clothing parcel',type:'box',length:input.parcel.lengthCm,width:input.parcel.widthCm,height:input.parcel.heightCm,size_unit:'cm',weight:0.1,weight_unit:'kg'});
+ const savedPickup=await pickupConfig();const pickup={...savedPickup,line2:savedPickup.city};const packaging=await deliveryRequest('/packaging',{name:'Vanta Noir clothing parcel',type:'box',length:input.parcel.lengthCm,width:input.parcel.widthCm,height:input.parcel.heightCm,size_unit:'cm',weight:0.1,weight_unit:'kg'});
  const packagingId=providerId.parse(packaging?.packaging_id);
  // Reuse the explicitly supplied test contact; never transmit an order customer's contact.
- const address={...pickup,...input.destination,state:input.destination.state==='FCT'?'Abuja':input.destination.state,country:'NG'};
+ const address={...pickup,...input.destination,line2:input.destination.city,state:input.destination.state==='FCT'?'Abuja':input.destination.state,country:'NG'};
  const data=await deliveryRequest('/rates/shipment/quotes',{pickup_address:pickup,delivery_address:address,parcel:{description:'Clothing',packaging:packagingId,weight_unit:'kg',items:[{name:'Clothing',description:'Clothing',currency:'NGN',value:input.parcel.valueNaira,weight:Math.round((input.parcel.weightKg-0.1)*100000)/100000,quantity:1}]},currency:'NGN',cash_on_delivery:false,persist_data:true});
  s.rates=parseRates(data);s.stage=s.rates.length?'quoted':'quote_failed';s.expiresAt=new Date(Date.now()+15*60*1000).toISOString();if(!s.rates.length)s.error='No supported door-to-door rates are available. This is not free delivery.';
  }catch(e){s.stage='quote_failed';s.error=e instanceof DeliveryError?e.message:'Check the destination and parcel details, then request new quotes.';}
