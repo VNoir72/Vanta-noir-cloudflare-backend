@@ -1,3 +1,4 @@
+import {StorefrontMotion} from "@/components/storefront-motion";
 import type { Metadata } from "next";
 import "./globals.css";
 import "./discovery.css";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   icons: { icon: "/images/vanta-noir-emblem-480.webp" },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}<AnalyticsConsent/></body></html>;
+  return <html lang="en"><body>{children}<AnalyticsConsent/><StorefrontMotion/></body></html>;
 }
 
 import "@/app/approved-storefront.css";

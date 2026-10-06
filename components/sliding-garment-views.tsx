@@ -35,7 +35,7 @@ export function SlidingGarmentViews({ images, sizes, priority = false, suspended
   }, []);
   useEffect(() => {
     if (count < 2 || paused || suspended || !visible || reduced) return;
-    const timer = setInterval(() => { if (!document.hidden) { setInstant(false); setIndex(current => current >= count ? 1 : current + 1); } }, 4200);
+    const timer = setInterval(() => { if (!document.hidden) { setInstant(false); setIndex(current => { const next=current >= count ? 1 : current + 1; const image=root.current?.querySelectorAll("img")[next]; return image?.complete && image.naturalWidth > 0 ? next : current; }); } }, 4200);
     return () => clearInterval(timer);
   }, [count, paused, suspended, visible, reduced, identity]);
   useEffect(() => {

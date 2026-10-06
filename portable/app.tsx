@@ -1,3 +1,4 @@
+import {StorefrontMotion} from "@/components/storefront-motion";
 import { AnalyticsConsent } from "@/components/analytics-consent";
 import { EmailPreferences } from "@/app/email-preferences/preferences";
 import { useEffect, useState } from "react";
@@ -22,7 +23,7 @@ function CheckoutComplete() {
 export function App({path,products}:{path:string;products:CatalogProduct[]}) {
   const [currentPath,setCurrentPath]=useState(path);
   useEffect(()=>{if(path==="/products/_dynamic")setCurrentPath(window.location.pathname);},[path]);
-  return <><AppRoutes path={currentPath} products={products}/><AnalyticsConsent/></>;
+  return <><AppRoutes path={currentPath} products={products}/><AnalyticsConsent/><StorefrontMotion/></>;
 }
 function AppRoutes({ path, products }: { path: string; products: CatalogProduct[] }) {
   if(/^\/products\/[a-z0-9_-]+\/?$/.test(path)) return <Storefront products={products} sizes={[...STORE_SIZES]} detailSlug={path.split("/")[2]}/>;
