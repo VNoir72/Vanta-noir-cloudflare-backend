@@ -1,3 +1,4 @@
+import {supportCreateSchema,supportUpdateSchema,validateSupportLinks,applySupportChange} from './support';
 import {reviewSale} from './walk-in-sales';
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
@@ -12,6 +13,7 @@ type Approval={id:string;actor:string;role:StaffRole;action:string;payload_json:
 const id=z.string().trim().min(1).max(160);
 const tracking=z.object({reference:id,carrier:z.string().trim().min(1).max(100),trackingNumber:z.string().trim().min(1).max(160),trackingUrl:z.string().max(1000).refine(s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password;}catch{return !s;}}),deliveryEstimate:z.string().max(160)});
 const schemas:Record<string,z.ZodTypeAny>={
+ 'support:create':supportCreateSchema,'support:update':supportUpdateSchema,
  'operation:stock':stockChangeSchema,
  'inventory':stockChangeSchema,
  'operation:prices':z.array(z.object({id,expectedPrice:z.number().int(),priceKobo:z.number().int().min(100).max(100000000000)})).min(1).max(100),
@@ -28,12 +30,14 @@ const schemas:Record<string,z.ZodTypeAny>={
 };
 function permitted(role:StaffRole,action:string){
  if(role==='owner')return false;
+ if(action==='support:create'||action==='support:update')return role==='support';
  if(action.startsWith('operation:'))return !!actionResource[action.slice(10)]&&permits(role,actionResource[action.slice(10)])&&!!schemas[action];
  return role==='catalogue'&&['inventory','product:create','product:update','product:status','upload'].includes(action);
 }
 async function validate(role:StaffRole,action:string,input:unknown){
  if(!permitted(role,action))throw new Error('Your role cannot request this change.');
  const data=schemas[action].parse(input);
+ if(action.startsWith('support:'))await validateSupportLinks(data);
  if(action==='product:create')delete data.id;
  if(action==='operation:return'){
   const current=await getDbBinding().prepare('SELECT refund_kobo,refund_status,refund_reference FROM return_requests WHERE id=?').bind(data.id).first<{refund_kobo:number;refund_status:string;refund_reference:string}>();
@@ -45,6 +49,7 @@ async function validate(role:StaffRole,action:string,input:unknown){
 async function baseline(action:string,data:any):Promise<unknown>{
  const db=getDbBinding();
  const row=async(sql:string,...params:string[])=>{const value=await db.prepare(sql).bind(...params).first();if(!value)throw new Error('The record no longer exists.');return value;};
+ if(action==='support:update')return row('SELECT * FROM support_tickets WHERE id=?',data.id);
  if(action==='inventory'||action==='operation:stock')return row('SELECT v.id,v.stock,p.name AS product,v.color,v.size,v.sku FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.id=?',data.variantId);
  if(action==='operation:prices')return Promise.all(data.map((p:{id:string})=>row('SELECT id,name,price_kobo FROM products WHERE id=?',p.id)));
  if(action==='product:update')return {product:await row('SELECT * FROM products WHERE id=?',data.id),variants:(await db.prepare('SELECT * FROM product_variants WHERE product_id=? ORDER BY id').bind(data.id).all()).results,images:(await db.prepare('SELECT * FROM product_images WHERE product_id=? ORDER BY id').bind(data.id).all()).results};
@@ -97,7 +102,8 @@ export async function reviewApproval(auth:Identity,input:unknown){
  if(!claim.meta.changes)throw new Error('This request is already being reviewed.');
  try{
   let result:unknown={ok:true};const actor=`${auth.email} (approved ${request.actor}; ${v.id})`;
-  if(request.action.startsWith('operation:'))result=await executeOperation(request.action.slice(10),data,actor,request.role);
+  if(request.action.startsWith('support:'))result=await applySupportChange(request.action,data,actor);
+  else if(request.action.startsWith('operation:'))result=await executeOperation(request.action.slice(10),data,actor,request.role);
   else if(request.action==='inventory')await adjustStock(data,actor);
   else if(request.action==='product:create')result=await saveAdminProduct({...data,id:undefined},actor);
   else if(request.action==='product:update')result=await saveAdminProduct(data,actor);
