@@ -1,0 +1,1 @@
+import React from 'react';import {createRoot} from 'react-dom/client';import '../../app/globals.css';import {StaffChat} from '../../app/admin/staff-chat';createRoot(document.getElementById('root')!).render(<main><h1>Staff workspace</h1><StaffChat/></main>);

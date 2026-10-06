@@ -1,3 +1,4 @@
+import * as chat from '../app/api/admin/chat/route';
 import {POST as customerSupport} from '../app/api/support/route';
 import * as support from '../app/api/admin/support/route';
 import * as sales from '../app/api/admin/sales/route';
@@ -42,6 +43,7 @@ import { POST as checkout } from "../app/api/checkout/route";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
 const routes: Record<string, Record<string, (request: Request) => Promise<Response>>> = {
   '/api/support':{POST:customerSupport},
+  '/api/admin/chat':{GET:chat.GET,POST:chat.POST},
   '/api/admin/support':{GET:support.GET,POST:support.POST},
   '/api/admin/sales':{GET:sales.GET,POST:sales.POST},
   '/api/admin/ga4':{GET:ga4Route.GET,POST:ga4Route.POST},

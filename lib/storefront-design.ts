@@ -5,7 +5,16 @@ export function safeHeroImage(value:string) {
     || /^https:\/\/api\.vantanoir\.store\/api\/media\/products\/[a-zA-Z0-9-]+\.(?:png|jpg|webp|avif)$/i.test(value);
 }
 const image=z.string().trim().max(500).refine(safeHeroImage,'Choose a store image or upload one using the button below.');
+export const heroMediaSchema=z.object({
+  url:z.string().max(500).refine(v=>safeHeroImage(v)||/^https:\/\/api\.vantanoir\.store\/api\/media\/products\/[a-f0-9-]+\.(mp4|webm)$/.test(v),'Upload store media first.'),
+  type:z.enum(['image','video']), alt:z.string().max(240).default('Vanta Noir campaign'),
+});
+export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
+  playlist:z.array(heroMediaSchema).max(12).default([]),
+  desktopHeight:z.number().int().min(40).max(100).default(80),
+  mobileHeight:z.number().int().min(40).max(100).default(80),
+  intervalSeconds:z.number().int().min(5).max(30).default(8),
   image:image.default('/images/vanta-hero.png'),
   mobileImage:z.union([z.literal(''),image]).default(''),
   alt:z.string().trim().min(3).max(240).default('Vanta Noir technical streetwear worn by two campaign models'),

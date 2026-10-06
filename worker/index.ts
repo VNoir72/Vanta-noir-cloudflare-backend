@@ -62,7 +62,7 @@ const worker = {
         return secureResponse(await uploadProductImage(request), request, env);
       }
       const response=await handler.fetch(request,env,ctx);
-      if(response.ok && url.pathname.startsWith("/api/") && (request.method !== "GET" || url.pathname === "/api/admin/commerce" || url.pathname === "/api/payments/verify")) {
+      if(response.ok && url.pathname!=="/api/admin/chat" && url.pathname.startsWith("/api/") && (request.method !== "GET" || url.pathname === "/api/admin/commerce" || url.pathname === "/api/payments/verify")) {
         ctx.waitUntil(runCommerceMaintenance().catch(error=>console.error("Commerce notifications pending",error instanceof Error ? error.name : "UnknownError")));
       }
       return secureResponse(response, request, env);

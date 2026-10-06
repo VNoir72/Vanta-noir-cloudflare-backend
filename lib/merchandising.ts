@@ -22,7 +22,7 @@ export function homepageSections(products: CatalogProduct[], data: Merchandising
   }).sort((a,b)=>bestSellerScore(b,data)-bestSellerScore(a,data)||a.id.localeCompare(b.id)).slice(0,8);
   return {
     newArrivals:products.filter(p=>isNewArrival(p,now)).sort((a,b)=>(b.details?.releaseDate??'').localeCompare(a.details?.releaseDate??'')||a.id.localeCompare(b.id)).slice(0,8),
-    featured:products.filter(p=>p.featured).slice(0,8),
+    featured:products.filter(p=>p.featured && !isPreview(p) && availableUnits(p)>0 && bestSellerUnits(p,data)===0).slice(0,8),
     comingSoon:products.filter(isPreview).sort((a,b)=>Number(Boolean(b.featured))-Number(Boolean(a.featured))||a.id.localeCompare(b.id)).slice(0,8),
     bestSellers,
   };
