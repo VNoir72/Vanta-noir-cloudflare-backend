@@ -5,7 +5,7 @@ import {formatNaira} from '@/lib/catalog';
 import {useEffect,useRef,useState} from 'react';
 import {useUnsavedChanges} from './unsaved-changes';
 type Proposal={id:string;actor:string;action:string;status:string;created_at:string;reviewer:string;review_note:string;payload:any;before:any;result:any};
-const titles:Record<string,string>={'operation:stock':'Stock adjustment',inventory:'Stock adjustment','operation:prices':'Product prices','operation:import':'Import draft products','operation:order':'Order status','operation:tracking':'Delivery tracking','operation:return':'Return update','operation:exchange':'Allocate replacements','operation:exchange-tracking':'Replacement delivery','product:create':'Create product','product:update':'Edit product','product:status':'Product visibility',upload:'Product image'};
+const titles:Record<string,string>={'walk-in-sale':'Walk-in sale','operation:stock':'Stock adjustment',inventory:'Stock adjustment','operation:prices':'Product prices','operation:import':'Import draft products','operation:order':'Order status','operation:tracking':'Delivery tracking','operation:return':'Return update','operation:exchange':'Allocate replacements','operation:exchange-tracking':'Replacement delivery','product:create':'Create product','product:update':'Edit product','product:status':'Product visibility',upload:'Product image'};
 function label(key:string){return ({id:'Record',variantId:'Variation',productId:'Product',expectedStock:'Stock at submission',stock:'Requested stock',expectedPrice:'Current price',priceKobo:'Requested price',refundKobo:'Refund amount',imageUrl:'Image',imageAlt:'Image description',details_json:'Product details'} as Record<string,string>)[key]||key.replace(/([a-z])([A-Z])/g,'$1 $2').replaceAll('_',' ');}
 function Value({value,field=''}:{value:any;field?:string}){
  if(value===null||value===undefined||value==='')return <span>—</span>;
@@ -27,7 +27,7 @@ export function ApprovalsPanel({owner=false,onChanged}:{owner?:boolean;onChanged
  async function review(r:Proposal,decision:'approve'|'reject'){
   if(lock.current)return;lock.current=true;setBusy(r.id);setError('');setNotice('');
   try{const response=await fetch('/api/admin/approvals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:r.id,decision,note:notes[r.id]||''}),signal:AbortSignal.timeout(60000)});const v=await response.json() as {status:string;error?:string};if(!response.ok)throw new Error(v.error||'Request failed.');
-   setNotes(n=>({...n,[r.id]:''}));await load();setNotice(v.status==='approved'?'Approved and applied.':v.status==='rejected'?'Rejected. No live changes were made.':v.status==='conflict'?'The record changed after submission. Staff must submit a fresh request.':'This request needs review. Check its result and the live record before making further changes.');
+   setNotes(n=>({...n,[r.id]:''}));await load();setNotice(v.status==='approved'?'Approved and applied.':v.status==='rejected'?'Rejected. Any reserved sale stock has been released.':v.status==='conflict'?'The record changed after submission. Staff must submit a fresh request.':'This request needs review. Check its result and the live record before making further changes.');
    if(v.status==='approved'||v.status==='review')try{await onChanged?.();}catch{setNotice('Review recorded. Refresh the dashboard to update its figures.');}
   }catch(e){setError((e as Error).message+' Refresh the queue before retrying.');}finally{lock.current=false;setBusy('');}
  }

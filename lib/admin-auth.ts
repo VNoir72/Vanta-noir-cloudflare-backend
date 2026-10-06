@@ -31,6 +31,7 @@ export async function adminAuthStateFromRequest(request: Request) {
   }
   const path=new URL(request.url).pathname;
   const allowed = role === "owner" || path === "/admin" || path === "/api/admin/operations" || (path === "/api/admin/approvals" && request.method === "GET")
+    || (role === "sales" && path === "/api/admin/sales")
     || (role === "catalogue" && ["/api/admin/products","/api/admin/inventory","/api/admin/uploads"].includes(path) && request.method!=="DELETE")
     || (role === "analyst" && path === "/api/admin/analytics" && request.method==="GET");
   if(!allowed)return {ok:false as const,status:403,error:"Your staff role cannot access this section."};

@@ -34,6 +34,7 @@ export async function queueEmail(eventKey:string,recipient:string,subject:string
     .bind(crypto.randomUUID(),eventKey,recipient,subject,body).run();
 }
 export async function queueOrderEmail(reference:string,event:string){
+  if(reference.startsWith("VN-WALK-"))return;
   const db=getDbBinding();
   const order=await db.prepare(`SELECT id,email,first_name AS firstName,last_name AS lastName,total_kobo AS totalKobo,
     subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo,discount_kobo AS discountKobo,status,payment_status AS paymentStatus,
@@ -163,7 +164,7 @@ export async function queueLowStockAlerts(){
 }
 export async function recoverPaymentEmails(){
   const db=getDbBinding(),owner=runtimeEnv().ADMIN_EMAIL?.trim();
-  const rows=await db.prepare(`SELECT reference FROM orders o WHERE payment_status='paid' AND (
+  const rows=await db.prepare(`SELECT reference FROM orders o WHERE payment_status='paid' AND o.reference NOT LIKE 'VN-WALK-%' AND (
     NOT EXISTS(SELECT 1 FROM email_outbox WHERE event_key='order:'||o.reference||':payment')
     OR (?=1 AND NOT EXISTS(SELECT 1 FROM email_outbox WHERE event_key='owner-order:'||o.reference||':payment'))
   ) ORDER BY paid_at LIMIT 20`).bind(owner?1:0).all<{reference:string}>();

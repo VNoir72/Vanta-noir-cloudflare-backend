@@ -1,3 +1,4 @@
+import * as sales from '../app/api/admin/sales/route';
 import {GET as media} from '../app/api/media/[...key]/route';
 import * as ga4Route from '../app/api/admin/ga4/route';
 import {GET as ga4Callback} from '../app/api/admin/ga4/callback/route';
@@ -38,6 +39,7 @@ import * as products from "../app/api/admin/products/route";
 import { POST as checkout } from "../app/api/checkout/route";
 import { checkApiRequest, secureResponse } from "../lib/http-policy";
 const routes: Record<string, Record<string, (request: Request) => Promise<Response>>> = {
+  '/api/admin/sales':{GET:sales.GET,POST:sales.POST},
   '/api/admin/ga4':{GET:ga4Route.GET,POST:ga4Route.POST},
   '/api/admin/ga4/callback':{GET:ga4Callback},
   '/api/admin/email-delivery':{GET:emailDeliveryRoute.GET,POST:emailDeliveryRoute.POST},

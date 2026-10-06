@@ -6,6 +6,7 @@ const nextStatuses: Record<string, string[]> = {
 };
 
 export function allowedOrderStatuses(status: string, paymentStatus: string) {
+  if (status === "walk_in_pending") return [];
   if (status === "cancelled" || status === "delivered") return [status];
   return [status, ...(paymentStatus === "paid" ? nextStatuses[status] ?? [] : ["cancelled"])];
 }

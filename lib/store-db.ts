@@ -1058,6 +1058,7 @@ export async function markOrderPaid(args: {
   const db = getDbBinding();
   const order = await getOrderByReference(args.reference);
   if (!order) throw new Error("Order not found.");
+  if (order.reference.startsWith("VN-WALK-")) throw new Error("Walk-in sales require owner review.");
   const paymentFeeKobo = confirmedPaymentFee(order.totalKobo,args.amountKobo,args.requestedAmountKobo,args.providerFeesKobo);
   if (order.paymentStatus === "paid") { await queueOrderEmail(args.reference,"payment"); return order; }
 

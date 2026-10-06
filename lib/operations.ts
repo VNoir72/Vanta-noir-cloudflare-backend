@@ -9,7 +9,7 @@ export {roleResources,type StaffRole} from "./operations-permissions";
 export async function staffRole(email:string):Promise<StaffRole|null>{
  if(isAdminEmail(email))return 'owner';
  const row=await getDbBinding().prepare('SELECT role FROM admin_staff WHERE email=? AND active=1').bind(email.trim().toLowerCase()).first<{role:StaffRole}>();
- return row && ['catalogue','fulfilment','support','analyst'].includes(row.role)?row.role:null;
+ return row && ['sales','catalogue','fulfilment','support','analyst'].includes(row.role)?row.role:null;
 }
 export function permits(role:StaffRole,resource:string){return roleResources[role].includes(resource);}
 export function auditStatement(actor:string,action:string,entity:string,detail='') {return getDbBinding().prepare('INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,?,?,?)').bind(actor,action,entity,detail);}
@@ -82,13 +82,15 @@ export async function operationsData(resource:string,params:URLSearchParams){
  if(resource==='courier')return {connected:!!runtimeEnv().COURIER_WEBHOOK_SECRET,events:(await db.prepare('SELECT * FROM courier_events ORDER BY created_at DESC LIMIT 50').all()).results};
  throw new Error('Unknown section.');
 }
-export async function saveStaff(input:unknown,actor:string){const v=z.object({email:z.string().trim().toLowerCase().email().max(200),role:z.enum(['catalogue','fulfilment','support','analyst']),active:z.boolean()}).parse(input);if(isAdminEmail(v.email))throw new Error('The owner role cannot be changed here.');await getDbBinding().batch([getDbBinding().prepare('INSERT INTO admin_staff(email,role,active) VALUES(?,?,?) ON CONFLICT(email) DO UPDATE SET role=excluded.role,active=excluded.active,updated_at=CURRENT_TIMESTAMP').bind(v.email,v.role,v.active?1:0),auditStatement(actor,'staff permissions',v.email,JSON.stringify({role:v.role,active:v.active}))]);}
+export async function saveStaff(input:unknown,actor:string){const v=z.object({email:z.string().trim().toLowerCase().email().max(200),role:z.enum(['sales','catalogue','fulfilment','support','analyst']),active:z.boolean()}).parse(input);if(isAdminEmail(v.email))throw new Error('The owner role cannot be changed here.');await getDbBinding().batch([getDbBinding().prepare('INSERT INTO admin_staff(email,role,active) VALUES(?,?,?) ON CONFLICT(email) DO UPDATE SET role=excluded.role,active=excluded.active,updated_at=CURRENT_TIMESTAMP').bind(v.email,v.role,v.active?1:0),auditStatement(actor,'staff permissions',v.email,JSON.stringify({role:v.role,active:v.active}))]);}
 export async function deleteStaff(input:unknown,actor:string){
  if(!isAdminEmail(actor))throw new Error('Only the owner can remove staff.');
  const {email}=z.object({email:z.string().trim().toLowerCase().email().max(200)}).parse(input);
  if(isAdminEmail(email))throw new Error('The owner account cannot be removed.');
  const db=getDbBinding();
  await db.batch([
+  db.prepare("DELETE FROM stock_reservations WHERE order_id IN (SELECT w.order_id FROM walk_in_sales w JOIN admin_approvals a ON a.id=w.approval_id WHERE a.actor=? AND a.status='pending')").bind(email),
+  db.prepare("UPDATE orders SET status='cancelled',payment_status='cancelled',updated_at=CURRENT_TIMESTAMP WHERE id IN (SELECT w.order_id FROM walk_in_sales w JOIN admin_approvals a ON a.id=w.approval_id WHERE a.actor=? AND a.status='pending')").bind(email),
   db.prepare("UPDATE admin_approvals SET status='rejected',reviewer=?,review_note='Staff access removed by owner',reviewed_at=CURRENT_TIMESTAMP WHERE actor=? AND status='pending'").bind(actor,email),
   db.prepare('DELETE FROM admin_staff WHERE email=?').bind(email),
   auditStatement(actor,'staff access removed',email,'Access revoked; pending requests rejected. Previous activity retained.')
