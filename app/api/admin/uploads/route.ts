@@ -11,6 +11,7 @@ const CONTENT_TYPES = new Map([
   ["image/png", "png"],
   ["image/webp", "webp"],
   ["image/avif", "avif"],
+  ["video/mp4", "mp4"], ["video/webm", "webm"],
 ]);
 
 export async function POST(request: Request) {
@@ -23,11 +24,14 @@ export async function POST(request: Request) {
   const form = await request.formData().catch(() => null);
   const file = form?.get("file");
   if (!(file instanceof File)) return Response.json({ error: "Choose an image first." }, { status: 400 });
-  if (!CONTENT_TYPES.has(file.type)) return Response.json({ error: "Use a JPG, PNG, WebP, or AVIF image." }, { status: 400 });
-  if (!file.size || file.size > MAX_IMAGE_BYTES) return Response.json({ error: "Choose a non-empty image of 12 MB or smaller." }, { status: 400 });
+  if (!CONTENT_TYPES.has(file.type)) return Response.json({ error: "Use JPG, PNG, WebP, AVIF, MP4 or WebM." }, { status: 400 });
+  const video=file.type.startsWith('video/');
+  if(video&&auth.role!=='owner')return Response.json({error:'Only the owner can upload hero video.'},{status:403});
+  if (!file.size || file.size > (video?32*1024*1024:MAX_IMAGE_BYTES)) return Response.json({ error: "Choose an image up to 12 MB or a hero video up to 32 MB." }, { status: 400 });
 
   const signature=new Uint8Array(await file.slice(0,64).arrayBuffer());
-  if(!matchesImageSignature(signature,file.type))return Response.json({error:"The file contents do not match its image type."},{status:400});
+  const validVideo=file.type==='video/mp4'?new TextDecoder().decode(signature.slice(4,8))==='ftyp':signature[0]===0x1a&&signature[1]===0x45&&signature[2]===0xdf&&signature[3]===0xa3;
+  if(video?!validVideo:!matchesImageSignature(signature,file.type))return Response.json({error:"The file contents do not match its image type."},{status:400});
 
   const extension = CONTENT_TYPES.get(file.type);
   const key = `${auth.role==='owner'?'products':'approval-staging'}/${crypto.randomUUID()}.${extension}`;

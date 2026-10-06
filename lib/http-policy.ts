@@ -16,7 +16,7 @@ export function checkApiRequest(request: Request, settings: Settings): Response 
   if (url.pathname.startsWith("/api/admin/") && !["GET", "HEAD", "OPTIONS"].includes(request.method)
     && origin !== url.origin) return Response.json({ error: "Open the admin dashboard to make this change." }, { status: 403 });
   if (request.method === "OPTIONS") return new Response(null, { status: 204 });
-  const maxBytes = url.pathname === "/api/admin/uploads" ? 13 * 1024 * 1024 : 128 * 1024;
+  const maxBytes = url.pathname === "/api/admin/uploads" ? 33 * 1024 * 1024 : 128 * 1024;
   if (Number(request.headers.get("content-length") ?? 0) > maxBytes) return Response.json({ error: "The request is too large." }, { status: 413 });
   return null;
 }

@@ -1,3 +1,4 @@
+import {StaffChat} from "./staff-chat";
 import {SupportDashboard} from "./support-dashboard";
 import {ga4ErrorMessage} from '@/lib/ga4-errors';
 import {PaymentUpdates} from "./payment-updates";
@@ -60,7 +61,7 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
     );
   }
 
-  if(role==="support") return <main className="vn-control-center"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/></UnsavedChangesProvider></main>;
-  if(role!=="owner") return <main className="vn-control-center vn-staff-view min-h-screen p-5"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
-  return <><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
+  if(role==="support") return <main className="vn-control-center"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/><StaffChat/></UnsavedChangesProvider></main>;
+  if(role!=="owner") return <main className="vn-control-center vn-staff-view min-h-screen p-5"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/><StaffChat/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
+  return <><StaffChat/><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
 }

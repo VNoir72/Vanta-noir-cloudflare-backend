@@ -35,8 +35,9 @@ export function SlidingGarmentViews({ images, sizes, priority = false, suspended
   }, []);
   useEffect(() => {
     if (count < 2 || paused || suspended || !visible || reduced) return;
-    const timer = setInterval(() => { if (!document.hidden) { setInstant(false); setIndex(current => { const next=current >= count ? 1 : current + 1; const image=root.current?.querySelectorAll("img")[next]; return image?.complete && image.naturalWidth > 0 ? next : current; }); } }, 4200);
-    return () => clearInterval(timer);
+    let timer:ReturnType<typeof setTimeout>;
+    const advance=()=>{timer=setTimeout(()=>{if(!document.hidden){setInstant(false);setIndex(current=>{const step=1+Math.floor(Math.random()*(count-1));return (current+step)%count;});}advance();},4800+Math.random()*6200);};
+    advance();return()=>clearTimeout(timer);
   }, [count, paused, suspended, visible, reduced, identity]);
   useEffect(() => {
     const host = root.current?.closest("button,a");
@@ -53,8 +54,8 @@ export function SlidingGarmentViews({ images, sizes, priority = false, suspended
     onPointerUp={event=>{const point=start.current;start.current=null;setPaused(false);if(!point)return;const dx=event.clientX-point.x,dy=event.clientY-point.y;if(count>1&&Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){dragged.current=true;setInstant(reduced);setIndex(current=>(current+(dx<0?1:-1)+count)%count);}}}
     onPointerCancel={()=>{start.current=null;setPaused(false);}}
     onClickCapture={event=>{if(dragged.current){event.preventDefault();event.stopPropagation();dragged.current=false;}}}>
-    <span className="vn-sliding-track" style={{willChange:visible&&count>1?"transform":"auto",transform:`translate3d(-${Math.min(index,count)*100}%,0,0)`,transition:instant||reduced?"none":undefined}} onTransitionEnd={event=>{if(event.target===event.currentTarget&&index===count){setInstant(true);setIndex(0);}}}>
-      {[...images,...(count>1?[images[0]]:[])].map((image,i)=><span className="vn-sliding-frame" key={`${image.imageUrl}-${i}`} aria-hidden={i!==index}><StoreImage src={image.imageUrl} alt={i===index?image.imageAlt:""} sizes={sizes} priority={priority&&i===0} draggable={false}/></span>)}
+    <span className="vn-independent-track" style={{position:'absolute',inset:0}}>
+      {images.map((image,i)=><span className="vn-independent-frame" style={{opacity:i===index?1:0,transform:i===index?"translate3d(0,0,0)":`translate3d(${i%2?3:-3}%,0,0)`,transition:instant||reduced?"none":undefined}} key={`${image.imageUrl}-${i}`} aria-hidden={i!==index}><StoreImage src={image.imageUrl} alt={i===index?image.imageAlt:""} sizes={sizes} priority={priority&&i===0} draggable={false}/></span>)}
     </span>
   </span>;
 }

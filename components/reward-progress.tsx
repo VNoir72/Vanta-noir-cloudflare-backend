@@ -6,7 +6,7 @@ import type {RewardQuote} from '@/lib/rewards';
 export function RewardProgress({quote,bag=false}:{quote:RewardQuote|null;bag?:boolean}){
   const p=quote?.progress;if(!p)return null;
   const same=p.shippingRemainingKobo!==null&&p.shippingRemainingKobo===p.giftRemainingKobo&&p.giftAvailable;
-  return <div className="dn-rewards" role="status" aria-live="polite"><strong>{p.title}</strong>
+  return <div className="dn-rewards" role="status" aria-live="polite"><strong>{p.title}</strong>{p.shippingRemainingKobo!==null&&<div className="vn-shipping-meter" role="progressbar" aria-label="Progress toward free shipping" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(100*quote!.subtotalKobo/Math.max(1,quote!.subtotalKobo+p.shippingRemainingKobo))}><span style={{transform:`scaleX(${p.shippingRemainingKobo===0?1:quote!.subtotalKobo/Math.max(1,quote!.subtotalKobo+p.shippingRemainingKobo)})`}}/></div>}
     {same?<p>{p.shippingRemainingKobo===0?'Free shipping and your free gift unlocked.':`Add ${formatNaira(p.shippingRemainingKobo!)} for free shipping and a free gift.`}</p>:<>
       {p.shippingRemainingKobo!==null&&<p>{p.shippingRemainingKobo===0?'Free shipping unlocked.':`Add ${formatNaira(p.shippingRemainingKobo)} for free shipping.`}</p>}
       {p.giftRemainingKobo!==null&&<p>{!p.giftAvailable?'The gift is currently out of stock.':p.giftRemainingKobo===0?'Your free gift is unlocked.':`Add ${formatNaira(p.giftRemainingKobo)} for a free gift.`}</p>}

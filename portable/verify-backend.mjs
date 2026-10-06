@@ -49,6 +49,9 @@ try{
  await db.prepare("INSERT INTO admin_staff(email,role,active) VALUES('care-agent@example.com','support',1)").run();
  const careToken=await new SignJWT({email:'care-agent@example.com'}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuer(issuer).setAudience('release-aud').setIssuedAt().setExpirationTime('10m').sign(privateKey);
  const carePage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{'cf-access-jwt-assertion':careToken,Accept:'text/html'}});assert.equal(carePage.status,200);assert.match(await carePage.text(),/Support dashboard/);
+ const chatResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/chat',{method:'POST',headers:authHeaders,body:JSON.stringify({action:'send',id:crypto.randomUUID(),channel:'all',body:'Release verification message'})});assert.equal(chatResponse.status,201);
+ const staffChat=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/chat',{headers:{'cf-access-jwt-assertion':careToken}});assert.equal(staffChat.status,200);assert.equal((await staffChat.json()).messages.length,1);
+ assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/admin/chat')).status,403);
  await db.prepare("DELETE FROM admin_staff WHERE email='care-agent@example.com'").run();
  console.log('Compiled customer enquiry, CORS, protected inbox and staff Support page passed.');
 
