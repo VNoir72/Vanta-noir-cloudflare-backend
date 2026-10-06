@@ -1,4 +1,5 @@
 "use client";
+import {loadPaystack} from "@/lib/paystack-inline";
 import {checkoutAttempt} from "@/lib/checkout-attempt";
 import {RewardProgress,useRewardQuote} from "@/components/reward-progress";
 import { useEffect, useRef, useState, type FormEvent } from "react";
@@ -42,11 +43,18 @@ export function CheckoutForm() {
   async function pay(event:FormEvent<HTMLFormElement>){event.preventDefault();if(submitting.current||!settings?.checkoutReady||total===null||!cart.length||rewards.pending||rewards.error||!rewards.quote)return;submitting.current=true;setBusy(true);setError("");
     const fields=Object.fromEntries(new FormData(event.currentTarget));
     try{const checkoutData={expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...checkoutData,checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
-      const payload=await response.json() as {authorizationUrl?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
+      const payload=await response.json() as {authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
       if(payload.reference&&payload.receiptToken){try{sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}catch{/* Storage restrictions must not block the verified payment redirect. */}}
       if(payload.complete||payload.checking){if(!payload.reference)throw new Error("The payment response is incomplete. Please contact customer care before retrying.");window.location.assign('/checkout/complete?reference='+encodeURIComponent(payload.reference!));return;}
       const target=new URL(payload.authorizationUrl||"");if(target.protocol!=="https:"||target.hostname!=="checkout.paystack.com")throw new Error("The payment link could not be verified. Please contact customer care.");
-      window.location.assign(target.href);
+      if(!payload.accessCode) { window.location.assign(target.href); return; }
+      if(!payload.reference) throw new Error("The payment reference is missing. Please contact customer care.");
+      const Paystack = await loadPaystack();
+      new Paystack().resumeTransaction(payload.accessCode, {
+        onSuccess: () => { window.location.assign('/checkout/complete?reference='+encodeURIComponent(payload.reference!)); },
+        onCancel: () => { submitting.current=false;setBusy(false);setNotice("Payment window closed. Your bag is saved; you can continue when ready."); },
+        onError: () => { submitting.current=false;setBusy(false);setError("Payment could not be completed. Please retry the same order or contact customer care."); }
+      });
     }catch(e){setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"The payment service took too long. Please check your order with customer care before trying again.");submitting.current=false;setBusy(false);}
   }
   return <StoreShell checkout><a className="dn-back" href="/?bag=1"><ArrowLeft size={16}/>Back to your bag</a><div className="dn-page-intro"><span className="dn-eyebrow">PRESENCE. POWER. PRECISION.</span><h1>Checkout.</h1><p>Make it yours. Guest checkout in Nigerian naira.</p></div>
@@ -68,9 +76,9 @@ export function CheckoutForm() {
         {rewards.quote?.gift&&<div className="dn-summary-item"><div><strong>Free gift · {rewards.quote.gift.productName}</strong><p>{rewards.quote.gift.color} · {rewards.quote.gift.size} · Qty 1</p><span>Free</span></div></div>}
         <dl className="dn-totals"><div><dt>Subtotal</dt><dd>{formatNaira(rewards.quote?.subtotalKobo??subtotal)}</dd></div>{promotion&&<div><dt>Discount</dt><dd>−{formatNaira(rewards.quote?.discountKobo??promotion.discountKobo)}</dd></div>}<div><dt>Delivery</dt><dd>{countryCode==="NG"&&!state?"Select a state":deliveryFee===null?"Unavailable":deliveryFee===0?"Free":formatNaira(deliveryFee)}</dd></div><div className="dn-total"><dt>Total</dt><dd>{(state||countryCode!=="NG")&&total!==null?formatNaira(total):"—"}</dd></div></dl>
         <label className="dn-checkbox"><input type="checkbox" required/>I have read the <a href="/terms-of-service" target="_blank" rel="noreferrer">terms</a> and <a href="/shipping-returns" target="_blank" rel="noreferrer">delivery & returns policy</a>.</label>
-        {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||rewards.pending||Boolean(rewards.error)||!rewards.quote||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Opening Paystack…":settings.checkoutReady?"Continue to Paystack":"Payments opening soon"}<ArrowRight size={17}/></button>
+        {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||rewards.pending||Boolean(rewards.error)||!rewards.quote||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Opening Paystack…":settings.checkoutReady?"Continue to payment":"Payments opening soon"}<ArrowRight size={17}/></button>
         <PaymentMethods/>
-        <p className="dn-small">Paystack may add a processing fee to the order total. Review the final amount on Paystack before authorising payment. Choose your payment method on Paystack. Your card details are entered there securely. <a href="/privacy-policy">Privacy policy</a></p>
+        <p className="dn-small">Paystack may add a processing fee to the order total. Review the final amount on Paystack before authorising payment. Choose from the payment methods available in the secure Paystack window. Your card details go directly to Paystack. <a href="/privacy-policy">Privacy policy</a></p>
       </aside></form></>}
   </StoreShell>;
 }

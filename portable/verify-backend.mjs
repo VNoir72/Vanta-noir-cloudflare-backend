@@ -20,7 +20,7 @@ try{
  const coldPage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{'cf-access-jwt-assertion':token,Accept:'text/html'}});
  assert.equal(coldPage.status,200);
  const coldHtml=await coldPage.text();
- assert.match(coldHtml,/Loading your dashboard/);
+ assert.match(coldHtml,/Your workspace is getting ready/);
  assert.ok(Buffer.byteLength(coldHtml)<150_000);
  const db=await mf.getD1Database('DB');
  for(const file of (await readdir(projectPath('drizzle'))).filter(x=>x.endsWith('.sql')).sort()){
@@ -45,13 +45,25 @@ try{
  const authHeaders={'cf-access-jwt-assertion':token,Origin:'https://api.vantanoir.store',Host:'api.vantanoir.store'};
  assert.deepEqual(payload.merchandising.sales,[]);assert.equal(payload.merchandising.stockBadgesEnabled,false);
  assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases')).status,403);
+ // New reusable charts: owner-only, same-origin, validated and persisted without changing products.
+ const chartUrl='https://api.vantanoir.store/api/admin/size-templates';
+ assert.equal((await mf.dispatchFetch(chartUrl)).status,403);
+ const chartBody={name:'QA tee',guide:{status:'confirmed',notes:'Measured sample',sections:[{kind:'top',title:'Top',rows:[{size:'S',chest:50,length:65}]}]}};
+ assert.equal((await mf.dispatchFetch(chartUrl,{method:'POST',headers:{...authHeaders,Origin:'https://invalid.example'},body:JSON.stringify(chartBody)})).status,403);
+ const savedChart=await mf.dispatchFetch(chartUrl,{method:'POST',headers:{...authHeaders,'Content-Type':'application/json'},body:JSON.stringify(chartBody)});assert.equal(savedChart.status,201);
+ const charts=await (await mf.dispatchFetch(chartUrl,{headers:authHeaders})).json();assert.equal(charts.templates[0].name,'QA tee');assert.equal(charts.templates[0].guide.status,'reference');assert.equal(charts.templates[0].guide.sections[0].rows[0].chest,50);
+ assert.equal((await mf.dispatchFetch(chartUrl,{method:'POST',headers:authHeaders,body:JSON.stringify({...chartBody,name:''})})).status,400);
+ // Bounded local resilience exercise. No production, payment or courier requests.
+ for(let batch=0;batch<12;batch++)await Promise.all(Array.from({length:8},async()=>{const r=await mf.dispatchFetch(chartUrl,{headers:{'cf-access-jwt-assertion':'malformed.test.token'}});assert.equal(r.status,403);}));
+ assert.equal((await mf.dispatchFetch(chartUrl,{headers:authHeaders})).status,200,'Owner access remains responsive after rejected requests');
+ console.log('Saved charts and 96 bounded invalid-auth requests passed.');
  const releases=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases',{headers:authHeaders});assert.equal(releases.status,200);assert.deepEqual((await releases.json()).campaigns,[]);
  const closedRelease=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases',{method:'POST',headers:{...authHeaders,'Content-Type':'application/json'},body:JSON.stringify({productId:payload.products[0].id,confirmed:true})});assert.equal(closedRelease.status,400,'Compiled release route cannot announce unavailable stock/sender');
  const stagedSettings={internationalEnabled:false,internationalZones:[{countryCode:'GB',feeKobo:5000000,estimate:'Test only'}],internationalDutiesNote:'Buyer pays import charges.',hero:{title:'Test campaign'},aboutImage:{image:'/images/about-test.webp',alt:'Independent About campaign',focus:'right'}};
  const saved=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/commerce',{method:'POST',headers:{...authHeaders,'Content-Type':'application/json'},body:JSON.stringify({action:'settings',settings:stagedSettings})});assert.equal(saved.status,200);
  const settingsResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/store-settings');const publicSettings=await settingsResponse.json();assert.equal(publicSettings.hero.title,'Test campaign');assert.deepEqual(publicSettings.aboutImage,stagedSettings.aboutImage);assert.equal(publicSettings.hero.image,'/images/vanta-hero.png');assert.deepEqual(publicSettings.internationalZones,[]);assert.equal(publicSettings.internationalDutiesNote,'');
  const admin=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/orders',{headers:authHeaders});assert.equal(admin.status,200);assert.deepEqual((await admin.json()).orders,[]);
- const pageStarted=performance.now(); const adminPage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{...authHeaders,Accept:'text/html'}});assert.equal(adminPage.status,200);const html=await adminPage.text();console.log(`Admin HTML: ${Math.round(performance.now()-pageStarted)} ms, ${Buffer.byteLength(html)} bytes`);assert.match(html,/Loading your dashboard/);assert.ok(Buffer.byteLength(html)<150_000,"Admin HTML must not embed the full catalogue");assert.match(html,/Presence. Power. Precision./);assert.doesNotMatch(html,/signin-with-chatgpt|codex-preview/);
+ const pageStarted=performance.now(); const adminPage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{...authHeaders,Accept:'text/html'}});assert.equal(adminPage.status,200);const html=await adminPage.text();console.log(`Admin HTML: ${Math.round(performance.now()-pageStarted)} ms, ${Buffer.byteLength(html)} bytes`);assert.match(html,/Your workspace is getting ready/);assert.ok(Buffer.byteLength(html)<150_000,"Admin HTML must not embed the full catalogue");assert.match(html,/Presence. Power. Precision./);assert.doesNotMatch(html,/signin-with-chatgpt|codex-preview/);
  // The browser loads these independently after the lightweight authenticated page.
  for (const [resource,key] of [["products","products"],["inventory","inventory"],["analytics","analytics"]]) {
   const url=`https://api.vantanoir.store/api/admin/${resource}`;
