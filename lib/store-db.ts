@@ -1106,7 +1106,7 @@ export type OrderQuery = { page?: number; query?: string; customerEmail?:string;
 function orderQuery(options: OrderQuery) {
   const customerEmail=(options.customerEmail||'').trim().toLowerCase().slice(0,200);
   const query=(options.query ?? "").trim().slice(0,160), status=options.status ?? "", from=options.from ?? "", to=options.to ?? "";
-  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? OR email LIKE ? OR first_name LIKE ? OR last_name LIKE ?) AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(4).fill(`%${query}%`),status,status,status,from,from,to,to] };
+  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR (first_name || ' ' || last_name) LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR tracking_number LIKE ? ESCAPE '\\') AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(5).fill(`%${query.replace(/[\\%_]/g,'\\$&')}%`),status,status,status,from,from,to,to] };
 }
 export async function countAdminOrders(options: OrderQuery = {}) {
   const {where,args}=orderQuery(options);

@@ -43,6 +43,15 @@ try{
  assert.equal(cat.headers.get('X-Frame-Options'),'DENY');assert.match(cat.headers.get('Content-Security-Policy'),/frame-ancestors 'none'/);
  const noReceipt=await mf.dispatchFetch('https://api.vantanoir.store/api/payments/verify?reference=VN-PRIVATE-TEST');assert.equal(noReceipt.status,403);
  const authHeaders={'cf-access-jwt-assertion':token,Origin:'https://api.vantanoir.store',Host:'api.vantanoir.store'};
+ const careResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/support',{method:'POST',headers:{Origin:'https://vantanoir.store','Content-Type':'application/json'},body:JSON.stringify({requestId:crypto.randomUUID(),name:'Release Check',email:'care-check@example.com',category:'product',subject:'Product enquiry',message:'Please confirm the product information.',serious:true})});
+ assert.equal(careResponse.status,201);assert.equal(careResponse.headers.get('Access-Control-Allow-Origin'),'https://vantanoir.store');assert.match((await careResponse.json()).reference,/^VN-HELP-/);
+ const careList=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/support',{headers:authHeaders});assert.equal(careList.status,200);assert.equal((await careList.json()).tickets.length,1);
+ await db.prepare("INSERT INTO admin_staff(email,role,active) VALUES('care-agent@example.com','support',1)").run();
+ const careToken=await new SignJWT({email:'care-agent@example.com'}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuer(issuer).setAudience('release-aud').setIssuedAt().setExpirationTime('10m').sign(privateKey);
+ const carePage=await mf.dispatchFetch('https://api.vantanoir.store/admin',{headers:{'cf-access-jwt-assertion':careToken,Accept:'text/html'}});assert.equal(carePage.status,200);assert.match(await carePage.text(),/Support dashboard/);
+ await db.prepare("DELETE FROM admin_staff WHERE email='care-agent@example.com'").run();
+ console.log('Compiled customer enquiry, CORS, protected inbox and staff Support page passed.');
+
  assert.deepEqual(payload.merchandising.sales,[]);assert.equal(payload.merchandising.stockBadgesEnabled,false);
  assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/admin/releases')).status,403);
  // New reusable charts: owner-only, same-origin, validated and persisted without changing products.
