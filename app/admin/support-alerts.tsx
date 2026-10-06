@@ -1,0 +1,6 @@
+'use client';
+import {useEffect,useState} from 'react';
+import {Bell} from 'lucide-react';
+import {adminRead} from '@/lib/admin-read';
+import './workspace-help.css';
+export function SupportAlerts({onOpen}:{onOpen:()=>void}){const [data,setData]=useState<{unread:number;urgent:number}|null>(null),[failed,setFailed]=useState(false);useEffect(()=>{let live=true,busy=false;const c=new AbortController();async function load(){if(document.hidden||busy)return;busy=true;try{const v=await adminRead<{unread:number;urgent:number}>('/api/admin/support?resource=attention',v=>typeof v?.unread==='number',{signal:c.signal});if(live){setData(v);setFailed(false);}}catch{if(live)setFailed(true);}finally{busy=false;}}void load();const timer=setInterval(load,60000);document.addEventListener('visibilitychange',load);window.addEventListener('vn-support-read',load);return()=>{live=false;c.abort();clearInterval(timer);document.removeEventListener('visibilitychange',load);window.removeEventListener('vn-support-read',load);};},[]);return <button type="button" className="vn-support-alert-button" data-urgent={!!data?.urgent} onClick={onOpen} title="Open Support. Counts refresh every minute while this workspace is visible."><Bell size={16}/>{failed?'Check support alerts':data?`${data.unread} unread · ${data.urgent} urgent`:'Support alerts'}</button>;}

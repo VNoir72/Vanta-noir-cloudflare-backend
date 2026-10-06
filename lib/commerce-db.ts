@@ -67,6 +67,11 @@ export async function processEmailOutbox(limit=10){
     const row=await db.prepare("UPDATE email_outbox SET status='sending',locked_at=CURRENT_TIMESTAMP,attempts=attempts+1 WHERE id=? AND status='pending' RETURNING id,recipient,subject,body,attempts,event_key AS eventKey")
       .bind(candidate.id).first<{id:string;recipient:string;subject:string;body:string;attempts:number;eventKey:string}>();
     if(!row)continue;
+    // Access revocation also stops staff alerts that have not been delivered yet.
+    if(row.eventKey.startsWith('support-alert:') && row.recipient.toLowerCase()!==env.ADMIN_EMAIL?.trim().toLowerCase()){
+      const member=await db.prepare("SELECT email FROM admin_staff WHERE email=? AND active=1 AND role='support'").bind(row.recipient).first();
+      if(!member){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+    }
     // A queued marketing or restock email must respect an unsubscribe that happened after it was queued.
     if(row.eventKey.startsWith("subscription:")){
       const subscriptionId=row.eventKey.split(":")[1];
