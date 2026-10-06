@@ -8,7 +8,7 @@ test('checkout attempts, payment email recovery and signed financial event notif
  await mkdir('work',{recursive:true});await build({entryPoints:['tests/commerce-worker.ts'],outfile:'work/payment-hardening-worker.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
  let initializations=0,failInit=false;const sent=[];
  const mf=new Miniflare({modules:true,scriptPath:'work/payment-hardening-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{ADMIN_EMAIL:'owner@example.com',PAYSTACK_SECRET_KEY:'sk_test_fixture',RESEND_API_KEY:'re_fixture',EMAIL_FROM:'test@example.com'},outboundService:async req=>{
-  if(req.url==='https://api.paystack.co/transaction/initialize'){initializations++;if(failInit)return Response.json({status:false,message:'Temporary failure'},{status:503});const body=await req.json();return Response.json({status:true,data:{reference:body.reference,authorization_url:'https://checkout.paystack.com/'+body.reference}});}
+  if(req.url==='https://api.paystack.co/transaction/initialize'){initializations++;if(failInit)return Response.json({status:false,message:'Temporary failure'},{status:503});const body=await req.json();return Response.json({status:true,data:{reference:body.reference,authorization_url:'https://checkout.paystack.com/'+body.reference,access_code:'fixture-access-code'}});}
   assert.equal(req.url,'https://api.resend.com/emails');sent.push(await req.json());return Response.json({id:'fixture'});
  }});
  try{
@@ -21,7 +21,7 @@ test('checkout attempts, payment email recovery and signed financial event notif
  assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM orders').first()).n,1);assert.equal((await db.prepare('SELECT SUM(quantity) AS n FROM stock_reservations').first()).n,1);
  assert.equal((await call('createPendingOrder',{...input,customer:{...input.customer,email:'other@example.com'}})).status,400);
  const pay={reference:a.reference,receiptToken:a.receiptToken,callbackUrl:'https://vantanoir.store/checkout/complete',email:input.customer.email,customerName:'Test Buyer'};
- await Promise.all([rpc('startCheckoutPayment',pay),rpc('startCheckoutPayment',pay)]);assert.equal(initializations,1);assert.ok((await rpc('startCheckoutPayment',pay)).authorizationUrl);
+ await Promise.all([rpc('startCheckoutPayment',pay),rpc('startCheckoutPayment',pay)]);assert.equal(initializations,1);assert.ok((await rpc('startCheckoutPayment',pay)).authorizationUrl);assert.equal((await rpc('startCheckoutPayment',pay)).accessCode,'fixture-access-code','Retries resume the same secure popup transaction');
  const failed=await rpc('createPendingOrder',{...input,checkoutAttempt:randomUUID()+'-'+randomUUID()});failInit=true;
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);assert.equal(initializations,2,'An ambiguous provider failure must not initialize again');

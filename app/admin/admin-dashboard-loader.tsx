@@ -10,6 +10,8 @@ type DashboardData = Pick<DashboardProps, "initialOrders" | "initialInventory" |
 // Keep catalogue-sized objects out of the server-rendered HTML/RSC response.
 // Every endpoint verifies the Access JWT and staff permissions independently.
 export function AdminDashboardLoader({ adminName, signOutPath, statusPanel, paymentsMode }: Pick<DashboardProps, "adminName" | "signOutPath" | "statusPanel" | "paymentsMode">) {
+  const [greeting, setGreeting] = useState("Welcome back");
+  useEffect(() => { const hour = new Date().getHours(); setGreeting(hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"); }, []);
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);
@@ -37,11 +39,11 @@ export function AdminDashboardLoader({ adminName, signOutPath, statusPanel, paym
 
   if (data) return <AdminDashboard adminName={adminName} signOutPath={signOutPath} statusPanel={statusPanel} paymentsMode={paymentsMode} {...data} />;
   return (
-    <main className="grid min-h-screen place-items-center bg-[#090909] px-5 text-[#f4f1ea]">
-      <section className="w-full max-w-xl border border-white/12 bg-[#101010] p-8 sm:p-12" aria-busy={!error}>
+    <main className="vn-welcome-screen">
+      <section className="vn-welcome-card" aria-busy={!error}>
         <p className="text-xs uppercase tracking-widest text-white/50">Vanta Noir · Admin</p>
-        <h1 className="mt-5 text-3xl">Store administration</h1>
-        <p className="mt-5 text-sm text-white/70" role={error ? "alert" : "status"}>{error || "Loading your dashboard…"}</p>
+        <h1 className="mt-5 text-3xl">{greeting}, Ajibola.</h1>
+        <p className="mt-5 text-sm text-white/70" role={error ? "alert" : "status"}>{error || "Welcome back. Your workspace is getting ready."}</p>
         {error && <button type="button" className="mt-6 border border-white/30 px-5 py-3" onClick={() => setAttempt(value => value + 1)}>Retry</button>}
         <a className="mt-6 block text-sm underline" href={signOutPath}>Sign out / use another account</a>
         <p className="mt-8 text-xs text-white/40">Presence. Power. Precision.</p>
