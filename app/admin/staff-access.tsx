@@ -6,7 +6,7 @@ import {Label} from '@/components/ui/label';
 import {useOperationDraft} from './unsaved-changes';
 type Staff={email:string;role:string;active:number|boolean};
 type Save=(action:string,data:unknown)=>Promise<unknown>;
-const roles=['catalogue','fulfilment','support','analyst'];
+const roles=['sales','catalogue','fulfilment','support','analyst'];
 export function StaffAccess({staff,busy,save}:{staff:Staff[];busy:boolean;save:Save}){
  const [addKey,setAddKey]=useState(0);
  return <div className="vn-staff-access"><p>Staff sign in at <a href="https://api.vantanoir.store/admin">api.vantanoir.store/admin</a> using their own email and a one-time code. Only enabled staff can enter. Their changes still need your approval.</p><section aria-label="Add staff"><h3>Add staff</h3><StaffEditor key={addKey} existing={staff.map(s=>s.email)} busy={busy} save={save} done={()=>setAddKey(k=>k+1)}/></section><section aria-label="Saved staff"><h3>Saved staff ({staff.length})</h3>{staff.length?staff.map(row=><SavedStaff key={row.email+'-'+row.role+'-'+row.active} row={row} busy={busy} save={save}/>):<p>No staff added yet.</p>}</section><p>Delete removes access and rejects that person’s pending requests. Previous activity stays in your audit history. Adding staff does not send an invitation; they request their code from the login page.</p></div>;

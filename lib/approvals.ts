@@ -1,3 +1,4 @@
+import {reviewSale} from './walk-in-sales';
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {type StaffRole,permits,staffRole,stockChangeSchema,auditStatement,adjustStock} from './operations';
@@ -76,6 +77,7 @@ export async function reviewApproval(auth:Identity,input:unknown){
  const v=z.object({id,decision:z.enum(['approve','reject']),note:z.string().trim().max(1000).default('')}).parse(input),db=getDbBinding();
  const request=await db.prepare('SELECT * FROM admin_approvals WHERE id=?').bind(v.id).first<Approval>();
  if(!request||request.status!=='pending')throw new Error('This request has already been reviewed or is being applied. Refresh the queue.');
+ if(request.action==='walk-in-sale')return reviewSale(auth,v.id,v.decision,v.note);
  if(v.decision==='reject'){
   const r=await db.prepare("UPDATE admin_approvals SET status='rejected',reviewer=?,review_note=?,reviewed_at=CURRENT_TIMESTAMP WHERE id=? AND status='pending'").bind(auth.email,v.note,v.id).run();
   if(!r.meta.changes)throw new Error('This request was already reviewed.');
