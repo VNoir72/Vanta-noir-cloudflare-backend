@@ -47,5 +47,5 @@ export function StorefrontMotion() {
 }
 
 export function CollectionPlaceholder({product=false}:{product?:boolean}) {
-  return <section className={`vn-loading-shell ${product?'vn-loading-product dn-panel dn-wrap':'dn-product-grid'}`} role="status" aria-label={product?'Loading product':'Loading collection'} aria-busy="true"><span className="sr-only">Preparing your collection…</span>{Array.from({length:product?2:4},(_,i)=><div className="vn-loading-tile" key={i} aria-hidden="true"><div/><span/><span/></div>)}</section>;
+  return <section className={`vn-loading-shell ${product?'vn-loading-product dn-panel dn-wrap':'dn-product-grid'}`} role="status" aria-label={product?'Loading product':'Loading collection'} aria-busy="true"><h1 className="sr-only">{product?"Preparing your garment":"Preparing your collection"}</h1>{Array.from({length:product?2:4},(_,i)=><div className="vn-loading-tile" key={i} aria-hidden="true"><div/><span/><span/></div>)}</section>;
 }
