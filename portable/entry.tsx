@@ -10,3 +10,5 @@ hydrateRoot(document.getElementById("root")!, <App path={data.path} products={da
 
 import "@/app/approved-storefront.css";
 import "@/app/liquid-glass.css";
+
+import "@/app/campaign-2026.css";
