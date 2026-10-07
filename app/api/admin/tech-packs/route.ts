@@ -20,7 +20,7 @@ export async function GET(request:Request) {
         db.prepare('SELECT product_id,image_url,image_alt,color,sort_order FROM product_images WHERE product_id = ? ORDER BY sort_order,id').bind(id).all(),
         db.prepare('SELECT product_id,sku,size,color FROM product_variants WHERE product_id = ? ORDER BY color,size').bind(id).all()
       ]);
-      const pack=buildTechPack(product,images.results,variants.results);
+      const pack=buildTechPack(product,images.results,variants.results,{color:url.searchParams.get('color')||''});
       if(url.searchParams.get('format')==='json')return Response.json(pack,{headers});
       return new Response(renderTechPackHTML(pack),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; img-src 'self' https://api.vantanoir.store https://vantanoir.store https://www.vantanoir.store; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'"}});
     }

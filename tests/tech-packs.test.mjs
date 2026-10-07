@@ -13,7 +13,7 @@ test('stored text is escaped and images cannot inject active URLs',()=>{
 });
 test('invalid details remain an explicit sampling draft with missing views',()=>{
  const html=renderTechPackHTML(buildTechPack({id:'a',name:'A',details_json:'broken'}));
- assert.match(html,/SAMPLING DRAFT/);assert.match(html,/View pending/);assert.match(html,/Pending specification/);
+ assert.match(html,/SAMPLING DRAFT/);assert.match(html,/No saved image for this direction/);assert.match(html,/Pending specification/);
 });
 test('unreviewed logo art is withheld and embedded manufacturer fields are extracted',()=>{
  const pack=buildTechPack({id:'a',name:'A',image_url:'/images/old-logo.webp',details_json:JSON.stringify({features:'Seven 17 mm snaps. Main seams 10 mm. Speed V emblem on chest.',fabric:'Woven label 60 x 20 mm. Rib cuffs 70 mm.'})});
@@ -57,4 +57,30 @@ test('extra POMs in explicit single-component notes survive and grade separately
  details.sizeGuide.sections.push({rows:[{size:'S',waist:40}]});
  const multiple=buildTechPack({id:'a',details_json:JSON.stringify(details)});
  assert.equal(multiple.sections[0].rows[1].armhole,undefined);
+});
+
+test('ordinary catalogue garments show their own saved four views and enlarged details',()=>{
+ const images=['Front','Back','Left','Right'].map(role=>({product_id:'ordinary-tee',color:'Black',image_alt:`Black tee ${role} view`,image_url:`/images/catalogue/ordinary-${role.toLowerCase()}.webp`}));
+ const pack=buildTechPack({id:'ordinary-tee',name:'Ordinary',image_url:images[0].image_url},images);
+ assert.equal(pack.pictures.length,4);assert.equal(pack.selectedColor,'Black');
+ assert.deepEqual(pack.pictures.map(i=>i.role),['Front','Back','Left','Right']);
+ const html=renderTechPackHTML(pack);
+ assert(!html.includes('No saved image for this direction'));
+ assert.match(html,/class="detail-zoom"/);
+ assert.match(html,/https:\/\/api.vantanoir.store\/images\/catalogue\/ordinary-front.webp/);
+});
+test('colourway packs never mix views; primary gallery metadata is retained',()=>{
+ const images=['Black','Burgundy'].flatMap(color=>['Front','Back','Left','Right'].map(role=>({product_id:'tee',color,image_alt:`${color} ${role}`,image_url:`/images/${color}-${role}.webp`})));
+ const product={id:'tee',image_url:images[0].image_url};
+ const pack=buildTechPack(product,images,[],{color:'Burgundy'});
+ assert.equal(pack.selectedColor,'Burgundy');assert.equal(pack.pictures.length,4);
+ assert(pack.pictures.every(i=>i.color==='Burgundy'));
+ assert.equal(buildTechPack(product,images).selectedColor,'Black');
+});
+test('genuine detail views are preferred and unspecified images retain honest captions',()=>{
+ const images=[{product_id:'a',image_url:'/images/a.webp',image_alt:'Product view'},{product_id:'a',image_url:'/images/detail.webp',image_alt:'Zip close-up'}];
+ const html=renderTechPackHTML(buildTechPack({id:'a'},images));
+ assert.match(html,/Saved product reference — direction unspecified/);
+ assert.match(html,/Zip close-up/);
+ assert(!html.includes('class="detail-zoom"'));
 });
