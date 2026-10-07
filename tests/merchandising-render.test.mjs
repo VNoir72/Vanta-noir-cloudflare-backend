@@ -37,7 +37,7 @@ test('release signup is product-specific and requires email and explicit consent
 
 test('campaign hero removes edit caption and supports mobile artwork, escaped copy and linked artwork-only mode',()=>{
  const html=renderToStaticMarkup(createElement(CampaignHero,{}));
- assert.ok(html.includes('Your next'));assert.ok(!html.includes('EDIT / 001'));
+ assert.ok(html.includes('Presence. Power. Precision.'));assert.ok(html.includes('vn-approved-campaign'));assert.ok(!html.includes('Your next'));assert.ok(!html.includes('EDIT / 001'));
  const value={image:'/images/test.webp',mobileImage:'/images/mobile.webp',alt:'Campaign',title:'<script>text</script>',body:'New collection',kicker:'New',buttonText:'Shop campaign',buttonLink:'/?collection=Noir',showText:true,focus:'right'};
  const custom=renderToStaticMarkup(createElement(CampaignHero,{value}));
  assert.ok(custom.includes('media="(max-width: 700px)"'));assert.ok(custom.includes('srcSet="/images/mobile.webp"'));assert.ok(custom.includes('&lt;script&gt;'));assert.ok(custom.includes('href="/?collection=Noir"'));
