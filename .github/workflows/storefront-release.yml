@@ -1,7 +1,5 @@
-name: Verify storefront and prepare Namecheap update
+name: Isolated website and security verification
 on:
-  push:
-    branches: [codex/approved-storefront-2026-10-03]
   pull_request:
     branches: [vanta-update-30]
   workflow_dispatch:
@@ -13,28 +11,19 @@ concurrency:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: npm
-      - run: npm ci
-      - run: php -l portable/storefront-gateway.php
-      - run: npm run typecheck
-      - run: node --test tests/approved-storefront.test.mjs tests/catalog-visibility.test.mjs tests/rollout-visibility.test.mjs tests/namecheap-visibility.test.mjs
-      - run: npm run build
-      - run: npm run verify:release
-      - run: npm run build:storefront
-      - run: npm run verify:storefront
-      - name: Package public_html contents
-        run: |
-          python3 tests/namecheap-archive.test.py
-          python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip
+          persist-credentials: false
+      - name: Provision tools without repository lifecycle scripts
+        run: docker build -f scripts/ci/Dockerfile -t vanta-check .
+      - name: Run isolated verification and promote bounded evidence
+        run: sudo python3 scripts/ci/run.py
       - uses: actions/upload-artifact@v6
+        if: always()
         with:
-          name: vanta-noir-namecheap-update
-          path: outputs/vanta-noir-namecheap-update.zip
+          name: vanta-noir-verified-release
+          path: ci-artifacts/
           retention-days: 14
           if-no-files-found: error

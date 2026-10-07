@@ -19,7 +19,7 @@ export async function adminAuthStateFromRequest(request: Request) {
       }
       let keys = keySets.get(team.origin);
       if (!keys) { keys = createRemoteJWKSet(new URL("/cdn-cgi/access/certs", team.origin)); keySets.set(team.origin, keys); }
-      const { payload } = await jwtVerify(token, keys, { issuer: team.origin, audience, algorithms: ["RS256"] });
+      const { payload } = await jwtVerify(token, keys, { issuer: team.origin, audience, algorithms: ["RS256"], requiredClaims: ["exp"] });
       email = typeof payload.email === "string" ? payload.email : null;
     } catch {
       return { ok: false as const, status: 403, error: "Admin session is invalid or expired. Please sign in again." };

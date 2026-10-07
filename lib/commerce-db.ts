@@ -176,9 +176,23 @@ export async function recoverPaymentEmails(){
   for(const row of rows.results) await queueOrderEmail(row.reference,'payment');
 }
 export async function runCommerceMaintenance(){
-  await Promise.allSettled([connectEmailTracking(),recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
-  await getDbBinding().prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
-  return processEmailOutbox();
+  const db=getDbBinding(),key='commerce-maintenance-lease',token=crypto.randomUUID(),now=Date.now();
+  // One shared lease across isolates and cron/request callers. A terminated
+  // worker recovers after five minutes; completed work has a one-minute cadence.
+  const claim=await db.prepare(`INSERT INTO store_meta(key,value) VALUES(?,?)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value
+    WHERE CAST(json_extract(store_meta.value,'$.expiresAt') AS INTEGER)<=?`)
+    .bind(key,JSON.stringify({token,expiresAt:now+300000}),now).run();
+  if(!claim.meta.changes)return {sent:0,configured:emailReady(),skipped:true};
+  try{
+    await Promise.allSettled([connectEmailTracking(),recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
+    await db.prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
+    return await processEmailOutbox();
+  }finally{
+    // An old invocation cannot shorten a replacement holder's lease.
+    await db.prepare("UPDATE store_meta SET value=? WHERE key=? AND json_extract(value,'$.token')=?")
+      .bind(JSON.stringify({token,expiresAt:Date.now()+60000}),key,token).run();
+  }
 }
 
 export const reviewSchema=z.object({productId:z.string().trim().min(1).max(160),reference:z.string().trim().min(3).max(120),email:z.string().trim().email().max(200),displayName:z.string().trim().min(2).max(60),rating:z.number().int().min(1).max(5),fit:z.enum(["small","true_to_size","large"]),body:z.string().trim().min(10).max(2000)});
