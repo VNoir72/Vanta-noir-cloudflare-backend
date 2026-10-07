@@ -22,6 +22,5 @@ for suite in tech-packs storefront-refresh storefront-performance portal-audit c
   timeout 180 node "tests/browser/$suite.cjs"
 done
 python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip --repair-code
-python3 scripts/package-backend.py
 echo 'PASS: isolated release checks completed'
 

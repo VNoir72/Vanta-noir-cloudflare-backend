@@ -20,7 +20,6 @@ screens += [f'portal-{role}-{size}' for role in roles for size in ['desktop', 'm
 screens += [f'page-{page}-{width}' for page in ['about', 'contact', 'help-center', 'checkout'] for width in [390, 1440]]
 allow = [('advisories.json', 'advisories.json', 4 * 1024**2), ('check.log', 'check.log', 8 * 1024**2), ('project/work/site-pages.json', 'site-pages.json', 1024**2)]
 allow += [(f'project/work/{s}.png', f'{s}.png', 4 * 1024**2) for s in screens]
-allow += [('project/outputs/vanta-noir-backend.zip', 'vanta-noir-backend.zip', 128 * 1024**2)]
 allow += [('project/outputs/vanta-noir-namecheap-update.zip', 'vanta-noir-namecheap-update.zip', 128 * 1024**2)]
 
 def promote(sfd, dfd, relative, destination, limit):
