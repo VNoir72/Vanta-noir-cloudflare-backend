@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import { SizeGuide } from "@/components/size-guide";
 import { CustomerSignup } from "@/components/customer-signup";
 import { ProductReviews } from "@/components/product-reviews";
-import { formatNaira, type CatalogProduct } from "@/lib/catalog";
+import { formatNaira, type CatalogProduct } from "@/lib/catalog-runtime";
 import { catalogVariantId } from "@/lib/cart";
 import { productDetails } from "@/lib/product-details";
 import { readStorage, writeStorage } from "@/lib/browser-store";

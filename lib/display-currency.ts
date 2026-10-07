@@ -1,6 +1,6 @@
 'use client';
 import {useEffect,useState} from 'react';
-import {formatNaira} from './catalog';
+import {formatNaira} from './catalog-runtime';
 type Rate={usd:number;at:number};
 const valid=(r:Rate|null):r is Rate=>Boolean(r&&Number.isFinite(r.usd)&&r.usd>0&&Number.isFinite(r.at)&&r.at<=Date.now()+60000&&Date.now()-r.at<48*3600000);
 export function useDisplayCurrency(){

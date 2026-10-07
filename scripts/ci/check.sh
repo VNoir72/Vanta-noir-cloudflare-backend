@@ -17,7 +17,7 @@ npm run verify:release
 npm run build:storefront
 npm run verify:storefront
 python3 tests/namecheap-archive.test.py
-for suite in storefront-refresh portal-audit customer-care staff-chat sales-desk admin-navigation site-pages; do
+for suite in storefront-refresh storefront-performance portal-audit customer-care staff-chat sales-desk admin-navigation site-pages; do
   echo "Browser suite: $suite"
   timeout 180 node "tests/browser/$suite.cjs"
 done

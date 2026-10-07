@@ -55,7 +55,7 @@ export function SlidingGarmentViews({ images, sizes, priority = false, suspended
     onPointerCancel={()=>{start.current=null;setPaused(false);}}
     onClickCapture={event=>{if(dragged.current){event.preventDefault();event.stopPropagation();dragged.current=false;}}}>
     <span className="vn-independent-track" style={{position:'absolute',inset:0}}>
-      {images.map((image,i)=><span className="vn-independent-frame" style={{opacity:i===index?1:0,transform:i===index?"translate3d(0,0,0)":`translate3d(${i%2?3:-3}%,0,0)`,transition:instant||reduced?"none":undefined}} key={`${image.imageUrl}-${i}`} aria-hidden={i!==index}><StoreImage src={image.imageUrl} alt={i===index?image.imageAlt:""} sizes={sizes} priority={priority&&i===0} draggable={false}/></span>)}
+      {images.map((image,i)=><span className="vn-independent-frame" style={{opacity:i===index?1:0,transform:i===index?"translate3d(0,0,0)":`translate3d(${i%2?3:-3}%,0,0)`,transition:instant||reduced?"none":undefined}} key={`${image.imageUrl}-${i}`} aria-hidden={i!==index}>{(i===0||visible||i===index)&&<StoreImage src={image.imageUrl} alt={i===index?image.imageAlt:""} sizes={sizes} priority={priority&&i===0} draggable={false}/>}</span>)}
     </span>
   </span>;
 }

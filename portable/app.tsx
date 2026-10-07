@@ -12,7 +12,7 @@ import Studio from "@/app/case-studies/page";
 import NotFound from "@/app/not-found";
 import { PaymentCompletion } from "@/components/payment-completion";
 import { CheckoutForm } from "@/app/checkout/checkout-form";
-import { STORE_SIZES, type CatalogProduct } from "@/lib/catalog";
+import { STORE_SIZES, type CatalogProduct } from "@/lib/catalog-runtime";
 
 function CheckoutComplete() {
   const [reference, setReference] = useState<string | null>(null);

@@ -1,7 +1,7 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api-client";
-import { formatNaira } from "@/lib/catalog";
+import { formatNaira } from "@/lib/catalog-runtime";
 export type TrackedOrder = {reference:string;totalKobo:number;status:string;paymentStatus:string;createdAt:string;carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string;items:Array<{id:number;productId:string;productName:string;size:string;color:string;quantity:number}>;returnRequest?:{id:string;kind:string;status:string;notes:string;refundKobo:number;refundStatus:string;exchangeStatus?:string;exchangeCarrier?:string;exchangeTracking?:string}|null};
 export function OrderAftercare({order,contact}:{order:TrackedOrder;contact:string}){
   const [selected,setSelected]=useState<Record<number,number>>({}),[busy,setBusy]=useState(false),[message,setMessage]=useState(""),[submitted,setSubmitted]=useState(false);

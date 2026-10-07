@@ -1,4 +1,4 @@
-import { variantId, type CatalogProduct, type CatalogColorway } from "./catalog";
+import { variantId, type CatalogProduct, type CatalogColorway } from "./catalog-runtime";
 export const CART_STORAGE_KEY = "vn-discover-bag-v1";
 
 export type CartItem = {

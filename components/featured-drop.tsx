@@ -3,7 +3,7 @@ import {useEffect,useState} from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {ArrowLeft,ArrowRight,Pause,Play} from 'lucide-react';
 import {SlidingGarmentViews,garmentViews} from './sliding-garment-views';
-import {type CatalogProduct} from '@/lib/catalog';
+import {type CatalogProduct} from '@/lib/catalog-runtime';
 import {confirmedSoldOut} from '@/lib/merchandising';
 import {garmentName} from '@/lib/product-names';
 

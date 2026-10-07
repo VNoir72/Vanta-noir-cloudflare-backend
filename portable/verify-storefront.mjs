@@ -54,3 +54,12 @@ for(const image of new Set(Object.values(studioPhotos))){
   assert.ok((await stat(resolve(root,"."+image))).isFile(),`Missing studio image: ${image}`);
 }
 console.log(`Verified studio mapping and delivery files for ${Object.keys(studioPhotos).length} photographs.`);
+
+// Keep seed snapshots out of the startup payload and preserve deferred modules.
+assert.ok(Buffer.byteLength(javascript) < 2_000_000, "Startup JavaScript exceeded the 2 MB uncompressed budget");
+assert.match(home, /rel="preload" as="image"[^>]+media="\(max-width: 700px\)"/);
+assert.match(home, /rel="preload" as="image"[^>]+media="\(min-width: 701px\)"/);
+for (const chunk of [...javascript.matchAll(/catalog-images-[A-Za-z0-9_-]+\.js/g)]) {
+  assert.ok((await stat(resolve(root,"assets",chunk[0]))).isFile(), "Missing deferred catalogue module");
+}
+console.log(`Startup JavaScript budget passed: ${Buffer.byteLength(javascript)} bytes.`);
