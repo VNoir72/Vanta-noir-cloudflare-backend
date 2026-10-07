@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useState} from 'react';
 import {Slider} from 'radix-ui';
-import {formatNaira} from '@/lib/catalog';
+import {formatNaira} from '@/lib/catalog-runtime';
 
 // Keep dragging local: filtering hundreds of products and changing the URL on
 // every pointer movement can exhaust Safari's history quota and interrupt drag.

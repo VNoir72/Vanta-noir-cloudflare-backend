@@ -8,7 +8,7 @@ import { StoreShell } from "@/components/store-shell";
 import StoreImage from "@/components/store-image";
 import { apiUrl, type CheckoutSettings } from "@/lib/api-client";
 import { CART_STORAGE_KEY, reconcileCart, restoreCart, type CartItem } from "@/lib/cart";
-import { formatNaira, type CatalogProduct } from "@/lib/catalog";
+import { formatNaira, type CatalogProduct } from "@/lib/catalog-runtime";
 import { shippingCountryName, postalCodeRequired } from "@/lib/shipping-countries";
 import { NIGERIA_STATES, shippingQuote } from "@/lib/commerce-config";
 import { readStorage, writeStorage } from "@/lib/browser-store";

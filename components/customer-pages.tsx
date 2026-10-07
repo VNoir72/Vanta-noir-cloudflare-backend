@@ -10,7 +10,7 @@ import { ProductReviews } from "./product-reviews";
 import { OrderAftercare, type TrackedOrder } from "./order-aftercare";
 import { useStoreSettings } from "@/lib/store-settings";
 import { apiUrl } from "@/lib/api-client";
-import { formatNaira } from "@/lib/catalog";
+import { formatNaira } from "@/lib/catalog-runtime";
 
 function Intro({label,title,description}:{label:string;title:string;description:string}){return <div className="dn-page-intro"><span className="dn-eyebrow">{label}</span><h1>{title}</h1><p>{description}</p></div>;}
 export function ContactContent(){const settings=useStoreSettings();return <StoreShell><Intro label="HERE TO HELP" title="Let’s talk." description="Questions about your fit, the collection or an order? Get in touch."/><div className="dn-care-grid">

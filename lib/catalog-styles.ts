@@ -1,6 +1,6 @@
 import {collectionName} from "./product-names";
 import groups from '@/data/catalogue-colourway-groups.json';
-import { variantId, type CatalogProduct } from './catalog';
+import { variantId, type CatalogProduct } from './catalog-runtime';
 
 export type ColourwayGroup = { product_ids: string[]; recommended_name: string; audience: string; collection: string; reviewed: boolean };
 

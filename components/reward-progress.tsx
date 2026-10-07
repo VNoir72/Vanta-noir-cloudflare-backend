@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {apiUrl} from '@/lib/api-client';
-import {formatNaira} from '@/lib/catalog';
+import {formatNaira} from '@/lib/catalog-runtime';
 import type {RewardQuote} from '@/lib/rewards';
 export function RewardProgress({quote,bag=false}:{quote:RewardQuote|null;bag?:boolean}){
   const p=quote?.progress;if(!p)return null;
