@@ -11,11 +11,11 @@ export function StoreHeader({dark=false,query,onQuery,onSearch,savedCount=0,bagC
  return (<header className="vn-store-header" data-search-open={searchExpanded} data-scrolled={headerScrolled} data-hidden={headerHidden&&!searchExpanded} onFocusCapture={()=>setHeaderHidden(false)}><div className="vn-store-nav dn-wrap">
       <a href="/" className="vn-responsive-logo" aria-label="Vanta Noir home"><img src={dark&&!headerScrolled?'/images/vanta-spire-on-dark.svg':'/images/vanta-spire-light.svg'} alt="Vanta Noir — Presence. Power. Precision."/></a>
       <div className="vn-nav-middle">
-        <nav aria-label="Main navigation" inert={searchExpanded}><a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav>
+        <nav aria-label="Main navigation" inert={searchExpanded}><a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a></nav>
         <form id="vn-inline-search" className="vn-inline-search" role="search" data-open={searchExpanded} inert={!searchExpanded} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();closeInlineSearch();}}} onSubmit={event=>{event.preventDefault();onSearch();}}>
           <button type="submit" aria-label="Submit search"><Search size={16}/></button><input ref={searchInput} aria-label="Search the collection" placeholder="Search" value={query} maxLength={120} onChange={e=>onQuery(e.target.value)}/><button type="button" aria-label="Close search" onClick={closeInlineSearch}><X size={16}/></button>
         </form>
       </div>
-      <div className="vn-nav-utilities"><button ref={searchToggle} className="vn-search-toggle" aria-label="Search" aria-expanded={searchExpanded} aria-controls="vn-inline-search" onClick={()=>setSearchExpanded(v=>!v)}><Search size={21}/></button><button aria-label={`Saved items${savedCount?`, ${savedCount}`:""}`} onClick={onSaved}><Heart size={21}/></button><button aria-label={`Bag ${bagCount}`} onClick={onBag}><ShoppingBag size={21}/>{bagCount>0&&<small>{bagCount}</small>}</button></div>
+      <div className="vn-nav-utilities"><button ref={searchToggle} className="vn-header-search-toggle" aria-label="Search" aria-expanded={searchExpanded} aria-controls="vn-inline-search" onClick={()=>setSearchExpanded(v=>!v)}><Search size={21}/></button><button aria-label={`Saved items${savedCount?`, ${savedCount}`:""}`} onClick={onSaved}><Heart size={21}/></button><button aria-label={`Bag ${bagCount}`} onClick={onBag}><ShoppingBag size={21}/>{bagCount>0&&<small>{bagCount}</small>}</button></div>
     </div></header>);
 }

@@ -54,7 +54,7 @@
 .vn-inline-search input::placeholder{color:inherit;opacity:.75}
 .vn-inline-search button{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;background:transparent;color:inherit;border:0;border-radius:22px}
 .vn-inline-search button:focus-visible,.vn-nav-utilities button:focus-visible{outline:2px solid currentColor;outline-offset:1px}
-.vn-store-header[data-search-open=true] .vn-search-toggle{display:none}
+.vn-store-header[data-search-open=true] .vn-header-search-toggle{display:none}
 @media(max-width:700px){
  .vn-store-nav{gap:6px;padding-inline:12px}.vn-responsive-logo{width:108px}.vn-nav-middle{margin-left:auto;flex:0;width:0}
  .vn-store-header[data-search-open=true] .vn-nav-middle{flex:1;width:auto;margin-left:0}
@@ -63,3 +63,39 @@
 }
 @media(max-width:359px){.vn-store-header[data-search-open=true] .vn-responsive-logo{width:90px}.vn-store-nav{gap:4px;padding-inline:8px}.vn-nav-utilities button{min-width:32px}.vn-inline-search button{flex-basis:28px;width:28px}}
 @media(prefers-reduced-motion:reduce){.vn-inline-search,.vn-nav-middle nav{transition:none;transform:none}}
+
+/* Keep the approved navigation on one baseline, isolated from legacy floating controls. */
+.vn-store-header .vn-store-nav{display:flex;width:100%;max-width:none;margin:0;padding-inline:clamp(12px,3vw,48px);box-sizing:border-box}
+.vn-store-header .vn-responsive-logo{margin:0;flex:0 0 160px}
+.vn-store-header .vn-nav-middle{display:flex;align-items:center;justify-content:center;flex:1;width:auto;margin:0}
+.vn-store-header .vn-nav-middle nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:none;order:0;white-space:nowrap;font-size:13px}
+.vn-store-header .vn-nav-middle nav a{display:flex;align-items:center;min-height:44px}
+.vn-store-header .vn-nav-utilities{display:flex;align-items:center;gap:8px;flex:none}
+.vn-store-header .vn-nav-utilities button{position:relative;inset:auto;display:grid;place-items:center;width:40px;height:44px;min-width:40px;padding:0;margin:0;border:0;border-radius:0;background:transparent;color:inherit;box-shadow:none;backdrop-filter:none;flex:none}
+.vn-store-header[data-search-open=true] .vn-header-search-toggle{display:none}
+.vn-store-header[data-search-open=true] .vn-nav-middle nav{visibility:hidden}
+@media(max-width:700px){
+ .vn-store-header .vn-store-nav{gap:7px;padding-inline:12px}
+ .vn-store-header .vn-responsive-logo{width:100px;flex-basis:100px}
+ .vn-store-header .vn-nav-middle nav{gap:10px;font-size:10px}
+ .vn-store-header .vn-nav-utilities{gap:0}
+ .vn-store-header .vn-nav-utilities button{width:30px;min-width:30px}
+ .vn-store-header .vn-nav-utilities svg{width:19px;height:19px}
+ .vn-store-header[data-search-open=true] .vn-nav-middle nav{display:none}
+}
+@media(max-width:359px){
+ .vn-store-header .vn-store-nav{gap:4px;padding-inline:8px}
+ .vn-store-header .vn-responsive-logo{width:84px;flex-basis:84px}
+ .vn-store-header .vn-nav-middle nav{gap:8px;font-size:9px}
+ .vn-store-header .vn-nav-utilities button{width:28px;min-width:28px}
+}
+/* Default campaign uses the approved full-height composition and centered lockup. */
+.vn-store-refresh .vn-approved-campaign .vn-hero-frame{top:0;bottom:0}
+.vn-store-refresh .vn-approved-campaign .vn-hero-frame img{object-fit:cover!important;object-position:74% center!important}
+.vn-store-refresh .vn-approved-campaign .dn-hero-content{position:absolute!important;inset:auto 0 0!important;width:100%;max-width:none;margin:0;padding:30px 20px 32px!important;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;background:linear-gradient(transparent,#0006)!important}
+.vn-store-refresh .vn-approved-campaign .dn-hero-content h1{font-size:clamp(16px,2vw,24px)!important;font-weight:400;line-height:1.4;letter-spacing:.12em;margin:0;text-wrap:balance}
+.vn-store-refresh .vn-approved-campaign .dn-lime{display:inline-flex;justify-content:center;background:#caff38;color:#090909;min-height:48px;min-width:164px;padding:12px 26px;border:0;border-radius:999px;font-size:16px;font-weight:700}
+@media(max-width:700px){
+ .vn-store-refresh .dn-hero.vn-approved-campaign{height:clamp(500px,80svh,740px)!important}
+ .vn-store-refresh .vn-approved-campaign .dn-hero-content{padding-bottom:28px!important;gap:14px}
+}
