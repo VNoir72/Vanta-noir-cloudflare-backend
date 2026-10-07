@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
-import { SHOP_SECTIONS } from "@/lib/shop-categories";
+import {StoreHeader} from "./store-header";
 import { validAudience, collectionLink } from "@/lib/catalog-browsing";
 function useDepartment() {
   const [audience,setAudience]=useState("All");
@@ -27,13 +27,9 @@ export function StoreFooter({ department }: { department?: string } = {}) {
 }
 export function StoreShell({ children, checkout = false }: { children: ReactNode; checkout?: boolean }) {
   const audience=useDepartment();
-  const shop=(category="All")=>collectionLink({audience,category,collection:"All",query:""});
-  return <div className={`dn-app dn-customer-app${checkout ? " vn-checkout-shell" : ""}`}><a className="dn-skip" href="#main-content">Skip to content</a>
-    <div className="dn-announcement"><span><span className="dn-dot" />Built to move. Made to stand out.</span><span>NIGERIA · NGN ₦</span></div>
-    <header className="dn-header"><div className="dn-mainbar dn-wrap"><a className="dn-logo" href={shop()} aria-label="Vanta Noir home"><img src="/images/vanta-noir-header-logo-480.webp" alt="" /><span>VANTA NOIR<small>PRESENCE. POWER. PRECISION.</small></span></a>
-      <form className="dn-search" action="/" role="search"><input type="hidden" name="audience" value={audience}/><Search size={19} /><input name="q" aria-label="Search the collection" placeholder="Search hoodies, tracksuits, colours…" maxLength={120} /><button className="dn-search-submit" aria-label="Search"><ArrowRight size={18}/></button></form>
-      <nav className="dn-header-actions" aria-label="Your shopping"><a href="/help-center" aria-label="Help"><HelpCircle/><span>Help</span></a><a href={`/?audience=${audience}&saved=1#collection`} aria-label="Saved items"><Heart/><span>Saved</span></a><a href={`/?audience=${audience}&bag=1`} aria-label="Your bag"><ShoppingBag/><span>Bag</span></a></nav>
-    </div><nav className="dn-categories dn-wrap" aria-label="Shop by category"><a href={shop()}>Shop all</a>{SHOP_SECTIONS.map(section=><a key={section} href={shop(section)}>{section}</a>)}</nav></header>
+  const [query,setQuery]=useState("");
+  return <div className={`dn-app dn-customer-app vn-store-refresh${checkout ? " vn-checkout-shell" : ""}`}><a className="dn-skip" href="#main-content">Skip to content</a>
+    <StoreHeader query={query} onQuery={setQuery} onSearch={()=>{window.location.href=collectionLink({audience,category:'All',collection:'All',query});}} onSaved={()=>{window.location.href=`/?audience=${audience}&saved=1#collection`;}} onBag={()=>{window.location.href=`/?audience=${audience}&bag=1`;}}/>
     <main id="main-content" className="dn-customer-main dn-wrap">{children}</main><StoreFooter department={audience}/>
   </div>;
 }

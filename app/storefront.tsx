@@ -18,6 +18,7 @@ import {StoreAnnouncement} from "@/components/store-announcement";
 import { CampaignHero } from "@/components/campaign-hero";
 import StoreImage from "@/components/store-image";
 import { SlidingGarmentViews, garmentViews } from "@/components/sliding-garment-views";
+import {StoreHeader} from "@/components/store-header";
 import { StoreFooter } from "@/components/store-shell";
 import { SizeGuide } from "@/components/size-guide";
 import { CustomerSignup } from "@/components/customer-signup";
@@ -60,9 +61,6 @@ function write(key: string, value: unknown) { try { localStorage.setItem(key, JS
 
 export function Storefront({ products: initialProducts, sizes, detailSlug }: { products: CatalogProduct[]; sizes: string[]; detailSlug?: string }) {
   const [searchOpen,setSearchOpen]=useState(false);
-  const [headerScrolled,setHeaderScrolled]=useState(false),[headerHidden,setHeaderHidden]=useState(false);
-  useEffect(()=>{let previous=window.scrollY,frame=0;const update=()=>{frame=0;const y=window.scrollY;setHeaderScrolled(y>120);if(Math.abs(y-previous)>6){setHeaderHidden(y>160&&y>previous);previous=y;}if(y<80)setHeaderHidden(false);};const scroll=()=>{if(!frame)frame=requestAnimationFrame(update);};window.addEventListener('scroll',scroll,{passive:true});return()=>{window.removeEventListener('scroll',scroll);cancelAnimationFrame(frame);};},[]);
-  const [searchExpanded,setSearchExpanded]=useState(false);
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const settings = useStoreSettings();
   const displayCurrency=useDisplayCurrency();
@@ -395,12 +393,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   return <div className={`dn-app vn-store-refresh ${showEditorial?"vn-hero-home":""}`}>
     <a className="dn-skip" href="#collection">Skip to collection</a>
     {showEditorial&&!bagOpen&&<StoreAnnouncement value={settings.announcement}/>}
-    <header className="vn-store-header" data-scrolled={headerScrolled} data-hidden={headerHidden&&!searchExpanded} onFocusCapture={()=>setHeaderHidden(false)}><div className="vn-store-nav dn-wrap">
-      <a href="/" className="vn-responsive-logo" aria-label="Vanta Noir home"><img src={showEditorial&&!headerScrolled?'/images/vanta-spire-on-dark.svg':'/images/vanta-spire-light.svg'} alt="Vanta Noir — Presence. Power. Precision."/></a>
-      <nav aria-label="Main navigation"><a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav>
-      <div className="vn-nav-utilities"><button aria-label="Search" aria-expanded={searchExpanded} aria-controls="vn-inline-search" onClick={()=>setSearchExpanded(v=>!v)}><Search size={21}/></button><button aria-label={`Saved items${saved.length?`, ${saved.length}`:""}`} onClick={showSaved}><Heart size={21}/></button><button aria-label={`Bag ${count}`} onClick={()=>setBagOpen(true)}><ShoppingBag size={21}/>{count>0&&<small>{count}</small>}</button></div>
-    </div></header>
-    <div id="vn-inline-search" className="vn-inline-search" data-open={searchExpanded} inert={!searchExpanded}><div><form role="search" onSubmit={event=>{event.preventDefault();if(detailSlug)window.location.href=collectionLink({...browseContext,query});else catalogRef.current?.scrollIntoView({behavior:'smooth'});}}><Search size={19}/><input aria-label="Search the collection" placeholder="Search products, colours or categories…" value={query} maxLength={120} onChange={e=>{setQuery(e.target.value);setSavedOnly(false);}}/><button type="submit">Search</button><button type="button" aria-label="Close search" onClick={()=>setSearchExpanded(false)}><X size={18}/></button></form></div></div>
+    <StoreHeader dark={showEditorial} query={query} onQuery={value=>{setQuery(value);setSavedOnly(false);}} onSearch={()=>{if(detailSlug)window.location.href=collectionLink({...browseContext,query});else catalogRef.current?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}} savedCount={saved.length} bagCount={count} onSaved={showSaved} onBag={()=>setBagOpen(true)}/>
     <main>
       {showEditorial && <><div className="dn-hero-grid dn-wrap">
         <CampaignHero value={settings.hero}/>
