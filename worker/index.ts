@@ -10,6 +10,7 @@ import { checkApiRequest, secureResponse } from "../lib/http-policy";
 import { POST as uploadProductImage } from "../app/api/admin/uploads/route";
 import { POST as paymentWebhook } from "../app/api/payments/webhook/route";
 import imageVariants from "../lib/image-assets.json";
+import { storefrontRedirectUrl } from "../lib/storefront-redirect";
 
 interface Env {
   ASSETS: Fetcher;
@@ -45,7 +46,7 @@ const worker = {
     if (env.AUTH_PROVIDER === "cloudflare-access" && env.STOREFRONT_URL
       && !url.pathname.startsWith("/api/") && !url.pathname.startsWith("/admin")
       && !url.pathname.startsWith("/assets/") && !url.pathname.startsWith("/_")) {
-      return Response.redirect(new URL(url.pathname + url.search, env.STOREFRONT_URL).href, 302);
+      return secureResponse(Response.redirect(storefrontRedirectUrl(url, env.STOREFRONT_URL), 302), request, env);
     }
 
     try {

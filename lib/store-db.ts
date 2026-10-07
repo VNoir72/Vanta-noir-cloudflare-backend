@@ -1067,6 +1067,9 @@ export async function markOrderPaid(args: {
     db.prepare(`UPDATE orders SET payment_status = 'paid', allocation_token = ?, paid_at = CURRENT_TIMESTAMP,
       updated_at = CURRENT_TIMESTAMP,
       status = CASE WHEN status = 'cancelled' OR EXISTS (
+        SELECT 1 FROM promotions pr WHERE pr.code=orders.promotion_code AND pr.max_uses>0 AND pr.max_uses<=
+          (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='paid')
+      ) OR EXISTS (
         SELECT 1 FROM order_rewards own WHERE own.order_id=orders.id AND own.max_uses>0 AND own.max_uses<=
           (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='paid')
       ) OR EXISTS (
