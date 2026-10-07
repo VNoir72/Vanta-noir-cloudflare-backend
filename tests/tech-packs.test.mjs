@@ -15,3 +15,9 @@ test('invalid details remain an explicit sampling draft with missing views',()=>
  const html=renderTechPackHTML(buildTechPack({id:'a',name:'A',details_json:'broken'}));
  assert.match(html,/SAMPLING DRAFT/);assert.match(html,/View pending/);assert.match(html,/Pending specification/);
 });
+test('unreviewed logo art is withheld and embedded manufacturer fields are extracted',()=>{
+ const pack=buildTechPack({id:'a',name:'A',image_url:'/images/old-logo.webp',details_json:JSON.stringify({features:'Seven 17 mm snaps. Main seams 10 mm. Speed V emblem on chest.',fabric:'Woven label 60 x 20 mm. Rib cuffs 70 mm.'})});
+ assert.equal(pack.pictures.length,0);
+ assert.match(pack.details.hardware,/17 mm snaps/);assert.match(pack.details.stitching,/10 mm/);assert.match(pack.details.labels,/60 x 20/);
+ assert(!pack.details.features.includes('Speed V'));
+});
