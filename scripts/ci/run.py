@@ -13,13 +13,14 @@ artifacts.mkdir(exist_ok=False)
 flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
 name = 'vanta-isolated-check'
 roles = ['owner', 'sales', 'support', 'fulfilment', 'catalogue', 'analyst']
-screens = ['search-slim-mobile', 'home-390', 'home-820', 'home-1440', 'bag-mobile', 'bag-desktop',
+screens = ['tech-pack-layout', 'search-slim-mobile', 'home-390', 'home-820', 'home-1440', 'bag-mobile', 'bag-desktop',
            'staff-portal-mobile', 'staff-portal-desktop', 'care-order-lookup',
            'care-support-help-mobile', 'chat-mobile', 'sales-desk-desktop', 'sales-desk-mobile']
 screens += [f'portal-{role}-{size}' for role in roles for size in ['desktop', 'mobile']]
 screens += [f'page-{page}-{width}' for page in ['about', 'contact', 'help-center', 'checkout'] for width in [390, 1440]]
 allow = [('advisories.json', 'advisories.json', 4 * 1024**2), ('check.log', 'check.log', 8 * 1024**2), ('project/work/site-pages.json', 'site-pages.json', 1024**2)]
 allow += [(f'project/work/{s}.png', f'{s}.png', 4 * 1024**2) for s in screens]
+allow += [('project/outputs/vanta-noir-backend.zip', 'vanta-noir-backend.zip', 128 * 1024**2)]
 allow += [('project/outputs/vanta-noir-namecheap-update.zip', 'vanta-noir-namecheap-update.zip', 128 * 1024**2)]
 
 def promote(sfd, dfd, relative, destination, limit):
@@ -93,3 +94,4 @@ try:
 finally:
     subprocess.run(['umount', str(scratch)], check=False)
 raise SystemExit(result)
+

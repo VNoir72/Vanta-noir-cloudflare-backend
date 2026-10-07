@@ -17,9 +17,11 @@ npm run verify:release
 npm run build:storefront
 npm run verify:storefront
 python3 tests/namecheap-archive.test.py
-for suite in storefront-refresh storefront-performance portal-audit customer-care staff-chat sales-desk admin-navigation site-pages; do
+for suite in tech-packs storefront-refresh storefront-performance portal-audit customer-care staff-chat sales-desk admin-navigation site-pages; do
   echo "Browser suite: $suite"
   timeout 180 node "tests/browser/$suite.cjs"
 done
 python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip --repair-code
+python3 scripts/package-backend.py
 echo 'PASS: isolated release checks completed'
+
