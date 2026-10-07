@@ -87,3 +87,36 @@ test('security boundaries: expiry, preference limits, shared maintenance and lat
   });
  }finally{await mf.dispose();}
 });
+
+test('configured maintenance retries failed email and preserves a replacement lease',async()=>{
+ await mkdir('work',{recursive:true});
+ await build({entryPoints:['tests/commerce-worker.ts'],outfile:'work/maintenance-recovery-worker.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
+ let fail=true,started,release,sends=0;
+ const mf=new Miniflare({modules:true,scriptPath:'work/maintenance-recovery-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{RESEND_API_KEY:'fixture-only',EMAIL_FROM:'test@example.invalid'},outboundService:async req=>{
+  assert.equal(req.url,'https://api.resend.com/emails');sends++;
+  if(started){started();await new Promise(r=>{release=r;});}
+  return fail?Response.json({error:'fixture failure'},{status:503}):Response.json({id:'fixture-'+sends});
+ }});
+ try{
+  const db=await mf.getD1Database('DB');
+  for(const file of (await readdir('drizzle')).filter(f=>f.endsWith('.sql')).sort())await db.batch((await readFile('drizzle/'+file,'utf8')).replaceAll('--> statement-breakpoint','').split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
+  const rpc=async(action,...args)=>{const r=await mf.dispatchFetch('https://api.example.invalid/test',{method:'POST',body:JSON.stringify({action,args})});const body=await r.json();assert.equal(r.status,200,JSON.stringify(body));return body;};
+  await rpc('queueEmail','fixture-maintenance','buyer@example.invalid','Fixture','Dummy notification');
+  const failed=await rpc('runCommerceMaintenance');assert.equal(failed.configured,true);assert.equal(failed.sent,0);
+  const row=await db.prepare("SELECT status,attempts FROM email_outbox WHERE event_key='fixture-maintenance'").first();assert.equal(row.status,'pending');assert.equal(row.attempts,1);
+  assert.equal((await rpc('runCommerceMaintenance')).skipped,true);
+  await db.prepare("UPDATE email_outbox SET next_attempt_at=datetime('now','-1 minute')").run();
+  await db.prepare("UPDATE store_meta SET value=? WHERE key='commerce-maintenance-lease'").bind(JSON.stringify({token:'expired',expiresAt:0})).run();
+  fail=false;
+  const sent=await rpc('runCommerceMaintenance');assert.equal(sent.sent,1);assert.equal(sends,2);
+  await rpc('queueEmail','fixture-stale-holder','buyer@example.invalid','Fixture','Dummy notification');
+  await db.prepare("UPDATE store_meta SET value=? WHERE key='commerce-maintenance-lease'").bind(JSON.stringify({token:'expired',expiresAt:0})).run();
+  const reached=new Promise(r=>{started=r;});
+  const running=rpc('runCommerceMaintenance');await reached;
+  const replacement={token:'replacement-holder',expiresAt:Date.now()+300000};
+  await db.prepare("UPDATE store_meta SET value=? WHERE key='commerce-maintenance-lease'").bind(JSON.stringify(replacement)).run();
+  release();await running;
+  assert.deepEqual(JSON.parse((await db.prepare("SELECT value FROM store_meta WHERE key='commerce-maintenance-lease'").first()).value),replacement);
+  assert.equal((await rpc('runCommerceMaintenance')).skipped,true);
+ }finally{if(release)release();await mf.dispose();}
+});
