@@ -11,8 +11,11 @@ const assert=require('node:assert/strict');
   await page.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));
   assert.equal(await page.locator('.sheet').count(),2);
   const fits=await page.locator('.sheet').evaluateAll(sheets=>sheets.every(s=>s.firstElementChild.getBoundingClientRect().height<=s.getBoundingClientRect().height+2));
-  assert(fits,'Pack content must fit within two landscape sheets');
   await page.screenshot({path:'work/tech-pack-layout.png',fullPage:true});
+  console.log(await page.locator('.sheet').evaluateAll(s=>s.map(el=>({sheet:el.getBoundingClientRect().height,content:el.firstElementChild.getBoundingClientRect().height,transform:el.firstElementChild.style.transform}))));
+  assert(fits,'Pack content must fit within two landscape sheets');
+  const pdf=await page.pdf({format:'A3',landscape:true,preferCSSPageSize:true,printBackground:true});
+  assert.equal((pdf.toString('latin1').match(/\/Type \/Page\b/g)||[]).length,2,'Export must contain exactly two PDF pages');
   console.log('PASS tech pack landscape layout and long construction content');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
