@@ -1,3 +1,4 @@
+import {standardPDF} from '@/lib/manufacturer-standard-pdf.mjs';
 import {adminAuthStateFromRequest} from '@/lib/admin-auth';
 import {getDbBinding} from '@/lib/runtime-env';
 import {buildTechPack,renderTechPackHTML} from '@/lib/tech-packs.mjs';
@@ -7,7 +8,9 @@ const headers = {'Cache-Control':'private, no-store','X-Content-Type-Options':'n
 export async function GET(request:Request) {
   const auth = await adminAuthStateFromRequest(request);
   if (!auth.ok) return Response.json({error:auth.error},{status:auth.status,headers});
-  const url = new URL(request.url), db = getDbBinding();
+  const url = new URL(request.url);
+  if(url.searchParams.get('standard')==='1')return new Response(Uint8Array.from(atob(standardPDF),c=>c.charCodeAt(0)),{headers:{...headers,'Content-Type':'application/pdf','Content-Disposition':'inline; filename=Vanta-Noir-Manufacturer-Sizing-Standard-R1.pdf'}});
+  const db = getDbBinding();
   try {
     const id=url.searchParams.get('id');
     if (id) {

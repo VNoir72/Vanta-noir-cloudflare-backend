@@ -21,3 +21,9 @@ test('unreviewed logo art is withheld and embedded manufacturer fields are extra
  assert.match(pack.details.hardware,/17 mm snaps/);assert.match(pack.details.stitching,/10 mm/);assert.match(pack.details.labels,/60 x 20/);
  assert(!pack.details.features.includes('Speed V'));
 });
+
+test('reviewed design-board detail regions remain matched to the exact garment',()=>{
+ const url='https://api.vantanoir.store/api/media/products/7e8c6956-1300-5742-b3c4-402a539d5301.webp';
+ const html=renderTechPackHTML(buildTechPack({id:'varsity',name:'Varsity',image_url:url,image_alt:'Concept board',details_json:'{}'}));
+ assert.match(html,/Chenille artwork construction reference/);assert.match(html,/enlarged design-board region/);assert.match(html,/href="https:\/\/api.vantanoir.store\/api\/media\/products\/7e8c6956/);
+});
