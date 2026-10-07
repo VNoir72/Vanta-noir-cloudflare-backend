@@ -84,3 +84,10 @@ test('genuine detail views are preferred and unspecified images retain honest ca
  assert.match(html,/Zip close-up/);
  assert(!html.includes('class="detail-zoom"'));
 });
+
+test('a concept board mentioning close-ups remains a garment view, not an empty four-view panel',()=>{
+ const pack=buildTechPack({id:'impulse',image_url:'/images/impulse.webp',image_alt:'Impulse — front and back concept views with detail close-ups'});
+ assert.equal(pack.pictures[0].role,'board');
+ const html=renderTechPackHTML(pack);
+ assert.match(html,/Saved design board/);assert(!html.includes('No saved image for this direction'));
+});
