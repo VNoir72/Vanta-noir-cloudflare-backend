@@ -23,3 +23,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
 import "@/app/approved-storefront.css";
 import "@/app/liquid-glass.css";
+
+import "@/app/campaign-2026.css";
