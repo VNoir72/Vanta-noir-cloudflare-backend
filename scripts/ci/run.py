@@ -13,7 +13,7 @@ artifacts.mkdir(exist_ok=False)
 flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
 name = 'vanta-isolated-check'
 roles = ['owner', 'sales', 'support', 'fulfilment', 'catalogue', 'analyst']
-screens = ['search-slim-mobile', 'home-390', 'home-820', 'home-1440', 'bag-mobile', 'bag-desktop',
+screens = ['tech-pack-layout', 'search-slim-mobile', 'home-390', 'home-820', 'home-1440', 'bag-mobile', 'bag-desktop',
            'staff-portal-mobile', 'staff-portal-desktop', 'care-order-lookup',
            'care-support-help-mobile', 'chat-mobile', 'sales-desk-desktop', 'sales-desk-mobile']
 screens += [f'portal-{role}-{size}' for role in roles for size in ['desktop', 'mobile']]
@@ -93,3 +93,4 @@ try:
 finally:
     subprocess.run(['umount', str(scratch)], check=False)
 raise SystemExit(result)
+

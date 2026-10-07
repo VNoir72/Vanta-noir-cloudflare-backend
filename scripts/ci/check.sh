@@ -12,6 +12,7 @@ node scripts/ci/advisories.mjs
 php -l portable/storefront-gateway.php
 npm run typecheck
 node --test --test-concurrency=1 tests/*.test.mjs
+timeout 180 node tests/browser/tech-packs.cjs
 npm run build
 npm run verify:release
 npm run build:storefront
@@ -23,3 +24,4 @@ for suite in storefront-refresh storefront-performance portal-audit customer-car
 done
 python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip --repair-code
 echo 'PASS: isolated release checks completed'
+
