@@ -1,0 +1,38 @@
+/* Shared pearl/lime tokens for every authenticated workspace and portalled control. */
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen)),.vn-control-center,.vn-staff-portal{color-scheme:light;--background:#f5f7ef;--foreground:#263020;--card:#fff;--card-foreground:#263020;--popover:#fff;--popover-foreground:#263020;--primary:#c7ed65;--primary-foreground:#202b13;--secondary:#edf3e3;--secondary-foreground:#34452a;--muted:#edf1e5;--muted-foreground:#586451;--accent:#e7f4cf;--accent-foreground:#263020;--border:#d9e1d0;--input:#d9e1d0;--ring:#527524;--destructive:#a12e22;--destructive-foreground:#fff;--vn-lime:#c7ed65;--vn-muted:#586451}
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)){background:#f5f7ef;color:#263020}
+.vn-control-center:not(.vn-exact),.vn-access-page{background:#f5f7ef;color:#263020}
+.vn-access-card{background:#fff;border-color:#d9e1d0;border-radius:20px}
+:is(.vn-control-center,.vn-staff-portal,.vn-access-page) :is(.ops-panel,.ops-content details,.ops-counts>*,.vn-operational-status>*,.vn-option-select,.vn-option-list>*){background:#fff;color:#263020;border-color:#d9e1d0}
+:is(.vn-control-center,.vn-staff-portal) .ops-tabs{background:#edf3e3!important}
+:is(.vn-control-center,.vn-staff-portal) :is(.ops-heading p,.ops-content p,.ops-table th,.ops-tabs button){color:#586451}
+:is(.vn-control-center,.vn-staff-portal) .ops-tabs button[data-state=active]{background:#c7ed65!important;color:#202b13!important}
+:is(.vn-control-center,.vn-staff-portal) :is(input,select,textarea,[role=combobox]){background:#fff!important;color:#263020!important;border-color:#d9e1d0!important;accent-color:#527524}
+:is(.vn-control-center,.vn-staff-portal) :is(input,textarea)::placeholder{color:#67735d;opacity:1}
+:is(.vn-control-center,.vn-staff-portal) .ops-error{background:#fff0ed;color:#932d20}.vn-control-center .ops-notice{background:#edf7de;color:#36531e}
+:is(.vn-control-center,.vn-staff-portal,.vn-access-page) [class*="text-white"]{color:#536047!important}
+:is(.vn-control-center,.vn-staff-portal,.vn-access-page) [class*="bg-black/"]{background:#edf3e3!important}
+:is(.vn-control-center,.vn-staff-portal,.vn-access-page) [class*="border-white"]{border-color:#d9e1d0!important}
+:is(.vn-control-center,.vn-staff-portal,.vn-access-page) [class*="text-red-"]{color:#982f22!important}
+:is(.vn-control-center,.vn-staff-portal) [class*="text-amber-"]{color:#735218!important}
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)) :is([role=dialog],[role=listbox],[data-slot=select-content],[data-slot=popover-content],[role=menu]){--background:#fff;--foreground:#263020;--primary:#c7ed65;--primary-foreground:#202b13;--secondary:#edf3e3;--secondary-foreground:#34452a;--muted-foreground:#586451;--accent:#e7f4cf;--accent-foreground:#263020;--ring:#527524;background-color:#fcfdf9;color:#263020;border-color:#d9e1d0;color-scheme:light}
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)) :is([data-slot=button][data-variant=default],.vn-sales-submit,.vn-support-primary){background:#c7ed65!important;color:#202b13!important;border-color:#adc953!important}
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)) [data-slot=button][data-variant=destructive]{background:#a12e22!important;color:#fff!important;border-color:#a12e22!important}
+body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)) [data-slot=button][data-variant=outline]{background:#fff!important;color:#34452a!important;border-color:#cdd8bf!important}
+body:has(:is(.vn-control-center,.vn-staff-portal)) :is(button,a,input,select,textarea):focus-visible{outline:2px solid #527524;outline-offset:3px}
+body:has(:is(.vn-control-center,.vn-staff-portal)) :is(button,input,select,textarea):disabled{opacity:.55;cursor:not-allowed}
+.vn-control-center .vn-fulfilment>.vn-revenue-total,.vn-control-center .vn-ref-card-head button{color:#405e20}
+@media(hover:hover){body:has(:is(.vn-control-center,.vn-staff-portal)) [data-slot=button][data-variant=default]:hover{background:#b9df59!important}body:has(:is(.vn-control-center,.vn-staff-portal)) [data-slot=button][data-variant=outline]:hover{background:#edf3e3!important}}
+/* Legacy panels that used literal dark colours instead of shared tokens. */
+.vn-control-center :is(.vn-menu-toggle,.vn-chart-mobile-actions button,.vn-report-controls button,.vn-artwork-edit,.vn-control-categories button,.vn-overview-tools button,.vn-studio-thumbs button,.vn-price-toolbar,.vn-email-panel button,.vn-field-info,.vn-small-button){background:#edf3e3!important;color:#34452a!important;border-color:#ccd8be!important}
+.vn-control-center :is(.vn-sidebar-prompt,.vn-collection-callout,.vn-approvals,.vn-email-panel,.vn-account-menu>div,.vn-control-metrics>div,.vn-price-table thead){background:#fff!important;color:#263020!important;border-color:#d9e1d0!important}
+.vn-control-center :is(.vn-mobile-brand,.vn-mobile-brand small,.vn-email-panel p,.vn-email-panel label,.vn-approvals p,.vn-approvals small,.vn-account-menu p){color:#536047!important}
+.vn-control-center .vn-mobile-brand{color:#263020!important}.vn-mobile-brand img{width:115px;height:auto}
+.vn-control-center :is(.vn-attention-icon,.vn-best-bar,.vn-approval-image){background:#edf3e3!important;color:#405e20!important}
+.vn-control-center :is(.vn-control-primary,.vn-studio-top-save){background:#c7ed65!important;color:#202b13!important;border-color:#adc953!important}
+body:has(.vn-control-center) :is(.vn-mobile-drawer,.vn-help-dialog,.vn-email-dialog,.vn-management-dialog,.vn-unsaved-dialog){background:#fcfdf9!important;color:#263020!important;border-color:#d9e1d0!important}
+body:has(.vn-control-center) :is(.vn-mobile-drawer,.vn-help-dialog,.vn-email-dialog,.vn-management-dialog,.vn-unsaved-dialog) :is(p,small,label,[class*="text-white"]){color:#536047!important}
+body:has(.vn-control-center) :is(.vn-mobile-drawer,.vn-help-dialog,.vn-email-dialog,.vn-management-dialog,.vn-unsaved-dialog) :is(input,select,textarea){background:#fff!important;color:#263020!important;border-color:#d9e1d0!important}
+body:has(.vn-control-center) .vn-mobile-drawer nav button[aria-current=page]{background:#d8efaa!important;color:#263513!important}
+body:has(.vn-control-center) .vn-chat-launch{bottom:22px}
+@media(max-width:1023px){body:has(.vn-exact) .vn-chat-launch{bottom:84px}}

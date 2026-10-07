@@ -11,6 +11,7 @@ export const heroMediaSchema=z.object({
 });
 export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
+  fit:z.enum(['contain','cover']).default('contain'),
   playlist:z.array(heroMediaSchema).max(12).default([]),
   desktopHeight:z.number().int().min(40).max(100).default(80),
   mobileHeight:z.number().int().min(40).max(100).default(80),

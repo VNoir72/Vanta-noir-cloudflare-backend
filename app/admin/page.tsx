@@ -1,3 +1,4 @@
+import "./portal-theme.css";
 import {StaffChat} from "./staff-chat";
 import {SupportDashboard} from "./support-dashboard";
 import {ga4ErrorMessage} from '@/lib/ga4-errors';
@@ -36,8 +37,8 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
   const role = access.ok ? access.role : null;
   if (!configuredEmail || !role) {
     return (
-      <main className="grid min-h-screen place-items-center bg-[#090909] px-5 text-[#f4f1ea]">
-        <section className="w-full max-w-xl border border-white/12 bg-[#101010] p-8 sm:p-12">
+      <main className="vn-access-page grid min-h-screen place-items-center px-5">
+        <section className="vn-access-card w-full max-w-xl border p-8 sm:p-12">
           <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">Vanta Noir · Admin</p>
           <h1 className="mt-5 font-sans text-4xl">Private access is locked.</h1>
           <p className="mt-5 text-sm leading-7 text-white/55">
@@ -61,7 +62,7 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
     );
   }
 
-  if(role==="support") return <main className="vn-control-center"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/><StaffChat/></UnsavedChangesProvider></main>;
-  if(role!=="owner") return <main className="vn-control-center vn-staff-view min-h-screen p-5"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/><StaffChat/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
-  return <><StaffChat/><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
+  if(role==="support") return <main className="vn-control-center"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider></main>;
+  if(role!=="owner") return <main className="vn-control-center vn-staff-view min-h-screen p-5"><h1 className="text-3xl">Vanta Noir operations</h1><p>{user.email} · {role}</p><AdminFieldHelp/><UnsavedChangesProvider><OperationsPanel role={role}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider><a href={signOutPath}>Sign out</a></main>;
+  return <><StaffChat role={role} email={user.email}/><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
 }
