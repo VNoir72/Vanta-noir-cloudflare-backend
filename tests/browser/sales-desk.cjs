@@ -1,6 +1,6 @@
 const {spawn}=require('node:child_process'),{chromium}=require('playwright'),assert=require('node:assert/strict');
 (async()=>{const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--config','portable/vite.config.ts','--host','127.0.0.1','--port','5192']);let browser;try{
- await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('Local:'))resolve()});server.on('exit',reject)});
+ await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('127.0.0.1:'))resolve()});server.on('exit',reject)});
  browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||chromium.executablePath(),args:['--no-sandbox']});const p=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.goto('http://127.0.0.1:5192/tests/browser/sales-desk.html');await p.getByLabel('Garment · colour · size').selectOption('v1');await p.getByLabel('Quantity',{exact:true}).fill('2');await p.getByRole('button',{name:'Add item',exact:true}).click();
  assert.match(await p.locator('aside').innerText(),/180,000/);await p.getByLabel('Payment method').selectOption('transfer');assert.equal(await p.getByRole('button',{name:'Submit for approval'}).isDisabled(),true);await p.getByLabel('Transfer / terminal reference').fill('BANK-123');

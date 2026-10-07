@@ -6,7 +6,7 @@ const assert=require('node:assert/strict');
  const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--config','portable/vite.config.ts','--outDir','outputs/namecheap','--host','127.0.0.1','--strictPort','--port','5211']);
  let browser;
  try{
-  await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('Local:'))resolve();});server.on('exit',reject);});
+  await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('127.0.0.1:'))resolve();});server.on('exit',reject);});
   browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE,headless:true,args:['--no-sandbox']});
   const page=await browser.newPage(),errors=[],results=[];
   page.on('pageerror',e=>errors.push(e.message));

@@ -70,7 +70,7 @@ try:
                    '--ulimit=nofile=4096:4096', '--ulimit=fsize=268435456:268435456',
                    '-v', f'{source}:/source:ro', '-v', f'{scratch}:/scratch:rw',
                    'vanta-check', 'env', '-i', 'PATH=/usr/local/bin:/usr/bin:/bin',
-                   'HOME=/scratch/home', 'TMPDIR=/scratch/tmp', 'CI=1',
+                   'HOME=/scratch/home', 'TMPDIR=/scratch/tmp', 'CI=true', 'NO_COLOR=1',
                    'NODE_PATH=/browser/node_modules', 'CHROMIUM_EXECUTABLE=/usr/bin/chromium',
                    'WRANGLER_SEND_METRICS=false', 'NEXT_TELEMETRY_DISABLED=1',
                    'bash', '/source/scripts/ci/check.sh']
