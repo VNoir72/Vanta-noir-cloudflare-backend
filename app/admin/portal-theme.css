@@ -154,3 +154,37 @@ body:has(.vn-control-center) .vn-admin-toaster [data-close-button]{background:#f
 }
 
 body:has(.vn-control-center) .vn-admin-toaster .vn-order-reference{font-family:"Space Mono",monospace;font-size:11px;line-height:1.5;word-break:break-all}
+
+/* Admin-only glass correction: let the approved botanical ground read through. */
+body:has(.vn-control-center),.vn-control-center{
+ --vn-glass-surface:linear-gradient(135deg,#ffffffad,#ffffff66);
+ --vn-glass-panel:linear-gradient(145deg,#ffffff99,#ffffff52);
+ --vn-glass-filter:blur(12px) saturate(115%);
+ --vn-glass-shadow:inset 0 1px 0 #fffffff0,inset 0 -1px 0 #ffffff70,0 10px 32px #171a1c12;
+}
+.vn-control-center.vn-exact :is(.vn-control-panel,.vn-exact-metrics>*,.vn-ref-card,.vn-exact-email,.vn-ref-orders,.vn-exact-catalogue,.vn-exact-connections){
+ backdrop-filter:blur(12px) saturate(115%);-webkit-backdrop-filter:blur(12px) saturate(115%);
+}
+/* The launch list is a grouping layer, not a second sheet of glass. */
+.vn-control-center.vn-exact .vn-launch-review{
+ background:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;
+ border-color:transparent!important;box-shadow:none;
+}
+.vn-control-center.vn-exact .vn-launch-card{
+ background:var(--vn-glass-panel);border:1px solid #ffffffd9;border-radius:16px;
+ box-shadow:var(--vn-glass-shadow);color:#171a1c;
+ backdrop-filter:blur(12px) saturate(115%);-webkit-backdrop-filter:blur(12px) saturate(115%);
+}
+.vn-control-center.vn-exact .vn-launch-card[aria-pressed=true]{border-color:#627b3e;box-shadow:inset 0 0 0 1px #627b3e,var(--vn-glass-shadow)}
+.vn-control-center.vn-exact .vn-launch-card p{color:#454c49}
+/* Keep the reference chart legible while giving its shell a visible glass edge. */
+.vn-control-center.vn-exact .vn-exact-revenue{background:linear-gradient(145deg,#ffffffc2,#ffffff8c)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ body:has(.vn-control-center),.vn-control-center{--vn-glass-surface:#fff;--vn-glass-panel:#fff}
+ .vn-control-center.vn-exact .vn-exact-revenue{background:#fff!important}
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ body:has(.vn-control-center),.vn-control-center{--vn-glass-surface:#fff;--vn-glass-panel:#fff;--vn-glass-filter:none}
+ .vn-control-center.vn-exact :is(.vn-control-panel,.vn-exact-metrics>*,.vn-ref-card,.vn-exact-email,.vn-ref-orders,.vn-exact-catalogue,.vn-exact-connections,.vn-launch-card,.vn-exact-revenue){background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .vn-control-center.vn-exact .vn-launch-review{background:transparent!important}
+}
