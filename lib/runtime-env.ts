@@ -1,4 +1,6 @@
 type RuntimeEnvironment = {
+  SHIPBUBBLE_TEST_API_KEY?: string;
+  SHIPBUBBLE_API_KEY?: string;
   DB?: D1Database;
   TERMINAL_AFRICA_TEST_SECRET_KEY?: string;
   TERMINAL_AFRICA_LIVE_SECRET_KEY?: string;
