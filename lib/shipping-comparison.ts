@@ -11,10 +11,10 @@ function kobo(v: unknown) {
   if (typeof v !== 'number' || !Number.isFinite(v) || v <= 0 || v > 10_000_000) return null;
   return Math.round(v * 100);
 }
-export function terminalRates(data: unknown): ComparisonRate[] {
+export function terminalRates(data: unknown, quoteOnly=false): ComparisonRate[] {
   if (!Array.isArray(data)) throw Error('Terminal returned an unexpected rates format.');
-  return data.slice(0,100).flatMap(value => {
-    const r=object(value),amount=kobo(r.amount),id=identifier(r.rate_id);
+  return data.slice(0,100).flatMap((value,index) => {
+    const r=object(value),amount=kobo(r.amount),id=identifier(r.rate_id)||(quoteOnly?`quote-only-${index}`:'');
     if (!id || amount===null || r.currency!=='NGN' || !label(r.carrier_name) || r.dropoff_required===true || r.type==='cargo') return [];
     return [{provider:'terminal' as const,id,carrier:label(r.carrier_name,100),service:label(r.carrier_rate_description),amountKobo:amount,walletKobo:amount,currency:'NGN' as const,delivery:label(r.delivery_time)||'Estimate unavailable'}];
   });
@@ -77,5 +77,6 @@ export async function terminalSandbox(key:string,pickup:TestAddress,destination:
   const packaging=object(await request('/packaging',{name:'Vanta Noir comparison QA',type:'box',length:parcel.lengthCm,width:parcel.widthCm,height:parcel.heightCm,size_unit:'cm',weight:0.1,weight_unit:'kg'}));
   const id=identifier(packaging.packaging_id);if(!id)throw Error('Terminal sandbox packaging was not accepted.');
   const data=await request('/rates/shipment/quotes',{pickup_address:pickup,delivery_address:destination,parcel:{description:'Synthetic clothing parcel',packaging:id,weight_unit:'kg',items:[{name:'Sandbox clothing',description:'Synthetic test parcel',currency:'NGN',value:parcel.valueNaira,weight:Math.round((parcel.weightKg-0.1)*100000)/100000,quantity:1}]},currency:'NGN',cash_on_delivery:false,persist_data:false});
-  return terminalRates(data);
+  // Non-persisted sandbox quotes can omit rate_id. Display-only IDs must never be booked.
+  return terminalRates(data,true);
 }

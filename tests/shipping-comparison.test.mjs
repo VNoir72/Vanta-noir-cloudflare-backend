@@ -23,6 +23,11 @@ test('both quote sources start independently',async()=>{
  const r=await compareRates(async()=>{await gate;return terminalRates([terminal]);},async()=>{started=true;release();return [];});
  assert.equal(started,true);assert.equal(r.rates.length,1);
 });
+test('non-persisted Terminal quotes can be displayed without pretending to have a bookable ID',()=>{
+ const {rate_id,...quote}=terminal;
+ assert.equal(terminalRates([quote]).length,0);
+ assert.equal(terminalRates([quote],true)[0].id,'quote-only-0');
+});
 const address={first_name:'Sandbox',last_name:'Tester',email:'test@example.com',phone:'+2348000000000',line1:'Test address',city:'Kaduna',state:'Kaduna',country:'NG',zip:'800242'};
 const parcel={weightKg:5,lengthCm:53.34,widthCm:30.48,heightCm:12.7,valueNaira:10000};
 test('Shipbubble sandbox validates both addresses, discovers category and requests pickup only',async()=>{
