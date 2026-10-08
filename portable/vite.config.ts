@@ -12,6 +12,8 @@ export default defineConfig({
   ] },
   plugins: [react()],
   build: {
+    // Lightning CSS can drop the standard backdrop-filter when a WebKit fallback exists.
+    cssMinify: "esbuild",
     outDir: "outputs/namecheap", emptyOutDir: true, manifest: true,
     rollupOptions: { input: resolve("portable/entry.tsx") },
   },
