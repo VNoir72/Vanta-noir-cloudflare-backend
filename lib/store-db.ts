@@ -1,3 +1,4 @@
+import {detailsForSave, publicPricing} from "./publication-policy.mjs";
 import { confirmedPaymentFee } from "./payment-amount";
 import {garmentName,catalogueWording} from "./product-names";
 import {quoteRewards,rewardCapacitySql} from './rewards-db';
@@ -359,12 +360,11 @@ export async function listCatalog() {
         name: garmentName(product.name),
         category: product.category,
         description: product.description,
-        priceKobo: product.priceKobo,
+        ...publicPricing(product.priceKobo, productDetails(product.detailsJson)),
         imageUrl: product.imageUrl,
         imageAlt: catalogueWording(product.imageAlt),
         color: colorways[0]?.name ?? "Default",
         colorways,
-        details: productDetails(product.detailsJson),
         images: (imagesByProduct.get(product.id) ?? []).map(image => ({ imageUrl: image.imageUrl, imageAlt: catalogueWording(image.imageAlt), color: image.color })),
         createdAt: product.createdAt, updatedAt: product.updatedAt,
         featured: Boolean(product.featured),
@@ -463,6 +463,7 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
     category: product.category,
     description: product.description,
     priceKobo: Number(product.priceKobo),
+    details: productDetails(product.detailsJson),
     imageUrl: product.imageUrl,
     imageAlt: catalogueWording(product.imageAlt),
     status: normalizedProductStatus(product.status),
@@ -513,12 +514,12 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
   const db = getDbBinding();
   const productId = input.id?.trim() || crypto.randomUUID();
   const existingProduct = input.id
-    ? await db.prepare("SELECT id FROM products WHERE id = ? LIMIT 1").bind(productId).first<{ id: string }>()
+    ? await db.prepare("SELECT id, status, details_json AS detailsJson FROM products WHERE id = ? LIMIT 1").bind(productId).first<{ id: string; status: string; detailsJson: string }>()
     : null;
 
   if (input.id && !existingProduct) throw new Error("Product not found.");
 
-  const detailsJson = JSON.stringify(productDetailsSchema.parse(input.details ?? {}));
+  const detailsJson = JSON.stringify(detailsForSave(existingProduct ? {...existingProduct, details: productDetails(existingProduct.detailsJson)} : null, input.status, productDetailsSchema.parse(input.details ?? {})));
   const name = input.name.trim();
   const category = input.category.trim();
   const description = input.description.trim();
@@ -738,9 +739,9 @@ export async function setAdminProductStatus(productId: string, status: ProductSt
   const active = status === "published" ? 1 : 0;
   const result = await getDbBinding()
     .prepare(
-      "UPDATE products SET status = ?, active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+      `UPDATE products SET details_json = CASE WHEN ? = 'published' AND status = 'published' THEN details_json ELSE json_set(CASE WHEN json_valid(details_json) THEN details_json ELSE '{}' END, '$.availability', 'preview', '$.priceStatus', 'proposed') END, status = ?, active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
     )
-    .bind(status, active, productId)
+    .bind(status, status, active, productId)
     .run();
   if (!result.meta.changes) throw new Error("Product not found.");
   const saved = await getAdminProduct(productId);
@@ -1229,3 +1230,4 @@ export async function updateVariantStock(variantIdValue: string, stock: number, 
     db.prepare("UPDATE product_variants SET stock=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(stock,variantIdValue),
   ]);
 }
+

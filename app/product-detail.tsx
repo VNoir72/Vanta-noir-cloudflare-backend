@@ -1,4 +1,5 @@
 "use client";
+import {isPreview} from "@/lib/merchandising";
 import { shopperCollectionLabel } from "@/lib/catalog-search";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -52,12 +53,12 @@ export function ProductDetail({ product, products, selectedSize, selectedColor, 
       </div>
       <div className="vn-product-summary">
         <p className="vn-eyebrow">{shopperCollectionLabel(details.collection || product.category,checkout?.collectionLabels)} · {details.audience}</p>
-        <h1>{product.name}</h1><p className="vn-product-price">{formatNaira(product.priceKobo)}</p>
+        <h1>{product.name}</h1><p className="vn-product-price">{isPreview(product) ? "Price at launch" : formatNaira(product.priceKobo)}</p>
         <p className="vn-product-description">{product.description}</p>
         {details.fit && <p>{details.fit}</p>}
         <div className="vn-product-choice"><p>Colour · {colorway.name}</p><div className="flex flex-wrap gap-3">{product.colorways.map(color => <button key={color.name} title={color.name} aria-label={`Choose ${color.name}`} aria-pressed={color.name === colorway.name} className="vn-colour-option" onClick={() => onColor(color.name)}><span style={{ background: color.hex }} /></button>)}</div></div>
         <div className="vn-product-choice"><div className="flex justify-between gap-3"><p>Size{selectedSize ? ` · ${selectedSize}` : " · Select your size"}</p><SizeGuide product={product} /></div><div className="vn-detail-sizes" role="group" aria-label="Select your size">{sizes.map(size => <button key={size} aria-pressed={selectedSize === size} onClick={() => onSize(size)} className={colorway.stock[size] <= 0 ? "is-sold-out" : ""}>{size}<span className="sr-only">{colorway.stock[size] <= 0 ? " — sold out" : ""}</span></button>)}</div></div>
-        <div className="vn-detail-actions"><button className="vn-buy-button" onClick={onAdd} disabled={Boolean(selectedSize) && !available}><ShoppingBag size={18} />{!selectedSize ? "Choose a size" : !available ? "Sold out" : details.availability === "preorder" ? "Preorder · Add to bag" : "Add to bag"}</button><button className="vn-save-button" onClick={onSave} aria-pressed={saved} aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}><Heart size={20} fill={saved ? "currentColor" : "none"} /></button></div>
+        <div className="vn-detail-actions"><button className="vn-buy-button" onClick={onAdd} disabled={isPreview(product) || Boolean(selectedSize) && !available}><ShoppingBag size={18} />{isPreview(product) ? "Coming soon" : !selectedSize ? "Choose a size" : !available ? "Sold out" : details.availability === "preorder" ? "Preorder · Add to bag" : "Add to bag"}</button><button className="vn-save-button" onClick={onSave} aria-pressed={saved} aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}><Heart size={20} fill={saved ? "currentColor" : "none"} /></button></div>
         {selectedSize && !available && <CustomerSignup variantId={catalogVariantId(product, selectedSize, colorway)} />}
         {(details.dispatchNote || checkout?.dispatchNote) && <p className="vn-detail-note">{details.dispatchNote || checkout?.dispatchNote}</p>}
         {details.modelSizing && <p className="vn-detail-note">{details.modelSizing}</p>}
@@ -76,5 +77,6 @@ export function ProductDetail({ product, products, selectedSize, selectedColor, 
 
 export function ProductRail({ title, products }: { title: string; products: CatalogProduct[] }) {
   if (!products.length) return null;
-  return <section className="vn-product-rail"><h2>{title}</h2><div>{products.map(product => <Link key={product.id} href={`/products/${product.slug}`} onClick={() => trackProducts("select_item", [product])}><div className="vn-related-image"><Image src={product.imageUrl} alt={product.imageAlt} fill sizes="(min-width: 768px) 30vw, 70vw" /></div><h3>{product.name}</h3><p>{formatNaira(product.priceKobo)}</p></Link>)}</div></section>;
+  return <section className="vn-product-rail"><h2>{title}</h2><div>{products.map(product => <Link key={product.id} href={`/products/${product.slug}`} onClick={() => trackProducts("select_item", [product])}><div className="vn-related-image"><Image src={product.imageUrl} alt={product.imageAlt} fill sizes="(min-width: 768px) 30vw, 70vw" /></div><h3>{product.name}</h3><p>{isPreview(product) ? "Price at launch" : formatNaira(product.priceKobo)}</p></Link>)}</div></section>;
 }
+
