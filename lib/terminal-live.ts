@@ -14,7 +14,16 @@ export async function verifyLiveCredential(secret:string){
  if(!secret.trim())throw Error('Save the Terminal live secret in Cloudflare first.');
  let response:Response;
  try{response=await fetch('https://api.terminal.africa/v1/users/wallet',{method:'GET',headers:{Authorization:`Bearer ${secret.trim()}`,Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(15000)});}catch{throw Error('Terminal could not be reached. Retry the connection check.');}
- if(response.status===401||response.status===403)throw Error('Terminal rejected the live credential. Check the live secret and account access.');
+ if(response.status===401||response.status===403){
+  // Inspect only a bounded error response; persist fixed classifications, never provider text.
+  let reason='';const reader=response.body?.getReader();
+  if(reader){try{let text='',bytes=0;const decoder=new TextDecoder();while(true){const part=await reader.read();if(part.done)break;bytes+=part.value.byteLength;if(bytes>8192)break;text+=decoder.decode(part.value,{stream:true});}const body=JSON.parse(text);reason=typeof body?.message==='string'?body.message.toLowerCase():'';}catch{}finally{await reader.cancel().catch(()=>{});}}
+  const status=`Terminal HTTP ${response.status}. `;
+  if(/kyc|identity verification|account.{0,30}(not verified|unverified|pending verification)|verif(y|ication).{0,30}(account|identity)/.test(reason))throw Error(status+'Terminal reports an account-verification restriction. Complete or resolve KYC in Terminal Africa.');
+  if(/invalid.{0,20}(key|token|credential)|expired.{0,20}(key|token)|unauthori[sz]ed/.test(reason))throw Error(status+'Terminal reports an authentication failure. Check that the saved live secret is current and copied completely.');
+  if(response.status===401)throw Error(status+'Authentication was not accepted. Check the current live secret; this response alone does not establish a KYC problem.');
+  throw Error(status+'Access to the wallet endpoint was forbidden. Account permissions, verification or provider security restrictions need review; this does not prove the key is wrong.');
+ }
  if(!response.ok)throw Error('Terminal could not verify the account. Retry later or contact Terminal support.');
  const body=await response.json().catch(()=>null) as any;
  if(body?.status!==true||typeof body?.data?.active!=='boolean')throw Error('Terminal returned an unexpected account response.');
