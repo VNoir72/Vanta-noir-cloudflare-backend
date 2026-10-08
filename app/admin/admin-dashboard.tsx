@@ -204,9 +204,22 @@ function DashboardContent({
 }) {
   const greeting = useLocalGreeting();
   const {options,setOptions}=useCatalogOptions();
-  const [section, setSectionState] = useState("overview");
+  const [section, commitSection] = useState("overview");
+  const sectionHistory = useRef<string[]>([]);
+  const currentSection = useRef("overview");
+  function setSectionState(next:string) {
+    if (next === currentSection.current) return;
+    sectionHistory.current.push(currentSection.current);
+    currentSection.current = next;
+    commitSection(next);
+  }
   const navigate=useAdminNavigation();
   const hasChanges=useAdminHasChanges();
+  const goBack = () => navigate(() => {
+    const previous = sectionHistory.current.pop() || "overview";
+    currentSection.current = previous;
+    commitSection(previous);
+  });
   const setSection=(next:string)=>{if(next!==section)navigate(()=>setSectionState(next));};
   const [operationsStart,setOperationsStart]=useState<string|undefined>('reports');
   const [lowStockThreshold,setLowStockThreshold]=useState(3);
@@ -502,8 +515,9 @@ function DashboardContent({
       <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent ref={mobileNavContent} side="left" className="vn-mobile-drawer" overlayClassName="vn-mobile-drawer-overlay" onOpenAutoFocus={event=>{event.preventDefault();mobileNavContent.current?.focus({preventScroll:true});}} onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
       <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:Home},{id:'orders',label:'Orders',Icon:ShoppingCart},{id:'products',label:'Products',Icon:PackageCheck}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><MoreHorizontal size={20}/>More</button></nav>
       <div className="vn-control-content">
-      <Toaster position="top-center" richColors />
-      <div className="vn-workspace-bar"><div className="vn-workspace-breadcrumb"><ArrowLeft size={17}/><span>Workspace</span><span>/</span><strong>{sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</strong></div><button className="vn-mobile-brand" aria-label="Vanta Noir overview" onClick={()=>setSection('overview')}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><SupportAlerts onOpen={()=>setSection('support')}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
+      <Toaster theme="light" className="vn-admin-toaster" position="top-center" closeButton offset={{top:"88px"}} mobileOffset={{top:"88px",left:"16px",right:"16px"}} />
+      <div className="vn-workspace-bar"><div className="vn-workspace-breadcrumb"><span>Workspace</span><span>/</span><strong>{sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</strong></div><button className="vn-mobile-brand" aria-label="Vanta Noir overview" onClick={()=>setSection('overview')}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><SupportAlerts onOpen={()=>setSection('support')}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
+      {section !== 'overview' && <button type="button" className="vn-admin-back" onClick={goBack}><ArrowLeft size={18}/><span>Back</span></button>}
       <div className="vn-status-chips"><button onClick={()=>goTo({section:'settings'})}><i className={paymentsMode==='live'?'is-ok':''}/>Payments: {paymentsMode.toUpperCase()}</button><button onClick={()=>goTo({section:'settings'})}><i className={analytics.conversion?.status==='connected'?'is-ok':''}/>{analytics.conversion?.status==='connected'?'GA4 connected':connections?.ga4Configured?'GA4 configured':'GA4 not connected'}</button><button className="vn-email-status-chip" onClick={()=>navigate(()=>{setSectionState('overview');setEmailOpen(true);})}><i className={emailIssues===0?'is-ok':''}/>Order emails: {emailIssues??'…'} delivery issues</button></div>
       {statusPanel&&<div className="vn-operational-status">{statusPanel}</div>}
       <header className="vn-control-header">
