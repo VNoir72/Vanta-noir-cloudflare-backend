@@ -1,6 +1,10 @@
 // Run from repository root with Playwright installed; optional CHROMIUM_EXECUTABLE overrides its browser.
 const {spawn}=require('child_process');const {chromium}=require('playwright');const assert=require('assert/strict');
 (async()=>{const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--config','portable/vite.config.ts','--host','127.0.0.1','--port','5184']);try{await new Promise((resolve,reject)=>{server.stdout.on('data',b=>{if(b.toString().includes('127.0.0.1:'))resolve()});server.on('exit',c=>reject(Error('server '+c)));server.stderr.on('data',b=>process.stderr.write(b));});const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE?{executablePath:process.env.CHROMIUM_EXECUTABLE}:{}),args:['--no-sandbox']});try{await require('./admin-feedback-back.cjs')(browser);const page=await browser.newPage({hasTouch:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:1504,height:1046});await page.goto('http://127.0.0.1:5184/tests/browser/admin-navigation.html');await page.getByRole('heading',{name:'Store overview',exact:true}).waitFor();
+await page.getByRole('navigation',{name:'Store administration'}).getByRole('button',{name:'More tools',exact:true}).click();
+await page.getByRole('tab',{name:'Sales reports',exact:true}).waitFor();
+assert.equal(await page.getByRole('tab',{name:'Sales reports',exact:true}).evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(198, 242, 118)','Operations selected tab must use approved lime');
+await page.getByRole('navigation',{name:'Store administration'}).getByRole('button',{name:'Overview',exact:true}).click();
 for(const width of [390,768,820,1023,1024,1180,820,390]){
  await page.setViewportSize({width,height:900});await page.waitForTimeout(100);
  const mobile=width<1024,nav=page.getByRole('navigation',{name:mobile?'Quick navigation':'Store administration'});
