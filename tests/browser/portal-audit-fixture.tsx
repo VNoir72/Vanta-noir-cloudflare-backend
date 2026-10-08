@@ -7,6 +7,7 @@ import {OperationsPanel} from '../../app/admin/operations-panel';
 import {StaffChat} from '../../app/admin/staff-chat';
 import {UnsavedChangesProvider} from '../../app/admin/unsaved-changes';
 import type {StaffRole} from '../../lib/operations-permissions';
+import '../../app/brand-materials.css';
 import '../../app/admin/portal-theme.css';
 const role=(new URLSearchParams(location.search).get('role')||'owner') as StaffRole;
 const analytics={trend:Array.from({length:30},(_,i)=>({label:String(i+1),revenueKobo:0,orders:0})),categoryMix:[]};

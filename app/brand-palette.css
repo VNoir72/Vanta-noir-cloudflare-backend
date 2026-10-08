@@ -1,4 +1,3 @@
-@import "./brand-materials.css";
 /* Approved white / pearl and lime palette. Loaded after storefront theme layers. */
 :root{--vn-brand-white:#fff;--vn-brand-pearl:#f5f7f7;--vn-brand-lime:#c6f276;--vn-brand-ink:#171a1c;--vn-brand-muted:#6b7074;--vn-brand-border:#e7eaeb}
 .dn-app{--lime:var(--vn-brand-lime);--dn-lime:var(--vn-brand-lime);--ink:var(--vn-brand-ink);background:var(--vn-brand-white);color:var(--vn-brand-ink)}

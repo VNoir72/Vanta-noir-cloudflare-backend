@@ -1,4 +1,3 @@
-@import "../brand-materials.css";
 /* Shared pearl/lime tokens for every authenticated workspace and portalled control. */
 body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen)),.vn-control-center,.vn-staff-portal{color-scheme:light;--background:#f5f7f7;--foreground:#171a1c;--card:#fff;--card-foreground:#171a1c;--popover:#fff;--popover-foreground:#171a1c;--primary:#c6f276;--primary-foreground:#171a1c;--secondary:#f5f7f7;--secondary-foreground:#171a1c;--muted:#f5f7f7;--muted-foreground:#6b7074;--accent:#e7eaeb;--accent-foreground:#171a1c;--border:#e7eaeb;--input:#e7eaeb;--ring:#171a1c;--destructive:#a12e22;--destructive-foreground:#fff;--vn-lime:#c6f276;--vn-muted:#6b7074}
 body:has(:is(.vn-control-center,.vn-staff-portal,.vn-access-page)){background:#f5f7f7;color:#171a1c}
