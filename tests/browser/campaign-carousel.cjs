@@ -21,6 +21,8 @@ const {spawn}=require('node:child_process'),{chromium}=require('playwright'),ass
   }
   for(const width of [390,820,1440]){
    const {page,hero,errors}=await setup(width);assert.equal(await hero.locator('.vn-hero-frame').count(),4);
+   assert.equal(await hero.locator('.vn-hero-frame[data-layered=true]').count(),4,'all four model layers decoded');
+   assert.equal(await hero.locator('.vn-hero-frame[data-active=true] .vn-campaign-detail').evaluate(e=>getComputedStyle(e).animationName),'vn-detail-story','independent detail choreography');
    await page.waitForFunction(()=>document.querySelector('.vn-responsive-hero').dataset.running==='true');
    await page.clock.fastForward(8200);assert.equal(await hero.getAttribute('data-slide'),'1','automatic next slide');
    await hero.focus();await page.clock.fastForward(17000);assert.equal(await hero.getAttribute('data-slide'),'1','keyboard focus pauses rotation');
@@ -36,7 +38,8 @@ const {spawn}=require('node:child_process'),{chromium}=require('playwright'),ass
    await hero.getByRole('button',{name:'Play campaign motion'}).click();await page.getByRole('button',{name:'Search',exact:true}).focus();await page.mouse.move(width-1,899);
    await page.clock.fastForward(8200);assert.equal(await hero.getAttribute('data-slide'),'2','explicit play resumes');
    await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelector('.vn-responsive-hero').dataset.running==='false');await page.clock.fastForward(17000);assert.equal(await hero.getAttribute('data-slide'),'2','reduced motion stops automatic changes');
-   assert.equal(await hero.locator('.vn-hero-frame[data-active=true] picture').evaluate(e=>getComputedStyle(e).animationName),'none');
+   assert.equal(await hero.locator('.vn-hero-frame[data-active=true] .vn-campaign-model').evaluate(e=>getComputedStyle(e).animationName),'none');
+   assert.equal(await hero.locator('.vn-hero-frame[data-active=true] .vn-campaign-detail').isVisible(),false,'reduced motion hides animated detail overlay');
    const box=await hero.boundingBox();await hero.dispatchEvent('touchstart',{touches:[{identifier:0,clientX:300,clientY:200}]});await hero.dispatchEvent('touchend',{changedTouches:[{identifier:0,clientX:100,clientY:205}]});assert.equal(await hero.getAttribute('data-slide'),'3','horizontal swipe');
    await page.getByRole('button',{name:'Search',exact:true}).click();assert(Math.abs((await hero.boundingBox()).y-box.y)<2,'same-row search preserves hero position');
    assert.deepEqual(errors,[]);await page.close();console.log(`PASS carousel ${width}: rotation, focus, manual pause/play, keyboard, swipe, reduced motion, search and bounds`);

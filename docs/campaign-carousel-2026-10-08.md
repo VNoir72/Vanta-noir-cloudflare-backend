@@ -1,11 +1,13 @@
-# Vanta Noir campaign carousel
+# Campaign motion revision — preview, not deployed
 
-The approved black technical campaign remains the first slide. Three generated editorial images add the catalogue varsity jacket, burgundy Stealth set, and olive tank/cargo shorts. Each new look has its own portrait composition for mobile; source image references were checked against the catalogue and current winged-spire emblem. Generated garment photography is marketing artwork, not a manufacturing specification.
+The user supplied the three reference videos after the first carousel implementation and rejected simple fades/zooming as insufficient. PR 78 was converted to draft.
 
-The default campaign rotates every eight seconds with a one-second opacity transition and a subtle 2.5% image drift. Copy, navigation and hero dimensions remain stable. No arrows or pagination dots are rendered. A pause/play control, keyboard browsing, and horizontal swiping remain available. Rotation stops for focus, mouse hover, hidden/offscreen pages and reduced-motion preferences. Broken next images are skipped. Explicit owner playlists remain authoritative.
+This revision adds separately composited full-body model assets, a moving typographic layer, garment close-ups, and coordinated chapter copy across four looks. The stage remains compact on phone and desktop. The navigation stays transparent over the hero and transitions to an inset pearl-glass surface over products. Home/About/Contact, logo, search, saved items and bag remain in the existing row. Search replaces the links in that row and does not shift the hero.
 
-Browser verification covers 390, 820 and 1440 px, automatic advancement, keyboard/swipe, pause/resume, reduced motion, same-row search, image failure and custom playlist preservation.
+Motion is CSS transform/opacity using the existing UI easing token. The eight-second chapter contains reveal, detail and full-look phases. Automatic rotation stops for focus, mouse hover, page visibility and reduced-motion preferences. Keyboard/swipe and pause/play remain available. Reduced-motion mode displays the full look without animated detail layers. Explicit owner playlists remain authoritative.
 
-The exact three animation reference videos could not be recovered. This implementation does not claim a frame-for-frame match. A separate runway-video generation task is pending and no generated video is included in this release.
+This is a 2.5D photographic motion preview. It is NOT the full 3D deformation/physical movement shown in the supplied food references, and it does not include the pending runway-video generation. Do not describe this draft as final or deploy it without the requested visual review.
 
-Deploy the code-repair archive only after backing up the existing Namecheap public_html directory. It contains the new campaign media and all rendered code while retaining existing uploaded catalogue media. The Namecheap sign-in and cPanel entry succeeded, but File Manager encountered a protected-browser error; no hosted files were modified during this work.
+Generated cutouts use the built-in image tool, with instructions to extract each original campaign model while preserving face, clothing, pose, logos and transparency. The olive layer received a targeted text correction to VANTA NOIR / PRESENCE. POWER. PRECISION. and the approved emblem reference. Source assets are public/images/vanta-motion-{technical,varsity,burgundy,olive}-2026.webp. Full prompt intent: background-extraction, full body and shoes, unchanged identity/clothing/pose, genuine alpha, no redesign, no added text or objects; the olive correction explicitly removes invented small text. Generated imagery still requires owner visual approval.
+
+No Namecheap hosted files or production business settings were changed. Backup/upload remains blocked at the previous cPanel handoff.
