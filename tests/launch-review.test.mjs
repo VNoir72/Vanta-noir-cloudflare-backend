@@ -13,7 +13,8 @@ test('launch queue includes published previews and protects every manufacturing 
  const jersey=constructionProposal({name:'Custom Tee'},{fabric:'cotton jersey'});assert.match(jersey.stitching,/514/);assert.match(jersey.stitching,/406/);
  const shirt=constructionProposal({name:'Panel Shirt'},{fabric:'woven cotton'});assert.match(shirt.stitching,/301/);
  assert.match(constructionProposal({name:'Socks'},{}).stitching,/Specialist/);
- assert.equal(constructionProposal({name:'Tee'},{stitching:'Custom exact seam schedule'}).stitching,'Custom exact seam schedule');
+ assert.equal(constructionProposal({name:'Tee'},{stitching:'Custom exact 406 seam schedule'}).stitching,'Custom exact 406 seam schedule');
+ assert.match(constructionProposal({name:'Tee'},{stitching:'Reinforced shoulder seams'}).stitching,/514/);
  assert.match(jersey.artworkLock,/anime/);
 });
 test('owner certification is separate from launch; stale stock and missing specifications block release',async()=>{
