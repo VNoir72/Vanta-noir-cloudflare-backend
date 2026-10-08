@@ -11,3 +11,7 @@ This is a 2.5D photographic motion preview. It is NOT the full 3D deformation/ph
 Generated cutouts use the built-in image tool, with instructions to extract each original campaign model while preserving face, clothing, pose, logos and transparency. The olive layer received a targeted text correction to VANTA NOIR / PRESENCE. POWER. PRECISION. and the approved emblem reference. Source assets are public/images/vanta-motion-{technical,varsity,burgundy,olive}-2026.webp. Full prompt intent: background-extraction, full body and shoes, unchanged identity/clothing/pose, genuine alpha, no redesign, no added text or objects; the olive correction explicitly removes invented small text. Generated imagery still requires owner visual approval.
 
 No Namecheap hosted files or production business settings were changed. Backup/upload remains blocked at the previous cPanel handoff.
+
+## Superseding direction
+
+The user rejected the layered preview and its motion. Do not release it. A replacement continuous architectural runway concept is saved as public/images/vanta-corridor-campaign-preview-2026.webp. It is a still, not a finished animation. A targeted second generation corrected the old wing-only garment symbols using the current multi-tier emblem reference. The new requested motion is actual model/fabric movement and a smooth camera glide, with steady separate HTML navigation and copy. No production deployment is authorized until the replacement is reviewed.
