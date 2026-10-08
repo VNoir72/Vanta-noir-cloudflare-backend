@@ -223,16 +223,16 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
         && matchesCollection(e.product)
         && matchesColour(e.color.name, colorFilter)
         && (sizeFilter === "All" || Object.prototype.hasOwnProperty.call(e.color.stock, sizeFilter))
-        && (priceFilter === "All" || (priceFilter === "under" ? e.product.priceKobo < 12500000 : e.product.priceKobo >= 12500000))
+        && (priceFilter === "All" || (!isPreview(e.product) && (priceFilter === "under" ? e.product.priceKobo < 12500000 : e.product.priceKobo >= 12500000)))
         && (dropFilter==='All'||nameOf(e.product)===dropFilter)
-        && e.product.priceKobo>=priceRange[0]*100 && (priceRange[1]===10000000 || e.product.priceKobo<=priceRange[1]*100)
+        && (isPreview(e.product) ? priceRange[0]===0 && priceRange[1]===10000000 : e.product.priceKobo>=priceRange[0]*100 && (priceRange[1]===10000000 || e.product.priceKobo<=priceRange[1]*100))
         && (!inStockOnly || catalogLoaded&&!catalogError&&!isPreview(e.product)&&Object.values(e.color.stock).some(n=>n>0))
         && (!savedOnly || saved.includes(e.key));
     });
     const result = stableProductCards(candidates, cardColors);
     if (query.trim() && sort === "featured") result.sort((a,b) => catalogSearchScore(b.product,b.color,query)-catalogSearchScore(a.product,a.color,query));
-    if (sort === "low") result.sort((a, b) => a.product.priceKobo - b.product.priceKobo);
-    if (sort === "high") result.sort((a, b) => b.product.priceKobo - a.product.priceKobo);
+    if (sort === "low") result.sort((a, b) => Number(isPreview(a.product))-Number(isPreview(b.product)) || a.product.priceKobo - b.product.priceKobo);
+    if (sort === "high") result.sort((a, b) => Number(isPreview(a.product))-Number(isPreview(b.product)) || b.product.priceKobo - a.product.priceKobo);
     if (sort === "vd" || category === "New arrivals") {
       result.sort((a,b)=>Date.parse(b.product.details?.releaseDate||b.product.createdAt||'1970-01-01')-Date.parse(a.product.details?.releaseDate||a.product.createdAt||'1970-01-01'));
     }

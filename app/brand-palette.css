@@ -8,3 +8,4 @@
 .dn-app :is(button,a,input,select,textarea):focus-visible{outline:2px solid var(--vn-brand-ink);outline-offset:3px}
 .dn-app .dn-card,.dn-app .dn-panel,.dn-app .vn-contact-form{background:var(--vn-brand-white)}
 .dn-app .dn-detail-photo,.dn-app .dn-quick-photo,.dn-app .dn-card-image{background:var(--vn-brand-pearl)}
+.dn-app .vn-signup-row button{background:var(--vn-brand-lime);color:var(--vn-brand-ink)}

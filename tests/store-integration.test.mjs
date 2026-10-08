@@ -103,16 +103,19 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
         assert.ok(Object.values(c.stock).every(stock=>stock===0));
       }
     }
-    assert.equal(products.find(p=>p.id==="vn-season01-25").priceKobo,2000000);
+    assert.equal(products.find(p=>p.id==="vn-season01-25").priceKobo,0);
+    assert.equal((await rpc("sql","SELECT price_kobo AS price FROM products WHERE id='vn-season01-25'")).results[0].price,2000000);
     for(const id of ["vn-p042","vn-season01-21"]) {
       const cap=products.find(p=>p.id===id);
-      assert.equal(cap.priceKobo,3000000);
-      assert.equal(cap.details.priceStatus,"approved");
+      assert.equal(cap.priceKobo,0);
+      assert.equal((await rpc("sql","SELECT price_kobo AS price FROM products WHERE id=?",id)).results[0].price,3000000);
+      assert.equal(cap.details.priceStatus,"proposed");
     }
     assert.equal((await rpc("sql","SELECT status FROM products WHERE id='vn-p050'")).results[0].status,"archived");
     const previewProduct=products.find(p=>p.id==="vn-season01-26");
     assert.equal(previewProduct.details.availability,"preview");
-    assert.equal(previewProduct.priceKobo,1200000);
+    assert.equal(previewProduct.priceKobo,0);
+    assert.equal((await rpc("sql","SELECT price_kobo AS price FROM products WHERE id=?",previewProduct.id)).results[0].price,1200000);
     assert.equal(previewProduct.category,"Underwear and socks");
     const previewVariant=previewProduct.colorways[0].variantIds.S;
     await rpc("sql","UPDATE product_variants SET stock=10 WHERE id=?",previewVariant);
@@ -262,3 +265,4 @@ test("existing catalog gains XXL once without changing existing stock or removed
     assert.equal((await db.prepare("SELECT COUNT(*) AS count FROM product_variants WHERE product_id='vn-stealth'").first()).count, 6);
   } finally { await mf.dispose(); }
 });
+

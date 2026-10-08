@@ -463,6 +463,7 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
     category: product.category,
     description: product.description,
     priceKobo: Number(product.priceKobo),
+    details: productDetails(product.detailsJson),
     imageUrl: product.imageUrl,
     imageAlt: catalogueWording(product.imageAlt),
     status: normalizedProductStatus(product.status),
@@ -752,7 +753,7 @@ export async function deleteAdminProduct(productId: string) {
   await ensureCatalogSeeded();
   const db = getDbBinding();
   const existing = await db
-    .prepare("SELECT id, status, details_json AS detailsJson FROM products WHERE id = ? LIMIT 1")
+    .prepare("SELECT id FROM products WHERE id = ? LIMIT 1")
     .bind(productId)
     .first<{ id: string }>();
   if (!existing) throw new Error("Product not found.");
