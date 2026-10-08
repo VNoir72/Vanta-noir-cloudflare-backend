@@ -40,6 +40,7 @@ module.exports = async function checkMobileGreeting(browser) {
       await page.screenshot({ path: 'work/admin-mobile-greeting.png' });
       await page.locator('.vn-exact-revenue').scrollIntoViewIfNeeded();
       await page.screenshot({ path: 'work/admin-mobile-revenue-demo.png' });
+      await require('./admin-mobile-drawer.cjs')(page);
       await page.emulateMedia({ contrast: 'more' });
       assert.equal(await page.locator('.vn-control-center').evaluate(el => getComputedStyle(el, '::before').display), 'none');
       assert.equal(await page.locator('.vn-workspace-bar').evaluate(el => getComputedStyle(el).backdropFilter), 'none');

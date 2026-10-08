@@ -212,6 +212,7 @@ function DashboardContent({
   const [lowStockThreshold,setLowStockThreshold]=useState(3);
   const [mobileNav,setMobileNav]=useState(false);
   const mobileNavTrigger=useRef<HTMLButtonElement|null>(null);
+  const mobileNavContent=useRef<HTMLDivElement|null>(null);
   useEffect(()=>{setMobileNav(false);document.querySelector('.vn-control-content')?.scrollTo({top:0,behavior:'instant'});window.scrollTo({top:0,behavior:'instant'});},[section]);
   useEffect(()=>{const mq=window.matchMedia("(min-width: 1024px)");const close=()=>{if(mq.matches)setMobileNav(false);};mq.addEventListener("change",close);return()=>mq.removeEventListener("change",close);},[]);
   const [connections,setConnections]=useState<ConnectionSummary|null>(null),[fulfilment,setFulfilment]=useState<FulfilmentCounts|null>(null),[emailOpen,setEmailOpen]=useState(false),[emailIssues,setEmailIssues]=useState<number|null>(null);
@@ -488,17 +489,17 @@ function DashboardContent({
   }
 
   const navigation = <>
-        <button className="vn-control-brand" onClick={()=>setSection('overview')}><span>VANTA NOIR<small>ADMINISTRATION</small></span></button>
-        <button className="vn-workspace-selector" onClick={()=>setSection('settings')}><i className="vn-workspace-dot"/><span>Vanta Noir Store</span><ChevronDown size={15}/></button>
+        <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button>
+        <button className="vn-workspace-selector" onClick={()=>{setMobileNav(false);setSection('settings');}}><i className="vn-workspace-dot"/><span>Vanta Noir Store</span><ChevronDown size={15}/></button>
         <nav aria-label="Store administration">{sections.filter(item=>!["discounts","delivery"].includes(item)||["operations","discounts","delivery"].includes(section)).map(item=>{const Icon=({overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}>{item==='approvals'&&<p className="vn-nav-group">Management</p>}<button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</nav>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}><ExternalLink size={17}/> Visit storefront</a>
-        <button className="vn-owner-block" onClick={()=>setSection('settings')}><span className="vn-owner-avatar">VN</span><span>Store owner</span><ChevronRight size={16}/></button>
+        <button className="vn-owner-block" onClick={()=>{setMobileNav(false);setSection('settings');}}><span className="vn-owner-avatar">VN</span><span>Store owner</span><ChevronRight size={16}/></button>
       </>;
 
   return (
     <main className="vn-control-center vn-exact min-h-screen bg-[#090b0a] text-[#f4f4f4]">
       <aside className="vn-control-sidebar">{navigation}</aside>
-      <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent side="left" className="vn-mobile-drawer" onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
+      <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent ref={mobileNavContent} side="left" className="vn-mobile-drawer" overlayClassName="vn-mobile-drawer-overlay" onOpenAutoFocus={event=>{event.preventDefault();mobileNavContent.current?.focus({preventScroll:true});}} onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
       <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:Home},{id:'orders',label:'Orders',Icon:ShoppingCart},{id:'products',label:'Products',Icon:PackageCheck}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><MoreHorizontal size={20}/>More</button></nav>
       <div className="vn-control-content">
       <Toaster position="top-center" richColors />
