@@ -66,6 +66,7 @@ import { formatNaira, STORE_SIZES } from "@/lib/catalog";
 import type { AdminAnalytics, AdminOrder, AdminProduct, ProductStatus } from "@/lib/store-db";
 import { allowedOrderStatuses } from "@/lib/order-status";
 import { CatalogueQuality } from "./catalogue-quality";
+import { LaunchReview, LaunchReviewBox } from './launch-review';
 import { ReleasePanel } from './release-panel';
 import { ProductReadiness } from "./product-readiness";
 import { ProductProperties } from "./product-properties";
@@ -213,8 +214,8 @@ function DashboardContent({
   useEffect(()=>{const mq=window.matchMedia("(min-width: 1024px)");const close=()=>{if(mq.matches)setMobileNav(false);};mq.addEventListener("change",close);return()=>mq.removeEventListener("change",close);},[]);
   const [connections,setConnections]=useState<ConnectionSummary|null>(null),[fulfilment,setFulfilment]=useState<FulfilmentCounts|null>(null),[emailOpen,setEmailOpen]=useState(false),[emailIssues,setEmailIssues]=useState<number|null>(null);
   useEffect(()=>{const controller=new AbortController();adminRead<ConnectionSummary>("/api/admin/management?resource=integrations",v=>typeof v?.paymentsConfigured==='boolean'&&typeof v?.emailConfigured==='boolean',{signal:controller.signal}).then(setConnections).catch(()=>{});return()=>controller.abort();},[]);
-  const sections = ["overview", "products", "orders", "inventory", "customers", "support", "returns", "analytics", "collections", "tech-packs", "media", "operations", "discounts", "delivery", "approvals", "staff", "activity", "settings", "help"];
-  const sectionLabels:Record<string,string>={'tech-packs':'Tech-pack archive',help:'Help & how to use',support:'Support',approvals:'Staff approvals',collections:'Collections',returns:'Returns & refunds',staff:'Staff access',activity:'Activity',operations:'More tools'};
+  const sections = ["overview", "launch-review", "products", "orders", "inventory", "customers", "support", "returns", "analytics", "collections", "tech-packs", "media", "operations", "discounts", "delivery", "approvals", "staff", "activity", "settings", "help"];
+  const sectionLabels:Record<string,string>={'launch-review':'Launch review','tech-packs':'Tech-pack archive',help:'Help & how to use',support:'Support',approvals:'Staff approvals',collections:'Collections',returns:'Returns & refunds',staff:'Staff access',activity:'Activity',operations:'More tools'};
   const operationSections:Record<string,string>={returns:'returns',delivery:'courier',staff:'staff',activity:'activity',discounts:'promotions'};
   const [recentOrders,setRecentOrders]=useState(initialOrders),[campaignProductId,setCampaignProductId]=useState(''),[customerQuery,setCustomerQuery]=useState(''),[inventoryFilter,setInventoryFilter]=useState<'low'|'out'|'available'>('available'),[inventoryKey,setInventoryKey]=useState(0),[orderEntry,setOrderEntry]=useState(0),[fulfilmentCount,setFulfilmentCount]=useState(initialAnalytics.fulfilmentCount||0);
   const [productStatusFilter,setProductStatusFilter]=useState('');
@@ -487,7 +488,7 @@ function DashboardContent({
   const navigation = <>
         <button className="vn-control-brand" onClick={()=>setSection('overview')}><span>VANTA NOIR<small>ADMINISTRATION</small></span></button>
         <button className="vn-workspace-selector" onClick={()=>setSection('settings')}><i className="vn-workspace-dot"/><span>Vanta Noir Store</span><ChevronDown size={15}/></button>
-        <nav aria-label="Store administration">{sections.filter(item=>!["discounts","delivery"].includes(item)||["operations","discounts","delivery"].includes(section)).map(item=>{const Icon=({overview:Home,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}>{item==='approvals'&&<p className="vn-nav-group">Management</p>}<button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</nav>
+        <nav aria-label="Store administration">{sections.filter(item=>!["discounts","delivery"].includes(item)||["operations","discounts","delivery"].includes(section)).map(item=>{const Icon=({overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}>{item==='approvals'&&<p className="vn-nav-group">Management</p>}<button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{sectionLabels[item]||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</nav>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}><ExternalLink size={17}/> Visit storefront</a>
         <button className="vn-owner-block" onClick={()=>setSection('settings')}><span className="vn-owner-avatar">VN</span><span>Store owner</span><ChevronRight size={16}/></button>
       </>;
@@ -508,6 +509,8 @@ function DashboardContent({
       </header>
 
       <div className="vn-control-body">
+        {section==='overview'&&<LaunchReviewBox products={products} onOpen={()=>setSection('launch-review')}/>}
+        {section==='launch-review'&&<LaunchReview products={products} onEdit={openProduct} onSaved={product=>setProducts(current=>current.map(p=>p.id===product.id?product:p))}/>}
         {(section === "overview" || section === "analytics") && <><div aria-live="polite">{reportLoading&&<p>Loading selected period…</p>}{reportError&&<p role="alert">{reportError}</p>}</div><OverviewPanel analytics={{...analytics,fulfilmentCount}} orders={recentOrders} products={products} lowStock={metrics.lowStock} onNavigate={goTo} onProduct={openProduct} campaignProductId={campaignProductId} onCampaignSaved={setCampaignProductId} fulfilment={fulfilment} connections={connections} paymentsMode={paymentsMode} loading={busy!==null||reportLoading} onRefresh={()=>void refresh()} emailPanel={<EmailDeliveryPanel open={emailOpen} onOpenChange={setEmailOpen} onSummary={setEmailIssues}/>}/>{section==='analytics'&&<button className="vn-pill" onClick={()=>goTo({section:'operations',resource:'reports'})}>Open detailed sales and refund reports →</button>}</>}
         {section==='tech-packs'&&<TechPackArchive/>}
         {section==='help'&&<WorkspaceHelp role="admin"/>}
@@ -1015,4 +1018,5 @@ function FieldInput({
     </div>
   );
 }
+
 

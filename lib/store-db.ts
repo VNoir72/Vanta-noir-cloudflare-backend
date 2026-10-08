@@ -490,7 +490,7 @@ export async function listAdminProducts(): Promise<AdminProduct[]> {
   }));
 }
 
-async function getAdminProduct(productId: string) {
+export async function getAdminProduct(productId: string) {
   return (await listAdminProducts()).find((product) => product.id === productId) ?? null;
 }
 

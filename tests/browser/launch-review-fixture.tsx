@@ -1,0 +1,4 @@
+import React from 'react';import {createRoot} from 'react-dom/client';import {LaunchReview,LaunchReviewBox} from '../../app/admin/launch-review';import type {AdminProduct} from '../../lib/store-db';
+const product={id:'sample',name:'Custom anime tee',category:'Tops',status:'draft',priceKobo:5500000,imageUrl:'',imageAlt:'',details:{availability:'preview',priceStatus:'proposed',features:'Preserve original black and white anime lettering'},images:[],variants:[]} as unknown as AdminProduct;
+window.fetch=async()=>Response.json({product,revision:'a'.repeat(64),certification:null});
+function App(){const [open,setOpen]=React.useState(false);return <>{!open?<LaunchReviewBox products={[product]} onOpen={()=>setOpen(true)}/>:<LaunchReview products={[product]} onEdit={()=>{}} onSaved={()=>{}}/>}</>;}createRoot(document.getElementById('root')!).render(<App/>);
