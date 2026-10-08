@@ -31,10 +31,16 @@ export function shipbubbleRates(data: unknown): ComparisonRate[] {
 export async function compareRates(terminal:()=>Promise<ComparisonRate[]>,shipbubble:()=>Promise<ComparisonRate[]>) {
   const providers=['terminal','shipbubble'] as const;
   const replies=await Promise.allSettled([Promise.resolve().then(terminal),Promise.resolve().then(shipbubble)]);
-  const status=replies.map((reply,i)=>({provider:providers[i],status:reply.status==='rejected'?'error':reply.value.length?'quoted':'unavailable'}));
+  const status=replies.map((reply,i)=>({provider:providers[i],status:reply.status==='rejected'?'error':reply.value.length?'quoted':'unavailable',...(reply.status==='rejected'?{error:safeFailure(reply.reason)}:{})}));
   const rates=replies.flatMap(r=>r.status==='fulfilled'?r.value:[]).sort((a,b)=>a.amountKobo-b.amountKobo||a.provider.localeCompare(b.provider)||a.id.localeCompare(b.id));
   // Keep distinct services visible; a courier name alone does not establish equivalent coverage, duties or speed.
   return {mode:'sandbox' as const,bookingEnabled:false as const,checkoutEnabled:false as const,rates,providers:status,partial:status.some(s=>s.status==='error'),cheapest:rates[0]?{provider:rates[0].provider,id:rates[0].id}:null};
+}
+function safeFailure(reason:unknown){
+ const message=reason instanceof Error?reason.message:'';
+ if(/^Shipping provider HTTP [1-5][0-9]{2}\.$/.test(message))return message;
+ const allowed=['A Shipbubble sandbox key is required.','Terminal sandbox key is required.','Shipping provider timed out or could not be reached.','Shipbubble did not validate both addresses.','Shipbubble clothing category is unavailable.','Terminal sandbox packaging was not accepted.','Shipping provider rejected the request.'];
+ return allowed.includes(message)?message:'Provider response could not be verified.';
 }
 export async function providerJson(url:string,key:string,body:unknown,send:typeof fetch=fetch) {
   let response:Response;
