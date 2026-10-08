@@ -83,13 +83,27 @@ body:has(.vn-staff-portal) .vn-team-chat.vn-staff-portal{
 .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{
  background-color:var(--vn-brand-pearl);
  background-image:url('/images/vanta-pearl-leaf-glass.webp');
- background-size:100vw 100vh;background-position:left top;background-repeat:no-repeat;background-attachment:fixed
+ background-size:cover;background-position:left top;background-repeat:no-repeat;background-attachment:fixed
 }
 .vn-control-center.vn-exact .vn-control-sidebar{
  background:linear-gradient(155deg,#ffffffb8,#ffffff38)!important;
  backdrop-filter:blur(6px) saturate(110%);-webkit-backdrop-filter:blur(6px) saturate(110%)
 }
+/* Fixed viewport artwork keeps its natural proportions on phones, including iOS. */
+@media(max-width:1023px){
+ .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{background-image:none;isolation:isolate}
+ .vn-control-center::before,.vn-access-page::before,.vn-welcome-screen::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:var(--vn-brand-pearl) url('/images/vanta-pearl-leaf-glass.webp') left top / cover no-repeat
+ }
+ .vn-control-center.vn-exact :is(.vn-workspace-bar,.vn-mobile-tabs),body:has(.vn-control-center) .vn-mobile-drawer{
+  background:linear-gradient(155deg,#ffffffb8,#ffffff70)!important;
+  backdrop-filter:blur(6px) saturate(110%);-webkit-backdrop-filter:blur(6px) saturate(110%)
+ }
+ .vn-exact .vn-exact-revenue{border:1px solid var(--vn-glass-edge);box-shadow:var(--vn-glass-shadow)}
+}
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
  .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{background-image:none}
- .vn-control-center.vn-exact .vn-control-sidebar{background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .vn-control-center::before,.vn-access-page::before,.vn-welcome-screen::before{display:none}
+ .vn-control-center.vn-exact :is(.vn-control-sidebar,.vn-workspace-bar,.vn-mobile-tabs),body:has(.vn-control-center) .vn-mobile-drawer{background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}
 }

@@ -4,14 +4,15 @@ import { useEffect, useState, type ComponentProps } from "react";
 import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
 import { AdminDashboard } from "./admin-dashboard";
 
+import { useLocalGreeting } from "./use-local-greeting";
+
 type DashboardProps = ComponentProps<typeof AdminDashboard>;
 type DashboardData = Pick<DashboardProps, "initialOrders" | "initialInventory" | "initialAnalytics" | "initialProducts">;
 
 // Keep catalogue-sized objects out of the server-rendered HTML/RSC response.
 // Every endpoint verifies the Access JWT and staff permissions independently.
 export function AdminDashboardLoader({ adminName, signOutPath, statusPanel, paymentsMode }: Pick<DashboardProps, "adminName" | "signOutPath" | "statusPanel" | "paymentsMode">) {
-  const [greeting, setGreeting] = useState("Welcome back");
-  useEffect(() => { const hour = new Date().getHours(); setGreeting(hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"); }, []);
+  const greeting = useLocalGreeting();
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);

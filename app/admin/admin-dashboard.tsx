@@ -4,6 +4,7 @@ import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
 import { resolvedProductDetails } from "@/lib/product-specs";
 
 import Link from "next/link";
+import { useLocalGreeting } from "./use-local-greeting";
 import {TechPackArchive} from "./tech-pack-archive";
 import {useCatalogOptions} from "@/lib/use-catalog-options";
 import {CatalogOptionsEditor} from "./catalog-options-editor";
@@ -201,6 +202,7 @@ function DashboardContent({
   statusPanel?: React.ReactNode;
   paymentsMode?: string;
 }) {
+  const greeting = useLocalGreeting();
   const {options,setOptions}=useCatalogOptions();
   const [section, setSectionState] = useState("overview");
   const navigate=useAdminNavigation();
@@ -504,7 +506,7 @@ function DashboardContent({
       <div className="vn-status-chips"><button onClick={()=>goTo({section:'settings'})}><i className={paymentsMode==='live'?'is-ok':''}/>Payments: {paymentsMode.toUpperCase()}</button><button onClick={()=>goTo({section:'settings'})}><i className={analytics.conversion?.status==='connected'?'is-ok':''}/>{analytics.conversion?.status==='connected'?'GA4 connected':connections?.ga4Configured?'GA4 configured':'GA4 not connected'}</button><button className="vn-email-status-chip" onClick={()=>navigate(()=>{setSectionState('overview');setEmailOpen(true);})}><i className={emailIssues===0?'is-ok':''}/>Order emails: {emailIssues??'…'} delivery issues</button></div>
       {statusPanel&&<div className="vn-operational-status">{statusPanel}</div>}
       <header className="vn-control-header">
-        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">Your brand, your numbers, your next move.</p></div>
+        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">{greeting}. Your brand, your next move.</p></div>
         <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/><span className="sr-only">Refresh</span></Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
       </header>
 
