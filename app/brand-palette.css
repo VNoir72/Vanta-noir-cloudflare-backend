@@ -6,6 +6,37 @@
 .approved-filter-modal .filter-pills button[aria-pressed=true]{background:var(--vn-brand-lime);border-color:var(--vn-brand-ink);color:var(--vn-brand-ink)}
 .dn-app :is(input,select,textarea){accent-color:var(--vn-brand-ink)}
 .dn-app :is(button,a,input,select,textarea):focus-visible{outline:2px solid var(--vn-brand-ink);outline-offset:3px}
-.dn-app .dn-card,.dn-app .dn-panel,.dn-app .vn-contact-form{background:var(--vn-brand-white)}
+
 .dn-app .dn-detail-photo,.dn-app .dn-quick-photo,.dn-app .dn-card-image{background:var(--vn-brand-pearl)}
 .dn-app .vn-signup-row button{background:var(--vn-brand-lime);color:var(--vn-brand-ink)}
+
+/* Glass belongs to navigation, sheets and raised panels; the catalogue stays sharp. */
+.dn-app{background-image:var(--vn-glass-ground)}
+.dn-app .vn-store-header,.dn-app .vn-store-header[data-scrolled=true],.dn-app .dn-header{
+ background:var(--vn-glass-surface);color:var(--vn-brand-ink);
+ backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter);
+ border-bottom:1px solid var(--vn-glass-edge);box-shadow:var(--vn-glass-shadow)
+}
+.dn-app.vn-hero-home .vn-store-header:not([data-scrolled=true]){
+ background:linear-gradient(135deg,#ffffff20,#ffffff08),#171a1c66;color:#fff;
+ border-bottom-color:#ffffff30;box-shadow:inset 0 1px 0 #ffffff35,0 5px 24px #00000012
+}
+.dn-app :is(.dn-panel,.vn-contact-form),.dn-app .dn-care-grid:has(.vn-contact-form)>.dn-panel{
+ background:var(--vn-glass-panel);border:1px solid var(--vn-glass-edge);
+ border-radius:22px;box-shadow:var(--vn-glass-shadow)
+}
+/* No per-card blur: hundreds of product images must remain fast to scroll. */
+.dn-app .dn-card{background:var(--vn-glass-panel);border-color:var(--vn-glass-edge);box-shadow:var(--vn-glass-shadow)}
+.dn-app :is(.approved-filter-trigger,.approved-sort,.dn-search){background:var(--vn-glass-surface);border-color:var(--vn-glass-edge);box-shadow:inset 0 1px 0 #fff,0 2px 8px #171a1c08}
+.approved-filter-modal,.dn-quick-dialog,.vn-newsletter-popup,.vn-full-bag.dn-bag{
+ background:var(--vn-glass-surface)!important;color:var(--vn-brand-ink)!important;
+ backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter);
+ border:1px solid var(--vn-glass-edge)!important;box-shadow:var(--vn-glass-shadow),0 24px 80px #171a1c24
+}
+.approved-filter-modal :is(header,footer),.dn-quick-header,.vn-bag-header{background:transparent;border-color:var(--vn-brand-border)}
+.dn-quick-dialog .dn-options{background:transparent}
+.vn-full-bag .vn-bag-content{background:var(--vn-glass-panel)}
+.dn-app :is(.dn-lime,.dn-primary),.approved-filter-modal .filter-pills button[aria-pressed=true]{box-shadow:inset 0 1px 0 #ffffffb8,0 2px 8px #171a1c0a}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ .dn-app.vn-hero-home .vn-store-header:not([data-scrolled=true]){background:#171a1c}
+}

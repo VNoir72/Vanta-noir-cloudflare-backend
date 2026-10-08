@@ -25,5 +25,6 @@ import "@/app/approved-storefront.css";
 import "@/app/liquid-glass.css";
 
 import "@/app/campaign-2026.css";
+import "@/app/brand-materials.css";
 import "@/app/brand-palette.css";
 
