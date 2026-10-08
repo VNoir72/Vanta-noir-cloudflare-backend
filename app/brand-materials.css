@@ -1,0 +1,17 @@
+/* Shared approved pearl-white/lime materials. No green cast on structural surfaces. */
+:root{
+ --vn-brand-white:#fff;--vn-brand-pearl:#f5f7f7;--vn-brand-lime:#c6f276;
+ --vn-brand-ink:#171a1c;--vn-brand-muted:#6b7074;--vn-brand-border:#e7eaeb;
+ --vn-glass-surface:linear-gradient(135deg,#fffffff0,#ffffffa8);
+ --vn-glass-panel:linear-gradient(145deg,#fffffff5,#ffffffb8);
+ --vn-glass-filter:blur(22px) saturate(110%);
+ --vn-glass-edge:#ffffffd9;
+ --vn-glass-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 #ffffff80,0 10px 32px #171a1c0c,0 1px 3px #171a1c08;
+ --vn-glass-ground:radial-gradient(ellipse at 90% 0%,#e7eaeb99,transparent 52%),linear-gradient(150deg,#fff 10%,#f5f7f7 65%,#fff);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ :root{--vn-glass-surface:#fff;--vn-glass-panel:#fff;--vn-glass-filter:none;--vn-glass-edge:#e7eaeb}
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ :root{--vn-glass-surface:#fff;--vn-glass-panel:#fff;--vn-glass-filter:none;--vn-glass-edge:#6b7074}
+}
