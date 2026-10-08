@@ -7,13 +7,15 @@ export function StorefrontMotion() {
     if (location.pathname.startsWith('/admin')) return;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const seen = new WeakSet<Element>();
+    const interacted = new WeakSet<Element>();
     const pending = new Set<HTMLElement>();
     const cleanups = new Set<() => void>();
     let disposed = false;
     const reveal = (node: HTMLElement) => {
       if (disposed || !node.isConnected) return;
       pending.delete(node); node.removeAttribute('data-motion-pending');
-      if (!media.matches) node.dataset.motionReady = 'true';
+      if (!media.matches && !interacted.has(node)) node.dataset.motionReady = 'true';
+      else node.removeAttribute('data-motion-ready');
     };
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -39,9 +41,12 @@ export function StorefrontMotion() {
     const changes = new MutationObserver(scan); changes.observe(document.body,{childList:true,subtree:true});scan();
     const reduce = () => { if(media.matches){observer.disconnect();pending.forEach(reveal);document.querySelectorAll('[data-motion-ready]').forEach(n=>n.removeAttribute('data-motion-ready'));} };
     media.addEventListener('change',reduce);
-    const focus = (event:FocusEvent) => {const node=(event.target as Element)?.closest<HTMLElement>('[data-motion-pending]');if(node){observer.unobserve(node);reveal(node);}};
-    document.addEventListener('focusin',focus);
-    return () => {disposed=true;observer.disconnect();changes.disconnect();cleanups.forEach(fn=>fn());pending.forEach(node=>node.removeAttribute('data-motion-pending'));media.removeEventListener('change',reduce);document.removeEventListener('focusin',focus);};
+    // Never begin/restart a clipped entrance between pointerdown and click.
+    // Keyboard focus must also reveal the control immediately, not animate it away.
+    const interact = (event:Event) => {const node=(event.target as Element)?.closest<HTMLElement>('[data-motion-pending],[data-motion-ready]');if(node){interacted.add(node);observer.unobserve(node);reveal(node);}};
+    document.addEventListener('focusin',interact);
+    document.addEventListener('pointerdown',interact,true);
+    return () => {disposed=true;observer.disconnect();changes.disconnect();cleanups.forEach(fn=>fn());pending.forEach(node=>node.removeAttribute('data-motion-pending'));media.removeEventListener('change',reduce);document.removeEventListener('focusin',interact);document.removeEventListener('pointerdown',interact,true);};
   }, []);
   return null;
 }

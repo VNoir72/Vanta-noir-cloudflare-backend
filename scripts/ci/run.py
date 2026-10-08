@@ -17,6 +17,7 @@ screens = ['tech-pack-layout', 'tech-pack-images', 'tech-pack-real-garment', 'se
            'staff-portal-mobile', 'staff-portal-desktop', 'care-order-lookup',
            'care-support-help-mobile', 'chat-mobile', 'sales-desk-desktop', 'sales-desk-mobile']
 screens += ['glass-store-header-mobile', 'glass-filters-mobile']
+screens += [f'audit-{view}-{width}' for view in ['hero', 'checkout', 'confirmation'] for width in [390, 820, 1440]]
 screens += [f'portal-{role}-{size}' for role in roles for size in ['desktop', 'mobile']]
 screens += [f'page-{page}-{width}' for page in ['about', 'contact', 'help-center', 'checkout'] for width in [390, 1440]]
 allow = [('advisories.json', 'advisories.json', 4 * 1024**2), ('check.log', 'check.log', 8 * 1024**2), ('project/work/site-pages.json', 'site-pages.json', 1024**2)]

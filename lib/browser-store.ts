@@ -11,6 +11,7 @@ export function writeStorage(key: string, value: string | null) {
   try {
     if (value === null) window.localStorage.removeItem(key);
     else window.localStorage.setItem(key, value);
+    window.dispatchEvent(new Event("vn-storage-changed"));
   } catch { /* Shopping still works when browser storage is unavailable. */ }
 }
 

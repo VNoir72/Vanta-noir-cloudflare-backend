@@ -24,6 +24,8 @@
 /* Load-aware, fade-free entrance motion. Independent translate preserves card hover. */
 [data-motion-pending] img{visibility:hidden}
 [data-motion-ready]{animation:vn-reveal .72s cubic-bezier(.22,1,.36,1) var(--motion-delay,0ms) backwards}
+.dn-card[data-motion-ready]{animation:none}
+.dn-card[data-motion-ready] .vn-sliding-views{animation:vn-reveal .72s cubic-bezier(.22,1,.36,1) var(--motion-delay,0ms) backwards}
 @keyframes vn-reveal{from{clip-path:inset(0 0 100% 0);translate:0 24px}to{clip-path:inset(0 0 0 0);translate:0 0}}
 .vn-loading-shell{min-height:320px;padding-block:24px}
 .vn-loading-product{display:grid;grid-template-columns:1fr 1fr;gap:32px}
