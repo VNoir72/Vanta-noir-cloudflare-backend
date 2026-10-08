@@ -82,20 +82,19 @@ body:has(.vn-staff-portal) .vn-team-chat.vn-staff-portal{
 /* Reference botanical backdrop: leaves sit behind glass, never over controls. */
 .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{
  background-color:var(--vn-brand-pearl);
- background-image:url('/images/vanta-pearl-leaf-glass.webp');
- background-size:cover;background-position:left top;background-repeat:no-repeat;background-attachment:fixed
+ background-image:none;isolation:isolate
 }
 .vn-control-center.vn-exact .vn-control-sidebar{
  background:linear-gradient(155deg,#ffffffb8,#ffffff38)!important;
  backdrop-filter:blur(6px) saturate(110%);-webkit-backdrop-filter:blur(6px) saturate(110%)
 }
-/* Fixed viewport artwork keeps its natural proportions on phones, including iOS. */
+/* Keep one viewport backdrop at every breakpoint. Switching to a fixed CSS
+   background on wide screens drops the visible leaves on tablet rotation. */
+.vn-control-center::before,.vn-access-page::before,.vn-welcome-screen::before{
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:var(--vn-brand-pearl) url('/images/vanta-pearl-leaf-glass.webp') left top / cover no-repeat
+}
 @media(max-width:1023px){
- .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{background-image:none;isolation:isolate}
- .vn-control-center::before,.vn-access-page::before,.vn-welcome-screen::before{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:var(--vn-brand-pearl) url('/images/vanta-pearl-leaf-glass.webp') left top / cover no-repeat
- }
  .vn-control-center.vn-exact :is(.vn-workspace-bar,.vn-mobile-tabs),body:has(.vn-control-center) .vn-mobile-drawer{
   background:linear-gradient(155deg,#ffffffb8,#ffffff70)!important;
   backdrop-filter:blur(6px) saturate(110%);-webkit-backdrop-filter:blur(6px) saturate(110%)
@@ -187,4 +186,11 @@ body:has(.vn-control-center),.vn-control-center{
  body:has(.vn-control-center),.vn-control-center{--vn-glass-surface:#fff;--vn-glass-panel:#fff;--vn-glass-filter:none}
  .vn-control-center.vn-exact :is(.vn-control-panel,.vn-exact-metrics>*,.vn-ref-card,.vn-exact-email,.vn-ref-orders,.vn-exact-catalogue,.vn-exact-connections,.vn-launch-card,.vn-exact-revenue){background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}
  .vn-control-center.vn-exact .vn-launch-review{background:transparent!important}
+}
+
+/* Keep editor contents from painting an opaque layer over the glass sheet. */
+body:has(.vn-control-center) .vn-studio-sheet form.vn-studio-form{background:transparent!important}
+body:has(.vn-control-center) .vn-studio-sheet :is(.vn-studio-form>div:first-child,.vn-studio-footer){
+ background:var(--vn-glass-surface)!important;
+ backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter)
 }
