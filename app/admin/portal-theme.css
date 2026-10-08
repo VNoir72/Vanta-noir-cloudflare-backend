@@ -74,3 +74,22 @@ body:has(.vn-staff-portal) .vn-team-chat.vn-staff-portal{
 .vn-control-center .vn-control-sidebar nav button[aria-current=page]{background:var(--vn-brand-lime)!important;color:var(--vn-brand-ink)!important;border-left-color:var(--vn-brand-ink)!important}
 .vn-control-center .vn-order-tabs button[aria-pressed=true],.vn-control-center .vn-segments button[aria-pressed=true]{background:var(--vn-brand-lime)!important;color:var(--vn-brand-ink)!important}
 
+
+/* Revenue reference: pearl card, soft lime area, quiet axes. */
+.vn-exact .vn-exact-revenue{background:rgba(255,255,255,.92)!important;border-radius:20px}
+.vn-exact-revenue .vn-revenue-description{color:#626866;font-size:12px;line-height:1.5;margin:0 0 8px}
+
+/* Reference botanical backdrop: leaves sit behind glass, never over controls. */
+.vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{
+ background-color:var(--vn-brand-pearl);
+ background-image:url('/images/vanta-pearl-leaf-glass.webp');
+ background-size:100vw 100vh;background-position:left top;background-repeat:no-repeat;background-attachment:fixed
+}
+.vn-control-center.vn-exact .vn-control-sidebar{
+ background:linear-gradient(155deg,#ffffffb8,#ffffff38)!important;
+ backdrop-filter:blur(6px) saturate(110%);-webkit-backdrop-filter:blur(6px) saturate(110%)
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{background-image:none}
+ .vn-control-center.vn-exact .vn-control-sidebar{background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+}

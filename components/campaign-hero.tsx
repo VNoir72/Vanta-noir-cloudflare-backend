@@ -5,7 +5,7 @@ import {heroSchema,type HeroSettings} from '@/lib/storefront-design';
 export function CampaignHero({value}:{value?:HeroSettings}){
  const hero=heroSchema.parse(value??{});
  const approvedCampaign=!hero.playlist.length&&['/images/vanta-hero.png','/images/vanta-hero-960.webp','/images/vanta-stealth-campaign-2026.webp'].includes(hero.image);
- if(approvedCampaign){hero.image='/images/vanta-stealth-campaign-2026.webp';hero.mobileImage='/images/vanta-stealth-campaign-mobile-2026.webp';hero.fit='cover';}
+ if(approvedCampaign){hero.image='/images/vanta-technical-campaign-2026.webp';hero.mobileImage='/images/vanta-technical-campaign-mobile-2026.webp';hero.fit='cover';}
  const media=hero.playlist.length?hero.playlist:[{url:hero.image,type:'image' as const,alt:hero.alt}];
  const [index,setIndex]=useState(0),[reduced,setReduced]=useState(true),[visible,setVisible]=useState(false);const root=useRef<HTMLElement>(null);
  const identity=JSON.stringify(media);

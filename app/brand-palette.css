@@ -18,8 +18,9 @@
  border-bottom:1px solid var(--vn-glass-edge);box-shadow:var(--vn-glass-shadow)
 }
 .dn-app.vn-hero-home .vn-store-header:not([data-scrolled=true]){
- background:linear-gradient(135deg,#ffffff20,#ffffff08),#171a1c66;color:#fff;
- border-bottom-color:#ffffff30;box-shadow:inset 0 1px 0 #ffffff35,0 5px 24px #00000012
+ background:transparent;color:#fff;
+ backdrop-filter:none;-webkit-backdrop-filter:none;
+ border-bottom-color:transparent;box-shadow:none
 }
 .dn-app :is(.dn-panel,.vn-contact-form),.dn-app .dn-care-grid:has(.vn-contact-form)>.dn-panel{
  background:var(--vn-glass-panel);border:1px solid var(--vn-glass-edge);

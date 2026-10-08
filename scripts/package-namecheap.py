@@ -27,7 +27,7 @@ def package(root, output, base=None, repair_code=False):
             name = path.relative_to(root).as_posix()
             if name == 'storefront-release.json':
                 continue
-            if repair_code and not (name.endswith(('.html', '.php')) or name.startswith('assets/') or name in {'.htaccess', 'store-config.js', 'robots.txt', 'sitemap.xml', 'images/vanta-spire-light.svg', 'images/vanta-spire-on-dark.svg', 'images/vanta-emblem.svg', 'images/vanta-stealth-campaign-2026.webp', 'images/vanta-stealth-campaign-mobile-2026.webp'}):
+            if repair_code and not (name.endswith(('.html', '.php')) or name.startswith('assets/') or name in {'.htaccess', 'store-config.js', 'robots.txt', 'sitemap.xml', 'images/vanta-spire-light.svg', 'images/vanta-spire-on-dark.svg', 'images/vanta-emblem.svg', 'images/vanta-technical-campaign-2026.webp', 'images/vanta-technical-campaign-mobile-2026.webp'}):
                 continue
             data = path.read_bytes()
             if previous and name in old_names and previous.read(name) == data:
