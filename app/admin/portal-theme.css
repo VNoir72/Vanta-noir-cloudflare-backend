@@ -102,6 +102,25 @@ body:has(.vn-staff-portal) .vn-team-chat.vn-staff-portal{
  }
  .vn-exact .vn-exact-revenue{border:1px solid var(--vn-glass-edge);box-shadow:var(--vn-glass-shadow)}
 }
+/* The navigation sheet is portalled outside .vn-exact: theme it explicitly. */
+.vn-control-center.vn-exact .vn-control-brand img,.vn-mobile-drawer .vn-control-brand img{width:180px;max-width:100%;height:auto;object-fit:contain}
+.vn-mobile-drawer .vn-control-brand{width:calc(100% - 54px);min-height:46px;border:0;border-radius:8px;background:transparent}
+.vn-mobile-drawer .vn-control-brand small{font-size:9px;letter-spacing:2.7px}
+body:has(.vn-control-center) .vn-mobile-drawer{
+ background:linear-gradient(155deg,#ffffffb8,#ffffff80)!important;
+ backdrop-filter:blur(12px) saturate(110%);-webkit-backdrop-filter:blur(12px) saturate(110%);
+ box-shadow:inset -1px 0 0 #ffffffd9,12px 0 40px #171a1c14;
+ padding-bottom:max(28px,env(safe-area-inset-bottom))!important;overscroll-behavior:contain
+}
+.vn-mobile-drawer:focus{outline:none}
+body:has(.vn-control-center) .vn-mobile-drawer :is(.vn-workspace-selector,.vn-owner-avatar){
+ background:#f5f7f7!important;color:#171a1c!important;border-color:#e7eaeb!important
+}
+body:has(.vn-control-center) .vn-mobile-drawer :is(.vn-workspace-selector span,.vn-workspace-selector svg,.vn-owner-block,.vn-sidebar-store){color:#171a1c!important}
+body:has(.vn-control-center) .vn-mobile-drawer :is(.vn-sidebar-store,.vn-nav-group){border-color:#dce1e1!important}
+body:has(.vn-control-center) .vn-mobile-drawer .vn-nav-group{color:#626866!important}
+body:has(.vn-control-center) .vn-mobile-drawer :is(button,a):focus-visible{outline:2px solid #171a1c;outline-offset:3px}
+body:has(.vn-control-center) .vn-mobile-drawer-overlay{background:#171a1c29}
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
  .vn-control-center.vn-exact,.vn-control-center:not(.vn-exact),.vn-access-page,.vn-welcome-screen{background-image:none}
  .vn-control-center::before,.vn-access-page::before,.vn-welcome-screen::before{display:none}
