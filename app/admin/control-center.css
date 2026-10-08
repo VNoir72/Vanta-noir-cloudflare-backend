@@ -138,9 +138,7 @@
 .vn-approval-details .vn-change-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}.vn-change-table th,.vn-change-table td{padding:12px;text-align:left;border-bottom:1px solid #354630}.vn-approval-details .vn-proposal-value{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}.vn-approval-details .vn-nested-fields{padding-left:12px;border-left:1px solid #354630}
 
 /* Reference layout: four summary cards, two aligned rows, with attention above artwork. */
-.vn-ref-grid{grid-template-areas:"revenue best" "orders attention";grid-template-columns:minmax(0,1.72fr) minmax(0,1fr);align-items:stretch}
-.vn-ref-grid>.vn-revenue{grid-area:revenue}.vn-ref-grid>.vn-best-sellers{grid-area:best;grid-row:auto}
-.vn-ref-orders{grid-area:orders}.vn-ref-right{grid-area:attention;display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start}
+.vn-ref-grid{grid-template-areas:"revenue best" "orders attention";grid-template-columns:minmax(0,1.72fr) minmax(0,1fr);align-items:stretch}.vn-ref-grid>.vn-best-sellers{grid-area:best;grid-row:auto}.vn-ref-right{grid-area:attention;display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start}
 .vn-ref-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
 .vn-ref-metrics article{min-height:154px;padding:22px}.vn-ref-metrics p:last-child{font-size:10px}
 .vn-ref-grid>.vn-best-sellers{display:flex;flex-direction:column}.vn-ref-grid>.vn-best-sellers>.vn-ref-footnote{margin-top:auto;padding-top:16px}
@@ -177,7 +175,7 @@
 .vn-ref-metrics article{min-height:174px}.vn-ref-metric-label{color:#c4c8be}.vn-ref-metric-label>span{background:#c6f276!important;box-shadow:0 0 9px #c6f27644}
 .vn-sparkline,.vn-ref-metrics .vn-change-up,.vn-ref-card-head button{color:#c6f276}
 .vn-ref-grid{grid-template-areas:"revenue fulfilment" "orders attention" "best attention";grid-template-columns:minmax(0,1.75fr) minmax(280px,1fr);gap:20px;align-items:start}
-.vn-ref-grid>.vn-revenue{grid-area:revenue;grid-row:auto}.vn-ref-grid>.vn-fulfilment{grid-area:fulfilment;grid-row:auto;min-height:100%}.vn-ref-grid>.vn-best-sellers{grid-area:best}.vn-ref-right{grid-area:attention}.vn-ref-orders{grid-area:orders}
+.vn-ref-grid>.vn-revenue{grid-area:revenue;grid-row:auto}.vn-ref-grid>.vn-fulfilment{grid-area:fulfilment;grid-row:auto;min-height:100%}.vn-ref-right{grid-area:attention}.vn-ref-orders{grid-area:orders}
 .vn-fulfilment>.vn-revenue-total{display:block;font-size:60px;letter-spacing:-3px;margin:24px 0 8px;color:#c6f276}.vn-fulfilment-action{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 16px;border:1px solid #c6f27635;background:#c6f27610;border-radius:10px;margin:22px 0 14px;color:#c6f276}.vn-fulfilment-links{display:grid;gap:4px}.vn-fulfilment-links button{text-align:left;padding:10px 0;font-size:13px;color:#bec4b7}
 .vn-catalogue-shortcuts{margin-top:20px}.vn-catalogue-shortcuts>div:last-child{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.vn-catalogue-shortcuts>div:last-child button{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:12px;padding:14px;border:1px solid #ffffff17;border-radius:10px;min-height:52px}.vn-catalogue-shortcuts button:hover{background:#c6f2760d;border-color:#c6f27640}
 .vn-ref-orders td:first-child button{max-width:210px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vn-ref-orders td{border-color:#ffffff0d}.vn-ref-table-footer{min-height:48px}.vn-ref-card-head button{min-height:44px}
