@@ -7,6 +7,7 @@
 ## Fixes in this release
 
 - Hero navigation stays visible on scroll, remains transparent while over the approved campaign, and becomes pearl Liquid Glass at the actual hero edge. Recalculates on resizing and when search removes the hero. Same-row mobile search and spread desktop links remain intact.
+- Incoming collection links, including the hero button, scroll to their destination after the live catalogue loads. Previously a page reload could lose the anchor jump while the collection was still absent.
 - Product entrance motion no longer clips the heart or Quick shop controls. Focus/pointer interaction stops the entrance without restarting it after image decoding. This fixes an intermittent lost click reproduced during the journey tests.
 - Open-bag catalogue errors now offer **Retry bag**, retaining the stored bag instead of showing an endless loader.
 - Customer-page headers reflect the saved bag and favourites; checkout reconciliation updates the count in the same tab.

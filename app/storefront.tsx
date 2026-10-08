@@ -107,6 +107,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const [detailColor, setDetailColor] = useState("");
   const [message, setMessage] = useState("");
   const catalogRef = useRef<HTMLElement>(null);
+  const initialCollectionAnchor = useRef(false);
   const lastCatalogRefresh=useRef(0);
 
   useEffect(() => {
@@ -172,6 +173,16 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     return () => { document.removeEventListener("visibilitychange", refresh); window.removeEventListener("pageshow", restored); };
   }, []);
   useEffect(() => { if (hydrated) write(CART_KEY, cart); }, [cart, hydrated]);
+  // Static pages hydrate from an empty catalogue. Re-apply incoming collection
+  // links once the destination exists instead of losing the browser's anchor jump.
+  useEffect(() => {
+    if (!hydrated || !catalogLoaded || initialCollectionAnchor.current) return;
+    const frame = requestAnimationFrame(() => {
+      initialCollectionAnchor.current = true;
+      if (window.location.hash === '#collection') catalogRef.current?.scrollIntoView({behavior:'instant',block:'start'});
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hydrated, catalogLoaded]);
   useEffect(() => { if (hydrated) write(SAVED_KEY, saved); }, [saved, hydrated]);
   useEffect(() => {
     if (!hydrated) return;
