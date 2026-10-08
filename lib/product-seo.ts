@@ -15,8 +15,9 @@ export function productJsonLd(product: CatalogProduct) {
     sku:product.id, brand:{"@type":"Brand", name:"Vanta Noir"}, category:product.category,
     ...(product.details?.fabric ? {material:product.details.fabric}:{}),
     color:product.colorways.map(c=>c.name).join(", "), size:[...new Set(product.colorways.flatMap(c=>Object.keys(c.stock)))],
-    ...(product.details?.priceStatus === "proposed" ? {} : {offers:{"@type":"Offer", url:`${SITE_URL}${seo.path}`, priceCurrency:"NGN", price:product.priceKobo/100,
+    ...(product.details?.availability === "preview" || product.details?.priceStatus === "proposed" ? {} : {offers:{"@type":"Offer", url:`${SITE_URL}${seo.path}`, priceCurrency:"NGN", price:product.priceKobo/100,
       availability:`https://schema.org/${!available ? "OutOfStock" : product.details?.availability === "preorder" ? "PreOrder" : "InStock"}`,
       itemCondition:"https://schema.org/NewCondition", seller:{"@type":"Organization",name:"Vanta Noir"}}}),
   };
 }
+

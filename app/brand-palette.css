@@ -1,0 +1,10 @@
+/* Approved white / pearl and lime palette. Loaded after storefront theme layers. */
+:root{--vn-brand-white:#fff;--vn-brand-pearl:#f5f7f7;--vn-brand-lime:#c6f276;--vn-brand-ink:#171a1c;--vn-brand-muted:#6b7074;--vn-brand-border:#e7eaeb}
+.dn-app{--lime:var(--vn-brand-lime);--dn-lime:var(--vn-brand-lime);--ink:var(--vn-brand-ink);background:var(--vn-brand-white);color:var(--vn-brand-ink)}
+.dn-app .dn-primary,.dn-app a.dn-primary,.dn-app .dn-lime,.dn-app a.dn-lime,.dn-quick-dialog .dn-primary{background:var(--vn-brand-lime);color:var(--vn-brand-ink);border-color:var(--vn-brand-lime)}
+.dn-app .dn-primary:hover:not(:disabled),.dn-app a.dn-primary:hover,.dn-quick-dialog .dn-primary:hover:not(:disabled){background:var(--vn-brand-lime);color:var(--vn-brand-ink)}
+.approved-filter-modal .filter-pills button[aria-pressed=true]{background:var(--vn-brand-lime);border-color:var(--vn-brand-ink);color:var(--vn-brand-ink)}
+.dn-app :is(input,select,textarea){accent-color:var(--vn-brand-ink)}
+.dn-app :is(button,a,input,select,textarea):focus-visible{outline:2px solid var(--vn-brand-ink);outline-offset:3px}
+.dn-app .dn-card,.dn-app .dn-panel,.dn-app .vn-contact-form{background:var(--vn-brand-white)}
+.dn-app .dn-detail-photo,.dn-app .dn-quick-photo,.dn-app .dn-card-image{background:var(--vn-brand-pearl)}

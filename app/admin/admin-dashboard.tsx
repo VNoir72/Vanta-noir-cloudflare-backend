@@ -130,7 +130,7 @@ const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
 
 function emptyProductForm(): ProductForm {
   return {
-    details: productDetails(),
+    details: productDetails({availability:"preview",priceStatus:"proposed"}),
     slug: "",
     name: "",
     description: "",
@@ -527,7 +527,7 @@ function DashboardContent({
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Catalogue control</p>
               <h2 className="mt-2 font-sans text-4xl">Product studio</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/45">
-                Create and maintain products here. Published products appear in the storefront. Draft and archived products stay hidden. Zero stock stops purchases; publishing alone does not add stock.
+                Publish shows a garment in the storefront as a preview without a price. Draft and archived products stay hidden. Open Launch review to complete missing details, certify and launch. Existing launched products remain available.
               </p>
             </div>
             <Button onClick={openNewProduct} className="h-11 rounded-full bg-[#00ff66] px-5 text-xs uppercase tracking-[0.18em] text-[#090909] hover:bg-[#7affaf]">

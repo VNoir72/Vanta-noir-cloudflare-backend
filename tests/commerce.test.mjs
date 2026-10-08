@@ -28,6 +28,16 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   const details={audience:'men',fit:'Sample fit information',fabric:'Confirmed material',care:'Follow the garment label',collection:'Test collection',sizeChart:[{size:'M',chest:60,waist:40}],measurementType:'garment'};
   const save=await request('/api/admin/products','PATCH',{...editable,details,images:[...editable.images,{color:color.name,imageUrl:'/images/detail-test.png',imageAlt:'Test detail'}]},true);assert.equal(save.status,200,JSON.stringify(await save.clone().json()));
   const updated=(await rpc('listCatalog')).find(p=>p.id===product.id);assert.equal(updated.details.audience,'men');assert.equal(updated.details.sizeChart[0].chest,60);assert.ok(updated.images.some(i=>i.imageAlt==='Test detail'));
+  // Publishing is visibility only, even if an editor submits approved sale flags.
+  const preview = await rpc('saveAdminProduct',{...editable,id:undefined,slug:'publication-guard-test',name:'Publication guard test',status:'published',details:{...details,availability:'in_stock',priceStatus:'approved',suggestedPriceNgn:12345},images:editable.images.map(i=>({...i,id:undefined})),variants:editable.variants.map((v,i)=>({...v,id:undefined,sku:'PREVIEW-GUARD-'+i,stock:2,expectedStock:undefined}))});
+  assert.equal(preview.details.availability,'preview');assert.equal(preview.details.priceStatus,'proposed');assert.equal(preview.priceKobo,editable.priceKobo);
+  const publicPreview=(await rpc('listCatalog')).find(p=>p.id===preview.id);
+  assert.equal(publicPreview.priceKobo,0);assert.equal(publicPreview.details.suggestedPriceNgn,0);
+  const resaved=await rpc('saveAdminProduct',{...preview,details:{...preview.details,availability:'in_stock',priceStatus:'approved'}});
+  assert.equal(resaved.details.availability,'preview');
+  await rpc('setAdminProductStatus',preview.id,'draft');
+  assert.equal((await rpc('listCatalog')).some(p=>p.id===preview.id),false);
+  const republished=await rpc('setAdminProductStatus',preview.id,'published');assert.equal(republished.details.priceStatus,'proposed');
   // Saving a stale editor must roll back all changes, not restore sold units.
   const beforeRace=(await rpc('listAdminProducts')).find(p=>p.id===product.id);
   await rpc('sql','UPDATE product_variants SET stock=3 WHERE id=?',variantId);
@@ -45,6 +55,7 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   let response=await request('/api/checkout','POST',{customer,cart:[{variantId,quantity:1}],expectedTotalKobo:product.priceKobo+200000});assert.equal(response.status,400,'Client cannot choose the old shipping fee');
   response=await request('/api/checkout','POST',{customer:{...customer,state:'Kano'},cart:[{variantId,quantity:1}],expectedTotalKobo:product.priceKobo+300000});assert.equal(response.status,400,'Unsupported state cannot checkout');
   await rpc('sql','UPDATE product_variants SET stock=5 WHERE id=?',variantId);
+  await assert.rejects(rpc('createPendingOrder',{customer,cart:[{variantId:preview.variants[0].id,quantity:1}],shippingKobo:300000,expectedTotalKobo:preview.priceKobo+300000}),/available|preview|purchas|order/i);
   const order=await rpc('createPendingOrder',{customer,cart:[{variantId,quantity:1}],shippingKobo:300000,expectedTotalKobo:product.priceKobo+300000});
   await rpc('queueOrderEmail',order.reference,'payment');
   assert.equal((await rpc('sql',"SELECT COUNT(*) AS n FROM email_outbox WHERE event_key=?",`order:${order.reference}:payment`)).results[0].n,0,'Unpaid orders cannot queue payment confirmations');
@@ -121,3 +132,4 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   await rpc('queueEmail','retry-test','retry@example.com','Test retry','Test only');await rpc('processEmailOutbox');assert.equal(sent.filter(s=>s.key===pending.id).length,1,'An event is not queued twice');
  }finally{await mf.dispose();}
 });
+
