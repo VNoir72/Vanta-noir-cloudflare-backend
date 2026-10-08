@@ -16,8 +16,8 @@ export function RewardProgress({quote,bag=false}:{quote:RewardQuote|null;bag?:bo
   </div>;
 }
 type Cart=Array<{variantId:string;quantity:number}>;
-export function useRewardQuote({cart,countryCode='NG',state='',email='',code='',discountCode='',enabled=true,expectedSubtotalKobo}:{cart:Cart;countryCode?:string;state?:string;email?:string;code?:string;discountCode?:string;enabled?:boolean;expectedSubtotalKobo?:number}){
-  const key=JSON.stringify({cart:cart.map(({variantId,quantity})=>({variantId,quantity})),countryCode,state,email:code?email.trim().toLowerCase():'',code,discountCode});
+export function useRewardQuote({cart,countryCode='NG',state='',email='',code='',discountCode='',enabled=true,expectedSubtotalKobo,shippingSelection,shippingCustomer}:{shippingSelection?:{quoteId:string;rateId:string;provider:'shipbubble'};shippingCustomer?:Record<string,string>;cart:Cart;countryCode?:string;state?:string;email?:string;code?:string;discountCode?:string;enabled?:boolean;expectedSubtotalKobo?:number}){
+  const key=JSON.stringify({cart:cart.map(({variantId,quantity})=>({variantId,quantity})),shippingSelection,shippingCustomer,countryCode,state,email:code?email.trim().toLowerCase():'',code,discountCode});
   const [result,setResult]=useState<{key:string;quote:RewardQuote|null;error:string}|null>(null),[retry,setRetry]=useState(0);
   useEffect(()=>{
     if(!enabled||!cart.length)return;

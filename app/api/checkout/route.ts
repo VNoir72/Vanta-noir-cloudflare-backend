@@ -1,14 +1,16 @@
+import {resolveShippingSelection,shippingSelectionSchema,ShippingInputError} from '@/lib/shipping-checkout';
 import { checkoutCustomerSchema } from "@/lib/checkout-address";
 import { z } from "zod";
 import { getCommerceSettings, rateLimit } from "@/lib/commerce-db";
 import { shippingQuote, checkoutSetupIssues } from "@/lib/commerce-config";
 
 import { isPaystackConfigured } from "@/lib/paystack";
-import { configuredShippingFeeKobo, storefrontOrigin } from "@/lib/runtime-env";
+import { configuredShippingFeeKobo, storefrontOrigin,shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
 import { startCheckoutPayment } from "@/lib/checkout-payment";
 import { createPendingOrder } from "@/lib/store-db";
 
 const checkoutSchema = z.object({
+  shippingSelection:shippingSelectionSchema.optional(),
   checkoutAttempt: z.string().regex(/^[-a-f0-9]{73}$/).optional(),
   rewardCode: z.string().trim().toUpperCase().max(48).default(""),
   expectedRewardSignature: z.string().max(300).default(""),
@@ -57,13 +59,18 @@ export async function POST(request: Request) {
     return Response.json({error:"Online orders are not open yet. Please contact customer care.",code:"STORE_NOT_READY"},{status:503});
   }
   const delivery = shippingQuote({...settings, shippingFeeKobo: configuredShippingFeeKobo()}, parsed.data.customer.state, parsed.data.customer.countryCode);
-  const shippingKobo = delivery.feeKobo;
-  if (shippingKobo === null) return Response.json({error:"Delivery is not available for this address. Please contact customer care."},{status:400});
   try {
+    const domestic=parsed.data.customer.countryCode==='NG'&&shipbubbleCheckoutEnabled();
+    if(parsed.data.shippingSelection&&!domestic)throw new ShippingInputError('Live courier selection is not enabled for this checkout.');
+    if(domestic&&!parsed.data.shippingSelection)throw new ShippingInputError('Choose a delivery service before paying.');
+    const selected=domestic?await resolveShippingSelection(parsed.data.shippingSelection!,parsed.data,Boolean(parsed.data.checkoutAttempt)):undefined;
+    const shippingKobo=selected?selected.rate.amountKobo:delivery.feeKobo;
+    if(shippingKobo===null)throw new ShippingInputError('Delivery is unavailable for this address.');
     const order = await createPendingOrder({
       ...parsed.data,
       shippingKobo,
-      deliveryEstimate: delivery.estimate,
+      deliveryEstimate: selected?selected.rate.delivery:delivery.estimate,
+      shippingQuote:selected,
     });
     const callbackUrl = new URL("/checkout/complete", storefrontOrigin(request)).toString();
 
@@ -72,7 +79,7 @@ export async function POST(request: Request) {
       reference:order.reference,receiptToken:order.receiptToken,callbackUrl,
     }),{headers:{'Cache-Control':'no-store'}});
   } catch (error) {
-    const message = error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward/.test(error.message)
+    const message = error instanceof ShippingInputError ? error.message : error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward/.test(error.message)
       ? error.message : "Checkout could not be created. Please refresh your bag and try again.";
     return Response.json({ error: message }, { status: 400 });
   }

@@ -1,4 +1,4 @@
-/** Quote-only sandbox comparison. No live credentials or booking endpoints. */
+/** Rate normalization and quote requests. No shipment booking endpoints. */
 export type ComparisonRate = {
   provider: 'terminal' | 'shipbubble'; id: string; carrier: string; service: string;
   amountKobo: number; walletKobo: number; currency: 'NGN'; delivery: string;
@@ -60,6 +60,11 @@ export type TestAddress={first_name:string;last_name:string;email:string;phone:s
 export type TestParcel={weightKg:number;lengthCm:number;widthCm:number;heightCm:number;valueNaira:number};
 export async function shipbubbleSandbox(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,send:typeof fetch=fetch){
   if(!key.trim().startsWith('sb_sandbox_'))throw Error('A Shipbubble sandbox key is required.');
+  return shipbubbleQuote(key,pickup,destination,parcel,'sandbox',send);
+}
+export async function shipbubbleQuote(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,mode:'sandbox'|'live',send:typeof fetch=fetch){
+  if(mode==='live'&&!key.trim().startsWith('sb_prod_'))throw Error('A Shipbubble live key is required.');
+  if(mode==='sandbox'&&!key.trim().startsWith('sb_sandbox_'))throw Error('A Shipbubble sandbox key is required.');
   const request=(path:string,body?:unknown)=>providerJson('https://api.shipbubble.com/v1/shipping/'+path,key.trim(),body,send);
   const address=(a:TestAddress)=>request('address/validate',{name:`${a.first_name} ${a.last_name}`,email:a.email,phone:a.phone,address:[a.line1,a.city,a.state,a.zip,'Nigeria'].join(', ')});
   const [from,to,categories]=await Promise.all([address(pickup),address(destination),request('labels/categories')]);
@@ -68,7 +73,7 @@ export async function shipbubbleSandbox(key:string,pickup:TestAddress,destinatio
   const category=Array.isArray(categories)?categories.map(object).find(c=>typeof c.category==='string'&&/^fashion wears$/i.test(c.category)):undefined;
   if(!category||!Number.isSafeInteger(category.category_id))throw Error('Shipbubble clothing category is unavailable.');
   // Both provider quotes use the same total packed weight and external dimensions.
-  const data=await request('fetch_rates',{sender_address_code:sender,reciever_address_code:receiver,category_id:category.category_id,pickup_date:new Date(Date.now()+86400000).toISOString().slice(0,10),service_type:'pickup',package_items:[{name:'Sandbox clothing',description:'Synthetic test parcel',unit_weight:parcel.weightKg,unit_amount:parcel.valueNaira,quantity:1}],package_dimension:{length:parcel.lengthCm,width:parcel.widthCm,height:parcel.heightCm}});
+  const data=await request('fetch_rates',{sender_address_code:sender,reciever_address_code:receiver,category_id:category.category_id,pickup_date:new Date(Date.now()+86400000).toISOString().slice(0,10),service_type:'pickup',package_items:[{name:mode==='sandbox'?'Sandbox clothing':'Clothing order',description:mode==='sandbox'?'Synthetic test parcel':'Packed clothing order',unit_weight:parcel.weightKg,unit_amount:parcel.valueNaira,quantity:1}],package_dimension:{length:parcel.lengthCm,width:parcel.widthCm,height:parcel.heightCm}});
   return shipbubbleRates(data);
 }
 export async function terminalSandbox(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,send:typeof fetch=fetch){

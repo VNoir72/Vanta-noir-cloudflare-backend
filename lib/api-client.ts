@@ -16,6 +16,7 @@ export function apiUrl(path: string) {
 }
 
 export type CheckoutSettings = import("./commerce-config").CommerceSettings & {
+  shipbubbleCheckoutEnabled?: boolean;
   shippingFeeKobo: number | null;
   paymentsEnabled: boolean;
   shippingCountry: string;

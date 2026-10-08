@@ -1,4 +1,5 @@
-import {getDbBinding,runtimeEnv} from './runtime-env';
+import {shippingProviders} from './shipping-policy';
+import {getDbBinding,runtimeEnv,shipbubbleCheckoutEnabled} from './runtime-env';
 import {pickupConfig} from './terminal-jobs';
 import {destinations} from './terminal-sandbox';
 import {compareRates,shipbubbleSandbox,terminalSandbox} from './shipping-comparison';
@@ -6,7 +7,7 @@ const key='shipping_comparison_sandbox';
 export async function comparisonStatus(){
  const row=await getDbBinding().prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();
  const env=runtimeEnv();
- return {mode:'sandbox',checkoutEnabled:false,bookingEnabled:false,configured:{terminal:!!env.TERMINAL_AFRICA_TEST_SECRET_KEY,shipbubble:!!env.SHIPBUBBLE_TEST_API_KEY},job:row?JSON.parse(row.value):null};
+ return {live:{shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),providers:shippingProviders},mode:'sandbox',checkoutEnabled:false,bookingEnabled:false,configured:{terminal:!!env.TERMINAL_AFRICA_TEST_SECRET_KEY,shipbubble:!!env.SHIPBUBBLE_TEST_API_KEY},job:row?JSON.parse(row.value):null};
 }
 export async function queueComparison(){
  const job={id:crypto.randomUUID(),status:'queued',queuedAt:new Date().toISOString()};
