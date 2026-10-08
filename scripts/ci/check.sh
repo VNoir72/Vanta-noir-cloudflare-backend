@@ -16,6 +16,7 @@ npm run build:storefront
 npm run verify:storefront
 echo 'Browser suite: storefront-refresh'
 timeout 180 node tests/browser/storefront-refresh.cjs
+timeout 180 node tests/browser/campaign-carousel.cjs
 timeout 180 node tests/browser/launch-journeys.cjs
 timeout 180 node tests/browser/storefront-reveal.cjs
 timeout 180 node tests/browser/store-policy.cjs

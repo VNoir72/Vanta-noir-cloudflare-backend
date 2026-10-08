@@ -16,6 +16,7 @@ roles = ['owner', 'sales', 'support', 'fulfilment', 'catalogue', 'analyst']
 screens = ['tech-pack-layout', 'tech-pack-images', 'tech-pack-real-garment', 'search-slim-mobile', 'home-390', 'home-820', 'home-1440', 'bag-mobile', 'bag-desktop',
            'staff-portal-mobile', 'staff-portal-desktop', 'care-order-lookup',
            'care-support-help-mobile', 'chat-mobile', 'sales-desk-desktop', 'sales-desk-mobile']
+screens += [f'carousel-{width}-{slide}' for width in [390, 820, 1440] for slide in range(4)]
 screens += ['glass-store-header-mobile', 'glass-filters-mobile']
 screens += [f'audit-{view}-{width}' for view in ['hero', 'checkout', 'confirmation'] for width in [390, 820, 1440]]
 screens += [f'portal-{role}-{size}' for role in roles for size in ['desktop', 'mobile']]
