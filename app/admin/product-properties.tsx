@@ -1,4 +1,5 @@
 "use client";
+import { constructionProposal, MANUFACTURING_FIELDS } from "@/lib/manufacturing-specs.mjs";
 import type { ProductDetails } from "@/lib/product-details";
 import { ManufacturerTemplate } from "./manufacturer-template";
 import { SizeGuideEditor } from "./size-guide-editor";
@@ -22,9 +23,14 @@ export function ProductProperties({ value, onChange, productId, sizes, productNa
     <div className="vn-admin-fields"><label>Audience<select value={value.audience} onChange={e=>update("audience",e.target.value as ProductDetails["audience"])}><option value="unisex">Unisex</option><option value="men">Men</option><option value="women">Women</option></select></label><label>Availability<select value={value.availability} onChange={e=>update("availability",e.target.value as ProductDetails["availability"])}><option value="in_stock">Ready stock</option><option value="preorder">Preorder</option><option value="preview">Design preview — cannot be ordered</option></select></label>
       <label>Release date (UTC)<input type="date" value={value.releaseDate??''} onChange={e=>update('releaseDate',e.target.value)}/><small>Controls New Arrivals for 30 days after release. Leave blank for older/imported designs. This does not schedule publishing or email.</small></label>
       <label>Price approval<select value={value.priceStatus} onChange={e=>update("priceStatus",e.target.value as ProductDetails["priceStatus"])}><option value="approved">Approved selling price</option><option value="proposed">Proposed — cannot be ordered</option></select></label>
-      {fields.map(([key,label,multiline])=><label key={key}>{label}{multiline?<textarea rows={3} maxLength={key==="seoDescription"?200:key==="features"?2000:1500} placeholder={prompts[key] ? "Awaiting manufacturer confirmation" : undefined} value={String(value[key])} onChange={e=>update(key,e.target.value)}/>:<input placeholder={prompts[key] ? "Awaiting manufacturer confirmation" : undefined} value={String(value[key])} maxLength={key==="seoTitle"?100:240} onChange={e=>update(key,e.target.value)}/>}{prompts[key]&&<small>{prompts[key]}</small>}</label>)}
+      {fields.map(([key,label,multiline])=><label key={key}>{label}{multiline?<textarea rows={3} maxLength={key==="seoDescription"?200:12000} placeholder={prompts[key] ? "Awaiting manufacturer confirmation" : undefined} value={String(value[key])} onChange={e=>update(key,e.target.value)}/>:<input placeholder={prompts[key] ? "Awaiting manufacturer confirmation" : undefined} value={String(value[key])} maxLength={key==="seoTitle"?100:240} onChange={e=>update(key,e.target.value)}/>}{prompts[key]&&<small>{prompts[key]}</small>}</label>)}
       <label>Packed weight (grams, optional)<input type="number" min={0} max={100000} placeholder="Packed parcel weight from a scale" value={value.shippingWeightGrams||""} onChange={e=>update("shippingWeightGrams",Number(e.target.value))}/></label>
     </div>
+    <details className="vn-product-disclosure" open><summary>Manufacturing instructions · this garment only</summary>
+      <p>Specify each operation, placement and material. Proposed settings must be checked on the actual fabric and signed sample. Enter “None — not used on this design” where applicable.</p>
+      <button type="button" className="vn-pill" onClick={()=>{const proposed=constructionProposal({name:productName,id:productId},value);onChange({...value,...Object.fromEntries(Object.entries(proposed).filter(([key])=>key!=="status")),techPackConstructionRevision:value.techPackConstructionRevision||"Sampling proposal R1 — sew-out and fit approval required"});}}>Fill missing sewing fields with sampling proposal</button>
+      <div className="vn-admin-fields">{MANUFACTURING_FIELDS.map((field:string)=>{const key=field as keyof ProductDetails;const labels:Record<string,string>={stitching:"Stitch types & operation schedule",threadSpec:"Thread, needle & stitch density",seamAllowances:"Seam & hem allowances (mm)",reinforcement:"Reinforcement locations & settings",trims:"Trims · dimensions, supplier and colour",hardware:"Hardware · dimensions, finish and supplier",labels:"Labels · approved artwork, dimensions & placement",artworkLock:"Distinct design features & artwork placement lock"};return <label key={field}>{labels[field]}<textarea rows={4} maxLength={12000} value={String(value[key]||"")} onChange={e=>update(key,e.target.value)}/></label>;})}<label>Construction revision<input maxLength={500} value={value.techPackConstructionRevision||""} onChange={e=>update("techPackConstructionRevision",e.target.value)}/></label></div>
+    </details>
     <ManufacturerTemplate key={productId??"new"} name={`${productName} ${value.garmentType}`} notes={value.sizeNotes} onChange={next=>update("sizeNotes",next)}/>
     <SizeGuideEditor sizes={sizes} productId={productId} value={value} onChange={onChange}/>
     {!!value.sizeChart.length && <details className="vn-product-disclosure"><summary>Previous single-table chart</summary><p>Enter measurements in centimetres. Specify whether they are garment widths, circumferences or body measurements in the notes. Customers can switch between cm and inches.</p>
@@ -33,3 +39,4 @@ export function ProductProperties({ value, onChange, productId, sizes, productNa
     </details>}
   </section>;
 }
+
