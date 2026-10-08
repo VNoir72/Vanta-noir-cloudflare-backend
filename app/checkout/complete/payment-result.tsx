@@ -31,7 +31,7 @@ export function PaymentResult({ reference }: { reference: string }) {
     async function verify() {
       try {
         let receiptToken="";try{receiptToken=sessionStorage.getItem(`vn-receipt:${reference}`)||"";}catch{/* Use private guest tracking when browser storage is unavailable. */}
-        const response = await fetch(apiUrl(`/api/payments/verify?reference=${encodeURIComponent(reference)}`), { cache: "no-store", headers:{"X-Receipt-Token":receiptToken}, signal: controller.signal });
+        const response = await fetch(apiUrl(`/api/payments/verify?reference=${encodeURIComponent(reference)}`), { cache: "no-store", headers:{"X-Receipt-Token":receiptToken}, signal: AbortSignal.any([controller.signal, AbortSignal.timeout(20000)]) });
         const payload = await response.json() as { order?: PaymentOrder; message?: string; providerStatus?: string; error?: string };
         if (!active) return;
         if (!response.ok) {

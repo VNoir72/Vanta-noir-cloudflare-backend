@@ -31,7 +31,7 @@ test('owner certification is separate from launch; stale stock and missing speci
  `CREATE TABLE product_images(id TEXT PRIMARY KEY,product_id TEXT,image_url TEXT,image_alt TEXT,color TEXT,sort_order INTEGER)`,
  `CREATE TABLE product_variants(id TEXT PRIMARY KEY,product_id TEXT,size TEXT,color TEXT,sku TEXT,stock INTEGER,active INTEGER)`,
  `INSERT INTO products VALUES('p','Custom Tee','Design','Tops',5500000,'draft','{}','2026-10-08','/images/p.webp',0)`,
- `INSERT INTO product_images VALUES('i','p','/images/p.webp','Front','Black',0)`,
+ ...['Front','Back','Left','Right'].map((view,i)=>`INSERT INTO product_images VALUES('i${i}','p','/images/p-${view}.webp','${view}','Black',${i})`),
  `INSERT INTO product_variants VALUES('v','p','M','Black','VN-P-M',4,1)`
  ].map(sql=>db.prepare(sql)));
  const request=(method,body,role='owner')=>mf.dispatchFetch('https://test.invalid/api/admin/launch-review?id=p',{method,headers:{'x-role':role,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
@@ -57,4 +57,16 @@ test('owner certification is separate from launch; stale stock and missing speci
  assert.equal((await db.prepare("SELECT stock FROM product_variants WHERE id='v'").first()).stock,3);
  assert.equal((await action('launch')).status,409,'Cannot reuse an old certification');
  }finally{await mf.dispose();}
+});
+
+test('launch blocks missing colour directions, incomplete sets and inactive stock',()=>{
+ const product={id:'test',priceKobo:500000,images:['Front','Back','Left','Right'].map(view=>({imageUrl:`/images/test-${view}.webp`,imageAlt:view,color:'Black'})),variants:[{size:'M',color:'Black',stock:4,active:true}],details:{sizeGuide:{status:'confirmed',sections:[{rows:[{size:'M',chest:55}]},{rows:[{size:'S',waist:38}]}]}}};
+ assert(launchIssues(product,'in_stock').some(s=>s.includes('every included garment section')));
+ assert(!launchIssues(product,'in_stock').some(s=>s.includes('garment views')));
+ product.variants.push({size:'M',color:'Ivory',stock:1,active:true});
+ assert(launchIssues(product,'in_stock').some(s=>s.includes('Ivory garment views')));
+ product.images.pop();
+ assert(launchIssues(product,'in_stock').some(s=>s.includes('Black garment views: Right')));
+ product.variants=product.variants.map(v=>({...v,active:0}));
+ assert(launchIssues(product,'in_stock').some(s=>s.includes('actual sellable stock')));
 });
