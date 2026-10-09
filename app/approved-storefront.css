@@ -28,12 +28,12 @@ body:has(.approved-filter-modal) [data-slot="dialog-overlay"]{z-index:1000}.appr
 @media(prefers-reduced-motion:reduce){.dn-app :is(.dn-lime,.dn-primary,.approved-filter-trigger,.dn-heart,.dn-quick-button,.dn-thumbnails button):active:not(:disabled),.dn-card:hover .dn-card-image img{transform:none}}
 
 /* Keep dismissal outside the scrolling product content, including tablet landscape. */
-.dn-quick-dialog{display:flex!important;flex-direction:column;overflow:hidden!important;width:min(920px,calc(100vw - 24px))!important;max-width:920px!important;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;border-radius:18px!important;background:#fff;color:#171a1c}
+.dn-quick-dialog{position:fixed!important;top:calc(16px + env(safe-area-inset-top))!important;bottom:auto!important;left:50%!important;translate:-50% 0!important;transform:none;height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:0;display:flex!important;flex-direction:column;overflow:hidden!important;width:min(920px,calc(100vw - 24px))!important;max-width:920px!important;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;border-radius:18px!important;background:#fff;color:#171a1c}
 .dn-quick-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none;padding:10px 14px 10px 24px;border-bottom:1px solid #e7eaeb;background:#fff}
 .dn-quick-header h2{font-size:14px;letter-spacing:.04em}
 .dn-quick-close{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:#f5f7f7;color:#171a1c;cursor:pointer}
 .dn-quick-close:focus-visible{outline:2px solid #171a1c;outline-offset:2px}
-.dn-quick-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.dn-quick-body{flex:1 1 0;align-content:start;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .dn-quick-body>.dn-gallery,.dn-quick-body>.dn-options{min-width:0}
 .dn-quick-body .dn-detail-photo{width:100%;height:auto;aspect-ratio:3/4;max-height:490px}
 .dn-quick-body .dn-thumbnails{padding:8px}
