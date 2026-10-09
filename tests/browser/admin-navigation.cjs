@@ -31,7 +31,7 @@ await page.getByRole('button',{name:'Close product editor'}).click();
 await page.getByRole('button',{name:'Stay here',exact:true}).click();
 assert.equal(await page.getByPlaceholder('e.g. Axis shell jacket').inputValue(),'Unsaved navigation test');
 await page.getByRole('button',{name:'Close product editor'}).click();
-await page.getByRole('button',{name:'Discard and continue',exact:true}).click();
+await page.getByRole('button',{name:'Exit without saving',exact:true}).click();
 await page.getByRole('dialog').waitFor({state:'hidden'});
 await page.getByRole('button',{name:'More navigation'}).click();
 await page.setViewportSize({width:1180,height:820});await page.getByRole('dialog').waitFor({state:'hidden'});
@@ -56,7 +56,7 @@ await page.getByRole('button',{name:'Remove view',exact:true}).click();
 assert.equal(await page.locator('.vn-studio-preview img').count(),0);
 await page.locator('.vn-studio-tabs').getByRole('button',{name:'Front',exact:true}).click();
 assert((await page.locator('.vn-studio-preview img').getAttribute('src')).includes('test-1.png'),'removing right removed front');
-await page.getByRole('button',{name:'Close product editor'}).click();await page.getByRole('button',{name:'Discard and continue',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});
+await page.getByRole('button',{name:'Close product editor'}).click();await page.getByRole('button',{name:'Exit without saving',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});
 console.log('PASS four image destinations, failed upload recovery, retry and remove');
 
 const sectionButtons=page.getByRole('navigation',{name:'Store administration'}).getByRole('button');

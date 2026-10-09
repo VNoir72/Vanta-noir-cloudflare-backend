@@ -39,13 +39,14 @@ module.exports = async function checkFeedbackBack(browser) {
       if(width<1024)await page.getByRole('button',{name:'More navigation'}).click();
       const sectionNav=width<1024?page.getByRole('dialog',{name:'Store navigation'}):page.getByRole('navigation',{name:'Store administration'});
       await sectionNav.getByRole('button',{name:'Inventory',exact:true}).click();
+      await page.getByRole('textbox',{name:'Test garment Black L total on hand'}).locator('..').getByRole('button',{name:'Edit',exact:true}).click();
       await page.getByRole('textbox',{name:'Test garment Black L total on hand'}).fill('9');
       await page.getByRole('button',{name:'Back',exact:true}).click();
       await page.getByRole('button',{name:'Stay here',exact:true}).click();
       assert.equal(await page.locator('h1').textContent(),'Inventory');
       assert.equal(await page.getByRole('textbox',{name:'Test garment Black L total on hand'}).inputValue(),'9');
       await page.getByRole('button',{name:'Back',exact:true}).click();
-      await page.getByRole('button',{name:'Discard and continue',exact:true}).click();
+      await page.getByRole('button',{name:'Exit without saving',exact:true}).click();
       assert.equal(await page.locator('h1').textContent(),'Store overview');
     }
     console.log('PASS light/dark-device admin feedback, success/error/warning contrast, Back history without reload and unsaved changes protection');
