@@ -1,5 +1,5 @@
 import {adminAuthStateFromRequest} from './admin-auth';
-import {rateLimit} from './commerce-db';
+import {rateLimit} from './rate-limit';
 import {checkShipbubbleLive,shipbubbleReadiness} from './shipbubble-live';
 import {linkShipbubbleShipment,readWebhookBody} from './shipbubble-webhook';
 import {measurementOrders,orderMeasurements,saveOrderMeasurements,quoteMeasuredOrder} from './order-measurements';

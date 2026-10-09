@@ -1,4 +1,4 @@
-import {staffRole} from "./operations";
+import {staffRole} from "./staff-role";
 import { isAdminEmail, runtimeEnv } from "@/lib/runtime-env";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 

@@ -6,11 +6,7 @@ import {queueEmail} from './commerce-db';
 import { productSchema } from './product-input';
 import {roleResources,type StaffRole} from "./operations-permissions";
 export {roleResources,type StaffRole} from "./operations-permissions";
-export async function staffRole(email:string):Promise<StaffRole|null>{
- if(isAdminEmail(email))return 'owner';
- const row=await getDbBinding().prepare('SELECT role FROM admin_staff WHERE email=? AND active=1').bind(email.trim().toLowerCase()).first<{role:StaffRole}>();
- return row && ['sales','catalogue','fulfilment','support','analyst'].includes(row.role)?row.role:null;
-}
+export {staffRole} from './staff-role';
 export function permits(role:StaffRole,resource:string){return roleResources[role].includes(resource);}
 export function auditStatement(actor:string,action:string,entity:string,detail='') {return getDbBinding().prepare('INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,?,?,?)').bind(actor,action,entity,detail);}
 export async function audit(actor:string,action:string,entity:string,detail=''){await auditStatement(actor,action,entity,detail).run();}
