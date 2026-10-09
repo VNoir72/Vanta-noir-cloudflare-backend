@@ -10,12 +10,12 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const [products, settings, sales] = await Promise.all([listCatalog(), getCommerceSettings(), salesSignals().catch(()=>[])]);
-    const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo()).length===0;
+    const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length===0;
     return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
-      shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings),
+      shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings,shipbubbleCheckoutEnabled()),
       // Live courier prices replace the legacy fixed-fee destination table.
       ...(shipbubbleCheckoutEnabled()?{shippingZones:[]}:{}),
-      checkoutReady: settings.acceptingOrders && checkoutSetupIssues(settings, isPaystackConfigured(), configuredShippingFeeKobo()).length === 0,
+      checkoutReady: settings.acceptingOrders && checkoutSetupIssues(settings, isPaystackConfigured(), configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length === 0,
     } }, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return Response.json({ error: "The catalogue is temporarily unavailable." }, { status: 500 });

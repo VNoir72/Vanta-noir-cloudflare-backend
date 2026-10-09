@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
   if (!await rateLimit(request, "checkout", 20, 600)) return Response.json({error:"Please wait before starting another checkout."},{status:429});
   const settings = await getCommerceSettings();
-  if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo()).length) {
+  if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length) {
     return Response.json({error:"Online orders are not open yet. Please contact customer care.",code:"STORE_NOT_READY"},{status:503});
   }
   const delivery = shippingQuote({...settings, shippingFeeKobo: configuredShippingFeeKobo()}, parsed.data.customer.state, parsed.data.customer.countryCode);

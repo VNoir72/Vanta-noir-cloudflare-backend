@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
-import { getDbBinding, configuredShippingFeeKobo } from "@/lib/runtime-env";
+import { getDbBinding, configuredShippingFeeKobo, shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
 import { isPaystackConfigured } from "@/lib/paystack";
 import { checkoutSetupIssues, commerceSettingsSchema } from "@/lib/commerce-config";
 import { getCommerceSettings, saveCommerceSettings, returnUpdateSchema, updateReturn, runCommerceMaintenance, emailReady } from "@/lib/commerce-db";
@@ -16,7 +16,7 @@ export async function GET(request:Request){
    db.prepare("SELECT id,email,kind,variant_id AS variantId,status,created_at AS createdAt FROM subscribers ORDER BY created_at DESC LIMIT 51 OFFSET ?").bind(offset).all(),
    db.prepare("SELECT a.*,v.sku FROM stock_adjustments a LEFT JOIN product_variants v ON v.id=a.variant_id ORDER BY a.id DESC LIMIT 51 OFFSET ?").bind(offset).all(),
  ]);
- return Response.json({settings,emailConfigured:emailReady(),paymentsConfigured:isPaystackConfigured(),setupIssues:checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo()),page,hasMore:[reviews,returns,emails,subscribers,stock].some(r=>r.results.length>50),reviews:reviews.results.slice(0,50),returns:returns.results.slice(0,50),emails:emails.results.slice(0,50),subscribers:subscribers.results.slice(0,50),stock:stock.results.slice(0,50)});
+ return Response.json({settings,emailConfigured:emailReady(),paymentsConfigured:isPaystackConfigured(),setupIssues:checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()),page,hasMore:[reviews,returns,emails,subscribers,stock].some(r=>r.results.length>50),reviews:reviews.results.slice(0,50),returns:returns.results.slice(0,50),emails:emails.results.slice(0,50),subscribers:subscribers.results.slice(0,50),stock:stock.results.slice(0,50)});
 }
 export async function POST(request:Request){
  const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status});
@@ -24,7 +24,7 @@ export async function POST(request:Request){
  try{
   if(body?.action==="settings"){
     const settings=commerceSettingsSchema.parse(body.settings);
-    const issues=checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo());
+    const issues=checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled());
     if(settings.acceptingOrders&&issues.length)return Response.json({error:`Complete store setup first: ${issues.join("; ")}.`},{status:400});
     return Response.json({settings:await saveCommerceSettings(settings)});
   }

@@ -35,3 +35,12 @@ test("all 36 states and FCT can be saved pending without free checkout",()=>{
  settings.shippingZones.push({state:"*",feeKobo:500000,estimate:"7 days"});
  assert.equal(shippingQuote(settings,"Abia").feeKobo,null,"explicit pending zone cannot inherit wildcard price");
 });
+
+test('live courier checkout does not depend on a legacy free fixed-fee zone',()=>{
+ const settings=commerceSettingsSchema.parse({supportEmail:'care@example.com',acceptingOrders:true,inventoryConfirmed:true,dispatchNote:'Next pickup',returnPolicy:'Returns policy',shippingZones:NIGERIA_STATES.map(state=>({state,feeKobo:null,estimate:''}))});
+ assert.deepEqual(checkoutSetupIssues(settings,true,null,true),[]);
+ assert.equal(publicCommerceSettings(settings,true).acceptingOrders,true);
+ assert.equal(publicCommerceSettings(settings,false).acceptingOrders,false);
+ assert.ok(checkoutSetupIssues(settings,true,null,false).length>0);
+ assert.ok(checkoutSetupIssues(settings,false,null,true).includes('Connect Paystack'));
+});

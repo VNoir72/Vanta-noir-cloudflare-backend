@@ -2,7 +2,7 @@ import { getDbBinding, runtimeEnv } from './runtime-env';
 import { listCatalog } from './store-db';
 import { emailReady, getCommerceSettings, queueEmail } from './commerce-db';
 import { checkoutSetupIssues } from './commerce-config';
-import { configuredShippingFeeKobo } from './runtime-env';
+import { configuredShippingFeeKobo, shipbubbleCheckoutEnabled } from './runtime-env';
 import { isPaystackConfigured } from './paystack';
 import { availableUnits, isPreview, type SalesSignal } from './merchandising';
 import { SITE_URL } from './seo';
@@ -29,7 +29,7 @@ export async function salesSignals(): Promise<SalesSignal[]> {
 
 export async function releaseStoreReady() {
   const settings=await getCommerceSettings();
-  return settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo()).length===0;
+  return settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length===0;
 }
 export async function releaseAvailable(productId: string) {
   if(!await releaseStoreReady())return false;

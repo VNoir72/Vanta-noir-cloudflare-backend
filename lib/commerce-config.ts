@@ -33,21 +33,21 @@ export const commerceSettingsSchema = z.object({
 }).refine(s=>!s.internationalEnabled||(s.internationalZones.length>0&&s.internationalDutiesNote.length>=10), 'Add international rates and explain customs / import charges before enabling international shipping.');
 export type CommerceSettings = z.infer<typeof commerceSettingsSchema>;
 export function defaultCommerceSettings() { return commerceSettingsSchema.parse({}); }
-export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled: boolean, shippingFeeKobo: number | null = null) {
+export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled: boolean, shippingFeeKobo: number | null = null, liveCourierRates = false) {
   const issues: string[] = [];
   if (!paymentsEnabled) issues.push("Connect Paystack");
   if (!settings.supportEmail) issues.push("Add your customer care email");
   if (!settings.dispatchNote) issues.push("Confirm dispatch timing");
-  if (!settings.shippingZones.length && (shippingFeeKobo === null || !settings.deliveryNote)) issues.push("Set delivery rates and estimates");
-  if (settings.shippingZones.length && !settings.shippingZones.some(deliveryZoneReady)) issues.push("Complete at least one delivery zone fee and estimate");
+  if (!liveCourierRates && !settings.shippingZones.length && (shippingFeeKobo === null || !settings.deliveryNote)) issues.push("Set delivery rates and estimates");
+  if (!liveCourierRates && settings.shippingZones.length && !settings.shippingZones.some(deliveryZoneReady)) issues.push("Complete at least one delivery zone fee and estimate");
   if (!settings.returnPolicy) issues.push("Publish your returns and exchange policy");
   if (!settings.inventoryConfirmed) issues.push("Confirm product prices and actual stock");
   return issues;
 }
 export function deliveryZoneReady(zone:CommerceSettings['shippingZones'][number]) { return zone.feeKobo!==null && zone.estimate.trim().length>=3; }
-export function publicCommerceSettings(settings:CommerceSettings):CommerceSettings {
+export function publicCommerceSettings(settings:CommerceSettings,liveCourierRates=false):CommerceSettings {
   const shippingZones=settings.shippingZones.filter(deliveryZoneReady);
-  const publicSettings={...settings,shippingZones,acceptingOrders:settings.acceptingOrders&&(!settings.shippingZones.length||shippingZones.length>0)};
+  const publicSettings={...settings,shippingZones,acceptingOrders:settings.acceptingOrders&&(liveCourierRates||!settings.shippingZones.length||shippingZones.length>0)};
   return settings.internationalEnabled?publicSettings:{...publicSettings,internationalZones:[],internationalDutiesNote:''};
 }
 export function shippingQuote(settings: Partial<CommerceSettings> & { shippingFeeKobo?: number | null }, state: string, countryCode='NG') {
