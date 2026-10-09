@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   icons: { icon: "/images/vanta-noir-emblem-480.webp" },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}<AnalyticsConsent/><StorefrontMotion/></body></html>;
+  return <html lang="en" suppressHydrationWarning><body>{children}<AnalyticsConsent/><StorefrontMotion/></body></html>;
 }
 
 import "@/app/approved-storefront.css";

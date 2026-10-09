@@ -21,6 +21,8 @@ try{
  assert.equal(coldPage.status,200);
  const coldHtml=await coldPage.text();
  assert.match(coldHtml,/Your workspace is getting ready/);
+ assert.match(coldHtml,/data-admin-theme-control/);
+ assert.match(coldHtml,/__vnAdminThemeStop/);
  assert.ok(Buffer.byteLength(coldHtml)<150_000);
  const db=await mf.getD1Database('DB');
  for(const file of (await readdir(projectPath('drizzle'))).filter(x=>x.endsWith('.sql')).sort()){

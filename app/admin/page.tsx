@@ -39,21 +39,21 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
     return (
       <main className="vn-access-page grid min-h-screen place-items-center px-5">
         <section className="vn-access-card w-full max-w-xl border p-8 sm:p-12">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">Vanta Noir · Admin</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Vanta Noir · Admin</p>
           <h1 className="mt-5 font-sans text-4xl">Private access is locked.</h1>
-          <p className="mt-5 text-sm leading-7 text-white/55">
+          <p className="mt-5 text-sm leading-7 text-muted-foreground">
             {configuredEmail
               ? "This account is not authorised to manage the store. Sign in using the approved administrator email."
               : "The store is secure, but the administrator email still needs to be connected before this dashboard can open."}
           </p>
-          <p className="mt-4 border border-white/10 bg-black/30 p-4 text-xs text-white/45">
+          <p className="mt-4 border border-border bg-muted p-4 text-xs text-muted-foreground">
             Signed in as {user.email}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild className="rounded-none bg-white text-black hover:bg-white/80">
+            <Button asChild className="rounded-none bg-card text-foreground hover:bg-card">
               <Link href="/">Return to store</Link>
             </Button>
-            <Button asChild variant="outline" className="rounded-none border-white/15 bg-transparent text-white hover:bg-white hover:text-black">
+            <Button asChild variant="outline" className="rounded-none border-border bg-transparent text-foreground hover:bg-card hover:text-foreground">
               <a href={signOutPath}>Use another account</a>
             </Button>
           </div>

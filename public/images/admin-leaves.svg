@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+ <defs><filter id="soft"><feGaussianBlur stdDeviation="9"/></filter><linearGradient id="leaf" x2="1" y2="1"><stop stop-color="#bacbaa" stop-opacity=".21"/><stop offset="1" stop-color="#536b53" stop-opacity=".04"/></linearGradient></defs>
+ <g filter="url(#soft)" stroke="#aabb9f" stroke-opacity=".12" stroke-width="3" fill="url(#leaf)">
+ <path d="M1590 1040Q1310 600 1450-80M-60 1000Q160 730 85 480" fill="none"/>
+ <ellipse cx="1420" cy="130" rx="65" ry="145" transform="rotate(-43 1420 130)"/><ellipse cx="1500" cy="250" rx="66" ry="139" transform="rotate(42 1500 250)"/>
+ <ellipse cx="1370" cy="400" rx="78" ry="158" transform="rotate(-45 1370 400)"/><ellipse cx="1490" cy="570" rx="80" ry="160" transform="rotate(44 1490 570)"/>
+ <ellipse cx="1390" cy="735" rx="70" ry="158" transform="rotate(-47 1390 735)"/><ellipse cx="1550" cy="880" rx="74" ry="157" transform="rotate(38 1550 880)"/>
+ <ellipse cx="65" cy="655" rx="48" ry="100" transform="rotate(-38 65 655)"/><ellipse cx="135" cy="760" rx="50" ry="105" transform="rotate(38 135 760)"/>
+ </g>
+</svg>

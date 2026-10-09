@@ -42,12 +42,12 @@ export function AdminDashboardLoader({ adminName, signOutPath, statusPanel, paym
   return (
     <main className="vn-welcome-screen">
       <section className="vn-welcome-card" aria-busy={!error}>
-        <p className="text-xs uppercase tracking-widest text-white/50">Vanta Noir · Admin</p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">Vanta Noir · Admin</p>
         <h1 className="mt-5 text-3xl">{greeting}, Ajibola.</h1>
-        <p className="mt-5 text-sm text-white/70" role={error ? "alert" : "status"}>{error || "Welcome back. Your workspace is getting ready."}</p>
-        {error && <button type="button" className="mt-6 border border-white/30 px-5 py-3" onClick={() => setAttempt(value => value + 1)}>Retry</button>}
+        <p className="mt-5 text-sm text-muted-foreground" role={error ? "alert" : "status"}>{error || "Welcome back. Your workspace is getting ready."}</p>
+        {error && <button type="button" className="mt-6 border border-border px-5 py-3" onClick={() => setAttempt(value => value + 1)}>Retry</button>}
         <a className="mt-6 block text-sm underline" href={signOutPath}>Sign out / use another account</a>
-        <p className="mt-8 text-xs text-white/40">Presence. Power. Precision.</p>
+        <p className="mt-8 text-xs text-muted-foreground">Presence. Power. Precision.</p>
       </section>
     </main>
   );

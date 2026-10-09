@@ -1,4 +1,5 @@
 "use client";
+import {useAdminTheme} from "./admin-theme";
 
 import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
 import { resolvedProductDetails } from "@/lib/product-specs";
@@ -202,6 +203,7 @@ function DashboardContent({
   statusPanel?: React.ReactNode;
   paymentsMode?: string;
 }) {
+  const useAdminThemeValue = useAdminTheme();
   const greeting = useLocalGreeting();
   const {options,setOptions}=useCatalogOptions();
   const [section, commitSection] = useState("overview");
@@ -510,12 +512,12 @@ function DashboardContent({
       </>;
 
   return (
-    <main className="vn-control-center vn-exact min-h-screen bg-[#090b0a] text-[#f4f4f4]">
+    <main className="vn-control-center vn-exact min-h-screen bg-muted text-foreground">
       <aside className="vn-control-sidebar">{navigation}</aside>
       <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent ref={mobileNavContent} side="left" className="vn-mobile-drawer" overlayClassName="vn-mobile-drawer-overlay" onOpenAutoFocus={event=>{event.preventDefault();mobileNavContent.current?.focus({preventScroll:true});}} onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
       <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:Home},{id:'orders',label:'Orders',Icon:ShoppingCart},{id:'products',label:'Products',Icon:PackageCheck}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><MoreHorizontal size={20}/>More</button></nav>
       <div className="vn-control-content">
-      <Toaster theme="light" className="vn-admin-toaster" position="top-center" closeButton offset={{top:"88px"}} mobileOffset={{top:"88px",left:"16px",right:"16px"}} />
+      <Toaster theme={useAdminThemeValue} className="vn-admin-toaster" position="top-center" closeButton offset={{top:"88px"}} mobileOffset={{top:"88px",left:"16px",right:"16px"}} />
       <div className="vn-workspace-bar"><div className="vn-workspace-breadcrumb"><span>Workspace</span><span>/</span><strong>{sectionLabels[section]||section[0].toUpperCase()+section.slice(1)}</strong></div><button className="vn-mobile-brand" aria-label="Vanta Noir overview" onClick={()=>setSection('overview')}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><SupportAlerts onOpen={()=>setSection('support')}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
       {section !== 'overview' && <button type="button" className="vn-admin-back" onClick={goBack}><ArrowLeft size={18}/><span>Back</span></button>}
       <div className="vn-status-chips"><button onClick={()=>goTo({section:'settings'})}><i className={paymentsMode==='live'?'is-ok':''}/>Payments: {paymentsMode.toUpperCase()}</button><button onClick={()=>goTo({section:'settings'})}><i className={analytics.conversion?.status==='connected'?'is-ok':''}/>{analytics.conversion?.status==='connected'?'GA4 connected':connections?.ga4Configured?'GA4 configured':'GA4 not connected'}</button><button className="vn-email-status-chip" onClick={()=>navigate(()=>{setSectionState('overview');setEmailOpen(true);})}><i className={emailIssues===0?'is-ok':''}/>Order emails: {emailIssues??'…'} delivery issues</button></div>
@@ -541,51 +543,51 @@ function DashboardContent({
           {section === "products" && <><ReleasePanel products={products}/><CatalogueQuality products={products} onEdit={openProduct}/></>}
           <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Catalogue control</p>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Catalogue control</p>
               <h2 className="mt-2 font-sans text-4xl">Product studio</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/45">
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
                 Publish shows a garment in the storefront as a preview without a price. Draft and archived products stay hidden. Open Launch review to complete missing details, certify and launch. Existing launched products remain available.
               </p>
             </div>
-            <Button onClick={openNewProduct} className="h-11 rounded-full bg-[#00ff66] px-5 text-xs uppercase tracking-[0.18em] text-[#090909] hover:bg-[#7affaf]">
+            <Button onClick={openNewProduct} className="h-11 rounded-full bg-primary px-5 text-xs uppercase tracking-[0.18em] text-primary-foreground hover:bg-primary">
               <Plus /> New product
             </Button>
           </div>
 
           <div className="grid gap-6">
-            <div className="overflow-hidden border border-white/10 bg-[#101010]">
-              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/50">All products</p>
-                <Badge variant="outline" className="rounded-full border-white/15 text-white/45">{products.length} records</Badge><select aria-label="Product status filter" value={productStatusFilter} onChange={e=>{setProductStatusFilter(e.target.value);setProductPage(1);}}><option value="">All product statuses</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select>
+            <div className="overflow-hidden border border-border bg-muted">
+              <div className="flex items-center justify-between border-b border-border px-5 py-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">All products</p>
+                <Badge variant="outline" className="rounded-full border-border text-muted-foreground">{products.length} records</Badge><select aria-label="Product status filter" value={productStatusFilter} onChange={e=>{setProductStatusFilter(e.target.value);setProductPage(1);}}><option value="">All product statuses</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select>
               </div>
-              <div className="border-b border-white/10 p-4">
-                <Input aria-label="Search admin products" placeholder="Search name, collection or product code" value={productQuery} onChange={event => { setProductQuery(event.target.value); setProductPage(1); }} className="border-white/15 bg-black/20 text-white" />
+              <div className="border-b border-border p-4">
+                <Input aria-label="Search admin products" placeholder="Search name, collection or product code" value={productQuery} onChange={event => { setProductQuery(event.target.value); setProductPage(1); }} className="border-border bg-muted text-foreground" />
               </div>
               <div className="divide-y divide-white/10">
                 {!matchingProducts.length ? (
-                  <div className="p-8 text-sm text-white/40">{products.length ? "No products match your search." : "No products have been created yet."}</div>
+                  <div className="p-8 text-sm text-muted-foreground">{products.length ? "No products match your search." : "No products have been created yet."}</div>
                 ) : (
                   matchingProducts.slice((currentProductPage - 1) * 24, currentProductPage * 24).map((product) => (
-                    <article key={product.id} className="p-4 transition-colors hover:bg-white/[0.025]">
+                    <article key={product.id} className="p-4 transition-colors hover:bg-card/[0.025]">
                       <button type="button" onClick={() => openProduct(product)} className="flex w-full items-start gap-4 text-left">
-                        <div className="size-16 shrink-0 overflow-hidden rounded-sm bg-[#181818]">
+                        <div className="size-16 shrink-0 overflow-hidden rounded-sm bg-muted">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <StoreImage src={product.imageUrl} alt="" sizes="96px" className="size-full object-cover" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-3">
-                            <p className="truncate text-sm text-white/85">{product.name}</p>
-                            {product.featured && <Star className="mt-0.5 size-3.5 shrink-0 fill-[#00ff66] text-[#00ff66]" />}
+                            <p className="truncate text-sm text-foreground">{product.name}</p>
+                            {product.featured && <Star className="mt-0.5 size-3.5 shrink-0 fill-[#00ff66] text-foreground" />}
                           </div>
-                          <p className="mt-1 truncate text-xs text-white/35">{product.category}</p>
+                          <p className="mt-1 truncate text-xs text-muted-foreground">{product.category}</p>
                           <div className="mt-3 flex flex-wrap items-center gap-2">
                             <ProductStatusBadge status={product.status} />
-                            <span className="text-[10px] uppercase tracking-[0.14em] text-white/30">
+                            <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                               {product.variants.filter((variant) => variant.active).length} variations
                             </span>
                           </div>
                         </div>
-                        <Pencil className="mt-1 size-4 shrink-0 text-white/30" />
+                        <Pencil className="mt-1 size-4 shrink-0 text-muted-foreground" />
                       </button>
                       <div className="mt-4 flex flex-wrap gap-2 pl-20">
                         <a className="rounded-lg border px-3 py-2 text-xs" href={`/api/admin/tech-packs?id=${encodeURIComponent(product.id)}`} target="_blank" rel="noreferrer">Tech pack ↗</a>
@@ -595,7 +597,7 @@ function DashboardContent({
                             variant="outline"
                             disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "draft")}
-                            className="h-8 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black"
+                            className="h-8 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground"
                           >
                             <EyeOff /> Unpublish
                           </Button>
@@ -605,7 +607,7 @@ function DashboardContent({
                             variant="outline"
                             disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "published")}
-                            className="h-8 rounded-full border-[#00ff66]/35 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-[#00ff66] hover:bg-[#00ff66] hover:text-black"
+                            className="h-8 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-foreground hover:bg-primary hover:text-primary-foreground"
                           >
                             <Eye /> Publish
                           </Button>
@@ -615,7 +617,7 @@ function DashboardContent({
                             variant="outline"
                             disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "draft")}
-                            className="h-8 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black"
+                            className="h-8 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground"
                           >
                             <RotateCcw /> Restore draft
                           </Button>
@@ -626,7 +628,7 @@ function DashboardContent({
                             variant="ghost"
                             disabled={busy !== null}
                             onClick={() => changeProductStatus(product.id, "archived")}
-                            className="h-8 rounded-full px-3 text-[10px] uppercase tracking-[0.14em] text-white/35 hover:bg-white/10 hover:text-white"
+                            className="h-8 rounded-full px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground"
                           >
                             <Archive /> Archive
                           </Button>
@@ -645,8 +647,8 @@ function DashboardContent({
                   ))
                 )}
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 p-4 text-sm">
-                <span className="text-white/60">{matchingProducts.length} products · Page {currentProductPage} of {productPages}</span>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border p-4 text-sm">
+                <span className="text-muted-foreground">{matchingProducts.length} products · Page {currentProductPage} of {productPages}</span>
                 <div className="flex gap-2">
                   <Button variant="secondary" disabled={currentProductPage === 1} onClick={() => setProductPage(currentProductPage - 1)}>Previous</Button>
                   <Button variant="secondary" disabled={currentProductPage === productPages} onClick={() => setProductPage(currentProductPage + 1)}>Next</Button>
@@ -674,41 +676,41 @@ function DashboardContent({
         <section className="mt-12" hidden={section !== "orders"}>
           <div className="mb-5 flex items-end justify-between gap-5">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-white/40">Fulfilment</p>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Fulfilment</p>
               <h2 className="mt-2 font-sans text-4xl">Orders</h2>
             </div>
-            <Badge variant="outline" className="rounded-none border-white/15 text-white/50">{orderTotal} matching orders</Badge>
+            <Badge variant="outline" className="rounded-none border-border text-muted-foreground">{orderTotal} matching orders</Badge>
           </div>
           <BulkOrders disabled={busy!==null} onChanged={()=>{void loadOrders(orderPage);void loadReport(reportParams.current);}}/>
           <p className="vn-report-period">Verified Paystack payments update automatically. This list refreshes every 30 seconds when you have no unsaved edits.</p><form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>{setOrderQuery(e.target.value);setOrderCustomerEmail('');}} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option><option value="fulfil">Ready to fulfil</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
           <div className="vn-studio-form">
             <Table>
               <TableHeader>
-                <TableRow className="border-white/10 hover:bg-transparent">
-                  <TableHead className="text-white/45">Order</TableHead>
-                  <TableHead className="text-white/45">Customer</TableHead>
-                  <TableHead className="text-white/45">Amount</TableHead>
-                  <TableHead className="text-white/45">Payment</TableHead>
-                  <TableHead className="text-white/45">Status</TableHead>
+                <TableRow className="border-border hover:bg-transparent">
+                  <TableHead className="text-muted-foreground">Order</TableHead>
+                  <TableHead className="text-muted-foreground">Customer</TableHead>
+                  <TableHead className="text-muted-foreground">Amount</TableHead>
+                  <TableHead className="text-muted-foreground">Payment</TableHead>
+                  <TableHead className="text-muted-foreground">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {!orders.length ? (
-                  <TableRow className="border-white/10">
-                    <TableCell colSpan={5} className="h-32 text-center text-white/35">No orders yet.</TableCell>
+                  <TableRow className="border-border">
+                    <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">No orders yet.</TableCell>
                   </TableRow>
                 ) : (
                   orders.map((order) => (
-                    <TableRow key={order.id} className="border-white/10 hover:bg-white/[0.03]">
+                    <TableRow key={order.id} className="border-border hover:bg-card/[0.03]">
                       <TableCell>
                         <p className="font-mono text-xs">{order.reference}</p>
-                        <p className="mt-1 text-[11px] text-white/35">{new Date(order.createdAt).toLocaleString("en-NG")}</p>
+                        <p className="mt-1 text-[11px] text-muted-foreground">{new Date(order.createdAt).toLocaleString("en-NG")}</p>
                       </TableCell>
                       <TableCell>
                         <p>{order.firstName} {order.lastName}</p>
-                        <p className="mt-1 text-xs text-white/35">{order.city}, {order.state}</p>
-                        <details className="mt-2 max-w-sm whitespace-normal text-xs leading-6 text-white/65">
-                          <summary className="cursor-pointer text-white underline">Order &amp; delivery details</summary>
+                        <p className="mt-1 text-xs text-muted-foreground">{order.city}, {order.state}</p>
+                        <details className="mt-2 max-w-sm whitespace-normal text-xs leading-6 text-muted-foreground">
+                          <summary className="cursor-pointer text-foreground underline">Order &amp; delivery details</summary>
                           <p className="mt-2">{order.addressLine1}{order.addressLine2 ? `, ${order.addressLine2}` : ""}, {order.city}, {order.state}, {order.country || "Nigeria"}</p>
                           <p>{order.email} · {order.phone}</p>
                           <ul className="mt-2 space-y-1">
@@ -717,7 +719,7 @@ function DashboardContent({
                           {order.paymentStatus!=='paid' && order.providerStatus && <p className="mt-2">Latest Paystack check: {order.providerStatus}. This is separate from the order’s fulfilment status.</p>}
                           {order.status === "paid_stock_review" && <p className="mt-2 text-amber-200">Payment received. Check inventory before moving to paid or processing; this allocates the stock.</p>}
                           <OrderTools key={`${order.reference}-${order.trackingNumber}`} order={order} onSaved={tracking=>setOrders(current=>current.map(o=>o.id===order.id?{...o,...tracking}:o))} />
-                          <p className="mt-2 text-white/40">Cancelling an order does not issue a refund or return stock automatically. Manage refunds in Paystack and adjust returned stock in inventory.</p>
+                          <p className="mt-2 text-muted-foreground">Cancelling an order does not issue a refund or return stock automatically. Manage refunds in Paystack and adjust returned stock in inventory.</p>
                         </details>
                       </TableCell>
                       <TableCell>{formatNaira(order.totalKobo)}</TableCell>
@@ -751,10 +753,10 @@ function DashboardContent({
 
 function Metric({ icon: Icon, label, value }: { icon: typeof ShoppingBag; label: string; value: string }) {
   return (
-    <article className="bg-[#101010] p-6">
-      <Icon className="size-4 text-white/40" />
+    <article className="bg-muted p-6">
+      <Icon className="size-4 text-muted-foreground" />
       <p className="mt-8 text-2xl">{value}</p>
-      <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/35">{label}</p>
+      <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
     </article>
   );
 }
@@ -770,8 +772,8 @@ function suggestedSku(name: string, color: string, size: string, index: number) 
 
 function ProductStatusBadge({ status }: { status: ProductStatus }) {
   const styles: Record<ProductStatus, string> = {
-    draft: "border-white/15 bg-white/[0.04] text-white/55",
-    published: "border-[#00ff66]/35 bg-[#00ff66]/[0.08] text-[#00ff66]",
+    draft: "border-border bg-card/[0.04] text-muted-foreground",
+    published: "border-border bg-primary/[0.08] text-foreground",
     archived: "border-red-200/15 bg-red-200/[0.04] text-red-100/50",
   };
   return (
@@ -846,11 +848,11 @@ function ProductEditor({
   return (
     <form onSubmit={(event) => { event.preventDefault(); onSave(); }} className="vn-studio-form">
       <div className="vn-studio-top-save"><Button type="submit" disabled={busy} className="vn-control-primary"><Save/>{busy?'Saving…':isNew?'Create product':'Save changes'}</Button></div>
-      <div className="flex items-start justify-between gap-5 border-b border-white/10 px-5 py-5 sm:px-7">
+      <div className="flex items-start justify-between gap-5 border-b border-border px-5 py-5 sm:px-7">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.28em] text-[#00ff66]/70">Vanta Noir / Product studio</p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Vanta Noir / Product studio</p>
           <h3 className="mt-2 font-sans text-3xl">{isNew ? "Create product" : "Product studio"}</h3>
-          {!isNew && <p className="mt-2 font-mono text-[10px] text-white/30">{form.id}</p>}
+          {!isNew && <p className="mt-2 font-mono text-[10px] text-muted-foreground">{form.id}</p>}
         </div>
         <div className="flex items-center gap-2">
           {!isNew && (
@@ -858,7 +860,7 @@ function ProductEditor({
               <Trash2 /> Delete design
             </Button>
           )}
-          <Button type="button" variant="ghost" onClick={onClose} className="size-9 rounded-full p-0 text-white/45 hover:bg-white/10 hover:text-white" aria-label="Close product editor">
+          <Button type="button" variant="ghost" onClick={onClose} className="size-9 rounded-full p-0 text-muted-foreground hover:bg-card hover:text-foreground" aria-label="Close product editor">
             <X />
           </Button>
         </div>
@@ -869,8 +871,8 @@ function ProductEditor({
         <StudioImagery name={form.name} images={form.images} colors={form.variants.map(v=>v.color)} onChange={images=>updateField("images",images)} upload={uploadImage} busy={uploadingImage!==null}/>
         <section className="space-y-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-white/60">Core details</p>
-            <p className="mt-1 text-xs text-white/35">These fields appear on the storefront once the product is published.</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Core details</p>
+            <p className="mt-1 text-xs text-muted-foreground">These fields appear on the storefront once the product is published.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <FieldInput label="Product name" value={form.name} onChange={(value) => updateField("name", value)} placeholder="e.g. Axis shell jacket" />
@@ -879,24 +881,24 @@ function ProductEditor({
             <FieldInput label="Price (₦)" type="number" min="1" step="1" value={form.priceNaira} onChange={(value) => updateField("priceNaira", value)} placeholder="138000" />
           </div>
           <div>
-            <Label htmlFor="product-description" className="text-[10px] uppercase tracking-[0.16em] text-white/45">Description</Label>
-            <Textarea id="product-description" value={form.description} onChange={(event) => updateField("description", event.target.value)} placeholder="Describe the fit, fabric, and use of the piece." className="mt-2 min-h-28 rounded-xl border-white/15 bg-black/20 text-sm leading-6 text-white placeholder:text-white/25" />
+            <Label htmlFor="product-description" className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Description</Label>
+            <Textarea id="product-description" value={form.description} onChange={(event) => updateField("description", event.target.value)} placeholder="Describe the fit, fabric, and use of the piece." className="mt-2 min-h-28 rounded-xl border-border bg-muted text-sm leading-6 text-foreground placeholder:text-muted-foreground" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black/15 px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl border border-border bg-muted px-4 py-3">
               <div>
-                <Label className="text-xs text-white/75">Featured product</Label>
-                <p className="mt-1 text-[11px] text-white/35">Show this product in the automatically rotating Featured Drop on the homepage. New arrivals can be featured too.</p>
+                <Label className="text-xs text-muted-foreground">Featured product</Label>
+                <p className="mt-1 text-[11px] text-muted-foreground">Show this product in the automatically rotating Featured Drop on the homepage. New arrivals can be featured too.</p>
               </div>
               <span><Switch checked={form.featured} onCheckedChange={(checked) => updateField("featured", checked)} aria-label="Featured product" /><small className="block">{form.featured?"Featured: on":"Featured: off"} · takes effect after Save changes</small></span>
             </div>
             <div>
-              <Label className="text-[10px] uppercase tracking-[0.16em] text-white/45">Store status</Label>
+              <Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Store status</Label>
               <Select value={form.status} onValueChange={(value) => updateField("status", value as ProductStatus)}>
-                <SelectTrigger className="mt-2 h-11 rounded-xl border-white/15 bg-black/20 text-white">
+                <SelectTrigger className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="border-white/15 bg-[#151515] text-white">
+                <SelectContent className="border-border bg-muted text-foreground">
                   {(Object.keys(PRODUCT_STATUS_LABELS) as ProductStatus[]).map((status) => (
                     <SelectItem key={status} value={status}>{PRODUCT_STATUS_LABELS[status]}</SelectItem>
                   ))}
@@ -910,17 +912,17 @@ function ProductEditor({
         <section className="space-y-4">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p id="vn-gallery" className="text-xs uppercase tracking-[0.18em] text-white/60">Image gallery</p>
-            <p className="mt-1 text-xs leading-5 text-white/35">Paste a site path or http(s) image URL. Use a clean product-only image or a model image—the first image becomes the card cover.</p>
+              <p id="vn-gallery" className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Image gallery</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">Paste a site path or http(s) image URL. Use a clean product-only image or a model image—the first image becomes the card cover.</p>
             </div>
-            <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, images: [...current.images, { color: "", imageUrl: "", imageAlt: "" }] } : current)} className="h-9 shrink-0 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black">
+            <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, images: [...current.images, { color: "", imageUrl: "", imageAlt: "" }] } : current)} className="h-9 shrink-0 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground">
               <ImagePlus /> Add image
             </Button>
           </div>
           <div className="space-y-3">
             {form.images.map((image, index) => (
-              <div key={`${image.id ?? "new"}-${index}`} className="grid gap-3 rounded-xl border border-white/10 bg-black/15 p-3 sm:grid-cols-[76px_1fr_auto] sm:items-start">
-                <div className="grid aspect-square place-items-center overflow-hidden rounded-lg bg-[#181818] text-white/20">
+              <div key={`${image.id ?? "new"}-${index}`} className="grid gap-3 rounded-xl border border-border bg-muted p-3 sm:grid-cols-[76px_1fr_auto] sm:items-start">
+                <div className="grid aspect-square place-items-center overflow-hidden rounded-lg bg-muted text-muted-foreground">
                   {image.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <StoreImage src={image.imageUrl} alt="" sizes="160px" className="size-full object-cover" />
@@ -928,23 +930,23 @@ function ProductEditor({
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor={`product-image-upload-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-white/45">Image {index + 1}</Label>
+                    <Label htmlFor={`product-image-upload-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Image {index + 1}</Label>
                     <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <label htmlFor={`product-image-upload-${index}`} className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 text-[10px] uppercase tracking-[0.14em] text-white/70 hover:bg-white hover:text-black">
+                      <label htmlFor={`product-image-upload-${index}`} className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-border bg-card px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground">
                         <ImagePlus className="size-4" />
                         {uploadingImage === index ? "Uploading…" : "Choose image"}
                       </label>
                       <input id={`product-image-upload-${index}`} type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" disabled={uploadingImage !== null} onChange={(event) => { void uploadImage(index, event.target.files?.[0]); event.currentTarget.value = ""; }} />
-                      <span className="text-[11px] text-white/35">or paste an image URL</span>
+                      <span className="text-[11px] text-muted-foreground">or paste an image URL</span>
                     </div>
-                    <Input value={image.imageUrl} onChange={(event) => updateImage(index, { imageUrl: event.target.value })} placeholder="Uploaded image appears here" className="mt-2 h-10 rounded-xl border-white/15 bg-black/20 text-xs text-white placeholder:text-white/25" />
+                    <Input value={image.imageUrl} onChange={(event) => updateImage(index, { imageUrl: event.target.value })} placeholder="Uploaded image appears here" className="mt-2 h-10 rounded-xl border-border bg-muted text-xs text-foreground placeholder:text-muted-foreground" />
                   </div>
                   <FieldInput label="Design tag (optional)" value={image.color} onChange={(value) => updateImage(index, { color: value })} placeholder="Jet Black" />
                   <div className="sm:col-span-2">
                     <FieldInput label="Alt text" value={image.imageAlt} onChange={(value) => updateImage(index, { imageAlt: value })} placeholder="Describe what is shown" />
                   </div>
                 </div>
-                <Button type="button" variant="ghost" onClick={() => removeImage(index)} className="size-9 rounded-full p-0 text-white/30 hover:bg-red-200/10 hover:text-red-100" aria-label={`Remove image ${index + 1}`}>
+                <Button type="button" variant="ghost" onClick={() => removeImage(index)} className="size-9 rounded-full p-0 text-muted-foreground hover:bg-red-200/10 hover:text-red-100" aria-label={`Remove image ${index + 1}`}>
                   <X />
                 </Button>
               </div>
@@ -964,44 +966,44 @@ function ProductEditor({
           <label>Add a colourway<select className="vn-option-select" value="" onChange={e=>{const color=options.colors.find(c=>c.name===e.target.value);if(!color)return;const sizes=[...new Set(form.variants.map(v=>v.size))];setForm(current=>current?{...current,variants:[...current.variants,...sizes.filter(size=>!current.variants.some(v=>v.color===color.name&&v.size===size)).map(size=>({sku:"",size,color:color.name,colorHex:color.hex,stock:"0"}))]}:current);}}><option value="">Select a saved colour…</option>{options.colors.map(c=><option key={c.name}>{c.name}</option>)}</select><small>Adds missing sizes with zero stock. Upload matching images and enter stock before publishing. Custom colours can be saved in Categories & colours.</small></label>
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-white/60">Colours, designs & stock</p>
-              <p className="mt-1 text-xs leading-5 text-white/35">Each row is one sellable colour/design and size variation. Stock is tracked independently.</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Colours, designs & stock</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">Each row is one sellable colour/design and size variation. Stock is tracked independently.</p>
             </div>
-            <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, variants: [...current.variants, { sku: "", size: "M", color: "", colorHex: "#101112", stock: "0" }] } : current)} className="h-9 shrink-0 rounded-full border-white/15 bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-white/65 hover:bg-white hover:text-black">
+            <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, variants: [...current.variants, { sku: "", size: "M", color: "", colorHex: "#101112", stock: "0" }] } : current)} className="h-9 shrink-0 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground">
               <Plus /> Add variation
             </Button>
           </div>
           <div className="space-y-3">
             {form.variants.map((variant, index) => (
-              <div key={`${variant.id ?? "new"}-${index}`} className="grid gap-3 rounded-xl border border-white/10 bg-black/15 p-3 sm:grid-cols-[1.25fr_0.7fr_1.2fr_0.7fr_48px] sm:items-end">
+              <div key={`${variant.id ?? "new"}-${index}`} className="grid gap-3 rounded-xl border border-border bg-muted p-3 sm:grid-cols-[1.25fr_0.7fr_1.2fr_0.7fr_48px] sm:items-end">
                 <FieldInput label="Colour / design" value={variant.color} onChange={(value) => updateVariant(index, { color: value })} placeholder="Jet Black" />
-                <div><Label className="text-[10px] uppercase tracking-[0.16em] text-white/45">Size</Label><Select value={variant.size} onValueChange={size => updateVariant(index, { size })}><SelectTrigger aria-label={`Size for variation ${index + 1}`} className="mt-2 h-11 rounded-xl border-white/15 bg-black/20 text-white"><SelectValue/></SelectTrigger><SelectContent>{[...new Set([...VARIANT_SIZES,...form.variants.map(v=>v.size)])].sort(compareSizes).map(size => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>
+                <div><Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Size</Label><Select value={variant.size} onValueChange={size => updateVariant(index, { size })}><SelectTrigger aria-label={`Size for variation ${index + 1}`} className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground"><SelectValue/></SelectTrigger><SelectContent>{[...new Set([...VARIANT_SIZES,...form.variants.map(v=>v.size)])].sort(compareSizes).map(size => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>
                 <FieldInput label="SKU" value={variant.sku} onChange={(value) => updateVariant(index, { sku: value })} placeholder="Auto-generated if blank" />
                 <div>
-                  <Label className="text-[10px] uppercase tracking-[0.16em] text-white/45">Swatch</Label>
-                  <div className="mt-2 flex h-11 items-center gap-2 rounded-xl border border-white/15 bg-black/20 px-2">
+                  <Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Swatch</Label>
+                  <div className="mt-2 flex h-11 items-center gap-2 rounded-xl border border-border bg-muted px-2">
                     <input type="color" value={/^#[0-9a-f]{6}$/i.test(variant.colorHex) ? variant.colorHex : "#101112"} onChange={(event) => updateVariant(index, { colorHex: event.target.value })} className="size-7 cursor-pointer rounded-full border-0 bg-transparent p-0" aria-label={`${variant.color || "Variation"} swatch colour`} />
-                    <span className="font-mono text-[10px] text-white/45">{variant.colorHex}</span>
+                    <span className="font-mono text-[10px] text-muted-foreground">{variant.colorHex}</span>
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor={`stock-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-white/45">Stock</Label>
-                  <Input id={`stock-${index}`} type="number" min="0" max="100000" value={variant.stock} onChange={(event) => updateVariant(index, { stock: event.target.value })} className="mt-2 h-11 rounded-xl border-white/15 bg-black/20 text-white" />
+                  <Label htmlFor={`stock-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Stock</Label>
+                  <Input id={`stock-${index}`} type="number" min="0" max="100000" value={variant.stock} onChange={(event) => updateVariant(index, { stock: event.target.value })} className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground" />
                 </div>
-                <Button type="button" variant="ghost" onClick={() => removeVariant(index)} className="size-9 rounded-full p-0 text-white/30 hover:bg-red-200/10 hover:text-red-100" aria-label={`Remove variation ${index + 1}`}>
+                <Button type="button" variant="ghost" onClick={() => removeVariant(index)} className="size-9 rounded-full p-0 text-muted-foreground hover:bg-red-200/10 hover:text-red-100" aria-label={`Remove variation ${index + 1}`}>
                   <X />
                 </Button>
               </div>
             ))}
           </div>
-          <p className="text-[11px] leading-5 text-white/30">To show a different gallery photo when a design is selected, give the image the same design tag as the variation’s colour/design name.</p>
+          <p className="text-[11px] leading-5 text-muted-foreground">To show a different gallery photo when a design is selected, give the image the same design tag as the variation’s colour/design name.</p>
         </section>
 
         <div className="vn-studio-footer flex gap-3 sm:items-center sm:justify-between">
           <button type="button" disabled={busy} onClick={()=>updateField("status","archived")} className="vn-studio-archive"><Archive size={16}/> Archive</button>
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <Button type="button" variant="ghost" onClick={onClose} className="h-11 rounded-full px-5 text-xs uppercase tracking-[0.16em] text-white/45 hover:bg-white/10 hover:text-white">Cancel</Button>
-          <Button type="submit" disabled={busy} className="h-11 rounded-full bg-[#00ff66] px-6 text-xs uppercase tracking-[0.16em] text-[#090909] hover:bg-[#7affaf]">
+          <Button type="button" variant="ghost" onClick={onClose} className="h-11 rounded-full px-5 text-xs uppercase tracking-[0.16em] text-muted-foreground hover:bg-card hover:text-foreground">Cancel</Button>
+          <Button type="submit" disabled={busy} className="h-11 rounded-full bg-primary px-6 text-xs uppercase tracking-[0.16em] text-primary-foreground hover:bg-primary">
             <Save /> {busy ? "Saving…" : isNew ? "Create product" : "Save changes"}
           </Button>
           </div>
@@ -1030,8 +1032,8 @@ function FieldInput({
 }) {
   return (
     <div>
-      <Label className="text-[10px] uppercase tracking-[0.16em] text-white/45">{label}</Label>
-      <Input type={type} min={min} step={step} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className="mt-2 h-11 rounded-xl border-white/15 bg-black/20 text-white placeholder:text-white/25" />
+      <Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</Label>
+      <Input type={type} min={min} step={step} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground placeholder:text-muted-foreground" />
     </div>
   );
 }
