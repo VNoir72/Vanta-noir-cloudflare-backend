@@ -1,3 +1,4 @@
+import AdminLayout from '../../app/admin/layout';
 import '../../app/brand-materials.css';
 import {toast} from 'sonner';
 import React from 'react';import{createRoot}from'react-dom/client';import '../../app/globals.css';import{AdminDashboard}from'../../app/admin/admin-dashboard';
@@ -7,4 +8,4 @@ const inventory=feedbackTest?[{id:'qa-stock',productId:'qa-product',productName:
 if(feedbackTest)(window as any).__qaFeedback=(type:'success'|'error'|'warning')=>toast[type](type==='success'?'Order marked as shipped.':type==='error'?'Could not update this order.':'Check the order details.',{description:'VN-9E331FEEFBE74D39A6A22A3890312FD2',duration:30000,classNames:{description:'vn-order-reference'}});
 let uploadCount=0;
 window.fetch=async(input:any)=>{const u=String(input);if(u.includes("/uploads")){if((window as any).__qaUploadFail)return Response.json({error:"Storage unavailable. Retry upload."},{status:503});return Response.json({url:`https://api.vantanoir.store/api/media/products/test-${++uploadCount}.png`},{status:201});}let d:any={};if(u.includes('catalog-options'))d={};if(u.includes('analytics'))d=analytics;if(u.includes('orders'))d={orders:[],total:0,hasMore:false};if(u.includes('products'))d={products:[]};if(u.includes('inventory'))d={inventory};if(u.includes('email-delivery'))d={emails:[],issues:0};if(u.includes('releases'))d={campaigns:[],sales:[]};if(u.includes('integrations'))d={paymentsConfigured:true,emailConfigured:true,ga4Configured:true};return Response.json(d)};
-createRoot(document.getElementById('root')!).render(<AdminDashboard adminName="Test owner" initialOrders={[]} initialInventory={inventory} initialProducts={[]} initialAnalytics={analytics} signOutPath="/"/>);
+createRoot(document.getElementById('root')!).render(<AdminLayout><AdminDashboard adminName="Test owner" initialOrders={[]} initialInventory={inventory} initialProducts={[]} initialAnalytics={analytics} signOutPath="/"/></AdminLayout>);

@@ -50,6 +50,10 @@ html[data-vn-admin-theme] :is(input,textarea,select) {color-scheme:var(--admin-s
 html[data-vn-admin-theme] :is(input,textarea)::placeholder {color:var(--admin-muted);opacity:1}
 html[data-vn-admin-theme] option {background:var(--admin-surface);color:var(--admin-text)}
 html[data-vn-admin-theme] :focus-visible {outline:2px solid var(--admin-muted);outline-offset:3px}
+/* One viewport budget: Appearance takes its natural height; the workspace gets the rest. */
+.vn-admin-shell {height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;overflow:hidden}
+.vn-admin-workspace {min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.vn-admin-workspace>.vn-welcome-screen {min-height:100%}
 .vn-appearance-bar {position:relative;z-index:31;display:flex;justify-content:flex-end;padding:8px 20px;background:var(--admin-glass);border-bottom:1px solid var(--admin-edge);color:var(--admin-text)}
 .vn-theme-control {display:flex;align-items:center;gap:10px;font:500 12px/1.5 system-ui;color:var(--admin-muted)}
 .vn-theme-control select {max-width:230px;padding:7px 10px;border:1px solid var(--admin-border);border-radius:12px;background:var(--admin-surface);color:var(--admin-text);font:inherit}
