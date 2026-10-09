@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import {NIGERIA_STATES} from './commerce-config';
 import { SHIPPING_COUNTRIES } from './shipping-countries';
 
 const amount = z.number().int().min(0).max(100_000_000_000).nullable();
@@ -8,6 +9,7 @@ export const rewardCampaignSchema = z.object({
   shippingMinimumKobo: amount, giftMinimumKobo: amount,
   giftVariantId: z.string().trim().max(160).default(''),
   countries: z.array(z.string().refine(c => SHIPPING_COUNTRIES.some(([code]) => code === c))).min(1).max(24),
+  states: z.array(z.string().refine(s=>NIGERIA_STATES.includes(s),'Choose a Nigerian state.')).max(37).default([]),
   startsAt: z.string().datetime(), endsAt: z.string().datetime(),
   combineDiscounts: z.boolean().default(false),
   access: z.enum(['automatic', 'code']).default('automatic'),
@@ -21,6 +23,7 @@ export const rewardCampaignSchema = z.object({
   if (v.giftMinimumKobo !== null && !v.giftVariantId) issue('Choose a gift product, colour and size.');
   if (v.endsAt <= v.startsAt) issue('End date must follow start date.');
   if (new Set(v.countries).size !== v.countries.length) issue('Choose each country once.');
+  if (v.states.length && (v.countries.length !== 1 || v.countries[0] !== 'NG')) issue('State restrictions require Nigeria as the only eligible country.');
   if (v.access === 'code' && !/^[A-Z0-9_-]{8,48}$/.test(v.code)) issue('Use a reward code of 8–48 letters, numbers, underscores or hyphens.');
   if (v.access === 'automatic' && (v.code || v.recipientEmail)) issue('Private codes and recipient emails require a code-only campaign.');
 });

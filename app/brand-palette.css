@@ -54,3 +54,12 @@
 .dn-gallery .dn-thumbnails button[aria-pressed=true]{outline:2px solid var(--vn-brand-ink);outline-offset:1px;background:var(--vn-brand-lime)}
 .dn-gallery .dn-thumbnails img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:var(--vn-brand-pearl)}
 .dn-gallery .dn-thumbnails span{display:block;padding:8px 2px;font-size:12px;line-height:1.3}
+
+/* The on-site confirmation and receipt keep the same pearl Liquid Glass material. */
+.dn-app.vn-checkout-shell :is(.vn-payment-panel,.vn-confirmed-summary){background:var(--vn-glass-panel);border:1px solid var(--vn-glass-edge);border-radius:22px;box-shadow:var(--vn-glass-shadow);backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter)}
+.dn-app.vn-checkout-shell .vn-payment-panel{padding:clamp(18px,4vw,32px)}
+.dn-app.vn-checkout-shell .vn-payment-secondary{background:var(--vn-glass-surface);border-color:var(--vn-glass-edge);border-radius:14px;box-shadow:var(--vn-glass-shadow)}
+.dn-app.vn-checkout-shell .vn-success-bag{background:var(--vn-glass-surface);border-color:#b8c0c4;box-shadow:inset 0 1px 0 #fff,0 18px 30px #171a1c18;backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter);border-radius:6px 6px 16px 16px}
+.dn-app.vn-checkout-shell .vn-success-bag>span{color:var(--vn-brand-ink)}
+.dn-app.vn-checkout-shell .vn-success-check{background:var(--vn-brand-lime);color:var(--vn-brand-ink)}
+.dn-app.vn-checkout-shell .vn-success-handle{border-color:#b8c0c4;box-shadow:inset 0 0 0 2px #fff,0 1px 1px #fff}

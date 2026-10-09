@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
+import {PageBag} from './page-bag';
 import {StoreHeader} from "./store-header";
 import {CART_STORAGE_KEY,restoreCart} from "@/lib/cart";
 import {readStorage} from "@/lib/browser-store";
@@ -30,6 +31,8 @@ export function StoreFooter({ department }: { department?: string } = {}) {
 export function StoreShell({ children, checkout = false }: { children: ReactNode; checkout?: boolean }) {
   const audience=useDepartment();
   const [query,setQuery]=useState("");
+  const [bagOpen,setBagOpen]=useState(false);
+  useEffect(()=>{const open=()=>setBagOpen(true);window.addEventListener("vn-open-bag",open);return()=>window.removeEventListener("vn-open-bag",open);},[]);
   const [counts,setCounts]=useState({bag:0,saved:0});
   useEffect(()=>{
     const update=()=>{
@@ -45,7 +48,7 @@ export function StoreShell({ children, checkout = false }: { children: ReactNode
     return()=>{window.removeEventListener('storage',update);window.removeEventListener('pageshow',update);window.removeEventListener('vn-storage-changed',update);};
   },[]);
   return <div className={`dn-app dn-customer-app vn-store-refresh${checkout ? " vn-checkout-shell" : ""}`}><a className="dn-skip" href="#main-content">Skip to content</a>
-    <StoreHeader query={query} onQuery={setQuery} bagCount={counts.bag} savedCount={counts.saved} onSearch={()=>{window.location.href=collectionLink({audience,category:'All',collection:'All',query});}} onSaved={()=>{window.location.href=`/?audience=${audience}&saved=1#collection`;}} onBag={()=>{window.location.href=`/?audience=${audience}&bag=1`;}}/>
-    <main id="main-content" className="dn-customer-main dn-wrap">{children}</main><StoreFooter department={audience}/>
+    <StoreHeader query={query} onQuery={setQuery} bagCount={counts.bag} savedCount={counts.saved} onSearch={()=>{window.location.href=collectionLink({audience,category:'All',collection:'All',query});}} onSaved={()=>{window.location.href=`/?audience=${audience}&saved=1#collection`;}} onBag={()=>setBagOpen(true)}/>
+    <main id="main-content" className="dn-customer-main dn-wrap">{children}</main><StoreFooter department={audience}/><PageBag open={bagOpen} onOpenChange={setBagOpen}/>
   </div>;
 }

@@ -60,14 +60,14 @@ export async function drawRewardWinners(input: unknown, actor: string) {
   const saved = await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();
   return JSON.parse(saved!.value);
 }
-export async function quoteRewards(input: { subtotalKobo: number; discountKobo: number; hasDiscount: boolean; countryCode: string; email?: string; code?: string; shippingKobo: number | null; cart: Array<{variantId:string;quantity:number}> }) {
+export async function quoteRewards(input: { subtotalKobo: number; discountKobo: number; hasDiscount: boolean; countryCode: string; state?: string; email?: string; code?: string; shippingKobo: number | null; cart: Array<{variantId:string;quantity:number}> }) {
   const db = getDbBinding(), now = new Date().toISOString(), code = (input.code || '').trim().toUpperCase();
   const rows = await db.prepare(`SELECT c.config_json,c.version FROM reward_campaigns c WHERE c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql} AND (c.code IS NULL OR c.code=?) ORDER BY CAST(json_extract(c.config_json,'$.priority') AS INTEGER) DESC,c.id`).bind(now, now, code).all<{config_json:string;version:number}>();
   const campaigns = rows.results.map(r => ({ ...rewardCampaignSchema.parse(JSON.parse(r.config_json)), version: r.version }));
   // A private code explicitly chooses its campaign; do not silently substitute an automatic reward.
   const candidates = campaigns.filter(c => code ? c.access === 'code' && c.code === code : c.access === 'automatic');
-  const eligible = candidates.filter(c => c.countries.includes(input.countryCode) && (!input.hasDiscount || c.combineDiscounts) && (!c.recipientEmail || c.recipientEmail === (input.email || '').trim().toLowerCase()));
-  if (code && !eligible.length) throw new Error('This reward code is unavailable for these checkout details. Check its dates, email, country and discount conditions.');
+  const eligible = candidates.filter(c => c.countries.includes(input.countryCode) && (!c.states.length || c.states.some(s=>s.toLowerCase()===(input.state||'').trim().toLowerCase())) && (!input.hasDiscount || c.combineDiscounts) && (!c.recipientEmail || c.recipientEmail === (input.email || '').trim().toLowerCase()));
+  if (code && !eligible.length) throw new Error('This reward code is unavailable for these checkout details. Check its dates, email, delivery state, country and discount conditions.');
   let campaign: RewardCampaign | null = null, gift: RewardGift | null = null, progress: ReturnType<typeof rewardProgress> | null = null;
   for (const c of eligible) {
     const g = c.giftMinimumKobo === null ? null : await rewardGift(c.giftVariantId, input.cart), p = rewardProgress(c, input.subtotalKobo, g);

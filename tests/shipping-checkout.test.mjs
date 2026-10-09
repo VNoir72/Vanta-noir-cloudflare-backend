@@ -36,14 +36,25 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  const expired={...resolved,expiresAt:0};await assert.rejects(rpc('createPendingOrder',{...args,checkoutAttempt:undefined,shippingQuote:expired}),/delivery quote changed/);
  assert.equal((await rpc('createPendingOrder',args)).reference,order.reference);
  });
- await t.test('Kaduna State customers pay zero while courier cost and destination binding remain intact',async()=>{
+ await t.test('Kaduna pays normal rates; private delivery code waives only the eligible customer charge',async()=>{
  const kaduna={...input,customer:{...input.customer,city:'Zaria',state:'Kaduna'}};
- const quotes=await rpc('createShippingQuotes',kaduna);assert.ok(quotes.rates.every(r=>r.amountKobo===0));
+ const regular=await rpc('createShippingQuotes',kaduna);assert.ok(regular.rates.every(r=>r.amountKobo>0));
+ const campaign=await rpc('saveRewardCampaign',{title:'Private delivery offer',active:true,shippingMinimumKobo:0,giftMinimumKobo:null,giftVariantId:'',countries:['NG'],states:['Kaduna'],startsAt:'2026-01-01T00:00:00.000Z',endsAt:'2099-01-01T00:00:00.000Z',combineDiscounts:true,access:'code',code:'VANTADELIVERY',maxUses:0},'owner@example.com');
+ const coded={...kaduna,rewardCode:'VANTADELIVERY'};
+ const quotes=await rpc('createShippingQuotes',coded);assert.ok(quotes.rates.every(r=>r.amountKobo>0));
  const selected={quoteId:quotes.quoteId,rateId:quotes.rates[0].rateId,provider:'shipbubble'};
- const resolved=await rpc('resolveShippingSelection',selected,kaduna);assert.equal(resolved.rate.amountKobo,0);assert.equal(resolved.rate.walletKobo,150000);
- await assert.rejects(rpc('resolveShippingSelection',selected,input),/changed or expired/);
- const order=await rpc('createPendingOrder',{...kaduna,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:0,shippingQuote:resolved,expectedTotalKobo:product.priceKobo,expectedRewardSignature:''});assert.equal(order.shippingKobo,0);assert.equal(order.totalKobo,product.priceKobo);
- const outside=await rpc('createShippingQuotes',input);assert.ok(outside.rates.every(r=>r.amountKobo>0));
+ const resolved=await rpc('resolveShippingSelection',selected,coded);assert.equal(resolved.rate.amountKobo,150000);assert.equal(resolved.rate.walletKobo,150000);
+ const rewardInput={subtotalKobo:product.priceKobo,discountKobo:0,hasDiscount:false,countryCode:'NG',state:'Kaduna',email:input.customer.email,code:'VANTADELIVERY',shippingKobo:150000,cart:input.cart};
+ const reward=await rpc('quoteRewards',rewardInput);assert.equal(reward.quote.shippingKobo,0);assert.equal(reward.quote.shippingSavingsKobo,150000);
+ assert.equal((await rpc('quoteRewards',{...rewardInput,code:''})).quote.shippingKobo,150000);
+ for(const state of ['Lagos',''])await assert.rejects(rpc('quoteRewards',{...rewardInput,state}),/unavailable/);
+ await assert.rejects(rpc('createShippingQuotes',{...input,rewardCode:'VANTADELIVERY'}),/unavailable/);
+ await assert.rejects(rpc('resolveShippingSelection',selected,kaduna),/changed or expired/);
+ const order=await rpc('createPendingOrder',{...coded,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:150000,shippingQuote:resolved,expectedTotalKobo:product.priceKobo,expectedRewardSignature:reward.quote.signature});assert.equal(order.shippingKobo,0);assert.equal(order.totalKobo,product.priceKobo);
+ const stored=JSON.parse((await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('order-shipping:'+order.reference).first()).value);assert.equal(stored.rate.walletKobo,150000);
+ await assert.rejects(rpc('createPendingOrder',{...input,rewardCode:'VANTADELIVERY',shippingKobo:150000,expectedTotalKobo:product.priceKobo,expectedRewardSignature:reward.quote.signature}),/unavailable/);
+ await rpc('saveRewardCampaign',{...campaign,active:false},'owner@example.com');
+ await assert.rejects(rpc('quoteRewards',rewardInput),/unavailable/);
  });
  await t.test('expired quote is rejected and cannot be refreshed by the client',async()=>{await db.prepare("UPDATE store_meta SET value=json_set(value,'$.expiresAt',0) WHERE key=?").bind('shipping-quote:'+quotes.quoteId).run();await assert.rejects(rpc('resolveShippingSelection',{...selection,expiresAt:Date.now()+999999},input),/changed or expired/);});
  await t.test('owner-approved unmeasured weights work and edits invalidate old quotes',async()=>{

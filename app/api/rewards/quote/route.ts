@@ -34,7 +34,7 @@ export async function POST(request:Request){
       const selected=await resolveShippingSelection(v.shippingSelection,{customer:v.shippingCustomer,cart:v.cart,rewardCode:v.code,promotionCode:v.discountCode});
       shippingKobo=selected.rate.amountKobo;
     }
-    const {quote}=await quoteRewards({subtotalKobo:items.reduce((n,i)=>n+i.lineTotalKobo,0),discountKobo,hasDiscount:Boolean(promotion),countryCode:v.countryCode,email:v.email,code:v.code,shippingKobo,cart:v.cart});
+    const {quote}=await quoteRewards({subtotalKobo:items.reduce((n,i)=>n+i.lineTotalKobo,0),discountKobo,hasDiscount:Boolean(promotion),countryCode:v.countryCode,state:v.state,email:v.email,code:v.code,shippingKobo,cart:v.cart});
     return Response.json(quote,{headers:{'Cache-Control':'no-store'}});
   }catch(e){return Response.json({error:e instanceof z.ZodError?'Check your bag, country and email.':e instanceof Error?e.message:'Rewards could not be checked.'},{status:400});}
 }

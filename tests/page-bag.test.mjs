@@ -1,0 +1,25 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {JSDOM} from 'jsdom';
+const dom=new JSDOM('<div id="root"></div>',{url:'https://vantanoir.store/about',pretendToBeVisual:true});
+for(const name of ['window','document','HTMLElement','HTMLInputElement','Element','Node','NodeFilter','MutationObserver','getComputedStyle','CustomEvent','Event'])globalThis[name]=dom.window[name];
+globalThis.MessageChannel=class {port1={onmessage:null};port2={postMessage:()=>setTimeout(()=>this.port1.onmessage?.(),0)};};globalThis.IS_REACT_ACT_ENVIRONMENT=true;
+globalThis.requestAnimationFrame=fn=>setTimeout(fn,0);globalThis.cancelAnimationFrame=clearTimeout;
+const output=await build({stdin:{contents:"export {PageBag} from './components/page-bag';export {createRoot} from 'react-dom/client';export {act,createElement} from 'react';",resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,format:'esm',platform:'browser',define:{'process.env.NODE_ENV':'"development"'},plugins:[{name:'presentation-only-stubs',setup(b){b.onLoad({filter:/bag-garment\.tsx$/},()=>({contents:'export function BagGarment(){return null}',loader:'tsx'}));b.onLoad({filter:/reward-progress\.tsx$/},()=>({contents:'export function BagRewards(){return null}',loader:'tsx'}));}}]});
+const {PageBag,createRoot,act,createElement}=await import('data:text/javascript;base64,'+Buffer.from(output.outputFiles[0].text).toString('base64'));
+test('bag on an inner page edits the shared cart and closes without navigating home',async()=>{
+ const item={productId:'p',variantId:'v',name:'Garment',size:'L',color:'Black',imageUrl:'/test.webp',priceKobo:10000,quantity:1};
+ window.localStorage.setItem('vn-discover-bag-v1',JSON.stringify([item]));
+ globalThis.fetch=async()=>Response.json({products:[{id:'p',name:'Garment',priceKobo:10000,colorways:[{name:'Black',imageUrl:'/test.webp',stock:{L:3},variantIds:{L:'v'}}]}]});
+ const root=createRoot(document.getElementById('root'));let open=true;
+ const render=()=>root.render(createElement(PageBag,{open,onOpenChange:value=>{open=value;render();}}));
+ await act(async()=>{render();});
+ assert.equal(document.querySelector('[data-slot=sheet-title]').textContent,'Your bag (1)');
+ await act(async()=>document.querySelector('[aria-label="Increase Garment quantity"]').click());
+ assert.equal(JSON.parse(window.localStorage.getItem('vn-discover-bag-v1'))[0].quantity,2);
+ assert.equal(window.location.pathname,'/about');
+ await act(async()=>document.querySelector('[aria-label="Close bag"]').click());
+ assert.equal(open,false);assert.equal(window.location.pathname,'/about');
+ await act(async()=>root.unmount());dom.window.close();
+});

@@ -16,7 +16,7 @@ export const shippingInputSchema=z.object({
 export const shippingSelectionSchema=z.object({quoteId:z.string().uuid(),rateId:z.string().uuid(),provider:z.literal('shipbubble')});
 type Input=z.infer<typeof shippingInputSchema>;
 export type ShippingSelection=z.infer<typeof shippingSelectionSchema>;
-const pricingPolicy='kaduna-free-v1';
+const pricingPolicy='courier-rates-reward-code-v2';
 type QuoteRecord={pricingPolicy:string;inputHash:string;expiresAt:number;giftVariantId:string;rates:Array<ComparisonRate&{selectionId:string}>;parcel:object;profileRevisions:Array<{key:string;revision:string}>};
 export class ShippingInputError extends Error{}
 const invalid=()=>new ShippingInputError('Delivery options changed or expired. Check delivery again before paying.');
@@ -27,7 +27,7 @@ async function parcelFor(input:Input){
  const items=input.cart.map(i=>{const r=rows.results.find(r=>r.variantId===i.variantId);if(!r)throw new ShippingInputError('An item is unavailable. Refresh your bag.');return {...r,quantity:i.quantity,lineTotalKobo:r.price*i.quantity};});
  const subtotal=items.reduce((n,i)=>n+i.lineTotalKobo,0);
  const {discountKobo,promotion}=await quotePromotion(input.promotionCode,items);
- const rewards=await quoteRewards({subtotalKobo:subtotal,discountKobo,hasDiscount:Boolean(promotion),countryCode:input.customer.countryCode,email:input.customer.email,code:input.rewardCode,shippingKobo:0,cart:input.cart});
+ const rewards=await quoteRewards({subtotalKobo:subtotal,discountKobo,hasDiscount:Boolean(promotion),countryCode:input.customer.countryCode,state:input.customer.state,email:input.customer.email,code:input.rewardCode,shippingKobo:0,cart:input.cart});
  if(rewards.gift){const g=rewards.gift;items.push({variantId:g.variantId,productId:g.productId,size:g.size,name:g.productName,price:g.unitPriceKobo,quantity:1,lineTotalKobo:g.unitPriceKobo});}
  const profiles=await Promise.all(items.map(async i=>{const p=await productParcel(i.productId,i.size);return {...i,parcel:p.parcel,revision:p.revision};}));
  const packaging=await packagingProfiles();const prepared=prepareParcel(profiles,packaging.data);
@@ -43,9 +43,8 @@ export async function createShippingQuotes(raw:unknown){
  const {parcel,giftVariantId,profileRevisions}=await parcelFor(input),c=input.customer;
  const rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:'NG',zip:c.postalCode},parcel,'live');
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');
- const freeKaduna=input.customer.countryCode==='NG'&&input.customer.state==='Kaduna';
- // Keep the actual wallet charge for fulfilment. Only the customer charge is subsidised.
- const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,amountKobo:freeKaduna?0:r.amountKobo,selectionId:crypto.randomUUID()}))};
+ // Return actual courier prices. Shipping discounts are applied by validated rewards.
+ const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,selectionId:crypto.randomUUID()}))};
  const db=getDbBinding();
  await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('shipping-quote:'+quoteId,JSON.stringify(record)).run();
  // Quote records contain hashes, parcel data and provider references, not customer contact details.

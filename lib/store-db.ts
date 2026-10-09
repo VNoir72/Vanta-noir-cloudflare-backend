@@ -859,7 +859,7 @@ export async function createPendingOrder(args: {
 
   const subtotalKobo = resolved.reduce((sum, item) => sum + item.lineTotalKobo, 0);
   const {discountKobo,promotion}=await quotePromotion(args.promotionCode||"",resolved);
-  const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart});
+  const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',state:args.customer.state,email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart});
   if (reward.quote.signature !== (args.expectedRewardSignature || '')) throw new Error('Your reward changed. Refresh checkout to review your gift and delivery before paying.');
   if(args.shippingQuote&&(args.shippingQuote.expiresAt<=Date.now()||args.shippingQuote.giftVariantId!==(reward.gift?.variantId||'')))throw new Error('Your reward or delivery quote changed. Check delivery again before paying.');
   const shippingKobo = reward.quote.shippingKobo!;
