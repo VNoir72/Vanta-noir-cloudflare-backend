@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 import {JSDOM} from 'jsdom';
+import {readFileSync} from 'node:fs';
 const dom=new JSDOM('<div id="root"></div>',{url:'https://vantanoir.store',pretendToBeVisual:true});
 for(const name of ['window','document','HTMLElement','HTMLInputElement','Element','Node','MutationObserver','getComputedStyle','CustomEvent'])globalThis[name]=dom.window[name];
 globalThis.MessageChannel=undefined;
@@ -13,6 +14,10 @@ test('one inline search opens, submits, closes and preserves the query',()=>{
  act(()=>root.render(createElement(StoreHeader,{query:'tracksuit',onQuery(){},onSearch(){searches++},onSaved(){},onBag(){}})));
  const button=name=>document.querySelector(`[aria-label="${name}"]`);
  assert.equal(document.querySelectorAll('header').length,1);
+ assert.equal(button('Open search').className,'vn-liquid-search-toggle');
+ const css=readFileSync('app/globals.css','utf8');
+ assert.doesNotMatch(css,/\.(?:vn-search-toggle|vn-floating-controls|vn-theme-toggle|vn-cart-sheet|vn-light)(?![\w-])/);
+ assert.match(css,/--background: #f5f7f7/);
  assert.equal(document.querySelector('form').hidden,true);
  act(()=>button('Open search').click());
  assert.equal(document.querySelector('form').hidden,false);
