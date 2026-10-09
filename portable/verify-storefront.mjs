@@ -35,7 +35,8 @@ console.log(`Verified privacy-safe product shells on ${catalog.length} product p
 
 const home=await readFile(resolve(root,"index.html"),"utf8");
 assert.doesNotMatch(home,/THE VANTA NOIR EDIT\s*\/\s*001/);
-assert.match(home,/aria-label="Main navigation"/);
+assert.match(home,/aria-label="Open menu"/);
+assert.doesNotMatch(home,/aria-label="Main navigation"/); // Navigation links live in the hamburger menu.
 assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Category discovery lives below the hero; no duplicate header strip.
 // The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
