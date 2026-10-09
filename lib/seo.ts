@@ -57,7 +57,7 @@ export const SEO_PAGES = {
 } as const;
 
 export const SOCIAL_IMAGE = {
-  url: `${SITE_URL}/images/vanta-hero.png`,
+  url: `${SITE_URL}/images/vanta-brand-hero-2026.webp`,
   width: 1672,
   height: 941,
   alt: "Vanta Noir technical streetwear collection",

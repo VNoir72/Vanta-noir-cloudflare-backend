@@ -31,8 +31,8 @@ test('one inline search opens, submits, closes and preserves the query',()=>{
  act(()=>button('Search the collection').dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
  assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'true');assert.equal(button('Search the collection').value,'tracksuit');
  assert.ok(button('Saved items'));assert.ok(button('Bag 0'));assert.ok(button('Open menu'));
- assert.equal(document.querySelectorAll('.vn-liquid-desktop-nav a').length,3);
- assert.ok(!document.querySelector('a[href="/about"]'));
+ assert.equal(document.querySelectorAll('.vn-liquid-desktop-nav a').length,4);
+ assert.ok(document.querySelector('a[href="/about"]'));
  act(()=>button('Open menu').click());assert.equal(button('Open menu').getAttribute('aria-expanded'),'true');
  wide=true;act(()=>mediaChange());assert.equal(button('Open menu').getAttribute('aria-expanded'),'false');
  act(()=>root.unmount());dom.window.close();

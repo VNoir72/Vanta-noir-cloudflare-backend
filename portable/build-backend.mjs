@@ -16,7 +16,7 @@ for (const name of await readdir("dist/client")) {
 }
 const images = JSON.parse(await readFile("lib/image-assets.json", "utf8"));
 for (const path of Object.keys(images)) {
-  if (!["/images/vanta-hero.png", "/images/vanta-noir-header-logo.png"].includes(path)) {
+  if (!["/images/vanta-noir-header-logo.png"].includes(path)) {
     await rm(`dist/client${path}`, { force: true });
   }
 }

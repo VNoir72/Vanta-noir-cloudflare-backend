@@ -6,7 +6,7 @@ const files=(await readdir(root,{recursive:true})).filter(f=>f.endsWith(".html")
 let checked=0;
 for(const file of files){
   const html=await readFile(resolve(root,file),"utf8");
-  assert.doesNotMatch(html,/href="\/about"/,`${file} must not link to the retired About page`);
+  assert.match(html,/href="\/about"/,`${file} must link to the restored About page`);
   assert.match(html,/<h1\b/,`${file} must have a page heading`);
   assert.equal((html.match(/class="vn-liquid-header"/g)||[]).length,1,`${file} must use the single current header`);
   assert.doesNotMatch(html, /class="(?:dn-header|vn-store-header)(?: |")/, `${file} contains a retired header`);
@@ -44,7 +44,7 @@ const home=await readFile(resolve(root,"index.html"),"utf8");
 assert.doesNotMatch(home,/THE VANTA NOIR EDIT\s*\/\s*001/);
 assert.match(home,/aria-label="Open menu"/);
 assert.match(home,/aria-label="Main navigation"/); // Direct links on tablets/desktop; hamburger on phones.
-assert.doesNotMatch(home,/href="\/about"/);
+assert.match(home,/href="\/about"/);
 assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Category discovery lives below the hero; no duplicate header strip.
 // The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
@@ -72,3 +72,9 @@ for (const chunk of [...javascript.matchAll(/catalog-images-[A-Za-z0-9_-]+\.js/g
   assert.ok((await stat(resolve(root,"assets",chunk[0]))).isFile(), "Missing deferred catalogue module");
 }
 console.log(`Startup JavaScript budget passed: ${Buffer.byteLength(javascript)} bytes.`);
+
+const about=await readFile(resolve(root,'about.html'),'utf8');
+assert.match(about,/vn-about-logo-circle/);
+assert.match(about,/vanta-noir-emblem-960.webp/);
+assert.doesNotMatch(about,/vanta-hero(?:-|\.)/);
+for(const file of ['vanta-hero.png','vanta-hero-480.webp','vanta-hero-960.webp','vanta-hero-1600.webp'])assert.equal(await stat(resolve(root,'images',file)).catch(()=>null),null,'Retired campaign image must not ship: '+file);

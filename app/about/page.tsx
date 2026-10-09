@@ -1,2 +1,2 @@
-import { permanentRedirect } from "next/navigation";
-export default function About(){permanentRedirect("/#brand");}
+import { AboutContent } from "@/components/customer-pages";
+export default function About(){return <AboutContent/>;}

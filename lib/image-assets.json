@@ -1,18 +1,4 @@
 {
-  "/images/vanta-hero.png": [
-    {
-      "src": "/images/vanta-hero-480.webp",
-      "width": 480
-    },
-    {
-      "src": "/images/vanta-hero-960.webp",
-      "width": 960
-    },
-    {
-      "src": "/images/vanta-hero-1600.webp",
-      "width": 1600
-    }
-  ],
   "/images/vanta-hooded-performance-charcoal-grey-clean.png": [
     {
       "src": "/images/vanta-hooded-performance-charcoal-grey-clean-480.webp",

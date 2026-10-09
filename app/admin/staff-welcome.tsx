@@ -18,7 +18,7 @@ export function StaffWelcome({onComplete}:{onComplete:()=>void}){
    image.onload=()=>{clearTimeout(timer);if(!stopped&&!settled){settled=true;setPhase(preference.matches?'emblem':'hero');}};
    image.onerror=()=>{clearTimeout(timer);showMark();};
    timer=setTimeout(showMark,2500);
-   image.src='/images/vanta-hero-960.webp';
+   image.src='/images/vanta-brand-hero-2026.webp';
   }
   return()=>{stopped=true;clearTimeout(timer);image.onload=null;image.onerror=null;preference.removeEventListener('change',reduce);};
  },[]);
@@ -32,7 +32,7 @@ export function StaffWelcome({onComplete}:{onComplete:()=>void}){
   return()=>clearTimeout(timer);
  },[phase,reduced,onComplete]);
  return <section className="vn-chat-intro" data-phase={phase} data-reduced={reduced} aria-label="Welcome to your staff workspace">
-  <div className="vn-chat-intro-hero" aria-hidden="true"><img src="/images/vanta-hero-960.webp" alt=""/><div><img src="/images/vanta-spire-on-dark.svg" alt=""/><h2>Welcome to your<br/>staff workspace</h2></div></div>
+  <div className="vn-chat-intro-hero" aria-hidden="true"><img src="/images/vanta-brand-hero-2026.webp" alt=""/><div><img src="/images/vanta-spire-on-dark.svg" alt=""/><h2>Welcome to your<br/>staff workspace</h2></div></div>
   <div className="vn-chat-intro-emblem">{!markFailed&&<img src="/images/vanta-emblem.svg" alt="" onError={()=>setMarkFailed(true)}/>}<strong>VANTA NOIR</strong><span>Presence. Power. Precision.</span></div>
   <button ref={skip} className="vn-welcome-skip" onClick={onComplete}>{reduced?'Enter workspace':'Skip welcome'}</button>
  </section>;

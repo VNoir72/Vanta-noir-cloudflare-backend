@@ -2,6 +2,7 @@ import {bulkDispatchAdmin} from '../lib/bulk-dispatch-admin';
 import {shippingWeightsAdmin} from '../lib/shipping-weights-admin';
 import {shipbubbleWebhook} from '../lib/shipbubble-webhook';
 import {shipbubbleAdmin} from '../lib/shipbubble-admin';
+import {runShipbubbleLiveCheck} from '../lib/shipbubble-live';
 import {runLiveCheck} from '../lib/terminal-live';
 import {runComparisonJob} from '../lib/shipping-comparison-job';
 import {runDeliveryAcceptance} from '../lib/terminal-delivery-acceptance';
@@ -31,7 +32,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await reconcilePendingPayments().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runTerminalJob().catch(()=>{}); await runLiveCheck().catch(()=>{}); await runDeliveryAcceptance().catch(()=>{}); await runComparisonJob().catch(()=>{}); })()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await reconcilePendingPayments().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runTerminalJob().catch(()=>{}); await runLiveCheck().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await runDeliveryAcceptance().catch(()=>{}); await runComparisonJob().catch(()=>{}); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});

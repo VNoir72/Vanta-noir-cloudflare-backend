@@ -15,7 +15,7 @@ let snapshot;
 try { snapshot = JSON.parse(await readFile("portable/catalog-snapshot.json", "utf8")); } catch { /* Initial development builds use the curated seed. */ }
 snapshot ??= defaultProducts;
 snapshot = snapshot.map(individualProductViews);
-const pages = [...Object.values(SEO_PAGES).filter(page=>page.path!=="/about"), ...snapshot.map(product => ({...productSeo(product),product})),
+const pages = [...Object.values(SEO_PAGES), ...snapshot.map(product => ({...productSeo(product),product})),
   { path: "/products/_dynamic", title: "Vanta Noir product", description: "Explore the Vanta Noir collection.", noindex:true },
   { path: "/email-preferences", title: "Email preferences | Vanta Noir", description: "Manage your Vanta Noir email preferences.", noindex: true },
   { path: "/checkout", title: "Checkout | Vanta Noir", description: "Review your bag and delivery options.", noindex: true },
@@ -36,7 +36,7 @@ for (const page of pages) {
 await cp("public", root, { recursive: true, filter: source => !/^(?:__|qa-)/.test(source.split("/").at(-1)) });
 const imageManifest = JSON.parse(await readFile("lib/image-assets.json", "utf8"));
 for (const path of Object.keys(imageManifest)) {
-  if (!["/images/vanta-hero.png", "/images/vanta-noir-header-logo.png"].includes(path)) {
+  if (!["/images/vanta-noir-header-logo.png"].includes(path)) {
     await rm(`${root}${path}`, { force: true });
   }
 }

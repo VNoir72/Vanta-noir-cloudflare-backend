@@ -23,3 +23,20 @@ export async function checkShipbubbleLive(){
  await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(connectionKey,JSON.stringify(result)).run();
  return shipbubbleReadiness();
 }
+
+/** Read-only account verification job; never creates or books a shipment. */
+export async function runShipbubbleLiveCheck(){
+ const db=getDbBinding(),jobKey='shipbubble-live-check-job';
+ const row=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(jobKey).first<{value:string}>();
+ if(!row)return;
+ const job=JSON.parse(row.value);
+ if(job.status==='running'&&Date.now()-Date.parse(job.startedAt)>120000){
+  await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(JSON.stringify({...job,status:'failed',error:'Connection check interrupted. Retry.'}),jobKey,row.value).run();return;
+ }
+ if(job.status!=='queued')return;
+ const running=JSON.stringify({...job,status:'running',startedAt:new Date().toISOString()});
+ const claim=await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(running,jobKey,row.value).run();
+ if(!claim.meta.changes)return;
+ await checkShipbubbleLive();
+ await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(JSON.stringify({...job,status:'completed',completedAt:new Date().toISOString()}),jobKey,running).run();
+}

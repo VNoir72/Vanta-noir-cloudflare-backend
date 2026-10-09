@@ -3,7 +3,7 @@ import '@/app/storefront.css';
 import {useEffect,useRef,useState} from 'react';
 import {Heart,Menu,Search,ShoppingBag,X} from 'lucide-react';
 import {Sheet,SheetContent,SheetTitle,SheetDescription} from '@/components/ui/sheet';
-const links=[['Home','/'],['Contact','/contact'],['Privacy Policy','/privacy-policy']] as const;
+const links=[['Home','/'],['About','/about'],['Contact','/contact'],['Privacy Policy','/privacy-policy']] as const;
 export function StoreHeader({query,onQuery,onSearch,savedCount=0,bagCount=0,onSaved,onBag}:{dark?:boolean;query:string;onQuery:(value:string)=>void;onSearch:()=>void;savedCount?:number;bagCount?:number;onSaved:()=>void;onBag:()=>void}){
  const [menuOpen,setMenuOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false);
  const inputRef=useRef<HTMLInputElement>(null),toggleRef=useRef<HTMLButtonElement>(null);

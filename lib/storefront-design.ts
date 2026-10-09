@@ -32,7 +32,7 @@ export const collectionLabelsSchema=z.array(z.object({source:z.string().trim().m
   .refine(rows=>new Set(rows.map(row=>row.source)).size===rows.length,'Each collection label must be unique.');
 
 export const aboutImageSchema=z.object({
-  image:image.default('/images/vanta-hero.png'),
-  alt:z.string().trim().min(3).max(240).default('Vanta Noir campaign — technical streetwear in motion'),
+  image:image.default('/images/vanta-noir-emblem-960.webp'),
+  alt:z.string().trim().min(3).max(240).default('Vanta Noir gold spire emblem'),
   focus:z.enum(['left','center','right']).default('center'),
 });
