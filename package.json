@@ -61,6 +61,7 @@
     "esbuild": "0.28.1",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
+    "jsdom": "^26.0.0",
     "miniflare": "5.20261001.0-alpha",
     "react-server-dom-webpack": "19.3.0",
     "sharp": "0.35.5",
