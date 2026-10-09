@@ -36,6 +36,15 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  const expired={...resolved,expiresAt:0};await assert.rejects(rpc('createPendingOrder',{...args,checkoutAttempt:undefined,shippingQuote:expired}),/delivery quote changed/);
  assert.equal((await rpc('createPendingOrder',args)).reference,order.reference);
  });
+ await t.test('Kaduna State customers pay zero while courier cost and destination binding remain intact',async()=>{
+ const kaduna={...input,customer:{...input.customer,city:'Zaria',state:'Kaduna'}};
+ const quotes=await rpc('createShippingQuotes',kaduna);assert.ok(quotes.rates.every(r=>r.amountKobo===0));
+ const selected={quoteId:quotes.quoteId,rateId:quotes.rates[0].rateId,provider:'shipbubble'};
+ const resolved=await rpc('resolveShippingSelection',selected,kaduna);assert.equal(resolved.rate.amountKobo,0);assert.equal(resolved.rate.walletKobo,150000);
+ await assert.rejects(rpc('resolveShippingSelection',selected,input),/changed or expired/);
+ const order=await rpc('createPendingOrder',{...kaduna,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:0,shippingQuote:resolved,expectedTotalKobo:product.priceKobo,expectedRewardSignature:''});assert.equal(order.shippingKobo,0);assert.equal(order.totalKobo,product.priceKobo);
+ const outside=await rpc('createShippingQuotes',input);assert.ok(outside.rates.every(r=>r.amountKobo>0));
+ });
  await t.test('expired quote is rejected and cannot be refreshed by the client',async()=>{await db.prepare("UPDATE store_meta SET value=json_set(value,'$.expiresAt',0) WHERE key=?").bind('shipping-quote:'+quotes.quoteId).run();await assert.rejects(rpc('resolveShippingSelection',{...selection,expiresAt:Date.now()+999999},input),/changed or expired/);});
  await t.test('owner-approved unmeasured weights work and edits invalidate old quotes',async()=>{
  const old=await rpc('productParcel',product.id,'S'),pack=await rpc('packagingProfiles');

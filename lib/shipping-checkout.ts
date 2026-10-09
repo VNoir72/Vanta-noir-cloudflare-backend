@@ -16,7 +16,8 @@ export const shippingInputSchema=z.object({
 export const shippingSelectionSchema=z.object({quoteId:z.string().uuid(),rateId:z.string().uuid(),provider:z.literal('shipbubble')});
 type Input=z.infer<typeof shippingInputSchema>;
 export type ShippingSelection=z.infer<typeof shippingSelectionSchema>;
-type QuoteRecord={inputHash:string;expiresAt:number;giftVariantId:string;rates:Array<ComparisonRate&{selectionId:string}>;parcel:object;profileRevisions:Array<{key:string;revision:string}>};
+const pricingPolicy='kaduna-free-v1';
+type QuoteRecord={pricingPolicy:string;inputHash:string;expiresAt:number;giftVariantId:string;rates:Array<ComparisonRate&{selectionId:string}>;parcel:object;profileRevisions:Array<{key:string;revision:string}>};
 export class ShippingInputError extends Error{}
 const invalid=()=>new ShippingInputError('Delivery options changed or expired. Check delivery again before paying.');
 async function fingerprint(input:Input){const canonical={...input,cart:[...input.cart].sort((a,b)=>a.variantId.localeCompare(b.variantId))};const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(canonical)));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
@@ -42,7 +43,9 @@ export async function createShippingQuotes(raw:unknown){
  const {parcel,giftVariantId,profileRevisions}=await parcelFor(input),c=input.customer;
  const rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:'NG',zip:c.postalCode},parcel,'live');
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');
- const quoteId=crypto.randomUUID(),record:QuoteRecord={inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,selectionId:crypto.randomUUID()}))};
+ const freeKaduna=input.customer.countryCode==='NG'&&input.customer.state==='Kaduna';
+ // Keep the actual wallet charge for fulfilment. Only the customer charge is subsidised.
+ const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,amountKobo:freeKaduna?0:r.amountKobo,selectionId:crypto.randomUUID()}))};
  const db=getDbBinding();
  await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('shipping-quote:'+quoteId,JSON.stringify(record)).run();
  // Quote records contain hashes, parcel data and provider references, not customer contact details.
@@ -63,6 +66,6 @@ export async function resolveShippingSelection(selection:ShippingSelection,input
 export async function assertCurrentShippingProfiles(selection:ShippingSelection){
  const db=getDbBinding();const row=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('shipping-quote:'+selection.quoteId).first<{value:string}>();
  const record=row?JSON.parse(row.value) as QuoteRecord:null;
- if(!record?.profileRevisions?.length)throw invalid();
+ if(!record?.profileRevisions?.length||record.pricingPolicy!==pricingPolicy)throw invalid();
  for(const p of record.profileRevisions){const current=await db.prepare("SELECT json_extract(value,'$.revision') AS revision FROM store_meta WHERE key=?").bind(p.key).first<{revision:string}>();if(!current||current.revision!==p.revision)throw invalid();}
 }
