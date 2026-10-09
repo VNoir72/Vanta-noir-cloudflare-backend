@@ -2,10 +2,10 @@ import {JSDOM,VirtualConsole} from 'jsdom';
 import test from 'node:test';import assert from 'node:assert/strict';import {build} from 'esbuild';import {Miniflare} from './miniflare.mjs';
 test('Bulk dispatch preserves courier/destination, locks paid bookings, links automatically and blocks ambiguous retries',async t=>{
  await build({entryPoints:['tests/bulk-dispatch-worker.ts'],outfile:'work/bulk-dispatch-test.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',external:['cloudflare:workers'],conditions:['workerd','browser']});
- let bookingCalls=0,quoteCalls=0,balance=100000,throwBooking=false,wrongCourier=false,lastRateBody,lastBookBody;const addresses=[];
+ let bookingCalls=0,quoteCalls=0,balance=100000,throwBooking=false,wrongCourier=false,lastRateBody,lastBookBody,walletGate;const addresses=[];
  const mf=new Miniflare({modules:true,scriptPath:'work/bulk-dispatch-test.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture'},outboundService:async r=>{
   assert.equal(r.headers.get('Authorization'),'Bearer sb_prod_fixture');
-  if(r.url.endsWith('/wallet/balance'))return Response.json({status:'success',data:{balance,currency:'NGN'}});
+  if(r.url.endsWith('/wallet/balance')){const gate=walletGate;walletGate=undefined;if(gate){gate.enter();await gate.release;}return Response.json({status:'success',data:{balance,currency:'NGN'}});}
   if(r.url.endsWith('/address/validate')){addresses.push(await r.json());return Response.json({status:'success',data:{address_code:123}});}
   if(r.url.endsWith('/labels/categories'))return Response.json({status:'success',data:[{category:'Fashion wears',category_id:1}]});
   if(r.url.endsWith('/fetch_rates')){lastRateBody=await r.json();quoteCalls++;return Response.json({status:'success',data:{request_token:'fresh-token-'+quoteCalls,couriers:[{service_code:wrongCourier?'different':'selected',courier_id:7,courier_name:'Selected courier',total:5000,rate_card_amount:5500,currency:'NGN',service_type:'pickup',delivery_eta:'3 days'},{service_code:'cheap',courier_id:'cheaper',courier_name:'Cheaper courier',total:2000,currency:'NGN',service_type:'pickup'}]}});}
@@ -19,7 +19,7 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
  await meta('parcel-item:tee:L',{revision:'profile-1',data:{weightGrams:400,lengthCm:28,widthCm:23,heightCm:3,measured:false,approvedForCheckout:true}});
  await meta('parcel-packaging',{revision:'box-1',data:[{id:'box',name:'Approved box',boxGrams:2000,wrapGrams:60,tareGrams:2060,lengthCm:36,widthCm:25,heightCm:15,maxWeightGrams:8000,measured:false,approvedForCheckout:true}]});
  await meta('terminal_business_pickup',{revision:'pickup-1',details:{first_name:'Test',last_name:'Shop',email:'shop@example.com',phone:'+2348000000000',line1:'20 Pickup Street',line2:'',city:'Kaduna',state:'Kaduna',country:'NG',zip:'800001'}});
- for(const ref of ['VN-ONE','VN-TWO','VN-STALE','VN-NOFUNDS','VN-UNKNOWN','VN-MISSING','VN-WRONG','VN-UNPAID']){await db.prepare("INSERT INTO orders(id,reference,payment_status,status,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,created_at) VALUES(?,?,'paid','paid','buyer@example.com','Test','Buyer','08000000000','10 Recipient Street','','Ikeja','Lagos','Nigeria',3500000,450000,'2026-10-09')").bind(ref,ref).run();await db.prepare("INSERT INTO order_items(order_id,product_id,size,product_name,quantity) VALUES(?,'tee','L','Tee',1)").bind(ref).run();if(ref!=='VN-MISSING')await meta('order-shipping:'+ref,{rate:{provider:'shipbubble',carrier:'Selected courier',service:'selected',id:'old-token:selected',amountKobo:450000,walletKobo:400000,currency:'NGN'},parcel:{weightKg:2.16,lengthCm:36,widthCm:25,heightCm:15}});}
+ for(const ref of ['VN-ONE','VN-TWO','VN-STALE','VN-NOFUNDS','VN-UNKNOWN','VN-MISSING','VN-WRONG','VN-UNPAID','VN-RACE','VN-PREFLIGHT-STALE']){await db.prepare("INSERT INTO orders(id,reference,payment_status,status,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,created_at) VALUES(?,?,'paid','paid','buyer@example.com','Test','Buyer','08000000000','10 Recipient Street','','Ikeja','Lagos','Nigeria',3500000,450000,'2026-10-09')").bind(ref,ref).run();await db.prepare("INSERT INTO order_items(order_id,product_id,size,product_name,quantity) VALUES(?,'tee','L','Tee',1)").bind(ref).run();if(ref!=='VN-MISSING')await meta('order-shipping:'+ref,{rate:{provider:'shipbubble',carrier:'Selected courier',service:'selected',id:'old-token:selected',amountKobo:450000,walletKobo:400000,currency:'NGN'},parcel:{weightKg:2.16,lengthCm:36,widthCm:25,heightCm:15}});}
  await db.prepare("UPDATE orders SET payment_status='pending' WHERE reference='VN-UNPAID'").run();
  const rpc=async(action,...args)=>{const r=await mf.dispatchFetch('https://test/rpc',{method:'POST',body:JSON.stringify({action,args})});const data=await r.json();if(!r.ok)throw Error(data.error);return data;};
  const row=async(ref)=>(await rpc('dispatchOrders')).rows.find(r=>r.reference===ref);
@@ -38,5 +38,33 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
  await t.test('insufficient funds do not submit or claim a booking',async()=>{const q=await review('VN-NOFUNDS');balance=1;await assert.rejects(rpc('bookDispatch',q.id,'owner@example.com'),/funding/);assert.equal(await db.prepare("SELECT value FROM store_meta WHERE key='dispatch-booking:VN-NOFUNDS'").first(),null);balance=100000;});
  await t.test('ambiguous provider results never automatically retry',async()=>{const q=await review('VN-UNKNOWN');throwBooking=true;const r=await rpc('bookDispatch',q.id,'owner@example.com');assert.equal(r.state,'needs_review');const count=bookingCalls;await rpc('bookDispatch',q.id,'owner@example.com');assert.equal(bookingCalls,count);await assert.rejects(review('VN-UNKNOWN'),/unresolved/);throwBooking=false;});
  await t.test('missing courier, unavailable selected service, unpaid order and wrong owner are blocked',async()=>{await assert.rejects(review('VN-MISSING'));wrongCourier=true;await assert.rejects(review('VN-WRONG'),/unavailable/);wrongCourier=false;assert.equal(await row('VN-UNPAID'),undefined);const q=await review('VN-WRONG');await assert.rejects(rpc('bookDispatch',q.id,'other@example.com'),/not found/);assert.equal((await mf.dispatchFetch('https://test/admin')).status,503);});
+ await t.test('a booking completed during another request’s wallet preflight is returned without a second charge',async()=>{
+  const q=await review('VN-RACE'),before=bookingCalls;
+  let enter,release;const entered=new Promise(resolve=>enter=resolve),blocked=new Promise(resolve=>release=resolve);
+  walletGate={enter,release:blocked};
+  const delayed=rpc('bookDispatch',q.id,'owner@example.com');
+  try{
+   await entered;
+   const winner=await rpc('bookDispatch',q.id,'owner@example.com');
+   assert.equal(winner.state,'booked');
+   balance=0; // The winner can consume the remaining wallet funds.
+   release();
+   assert.deepEqual(await delayed,winner);
+   assert.equal(bookingCalls,before+1);
+   assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM admin_audit WHERE entity='VN-RACE' AND action='bulk dispatch booked'").first()).n,1);
+  }finally{release();balance=100000;await delayed.catch(()=>{});}
+ });
+ await t.test('a genuine address change during wallet preflight still blocks booking',async()=>{
+  const q=await review('VN-PREFLIGHT-STALE'),before=bookingCalls;
+  let enter,release;const entered=new Promise(resolve=>enter=resolve),blocked=new Promise(resolve=>release=resolve);
+  walletGate={enter,release:blocked};
+  const delayed=rpc('bookDispatch',q.id,'owner@example.com');
+  const rejected=assert.rejects(delayed,/changed/);
+  try{await entered;await db.prepare("UPDATE orders SET address_line_1='New destination' WHERE reference='VN-PREFLIGHT-STALE'").run();}
+  finally{release();}
+  await rejected;
+  assert.equal(bookingCalls,before);
+  assert.equal(await db.prepare("SELECT value FROM store_meta WHERE key='dispatch-booking:VN-PREFLIGHT-STALE'").first(),null);
+ });
  }finally{await mf.dispose();}
 });

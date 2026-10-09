@@ -73,13 +73,20 @@ export async function bookDispatch(id:string,actor:string){
  const previous=await meta<Booking>(bookingKey(r.reference));if(previous)return previous;
  if(Date.now()>=r.expiresAt||!dateAllowed(r.pickupDate))fail('The reviewed rates expired. Review the order again.');
  const s=await snapshot(r.reference);
+ // Another request may claim or complete the booking while the snapshot is read.
+ const duringSnapshot=await meta<Booking>(bookingKey(r.reference));if(duringSnapshot)return duringSnapshot;
  if(s.linked)fail('This order already has a shipment.');
  if(s.fingerprint!==r.fingerprint)fail('Order, pickup details or weights changed. Review again before booking.');
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
  // Read-only preflight: never automatically fund the wallet or charge the customer again.
  const balance=z.object({currency:z.literal('NGN'),balance:z.number().finite().nonnegative()}).parse(await providerJson('https://api.shipbubble.com/v1/shipping/wallet/balance',key,undefined));
+ const current=await snapshot(r.reference);
+ // A competing booking changes order status (and may consume wallet balance).
+ // Return its durable result before treating those changes as a stale review.
+ const duringPreflight=await meta<Booking>(bookingKey(r.reference));if(duringPreflight)return duringPreflight;
  if(Math.round(balance.balance*100)<r.rate.walletKobo)fail('Your Shipbubble wallet needs funding before this booking.');
- if((await snapshot(r.reference)).fingerprint!==r.fingerprint)fail('Order details changed. Review again before booking.');
+ if(current.linked)fail('This order already has a shipment.');
+ if(current.fingerprint!==r.fingerprint)fail('Order details changed. Review again before booking.');
  const attempt:Booking={state:'booking',reviewId:id,reference:r.reference,carrier:r.rate.carrier,startedAt:Date.now()};
  // Durable, per-order exclusion. Never retry a POST /labels after an ambiguous result.
  const claimed=await db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND EXISTS(SELECT 1 FROM orders WHERE reference=? AND payment_status='paid' AND status IN ('paid','processing'))").bind(bookingKey(r.reference),JSON.stringify(attempt),'shipbubble-order:'+r.reference,r.reference).run();
