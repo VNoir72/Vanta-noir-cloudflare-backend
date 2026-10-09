@@ -4,9 +4,9 @@ All values are estimates, not measurements. Saved item weights include a 15% pla
 
 Calculation: estimated fabric area × specified/assumed GSM + trims + assumed lining/fill. Size charts grade areas; sets sum included components. No manufacturing cutting waste is added. Accessories without mass specifications use disclosed category assumptions. Allow roughly ±25–40% uncertainty; this is a planning judgement, not a statistical confidence interval. Folded dimensions are also provisional.
 
-Box presets: small 25×18×8 cm, 400+30=430 g; medium 36×25×15 cm, 800+60=860 g; large 46×36×20 cm, 1500+100=1600 g; luxury assumed 36×25×15 cm, 700+60=760 g. The luxury dimensions and all gross-weight limits are planning assumptions, not manufacturer ratings. Luxury packaging may need an outer transit carton.
+Owner selected 1.7 kg empty-box estimate per box on 2026-10-09. Box presets: small 25×18×8 cm, 1700+30=1730 g; medium 36×25×15 cm, 1700+60=1760 g; large 46×36×20 cm, 1700+100=1800 g; luxury assumed 36×25×15 cm, 1700+60=1760 g. The luxury dimensions and all gross-weight limits are planning assumptions, not manufacturer ratings. Luxury packaging may need an outer transit carton.
 
-The source articles give broad examples, not specifications for the proposed boxes. In particular, Packing Solution associates its quoted weight bands with larger dimensions. User-provided sizes/ranges are retained as provisional presets.
+The source articles give broad examples, not specifications for the proposed boxes. In particular, Packing Solution associates its quoted weight bands with larger dimensions. User-provided dimensions remain provisional; the owner subsequently replaced all empty-box weights with 1.7 kg.
 
 Source links: https://packingsolution.co.uk/blogs/news/weight-of-a-cardboard-box-in-kg ; https://gentlever.com/standard-box-sizes/ ; https://gentlever.com/how-much-does-a-cardboard-box-weigh/
 
