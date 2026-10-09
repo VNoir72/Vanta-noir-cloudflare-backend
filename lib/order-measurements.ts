@@ -17,10 +17,10 @@ export async function measurementOrders(){return (await getDbBinding().prepare("
 export async function saveOrderMeasurements(reference:string,input:unknown,revision:unknown,actor:string){
  referenceSchema.parse(reference);const measurements=orderMeasurementsSchema.parse(input),expected=z.string().uuid().nullable().parse(revision);
  const db=getDbBinding(),record:Saved={revision:crypto.randomUUID(),updatedAt:new Date().toISOString(),measurements};
- const eligible="EXISTS(SELECT 1 FROM orders WHERE reference=? AND payment_status='paid' AND status IN ('paid','processing')) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?)";
+ const eligible="EXISTS(SELECT 1 FROM orders WHERE reference=? AND payment_status='paid' AND status IN ('paid','processing')) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?)";
  const result=expected===null
- ?await db.prepare(`INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE ${eligible}`).bind(key(reference),JSON.stringify(record),reference,'shipbubble-order:'+reference).run()
- :await db.prepare(`UPDATE store_meta SET value=? WHERE key=? AND json_extract(value,'$.revision')=? AND ${eligible}`).bind(JSON.stringify(record),key(reference),expected,reference,'shipbubble-order:'+reference).run();
+ ?await db.prepare(`INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE ${eligible}`).bind(key(reference),JSON.stringify(record),reference,'shipbubble-order:'+reference,'dispatch-booking:'+reference).run()
+ :await db.prepare(`UPDATE store_meta SET value=? WHERE key=? AND json_extract(value,'$.revision')=? AND ${eligible}`).bind(JSON.stringify(record),key(reference),expected,reference,'shipbubble-order:'+reference,'dispatch-booking:'+reference).run();
  if(!result.meta.changes)throw Error('Measurements were not saved. Reload the order; it may have changed, shipped, or already been linked.');
  await db.prepare('INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,?,?,?)').bind(actor,'order.measurements',reference,JSON.stringify(record)).run();
  return record;

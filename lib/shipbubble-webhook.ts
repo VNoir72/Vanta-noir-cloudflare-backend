@@ -57,13 +57,17 @@ export async function linkShipbubbleShipment(reference:string,shipmentId:string,
  const raw=data?.results?.find(v=>z.object({order_id:z.string()}).safeParse(v).data?.order_id===shipmentId);
  const shipment=shipmentSchema.parse(raw);const destination=z.object({ship_to:z.object({email:z.string().email()})}).parse(raw);
  if(destination.ship_to.email.trim().toLowerCase()!==order.email.trim().toLowerCase())throw Error('Shipment recipient email does not match the store order.');
+ const attemptRow=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('dispatch-booking:'+reference).first<{value:string}>();
+ const attempt=attemptRow?JSON.parse(attemptRow.value):null;
+ if((attempt?.state==='booking'&&(!attempt.startedAt||attempt.startedAt>Date.now()-120000))||(attempt?.shipmentId&&attempt.shipmentId!==shipmentId))throw Error('Bulk booking is in progress or has a different shipment ID. Review it before linking.');
  const record=JSON.stringify({reference,linkedAt:new Date().toISOString()});
  await db.batch([
-  db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.reference')<>?)").bind('shipbubble-order:'+reference,shipmentId,mappingKey(shipmentId),reference),
+  db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.reference')<>?) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.state')='booking' AND COALESCE(json_extract(value,'$.startedAt'),?)>?)").bind('shipbubble-order:'+reference,shipmentId,mappingKey(shipmentId),reference,'dispatch-booking:'+reference,Date.now(),Date.now()-120000),
   db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)").bind(mappingKey(shipmentId),record,'shipbubble-order:'+reference,shipmentId),
   db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) SELECT ?,'link Shipbubble shipment',?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)").bind(actor,reference,shipmentId,mappingKey(shipmentId),record)
  ]);
  const saved=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(mappingKey(shipmentId)).first<{value:string}>();
  if(!saved||JSON.parse(saved.value).reference!==reference)throw Error('Shipment or order is already linked. Review the existing booking.');
+ if(attempt)await db.prepare('UPDATE store_meta SET value=? WHERE key=?').bind(JSON.stringify({...attempt,state:'booked',shipmentId,carrier:shipment.courier.name,message:'Verified and linked after manual reconciliation.'}),'dispatch-booking:'+reference).run();
  return applyShipbubbleShipment(shipment);
 }

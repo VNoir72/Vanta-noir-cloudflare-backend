@@ -33,3 +33,15 @@ At `/api/admin/shipbubble`, select a paid order awaiting dispatch, enter total p
 Live rate requests use those saved measurements, the order address, declared goods subtotal and saved pickup details. They use tomorrow’s pickup date and create no shipment. The owner must verify the final pickup date and wallet charge in Shipbubble before booking. Rates display the delivery fee already collected and any shortfall borne by the store. Measurements never change the customer’s order totals. The one-to-one manual shipment link remains necessary for tracking events.
 
 `worker/shipbubble-overlay.ts` is the bridge for this release only: two routes delegate to the new handlers, all other fetches and scheduled work remain on the previous production bundle. Use the existing assets and inherit bindings; no credentials are copied into source or displayed. A full deployment from `worker/index.ts` includes the same handlers.
+
+## Approved weights and bulk dispatch — 2026-10-09
+
+Checkout quoting is live after the matching Namecheap checkout asset upload. The owner-approved empty-box weight is now 2,000 g per parcel, plus each preset's packing allowance. Saved production profiles are editable; they are approved standards, not certified physical measurements.
+
+Owner entry: `/api/admin/bulk-dispatch` (also linked from individual shipping). Select up to 20 paid orders on a page, confirm packing, edit whole-parcel fields where needed, and choose a requested pickup date. Review fresh rates before explicitly approving the displayed wallet total. Each request retains the customer's courier/service and order destination. A missing or unavailable courier is blocked instead of substituted. Older fixed-fee orders without a saved courier remain on the individual workflow.
+
+The browser submits reviewed bookings one at a time and records outcomes in D1. Successful responses save shipment mappings and tracking automatically. Each order has a durable booking lock across batches, sessions and retries. Ambiguous provider responses or interrupted booking attempts cannot be automatically retried; inspect Shipbubble and reconcile the verified shipment through individual linking (in-progress attempts have a two-minute guard). Customer payment totals are never changed by dispatch.
+
+No paid production shipment is created during deployment verification. The wallet must be funded before the owner books. Different selected couriers may require separate collections; a pickup date is a request, not a courier guarantee. Real webhook delivery remains unverified until a genuine shipment event arrives.
+
+Validation: bulk-dispatch, shipping-checkout, shipping-comparison, order-measurements and shipbubble-webhook tests; TypeScript check. Provider contract checked against Shipbubble's official create-shipment and request-shipping-rates documentation. `courier_id` accepts provider numeric or string identifiers and is normalized to the documented string booking input.

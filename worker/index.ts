@@ -1,3 +1,4 @@
+import {bulkDispatchAdmin} from '../lib/bulk-dispatch-admin';
 import {shippingWeightsAdmin} from '../lib/shipping-weights-admin';
 import {shipbubbleWebhook} from '../lib/shipbubble-webhook';
 import {shipbubbleAdmin} from '../lib/shipbubble-admin';
@@ -38,6 +39,7 @@ const worker = {
     if (denied) return secureResponse(denied, request, env);
     if (url.pathname === "/api/shipbubble/webhook") return secureResponse(await shipbubbleWebhook(request),request,env);
     if (url.pathname === "/api/admin/shipping-weights") return secureResponse(await shippingWeightsAdmin(request),request,env);
+    if (url.pathname === "/api/admin/bulk-dispatch") return secureResponse(await bulkDispatchAdmin(request),request,env);
     if (url.pathname === "/api/admin/shipbubble") return secureResponse(await shipbubbleAdmin(request),request,env);
     if (url.pathname === "/api/access/keys" && request.method === "GET") return secureResponse(await accessKeys(),request,env);
     if (url.pathname === "/api/access/evaluate" && request.method === "POST") return secureResponse(await evaluateAccess(request),request,env);

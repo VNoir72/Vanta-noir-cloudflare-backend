@@ -9,7 +9,7 @@ export async function shipbubbleReadiness(){
  const last=await db.prepare("SELECT value FROM store_meta WHERE key='shipbubble-last-webhook'").first<{value:string}>();
  const counts=await db.prepare("SELECT COUNT(*) AS saved,COALESCE(SUM(CASE WHEN json_extract(value,'$.data.measured')=1 THEN 1 ELSE 0 END),0) AS measured FROM store_meta WHERE key LIKE 'parcel-item:%'").first<{saved:number;measured:number}>();
  const packaging=await packagingProfiles();
- return {provider:'shipbubble',keyConfigured:runtimeEnv().SHIPBUBBLE_API_KEY?.startsWith('sb_prod_')===true,checkoutEnabled:shipbubbleCheckoutEnabled(),bookingEnabled:false,pickupReady:!!await getPickupDetails(),itemProfiles:counts,measuredPackaging:packaging.data.filter((p:{measured:boolean})=>p.measured).length,connection:row?JSON.parse(row.value):null,lastWebhook:last?JSON.parse(last.value):null,webhookPath:'/api/shipbubble/webhook'};
+ return {provider:'shipbubble',keyConfigured:runtimeEnv().SHIPBUBBLE_API_KEY?.startsWith('sb_prod_')===true,checkoutEnabled:shipbubbleCheckoutEnabled(),bookingEnabled:true,bookingMode:'owner-confirmed bulk dispatch',pickupReady:!!await getPickupDetails(),itemProfiles:counts,measuredPackaging:packaging.data.filter((p:{measured:boolean})=>p.measured).length,connection:row?JSON.parse(row.value):null,lastWebhook:last?JSON.parse(last.value):null,webhookPath:'/api/shipbubble/webhook'};
 }
 export async function checkShipbubbleLive(){
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';
