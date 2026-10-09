@@ -1,4 +1,3 @@
-import "./portal-theme.css";
 import {StaffChat} from "./staff-chat";
 import {SupportDashboard} from "./support-dashboard";
 import {ga4ErrorMessage} from '@/lib/ga4-errors';

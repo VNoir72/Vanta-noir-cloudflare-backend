@@ -8,7 +8,7 @@ import {StaffChat} from '../../app/admin/staff-chat';
 import {UnsavedChangesProvider} from '../../app/admin/unsaved-changes';
 import type {StaffRole} from '../../lib/operations-permissions';
 import '../../app/brand-materials.css';
-import '../../app/admin/portal-theme.css';
+import '../../app/admin/admin-appearance.css';
 const role=(new URLSearchParams(location.search).get('role')||'owner') as StaffRole;
 const demo=new URLSearchParams(location.search).get('revenue')==='demo';
 const analytics={range:{from:'2026-09-09',to:'2026-10-08',previousFrom:'2026-08-10',previousTo:'2026-09-08',days:30,endExclusive:'2026-10-09'},trend:Array.from({length:30},(_,i)=>({label:String(i+1),revenueKobo:demo?Math.round((i*1.5+8+6*Math.sin(i*.7))*100000):0,orders:demo?1:0})),categoryMix:[]};

@@ -3,7 +3,6 @@ import { AnalyticsConsent } from "@/components/analytics-consent";
 import { EmailPreferences } from "@/app/email-preferences/preferences";
 import { useEffect, useState } from "react";
 import { Storefront, ContactCarePage } from "@/app/storefront";
-import About from "@/app/about/page";
 import { HelpCenter } from "@/app/help-center/help-center";
 import { PrivacyPolicy } from "@/app/privacy-policy/privacy-policy";
 import { LegalPage } from "@/app/legal/legal-page";
@@ -29,7 +28,7 @@ function AppRoutes({ path, products }: { path: string; products: CatalogProduct[
   if(/^\/products\/[a-z0-9_-]+\/?$/.test(path)) return <Storefront products={products} sizes={[...STORE_SIZES]} detailSlug={path.split("/")[2]}/>;
   switch (path.replace(/\/+$/, "") || "/") {
     case "/": return <Storefront products={products} sizes={[...STORE_SIZES]} />;
-    case "/about": return <About />;
+    case "/about": return <Storefront products={products} sizes={[...STORE_SIZES]} />;
     case "/contact": return <ContactCarePage />;
     case "/help-center": return <HelpCenter />;
     case "/privacy-policy": return <PrivacyPolicy />;

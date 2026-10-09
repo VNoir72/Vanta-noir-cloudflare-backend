@@ -4,7 +4,6 @@ import {MessageCircle,BookOpen,Search,RotateCcw,ChevronDown} from 'lucide-react'
 import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/ui/dialog';
 import './staff-chat.css';
 import {StaffWelcome} from './staff-welcome';
-import './portal-theme.css';
 import {WorkspaceHelp} from './workspace-help';
 import {SupportOrderLookup} from './support-order-lookup';
 import {adminRead} from '@/lib/admin-read';

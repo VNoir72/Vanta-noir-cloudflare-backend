@@ -3,7 +3,7 @@ import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
 import '../../app/liquid-glass.css';
 import '../../app/admin/control-center.css';
-import '../../app/admin/liquid-glass-admin.css';
+import '../../app/admin/admin-appearance.css';
 import {SupportDashboard} from '../../app/admin/support-dashboard';
 import {WorkspaceHelp} from '../../app/admin/workspace-help';
 import {ContactForm} from '../../components/contact-form';

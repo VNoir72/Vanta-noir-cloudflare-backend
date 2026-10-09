@@ -1,5 +1,4 @@
 'use client';
-import './control-center.css';
 import {adminRead,hasArray} from '@/lib/admin-read';
 import {formatNaira} from '@/lib/catalog';
 import {useEffect,useRef,useState} from 'react';

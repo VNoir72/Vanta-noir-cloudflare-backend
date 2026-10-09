@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
-import '../../app/admin/portal-theme.css';
+import '../../app/admin/admin-appearance.css';
 import {TerminalPickup} from '../../app/admin/terminal-pickup';
 import {CommercePanel} from '../../app/admin/commerce-panel';
 import {RecordEditor} from '../../app/admin/record-editor';

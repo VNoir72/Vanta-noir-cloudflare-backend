@@ -14,10 +14,6 @@ import {AdminSearch,NotificationBell,CustomersPanel,IntegrationStatus,type Admin
 import {EmailDeliveryPanel} from "./email-delivery-panel";
 import {OverviewPanel,ReportControls,type ConnectionSummary,type FulfilmentCounts} from "./overview-panel";
 import {LayoutDashboard,Layers,ChartNoAxesCombined,Tag,Settings,ExternalLink,Search,PanelLeft,ArrowUpRight,Menu,ChevronDown,ChevronRight,Users,ShieldCheck,History,Folder,MoreHorizontal,Home,ShoppingCart} from "lucide-react";
-import "./control-center.css";
-import "./dashboard-exact.css";
-import "./liquid-glass-admin.css";
-import "./portal-theme.css";
 import { LegacyRecords } from "./legacy-records";
 import { useEffect, useMemo, useState, useRef, type Dispatch, type SetStateAction } from "react";
 import {
@@ -577,7 +573,7 @@ function DashboardContent({
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-3">
                             <p className="truncate text-sm text-foreground">{product.name}</p>
-                            {product.featured && <Star className="mt-0.5 size-3.5 shrink-0 fill-[#00ff66] text-foreground" />}
+                            {product.featured && <Star className="mt-0.5 size-3.5 shrink-0 fill-primary text-foreground" />}
                           </div>
                           <p className="mt-1 truncate text-xs text-muted-foreground">{product.category}</p>
                           <div className="mt-3 flex flex-wrap items-center gap-2">

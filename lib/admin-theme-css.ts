@@ -11,6 +11,7 @@ html[data-vn-admin-theme] {
  --admin-warning:#78561c; --admin-warning-bg:#fff4da;
  --admin-info:#316694; --admin-info-bg:#e8f0f7;
  --admin-scheme:light;
+ --admin-backdrop:url('/images/vanta-pearl-leaf-glass.webp');
  --admin-ground-image:radial-gradient(ellipse at 85% 15%,#e2ebe4 0%,transparent 55%);
 }
 html[data-vn-admin-theme=dark] {
@@ -24,6 +25,7 @@ html[data-vn-admin-theme=dark] {
  --admin-warning:#efdaa2; --admin-warning-bg:#625c3f;
  --admin-info:#c3dbef; --admin-info-bg:#435867;
  --admin-scheme:dark;
+ --admin-backdrop:url('/images/admin-leaves.svg');
  --admin-ground-image:radial-gradient(ellipse at 90% 5%,#5a715d80 0%,transparent 55%);
 }
 html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-theme] :is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen) {
@@ -41,7 +43,7 @@ html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-them
  --vn-brand-muted:var(--admin-muted); --vn-brand-line:var(--admin-border);
  --vn-glass-ground:var(--admin-ground-image); --vn-glass-surface:var(--admin-glass);
  --vn-glass-panel:var(--admin-panel); --vn-glass-edge:var(--admin-edge);
- --vn-glass-shadow:0 12px 36px var(--admin-shadow); --vn-glass-filter:blur(22px) saturate(110%);
+ --vn-glass-shadow:inset 0 1px 0 var(--admin-edge),0 10px 32px var(--admin-shadow); --vn-glass-filter:blur(12px) saturate(115%);
 }
 html[data-vn-admin-theme] body {background:var(--admin-ground-image),var(--admin-ground);margin:0}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-access-page,.vn-welcome-screen) {background:var(--admin-ground-image),var(--admin-ground)}
@@ -69,7 +71,7 @@ html[data-vn-admin-theme] .vn-admin-workspace>.vn-exact {height:100%;min-height:
 .vn-appearance-bar {position:relative;z-index:31;display:flex;justify-content:flex-end;padding:8px 20px;background:var(--admin-glass);border-bottom:1px solid var(--admin-edge);color:var(--admin-text)}
 .vn-theme-control {display:flex;align-items:center;gap:10px;font:500 12px/1.5 system-ui;color:var(--admin-muted)}
 .vn-theme-control select {max-width:230px;padding:7px 10px;border:1px solid var(--admin-border);border-radius:12px;background:var(--admin-surface);color:var(--admin-text);font:inherit}
-html[data-vn-admin-theme] .vn-control-sidebar {padding-top:62px}
+
 html[data-vn-admin-theme=dark] img[src$="vanta-spire-light.svg"] {content:url('/images/vanta-spire-on-dark.svg')}
 html[data-vn-admin-theme] .recharts-cartesian-axis-tick text {fill:var(--admin-muted)}
 html[data-vn-admin-theme] .recharts-cartesian-grid line {stroke:var(--admin-border)}

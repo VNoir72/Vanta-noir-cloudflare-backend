@@ -4,6 +4,8 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
+# The brand introduction now lives on the homepage.
+RewriteRule ^about(?:\.html|/index\.html)?/?$ /#brand [R=301,L,NE]
 # The current release is the only homepage, including links to retired entry files.
 RewriteRule ^(?:index\.(?:php|htm)|home(?:\.html)?)$ / [R=302,L]
 # Canonical routes must win over old physical page directories.
