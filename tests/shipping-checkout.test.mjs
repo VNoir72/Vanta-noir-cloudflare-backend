@@ -3,11 +3,11 @@ import {assertShippingProvider,shippingProviders} from '../lib/shipping-policy.t
 test('Terminal selection is blocked independently of credentials',()=>{assert.equal(shippingProviders.terminal.selectable,false);assert.equal(shippingProviders.terminal.bookingEnabled,false);assert.throws(()=>assertShippingProvider('terminal'),/verification/);assertShippingProvider('shipbubble');});
 test('Shipbubble checkout binds measured quotes to address, bag, rewards and authoritative payment totals',async t=>{
  await build({entryPoints:['tests/commerce-worker.ts'],outfile:'work/shipping-checkout.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
- let calls=0;const mf=new Miniflare({modules:true,scriptPath:'work/shipping-checkout.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture',SHIPBUBBLE_CHECKOUT_ENABLED:'true',TERMINAL_AFRICA_LIVE_SECRET_KEY:'NEVER-USE'},outboundService:async r=>{
+ let calls=0,lastWeight=0;const mf=new Miniflare({modules:true,scriptPath:'work/shipping-checkout.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture',SHIPBUBBLE_CHECKOUT_ENABLED:'true',TERMINAL_AFRICA_LIVE_SECRET_KEY:'NEVER-USE'},outboundService:async r=>{
  calls++;const u=new URL(r.url);assert.equal(u.hostname,'api.shipbubble.com');assert.equal(r.headers.get('Authorization'),'Bearer sb_prod_fixture');
  if(u.pathname.endsWith('/address/validate'))return Response.json({status:'success',data:{address_code:123}});
  if(u.pathname.endsWith('/labels/categories'))return Response.json({status:'success',data:[{category:'Fashion wears',category_id:987}]});
- assert.ok(u.pathname.endsWith('/fetch_rates'),'No booking or Terminal calls');const body=await r.json();assert.equal(body.service_type,'pickup');assert.ok(body.package_items[0].unit_weight>0);
+ assert.ok(u.pathname.endsWith('/fetch_rates'),'No booking or Terminal calls');const body=await r.json();assert.equal(body.service_type,'pickup');assert.ok(body.package_items[0].unit_weight>0);lastWeight=body.package_items[0].unit_weight;
  return Response.json({status:'success',data:{request_token:'test_token',couriers:[{service_code:'slow',courier_name:'Courier A',service_type:'pickup',currency:'NGN',total:1000,rate_card_amount:2000},{service_code:'fast',courier_name:'Courier B',service_type:'pickup',currency:'NGN',total:1500}]}});
  }});
  try{
@@ -36,7 +36,32 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  const expired={...resolved,expiresAt:0};await assert.rejects(rpc('createPendingOrder',{...args,checkoutAttempt:undefined,shippingQuote:expired}),/delivery quote changed/);
  assert.equal((await rpc('createPendingOrder',args)).reference,order.reference);
  });
+ await t.test('Kaduna State customers pay zero while courier cost and destination binding remain intact',async()=>{
+ const kaduna={...input,customer:{...input.customer,city:'Zaria',state:'Kaduna'}};
+ const quotes=await rpc('createShippingQuotes',kaduna);assert.ok(quotes.rates.every(r=>r.amountKobo===0));
+ const selected={quoteId:quotes.quoteId,rateId:quotes.rates[0].rateId,provider:'shipbubble'};
+ const resolved=await rpc('resolveShippingSelection',selected,kaduna);assert.equal(resolved.rate.amountKobo,0);assert.equal(resolved.rate.walletKobo,150000);
+ await assert.rejects(rpc('resolveShippingSelection',selected,input),/changed or expired/);
+ const order=await rpc('createPendingOrder',{...kaduna,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:0,shippingQuote:resolved,expectedTotalKobo:product.priceKobo,expectedRewardSignature:''});assert.equal(order.shippingKobo,0);assert.equal(order.totalKobo,product.priceKobo);
+ const outside=await rpc('createShippingQuotes',input);assert.ok(outside.rates.every(r=>r.amountKobo>0));
+ });
  await t.test('expired quote is rejected and cannot be refreshed by the client',async()=>{await db.prepare("UPDATE store_meta SET value=json_set(value,'$.expiresAt',0) WHERE key=?").bind('shipping-quote:'+quotes.quoteId).run();await assert.rejects(rpc('resolveShippingSelection',{...selection,expiresAt:Date.now()+999999},input),/changed or expired/);});
- assert.equal(calls,4);
+ await t.test('owner-approved unmeasured weights work and edits invalidate old quotes',async()=>{
+ const old=await rpc('productParcel',product.id,'S'),pack=await rpc('packagingProfiles');
+ await rpc('saveProductParcel',product.id,'S',{weightGrams:400,lengthCm:28,widthCm:23,heightCm:3,measured:false},old.revision);
+ await rpc('savePackaging',[{id:'approved',name:'Approved box',lengthCm:36,widthCm:25,heightCm:15,tareGrams:1760,boxGrams:1700,wrapGrams:60,maxWeightGrams:8000,measured:false}],pack.revision);
+ const first=await rpc('createShippingQuotes',input);assert.equal(lastWeight,2.16);
+ const firstSelection={quoteId:first.quoteId,rateId:first.rates[0].rateId,provider:'shipbubble'};
+ const current=await rpc('productParcel',product.id,'S');assert.equal(current.parcel.measured,false);assert.equal(current.parcel.approvedForCheckout,true);
+ await rpc('saveProductParcel',product.id,'S',{...current.parcel,weightGrams:600},current.revision);
+ await assert.rejects(rpc('resolveShippingSelection',firstSelection,input),/changed or expired/);
+ const expiredAllowed=await rpc('resolveShippingSelection',firstSelection,input,true);
+ await assert.rejects(rpc('createPendingOrder',{...input,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:expiredAllowed.rate.amountKobo,shippingQuote:expiredAllowed,expectedTotalKobo:product.priceKobo+expiredAllowed.rate.amountKobo,expectedRewardSignature:''}),/changed or expired/);
+ const fresh=await rpc('createShippingQuotes',input);assert.equal(lastWeight,2.36);
+ const freshSelection={quoteId:fresh.quoteId,rateId:fresh.rates[0].rateId,provider:'shipbubble'},packs=await rpc('packagingProfiles');
+ await rpc('savePackaging',[{...packs.data[0],tareGrams:1860,boxGrams:1800}],packs.revision);
+ await assert.rejects(rpc('resolveShippingSelection',freshSelection,input),/changed or expired/);
+ await rpc('createShippingQuotes',input);assert.equal(lastWeight,2.46);
+ });
  }finally{await mf.dispose();}
 });

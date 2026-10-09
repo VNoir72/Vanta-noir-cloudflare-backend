@@ -17,17 +17,7 @@ export async function saveCommerceSettings(value: unknown) {
   await getDbBinding().prepare("INSERT INTO store_meta (key,value) VALUES ('commerce_settings',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind(JSON.stringify(settings)).run();
   return settings;
 }
-export async function rateLimit(request: Request, scope: string, maximum=20, seconds=600) {
-  const address=request.headers.get("cf-connecting-ip") || "local";
-  const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(`${scope}:${address}`));
-  const key=Array.from(new Uint8Array(digest)).map(n=>n.toString(16).padStart(2,"0")).join("");
-  const now=Math.floor(Date.now()/1000); const db=getDbBinding();
-  const row=await db.prepare(`INSERT INTO request_limits (key,hits,expires_at) VALUES (?,1,?)
-    ON CONFLICT(key) DO UPDATE SET hits=CASE WHEN expires_at < ? THEN 1 ELSE hits+1 END,
-    expires_at=CASE WHEN expires_at < ? THEN excluded.expires_at ELSE expires_at END RETURNING hits`)
-    .bind(key,now+seconds,now,now).first<{hits:number}>();
-  return Boolean(row && row.hits<=maximum);
-}
+export {rateLimit} from './rate-limit';
 export function emailReady(){const env=runtimeEnv();return Boolean(env.RESEND_API_KEY?.trim() && env.EMAIL_FROM?.trim());}
 export async function queueEmail(eventKey:string,recipient:string,subject:string,body:string){
   await getDbBinding().prepare("INSERT OR IGNORE INTO email_outbox (id,event_key,recipient,subject,body) VALUES (?,?,?,?,?)")
