@@ -194,3 +194,19 @@ body:has(.vn-control-center) .vn-studio-sheet :is(.vn-studio-form>div:first-chil
  background:var(--vn-glass-surface)!important;
  backdrop-filter:var(--vn-glass-filter);-webkit-backdrop-filter:var(--vn-glass-filter)
 }
+
+/* Editing stays explicit; form boundaries do not add another opaque panel. */
+.vn-settings-editor{border:0;padding:0;min-width:0;margin:0}
+.vn-editor-heading{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:16px 0}
+.vn-editor-heading>:first-child{flex:1 1 200px}
+.vn-pagination{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:12px;margin:16px 0}
+.vn-control-center .vn-extended-reports,.vn-control-center .vn-detailed-reports{display:block;width:100%;box-sizing:border-box;margin:16px 0;text-align:left}
+.vn-control-center .vn-detailed-reports{white-space:normal;padding:18px 20px}
+/* Alert dialogs and nested portal fields previously escaped the workspace rules. */
+body:has(:is(.vn-control-center,.vn-staff-portal)) [role=alertdialog]{color-scheme:light;background:#f5f7f7f5!important;color:#171a1c!important;border:1px solid #e7eaeb;backdrop-filter:blur(24px)}
+body:has(:is(.vn-control-center,.vn-staff-portal)) :is([role=dialog],[role=alertdialog],[role=listbox],[role=menu]) :is(input,textarea,select,[class*="bg-black/"],[class*="bg-zinc-9"],[class*="bg-neutral-9"]){background-color:#f5f7f7!important;color:#171a1c!important;border-color:#e7eaeb!important}
+body:has(:is(.vn-control-center,.vn-staff-portal)) [role=alertdialog] :is(button,p,h2){color:#171a1c}
+
+.vn-record-editor{min-width:0;margin:16px 0;padding:16px;border:1px solid #e7eaeb;border-radius:16px;background:#ffffff65;color:#171a1c}
+.vn-record-editor .vn-editor-heading{margin-top:0}.vn-record-editor input,.vn-record-editor select,.vn-record-editor textarea{max-width:100%;min-width:0}
+.vn-record-editor [role=alert]{color:#982f22}.vn-record-editor fieldset{min-width:0}

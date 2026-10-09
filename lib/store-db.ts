@@ -1,3 +1,5 @@
+import {assertShippingProvider} from './shipping-policy';
+import type {resolveShippingSelection} from './shipping-checkout';
 import {detailsForSave, publicPricing} from "./publication-policy.mjs";
 import { confirmedPaymentFee } from "./payment-amount";
 import {garmentName,catalogueWording} from "./product-names";
@@ -774,6 +776,7 @@ export async function deleteAdminProduct(productId: string) {
 }
 
 export async function createPendingOrder(args: {
+  shippingQuote?: Awaited<ReturnType<typeof resolveShippingSelection>>;
   checkoutAttempt?: string;
   customer: CheckoutCustomer;
   cart: CartRequestItem[];
@@ -784,6 +787,7 @@ export async function createPendingOrder(args: {
   rewardCode?: string;
   expectedRewardSignature?: string;
 }) {
+  if(args.shippingQuote){assertShippingProvider(args.shippingQuote.rate.provider);if(args.shippingKobo!==args.shippingQuote.rate.amountKobo)throw Error('The delivery charge changed. Check delivery again.');}
   await ensureCatalogSeeded();
   const db = getDbBinding();
   const attempt=args.checkoutAttempt;
@@ -855,6 +859,7 @@ export async function createPendingOrder(args: {
   const {discountKobo,promotion}=await quotePromotion(args.promotionCode||"",resolved);
   const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart});
   if (reward.quote.signature !== (args.expectedRewardSignature || '')) throw new Error('Your reward changed. Refresh checkout to review your gift and delivery before paying.');
+  if(args.shippingQuote&&(args.shippingQuote.expiresAt<=Date.now()||args.shippingQuote.giftVariantId!==(reward.gift?.variantId||'')))throw new Error('Your reward or delivery quote changed. Check delivery again before paying.');
   const shippingKobo = reward.quote.shippingKobo!;
   const totalKobo = subtotalKobo + shippingKobo - discountKobo;
   const allocations = resolved.map(i=>({...i}));
@@ -929,6 +934,7 @@ export async function createPendingOrder(args: {
     ),
   ];
 
+  if(args.shippingQuote)statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-shipping:'+reference,JSON.stringify({...args.shippingQuote,bookingStatus:'manual_confirmation_required'}),id));
   if(reward.campaign) statements.push(db.prepare("INSERT INTO order_rewards(order_id,campaign_id,title,shipping_savings_kobo,gift_variant_id,max_uses) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(id,reward.campaign.id,reward.campaign.title,reward.quote.shippingSavingsKobo,reward.gift?.variantId||'',reward.campaign.maxUses,id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(`receipt-access:${reference}`,receiptAccess,id));
   statements.push(...allocations.map(item => db.prepare(

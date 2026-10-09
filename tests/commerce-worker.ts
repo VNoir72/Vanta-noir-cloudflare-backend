@@ -1,3 +1,6 @@
+import * as shippingCheckout from '../lib/shipping-checkout';
+import * as parcelProfiles from '../lib/parcel-profiles';
+import {POST as shippingQuotes} from '../app/api/shipping/quotes/route';
 import * as chat from '../app/api/admin/chat/route';
 import {POST as customerSupport} from '../app/api/support/route';
 import * as support from '../app/api/admin/support/route';
@@ -56,6 +59,7 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
  '/api/admin/approvals':{GET:approvals.GET,POST:approvals.POST},
  '/api/admin/inventory':{GET:inventory.GET,PATCH:inventory.PATCH},
  '/api/payments/webhook':{POST:paymentWebhook},
+ '/api/shipping/quotes':{POST:shippingQuotes},
  '/api/rewards/quote':{POST:rewardQuote},
   '/api/admin/releases':{GET:releases.GET,POST:releases.POST},
   '/api/payments/verify':{GET:verify},
@@ -73,4 +77,4 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
   "/api/admin/products": { GET: products.GET, POST: products.POST, PATCH: products.PATCH, DELETE: products.DELETE },
   "/api/checkout": { POST: checkout },
 };
-export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;if(new URL(request.url).pathname.startsWith('/api/media/'))return media(request,{params:Promise.resolve({key:new URL(request.url).pathname.slice(11).split('/')})});const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...ga4Oauth,...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};
+export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;if(new URL(request.url).pathname.startsWith('/api/media/'))return media(request,{params:Promise.resolve({key:new URL(request.url).pathname.slice(11).split('/')})});const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...shippingCheckout,...parcelProfiles,...ga4Oauth,...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};

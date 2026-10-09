@@ -1,4 +1,7 @@
 type RuntimeEnvironment = {
+  SHIPBUBBLE_CHECKOUT_ENABLED?: string;
+  SHIPBUBBLE_TEST_API_KEY?: string;
+  SHIPBUBBLE_API_KEY?: string;
   DB?: D1Database;
   TERMINAL_AFRICA_TEST_SECRET_KEY?: string;
   TERMINAL_AFRICA_LIVE_SECRET_KEY?: string;
@@ -61,3 +64,5 @@ export function isAdminEmail(email: string) {
   const configured = runtimeEnv().ADMIN_EMAIL?.trim().toLowerCase();
   return Boolean(configured && configured === email.trim().toLowerCase());
 }
+
+export function shipbubbleCheckoutEnabled(){return runtimeEnv().SHIPBUBBLE_CHECKOUT_ENABLED==='true';}
