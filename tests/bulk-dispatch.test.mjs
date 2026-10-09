@@ -29,7 +29,7 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
  await meta('parcel-item:tee:L',{revision:'profile-1',data:{weightGrams:400,lengthCm:28,widthCm:23,heightCm:3,measured:false,approvedForCheckout:true}});
  await meta('parcel-packaging',{revision:'box-1',data:[{id:'box',name:'Approved box',boxGrams:2000,wrapGrams:60,tareGrams:2060,lengthCm:36,widthCm:25,heightCm:15,maxWeightGrams:8000,measured:false,approvedForCheckout:true}]});
  await meta('terminal_business_pickup',{revision:'pickup-1',details:{first_name:'Test',last_name:'Shop',email:'shop@example.com',phone:'+2348000000000',line1:'20 Pickup Street',line2:'',city:'Kaduna',state:'Kaduna',country:'NG',zip:'800001'}});
- for(const ref of ['VN-ONE','VN-TWO','VN-STALE','VN-NOFUNDS','VN-UNKNOWN','VN-MISSING','VN-WRONG','VN-UNPAID','VN-RACE','VN-PREFLIGHT-STALE','VN-PACKED','VN-TERMINAL']){await db.prepare("INSERT INTO orders(id,reference,payment_status,status,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,created_at) VALUES(?,?,'paid','paid','buyer@example.com','Test','Buyer','08000000000','10 Recipient Street','','Ikeja','Lagos','Nigeria',3500000,450000,'2026-10-09')").bind(ref,ref).run();await db.prepare("INSERT INTO order_items(order_id,product_id,size,product_name,quantity) VALUES(?,'tee','L','Tee',1)").bind(ref).run();if(ref!=='VN-MISSING')await meta('order-shipping:'+ref,{rate:{provider:'shipbubble',carrier:'Selected courier',service:'selected',id:'old-token:selected',amountKobo:450000,walletKobo:400000,currency:'NGN'},parcel:{weightKg:2.16,lengthCm:36,widthCm:25,heightCm:15}});}
+ for(const ref of ['VN-ONE','VN-TWO','VN-STALE','VN-NOFUNDS','VN-UNKNOWN','VN-MISSING','VN-WRONG','VN-UNPAID','VN-RACE','VN-PREFLIGHT-STALE','VN-PACKED','VN-TERMINAL','VN-PACK-RACE']){await db.prepare("INSERT INTO orders(id,reference,payment_status,status,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo,created_at) VALUES(?,?,'paid','paid','buyer@example.com','Test','Buyer','08000000000','10 Recipient Street','','Ikeja','Lagos','Nigeria',3500000,450000,'2026-10-09')").bind(ref,ref).run();await db.prepare("INSERT INTO order_items(order_id,product_id,size,product_name,quantity) VALUES(?,'tee','L','Tee',1)").bind(ref).run();if(ref!=='VN-MISSING')await meta('order-shipping:'+ref,{rate:{provider:'shipbubble',carrier:'Selected courier',service:'selected',id:'old-token:selected',amountKobo:450000,walletKobo:400000,currency:'NGN'},parcel:{weightKg:2.16,lengthCm:36,widthCm:25,heightCm:15}});}
  await db.prepare("UPDATE orders SET payment_status='pending' WHERE reference='VN-UNPAID'").run();
  const rpc=async(action,...args)=>{const r=await mf.dispatchFetch('https://test/rpc',{method:'POST',body:JSON.stringify({action,args})});const data=await r.json();if(!r.ok)throw Error(data.error);return data;};
  const row=async(ref)=>(await rpc('dispatchOrders')).rows.find(r=>r.reference===ref);
@@ -118,6 +118,14 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
    const before=bookingCalls;d.getElementById('book').click();assert.equal(bookingCalls,before);assert.match(d.getElementById('progress').textContent,/approval/);
    d.getElementById('confirm').checked=true;d.getElementById('book').click();for(let i=0;i<300&&!d.getElementById('review-list').textContent.includes('Booked');i++)await new Promise(r=>setTimeout(r,10));assert.match(d.getElementById('review-list').textContent,/Booked/);assert.equal(bookingCalls,before+1);assert.deepEqual(errors,[]);
   }finally{dom.window.close();}
+ });
+ await t.test('unmarking packed during preflight blocks the booking without charging',async()=>{
+  const r=await row('VN-PACK-RACE');await rpc('markDispatchPacked',{reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,packed:true},'owner@example.com');
+  const q=await rpc('reviewDispatch',{reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,packed:true,requirePacked:true,pickupDate:new Date(Date.now()+86400000).toISOString().slice(0,10)},'owner@example.com');
+  let enter,release;const entered=new Promise(resolve=>enter=resolve),blocked=new Promise(resolve=>release=resolve);walletGate={enter,release:blocked};const before=bookingCalls;
+  const delayed=rpc('bookDispatch',q.id,'owner@example.com'),rejected=assert.rejects(delayed,/no longer packed/);
+  try{await entered;await rpc('markDispatchPacked',{reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,packed:false},'owner@example.com');}finally{release();}
+  await rejected;assert.equal(bookingCalls,before);
  });
  }finally{await mf.dispose();}
 });

@@ -96,9 +96,10 @@ export async function bookDispatch(id:string,actor:string){
  if(Math.round(balance.balance*100)<r.rate.walletKobo)fail('Your Shipbubble wallet needs funding before this booking.');
  if(current.linked)fail('This order already has a shipment.');
  if(current.fingerprint!==r.fingerprint)fail('Order details changed. Review again before booking.');
+ if(r.packedRevision&&(await meta<Packed>('dispatch-packed:'+r.reference))?.revision!==r.packedRevision)fail('Order is no longer packed and ready. Review again.');
  const attempt:Booking={provider:r.rate.provider,state:'booking',reviewId:id,reference:r.reference,carrier:r.rate.carrier,startedAt:Date.now()};
  // Durable, per-order exclusion. Never retry a POST /labels after an ambiguous result.
- const claimed=await db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND EXISTS(SELECT 1 FROM orders WHERE reference=? AND payment_status='paid' AND status IN ('paid','processing'))").bind(bookingKey(r.reference),JSON.stringify(attempt),'shipbubble-order:'+r.reference,'terminal-order:'+r.reference,r.reference).run();
+ const claimed=await db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) AND EXISTS(SELECT 1 FROM orders WHERE reference=? AND payment_status='paid' AND status IN ('paid','processing')) AND (? IS NULL OR EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.revision')=?))").bind(bookingKey(r.reference),JSON.stringify(attempt),'shipbubble-order:'+r.reference,'terminal-order:'+r.reference,r.reference,r.packedRevision||null,'dispatch-packed:'+r.reference,r.packedRevision||null).run();
  if(!claimed.meta.changes)return await meta<Booking>(bookingKey(r.reference))||fail('Order is already booked or no longer awaiting dispatch.');
  let shipmentId:string|undefined;
  try{
@@ -133,9 +134,9 @@ export async function markDispatchPacked(raw:unknown,actor:string){
  const input=z.object({reference:refSchema,fingerprint:z.string(),parcel:orderMeasurementsSchema,packed:z.boolean()}).parse(raw);
  const s=await snapshot(input.reference);if(s.linked||await meta<Booking>(bookingKey(input.reference)))fail('Already booked; packing cannot be changed.');
  if(s.fingerprint!==input.fingerprint)fail('Order details changed. Reload before marking packed.');
- if(!input.packed){await getDbBinding().prepare('DELETE FROM store_meta WHERE key=?').bind('dispatch-packed:'+input.reference).run();return {packed:false};}
+ if(!input.packed){await getDbBinding().prepare('DELETE FROM store_meta WHERE key=? AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?)').bind('dispatch-packed:'+input.reference,bookingKey(input.reference)).run();if(await meta<Booking>(bookingKey(input.reference)))fail('Booking has started; packing cannot be changed.');return {packed:false};}
  const value:Packed={revision:crypto.randomUUID(),fingerprint:s.fingerprint,parcel:input.parcel,markedAt:new Date().toISOString(),actor};
- await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('dispatch-packed:'+input.reference,JSON.stringify(value)).run();
+ const saved=await getDbBinding().prepare('INSERT INTO store_meta(key,value) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('dispatch-packed:'+input.reference,JSON.stringify(value),bookingKey(input.reference)).run();if(!saved.meta.changes)fail('Booking has started; packing cannot be changed.');
  return {packed:true};
 }
 export async function readyDispatchOrders(provider='all',after=''){
