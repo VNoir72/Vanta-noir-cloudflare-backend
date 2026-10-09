@@ -7,6 +7,12 @@ let checked=0;
 for(const file of files){
   const html=await readFile(resolve(root,file),"utf8");
   assert.match(html,/<h1\b/,`${file} must have a page heading`);
+  assert.equal((html.match(/class="vn-liquid-header"/g)||[]).length,1,`${file} must use the single current header`);
+  assert.doesNotMatch(html, /class="(?:dn-header|vn-store-header)(?: |")/, `${file} contains a retired header`);
+  assert.match(html,/aria-label="Open search"/,`${file} needs the inline search control`);
+  assert.match(html,/aria-label="Close search"/,`${file} needs the search close control`);
+  assert.doesNotMatch(html,/maximum-scale=1|user-scalable=no/,`${file} must preserve accessibility zoom`);
+
   assert.match(html,/<meta name="description"/,`${file} needs a description`);
   const references=[...html.matchAll(/(?:src|href|content)="([^"<>]+)"/g)].map(m=>m[1]);
   for(const raw of references){

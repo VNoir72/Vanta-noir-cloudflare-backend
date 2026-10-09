@@ -10,26 +10,17 @@
 .vn-checkout-shell :focus-visible { outline-color: var(--vn-checkout-green); }
 .vn-checkout-shell .dn-skip { color: #171a1c; }
 .vn-checkout-shell .dn-announcement { background: #fff; color: #6b7074; }
-.vn-checkout-shell .dn-header { background: #fffffff5; border-color: var(--vn-checkout-line); }
-.vn-checkout-shell .dn-search { background: #f5f7f7; border-color: #e7eaeb; }
-.vn-checkout-shell .dn-search input { color: #171a1c; }
-.vn-checkout-shell .dn-search>svg,.vn-checkout-shell .dn-search input::placeholder { color: #6b7074; }
-.vn-checkout-shell .dn-search .dn-search-submit { background: #e7eaeb; }
 .vn-checkout-shell .dn-back { color: #171a1c!important; min-height: 44px; }
 .vn-checkout-shell .dn-eyebrow { color: #6b7074; font-size: 10px; letter-spacing: .16em; }
 .vn-checkout-shell .dn-page-intro>p { color: #6b7074; }
 .vn-checkout-shell .dn-panel { background: #fff; border-color: #e7eaeb; border-radius: 12px; }
-.vn-checkout-shell .dn-panel>p,
-.vn-checkout-shell .dn-small,
-.vn-checkout-shell .dn-summary-item p { color: #6b7074; }
+.vn-checkout-shell .dn-panel>p,.vn-checkout-shell .dn-small,.vn-checkout-shell .dn-summary-item p { color: #6b7074; }
 .vn-checkout-shell .dn-panel h2 { font-size: 20px; }
 .vn-checkout-shell .dn-form label { color: #171a1c; }
 .vn-checkout-shell .dn-form :is(input,select,textarea) { background: #fff; color: #171a1c; border-color: #6b7074; border-radius: 6px; }
 .vn-checkout-shell .dn-form input[readonly] { background: #f5f7f7; color: #6b7074; }
 .vn-checkout-shell .dn-checkbox input[type=checkbox] { accent-color: var(--vn-checkout-green); }
-.vn-checkout-shell .dn-delivery-note,
-.vn-checkout-shell .dn-totals,
-.vn-checkout-shell .dn-totals .dn-total { border-color: #e7eaeb; }
+.vn-checkout-shell .dn-delivery-note,.vn-checkout-shell .dn-totals,.vn-checkout-shell .dn-totals .dn-total { border-color: #e7eaeb; }
 .vn-checkout-shell .dn-totals dt { color: #6b7074; }
 .vn-checkout-shell .dn-total :is(dt,dd) { color: #171a1c; }
 .vn-checkout-shell .dn-summary-item { padding-bottom: 20px; border-bottom: 1px solid #e7eaeb; }
@@ -41,14 +32,12 @@
 .vn-checkout-shell .dn-error { background: #fff1ed; border-color: #d5a89f; color: #8c2e20; }
 .vn-checkout-shell .dn-empty { background: #fff; }
 .vn-checkout-shell .dn-empty p { color: #6b7074; }
-.vn-checkout-shell .dn-primary,
-.vn-checkout-shell .vn-payment-primary {
+.vn-checkout-shell .dn-primary,.vn-checkout-shell .vn-payment-primary {
   background: var(--vn-checkout-green); color: #171a1c; min-height: 50px;
   font-size: 14px; border-radius: 8px; font-weight: 650;
   transition: transform 120ms var(--ease-out), background-color 150ms ease;
 }
-.vn-checkout-shell .dn-primary:active:not(:disabled),
-.vn-payment-primary:active:not(:disabled),.vn-payment-secondary:active { transform: scale(.98); }
+.vn-checkout-shell .dn-primary:active:not(:disabled),.vn-payment-primary:active:not(:disabled),.vn-payment-secondary:active { transform: scale(.98); }
 .vn-checkout-shell .dn-footer { border-top: 1px solid #e7eaeb; padding-top: 36px; }
 .vn-checkout-shell .dn-footer :is(p,div:not(:first-child):not(.dn-footer-bottom)) { color: #6b7074; }
 .vn-checkout-shell .dn-footer>div>span:first-child { color: #171a1c; }

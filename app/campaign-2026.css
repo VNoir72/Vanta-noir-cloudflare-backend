@@ -1,5 +1,4 @@
 /* Approved compact campaign: full-body photography, live overlay navigation. */
-.vn-hero-home .vn-store-header:not([data-scrolled=true]){background:transparent;color:#fff;box-shadow:none}
 .vn-store-refresh .dn-hero.vn-responsive-hero[data-campaign=stealth-2026]{height:clamp(380px,45.45vw,720px)!important;padding:0;display:grid!important;border-radius:0}
 .vn-store-refresh .vn-responsive-hero[data-campaign=stealth-2026] .vn-hero-frame{inset:0}
 .vn-store-refresh .vn-responsive-hero[data-campaign=stealth-2026] .vn-hero-frame img{object-fit:cover!important;object-position:center!important}
@@ -32,4 +31,3 @@
 @media(max-width:700px){.vn-store-refresh .dn-shortcuts{gap:10px}.vn-store-refresh .dn-shortcuts strong{font-size:12px}}
 
 /* Spread desktop links while retaining the same-row mobile search contract. */
-@media(min-width:701px){.vn-store-header .vn-nav-middle nav{width:min(100%,480px);justify-content:space-between;gap:32px}}
