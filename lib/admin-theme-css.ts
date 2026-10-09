@@ -63,6 +63,8 @@ html[data-vn-admin-theme] :focus-visible {outline:2px solid var(--admin-muted);o
 /* One viewport budget: Appearance takes its natural height; the workspace gets the rest. */
 .vn-admin-shell {height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;overflow:hidden}
 .vn-admin-workspace {min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+/* Outrank the legacy min-h-screen utility in every dashboard section. */
+html[data-vn-admin-theme] .vn-admin-workspace>.vn-exact {height:100%;min-height:0}
 .vn-admin-workspace>.vn-welcome-screen {min-height:100%}
 .vn-appearance-bar {position:relative;z-index:31;display:flex;justify-content:flex-end;padding:8px 20px;background:var(--admin-glass);border-bottom:1px solid var(--admin-edge);color:var(--admin-text)}
 .vn-theme-control {display:flex;align-items:center;gap:10px;font:500 12px/1.5 system-ui;color:var(--admin-muted)}
