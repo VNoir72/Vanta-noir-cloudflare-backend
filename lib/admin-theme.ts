@@ -45,5 +45,5 @@ export function installAdminTheme() {
   };
 }
 // Runs before the page paints; React adopts this same controller instead of a second preference.
-export const adminThemeScript = `window.__vnAdminThemeStop?.();window.__vnAdminThemeStop=(${installAdminTheme.toString()})();`;
+export const adminThemeScript = `(()=>{const __name=(fn)=>fn;window.__vnAdminThemeStop?.();window.__vnAdminThemeStop=(${installAdminTheme.toString()})();})();`;
 export const adminThemeControlHTML = `<label class="vn-theme-control">Appearance<select aria-label="Admin appearance" data-admin-theme-control><option value="system">Auto · device</option><option value="schedule">Auto · time (7am–7pm light)</option><option value="light">Light</option><option value="dark">Dark</option></select></label>`;

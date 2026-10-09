@@ -4,7 +4,7 @@ import {readFile,readdir} from 'node:fs/promises';
 import {build} from 'esbuild';
 import {JSDOM} from 'jsdom';
 import postcss from 'postcss';
-const compiled=await build({entryPoints:['lib/admin-theme.ts'],bundle:true,write:false,format:'esm',platform:'browser'});
+const compiled=await build({entryPoints:['lib/admin-theme.ts'],bundle:true,write:false,format:'esm',platform:'browser',keepNames:true});
 const {adminThemeScript}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
 function fixture({mode,dark=false,hour=12,storageFails=false}={}) {
  const dom=new JSDOM('<!doctype html><html><body><select data-admin-theme-control><option value="system">Device</option><option value="schedule">Time</option><option value="light">Light</option><option value="dark">Dark</option></select></body></html>',{url:'https://api.vantanoir.store/admin',runScripts:'outside-only'});
