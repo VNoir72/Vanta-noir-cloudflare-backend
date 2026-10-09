@@ -1,8 +1,8 @@
 import {z} from 'zod';
 // Planning assumptions, not measured garment specifications or courier promises.
 export const parcelDimensions=z.object({lengthCm:z.number().positive().max(200),widthCm:z.number().positive().max(200),heightCm:z.number().positive().max(200)});
-export const itemParcelSchema=parcelDimensions.extend({weightGrams:z.number().int().positive().max(50000),measured:z.boolean()});
-export const packagingSchema=parcelDimensions.extend({id:z.string().regex(/^[a-z0-9-]{1,40}$/),name:z.string().trim().min(1).max(80),tareGrams:z.number().int().min(1).max(10000),maxWeightGrams:z.number().int().positive().max(50000),measured:z.boolean()});
+export const itemParcelSchema=parcelDimensions.extend({weightGrams:z.number().int().positive().max(50000),measured:z.boolean(),approvedForCheckout:z.boolean().optional()});
+export const packagingSchema=parcelDimensions.extend({id:z.string().regex(/^[a-z0-9-]{1,40}$/),name:z.string().trim().min(1).max(80),boxGrams:z.number().int().positive().max(10000).optional(),wrapGrams:z.number().int().min(0).max(1000).optional(),tareGrams:z.number().int().min(1).max(10000),maxWeightGrams:z.number().int().positive().max(50000),measured:z.boolean(),approvedForCheckout:z.boolean().optional()});
 export type ItemParcel=z.infer<typeof itemParcelSchema>;
 export type Packaging=z.infer<typeof packagingSchema>;
 export const initialPackaging:Packaging[]=[
@@ -44,5 +44,5 @@ export function prepareParcel(items:Array<{name:string;quantity:number;parcel:It
  const volume=items.reduce((n,i)=>n+i.parcel!.lengthCm*i.parcel!.widthCm*i.parcel!.heightCm*i.quantity,0);
  const fits=packages.filter(p=>weight+p.tareGrams<=p.maxWeightGrams&&weight+p.tareGrams<=50000&&volume<=p.lengthCm*p.widthCm*p.heightCm*.7&&items.every(i=>edges(i.parcel!).every((v,j)=>v<=edges(p)[j]))).sort((a,b)=>a.lengthCm*a.widthCm*a.heightCm-b.lengthCm*b.widthCm*b.heightCm);
  const p=fits[0];if(!p)return {suggestion:null,reason:'No preset fits the estimated contents. Check packing or split the order into separate parcels; do not book as one automatically.'};
- return {suggestion:{weightKg:(weight+p.tareGrams)/1000,lengthCm:p.lengthCm,widthCm:p.widthCm,heightCm:p.heightCm,packagingId:p.id,packagingName:p.name,estimated:!p.measured||items.some(i=>!i.parcel!.measured),requiresPackingCheck:true},reason:'Packing is a volume-based estimate, not a guaranteed fit. Confirm the actual whole parcel before a paid booking.'};
+ return {suggestion:{weightKg:(weight+p.tareGrams)/1000,lengthCm:p.lengthCm,widthCm:p.widthCm,heightCm:p.heightCm,packagingId:p.id,packagingName:p.name,estimated:!p.measured||items.some(i=>!i.parcel!.measured),approvedForCheckout:(p.measured||p.approvedForCheckout===true)&&items.every(i=>i.parcel!.measured||i.parcel!.approvedForCheckout===true),requiresPackingCheck:true},reason:'Packing is a volume-based estimate, not a guaranteed fit. Confirm the actual whole parcel before a paid booking.'};
 }

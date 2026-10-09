@@ -1,3 +1,4 @@
+import {assertCurrentShippingProfiles} from './shipping-checkout';
 import {assertShippingProvider} from './shipping-policy';
 import type {resolveShippingSelection} from './shipping-checkout';
 import {detailsForSave, publicPricing} from "./publication-policy.mjs";
@@ -805,6 +806,7 @@ export async function createPendingOrder(args: {
     return {id:order.id,reference,receiptToken:attempt!,subtotalKobo:totals!.subtotalKobo,shippingKobo:totals!.shippingKobo,totalKobo:order.totalKobo};
   }
   if(attempt){const existing=await resume();if(existing)return existing;}
+  if(args.shippingQuote)await assertCurrentShippingProfiles(args.shippingQuote.selection);
   const uniqueVariantIds = [...new Set(args.cart.map((item) => item.variantId))];
   if (!args.cart.length || args.cart.length > 20 || uniqueVariantIds.length !== args.cart.length
     || args.cart.some(item => !Number.isSafeInteger(item.quantity) || item.quantity < 1 || item.quantity > 5)) throw new Error("Your bag is invalid. Please refresh it.");
@@ -942,7 +944,8 @@ export async function createPendingOrder(args: {
   ).bind(crypto.randomUUID(), id, item.variantId, item.quantity, id)));
   if(attempt) statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('checkout-request:'+reference,requestHash,id));
   let results;
-  try{results=await db.batch(statements);}catch(error){if(attempt){const existing=await resume();if(existing)return existing;}throw error;}
+  try{results=await db.batch(statements);}catch(error){if(attempt){const existing=await resume();if(existing)return existing;}
+  if(args.shippingQuote)await assertCurrentShippingProfiles(args.shippingQuote.selection);throw error;}
   if (!results[0].meta.changes) throw new Error("An item was just reserved or changed. Please refresh your bag and try again.");
   if (args.deliveryEstimate) await db.prepare("UPDATE orders SET delivery_estimate=? WHERE id=?").bind(args.deliveryEstimate, id).run();
   return { id, reference, receiptToken, subtotalKobo, shippingKobo, totalKobo };
