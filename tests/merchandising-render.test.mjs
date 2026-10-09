@@ -40,7 +40,7 @@ test('campaign hero removes edit caption and supports mobile artwork, escaped co
  assert.ok(html.includes('Your next'));assert.ok(html.includes('everyday uniform.'));assert.ok(html.includes('Technical detail. A distinct silhouette.'));assert.ok(!html.includes('EDIT / 001'));
  const value={image:'/images/test.webp',mobileImage:'/images/mobile.webp',alt:'Campaign',title:'<script>text</script>',body:'New collection',kicker:'New',buttonText:'Shop campaign',buttonLink:'/?collection=Noir',showText:true,focus:'right'};
  const custom=renderToStaticMarkup(createElement(CampaignHero,{value}));
- assert.ok(custom.includes('media="(max-width: 700px)"'));assert.ok(custom.includes('srcSet="/images/mobile.webp"'));assert.ok(custom.includes('&lt;script&gt;'));assert.ok(custom.includes('href="/?collection=Noir"'));
+ assert.ok(custom.includes('media="(max-width: 767px)"'));assert.ok(custom.includes('srcSet="/images/mobile.webp"'));assert.ok(custom.includes('&lt;script&gt;'));assert.ok(custom.includes('href="/?collection=Noir"'));
  const artwork=renderToStaticMarkup(createElement(CampaignHero,{value:{...value,showText:false}}));
  assert.ok(!artwork.includes('<h1'));assert.ok(artwork.includes('aria-label="Shop campaign"'));assert.ok(artwork.includes('data-artwork="true"'));
 });
