@@ -1,9 +1,8 @@
 "use client";
+import '@/app/storefront.css';
 import {useState} from 'react';
 import {Heart,Menu,Search,ShoppingBag} from 'lucide-react';
 import {Sheet,SheetContent,SheetTitle,SheetDescription} from '@/components/ui/sheet';
-import '@/app/storefront-refresh.css';
-import '@/app/storefront-approved.css';
 const links=[['Home','/'],['About','/about'],['Contact','/contact'],['Privacy Policy','/privacy-policy']] as const;
 export function StoreHeader({query,onQuery,onSearch,savedCount=0,bagCount=0,onSaved,onBag}:{dark?:boolean;query:string;onQuery:(value:string)=>void;onSearch:()=>void;savedCount?:number;bagCount?:number;onSaved:()=>void;onBag:()=>void}){
  const [menuOpen,setMenuOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false);

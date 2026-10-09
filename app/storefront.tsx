@@ -1,4 +1,5 @@
 "use client";
+import './storefront.css';
 import {CollectionPlaceholder} from "@/components/storefront-motion";
 import {PriceFilter} from "@/components/price-filter";
 import {replaceBrowseUrl} from "@/lib/browse-history";
@@ -12,7 +13,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { ArrowLeft, ArrowRight, Check, Heart, HelpCircle, Menu, Minus, Plus, Search, ShoppingBag, SlidersHorizontal, Sparkles, Trash2, X } from "lucide-react";
 import {HomepageMerchandising} from "@/components/homepage-merchandising";
-import "./storefront-refresh.css";
 import {BagGarment} from "@/components/bag-garment";
 import {StoreAnnouncement} from "@/components/store-announcement";
 import { CampaignHero } from "@/components/campaign-hero";

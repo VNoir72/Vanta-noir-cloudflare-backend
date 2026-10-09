@@ -11,13 +11,13 @@ export const heroMediaSchema=z.object({
 });
 export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
-  fit:z.enum(['contain','cover']).default('contain'),
+  fit:z.enum(['contain','cover']).default('cover'),
   playlist:z.array(heroMediaSchema).max(12).default([]),
   desktopHeight:z.number().int().min(40).max(100).default(80),
   mobileHeight:z.number().int().min(40).max(100).default(80),
   intervalSeconds:z.number().int().min(5).max(30).default(8),
-  image:image.default('/images/vanta-hero.png'),
-  mobileImage:z.union([z.literal(''),image]).default(''),
+  image:image.default('/images/vanta-brand-hero-2026.webp'),
+  mobileImage:z.union([z.literal(''),image]).default('/images/vanta-brand-hero-mobile-2026.webp'),
   alt:z.string().trim().min(3).max(240).default('Vanta Noir technical streetwear worn by two campaign models'),
   kicker:z.string().trim().max(100).default('PRESENCE. POWER. PRECISION.'),
   title:z.string().trim().max(120).default('Your next\neveryday uniform.'),
