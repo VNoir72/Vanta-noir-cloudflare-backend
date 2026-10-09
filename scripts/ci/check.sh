@@ -11,6 +11,7 @@ echo 'Isolation: network disabled; read-only source/root; no capabilities; bound
 node scripts/ci/advisories.mjs
 php -l portable/storefront-gateway.php
 npm run typecheck
+node tests/browser/admin-editing-dom.cjs
 node --test --test-concurrency=1 tests/*.test.mjs
 npm run build:storefront
 npm run verify:storefront
@@ -23,10 +24,12 @@ timeout 180 node tests/browser/tech-packs.cjs
 npm run build
 npm run verify:release
 python3 tests/namecheap-archive.test.py
-for suite in launch-review storefront-performance portal-audit customer-care staff-chat sales-desk admin-navigation site-pages; do
+for suite in launch-review storefront-performance portal-audit customer-care staff-chat sales-desk admin-navigation admin-editing site-pages; do
   echo "Browser suite: $suite"
   timeout 180 node "tests/browser/$suite.cjs"
 done
+EXTENDED_ROTATION=1 timeout 240 node tests/browser/rotation-regression.cjs
+EXTENDED_ROTATION=1 TOUCH_ROTATION=1 timeout 240 node tests/browser/rotation-regression.cjs
 python3 scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-namecheap-update.zip --repair-code
 echo 'PASS: isolated release checks completed'
 

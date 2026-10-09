@@ -22,3 +22,9 @@ Still required before claiming the whole request complete:
 - Complete the explicit-edit and save-on-exit sweep for order/return/exchange, reward, parcel-profile and remaining specialist editors. Do not replace multi-step business actions with a generic save that silently performs only part of the operation.
 - Verify authenticated production and deploy a reviewed release. No production settings, orders, stock, courier bookings or data were changed in this continuation.
 - Shipping activation still requires real measured parcel profiles, the saved pickup address, frontend upload and provider readiness as documented in shipping-rollout.md. This continuation does not turn on Shipbubble or Terminal.
+
+## Completion pass
+
+Added independent explicit editors and real save-on-exit callbacks for order status, delivery tracking, returns, replacement allocation/delivery, staff, rewards, parcel measurements/packaging, categories and support records. Inventory rows now require Edit. Confirmation workflows (approval decisions and unconfirmed bulk reviews) retain their explicit business confirmation; exiting cannot implicitly approve staff changes. The guard explains why those actions must be finished on their page.
+
+The isolated GitHub workflow now runs this shipping-based PR, the new React interaction regression, browser editing checks and extended rotation suites in desktop and touch modes. Release is conditional on these checks passing; no production change is claimed by this document.

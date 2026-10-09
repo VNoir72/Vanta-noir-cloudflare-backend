@@ -4,6 +4,7 @@ import '../../app/globals.css';
 import '../../app/admin/portal-theme.css';
 import {TerminalPickup} from '../../app/admin/terminal-pickup';
 import {CommercePanel} from '../../app/admin/commerce-panel';
+import {RecordEditor} from '../../app/admin/record-editor';
 import {OperationsPanel} from '../../app/admin/operations-panel';
 import {UnsavedChangesProvider,useAdminNavigation} from '../../app/admin/unsaved-changes';
 import {defaultCommerceSettings} from '../../lib/commerce-config';
@@ -19,5 +20,6 @@ window.fetch=async(input:any,init?:RequestInit)=>{
  if(url.includes('/operations')){if(writing){priceKobo=body.data[0].priceKobo;return Response.json({result:[{id:'test',ok:true}]});}return Response.json({products:[{id:'test',name:'Test garment',priceKobo,status:'draft',variants:[]}]});}
  return Response.json({});
 };
-function Screen(){const [tab,setTab]=useState('pickup'),navigate=useAdminNavigation();return <main className="vn-control-center vn-exact" style={{padding:20}}><nav>{['pickup','settings','prices','exit'].map(t=><button key={t} onClick={()=>navigate(()=>setTab(t))}>{t}</button>)}</nav>{tab==='pickup'?<TerminalPickup/>:tab==='settings'?<CommercePanel view="settings"/>:tab==='prices'?<OperationsPanel role="owner" initialSection="bulk"/>:<h1>Exited</h1>}</main>;}
+function IndependentEditors(){return <>{['First record','Second record'].map(name=><RecordEditor key={name} name={name} initialValue={{text:'Original'}} onSave={async value=>{(window as any).__writes.push({name,value});return !(window as any).__fail;}}>{(v,set)=><label>{name}<input aria-label={name} required value={v.text} onChange={e=>set({text:e.target.value})}/></label>}</RecordEditor>)}</>;}
+function Screen(){const [tab,setTab]=useState('pickup'),navigate=useAdminNavigation();return <main className="vn-control-center vn-exact" style={{padding:20}}><nav>{['pickup','settings','prices','independent','exit'].map(t=><button key={t} onClick={()=>navigate(()=>setTab(t))}>{t}</button>)}</nav>{tab==='pickup'?<TerminalPickup/>:tab==='settings'?<CommercePanel view="settings"/>:tab==='prices'?<OperationsPanel role="owner" initialSection="bulk"/>:tab==='independent'?<IndependentEditors/>:<h1>Exited</h1>}</main>;}
 const root=createRoot(document.getElementById('root')!);(window as any).__unmount=()=>root.unmount();root.render(<UnsavedChangesProvider><Screen/></UnsavedChangesProvider>);
