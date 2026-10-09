@@ -13,6 +13,8 @@ export async function GET() {
     const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo()).length===0;
     return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
       shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings),
+      // Live courier prices replace the legacy fixed-fee destination table.
+      ...(shipbubbleCheckoutEnabled()?{shippingZones:[]}:{}),
       checkoutReady: settings.acceptingOrders && checkoutSetupIssues(settings, isPaystackConfigured(), configuredShippingFeeKobo()).length === 0,
     } }, { headers: { "Cache-Control": "no-store" } });
   } catch {
