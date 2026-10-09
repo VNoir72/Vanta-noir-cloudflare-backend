@@ -46,6 +46,16 @@ html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-them
 html[data-vn-admin-theme] body {background:var(--admin-ground-image),var(--admin-ground);margin:0}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-access-page,.vn-welcome-screen) {background:var(--admin-ground-image),var(--admin-ground)}
 html[data-vn-admin-theme] :is([role=dialog],[role=alertdialog],[role=menu],[role=listbox],[data-slot=popover-content],[data-slot=select-content],[data-sonner-toast]) {background:var(--admin-glass)!important;color:var(--admin-text)!important;border-color:var(--admin-edge)!important;backdrop-filter:blur(22px);color-scheme:var(--admin-scheme)}
+/* Dialogs are portalled outside the workspace: give them their own bounded scrollport.
+   Team chat already has a bounded shell, message scroller and fixed composer. */
+html[data-vn-admin-theme] :is([data-slot=dialog-content]:not(.vn-team-chat),[data-slot=alert-dialog-content]) {
+ max-height:calc(100vh - 32px);
+ max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+ min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ -webkit-overflow-scrolling:touch;scroll-padding-block:16px
+}
+/* Do not pull the last editor actions below the sheet's scroll boundary. */
+html[data-vn-admin-theme] .vn-studio-footer {margin-bottom:0;padding-bottom:max(20px,env(safe-area-inset-bottom))}
 html[data-vn-admin-theme] :is(input,textarea,select) {color-scheme:var(--admin-scheme)}
 html[data-vn-admin-theme] :is(input,textarea)::placeholder {color:var(--admin-muted);opacity:1}
 html[data-vn-admin-theme] option {background:var(--admin-surface);color:var(--admin-text)}
