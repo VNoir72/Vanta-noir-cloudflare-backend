@@ -13,7 +13,7 @@ export function garmentViews(product: CatalogProduct, color: string, main: strin
 }
 
 /** Only visible galleries animate. Images slide as a track; the last slide loops through a clone. */
-export function SlidingGarmentViews({ images, sizes, priority = false, suspended = false, onViewChange }: { images: {imageUrl:string;imageAlt:string}[]; sizes: string; priority?: boolean; suspended?: boolean; onViewChange?: (index:number)=>void }) {
+export function SlidingGarmentViews({ images, sizes, priority = false, suspended = false, selection, onViewChange }: { images: {imageUrl:string;imageAlt:string}[]; sizes: string; priority?: boolean; suspended?: boolean; selection?: {index:number;revision:number}; onViewChange?: (index:number)=>void }) {
   const root = useRef<HTMLSpanElement>(null);
   const start = useRef<{x:number;y:number}|null>(null);
   const dragged = useRef(false);
@@ -24,7 +24,8 @@ export function SlidingGarmentViews({ images, sizes, priority = false, suspended
   const [reduced, setReduced] = useState(true);
   const identity = images.map(image => image.imageUrl).join("|");
   const count = images.length;
-  useEffect(() => { setIndex(0); setInstant(true); }, [identity]);
+  useEffect(() => { setIndex(0); setInstant(true); setPaused(false); }, [identity]);
+  useEffect(() => { if(selection && selection.index>=0 && selection.index<count){setIndex(selection.index);setInstant(reduced);setPaused(true);} }, [selection]);
   useEffect(() => {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     const change = () => setReduced(media.matches);

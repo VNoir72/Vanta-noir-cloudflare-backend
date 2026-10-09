@@ -47,3 +47,10 @@
 .vn-about-logo-circle strong{font-size:clamp(18px,2vw,28px);letter-spacing:.18em}
 .vn-about-logo-circle span{font-size:10px;letter-spacing:.14em;text-transform:uppercase}
 @media(max-width:767px){.vn-about-artwork{max-width:440px;width:100%;margin-inline:auto}.vn-about-logo-circle{gap:14px;padding:24px}.dn-app .dn-checkout-grid{grid-template-columns:1fr}.dn-app .dn-order-summary{position:static}}
+
+/* Persistent direct view selection complements swipe navigation. */
+.dn-gallery .dn-thumbnails{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;overflow:visible;padding:12px 3px}
+.dn-gallery .dn-thumbnails button{width:100%;min-width:0;min-height:44px;border:1px solid var(--vn-glass-edge);border-radius:12px;background:var(--vn-glass-panel);color:var(--vn-brand-ink);box-shadow:var(--vn-glass-shadow);overflow:hidden}
+.dn-gallery .dn-thumbnails button[aria-pressed=true]{outline:2px solid var(--vn-brand-ink);outline-offset:1px;background:var(--vn-brand-lime)}
+.dn-gallery .dn-thumbnails img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:var(--vn-brand-pearl)}
+.dn-gallery .dn-thumbnails span{display:block;padding:8px 2px;font-size:12px;line-height:1.3}
