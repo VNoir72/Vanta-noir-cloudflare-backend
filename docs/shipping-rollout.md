@@ -8,7 +8,15 @@ The backend rollout flag `SHIPBUBBLE_CHECKOUT_ENABLED=true` activates Shipbubble
 
 Customer rates are sorted by rate-card price (or total when no rate-card price is returned). Provider wallet cost is retained separately. Selection uses an opaque server-side quote ID and rate ID, is bound to normalized contact/address, cart and promotion/reward codes, and expires after 15 minutes. Checkout validates rewards and the final payment amount. Selected courier, provider reference, parcel and base delivery fee are stored atomically with the order. Existing checkout attempt IDs continue to prevent duplicate payment initialization; an unchanged existing attempt may resume after its quote expires, while new orders cannot.
 
-This release does not create paid courier bookings or add provider webhook handling. Shipbubble fulfilment remains manual after payment and physical parcel confirmation. Do not enter a webhook URL for this release. The existing generic courier webhook is not a Shipbubble webhook.
+Shipbubble fulfilment remains manual after payment and physical parcel confirmation. This release does not create paid courier bookings.
+
+The dedicated live receiver is `POST /api/shipbubble/webhook`. It verifies the exact request bytes using Shipbubble's documented `x-ship-signature` HMAC-SHA512 and the existing production API key. Sandbox signatures are not accepted. Do not configure the generic courier receiver for Shipbubble. Configure the dedicated URL only after this code is deployed and its signature rejection is verified. No separate webhook secret needs to be created.
+
+The owner-only `/api/admin/shipbubble` page checks the production account with a read-only wallet request, displays measured-profile counts and the last authenticated webhook, and links manually booked shipments to paid orders. It never displays credentials or wallet balances and does not activate checkout. Linking verifies the shipment through the live API and matches the recipient email to the store order. Each shipment and order can have only one association. Signed events for unlinked shipments are acknowledged without modifying orders; linking fetches and applies the current provider state. Picked-up/in-transit map to shipped, completed maps to delivered; duplicates and backward events cannot regress the order. Shipment cancellation does not cancel/refund the store order. This receiver updates tracking/status and audit records; it does not send customer email notifications.
+
+Activation still requires actual measured item profiles, measured packaging, the checkout upload, and live quote acceptance. The account check alone does not verify route availability, booking, webhook delivery, or customer checkout.
+
+Official protocol references: https://docs.shipbubble.com/api-reference/webhooks.md and https://docs.shipbubble.com/api-reference/tracking/get-multiple-specific-shipments.md.
 
 Deploy source normally with the repository's Worker build/deployment procedure. `worker/shipping-overlay.ts` also provides a content-only bridge for the existing production Worker assets: it replaces only the relevant API handlers and applies the same request/response security policy. A subsequent full source deployment removes the bridge.
 

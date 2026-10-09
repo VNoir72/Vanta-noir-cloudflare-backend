@@ -1,0 +1,32 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createHmac} from 'node:crypto';import {build} from 'esbuild';import {Miniflare} from './miniflare.mjs';
+test('Shipbubble verifies live signatures, links paid matching recipients and applies monotonic idempotent delivery updates',async()=>{
+ await build({entryPoints:['tests/shipbubble-webhook-worker.ts'],outfile:'work/shipbubble-webhook.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',external:['cloudflare:workers'],conditions:['workerd','browser']});
+ let providerEmail='buyer@example.com',walletStatus=200,calls=0;
+ const shipment={order_id:'SB-TEST',status:'pending',courier:{name:'Courier',tracking_code:'TRACK-TEST'}};
+ const mf=new Miniflare({modules:true,scriptPath:'work/shipbubble-webhook.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture',SHIPBUBBLE_TEST_API_KEY:'sb_sandbox_fixture',AUTH_PROVIDER:'cloudflare-access',ADMIN_EMAIL:'owner@example.com'},outboundService:async r=>{calls++;assert.equal(r.method,'GET');assert.equal(r.headers.get('authorization'),'Bearer sb_prod_fixture');if(r.url.endsWith('/wallet/balance'))return Response.json({status:'success',data:{balance:0,currency:'NGN'}},{status:walletStatus});assert.ok(r.url.endsWith('/labels/list/SB-TEST'));return Response.json({status:'success',data:{results:[{...shipment,ship_to:{email:providerEmail}}]}});}});
+ try{const db=await mf.getD1Database('DB');await db.exec("CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT); CREATE TABLE orders(reference TEXT PRIMARY KEY,email TEXT,payment_status TEXT,status TEXT,carrier TEXT,tracking_number TEXT,updated_at TEXT); CREATE TABLE courier_events(id TEXT PRIMARY KEY,reference TEXT,status TEXT); CREATE TABLE admin_audit(actor TEXT,action TEXT,entity TEXT,detail TEXT);");
+ await db.prepare("INSERT INTO orders VALUES('VN-TEST','buyer@example.com','paid','processing','','','')").run();
+ const hook=async(body,key='sb_prod_fixture',change=false)=>{const raw=JSON.stringify(body),sig=createHmac('sha512',key).update(raw).digest('hex');return mf.dispatchFetch('https://test/hook',{method:'POST',headers:{'x-ship-signature':sig},body:change?raw+' ':raw});};
+ assert.equal((await mf.dispatchFetch('https://test/hook')).status,405);
+ assert.equal((await hook(shipment,'sb_sandbox_fixture')).status,401);assert.equal((await hook(shipment,'sb_prod_fixture',true)).status,401);
+ assert.equal((await mf.dispatchFetch('https://test/hook',{method:'POST',body:'x'.repeat(65537)})).status,413);
+ assert.equal((await mf.dispatchFetch('https://test/admin')).status,403);
+ assert.equal((await hook({...shipment,status:'completed'})).status,200);assert.equal((await db.prepare("SELECT status FROM orders").first()).status,'processing');
+ const link=()=>mf.dispatchFetch('https://test/link',{method:'POST',body:JSON.stringify({reference:'VN-TEST',shipmentId:'SB-TEST'})});
+ providerEmail='different@example.com';assert.equal((await link()).status,400);assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM store_meta WHERE key LIKE 'shipbubble-shipment:%'").first()).n,0);
+ providerEmail='buyer@example.com';assert.equal((await link()).status,200);
+ assert.equal((await hook({...shipment,status:'in_transit'})).status,200);assert.equal((await db.prepare('SELECT status FROM orders').first()).status,'shipped');
+ await Promise.all([hook({...shipment,status:'completed'}),hook({...shipment,status:'completed'})]);assert.equal((await db.prepare('SELECT status FROM orders').first()).status,'delivered');
+ await hook({...shipment,status:'picked_up'});await hook({...shipment,status:'cancelled'});assert.equal((await db.prepare('SELECT status FROM orders').first()).status,'delivered');assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM courier_events').first()).n,2);
+ await db.prepare("UPDATE orders SET payment_status='pending',status='processing'").run();await hook({...shipment,status:'completed'});assert.equal((await db.prepare('SELECT status FROM orders').first()).status,'processing');
+ await db.prepare("INSERT INTO orders VALUES('VN-UNPAID','buyer@example.com','pending','processing','','','')").run();
+ await db.prepare('INSERT INTO store_meta VALUES(?,?)').bind('shipbubble-shipment:SB-UNPAID',JSON.stringify({reference:'VN-UNPAID'})).run();
+ await hook({...shipment,order_id:'SB-UNPAID',status:'completed'});assert.equal((await db.prepare("SELECT status FROM orders WHERE reference='VN-UNPAID'").first()).status,'processing');
+ await db.prepare("INSERT INTO orders VALUES('VN-DIRECT','buyer@example.com','paid','processing','','','')").run();
+ await db.prepare('INSERT INTO store_meta VALUES(?,?)').bind('shipbubble-shipment:SB-DIRECT',JSON.stringify({reference:'VN-DIRECT'})).run();
+ await hook({...shipment,order_id:'SB-DIRECT',status:'completed'});assert.equal((await db.prepare("SELECT status FROM orders WHERE reference='VN-DIRECT'").first()).status,'delivered');
+ const check=await(await mf.dispatchFetch('https://test/check')).json();assert.equal(check.connection.status,'connected');assert.equal(check.connection.walletFunded,false);assert.equal(check.checkoutEnabled,false);assert.equal(check.measuredPackaging,0);
+ walletStatus=401;assert.equal((await(await mf.dispatchFetch('https://test/check')).json()).connection.status,'failed');assert.equal(calls,4);
+ const saved=JSON.stringify((await db.prepare('SELECT value FROM store_meta').all()).results);assert.ok(!saved.includes('sb_prod_fixture'));assert.ok(!saved.includes('buyer@example.com'));
+ }finally{await mf.dispose();}
+});
