@@ -119,3 +119,13 @@ Build 4 (`359e4249-b5dd-42c5-bc2d-dd0c0fa2ff75`) finished successfully and remai
 
 Corrected Android build 6: https://expo.dev/accounts/vanta-noir/projects/vanta/builds/96485f16-f21c-492b-8e04-90a48b56f535
 Version 0.1.2, versionCode 6, internal signed APK profile. At this checkpoint, eager bundling passed (1,351 modules) and Gradle was running; completion and APK must be checked before calling it installable. Root/mobile typechecks, mobile lint and Android export passed. Physical-device acceptance has not been performed.
+
+## OTA bootstrap — 10 October 2026
+
+Customer version 0.1.3 adds expo-updates with EAS project fa2d496b-dfe1-490c-9c6c-c1d961442dd6 and fingerprint runtime compatibility. Updates download on cold launch with zero blocking wait and apply on a subsequent cold launch; no JavaScript reload is invoked during checkout. Embedded fallback and Expo recovery protections remain enabled. Existing 0.1.2 APKs cannot receive OTA: install the new signed APK once.
+
+Preview builds use the preview channel/environment. Production and production-apk builds both use the production channel/environment; production-apk produces the directly installable signed APK. Studio updates remain disabled until its separate EAS project is configured. Never publish a Studio bundle to the customer project.
+
+For future compatible changes, from mobile run APP_VARIANT=customer npx eas-cli@latest update --channel preview --environment preview --platform android --message "Describe tested change". Test on an OTA-enabled preview APK (cold launch twice), including sign-in, bag, checkout and receipt. Then publish the reviewed revision using --channel production --environment production. Confirm runtime fingerprint matches the target APK. Native changes require a new APK. EAS dashboard rollback/republication can restore a known-good compatible update. No forced reload or payment interruption is required.
+
+Bootstrap validation: mobile typecheck passed; lint passed with one existing shipping-options array-style warning; Android Metro export passed. Physical-device OTA acceptance is still required. Build 6 completed successfully, but does not contain OTA; the new 0.1.3 build supersedes it for OTA use.

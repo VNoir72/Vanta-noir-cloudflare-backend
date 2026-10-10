@@ -4,7 +4,16 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.2",
+  version: "0.1.3",
+  // Native fingerprints keep incompatible OTA bundles off installed builds.
+  ...(!studio ? {
+    runtimeVersion: { policy: "fingerprint" as const },
+    updates: {
+      url: "https://u.expo.dev/fa2d496b-dfe1-490c-9c6c-c1d961442dd6",
+      checkAutomatically: "ON_LOAD" as const,
+      fallbackToCacheTimeout: 0,
+    },
+  } : { updates: { enabled: false } }),
   scheme: studio ? "vantanoir-studio" : "vantanoir",
   orientation: "default",
   userInterfaceStyle: "automatic",
