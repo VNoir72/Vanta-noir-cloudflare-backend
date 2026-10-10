@@ -24,7 +24,7 @@ const config: ExpoConfig = {
       "android.permission.ACCESS_COARSE_LOCATION",
     ],
   },
-  plugins: ["expo-router", "expo-secure-store", "expo-web-browser"],
+  plugins: ["expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
   extra: {
     variant: studio ? "studio" : "customer",
     ...(!studio ? { eas: { projectId: "fa2d496b-dfe1-490c-9c6c-c1d961442dd6" } } : {}),
