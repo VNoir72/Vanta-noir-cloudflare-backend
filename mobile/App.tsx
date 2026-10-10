@@ -1,4 +1,4 @@
-import {deliveryChoices} from '../lib/shipping-options';
+import {deliveryChoices} from './src/shipping-options';
 import {shippingCountryName} from "./src/shipping-countries";
 import {YouPage,inOrderGroup,OrderGroup} from "./src/components/YouPage";
 import {VirtualReceipt} from "./src/components/VirtualReceipt";
