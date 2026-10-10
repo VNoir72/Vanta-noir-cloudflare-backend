@@ -78,6 +78,7 @@ export type Payment = {
   receiptToken: string;
   complete?: boolean;
   checking?: boolean;
+  expired?: boolean;
   transfer?: {
     bankName: string;
     accountName: string;
@@ -87,6 +88,7 @@ export type Payment = {
   };
 };
 export type Order = {
+  createdAt?: string;
   canSaveCard?: boolean;
   discountKobo?: number;
   reference: string;

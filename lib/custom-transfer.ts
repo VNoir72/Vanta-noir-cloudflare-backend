@@ -1,3 +1,4 @@
+import {expireUnpaidOrders} from './order-expiry';
 import { getDbBinding, runtimeEnv } from "./runtime-env";
 import { getOrderByReference } from "./store-db";
 import { createTransferCharge } from "./paystack";
@@ -15,12 +16,13 @@ export async function startTransferPayment(
 ) {
   if (runtimeEnv().CUSTOM_TRANSFER_ENABLED !== "true")
     throw new Error("Custom transfer payments are not enabled yet.");
+  await expireUnpaidOrders(reference);
   const db = getDbBinding(),
     order = await getOrderByReference(reference);
   if (!order) throw new Error("Order not found.");
   const base = { reference, receiptToken };
   if (order.paymentStatus === "paid") return { ...base, complete: true };
-  if (order.status === "cancelled") return { ...base, checking: true };
+  if (["cancelled","expired"].includes(order.status)) return { ...base, expired: true };
   // Share the existing checkout claim: an order can never be initialized once
   // with hosted checkout and again with a custom charge.
   const key = "checkout-payment:" + reference;

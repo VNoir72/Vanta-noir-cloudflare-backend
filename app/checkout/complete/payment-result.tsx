@@ -9,7 +9,7 @@ import { CART_STORAGE_KEY, restoreCart } from "@/lib/cart";
 import { PaymentReceipt } from "@/components/payment-receipt";
 import { receiptMoney, receiptTotals, type PaymentOrder } from "@/lib/payment-receipt";
 
-type State = "checking" | "paid" | "review" | "pending" | "error";
+type State = "checking" | "paid" | "review" | "pending" | "error" | "expired";
 
 export function PaymentResult({ reference }: { reference: string }) {
   const [state, setState] = useState<State>("checking");
@@ -64,6 +64,7 @@ export function PaymentResult({ reference }: { reference: string }) {
           }
           return;
         }
+        if(order?.status==='expired'||order?.status==='cancelled'){try{const token=sessionStorage.getItem(`vn-receipt:${reference}`);for(const key of Object.keys(localStorage)){if(token&&key.startsWith('vn-checkout-attempt:')&&localStorage.getItem(key)===token)localStorage.removeItem(key);}}catch{}setState('expired');setMessage('This order has expired or was cancelled. Select your pieces again to place a new order.');return;}
         setState("pending");
         setMessage(payload.providerStatus==='failed' ? "Paystack reports this payment attempt failed. If your bank shows a debit, contact customer care with this reference before paying again." : payload.providerStatus==='abandoned' ? "This payment attempt was not completed. If you paid or see a debit, keep this reference and contact customer care before paying again." : "Your payment is still being confirmed. Keep your reference and check again shortly; please do not pay twice.");
         if (++checks < 6) timer = setTimeout(() => void verify(), 4000);

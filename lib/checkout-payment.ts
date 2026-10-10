@@ -1,14 +1,16 @@
+import {expireUnpaidOrders} from './order-expiry';
 import {getDbBinding} from './runtime-env';
 import {initializePaystackTransaction} from './paystack';
 import {getOrderByReference} from './store-db';
 // A claimed initialization is never repeated after an ambiguous timeout.
 // Retrying the same reference cannot silently create another payment.
 export async function startCheckoutPayment(args:{reference:string;receiptToken:string;callbackUrl:string;email:string;customerName:string}){
+ await expireUnpaidOrders(args.reference);
  const db=getDbBinding(),order=await getOrderByReference(args.reference);
  if(!order)throw new Error('Order not found.');
  const result={reference:args.reference,receiptToken:args.receiptToken};
  if(order.paymentStatus==='paid')return {...result,complete:true};
- if(order.status==='cancelled')return {...result,checking:true};
+ if(['cancelled','expired'].includes(order.status))return {...result,expired:true};
  const key='checkout-payment:'+args.reference;
  const saved=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();
  if(saved){const data=JSON.parse(saved.value);if(data.authorizationUrl)return {...result,authorizationUrl:data.authorizationUrl,accessCode:data.accessCode};return {...result,checking:true};}

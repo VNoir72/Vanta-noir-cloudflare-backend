@@ -103,17 +103,22 @@ export function CheckoutForm() {
   async function pay(event:FormEvent<HTMLFormElement>){event.preventDefault();if(submitting.current||!settings?.checkoutReady||total===null||!cart.length||rewards.pending||rewards.error||!rewards.quote)return;submitting.current=true;setBusy(true);setError("");
     const fields=Object.fromEntries(new FormData(event.currentTarget));
     try{const checkoutData={shippingSelection:liveShipping?shippingSelection:undefined,expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...checkoutData,paymentChannel:settings.customTransferEnabled?'bank_transfer':'hosted',checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
-      const payload=await response.json() as {transfer?:TransferInstructions;authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
+      const payload=await response.json() as {transfer?:TransferInstructions;authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;expired?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
       if(payload.reference&&payload.receiptToken){try{sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}catch{/* Storage restrictions must not block the verified payment redirect. */}}
+      if(payload.reference){
+        const key=`vanta-noir-cleared-${payload.reference}`;
+        if(!readStorage(key)){const current=restoreCart(JSON.parse(readStorage(CART_STORAGE_KEY)||'[]'));const remaining=current.flatMap(i=>{const n=i.quantity-(cart.find(c=>c.variantId===i.variantId)?.quantity||0);return n>0?[{...i,quantity:n}]:[];});writeStorage(CART_STORAGE_KEY,JSON.stringify(remaining));writeStorage(key,'1');}
+        try{const old=JSON.parse(localStorage.getItem('vn-order-updates')||'[]');localStorage.setItem('vn-order-updates',JSON.stringify([{reference:payload.reference},...old.filter((o:{reference:string})=>o.reference!==payload.reference)].slice(0,50)));}catch{}
+      }
       if(payload.transfer&&payload.receiptToken){const value={instructions:payload.transfer,token:payload.receiptToken};setTransfer(value);try{sessionStorage.setItem('vn-custom-transfer',JSON.stringify(value));}catch{}setBusy(false);submitting.current=false;return;}
-      if(payload.complete||payload.checking){if(!payload.reference)throw new Error("The payment response is incomplete. Please contact customer care before retrying.");showConfirmation(payload.reference!);return;}
+      if(payload.complete||payload.checking||payload.expired){if(!payload.reference)throw new Error("The payment response is incomplete. Please contact customer care before retrying.");showConfirmation(payload.reference!);return;}
       const target=new URL(payload.authorizationUrl||"");if(target.protocol!=="https:"||target.hostname!=="checkout.paystack.com")throw new Error("The payment link could not be verified. Please contact customer care.");
       if(!payload.accessCode) throw new Error("The secure payment window is not ready. Please retry this order; your bag is saved.");
       if(!payload.reference) throw new Error("The payment reference is missing. Please contact customer care.");
       const Paystack = await loadPaystack();
       new Paystack().resumeTransaction(payload.accessCode, {
         onSuccess: () => { showConfirmation(payload.reference!); },
-        onCancel: () => { submitting.current=false;setBusy(false);setNotice("Payment window closed. Your bag is saved; you can continue when ready."); },
+        onCancel: () => { submitting.current=false;setBusy(false);showConfirmation(payload.reference!); },
         onError: () => { submitting.current=false;setBusy(false);setError("Payment could not be completed. Please retry the same order or contact customer care."); }
       });
     }catch(e){setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"The payment service took too long. Please check your order with customer care before trying again.");submitting.current=false;setBusy(false);}

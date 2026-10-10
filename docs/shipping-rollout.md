@@ -45,3 +45,10 @@ The browser submits reviewed bookings one at a time and records outcomes in D1. 
 No paid production shipment is created during deployment verification. The wallet must be funded before the owner books. Different selected couriers may require separate collections; a pickup date is a request, not a courier guarantee. Real webhook delivery remains unverified until a genuine shipment event arrives.
 
 Validation: bulk-dispatch, shipping-checkout, shipping-comparison, order-measurements and shipbubble-webhook tests; TypeScript check. Provider contract checked against Shipbubble's official create-shipment and request-shipping-rates documentation. `courier_id` accepts provider numeric or string identifiers and is normalized to the documented string booking input.
+
+## Website release continuation — 10 October 2026
+
+- Campaign and eligible featured garments now share the homepage hero. Existing campaign media leads; product slides retain real catalogue prices and product links, touch navigation, manual controls, pause and reduced-motion support. The duplicate Featured section is removed.
+- Preserve generated Worker module boundaries during deployment (`no_bundle` plus additional ES modules). The exact modular dry-run package passed the isolated backend release suite; the single-file packaging attempt did not complete its cold-page verification during this continuation.
+- Validation: root TypeScript check; 31 shipping, dispatch and visibility tests; compiled and packaged backend checks; 697 static pages, 23,743 local links/assets and 3,724 photograph mappings.
+- The Namecheap code update is built with 0644 file / 0755 directory permissions. Its publication requires the hosting session. Production rollout status is tracked separately from these build results.

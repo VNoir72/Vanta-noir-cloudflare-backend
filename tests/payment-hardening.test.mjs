@@ -22,6 +22,7 @@ test('checkout attempts, payment email recovery and signed financial event notif
  assert.equal((await call('createPendingOrder',{...input,customer:{...input.customer,email:'other@example.com'}})).status,400);
  const pay={reference:a.reference,receiptToken:a.receiptToken,callbackUrl:'https://vantanoir.store/checkout/complete',email:input.customer.email,customerName:'Test Buyer'};
  await Promise.all([rpc('startCheckoutPayment',pay),rpc('startCheckoutPayment',pay)]);assert.equal(initializations,1);assert.ok((await rpc('startCheckoutPayment',pay)).authorizationUrl);assert.equal((await rpc('startCheckoutPayment',pay)).accessCode,'fixture-access-code','Retries resume the same secure popup transaction');
+
  const failed=await rpc('createPendingOrder',{...input,checkoutAttempt:randomUUID()+'-'+randomUUID()});failInit=true;
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);assert.equal(initializations,2,'An ambiguous provider failure must not initialize again');
@@ -39,5 +40,18 @@ test('checkout attempts, payment email recovery and signed financial event notif
  assert.equal((await rpc('getOrderByReference',a.reference)).paymentStatus,'paid','Partial refund notices cannot rewrite the original payment');
  assert.equal((await mf.dispatchFetch('https://api.example.com/api/admin/payment-updates')).status,403);
  await rpc('processEmailOutbox',20);assert.equal(sent.filter(x=>x.to.includes('buyer@example.com')).length,1);assert.equal(sent.filter(x=>x.to.includes('owner@example.com')).length,3);
+ const expiring=await rpc('createPendingOrder',{...input,checkoutAttempt:randomUUID()+'-'+randomUUID()});
+ await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?)").bind('checkout-payment:'+expiring.reference,JSON.stringify({transfer:{expiresAt:new Date(Date.now()-1000).toISOString()}})).run();
+ assert.equal((await rpc('getPublicPaymentOrder',expiring.reference)).status,'expired');
+ assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM stock_reservations WHERE order_id=?').bind(expiring.id).first()).n,0);
+ assert.equal((await rpc('startCheckoutPayment',{...pay,reference:expiring.reference,receiptToken:expiring.receiptToken})).expired,true,'Expired orders cannot initialize payment again');
+ const stockBeforeLatePayment=(await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(v).first()).stock;
+ await rpc('markOrderPaid',{reference:expiring.reference,amountKobo:expiring.totalKobo,eventKey:'late-paid',eventType:'verify.success',paymentDomain:'test'});
+ assert.equal((await rpc('getPublicPaymentOrder',expiring.reference)).status,'paid_stock_review','Late verified money needs owner review, never silent fulfilment');
+ assert.equal((await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(v).first()).stock,stockBeforeLatePayment);
+ const future=await rpc('createPendingOrder',{...input,checkoutAttempt:randomUUID()+'-'+randomUUID()});
+ await db.prepare("UPDATE orders SET created_at=datetime('now','-1 hour') WHERE reference=?").bind(future.reference).run();
+ await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?)").bind('checkout-payment:'+future.reference,JSON.stringify({transfer:{expiresAt:new Date(Date.now()+60000).toISOString()}})).run();
+ assert.equal((await rpc('getPublicPaymentOrder',future.reference)).status,'pending_payment','Provider account deadline overrides fallback order age');
  }finally{await mf.dispose();}
 });

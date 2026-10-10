@@ -1,3 +1,4 @@
+import {expireUnpaidOrders} from './order-expiry';
 import {customerCenter} from './customer-center';
 import {reviewSchema,submitReview} from './commerce-db';
 import {listCustomerCards,saveCustomerCard,removeCustomerCard,canSaveCard} from './customer-cards';
@@ -271,15 +272,24 @@ export async function customerApp(request: Request): Promise<Response> {
           "Account, addresses and favourites deleted. Required transaction records are retained under our published retention policy.",
       });
     }
+    if(path==='orders'&&request.method==='DELETE'){
+      const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
+      const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(reference,s.id).first();
+      if(!owned)return json({error:'Order not found.'},404);
+      await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('hidden-order:'+s.id+':'+reference,JSON.stringify({hiddenAt:new Date().toISOString()})).run();
+      return json({removed:true});
+    }
     if (path === "orders" && request.method === "GET") {
+      await expireUnpaidOrders();
       const rows = await db
         .prepare(
           `SELECT o.reference,o.status,o.payment_status AS paymentStatus,o.total_kobo AS totalKobo,o.created_at AS createdAt,o.carrier,o.tracking_number AS trackingNumber,o.tracking_url AS trackingUrl,o.delivery_estimate AS deliveryEstimate
-    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? ORDER BY o.created_at DESC LIMIT 100`,
+    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
         )
         .bind(s.id)
         .all();
-      return json({ orders: rows.results });
+      const orders=await Promise.all(rows.results.map(async o=>({...o,items:(await db.prepare('SELECT variant_id AS variantId,product_name AS productName,color,size,quantity,unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id=(SELECT id FROM orders WHERE reference=?)').bind(o.reference).all()).results})));
+      return json({ orders });
     }
     if (path === "receipt" && request.method === "GET") {
       const reference =

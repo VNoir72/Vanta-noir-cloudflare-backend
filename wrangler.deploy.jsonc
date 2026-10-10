@@ -53,5 +53,15 @@
       "pattern": "api.vantanoir.store",
       "custom_domain": true
     }
+  ],
+  "no_bundle": true,
+  "find_additional_modules": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": [
+        "**/*.js"
+      ]
+    }
   ]
 }

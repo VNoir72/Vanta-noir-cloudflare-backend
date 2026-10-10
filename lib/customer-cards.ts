@@ -1,3 +1,4 @@
+import {expireUnpaidOrders} from './order-expiry';
 import {getDbBinding, runtimeEnv} from './runtime-env';
 import {chargeSavedAuthorization, paymentMode, verifyPaystackTransaction} from './paystack';
 import {getOrderByReference} from './store-db';
@@ -72,13 +73,14 @@ export async function removeCustomerCard(owner:string,id:string) {
   if (await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first()) await db.prepare('DELETE FROM app_customer_cards WHERE customer_id=? AND id=?').bind(owner,id).run();
 }
 export async function startSavedCardPayment(reference:string,receiptToken:string,owner:string,id:string) {
+  await expireUnpaidOrders(reference);
   const db=getDbBinding(), card=await ownedCard(owner,id);
   const link=await db.prepare('SELECT reference FROM app_customer_orders WHERE customer_id=? AND reference=?').bind(owner,reference).first();
   const order=await getOrderByReference(reference);
   if (!card || !link || !order || card.email!==order.email.toLowerCase()) throw Error('Saved card unavailable.');
   const base={reference,receiptToken,amountKobo:order.totalKobo,channel:'saved_card' as const};
   if (order.paymentStatus==='paid') return {...base,complete:true};
-  if (order.status==='cancelled') return {...base,checking:true};
+  if (['cancelled','expired'].includes(order.status)) return {...base,expired:true};
   const token=await decrypt(card.authorization_cipher,owner,id);
   // Shared across ALL payment channels. Ambiguous requests must never retry a charge.
   const key='checkout-payment:'+reference;

@@ -1,4 +1,3 @@
-import {shippingCountryName} from "../shipping-countries";
 import React,{useEffect,useState} from 'react';
 import {ActivityIndicator,Modal,Pressable,ScrollView,StyleSheet,TextInput,View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -7,8 +6,10 @@ import {Text,Icon,useTheme} from '../theme';
 import {Customer,Order} from '../types';
 import {api,money} from '../api';
 import {useReducedMotion} from './Motion';
-export type OrderGroup='All'|'To pay'|'To ship'|'Shipped'|'Delivered';
+export type OrderGroup='All'|'To pay'|'To ship'|'Shipped'|'Delivered'|'Expired'|'Returns';
 export function inOrderGroup(order:Order,group:OrderGroup){
+ if(group==='Returns')return ['returned','return_requested','refunded','partially_refunded'].includes(order.status)||['refunded','partially_refunded'].includes(order.paymentStatus);
+ if(group==='Expired')return order.status==='expired'||order.status==='cancelled';
  if(group==='To pay')return order.paymentStatus!=='paid'&&order.status==='pending_payment';
  if(group==='To ship')return order.paymentStatus==='paid'&&['paid','processing','preparing','ready_to_ship'].includes(order.status);
  if(group==='Shipped')return ['shipped','in_transit','out_for_delivery'].includes(order.status);
@@ -28,21 +29,20 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
  const updates=orders.map(o=>({key:[o.reference,o.status,o.paymentStatus,o.trackingNumber||''].join(':'),order:o}));
  const unread=seen===null?0:updates.filter(u=>!seen.includes(u.key)).length;
  useEffect(()=>{let active=true;api<Center>('/api/customer/center').then(v=>{if(active)setData(v);}).catch(()=>{if(active)setError('Coupons and review requests could not load. Try again.');}).finally(()=>{if(active)setLoading(false);});AsyncStorage.getItem(seenKey).then(v=>{if(active)setSeen(v?JSON.parse(v):[]);}).catch(()=>{if(active)setSeen([]);});return()=>{active=false;};},[seenKey]);
- const card={backgroundColor:colors.surface,borderColor:colors.border,borderWidth:1,borderRadius:24,padding:20,gap:16};
+ const card={backgroundColor:colors.surface,borderColor:colors.border,borderWidth:1,borderRadius:18,padding:14,gap:10};
  const button=(title:string,action:()=>void,secondary=false,disabled=false)=><Pressable accessibilityRole="button" disabled={disabled} onPress={action} style={{padding:15,borderRadius:24,backgroundColor:secondary?colors.secondary:colors.accent,opacity:disabled?.5:1}}><Text style={{fontWeight:'700',textAlign:'center',color:secondary?colors.text:'#182214'}}>{title}</Text></Pressable>;
  const open=(next:Panel)=>{setPanel(next);setMessage('');setReview(null);};
  const field=(label:string,value:string,onChange:(v:string)=>void,multiline=false)=><View style={{gap:8}}><Text>{label}</Text><TextInput accessibilityLabel={label} value={value} onChangeText={onChange} multiline={multiline} maxLength={multiline?2000:60} style={{backgroundColor:colors.input,color:colors.text,borderWidth:1,borderColor:colors.border,borderRadius:14,padding:14,minHeight:multiline?110:48}}/></View>;
  return <View style={{gap:18}}>
-  <View style={s.row}><View style={{flex:1,gap:4}}><Text style={{fontSize:32,fontWeight:'700'}}>You</Text><Text style={{color:colors.muted}}>Your Vanta Noir, all in one place.</Text></View><Pressable accessibilityRole="button" accessibilityLabel={`Notifications, ${unread} unread`} onPress={()=>open('Notifications')} style={{padding:12}}><Icon name="notifications-outline" size={26}/>{unread>0&&<View style={{position:'absolute',top:0,right:0,backgroundColor:colors.accent,borderRadius:10,paddingHorizontal:5}}><Text style={{color:'#182214',fontSize:11}}>{unread}</Text></View>}</Pressable></View>
-  <View style={card}><View style={s.row}><View style={{width:54,height:54,borderRadius:27,backgroundColor:colors.secondary,alignItems:'center',justifyContent:'center'}}><Text style={{fontSize:24,fontWeight:'700'}}>{(customer.name||customer.email).slice(0,1).toUpperCase()}</Text></View><View style={{flex:1,gap:4}}><Text style={{fontSize:19,fontWeight:'700'}}>{customer.name||'Vanta Noir member'}</Text><Text style={{color:colors.muted}}>{customer.email}</Text></View><Pressable accessibilityRole="button" accessibilityLabel="Open Settings" onPress={onSettings} style={{padding:10}}><Icon name="settings-outline" size={25}/></Pressable></View></View>
+  <View style={s.row}><View style={{width:40,height:40,borderRadius:20,backgroundColor:colors.secondary,alignItems:'center',justifyContent:'center'}}><Text style={{fontSize:18,fontWeight:'700'}}>{(customer.name||customer.email).slice(0,1).toUpperCase()}</Text></View><View style={{flex:1}}><Text style={{fontSize:18,fontWeight:'700'}}>{customer.name||'Vanta Noir member'}</Text></View><Pressable accessibilityRole="button" accessibilityLabel="Country and currency" onPress={()=>open('Country & currency')} style={{padding:8}}><Text>{country}</Text></Pressable><Pressable accessibilityRole="button" accessibilityLabel="Open Settings" onPress={onSettings} style={{padding:8}}><Icon name="settings-outline" size={24}/></Pressable><Pressable accessibilityRole="button" accessibilityLabel={`Notifications, ${unread} unread`} onPress={()=>open('Notifications')} style={{padding:8}}><Icon name="notifications-outline" size={24}/>{unread>0&&<Text style={{position:'absolute',top:-4,right:0,fontSize:10}}>{unread}</Text>}</Pressable></View>
   <View style={card}><View style={s.row}><Text style={s.title}>Your orders</Text><Pressable accessibilityRole="button" accessibilityLabel="View all orders" onPress={()=>onOrders('All')} style={{padding:8}}><Text>View all →</Text></Pressable></View><View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>
-   {(['To pay','To ship','Shipped','Delivered'] as OrderGroup[]).map((label,i)=><Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label}, ${orders.filter(o=>inOrderGroup(o,label)).length} orders`} onPress={()=>onOrders(label)} style={{flexGrow:1,flexBasis:'21%',alignItems:'center',gap:8,paddingVertical:10}}><Icon name={(['wallet-outline','cube-outline','airplane-outline','checkmark-circle-outline'] as const)[i]} size={26}/><Text style={{fontSize:20,fontWeight:'700'}}>{orders.filter(o=>inOrderGroup(o,label)).length}</Text><Text style={{fontSize:12}}>{label}</Text></Pressable>)}
+   {(['To pay','To ship','Shipped','To review','Returns'] as const).map((label,i)=><Pressable key={label} accessibilityRole="button" accessibilityLabel={label} onPress={()=>label==='To review'?open('To review'):onOrders(label)} style={{flex:1,alignItems:'center',gap:6,paddingVertical:8}}><Icon name={(['wallet-outline','cube-outline','airplane-outline','chatbubble-outline','return-down-back-outline'] as const)[i]} size={24}/><Text style={{fontSize:11}}>{label}</Text></Pressable>)}
   </View></View>
   <View style={{flexDirection:'row',flexWrap:'wrap',gap:12}}>
    {([{label:'Wishlist',icon:'heart-outline',value:wishlistCount,action:onWishlist},{label:'Coupons',icon:'ticket-outline',value:data?.coupons.length,action:()=>open('Coupons')},{label:'To review',icon:'star-outline',value:data?.toReview.length,action:()=>open('To review')}] as const).map(item=><Pressable key={item.label} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={[card,{flexGrow:1,flexBasis:'28%',padding:14,alignItems:'center'}]}><Icon name={item.icon} size={26}/><Text style={{fontSize:22,fontWeight:'700'}}>{item.value??'—'}</Text><Text style={{fontSize:12}}>{item.label}</Text></Pressable>)}
   </View>
   {error!==''&&<View style={{gap:10}}><Text accessibilityRole="alert">{error}</Text>{button('Retry account extras',()=>{setLoading(true);api<Center>('/api/customer/center').then(v=>{setData(v);setError('');}).catch(()=>setError('Coupons and review requests could not load. Try again.')).finally(()=>setLoading(false));},true,loading)}</View>}
-  <View style={card}>{button('Country · '+shippingCountryName(country)+' / NGN',()=>open('Country & currency'),true)}{button('Settings',onSettings,true)}{button('Help & support',onHelp,true)}</View>
+  <Pressable accessibilityRole="button" onPress={onHelp} style={[s.row,{paddingVertical:12}]}><Icon name="headset-outline" size={22}/><Text style={{flex:1}}>Help & support</Text><Icon name="chevron-forward" size={18}/></Pressable>
   <Modal visible={panel!==null} animationType={reduce?'none':'slide'} presentationStyle="pageSheet" onRequestClose={()=>setPanel(null)}>
    <SafeAreaView style={{flex:1,backgroundColor:colors.page}}><View style={[s.row,{padding:18}]}><Text style={s.title}>{panel}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Close ${panel}`} onPress={()=>setPanel(null)} style={{padding:10}}><Icon name="close" size={26}/></Pressable></View>
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{padding:20,gap:18,maxWidth:680,width:'100%',alignSelf:'center'}}>
@@ -59,4 +59,4 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
   </Modal>
  </View>;
 }
-const s=StyleSheet.create({row:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10,flexWrap:'wrap'},title:{fontSize:20,fontWeight:'700'}});
+const s=StyleSheet.create({row:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10,flexWrap:'wrap'},title:{fontSize:17,fontWeight:'700'}});

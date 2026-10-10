@@ -10,14 +10,15 @@ export function VirtualReceipt({order}:{order:Order}) {
  const {colors}=useTheme(), reduce=useReducedMotion();
  const [height,setHeight]=useState(0),[replay,setReplay]=useState(0);
  const [feed]=useState(()=>new Animated.Value(0));
+ const measured=height>0;
  const paid=order.paymentStatus==='paid';
  useEffect(()=>{
-  if(!height)return;
+  if(!measured)return;
   feed.stopAnimation();feed.setValue(reduce?1:0);
   if(reduce)return;
   const motion=Animated.timing(feed,{toValue:1,duration:1700,delay:180,easing:Easing.out(Easing.quad),useNativeDriver:true});
   motion.start();return()=>motion.stop();
- },[feed,height,reduce,order.reference,replay]);
+ },[feed,measured,reduce,order.reference,replay]);
  const row=(label:string,value:number,strong=false)=><View key={label} style={s.row}><Text style={[s.ink,strong&&s.bold,{flex:1}]}>{label}</Text><Text style={[s.ink,strong&&s.bold]}>{money(value)}</Text></View>;
  return <View style={{gap:14,width:'100%',maxWidth:430,alignSelf:'center'}}>
   <Text style={{fontSize:28,fontWeight:'700',textAlign:'center'}}>Your receipt.</Text>

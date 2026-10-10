@@ -6,6 +6,7 @@ import { router, useGlobalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   AccessibilityInfo,
   AppState,
   BackHandler,
@@ -228,6 +229,8 @@ function Main() {
   const [shippingCountries,setShippingCountries]=useState<ReadonlyArray<readonly [string,string]>>([["NG","Nigeria"]]);
   const [shippingBusy,setShippingBusy]=useState(false),[shippingError,setShippingError]=useState(''),[shippingRetry,setShippingRetry]=useState(0),[quoteContext,setQuoteContext]=useState('');
   const shippingRequest=useRef(0);
+  const [notificationsOpen,setNotificationsOpen]=useState(false);
+  const [orderSearch,setOrderSearch]=useState("");
   const [orderGroup,setOrderGroup]=useState<OrderGroup>("All");
   const [addressEditing,setAddressEditing] = useState(true);
   const [addressBookEditing,setAddressBookEditing] = useState(false);
@@ -346,7 +349,9 @@ function Main() {
       );
       await refreshCards();
       const pending=await vault.get("pending");
-      if(pending){const restored=JSON.parse(pending);if(restored.ownerEmail===r.customer.email){setPayment(restored.payment);setPendingCart(restored.cart);attempt.current=restored.payment.receiptToken;}}
+      if(pending){const restored=JSON.parse(pending);if(restored.ownerEmail===r.customer.email){
+        if(!restored.bagConsumed){const bag:CartItem[]=JSON.parse(await AsyncStorage.getItem('vanta-bag')||'[]');const remaining=bag.flatMap(i=>{const q=i.quantity-(restored.cart?.find((b:CartItem)=>b.variantId===i.variantId)?.quantity||0);return q>0?[{...i,quantity:q}]:[];});await AsyncStorage.setItem('vanta-bag',JSON.stringify(remaining));setCart(remaining);await vault.set('pending',JSON.stringify({...restored,bagConsumed:true}));}
+        setPayment(restored.payment);setPendingCart(restored.cart);attempt.current=restored.payment.receiptToken;}}
 
     } catch (e) {
       if(e instanceof ApiError && e.status===401){await vault.remove("session");setCustomer(null);setCards([]);setCardsEnabled(false);setSelectedCard("");setPayment(null);setPendingCart([]);setOrders([]);setAddress(emptyAddress);setSaved([]);setCheckout(false);}
@@ -400,6 +405,9 @@ function Main() {
     });
     return () => listener.remove();
   }, [selected, checkout, screen]);
+  const [paymentNotice,setPaymentNotice]=useState("");
+  const [paymentNow,setPaymentNow]=useState(Date.now());
+  const paymentExpired=!!payment&&(payment.expired===true||!!payment.transfer&&Date.parse(payment.transfer.expiresAt)<=paymentNow);
   async function checkPayment() {
     if (!payment || checkBusy.current) return;
     checkBusy.current = true;
@@ -412,30 +420,27 @@ function Main() {
         { "X-Receipt-Token": payment.receiptToken },
       );
       if (r.order?.paymentStatus === "paid") {
-        setReceipt(r.order);
+        let stable=r.order;
+        try{stable=(await api<{order:Order}>("/api/customer/receipt?reference="+encodeURIComponent(r.order.reference))).order;}catch{}
+        setReceipt(stable);
         setShowReceipt(true);
+        setPaymentNotice("");
         setLeaveCheckout(false);
         setCheckout(false);
-        setCart((current) =>
-          current.flatMap((i) => {
-            const bought =
-              pendingCart.find((b) => b.variantId === i.variantId)?.quantity ||
-              0;
-            return i.quantity > bought
-              ? [{ ...i, quantity: i.quantity - bought }]
-              : [];
-          }),
-        );
         setPayment(null);
         setPendingCart([]);
         attempt.current = "";
         await vault.remove("pending");
         await account();
-        try {const details=await api<{order:Order}>("/api/customer/receipt?reference="+encodeURIComponent(r.order.reference));setReceipt(details.order);} catch { /* The confirmed receipt remains available if card eligibility is unavailable. */ }
+
         await load();
-      } else setNotice(r.providerStatus && ["failed","abandoned","reversed"].includes(r.providerStatus) ? "Paystack has not completed this payment. Contact support with your saved reference before starting another payment." : "Waiting for payment confirmation. Do not pay twice.");
+      } else if(['expired','cancelled'].includes(r.order?.status)){
+        setPayment(current=>current?.reference===r.order.reference?{...current,expired:true}:current);
+        setPaymentNotice('');attempt.current='';await vault.remove('pending');
+        setOrders(current=>current.map(o=>o.reference===r.order.reference?{...o,...r.order}:o));
+      } else if(!paymentExpired) setPaymentNotice(r.providerStatus && ["failed","abandoned","reversed"].includes(r.providerStatus) ? "Paystack has not completed this payment. Contact support with your saved reference before starting another payment." : "Waiting for payment confirmation. Do not pay twice.");
     } catch (e) {
-      setNotice(
+      setPaymentNotice(
         "Confirmation is temporarily unavailable. Your payment reference is saved; do not pay again.",
       );
     } finally {
@@ -443,7 +448,7 @@ function Main() {
     }
   }
   useEffect(() => {
-    if (!payment) return;
+    if (!payment || paymentExpired) return;
     const timer = setInterval(() => {
       if (AppState.currentState === "active") void checkPayment();
     }, 20000);
@@ -454,7 +459,9 @@ function Main() {
       clearInterval(timer);
       app.remove();
     };
-  }, [payment, pendingCart]);
+  }, [payment, paymentExpired]);
+  useEffect(()=>{if(!payment?.transfer)return;const update=()=>setPaymentNow(Date.now());update();const timer=setInterval(update,1000);return()=>clearInterval(timer);},[payment?.reference]);
+  useEffect(()=>{if(!paymentExpired)return;setOrders(current=>current.map(o=>o.reference===payment?.reference&&o.paymentStatus!=='paid'?{...o,status:'expired'}:o));setPaymentNotice('');attempt.current='';void vault.remove('pending');void checkPayment();},[paymentExpired]);
   function resetQuote() {
     setQuotes(null);
     setRate(null);
@@ -575,9 +582,11 @@ function Main() {
       channel:paymentMethod,
       checking: true,
     };
-    await vault.set("pending", JSON.stringify({ payment: pending, cart, ownerEmail:customer.email }));
+    await vault.set("pending", JSON.stringify({ payment: pending, cart, bagConsumed:true, ownerEmail:customer.email }));
     setPayment(pending);
     setPendingCart(cart);
+    setCart([]);
+    await AsyncStorage.setItem('vanta-bag','[]');
     let p: Payment;
     try {
       p = await api<Payment>("/api/checkout", {
@@ -606,10 +615,10 @@ function Main() {
       }
       throw e;
     }
-    await vault.set("pending", JSON.stringify({ payment: p, cart, ownerEmail:customer.email }));
+    await vault.set("pending", JSON.stringify({ payment: p, cart, bagConsumed:true, ownerEmail:customer.email }));
     setPayment(p);
     if (p.checking)
-      setNotice(
+      setPaymentNotice(
         "We are checking this payment request. Do not create another payment.",
       );
   }
@@ -651,52 +660,26 @@ function Main() {
   return (
     <SafeAreaView style={s.page}>
       <StatusBar style={dark?"light":"dark"} />
-      <View style={s.header}>
-        {!searchOpen && (
+      {!(screen==='Account'&&customer)&&<View style={s.header}>
+        {(
           <Image
             source={require("./assets/brand-logo.webp")}
             style={[s.logo,{backgroundColor:"#ffffff",borderRadius:8}]}
             resizeMode="contain"
           />
         )}
-        {searchOpen ? (
-          <TextInput
-            autoFocus
-            accessibilityLabel="Search garments"
-            placeholder="Find your fit…"
-            value={search}
-            onChangeText={setSearch}
-            style={[s.input, { flex: 1 }]}
-          />
-        ) : (
-          <View style={{ flex: 1 }} />
-        )}
+        <View style={{flex:1}} />
         <Pressable
           style={s.close}
           accessibilityRole="button"
-          accessibilityLabel={searchOpen ? "Close search" : "Search"}
-          onPress={() => {
-            setSearchOpen(!searchOpen);
-            if (searchOpen) setSearch("");
-            setScreen("Shop");
-          }}
+          accessibilityLabel="Notifications"
+          onPress={() => setNotificationsOpen(true)}
         >
-          <Ionicons name={searchOpen ? "close" : "search-outline"} size={24} />
+          <Ionicons name="notifications-outline" size={24} />
         </Pressable>
-        <Pressable
-          style={s.close}
-          accessibilityRole="button"
-          accessibilityLabel="Open bag"
-          onPress={() => setScreen("Bag")}
-        >
-          <Ionicons name="bag-outline" size={24} />
-          {cart.length > 0 && (
-            <Text style={s.badge}>
-              {cart.reduce((n, i) => n + i.quantity, 0)}
-            </Text>
-          )}
-        </Pressable>
-      </View>
+      </View>}
+      {screen==='Shop'&&<View style={{marginHorizontal:16,marginBottom:8,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.text,borderRadius:16,paddingLeft:12}}><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" value={search} onChangeText={setSearch} style={{flex:1,minHeight:44,color:colors.text,fontSize:15}}/><Pressable accessibilityRole="button" accessibilityLabel="Search collection" onPress={()=>{setSearchOpen(true);setScreen('Shop');}} style={{backgroundColor:colors.text,borderRadius:12,padding:10,margin:4}}><Ionicons name="search-outline" size={22} color={colors.page}/></Pressable></View>}
+      <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
       {notice !== "" && (
         <View accessibilityLiveRegion="polite" style={s.notice}>
           <Text style={{ flex: 1, color: colors.text }}>{notice}</Text>
@@ -832,7 +815,7 @@ function Main() {
                   <Button
                     title="−"
                     secondary
-                    disabled={!!payment}
+                    disabled={busy}
                     onPress={() => {
                       setCart((old) =>
                         old.flatMap((x) =>
@@ -850,7 +833,7 @@ function Main() {
                   <Button
                     title="+"
                     secondary
-                    disabled={!!payment || i.quantity >= 5}
+                    disabled={busy || i.quantity >= 5}
                     onPress={() => {
                       setCart((old) =>
                         old.map((x) =>
@@ -866,7 +849,7 @@ function Main() {
                   <Button
                     title="Remove"
                     secondary
-                    disabled={!!payment}
+                    disabled={busy}
                     onPress={() => {
                       setCart((old) =>
                         old.filter((x) => x.variantId !== i.variantId),
@@ -910,8 +893,9 @@ function Main() {
         {screen === "Saved" && !customer && <Glass><Text style={s.h1}>Your saved designs</Text><Text style={s.muted}>Sign in to save your favourites and keep them with your account.</Text><Button title="Sign in or create an account" onPress={()=>setScreen("Account")}/></Glass>}
         {screen === "Orders" && (
           <>
-            <Text style={s.h1}>Your orders</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","To ship","Shipped","Delivered"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
+            <Text style={s.h2}>My orders</Text>
+            <TextInput accessibilityLabel="Search orders" placeholder="Order ID or product name" value={orderSearch} onChangeText={setOrderSearch} style={s.input}/>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","To ship","Shipped","Delivered","Returns","Expired"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
             {!customer ? (
               <Glass>
                 <Text>Sign in to see purchases made with your account.</Text>
@@ -919,22 +903,22 @@ function Main() {
               </Glass>
             ) : (
               <>
-                {!orders.filter(o=>inOrderGroup(o,orderGroup)).length && (
+                {!orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).length && (
                   <Text style={s.muted}>
                     No orders in this section yet.
                   </Text>
                 )}
-                {orders.filter(o=>inOrderGroup(o,orderGroup)).map((o) => (
+                {orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).map((o) => (
                   <Glass key={o.reference}>
-                    <Text style={s.productName}>{o.reference}</Text>
-                    <Text>
-                      {money(o.totalKobo)} · {o.paymentStatus}
-                    </Text>
-                    <Text style={s.h2}>{o.status.replaceAll("_", " ")}</Text>
-                    <Text style={s.muted}>
-                      {o.carrier} {o.trackingNumber}
-                    </Text>
-                    <Text style={s.muted}>{o.deliveryEstimate}</Text>
+                    <View style={s.row}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.createdAt?new Date(o.createdAt.includes('T')?o.createdAt:o.createdAt.replace(' ','T')+'Z').toLocaleDateString():''}</Text></View>
+                    <Text style={s.muted}>{o.reference}</Text>
+                    {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:64,height:76,borderRadius:10}} resizeMode="contain"/>}<View style={{flex:1}}><Text style={s.productName}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
+                    <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
+
+                    {!!o.trackingNumber&&<Text style={s.muted}>{o.trackingNumber}</Text>}
+                    {!!o.deliveryEstimate&&<Text style={s.muted}>{o.deliveryEstimate}</Text>}
+                    {payment?.reference===o.reference&&!paymentExpired&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
+                    <Button title="Remove from my orders" secondary disabled={busy} onPress={()=>Alert.alert('Remove order?', 'Hide this order from your history. This does not cancel a payment or delivery.',[{text:'Keep',style:'cancel'},{text:'Remove',style:'destructive',onPress:()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'DELETE');setOrders(current=>current.filter(item=>item.reference!==o.reference));})}])}/>
                     <Button
                       title="View receipt"
                       secondary
@@ -949,7 +933,7 @@ function Main() {
                         })
                       }
                     />
-                    {!["cancelled","shipped","delivered"].includes(o.status) && <Button title="Request cancellation" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"contact",orderReference:o.reference,request:"cancellation",name:customer.name,email:customer.email}})}/>}
+                    {!["cancelled","expired","shipped","delivered"].includes(o.status) && <Button title="Request cancellation" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"contact",orderReference:o.reference,request:"cancellation",name:customer.name,email:customer.email}})}/>}
                     {o.trackingUrl?.startsWith("https://") && (
                       <Button
                         title="Track parcel"
@@ -1312,7 +1296,7 @@ function Main() {
         )}
       </Sheet>
       <Sheet
-        title={payment ? "Your payment" : "Order confirmation"}
+        title={paymentExpired ? "Order expired" : payment ? "Your payment" : "Order confirmation"}
         visible={checkout && !!customer}
         onClose={() => setLeaveCheckout(true)}
         overlay={leaveCheckout ? <View accessibilityViewIsModal style={[StyleSheet.absoluteFill,{backgroundColor:"rgba(0,0,0,0.55)",justifyContent:"center",alignItems:"center",padding:24}]}>
@@ -1332,8 +1316,9 @@ function Main() {
             {notice}
           </Text>
         )}
-        {payment ? (
+        {paymentExpired ? <Glass><Text style={s.h2}>Order expired</Text><Text style={s.muted}>The payment window has closed. This order is no longer payable. Your items have not been returned to your bag.</Text><Text selectable>{payment?.reference}</Text><Button title="Browse pieces again" onPress={()=>{setPayment(null);setPendingCart([]);setCheckout(false);setScreen('Shop');}}/><Button title="View orders" secondary onPress={()=>{setPayment(null);setPendingCart([]);setCheckout(false);setScreen('Orders');void account();}}/></Glass> : payment ? (
           <>
+            {paymentNotice!==''&&<Text accessibilityLiveRegion="polite" style={s.noticeText}>{paymentNotice}</Text>}
             <Glass>
               <Image source={require("./assets/brand-logo.webp")} resizeMode="contain" style={{width:170,height:54,alignSelf:"center",backgroundColor:"#fff",borderRadius:12}}/>
               <Text style={[s.eyebrow,{textAlign:"center"}]}>SECURE CHECKOUT</Text>
@@ -1361,7 +1346,7 @@ function Main() {
                         await Clipboard.setStringAsync(
                           payment.transfer!.accountNumber,
                         );
-                        setNotice("Account number copied.");
+                        setPaymentNotice("Account number copied.");
                       })
                     }
                   />
@@ -1503,9 +1488,9 @@ const styles = (colors:Palette) => StyleSheet.create({
   },
   logo: { width: 155, height: 42 },
   content: {
-    padding: 20,
-    paddingBottom: 30,
-    gap: 18,
+    padding: 16,
+    paddingBottom: 24,
+    gap: 14,
     maxWidth: 1280,
     width: "100%",
     alignSelf: "center",
@@ -1535,8 +1520,8 @@ const styles = (colors:Palette) => StyleSheet.create({
     backgroundColor: "#c9f774",
     borderRadius: 24,
     paddingHorizontal: 21,
-    paddingVertical: 15,
-    minHeight: 48,
+    paddingVertical: 11,
+    minHeight: 44,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -1554,7 +1539,7 @@ const styles = (colors:Palette) => StyleSheet.create({
     borderColor: colors.border,
     boxShadow: "0 8px 24px rgba(35,51,29,0.07)",
   },
-  glassContent: { padding: 20, gap: 14 },
+  glassContent: { padding: 14, gap: 10 },
   hero: { borderRadius: 25, overflow: "hidden", backgroundColor: "#dfe4dc" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 16 },
   product: { gap: 8, marginBottom: 14 },

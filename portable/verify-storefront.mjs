@@ -49,7 +49,7 @@ assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Ca
 // The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
 const javascript=await readFile(resolve(root,entry.slice(1)),"utf8");
-assert.match(javascript,/Current campaign/);
+assert.match(javascript,/Campaign and featured pieces/);
 assert.doesNotMatch(javascript,/THE VANTA NOIR EDIT\s*\/\s*001|dn-hero-index/);
 const security=await readFile(resolve(root,".htaccess"),"utf8");
 for(const header of ['X-Frame-Options','Content-Security-Policy','Permissions-Policy','Strict-Transport-Security'])assert.ok(security.includes(header));

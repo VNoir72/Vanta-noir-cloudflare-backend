@@ -84,12 +84,13 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
       ),
       db.prepare("CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT)"),
       db.prepare(
-        "CREATE TABLE orders(id TEXT PRIMARY KEY,reference TEXT UNIQUE,email TEXT,total_kobo INTEGER,status TEXT,payment_status TEXT,created_at TEXT,carrier TEXT,tracking_number TEXT,tracking_url TEXT,delivery_estimate TEXT)",
+        "CREATE TABLE orders(id TEXT PRIMARY KEY,reference TEXT UNIQUE,email TEXT,total_kobo INTEGER,status TEXT,payment_status TEXT,created_at TEXT,updated_at TEXT,carrier TEXT,tracking_number TEXT,tracking_url TEXT,delivery_estimate TEXT)",
       ),
     ]);
     await db.batch([
-      db.prepare('CREATE TABLE order_items(order_id TEXT,product_id TEXT,product_name TEXT)'),
+      db.prepare('CREATE TABLE order_items(order_id TEXT,product_id TEXT,product_name TEXT,variant_id TEXT,color TEXT,size TEXT,quantity INTEGER,unit_price_kobo INTEGER)'),
       db.prepare("CREATE TABLE product_reviews(id TEXT PRIMARY KEY,product_id TEXT,order_id TEXT,display_name TEXT,rating INTEGER,fit TEXT,body TEXT,status TEXT DEFAULT 'pending',UNIQUE(order_id,product_id))"),
+      db.prepare('CREATE TABLE stock_reservations(order_id TEXT)'),
       db.prepare('CREATE TABLE reward_campaigns(id TEXT PRIMARY KEY,config_json TEXT,active INTEGER,starts_at TEXT,ends_at TEXT)'),
       db.prepare('CREATE TABLE order_rewards(order_id TEXT,campaign_id TEXT)')
     ]);
@@ -196,6 +197,10 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await transfer()).checking, true);
     assert.equal((await transfer()).checking, true);
     assert.equal(charges, 2, "No blind retry after upstream uncertainty");
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST'},b)).status,404);
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST'},a)).status,200);
+    assert.equal((await request('orders','GET',undefined,a)).data.orders.length,0);
+    assert.ok(await db.prepare("SELECT id FROM orders WHERE reference='VN-TEST'").first(),'Removing from history preserves the store record');
     await db.prepare("INSERT INTO orders(id,reference,email,total_kobo,status,payment_status,created_at) VALUES('2','VN-CARD','a@example.com',123450,'paid','paid',CURRENT_TIMESTAMP)").run();
     await db.prepare("INSERT INTO app_customer_orders(customer_id,reference) VALUES(?,'VN-CARD')").bind(customer.id).run();
     const save=()=>request("cards","POST",{reference:"VN-CARD",consent:true},a);
@@ -232,7 +237,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await request("cards","GET",undefined,a)).data.cards.length,0);
     assert.equal((await save()).status,200);
     await db.prepare("UPDATE orders SET status='delivered' WHERE reference='VN-CARD'").run();
-    await db.prepare("INSERT INTO order_items VALUES('2','tee','Vanta Tee')").run();
+    await db.prepare("INSERT INTO order_items(order_id,product_id,product_name) VALUES('2','tee','Vanta Tee')").run();
     const campaign={id:'offer-a',title:'Assigned reward',active:true,shippingMinimumKobo:100000,giftMinimumKobo:null,countries:['NG'],startsAt:'2026-01-01T00:00:00.000Z',endsAt:'2099-12-31T00:00:00.000Z',access:'code',code:'ONLYALICE',recipientEmail:'a@example.com',maxUses:0};
     await db.prepare('INSERT INTO reward_campaigns VALUES(?,?,1,?,?)').bind(campaign.id,JSON.stringify(campaign),campaign.startsAt,campaign.endsAt).run();
     const centerA=await request('center','GET',undefined,a),centerB=await request('center','GET',undefined,b);

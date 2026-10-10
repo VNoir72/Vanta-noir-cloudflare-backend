@@ -3,7 +3,7 @@ import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
 import '../../app/admin/admin-appearance.css';
 import {adminThemeCSS} from '../../lib/admin-theme-css';
-const style=document.createElement('style');style.textContent=adminThemeCSS;document.head.append(style);document.documentElement.dataset.vnAdminTheme='light';
+const style=document.createElement('style');style.textContent=adminThemeCSS;document.head.appendChild(style);document.documentElement.dataset.vnAdminTheme='light';
 import {TerminalPickup} from '../../app/admin/terminal-pickup';
 import {CommercePanel} from '../../app/admin/commerce-panel';
 import {RecordEditor} from '../../app/admin/record-editor';

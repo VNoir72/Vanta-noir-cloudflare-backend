@@ -1,3 +1,4 @@
+import {expireUnpaidOrders} from './order-expiry';
 import {assertCurrentShippingProfiles} from './shipping-checkout';
 import {assertShippingProvider} from './shipping-policy';
 import type {resolveShippingSelection} from './shipping-checkout';
@@ -980,6 +981,7 @@ export async function getOrderByReference(reference: string) {
 }
 
 export async function getPublicPaymentOrder(reference: string) {
+  await expireUnpaidOrders(reference);
   const db = getDbBinding();
   const order = await db.prepare(`SELECT id, reference, status, payment_status AS paymentStatus,
     (subtotal_kobo-discount_kobo) AS subtotalKobo, discount_kobo AS discountKobo, promotion_code AS promotionCode, shipping_kobo AS shippingKobo, total_kobo AS totalKobo
@@ -1000,6 +1002,7 @@ export async function getPublicPaymentOrder(reference: string) {
 }
 
 export async function getGuestOrder(reference: string, email: string, phone: string) {
+  await expireUnpaidOrders(reference);
   const db = getDbBinding();
   const order = await db
     .prepare(
@@ -1066,6 +1069,7 @@ export async function markOrderPaid(args: {
   providerFeesKobo?: number | null;
 }) {
   const db = getDbBinding();
+  await expireUnpaidOrders(args.reference);
   const order = await getOrderByReference(args.reference);
   if (!order) throw new Error("Order not found.");
   if (order.reference.startsWith("VN-WALK-")) throw new Error("Walk-in sales require owner review.");
@@ -1076,7 +1080,7 @@ export async function markOrderPaid(args: {
   await db.batch([
     db.prepare(`UPDATE orders SET payment_status = 'paid', allocation_token = ?, paid_at = CURRENT_TIMESTAMP,
       updated_at = CURRENT_TIMESTAMP,
-      status = CASE WHEN status = 'cancelled' OR EXISTS (
+      status = CASE WHEN status IN ('cancelled','expired') OR EXISTS (
         SELECT 1 FROM promotions pr WHERE pr.code=orders.promotion_code AND pr.max_uses>0 AND pr.max_uses<=
           (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='paid')
       ) OR EXISTS (

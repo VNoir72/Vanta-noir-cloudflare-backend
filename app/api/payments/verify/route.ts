@@ -22,6 +22,11 @@ export async function GET(request: Request) {
       return Response.json({ order: await getPublicPaymentOrder(reference) }, { headers: { "Cache-Control": "no-store" } });
     }
 
+    const current = await getPublicPaymentOrder(reference);
+    // An expired window is terminal for checkout, even during a provider outage.
+    // Cron and signed webhooks still reconcile any late money received.
+    if (current?.status === 'expired' || current?.status === 'cancelled')
+      return Response.json({order:current}, {headers:{'Cache-Control':'no-store'}});
     const transaction = await verifyPaystackTransaction(reference);
     if (
       transaction.status !== "success" ||

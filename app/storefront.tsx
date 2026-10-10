@@ -12,7 +12,7 @@ import { ProductSpecifications } from "./product-specifications";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { ArrowLeft, ArrowRight, Check, Heart, HelpCircle, Menu, Plus, Search, ShoppingBag, SlidersHorizontal, Sparkles, X } from "lucide-react";
-import {HomepageMerchandising} from "@/components/homepage-merchandising";
+
 import {StoreAnnouncement} from "@/components/store-announcement";
 import { CampaignHero } from "@/components/campaign-hero";
 import StoreImage from "@/components/store-image";
@@ -21,7 +21,7 @@ import {StoreHeader} from "@/components/store-header";
 import { StoreFooter } from "@/components/store-shell";
 import { SizeGuide } from "@/components/size-guide";
 import { CustomerSignup } from "@/components/customer-signup";
-import { EMPTY_MERCHANDISING, isNewArrival, isPreview, bestSellerUnits, bestSellerScore, confirmedSoldOut, sellingFast, lowStockMessage, type MerchandisingData } from '@/lib/merchandising';
+import { homepageSections, EMPTY_MERCHANDISING, isNewArrival, isPreview, bestSellerUnits, bestSellerScore, confirmedSoldOut, sellingFast, lowStockMessage, type MerchandisingData } from '@/lib/merchandising';
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductGallery } from "@/components/product-gallery";
 import { apiUrl } from "@/lib/api-client";
@@ -418,11 +418,10 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     <StoreHeader dark={showEditorial} query={query} onQuery={value=>{setQuery(value);setSavedOnly(false);}} onSearch={()=>{if(detailSlug)window.location.href=collectionLink({...browseContext,query});else catalogRef.current?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}} savedCount={saved.length} bagCount={count} onSaved={showSaved} onBag={()=>setBagOpen(true)}/>
     <main>
       {showEditorial && <><div className="dn-hero-grid dn-wrap">
-        <CampaignHero value={settings.hero}/>
+        <CampaignHero value={settings.hero} products={catalogLoaded&&!catalogError?homepageSections(displayProducts,merchandising).featured:[]} formatPrice={displayCurrency.format}/>
       </div><div className="dn-service-row dn-wrap"><label>Currency <select aria-label="Display currency" value={displayCurrency.currency} onChange={e=>displayCurrency.choose(e.target.value)}><option value="NGN">NGN ₦</option><option value="USD">USD $</option></select></label><span><Check size={16} />Complete matching sets</span><span><Sparkles size={16} />Reflective signature details</span><span><ShoppingBag size={16} />Clear prices in naira</span><button onClick={() => setHelp("Size & fit")}>Find your fit <ArrowRight size={15} /></button></div>
       </>}
       {showHomepageMerch && <section className="dn-discover dn-wrap" aria-label="Discover by style"><div className="dn-section-intro"><div><span className="dn-eyebrow">FIND YOUR DIRECTION</span><h2>Shop by category</h2></div><button onClick={() => browse()}>Explore everything <ArrowRight size={15} /></button></div><div className="dn-shortcuts">{[...SHOP_SECTIONS,"New arrivals","Best sellers"].map(section=>{const product=audienceProducts.find(p=>section==="New arrivals"?isNewArrival(p):section==="Best sellers"?!isPreview(p)&&bestSellerUnits(p,merchandising)>0:categoryFor(p)?.section===section);return {title:section,note:`Explore ${section.toLowerCase()}`,src:product?.colorways[0]?.imageUrl||product?.imageUrl,category:section};}).filter(item=>item.src).map(item => <button key={item.title} onClick={() => browse(item.category)}><div><StoreImage src={item.src!} preserveOriginal alt="" sizes="130px" /></div><span><strong>{item.title}</strong><small>{item.note}</small></span><ArrowRight size={17} /></button>)}</div></section>}
-      {showHomepageMerch && catalogLoaded && !catalogError && <HomepageMerchandising products={displayProducts.filter(p=>matchesAudience(p,audienceFilter))} data={merchandising} formatPrice={displayCurrency.format} emailEnabled={Boolean(settings.emailEnabled)}/>}
       {catalogError && <div className="dn-notice dn-wrap" role="alert"><strong>Current prices and stock could not be loaded.</strong><p>Your saved bag is unchanged. Please retry before adding items.</p><button className="dn-primary" onClick={()=>setCatalogRetry(value=>value+1)}>Retry catalogue</button></div>}
       {detailSlug && !catalogLoaded && !detailEntry && <CollectionPlaceholder product/>}
 
