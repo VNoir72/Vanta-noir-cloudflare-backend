@@ -1,0 +1,16 @@
+# EAS builds only the standalone mobile app from this repository.
+/*
+!/mobile/
+/mobile/node_modules/
+/mobile/dist/
+/mobile/.expo/
+/mobile/web-build/
+/mobile/ios/
+/mobile/android/
+/mobile/.env*
+*.jks
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
