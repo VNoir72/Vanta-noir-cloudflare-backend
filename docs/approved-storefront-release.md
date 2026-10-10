@@ -50,3 +50,15 @@ node scripts/apply-approved-views.mjs --apply
 The apply command first exports a database backup. It updates only known image URLs and labels. Publication is not complete until the Cloudflare Worker and Namecheap public_html package are both published.
 
 Generation used the built-in image editor. Prompt instructions: derive the missing wearer's side from that exact colourway's Front/Back/Side references; preserve fabric, silhouette, seams, pattern, contrast panels and logo positions; use the master angular spire instead of feathered emblems; match the existing ghost-mannequin photography and background; do not mirror branding or add marks. Stealth additionally follows the R03 four-view tech pack. Generated outputs were inspected and compressed to WebP for the storefront.
+
+## Approved delivery and field-editing release — 10 October 2026
+
+Published source: `31cd79cb2ef8b79fc54f1f28316024198b29332f`; Android packaging correction: `e004e2d7dd3f62402a5f581d0bbd489c2905ecb4`, branch `codex/native-app-2026-10-10`.
+
+- Website and app offer Express by default when a comparable courier estimate is clearly faster than the cheapest service, plus Standard at the actual lower fee. A single option appears if the cheapest is fastest or estimates cannot establish a faster choice. Courier names stay hidden; processing time is separate. No premium is invented.
+- Native selects/toggles work directly and require confirmation. Text/number fields have adjacent Edit/Save/Cancel. Large record Edit cards and repeated order-reference headings are removed. Settings use validated leaf patches and compare-and-swap writes; tracking updates only supplied columns and can detect stale field values. Existing return, parcel and financial validation remains.
+- Hero modes: products, campaigns or both; product order and campaign order/destination links are configurable. Slides support photos/videos; carousel controls are visually hidden unless keyboard-focused.
+- Worker `vanta-noir-api` version `4bc47245-6a95-49c6-8c25-0fce56ed3d74` deployed at 100%, deployment `fc618be6-f218-4a1f-8e6f-b5c30fff9861`, 2026-10-10T21:40:54Z. Health verified. Live Settings confirmed individual controls; changing a hero select displayed confirmation and Cancel restored its original value without saving.
+- `outputs/Vanta-Noir-Orders-Header-Update.zip`: 3,339,089 bytes, SHA-256 `6b85abb8a69f175b6fabd4edf7f0560f26de78feae07b6e8f0c29769f0415664`. The owner will extract directly into Namecheap `public_html`, overwrite matching files and retain existing product photographs. This task did not upload to Namecheap.
+
+Validation: root/mobile typechecks; mobile lint; Android bundle export; delivery-choice and cross-client policy tests; actual React DOM field confirmation/cancel/failed-save/draft tests; full regression run (one outdated search-header expectation corrected and passed on rerun); compiled isolated Worker verification including leaf save conflict/allowlist tests; 697 static pages and 23,743 local links/assets verified. No live payments or courier bookings were made.

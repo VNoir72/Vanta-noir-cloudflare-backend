@@ -110,3 +110,12 @@ Store settings now saves six independent sections using allowlisted fields. The 
 Owner dispatch offers available replacement services and fresh wallet charges when the saved courier is unavailable. Choosing a replacement sends its provider IDs through the existing reviewed booking flow; the customer is not charged again. An uncertain previous booking blocks alternatives until reconciliation, to prevent duplicate shipments. Enabling couriers happens in Shipbubble; this interface does not pretend to enable an unavailable provider.
 
 Validation: root/mobile typechecks, mobile lint, backend shipping/rollout and dispatch regression tests, browser checks at phone/tablet/desktop widths for per-section saves and failed-save retention, checkout/address/keyboard checks, native account/receipt/payment mocks, Android/iOS/web bundle export and website/backend compilation. These do not replace physical-device or live-provider acceptance.
+
+## Express/Standard delivery and Android build correction — 10 October 2026
+
+This supersedes the previous automatic-cheapest policy. Customers see actual Standard/Express rates when explicit comparable ETAs support a faster option; Express is the default. Changing service recalculates reward totals and blocks payment while the quote is pending. Unknown/overlapping estimates do not create a false Express promise. A parity test keeps the app-packaged and website delivery rules identical.
+
+Build 4 (`359e4249-b5dd-42c5-bc2d-dd0c0fa2ff75`) finished successfully and remains the last verified installable APK at this checkpoint. Build 5 (`51de2343-dc17-4e50-9121-61887fd74a0c`) failed eager bundling because its root-level delivery helper was unavailable to Metro in EAS. The helper is now packaged inside mobile/src, with the fix published in `e004e2d7dd3f62402a5f581d0bbd489c2905ecb4`.
+
+Corrected Android build 6: https://expo.dev/accounts/vanta-noir/projects/vanta/builds/96485f16-f21c-492b-8e04-90a48b56f535
+Version 0.1.2, versionCode 6, internal signed APK profile. At this checkpoint, eager bundling passed (1,351 modules) and Gradle was running; completion and APK must be checked before calling it installable. Root/mobile typechecks, mobile lint and Android export passed. Physical-device acceptance has not been performed.
