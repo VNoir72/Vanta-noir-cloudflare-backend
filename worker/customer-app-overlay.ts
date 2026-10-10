@@ -11,9 +11,9 @@ export async function customerFetch(request:Request):Promise<Response|null>{
  try {
   if(path.startsWith('/api/customer/'))return secureResponse(await customerApp(request),request,env);
   if(request.method!=='POST')return null;
-  const body=await request.clone().json().catch(()=>null) as {paymentChannel?:string}|null;
+  const body=await request.clone().json().catch(()=>null) as {paymentChannel?:string;client?:string}|null;
   // Preserve the deployed website's hosted checkout path.
-  if(body?.paymentChannel!=='bank_transfer'&&!request.headers.has('Authorization'))return null;
+  if(body?.client!=='native'&&body?.paymentChannel!=='bank_transfer'&&body?.paymentChannel!=='saved_card'&&!request.headers.has('Authorization'))return null;
   return secureResponse(await checkout(request),request,env);
  }catch{return secureResponse(Response.json({error:'The store is temporarily unavailable. Please try again.'},{status:503}),request,env);}
 }

@@ -1,6 +1,7 @@
+import {SHIPPING_COUNTRIES} from '@/lib/shipping-countries';
 import { getCommerceSettings } from "@/lib/commerce-db";
 import { listCatalog } from "@/lib/store-db";
-import { runtimeEnv,configuredShippingFeeKobo,shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
+import { runtimeEnv,internationalCourierEnabled,configuredShippingFeeKobo,shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
 import { isPaystackConfigured } from "@/lib/paystack";
 import { checkoutSetupIssues, publicCommerceSettings } from "@/lib/commerce-config";
 import { salesSignals } from '@/lib/merchandising-db';
@@ -13,6 +14,9 @@ export async function GET() {
     const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length===0;
     return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
       customerAccountsEnabled:runtimeEnv().CUSTOMER_APP_ENABLED==='true',customTransferEnabled:runtimeEnv().CUSTOM_TRANSFER_ENABLED==='true',shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings,shipbubbleCheckoutEnabled()),
+      internationalCourierEnabled:internationalCourierEnabled(settings),
+      shippingCountries:SHIPPING_COUNTRIES.filter(([code])=>code==='NG'||internationalCourierEnabled(settings)||(settings.internationalEnabled&&settings.internationalZones.some(z=>z.countryCode===code))),
+      ...(internationalCourierEnabled(settings)?{internationalDutiesNote:settings.internationalDutiesNote||'Import duties, taxes and customs clearance charges may be payable by the recipient. Courier transit estimates exclude customs delays.'}:{}),
       // Live courier prices replace the legacy fixed-fee destination table.
       ...(shipbubbleCheckoutEnabled()?{shippingZones:[]}:{}),
       checkoutReady: settings.acceptingOrders && checkoutSetupIssues(settings, isPaystackConfigured(), configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length === 0,

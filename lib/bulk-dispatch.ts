@@ -1,3 +1,4 @@
+import {SHIPPING_COUNTRIES,shippingCountryName} from './shipping-countries';
 import {verifyLiveCredential} from './terminal-live';
 import {terminalDispatchReady,terminalLiveQuotes,terminalPreflight,terminalBook,terminalBooked} from './terminal-dispatch';
 import {z} from 'zod';
@@ -21,7 +22,7 @@ async function snapshot(reference:string){
  refSchema.parse(reference);const db=getDbBinding();
  const order=await db.prepare('SELECT id,reference,payment_status,status,email,first_name,last_name,phone,address_line_1,address_line_2,city,state,country,subtotal_kobo,shipping_kobo FROM orders WHERE reference=?').bind(reference).first<Order>();
  if(!order||order.payment_status!=='paid'||!['paid','processing'].includes(order.status))fail('Only paid orders awaiting dispatch can be booked.');
- if(!['NG','Nigeria'].includes(order.country))fail('Bulk dispatch currently supports Nigerian orders.');
+ if(!SHIPPING_COUNTRIES.some(([code,name])=>code===order.country||name===order.country))fail('Delivery country is not supported.');
  const linked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('shipbubble-order:'+reference).first<{value:string}>();
  const terminalLinked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('terminal-order:'+reference).first<{value:string}>();
  const [selection,pickup,measurements,parcel]=await Promise.all([meta<Selected>('order-shipping:'+reference),getPickupDetails(),orderMeasurements(reference),orderParcel(reference)]);
@@ -40,14 +41,14 @@ export async function dispatchOrders(page=0){
  }
  return {rows,hasMore:orders.results.length>20};
 }
-const reviewInput=z.object({reference:refSchema,fingerprint:z.string().regex(/^[a-f0-9]{64}$/),parcel:orderMeasurementsSchema,pickupDate:z.string().regex(/^\d{4}-\d{2}-\d{2}$/),packed:z.literal(true),requirePacked:z.boolean().default(false)});
+const reviewInput=z.object({reference:refSchema,fingerprint:z.string().regex(/^[a-f0-9]{64}$/),parcel:orderMeasurementsSchema,pickupDate:z.string().regex(/^\d{4}-\d{2}-\d{2}$/),packed:z.literal(true),requirePacked:z.boolean().default(false),alternativeRateId:z.string().uuid().optional(),provider:z.enum(['shipbubble','terminal']).optional()});
 function dateAllowed(date:string){const d=new Date(date+'T00:00:00Z'),today=new Date(new Date().toISOString().slice(0,10)+'T00:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===date&&d.getTime()>=today.getTime()+86400000&&d.getTime()<=today.getTime()+14*86400000;}
 export function matchSelectedCourier(rates:ComparisonRate[],selected:ComparisonRate){
  const matches=rates.filter(r=>r.provider===selected.provider&&r.service===selected.service&&r.carrier.trim().toLowerCase()===selected.carrier.trim().toLowerCase()&&(!selected.courierId||r.courierId===selected.courierId));
- if(matches.length!==1||(selected.provider==='shipbubble'&&(!matches[0].courierId||!matches[0].requestToken)))fail('The customer’s chosen courier service is unavailable or ambiguous. No substitute has been booked.');
+ if(matches.length!==1||(selected.provider==='shipbubble'&&(!matches[0].courierId||!matches[0].requestToken)))fail('The customer’s chosen courier service is unavailable or ambiguous. Enable another courier in Shipbubble, then use Choose another courier to select a replacement. No substitute has been booked.');
  return matches[0];
 }
-export async function reviewDispatch(raw:unknown,actor:string){
+async function dispatchContext(raw:unknown){
  const input=reviewInput.parse(raw);if(!dateAllowed(input.pickupDate))fail('Choose a pickup date from tomorrow through the next 14 days.');
  const s=await snapshot(input.reference);
  if(s.linked||await meta<Booking>(bookingKey(input.reference)))fail('This order already has a booking or an unresolved booking attempt.');
@@ -57,12 +58,36 @@ export async function reviewDispatch(raw:unknown,actor:string){
  if(!s.selection?.rate.service)fail('No checkout courier was saved for this order. Use individual shipping.');
  if(!s.pickup)fail('Save your business pickup details first.');
  const o=s.order,p=s.pickup.details;
- const destination={first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country:'NG',zip:/Postal code: ([^\n]+)/.exec(o.address_line_2||'')?.[1]||''};
- const rates=s.selection.rate.provider==='terminal'?await terminalLiveQuotes({...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},destination,{...input.parcel,valueNaira:o.subtotal_kobo/100},s.parcel.suggestion?.packagingWeightKg||0):await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country:'NG',zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);
- const rate=matchSelectedCourier(rates,s.selection.rate);
+ const provider=input.provider||s.selection.rate.provider;
+ if(provider==='terminal'&&!await terminalDispatchReady())fail('Terminal is unavailable. Enable another courier in Shipbubble and refresh the alternatives.');
+ const country=SHIPPING_COUNTRIES.find(([code,name])=>code===o.country||name===o.country)![0];
+ if(country!=='NG'&&provider==='terminal')fail('International Terminal dispatch is not enabled.');
+ const destination={first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:/Postal code: ([^\n]+)/.exec(o.address_line_2||'')?.[1]||''};
+ let rates:ComparisonRate[];try{rates=provider==='terminal'?await terminalLiveQuotes({...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},destination,{...input.parcel,valueNaira:o.subtotal_kobo/100},s.parcel.suggestion?.packagingWeightKg||0):await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble or choose another connected provider, then refresh alternatives. No booking has been submitted.');}
+ return {input,s,packed,o,p,country,rates,provider};
+}
+
+type Alternative={actor:string;reference:string;fingerprint:string;parcel:Measurements;pickupDate:string;expiresAt:number;rate:ComparisonRate};
+export async function dispatchAlternatives(raw:unknown,actor:string){
+ const {input,s,rates}=await dispatchContext(raw);
+ const options=[];
+ for(const rate of rates.filter(r=>r.provider==='terminal'||r.courierId&&r.requestToken).sort((a,b)=>a.walletKobo-b.walletKobo)){
+  const id=crypto.randomUUID();const value:Alternative={actor,reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:input.pickupDate,expiresAt:Date.now()+10*60_000,rate};
+  await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('dispatch-alternative:'+id,JSON.stringify(value)).run();
+  options.push({id,provider:rate.provider,carrier:rate.carrier,service:rate.service,chargeKobo:rate.walletKobo,delivery:rate.delivery});
+ }
+ if(!options.length)fail('No couriers are available. Enable another service in Shipbubble and refresh alternatives.');
+ await getDbBinding().prepare("DELETE FROM store_meta WHERE key LIKE 'dispatch-alternative:%' AND json_extract(value,'$.expiresAt')<?").bind(Date.now()).run();
+ return {options};
+}
+export async function reviewDispatch(raw:unknown,actor:string){
+ const {input,s,packed,o,p,country,rates,provider}=await dispatchContext(raw);
+ let selected=s.selection!.rate;
+ if(input.alternativeRateId){const alternative=await meta<Alternative>('dispatch-alternative:'+input.alternativeRateId);if(!alternative||alternative.actor!==actor||alternative.reference!==input.reference||alternative.fingerprint!==s.fingerprint||alternative.expiresAt<=Date.now()||alternative.pickupDate!==input.pickupDate||JSON.stringify(alternative.parcel)!==JSON.stringify(input.parcel))fail('Alternative courier details changed or expired. Refresh alternatives.');selected=alternative.rate;}
+ const rate=matchSelectedCourier(rates,selected);
  if((await snapshot(input.reference)).fingerprint!==s.fingerprint)fail('Order details changed while checking rates. Reload before reviewing.');
  if(input.requirePacked&&(await meta<Packed>('dispatch-packed:'+input.reference))?.revision!==packed?.revision)fail('Packing changed during review.');
- const review:DispatchReview={id:crypto.randomUUID(),reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:s.selection.rate.provider==='terminal'?'Next available courier pickup':input.pickupDate,rate,expiresAt:Date.now()+10*60_000,shippingKobo:o.shipping_kobo,destination:o.city+', '+o.state,recipient:o.first_name+' '+o.last_name,address:[o.address_line_1,o.address_line_2,o.city,o.state].filter(Boolean).join(', '),pickupAddress:[p.line1,p.line2,p.city,p.state].filter(Boolean).join(', '),actor,...(input.requirePacked?{packedRevision:packed!.revision}:{})};
+ const review:DispatchReview={id:crypto.randomUUID(),reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:provider==='terminal'?'Next available courier pickup':input.pickupDate,rate,expiresAt:Date.now()+10*60_000,shippingKobo:o.shipping_kobo,destination:[o.city,o.state,shippingCountryName(country)].filter(Boolean).join(', '),recipient:o.first_name+' '+o.last_name,address:[o.address_line_1,o.address_line_2,o.city,o.state].filter(Boolean).join(', '),pickupAddress:[p.line1,p.line2,p.city,p.state].filter(Boolean).join(', '),actor,...(input.requirePacked?{packedRevision:packed!.revision}:{})};
  await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('dispatch-review:'+review.id,JSON.stringify(review)).run();
  return publicReview(review);
 }

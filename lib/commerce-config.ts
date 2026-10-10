@@ -8,13 +8,14 @@ export const commerceSettingsSchema = z.object({
   announcement: announcementSchema.default({}),
   aboutImage: aboutImageSchema.default({}),
   collectionLabels: collectionLabelsSchema.default([]),
+  internationalMode: z.enum(['fixed','live']).default('fixed'),
   internationalEnabled: z.boolean().default(false),
   internationalDutiesNote: z.string().trim().max(600).default(''),
   internationalZones: z.array(z.object({
     countryCode:z.string().refine(v=>v!=='NG'&&SHIPPING_COUNTRIES.some(c=>c[0]===v),'Choose a supported destination.'),
     feeKobo:z.number().int().min(0).max(100000000),
     estimate:z.string().trim().min(3).max(160),
-  })).max(23).default([]).refine(zones=>new Set(zones.map(z=>z.countryCode)).size===zones.length,'Each international destination must be unique.'),
+  })).max(100).default([]).refine(zones=>new Set(zones.map(z=>z.countryCode)).size===zones.length,'Each international destination must be unique.'),
   supportEmail: z.union([z.string().trim().email().max(200), z.literal("")]).default(""),
   supportPhone: z.string().trim().max(40).refine(value => !value || /^\+?[\d ()-]+$/.test(value) && value.replace(/\D/g, "").length >= 7, "Enter a valid phone number, including country code.").default(""),
   processingNote: z.string().trim().min(10).max(500).default("Orders are welcome around the clock. Processing begins on the next business day, Monday to Friday, excluding public holidays. Delivery timing is shown separately at checkout."),
@@ -30,7 +31,7 @@ export const commerceSettingsSchema = z.object({
     estimate: z.string().trim().max(160),
   })).max(38).default([]).refine(zones => new Set(zones.map(z => z.state)).size === zones.length, "Each delivery zone must be unique."),
   lowStockThreshold: z.number().int().min(0).max(100).default(3),
-}).refine(s=>!s.internationalEnabled||(s.internationalZones.length>0&&s.internationalDutiesNote.length>=10), 'Add international rates and explain customs / import charges before enabling international shipping.');
+}).refine(s=>!s.internationalEnabled||((s.internationalMode==='live'||s.internationalZones.length>0)&&s.internationalDutiesNote.length>=10), 'Add international rates or select automatic courier rates, and explain customs / import charges.');
 export type CommerceSettings = z.infer<typeof commerceSettingsSchema>;
 export function defaultCommerceSettings() { return commerceSettingsSchema.parse({}); }
 export function checkoutSetupIssues(settings: CommerceSettings, paymentsEnabled: boolean, shippingFeeKobo: number | null = null, liveCourierRates = false) {

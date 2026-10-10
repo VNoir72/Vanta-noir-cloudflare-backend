@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
 import '../../app/admin/admin-appearance.css';
+import {adminThemeCSS} from '../../lib/admin-theme-css';
+const style=document.createElement('style');style.textContent=adminThemeCSS;document.head.append(style);document.documentElement.dataset.vnAdminTheme='light';
 import {TerminalPickup} from '../../app/admin/terminal-pickup';
 import {CommercePanel} from '../../app/admin/commerce-panel';
 import {RecordEditor} from '../../app/admin/record-editor';
@@ -16,7 +18,7 @@ window.fetch=async(input:any,init?:RequestInit)=>{
  const url=String(input),writing=init?.method&&init.method!=='GET',body=init?.body?JSON.parse(String(init.body)):{};
  if(writing){(window as any).__writes.push({url,body});if((window as any).__fail)return Response.json({error:'Test save failed'},{status:503});}
  if(url.includes('terminal-pickup')){if(writing)pickup={...pickup,details:body.details,revision:'2'};return Response.json({pickup});}
- if(url.includes('/commerce')){if(writing)settings=body.settings;return Response.json({settings,setupIssues:[],reviews:[],returns:[],emails:[],subscribers:[],stock:[],hasMore:false});}
+ if(url.includes('/commerce')){if(writing)settings=body.action==='settings-section'?{...settings,...body.settings.values}:body.settings;return Response.json({settings,setupIssues:[],reviews:[],returns:[],emails:[],subscribers:[],stock:[],hasMore:false});}
  if(url.includes('/operations')){if(writing){priceKobo=body.data[0].priceKobo;return Response.json({result:[{id:'test',ok:true}]});}return Response.json({products:[{id:'test',name:'Test garment',priceKobo,status:'draft',variants:[]}]});}
  return Response.json({});
 };

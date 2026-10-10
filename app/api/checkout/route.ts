@@ -1,6 +1,7 @@
+import {ownedCard,startSavedCardPayment} from '@/lib/customer-cards';
 import {appSession,linkAppOrder} from '@/lib/customer-app';
 import {startTransferPayment} from '@/lib/custom-transfer';
-import {runtimeEnv} from '@/lib/runtime-env';
+import {runtimeEnv,liveShippingForCountry} from '@/lib/runtime-env';
 import {resolveShippingSelection,shippingSelectionSchema,ShippingInputError} from '@/lib/shipping-checkout';
 import { checkoutCustomerSchema } from "@/lib/checkout-address";
 import { z } from "zod";
@@ -13,7 +14,9 @@ import { startCheckoutPayment } from "@/lib/checkout-payment";
 import { createPendingOrder } from "@/lib/store-db";
 
 const checkoutSchema = z.object({
-  paymentChannel:z.enum(['hosted','bank_transfer']).default('hosted'),
+  client:z.enum(["web","native"]).default("web"),
+  paymentChannel:z.enum(['hosted','bank_transfer','saved_card']).default('hosted'),
+  savedCardId:z.string().min(1).max(120).optional(),
   shippingSelection:shippingSelectionSchema.optional(),
   checkoutAttempt: z.string().regex(/^[-a-f0-9]{73}$/).optional(),
   rewardCode: z.string().trim().toUpperCase().max(48).default(""),
@@ -59,20 +62,22 @@ export async function POST(request: Request) {
 
   if (!await rateLimit(request, "checkout", 20, 600)) return Response.json({error:"Please wait before starting another checkout."},{status:429});
   if(parsed.data.paymentChannel==='bank_transfer'&&runtimeEnv().CUSTOM_TRANSFER_ENABLED!=='true')return Response.json({error:'Custom bank-transfer payments are not available yet.'},{status:503});
-  if(request.headers.has('Authorization')){const session=await appSession(request);if(!session||session.email!==parsed.data.customer.email.trim().toLowerCase())return Response.json({error:'Sign in again and use your account email.'},{status:401});}
+  const session=await appSession(request);
+  if(parsed.data.client==='native'||parsed.data.paymentChannel==='saved_card'||request.headers.has('Authorization')){if(!session||session.email!==parsed.data.customer.email.trim().toLowerCase())return Response.json({error:'Sign in again and use your account email.'},{status:401});}
+  if(parsed.data.paymentChannel==='saved_card'&&(!parsed.data.savedCardId||!session||!await ownedCard(session.id,parsed.data.savedCardId)))return Response.json({error:'Choose an available saved card.'},{status:400});
   const settings = await getCommerceSettings();
   if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length) {
     return Response.json({error:"Online orders are not open yet. Please contact customer care.",code:"STORE_NOT_READY"},{status:503});
   }
   const delivery = shippingQuote({...settings, shippingFeeKobo: configuredShippingFeeKobo()}, parsed.data.customer.state, parsed.data.customer.countryCode);
   try {
-    const domestic=parsed.data.customer.countryCode==='NG'&&shipbubbleCheckoutEnabled();
-    if(parsed.data.shippingSelection&&!domestic)throw new ShippingInputError('Live courier selection is not enabled for this checkout.');
-    if(domestic&&!parsed.data.shippingSelection)throw new ShippingInputError('Choose a delivery service before paying.');
-    const selected=domestic?await resolveShippingSelection(parsed.data.shippingSelection!,parsed.data,Boolean(parsed.data.checkoutAttempt)):undefined;
+    const liveCourier=await liveShippingForCountry(parsed.data.customer.countryCode);
+    if(parsed.data.shippingSelection&&!liveCourier)throw new ShippingInputError('Live courier selection is not enabled for this checkout.');
+    if(liveCourier&&!parsed.data.shippingSelection)throw new ShippingInputError('Wait for shipping to be calculated before paying.');
+    const selected=liveCourier?await resolveShippingSelection(parsed.data.shippingSelection!,parsed.data,Boolean(parsed.data.checkoutAttempt)):undefined;
     const shippingKobo=selected?selected.rate.amountKobo:delivery.feeKobo;
     if(shippingKobo===null)throw new ShippingInputError('Delivery is unavailable for this address.');
-    const {paymentChannel:_channel,...orderInput}=parsed.data;
+    const {paymentChannel:_channel,client:_client,savedCardId:_card,...orderInput}=parsed.data;
     const order = await createPendingOrder({
       ...orderInput,
       shippingKobo,
@@ -80,6 +85,7 @@ export async function POST(request: Request) {
       shippingQuote:selected,
     });
     if(request.headers.has('Authorization'))await linkAppOrder(request,order.reference,parsed.data.customer.email);
+    if(parsed.data.paymentChannel==='saved_card')return Response.json(await startSavedCardPayment(order.reference,order.receiptToken,session!.id,parsed.data.savedCardId!),{headers:{'Cache-Control':'no-store'}});
     if(parsed.data.paymentChannel==='bank_transfer')return Response.json(await startTransferPayment(order.reference,order.receiptToken),{headers:{'Cache-Control':'no-store'}});
     const callbackUrl = new URL("/checkout/complete", storefrontOrigin(request)).toString();
 

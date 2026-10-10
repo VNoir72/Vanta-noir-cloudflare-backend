@@ -1,5 +1,9 @@
 type RuntimeEnvironment = {
+  INTERNATIONAL_COURIER_ENABLED?: string;
+  SHIPBUBBLE_NG_COURIER_IDS?: string;
   CUSTOMER_APP_ENABLED?: string;
+  SAVED_CARDS_ENABLED?: string;
+  APP_CARD_ENCRYPTION_KEY?: string;
   CUSTOM_TRANSFER_ENABLED?: string;
   SHIPBUBBLE_CHECKOUT_ENABLED?: string;
   SHIPBUBBLE_TEST_API_KEY?: string;
@@ -68,3 +72,6 @@ export function isAdminEmail(email: string) {
 }
 
 export function shipbubbleCheckoutEnabled(){return runtimeEnv().SHIPBUBBLE_CHECKOUT_ENABLED==='true';}
+
+export function internationalCourierEnabled(settings?:{internationalMode?:string;internationalEnabled?:boolean}){return shipbubbleCheckoutEnabled()&&(settings?.internationalMode==='live'?settings.internationalEnabled===true:runtimeEnv().INTERNATIONAL_COURIER_ENABLED==='true');}
+export async function liveShippingForCountry(country:string){if(!shipbubbleCheckoutEnabled())return false;if(country==='NG')return true;const row=await getDbBinding().prepare("SELECT json_extract(value,'$.internationalMode') AS mode,json_extract(value,'$.internationalEnabled') AS enabled FROM store_meta WHERE key='commerce_settings'").first<{mode:string;enabled:number}>();return internationalCourierEnabled(row?{internationalMode:row.mode,internationalEnabled:row.enabled===1}:undefined);}

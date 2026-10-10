@@ -1,0 +1,9 @@
+input,textarea,select,[contenteditable=true]{scroll-margin-block:32px;}
+[data-slot="dialog-content"],[data-slot="sheet-content"]{max-height:calc(var(--vn-visual-height,100dvh) - 24px);overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;}
+html[data-keyboard-open] [data-slot="dialog-content"]{top:calc(var(--vn-visual-top,0px) + 12px)!important;bottom:auto!important;translate:-50% 0!important;transform:none!important;max-height:calc(var(--vn-visual-height,100dvh) - 24px)!important;height:auto;overflow-y:auto!important;}
+html[data-keyboard-open] [data-slot="sheet-content"]{top:calc(var(--vn-visual-top,0px) + 12px)!important;bottom:auto!important;max-height:calc(var(--vn-visual-height,100dvh) - 24px)!important;overflow-y:auto!important;}
+html[data-keyboard-open] .dn-order-summary{position:static;}
+@media(pointer:coarse){input:not([type=checkbox]):not([type=radio]),textarea,select{font-size:max(16px,1em);}form{min-height:0;}[data-slot="dialog-content"]{touch-action:pan-y pinch-zoom;}}
+
+/* Keep optional consent controls out of the typing area; they return on blur. */
+html[data-keyboard-open] .vn-analytics-choice{display:none;}

@@ -1,7 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
 import type { CommerceSettings } from '@/lib/commerce-config';
-import { SHIPPING_COUNTRIES } from '@/lib/shipping-countries';
 import { CollectionNameEditor } from './collection-name-editor';
 
 type Props={settings:CommerceSettings;onChange:(settings:CommerceSettings)=>void;busy:boolean;onUploadChange?:(value:boolean)=>void};
@@ -35,11 +34,9 @@ export function StoreDesignFields({settings,onChange,busy,onUploadChange}:Props)
   </fieldset>;
 }
 export function InternationalShippingFields({settings,onChange,busy}:Props) {
-  return <fieldset disabled={busy} className="vn-product-disclosure"><legend>International shipping — staged rollout</legend>
-    <p>Off by default. While off, these countries, rates and customs notes are not published, and international checkout is rejected. Rates are flat fees per order, charged in NGN; confirm courier pricing, package limits and import requirements before enabling.</p>
-    <label className="vn-launch-check"><input type="checkbox" checked={settings.internationalEnabled} onChange={e=>onChange({...settings,internationalEnabled:e.target.checked})}/>Show international shipping on the website and allow checkout to the configured countries</label>
-    {settings.internationalZones.map((zone,i)=><div className="vn-admin-fields" key={i}><label>Destination<select value={zone.countryCode} onChange={e=>onChange({...settings,internationalZones:settings.internationalZones.map((z,n)=>n===i?{...z,countryCode:e.target.value}:z)})}>{SHIPPING_COUNTRIES.filter(c=>c[0]!=='NG').map(([code,name])=><option key={code} value={code}>{name}</option>)}</select></label><label>Flat delivery fee (₦)<input type="number" min={0} max={1000000} step="0.01" value={zone.feeKobo/100} onChange={e=>onChange({...settings,internationalZones:settings.internationalZones.map((z,n)=>n===i?{...z,feeKobo:Math.round(Number(e.target.value)*100)}:z)})}/></label><label>Full estimated delivery window<input maxLength={160} value={zone.estimate} onChange={e=>onChange({...settings,internationalZones:settings.internationalZones.map((z,n)=>n===i?{...z,estimate:e.target.value}:z)})}/></label><button type="button" onClick={()=>onChange({...settings,internationalZones:settings.internationalZones.filter((_,n)=>n!==i)})}>Remove destination</button></div>)}
-    <button type="button" className="vn-pill" disabled={settings.internationalZones.length>=23} onClick={()=>{const country=SHIPPING_COUNTRIES.find(c=>c[0]!=='NG'&&!settings.internationalZones.some(z=>z.countryCode===c[0]));if(country)onChange({...settings,internationalZones:[...settings.internationalZones,{countryCode:country[0],feeKobo:0,estimate:''}]});}}>Add destination</button>
-    <div className="vn-admin-fields"><label>Customs duties, import taxes and charges<textarea maxLength={600} value={settings.internationalDutiesNote} placeholder="State clearly who pays import charges and whether they are included. Confirm this with your courier." onChange={e=>onChange({...settings,internationalDutiesNote:e.target.value})}/></label></div>
+  return <fieldset disabled={busy} className="vn-product-disclosure"><legend>International shipping</legend>
+    <label className="vn-launch-check"><input type="checkbox" checked={settings.internationalEnabled} onChange={e=>onChange({...settings,internationalMode:'live',internationalEnabled:e.target.checked,internationalDutiesNote:settings.internationalDutiesNote||'Import duties, taxes and customs clearance charges are payable by the recipient. Courier estimates exclude customs delays.'})}/>Enable worldwide shipping</label>
+    <p>All countries and territories are available in checkout. The courier validates the address and returns available services. Checkout selects the lowest shipping price automatically; destinations without a service cannot proceed to payment. Manage courier availability in Shipbubble.</p>
+    <div className="vn-admin-fields"><label>Customs duties and import charges<textarea maxLength={600} value={settings.internationalDutiesNote} onChange={e=>onChange({...settings,internationalDutiesNote:e.target.value})}/></label></div>
   </fieldset>;
 }

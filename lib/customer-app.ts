@@ -1,3 +1,6 @@
+import {customerCenter} from './customer-center';
+import {reviewSchema,submitReview} from './commerce-db';
+import {listCustomerCards,saveCustomerCard,removeCustomerCard,canSaveCard} from './customer-cards';
 import {customerDeletionPage} from './customer-deletion-page';
 import { z } from "zod";
 import { getDbBinding, runtimeEnv } from "./runtime-env";
@@ -188,6 +191,25 @@ export async function customerApp(request: Request): Promise<Response> {
           favourites: JSON.parse(s.favourites_json),
         },
       });
+    if(path==='center'&&request.method==='GET')return json(await customerCenter(s.id,s.email));
+    if(path==='reviews'&&request.method==='POST'){
+      if(!await rateLimit(request,'customer-review',10,3600))return json({error:'Please wait before submitting another review.'},429);
+      const v=reviewSchema.omit({email:true}).strict().parse(await request.json());
+      const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(v.reference,s.id).first();
+      if(!owned)return json({error:'Order not found.'},404);
+      await submitReview({...v,email:s.email});
+      return json({submitted:true,message:'Your review is awaiting moderation.'},201);
+    }
+    if (path === 'cards' && request.method === 'GET') return json(await listCustomerCards(s.id));
+    if (path === 'cards' && request.method === 'POST') {
+      const v=z.object({reference:z.string().min(1).max(120),consent:z.literal(true)}).strict().parse(await request.json());
+      return json(await saveCustomerCard(s.id,s.email,v.reference));
+    }
+    if (path === 'cards' && request.method === 'DELETE') {
+      const v=z.object({id:z.string().min(1).max(120)}).strict().parse(await request.json());
+      await removeCustomerCard(s.id,v.id);
+      return json({removed:true});
+    }
     if (path === "me" && request.method === "PATCH") {
       const v = z
         .object({
@@ -230,7 +252,10 @@ export async function customerApp(request: Request): Promise<Response> {
         .object({ confirmation: z.literal("DELETE") })
         .parse(await request.json());
       void v;
+      // Explicit cleanup also covers deployments with foreign-key enforcement disabled.
+      const cardsTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first();
       await db.batch([
+        ...(cardsTable ? [db.prepare('DELETE FROM app_customer_cards WHERE customer_id=?').bind(s.id)] : []),
         db.prepare("DELETE FROM app_sessions WHERE customer_id=?").bind(s.id),
         db
           .prepare("DELETE FROM app_customer_orders WHERE customer_id=?")
@@ -266,7 +291,7 @@ export async function customerApp(request: Request): Promise<Response> {
         .bind(reference, s.id)
         .first();
       return row
-        ? json({ order: await getPublicPaymentOrder(reference) })
+        ? json({ order: {...await getPublicPaymentOrder(reference),canSaveCard:await canSaveCard(s.id,s.email,reference)} })
         : json({ error: "Order not found." }, 404);
     }
     return json({ error: "Not found." }, 404);

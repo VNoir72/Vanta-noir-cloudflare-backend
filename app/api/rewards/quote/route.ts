@@ -1,7 +1,7 @@
 import {checkoutCustomerSchema} from '@/lib/checkout-address';
 import {resolveShippingSelection,shippingSelectionSchema,ShippingInputError} from '@/lib/shipping-checkout';
 import {z} from 'zod';
-import {getDbBinding,configuredShippingFeeKobo,shipbubbleCheckoutEnabled} from '@/lib/runtime-env';
+import {getDbBinding,configuredShippingFeeKobo,liveShippingForCountry} from '@/lib/runtime-env';
 import {getCommerceSettings,rateLimit} from '@/lib/commerce-db';
 import {shippingQuote} from '@/lib/commerce-config';
 import {SHIPPING_COUNTRIES} from '@/lib/shipping-countries';
@@ -28,7 +28,7 @@ export async function POST(request:Request){
     const items=v.cart.map(i=>{const r=rows.results.find(r=>r.variantId===i.variantId);if(!r||r.available<i.quantity)throw new Error('An item is unavailable. Please refresh your bag.');return {productId:r.productId,quantity:i.quantity,lineTotalKobo:r.price*i.quantity};});
     const {discountKobo,promotion}=await quotePromotion(v.discountCode,items);
     const settings=await getCommerceSettings(),delivery=shippingQuote({...settings,shippingFeeKobo:configuredShippingFeeKobo()},v.state,v.countryCode);
-    let shippingKobo=v.countryCode==='NG'&&shipbubbleCheckoutEnabled()?null:delivery.feeKobo;
+    let shippingKobo=await liveShippingForCountry(v.countryCode)?null:delivery.feeKobo;
     if(v.shippingSelection){
       if(!v.shippingCustomer||v.shippingCustomer.countryCode!==v.countryCode||v.shippingCustomer.state!==v.state)throw new ShippingInputError('Check delivery again for this address.');
       const selected=await resolveShippingSelection(v.shippingSelection,{customer:v.shippingCustomer,cart:v.cart,rewardCode:v.code,promotionCode:v.discountCode});

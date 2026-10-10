@@ -1,3 +1,4 @@
+import {SETTINGS_SECTIONS,type SettingsSection} from "@/lib/settings-sections";
 import { z } from "zod";
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
 import { getDbBinding, configuredShippingFeeKobo, shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
@@ -22,8 +23,15 @@ export async function POST(request:Request){
  const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status});
  const body=await request.json().catch(()=>null) as {action?:string;settings?:unknown;data?:unknown}|null;
  try{
-  if(body?.action==="settings"){
-    const settings=commerceSettingsSchema.parse(body.settings);
+  if(body?.action==="settings"||body?.action==='settings-section'){
+    let raw=body.settings;
+    if(body.action==='settings-section'){
+      const input=z.object({section:z.enum(Object.keys(SETTINGS_SECTIONS) as [SettingsSection,...SettingsSection[]]),values:z.record(z.unknown())}).parse(raw);
+      const allowed:readonly string[]=SETTINGS_SECTIONS[input.section];
+      if(Object.keys(input.values).some(key=>!allowed.includes(key)))return Response.json({error:'Invalid section fields.'},{status:400});
+      raw={...await getCommerceSettings(),...input.values};
+    }
+    const settings=commerceSettingsSchema.parse(raw);
     const issues=checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled());
     if(settings.acceptingOrders&&issues.length)return Response.json({error:`Complete store setup first: ${issues.join("; ")}.`},{status:400});
     return Response.json({settings:await saveCommerceSettings(settings)});

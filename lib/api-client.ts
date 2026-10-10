@@ -19,6 +19,8 @@ export type CheckoutSettings = import("./commerce-config").CommerceSettings & {
   customTransferEnabled?: boolean;
   customerAccountsEnabled?: boolean;
   shipbubbleCheckoutEnabled?: boolean;
+  internationalCourierEnabled?: boolean;
+  shippingCountries?: ReadonlyArray<readonly [string,string]>;
   shippingFeeKobo: number | null;
   paymentsEnabled: boolean;
   shippingCountry: string;

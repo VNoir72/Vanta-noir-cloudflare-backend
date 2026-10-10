@@ -1,3 +1,4 @@
+import {KeyboardViewport} from "@/components/keyboard-viewport";
 import {StorefrontMotion} from "@/components/storefront-motion";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   icons: { icon: "/images/vanta-noir-emblem-480.webp" },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" suppressHydrationWarning><body>{children}<AnalyticsConsent/><StorefrontMotion/></body></html>;
+  return <html lang="en" suppressHydrationWarning><body>{children}<AnalyticsConsent/><StorefrontMotion/><KeyboardViewport/></body></html>;
 }
 
 import "@/app/approved-storefront.css";
@@ -28,3 +29,5 @@ import "@/app/campaign-2026.css";
 import "@/app/brand-materials.css";
 import "@/app/brand-palette.css";
 
+
+import "./keyboard-viewport.css";

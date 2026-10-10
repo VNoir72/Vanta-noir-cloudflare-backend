@@ -1,6 +1,8 @@
 import { runtimeEnv } from "@/lib/runtime-env";
 
 type PaystackTransaction = {
+  customer?: {email?: string};
+  authorization?: {authorization_code:string;signature:string;reusable:boolean;channel:string;last4:string;brand:string;exp_month:string;exp_year:string};
   domain?: 'test' | 'live';
   status: string;
   reference: string;
@@ -111,4 +113,10 @@ export async function createTransferCharge(args:{reference:string;email:string;a
  return paystackRequest<{reference:string;status:string;account_number:string;account_name:string;bank:{name:string};account_expires_at:string}>('/charge',{
   method:'POST',body:JSON.stringify({email:args.email,amount:args.amountKobo,currency:'NGN',reference:args.reference,bank_transfer:{account_expires_at:new Date(Date.now()+15*60000).toISOString()}})
  });
+}
+
+export async function chargeSavedAuthorization(args:{reference:string;email:string;amountKobo:number;authorizationCode:string}) {
+  return paystackRequest<{reference:string;status:string}>('/transaction/charge_authorization', {
+    method:'POST', body:JSON.stringify({reference:args.reference,email:args.email,amount:args.amountKobo,currency:'NGN',authorization_code:args.authorizationCode})
+  });
 }

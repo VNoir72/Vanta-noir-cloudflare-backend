@@ -136,5 +136,15 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
   try{await entered;await rpc('markDispatchPacked',{reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,packed:false},'owner@example.com');}finally{release();}
   await rejected;assert.equal(bookingCalls,before);
  });
+ await t.test('owner chooses a live replacement; unknown attempts stay blocked',async()=>{
+ const r=await row('VN-WRONG'),input={reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,pickupDate:new Date(Date.now()+86400000).toISOString().slice(0,10),packed:true};
+ wrongCourier=true;const before=bookingCalls;
+ const alternatives=await rpc('dispatchAlternatives',input,'owner@example.com');assert.equal(bookingCalls,before);assert.ok(!JSON.stringify(alternatives).includes('fresh-token'));
+ const cheap=alternatives.options.find(o=>o.carrier==='Cheaper courier');assert.ok(cheap);
+ await assert.rejects(rpc('reviewDispatch',{...input,alternativeRateId:cheap.id},'other@example.com'),/changed or expired/);
+ const selected=await rpc('reviewDispatch',{...input,alternativeRateId:cheap.id},'owner@example.com');assert.equal(selected.carrier,'Cheaper courier');assert.equal(selected.chargeKobo,200000);
+ await rpc('bookDispatch',selected.id,'owner@example.com');assert.equal(lastBookBody.courier_id,'cheaper');assert.equal(lastBookBody.service_code,'cheap');assert.equal(bookingCalls,before+1);
+ const unknown=await row('VN-UNKNOWN');await assert.rejects(rpc('dispatchAlternatives',{...input,reference:unknown.reference,fingerprint:unknown.fingerprint,parcel:unknown.defaults},'owner@example.com'),/unresolved/);wrongCourier=false;
+ });
  }finally{await mf.dispose();}
 });

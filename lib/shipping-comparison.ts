@@ -1,3 +1,4 @@
+import {shippingCountryName} from './shipping-countries';
 /** Rate normalization and quote requests. No shipment booking endpoints. */
 export type ComparisonRate = {
   provider: 'terminal' | 'shipbubble'; id: string; carrier: string; service: string;
@@ -64,12 +65,12 @@ export async function shipbubbleSandbox(key:string,pickup:TestAddress,destinatio
   if(!key.trim().startsWith('sb_sandbox_'))throw Error('A Shipbubble sandbox key is required.');
   return shipbubbleQuote(key,pickup,destination,parcel,'sandbox',send);
 }
-export async function shipbubbleQuote(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,mode:'sandbox'|'live',send:typeof fetch=fetch,pickupDate=new Date(Date.now()+86400000).toISOString().slice(0,10)){
+export async function shipbubbleQuote(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,mode:'sandbox'|'live',send:typeof fetch=fetch,pickupDate=new Date(Date.now()+86400000).toISOString().slice(0,10),validatedDestination?:{address_code:number}){
   if(mode==='live'&&!key.trim().startsWith('sb_prod_'))throw Error('A Shipbubble live key is required.');
   if(mode==='sandbox'&&!key.trim().startsWith('sb_sandbox_'))throw Error('A Shipbubble sandbox key is required.');
   const request=(path:string,body?:unknown)=>providerJson('https://api.shipbubble.com/v1/shipping/'+path,key.trim(),body,send);
-  const address=(a:TestAddress)=>request('address/validate',{name:`${a.first_name} ${a.last_name}`,email:a.email,phone:a.phone,address:[a.line1,a.city,a.state,a.zip,'Nigeria'].join(', ')});
-  const [from,to,categories]=await Promise.all([address(pickup),address(destination),request('labels/categories')]);
+  const address=(a:TestAddress)=>request('address/validate',{name:`${a.first_name} ${a.last_name}`,email:a.email,phone:a.phone,address:[a.line1,a.city,a.state,a.zip,shippingCountryName(a.country)].filter(Boolean).join(', ')});
+  const [from,to,categories]=await Promise.all([address(pickup),validatedDestination||address(destination),request('labels/categories')]);
   const sender=object(from).address_code,receiver=object(to).address_code;
   if(!Number.isSafeInteger(sender)||!Number.isSafeInteger(receiver))throw Error('Shipbubble did not validate both addresses.');
   const category=Array.isArray(categories)?categories.map(object).find(c=>typeof c.category==='string'&&/^fashion wears$/i.test(c.category)):undefined;

@@ -1,3 +1,4 @@
+import {POST as address} from '../app/api/shipping/address/route';
 /** Content-only deployment bridge while the existing Worker asset bundle remains in use.
  * A normal full deployment uses worker/index.ts and the same app API handlers.
  */
@@ -11,6 +12,7 @@ import {runtimeEnv} from '../lib/runtime-env';
 import {checkApiRequest,secureResponse} from '../lib/http-policy';
 export {runComparisonJob} from '../lib/shipping-comparison-job';
 const routes:Record<string,Record<string,(r:Request)=>Promise<Response>>>={
+ '/api/shipping/address':{POST:address},
  '/api/store-settings':{GET:storeSettings},
  '/api/shipping/quotes':{POST:quotes},'/api/checkout':{POST:checkout},
  '/api/rewards/quote':{POST:rewards},'/api/catalog':{GET:catalog},

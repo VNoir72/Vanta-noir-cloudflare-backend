@@ -1,3 +1,5 @@
+import {validatedShippingAddress} from './shipping-address';
+import {liveShippingForCountry} from './runtime-env';
 import {z} from 'zod';
 import {checkoutCustomerSchema} from './checkout-address';
 import {getDbBinding,runtimeEnv} from './runtime-env';
@@ -37,11 +39,12 @@ async function parcelFor(input:Input){
 }
 export async function createShippingQuotes(raw:unknown){
  const input=shippingInputSchema.parse(raw);
- if(input.customer.countryCode!=='NG')throw new ShippingInputError('Shipbubble delivery is currently available within Nigeria.');
+ if(!await liveShippingForCountry(input.customer.countryCode))throw new ShippingInputError('Live delivery is not enabled for this destination.');
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))throw new ShippingInputError('Delivery pricing is temporarily unavailable. Please contact customer care.');
  const pickup=await getPickupDetails();if(!pickup)throw new ShippingInputError('Delivery pickup details are not ready. Please contact customer care.');
  const {parcel,giftVariantId,profileRevisions}=await parcelFor(input),c=input.customer;
- const rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:'NG',zip:c.postalCode},parcel,'live');
+ const destination=await validatedShippingAddress(c);
+ let rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:c.countryCode,zip:c.postalCode},parcel,'live',fetch,undefined,destination);
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');
  // Return actual courier prices. Shipping discounts are applied by validated rewards.
  const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,selectionId:crypto.randomUUID()}))};

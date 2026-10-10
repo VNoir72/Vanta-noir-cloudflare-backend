@@ -271,3 +271,11 @@ body:has(.vn-staff-portal) .vn-team-chat nav button[aria-pressed=true] :is(span,
 
 body:has(:is(.vn-control-center,.vn-staff-portal)) :is(.vn-support .vn-approve-button,.vn-portal-mobile-tools>button[aria-pressed=true],.vn-catalogue-shortcuts button:hover){color:var(--admin-on-accent)!important}
 body:has(:is(.vn-control-center,.vn-staff-portal)) :is(.vn-support .vn-approve-button,.vn-portal-mobile-tools>button[aria-pressed=true],.vn-catalogue-shortcuts button:hover) :is(span,small,p,svg){color:inherit!important}
+
+/* Settings share the active pearl/dark palette and independent section controls. */
+.vn-exact .vn-admin-panel,.vn-exact .vn-launch-status,.vn-exact .vn-settings-section,.vn-exact .vn-product-disclosure{background:var(--admin-panel)!important;color:var(--admin-text)!important;border-color:var(--admin-border)!important;}
+.vn-settings-section{padding:20px;border:1px solid var(--admin-border);border-radius:20px;margin-block:16px;min-width:0;}
+.vn-settings-section>header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.vn-settings-section>header>div{display:flex;gap:8px;}.vn-settings-section>fieldset{border:0;padding:0;margin:0;min-width:0;}
+.vn-exact .vn-settings-section fieldset[disabled]{opacity:1;}.vn-settings-section textarea{display:block;width:100%;min-height:100px;padding:12px;}.vn-settings-section :is(label,legend,summary){color:var(--admin-text)!important;}.vn-settings-section input[type=checkbox]{width:20px;min-height:20px;}
+.vn-settings-section .vn-product-disclosure{box-shadow:none;padding:14px;}.vn-settings-section header .vn-pill{position:static;transform:none;}

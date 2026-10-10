@@ -45,3 +45,5 @@ web-build/
 *.mobileprovision
 /.git/
 /data/
+
+/mobile/dist-review/

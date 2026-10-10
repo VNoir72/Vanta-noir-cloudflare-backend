@@ -50,3 +50,7 @@
 }
 @media(max-width:359px){.vn-liquid-logo{width:108px;flex-basis:108px}.vn-liquid-actions button{width:34px;min-width:34px}}
 @media(prefers-reduced-transparency:reduce){.vn-liquid-header,.vn-liquid-menu,.vn-approved-bag.dn-bag{background:#f3f5f7!important;backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* One rounded search surface, including Safari search-field defaults. */
+.vn-liquid-search input[type=search]{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;border-radius:999px!important;box-shadow:none!important;outline:none!important;min-width:0;padding:0 4px;color:inherit;}
+.vn-liquid-search input[type=search]:focus{box-shadow:none!important;outline:none!important;}

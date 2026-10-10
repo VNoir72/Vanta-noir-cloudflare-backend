@@ -1,3 +1,4 @@
+import {KeyboardViewport} from "@/components/keyboard-viewport";
 import {AboutContent} from "@/components/customer-pages";
 import {StorefrontMotion} from "@/components/storefront-motion";
 import { AnalyticsConsent } from "@/components/analytics-consent";
@@ -23,7 +24,7 @@ function CheckoutComplete() {
 export function App({path,products}:{path:string;products:CatalogProduct[]}) {
   const [currentPath,setCurrentPath]=useState(path);
   useEffect(()=>{if(path==="/products/_dynamic")setCurrentPath(window.location.pathname);},[path]);
-  return <><AppRoutes path={currentPath} products={products}/><AnalyticsConsent/><StorefrontMotion/></>;
+  return <><AppRoutes path={currentPath} products={products}/><AnalyticsConsent/><StorefrontMotion/><KeyboardViewport/></>;
 }
 function AppRoutes({ path, products }: { path: string; products: CatalogProduct[] }) {
   if(/^\/products\/[a-z0-9_-]+\/?$/.test(path)) return <Storefront products={products} sizes={[...STORE_SIZES]} detailSlug={path.split("/")[2]}/>;

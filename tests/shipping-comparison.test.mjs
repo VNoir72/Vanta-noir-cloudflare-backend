@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {terminalRates,shipbubbleRates,compareRates,shipbubbleSandbox,terminalSandbox,providerJson} from '../lib/shipping-comparison.ts';
+import {build} from 'esbuild';
+const bundled=await build({entryPoints:['lib/shipping-comparison.ts'],bundle:true,write:false,format:'esm',platform:'node'});
+const {terminalRates,shipbubbleRates,compareRates,shipbubbleSandbox,terminalSandbox,providerJson}=await import('data:text/javascript;base64,'+Buffer.from(bundled.outputFiles[0].text).toString('base64'));
 const terminal={rate_id:'RT-1',carrier_name:'DHL',carrier_rate_description:'Express',amount:2500.25,currency:'NGN',delivery_time:'2 days'};
 const bubble={request_token:'token1',couriers:[{service_code:'dhl',courier_name:'DHL',service_type:'pickup',currency:'₦',total:2000,rate_card_amount:3000,delivery_eta:'3 days'}]};
 test('compares customer totals in kobo and retains provider identity and different services',async()=>{

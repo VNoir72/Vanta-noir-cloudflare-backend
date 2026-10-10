@@ -70,7 +70,9 @@ export type Reward = {
   shippingSavingsKobo: number;
   gift?: { productName: string } | null;
 };
+export type SavedCard = {id:string;brand:string;last4:string;expiryMonth:number;expiryYear:number;expired:boolean};
 export type Payment = {
+  channel?: "saved_card" | "bank_transfer";
   amountKobo?: number;
   reference: string;
   receiptToken: string;
@@ -85,6 +87,8 @@ export type Payment = {
   };
 };
 export type Order = {
+  canSaveCard?: boolean;
+  discountKobo?: number;
   reference: string;
   paymentStatus: string;
   status: string;
