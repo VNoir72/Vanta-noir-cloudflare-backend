@@ -45,6 +45,14 @@ try{
  assert.equal(cat.headers.get('X-Frame-Options'),'DENY');assert.match(cat.headers.get('Content-Security-Policy'),/frame-ancestors 'none'/);
  const noReceipt=await mf.dispatchFetch('https://api.vantanoir.store/api/payments/verify?reference=VN-PRIVATE-TEST');assert.equal(noReceipt.status,403);
  const authHeaders={'cf-access-jwt-assertion':token,Origin:'https://api.vantanoir.store',Host:'api.vantanoir.store'};
+ assert.equal((await mf.dispatchFetch('https://api.vantanoir.store/api/admin/product-demand')).status,403);
+ const interestProduct=payload.products[0],interestColor=interestProduct.colorways[0];
+ const interestInput={visitorId:crypto.randomUUID(),productId:interestProduct.id,color:interestColor.name,size:'',liked:true};
+ const interestPost=await mf.dispatchFetch('https://api.vantanoir.store/api/product-interest',{method:'POST',headers:{Origin:'https://vantanoir.store','Content-Type':'application/json'},body:JSON.stringify(interestInput)});
+ assert.equal(interestPost.status,200);assert.equal(interestPost.headers.get('Access-Control-Allow-Origin'),'https://vantanoir.store');
+ const demandResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/product-demand',{headers:authHeaders});assert.equal(demandResponse.status,200);
+ assert.equal((await demandResponse.json()).products.find(p=>p.productId===interestProduct.id).likes,1);
+
  const careResponse=await mf.dispatchFetch('https://api.vantanoir.store/api/support',{method:'POST',headers:{Origin:'https://vantanoir.store','Content-Type':'application/json'},body:JSON.stringify({requestId:crypto.randomUUID(),name:'Release Check',email:'care-check@example.com',category:'product',subject:'Product enquiry',message:'Please confirm the product information.',serious:true})});
  assert.equal(careResponse.status,201);assert.equal(careResponse.headers.get('Access-Control-Allow-Origin'),'https://vantanoir.store');assert.match((await careResponse.json()).reference,/^VN-HELP-/);
  const careList=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/support',{headers:authHeaders});assert.equal(careList.status,200);assert.equal((await careList.json()).tickets.length,1);

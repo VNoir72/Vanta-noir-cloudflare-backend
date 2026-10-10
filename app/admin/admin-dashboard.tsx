@@ -65,6 +65,7 @@ import type { AdminAnalytics, AdminOrder, AdminProduct, ProductStatus } from "@/
 import { allowedOrderStatuses } from "@/lib/order-status";
 import { CatalogueQuality } from "./catalogue-quality";
 import { LaunchReview, LaunchReviewBox } from './launch-review';
+import { ProductDemandPanel } from './product-demand-panel';
 import { ReleasePanel } from './release-panel';
 import { ProductReadiness } from "./product-readiness";
 import { ProductProperties } from "./product-properties";
@@ -535,6 +536,7 @@ function DashboardContent({
         {section === "collections" && <><CatalogOptionsEditor options={options} onChange={setOptions}/><section className="vn-control-panel"><h2>Browse by category</h2><p>Select a category to manage its products. Collection and audience fields are available in each product’s details.</p><div className="vn-control-categories">{Array.from(new Set(products.map(p=>p.category))).sort().map(category=><button key={category} onClick={()=>{setProductQuery(category);setProductPage(1);setSection("products");}}>{category}<span>{products.filter(p=>p.category===category).length}</span></button>)}</div></section></>}
         {section === "media" && <section className="vn-control-panel"><h2>Product images</h2><p>Choose a product to upload images and assign each view to its colourway.</p><Input aria-label="Search images by product" placeholder="Find a product" value={productQuery} onChange={e=>{setProductQuery(e.target.value);setProductPage(1);}}/><div className="vn-control-media">{matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=><button key={product.id} onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt={product.name} sizes="240px"/><span>{product.name}</span><small>{product.images.length} images</small></button>)}</div><div className="vn-control-actions"><Button disabled={currentProductPage===1} onClick={()=>setProductPage(currentProductPage-1)}>Previous</Button><span>Page {currentProductPage} of {productPages}</span><Button disabled={currentProductPage===productPages} onClick={()=>setProductPage(currentProductPage+1)}>Next</Button></div></section>}
 
+          {(section === "products" || section === "analytics") && <ProductDemandPanel/>}
         <section className="mt-12" id="product-studio" hidden={section !== "products"}>
           {section === "products" && <><ReleasePanel products={products}/><CatalogueQuality products={products} onEdit={openProduct}/></>}
           <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">

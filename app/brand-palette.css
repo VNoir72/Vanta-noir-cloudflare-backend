@@ -63,3 +63,11 @@
 .dn-app.vn-checkout-shell .vn-success-bag>span{color:var(--vn-brand-ink)}
 .dn-app.vn-checkout-shell .vn-success-check{background:var(--vn-brand-lime);color:var(--vn-brand-ink)}
 .dn-app.vn-checkout-shell .vn-success-handle{border-color:#b8c0c4;box-shadow:inset 0 0 0 2px #fff,0 1px 1px #fff}
+
+/* Demand tools share the current admin glass surface and scroll normally on tablets. */
+.vn-demand-panel{min-width:0;padding:1.25rem;margin-block:1rem}
+.vn-demand-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.vn-demand-scroll{max-width:100%;overflow-x:auto;margin-top:1rem;-webkit-overflow-scrolling:touch}
+.vn-demand-panel th,.vn-demand-panel td{vertical-align:top;min-width:7rem}
+.vn-demand-panel td:first-child{min-width:13rem}.vn-demand-panel td:last-child{min-width:15rem}
+.vn-demand-panel p{max-width:85ch;margin-block:.75rem}.vn-demand-panel li{white-space:normal}

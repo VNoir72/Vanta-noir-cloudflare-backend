@@ -34,7 +34,7 @@ export async function adminAuthStateFromRequest(request: Request) {
     || (role === "support" && path === "/api/admin/support")
     || (role === "sales" && path === "/api/admin/sales")
     || (role === "catalogue" && ["/api/admin/products","/api/admin/inventory","/api/admin/uploads"].includes(path) && request.method!=="DELETE")
-    || (role === "analyst" && path === "/api/admin/analytics" && request.method==="GET");
+    || (role === "analyst" && ["/api/admin/analytics","/api/admin/product-demand"].includes(path) && request.method==="GET");
   if(!allowed)return {ok:false as const,status:403,error:"Your staff role cannot access this section."};
   return { ok: true as const, email, role };
 }
