@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.0",
+  version: "0.1.1",
   scheme: studio ? "vantanoir-studio" : "vantanoir",
   orientation: "default",
   userInterfaceStyle: studio ? "automatic" : "light",
@@ -16,6 +16,7 @@ const config: ExpoConfig = {
     infoPlist: { ITSAppUsesNonExemptEncryption: false },
   },
   android: {
+    versionCode: 2,
     package: studio ? "store.vantanoir.studio" : "store.vantanoir.shop",
     blockedPermissions: [
       "android.permission.RECORD_AUDIO",

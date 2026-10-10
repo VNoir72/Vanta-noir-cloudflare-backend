@@ -43,3 +43,10 @@ Use EAS signing with the owner's Apple/Google developer accounts. No developer a
 
 ## Paystack support request to be sent by the owner
 Please confirm that our Nigerian Vanta Noir merchant account can use the Charge API's Pay with Transfer channel with a fully merchant-designed website and mobile payment screen. Please confirm account eligibility, expiry behaviour, fees (including any customer-paid fees), required branding/disclosures, webhook events and the production acceptance checks. We also want a merchant-designed card-entry flow: please specify the PCI DSS evidence, approval and supported integration required before we collect card data. We will not collect raw card details until those requirements are satisfied.
+
+
+## Android 0.1.1 integration update (10 October 2026)
+
+Native help, contact ticket submission, policy pages, grouped Nigerian address entry with a state selector and validation, address-book editing, checkout address/item review and pinned payment action are implemented. Terms and privacy text are reproduced from the store with native account/storage disclosures. Update the bundled policy text when the published policies change.
+
+The customer account D1 tables and native endpoint overlay are deployed to vanta-noir-api. CUSTOMER_APP_ENABLED and CUSTOM_TRANSFER_ENABLED are true. The current deployed storefront/admin bundle and hosted guest checkout were preserved. Live email delivery, live bank-account generation and an actual device payment/receipt still require end-to-end verification; a successful build is not payment-provider approval.

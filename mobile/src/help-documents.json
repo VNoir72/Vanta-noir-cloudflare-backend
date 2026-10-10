@@ -1,0 +1,70 @@
+{
+  "terms-of-service": [
+    {
+      "title": "Products & pricing",
+      "body": "Prices are shown in Nigerian naira. Your selected colour, size, quantity and applicable delivery charge are shown before payment. Availability and totals are checked again by the store when checkout starts. Product imagery may include digital design mockups. Check whether a piece is a preview, preorder or ready to buy; a preview is not a claim that stock is available. Screen settings can affect how colours appear. Check the individual product’s fabric, fit and measurements."
+    },
+    {
+      "title": "Orders & payment",
+      "body": "Guest checkout is available when the store is accepting orders. Provide accurate contact and delivery details. Payments are handled through Paystack and confirmed by the store before an order moves into fulfilment. Keep the reference shown after payment. If an order needs a stock review, customer care will contact you before fulfilment."
+    },
+    {
+      "title": "Delivery & aftercare",
+      "body": "The delivery and returns policy explains the available destinations, rates, estimates and return conditions. Contact care promptly for changes, cancellations, damaged goods or payment questions. Refund requests are reviewed by customer care; a cancellation alone does not confirm a refund."
+    },
+    {
+      "title": "Using this website",
+      "body": "Use the store lawfully and do not attempt to access another customer’s information, disrupt the service or misrepresent a payment. Brand content and product imagery belong to their respective rights holders. Ask permission before using them commercially."
+    },
+    {
+      "title": "Questions or concerns",
+      "body": "Contact customer care for clarification before placing an order. These terms do not limit rights that cannot be excluded under applicable consumer law."
+    }
+  ],
+  "privacy-policy": [
+    {
+      "title": "Information used by the store",
+      "body": "When you check out, Vanta Noir receives your name, email, phone number, delivery address, purchased items, payment reference and payment status. We use this information to process and deliver orders, answer enquiries, handle returns and maintain transaction records. Order details are stored even if payment is not completed."
+    },
+    {
+      "title": "Service providers",
+      "body": "Hosting and storage services support the website and order system. Paystack processes payments; the store does not receive or store full card details. Order contact and delivery details are shared with service providers when needed for fulfilment. An email delivery provider sends order and subscription messages when configured. Providers may process information in other countries."
+    },
+    {
+      "title": "Browser storage & analytics",
+      "body": "Your bag, saved items, preferred measurement unit, consent choice and purchase-event deduplication markers can be stored in this browser. A temporary receipt-access token is held in session storage for the checkout tab; it expires after seven days and does not contain your address or contact details. We do not save your checkout address or contact details in browser storage. Optional Google Analytics measures page visits and shopping activity only when you allow it. Advertising personalisation and Google signals are disabled. Checkout contact details are not included in our analytics events.\n\nChange your analytics choice at any time. Declining analytics does not prevent shopping."
+    },
+    {
+      "title": "Saved designs & product interest",
+      "body": "When you save a design, we record its colour and any size preference with a random browser identifier. This helps us decide which designs to release. We count likes and confirmed launch alerts separately; a like is not an order. Unsave a design to remove its vote. Clearing browser storage removes your identifier but does not remove earlier votes from the store’s counts."
+    },
+    {
+      "title": "Reviews & subscriptions",
+      "body": "Published reviews show the display name, rating, fit feedback and review text. The email and order reference used to verify a review remain private. Email subscriptions require confirmation; use the preference link in a subscription email to unsubscribe."
+    },
+    {
+      "title": "Retention & requests",
+      "body": "Order and support records are retained for fulfilment, accounting, disputes and applicable record-keeping requirements. Access is restricted to authorised staff according to their role. Contact customer care to request access, correction or deletion of your information or to raise a privacy concern. Some records may need to be retained for legal or transaction purposes.\n\nDepending on the applicable law, you may also request restriction of processing, object to processing or request a portable copy of your data. You can withdraw optional consent without affecting earlier lawful processing. You may raise a complaint with the Nigeria Data Protection Commission."
+    },
+    {
+      "title": "Your app account and device storage",
+      "body": "The app stores a session credential securely on your device so you stay signed in. Your bag and a random interest identifier are stored on this device. When you create an account, your email, name, saved addresses and favourites are stored with the store. Orders placed while signed in are linked to your account. Pending payment information is kept securely so you can resume checking its status. You can sign out or delete your account under Account. Deleting an account removes its profile, addresses, favourites and sessions; necessary transaction and support records may be retained for the purposes described above."
+    }
+  ],
+  "about": [
+    {
+      "title": "Presence. Power. Precision.",
+      "body": "Vanta Noir is a technical streetwear and athletics brand built for people who move with intention. We combine performance-focused function with elevated, distinctive silhouettes to create clothing that feels powerful in motion and refined beyond it."
+    },
+    {
+      "title": "Our collection",
+      "body": "From denim, knitwear and tailored trousers to oversized sets, performance tracksuits, outerwear and accessories, our collections bring purposeful details and distinctive silhouettes into everyday dressing."
+    }
+  ],
+  "shipping-returns": [
+    {
+      "title": "Shipping & delivery",
+      "body": "Available courier services, charges and delivery estimates are shown at checkout. Packing time is additional to courier collection and transit time. Delivery estimates are not guaranteed arrival dates. Business days are Monday–Friday, excluding Nigerian public holidays. Preorder and made-to-order preparation times are stated separately before purchase."
+    }
+  ]
+}

@@ -14,7 +14,8 @@
       },
       "ios": {
         "image": "latest"
-      }
+      },
+      "autoIncrement": true
     },
     "studio-preview": {
       "extends": "preview",

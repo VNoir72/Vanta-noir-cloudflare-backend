@@ -1,3 +1,4 @@
+import {ShippingAddress, addressErrors} from "./src/components/ShippingAddress";
 import { router, useGlobalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -128,11 +129,13 @@ function Sheet({
   visible,
   onClose,
   children,
+  footer,
 }: {
   title: string;
   visible: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  footer?: React.ReactNode;
 }) {
   return (
     <Modal
@@ -163,6 +166,7 @@ function Sheet({
           >
             {children}
           </ScrollView>
+          {footer && <View style={{padding:16,backgroundColor:"#f9fcf6",borderTopWidth:1,borderColor:"#d3ddcc"}}>{footer}</View>}
         </KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>
@@ -204,6 +208,9 @@ function Main() {
     [colour, setColour] = useState(0),
     [size, setSize] = useState(""),
     [view, setView] = useState(0);
+  const [addressEditing,setAddressEditing] = useState(true);
+  const [addressBookEditing,setAddressBookEditing] = useState(false);
+  const returnToCheckout=useRef(false);
   const [checkout, setCheckout] = useState(false),
     [address, setAddress] = useState<Address>(emptyAddress),
     [code, setCode] = useState(""),
@@ -454,6 +461,8 @@ function Main() {
     quantity,
   }));
   async function getQuotes() {
+    const errors=addressErrors(address);
+    if(Object.keys(errors).length){setAddressEditing(true);throw Error(Object.values(errors)[0]);}
     resetQuote();
     setQuotes(
       await api<Quotes>("/api/shipping/quotes", {
@@ -915,6 +924,7 @@ function Main() {
                   keyboard="email-address"
                   onChange={setEmail}
                 />
+                <View style={s.row}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
                 <Button
                   title="Send sign-in code"
                   disabled={busy || !accountsEnabled}
@@ -965,6 +975,7 @@ function Main() {
                           setChallenge("");
                           setOtp("");
                           await account();
+                          if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}
                         })
                       }
                     />
@@ -999,6 +1010,7 @@ function Main() {
                       ].join(", ")
                     : "Save your address when you enter delivery details."}
                 </Text>
+                <Button title="Add or edit delivery address" secondary onPress={()=>setAddressBookEditing(true)}/>
                 <Button
                   title="Sign out"
                   secondary
@@ -1050,9 +1062,9 @@ function Main() {
               ].map(([label, path]) => (
                 <Button
                   key={path}
-                  title={label + " ↗"}
+                  title={label + " →"}
                   secondary
-                  onPress={() => void task(() => safeOpen(STORE + path))}
+                  onPress={() => router.push({pathname:"/help",params:{topic:path.replace("/", "").replace(".html", "")}})}
                 />
               ))}
             </Glass>
@@ -1218,9 +1230,10 @@ function Main() {
         )}
       </Sheet>
       <Sheet
-        title={payment ? "Your payment" : "Delivery & payment"}
+        title={payment ? "Your payment" : "Checkout"}
         visible={checkout}
         onClose={() => setCheckout(false)}
+        footer={!payment && !addressEditing && reward ? <View style={{gap:8}}><View style={{flexDirection:"row",justifyContent:"space-between"}}><Text style={s.label}>Total to pay</Text><Text style={s.h2}>{money(reward.totalKobo || 0)}</Text></View><Button title={busy?"Please wait…":"Continue to bank transfer"} disabled={busy || !transferEnabled} onPress={()=>void task(pay)}/></View>:undefined}
       >
         {notice !== "" && (
           <Text accessibilityLiveRegion="polite" style={s.noticeText}>
@@ -1284,7 +1297,7 @@ function Main() {
             <Button
               title="Contact support"
               secondary
-              onPress={() => void task(() => safeOpen(STORE + "/contact.html"))}
+              onPress={() => {setCheckout(false);router.push({pathname:"/help",params:{topic:"contact"}});}}
             />
           </>
         ) : (
@@ -1293,54 +1306,15 @@ function Main() {
               In-stock orders are packed within 1–2 business days. Courier
               collection and transit are additional.
             </Text>
-            {(Object.keys(emptyAddress) as (keyof Address)[])
-              .filter((k) => k !== "countryCode")
-              .map((k) => (
-                <Field
-                  key={k}
-                  label={
-                    {
-                      email: "Email",
-                      firstName: "First name",
-                      lastName: "Last name",
-                      phone: "Phone",
-                      addressLine1: "Street address",
-                      addressLine2: "Apartment / extra details (optional)",
-                      city: "City",
-                      state: "State — e.g. Kaduna",
-                      postalCode: "Postal code",
-                    }[k as Exclude<keyof Address, "countryCode">]
-                  }
-                  value={address[k]}
-                  editable={!(k === "email" && !!customer)}
-                  keyboard={
-                    k === "email"
-                      ? "email-address"
-                      : k === "phone"
-                        ? "phone-pad"
-                        : "default"
-                  }
-                  onChange={(value) => {
-                    setAddress((a) => ({ ...a, [k]: value }));
-                    resetQuote();
-                  }}
-                />
-              ))}
-            <Text style={s.muted}>Country: Nigeria · NGN payments</Text>
-            {customer && (
-              <Button
-                title="Save this delivery address"
-                secondary
-                onPress={() =>
-                  void task(async () => {
-                    const next = { ...customer, addresses: [address] };
-                    await api("/api/customer/me", next, "PATCH");
-                    setCustomer(next);
-                    setNotice("Delivery address saved.");
-                  })
-                }
-              />
-            )}
+            {!customer && accountsEnabled && <Button title="Sign in to save your address and orders" secondary onPress={()=>{returnToCheckout.current=true;setCheckout(false);setScreen("Account");}}/>}
+            {addressEditing ? <ShippingAddress value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>{setAddress(a);setAddressEditing(false);setNotice("");}}/> : <Glass>
+              <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}><Text style={s.h2}>Deliver to</Text><Button title="Edit" secondary onPress={()=>setAddressEditing(true)}/></View>
+              <Text style={s.productName}>{address.firstName} {address.lastName} · {address.phone}</Text><Text style={s.muted}>{[address.addressLine1,address.addressLine2,address.city,address.state,address.postalCode,"Nigeria"].filter(Boolean).join(", ")}</Text><Text style={s.muted}>{address.email}</Text>
+              {customer && <Button title="Save address to my account" secondary disabled={busy} onPress={()=>void task(async()=>{const next={...customer,addresses:[address]};await api("/api/customer/me",next,"PATCH");setCustomer(next);setNotice("Delivery address saved.");})}/>}
+            </Glass>}
+            {!addressEditing && <>
+            <Glass><Text style={s.h2}>Your order · {cart.reduce((n,i)=>n+i.quantity,0)} items</Text>{cart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:60,height:72,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size} · Qty {i.quantity}</Text><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
+            <Text style={s.h2}>Delivery options</Text><Text style={s.muted}>Choose a courier after checking live prices for this address.</Text>
             <Field
               label="Delivery / reward code (optional)"
               value={code}
@@ -1379,6 +1353,8 @@ function Main() {
             ))}
             {reward && (
               <Glass>
+                <Text style={s.h2}>Order summary</Text>
+                {reward.discountKobo>0 && <Text>Discount −{money(reward.discountKobo)}</Text>}
                 <Text>Items {money(reward.subtotalKobo)}</Text>
                 <Text>Delivery {money(reward.shippingKobo || 0)}</Text>
                 {reward.shippingSavingsKobo > 0 && (
@@ -1392,20 +1368,14 @@ function Main() {
                   Pay by bank transfer. Card payment is not available in this
                   app release.
                 </Text>
-                <Button
-                  title={
-                    transferEnabled
-                      ? "Continue to bank transfer"
-                      : "App payments not open yet"
-                  }
-                  disabled={busy || !transferEnabled}
-                  onPress={() => void task(pay)}
-                />
+                {!transferEnabled && <Text style={s.muted}>Bank-transfer payments are temporarily unavailable. Please try again shortly.</Text>}
               </Glass>
             )}
+            </>}
           </>
         )}
       </Sheet>
+      <Sheet title="Saved delivery address" visible={addressBookEditing} onClose={()=>setAddressBookEditing(false)}><ShippingAddress value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(!customer)return;const next={...customer,addresses:[a]};await api("/api/customer/me",next,"PATCH");setCustomer(next);setAddress(a);setAddressEditing(false);setAddressBookEditing(false);setNotice("Delivery address saved.");})}/>{notice!==""&&<Text style={s.noticeText}>{notice}</Text>}</Sheet>
       <Sheet
         title="Order receipt"
         visible={showReceipt}
