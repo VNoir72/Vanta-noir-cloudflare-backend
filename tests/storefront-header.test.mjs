@@ -10,17 +10,18 @@ let wide=false,mediaChange;globalThis.matchMedia=()=>({get matches(){return wide
 globalThis.requestAnimationFrame=fn=>{fn();return 1};globalThis.IS_REACT_ACT_ENVIRONMENT=true;
 const output=await build({stdin:{contents:"export {StoreHeader} from './components/store-header';export {createRoot} from 'react-dom/client';export {act,createElement} from 'react';",resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,format:'esm',platform:'browser',loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"development"'}});
 const {StoreHeader,createRoot,act,createElement}=await import('data:text/javascript;base64,'+Buffer.from(output.outputFiles[0].text).toString('base64'));
-test('header search is visible by default, preserves its query and keeps the notification bell',()=>{
- const root=createRoot(document.getElementById('root'));let searches=0;
- act(()=>root.render(createElement(StoreHeader,{query:'tracksuit',onQuery(){},onSearch(){searches++},onSaved(){},onBag(){}})));
+test('website header preserves original search and opens the bag with its count',()=>{
+ const root=createRoot(document.getElementById('root'));let searches=0,bags=0;
+ act(()=>root.render(createElement(StoreHeader,{query:'tracksuit',onQuery(){},onSearch(){searches++},onSaved(){},bagCount:3,onBag(){bags++}})));
  const button=name=>document.querySelector(`[aria-label="${name}"]`);
  assert.equal(document.querySelectorAll('header').length,1);
  assert.equal(button('Open search').className,'vn-liquid-search-toggle');
  const css=readFileSync('app/globals.css','utf8');
  assert.doesNotMatch(css,/\.(?:vn-search-toggle|vn-floating-controls|vn-theme-toggle|vn-cart-sheet|vn-light)(?![\w-])/);
  assert.match(css,/--background: #f5f7f7/);
- assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'false');
- assert.equal(button('Open search').hidden,true);
+ assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'true');
+ assert.equal(button('Open search').hidden,false);
+ act(()=>button('Open search').click());
  assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'false');
  assert.equal(button('Search the collection').value,'tracksuit');
  assert.equal(button('Search the collection').closest('.vn-liquid-top'),document.querySelector('.vn-liquid-logo').parentElement);
@@ -30,7 +31,7 @@ test('header search is visible by default, preserves its query and keeps the not
  act(()=>button('Open search').click());
  act(()=>button('Search the collection').dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
  assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'true');assert.equal(button('Search the collection').value,'tracksuit');
- assert.ok(button('Saved items'));assert.ok(button('Notifications'));assert.equal(button('Bag 0'),null);assert.ok(button('Open menu'));
+ assert.ok(button('Saved items'));assert.equal(button('Notifications'),null);assert.ok(button('Bag 3'));act(()=>button('Bag 3').click());assert.equal(bags,1);assert.equal(button('Bag 3').querySelector('small').textContent,'3');assert.ok(button('Open menu'));
  assert.equal(document.querySelectorAll('.vn-liquid-desktop-nav a').length,4);
  assert.ok(document.querySelector('a[href="/about"]'));
  act(()=>button('Open menu').click());assert.equal(button('Open menu').getAttribute('aria-expanded'),'true');
