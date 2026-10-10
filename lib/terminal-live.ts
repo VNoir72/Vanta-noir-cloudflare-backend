@@ -10,7 +10,7 @@ export async function queueLiveCheck(){
  await getDbBinding().prepare(`INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE json_extract(store_meta.value,'$.status') NOT IN ('queued','running')`).bind(key,JSON.stringify(job)).run();
  return liveStatus();
 }
-export async function verifyLiveCredential(secret:string){
+export async function verifyLiveCredential(secret:string,requireBalance=false){
  if(!secret.trim())throw Error('Save the Terminal live secret in Cloudflare first.');
  let response:Response;
  try{response=await fetch('https://api.terminal.africa/v1/users/wallet',{method:'GET',headers:{Authorization:`Bearer ${secret.trim()}`,Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(15000)});}catch{throw Error('Terminal could not be reached. Retry the connection check.');}
@@ -27,8 +27,13 @@ export async function verifyLiveCredential(secret:string){
  if(!response.ok)throw Error('Terminal could not verify the account. Retry later or contact Terminal support.');
  const body=await response.json().catch(()=>null) as any;
  if(body?.status!==true||typeof body?.data?.active!=='boolean')throw Error('Terminal returned an unexpected account response.');
+ let balanceKobo:number|undefined;
+ if(requireBalance){
+  if(body.data.currency!=='NGN'||typeof body.data.amount!=='number'||!Number.isFinite(body.data.amount)||body.data.amount<0||!Number.isSafeInteger(Math.round(body.data.amount*100)))throw Error('Terminal wallet balance could not be verified. Booking stopped.');
+  balanceKobo=Math.round(body.data.amount*100);
+ }
  // Only persist these flags. Never retain bank details, provider bodies or credentials.
- return {authenticated:true,walletActive:body.data.active,walletEnabled:body.data.wallet_enabled===true};
+ return {authenticated:true,walletActive:body.data.active,walletEnabled:body.data.wallet_enabled===true,...(requireBalance?{balanceKobo}: {})};
 }
 export async function runLiveCheck(){
  const db=getDbBinding();const row=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();if(!row)return;

@@ -1,3 +1,4 @@
+import {verifyLiveCredential} from './terminal-live';
 import {terminalDispatchReady,terminalLiveQuotes,terminalPreflight,terminalBook,terminalBooked} from './terminal-dispatch';
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
@@ -72,6 +73,37 @@ export async function dispatchReviews(ids:string[],actor:string){
  return result;
 }
 function safeTracking(raw:unknown){try{const u=new URL(String(raw));return u.protocol==='https:'&&!u.username&&!u.password?u.href:'';}catch{return '';}}
+type WalletProvider='shipbubble'|'terminal';
+const providerName=(p:WalletProvider)=>p==='terminal'?'Terminal Africa':'Shipbubble';
+const walletMoney=(kobo:number)=>new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN'}).format(kobo/100);
+async function walletBalance(provider:WalletProvider){
+ try{
+  if(provider==='terminal'){
+   const wallet=await verifyLiveCredential(runtimeEnv().TERMINAL_AFRICA_LIVE_SECRET_KEY||'',true);
+   if(!wallet.walletActive||!wallet.walletEnabled)fail('Terminal Africa wallet is not active. Booking stopped.');
+   return wallet.balanceKobo!;
+  }
+  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';
+  if(!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
+  const wallet=z.object({currency:z.literal('NGN'),balance:z.number().finite().nonnegative()}).parse(await providerJson('https://api.shipbubble.com/v1/shipping/wallet/balance',key,undefined));
+  const kobo=Math.round(wallet.balance*100);if(!Number.isSafeInteger(kobo))throw Error();return kobo;
+ }catch(e){if(e instanceof DispatchError)throw e;fail(providerName(provider)+' wallet balance could not be verified. Booking stopped. Please retry the balance check.');}
+}
+function requireWalletFunds(provider:WalletProvider,balance:number,required:number){
+ if(balance<required)fail('Insufficient funds in your '+providerName(provider)+' wallet. Available: '+walletMoney(balance)+'. Required: '+walletMoney(required)+'. Top up '+walletMoney(required-balance)+' before booking. No pickup was requested by this check.');
+}
+export async function checkDispatchFunds(raw:unknown,actor:string){
+ const ids=z.array(z.string().uuid()).min(1).max(1000).parse(raw),totals={shipbubble:0,terminal:0},seen=new Set<string>();
+ for(const id of ids){const r=await meta<DispatchReview>('dispatch-review:'+id);if(!r||r.actor!==actor)fail('Review not found. Review the order again.');
+  if(seen.has(r.reference))continue;seen.add(r.reference);
+  if(await meta<Booking>(bookingKey(r.reference)))continue;
+  if(Date.now()>=r.expiresAt)fail('The reviewed rates expired. Review the order again.');
+  totals[r.rate.provider]+=r.rate.walletKobo;
+ }
+ const wallets=[];
+ for(const provider of ['shipbubble','terminal'] as const){const required=totals[provider];if(!required)continue;const balance=await walletBalance(provider);requireWalletFunds(provider,balance,required);wallets.push({provider,balanceKobo:balance,requiredKobo:required});}
+ return {ready:true,wallets};
+}
 const createdShipment=z.object({order_id:z.string().regex(/^SB-[A-Za-z0-9-]{1,100}$/),status:z.string(),courier:z.object({name:z.string().min(1).max(100),tracking_code:z.string().max(160).nullable().optional()}),ship_to:z.object({email:z.string().email()}),payment:z.object({shipping_fee:z.number().finite().nonnegative(),currency:z.literal('NGN'),status:z.literal('completed')}),tracking_url:z.string().optional()});
 export async function bookDispatch(id:string,actor:string){
  z.string().uuid().parse(id);const db=getDbBinding(),r=await meta<DispatchReview>('dispatch-review:'+id);
@@ -88,12 +120,12 @@ export async function bookDispatch(id:string,actor:string){
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!isTerminal&&!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
  // Read-only preflight: never automatically fund the wallet or charge the customer again.
  if(isTerminal){try{await terminalPreflight(r.rate);}catch(e){const concurrent=await meta<Booking>(bookingKey(r.reference));if(concurrent)return concurrent;throw e;}}
- const balance=isTerminal?{balance:Number.MAX_SAFE_INTEGER,currency:'NGN'}:z.object({currency:z.literal('NGN'),balance:z.number().finite().nonnegative()}).parse(await providerJson('https://api.shipbubble.com/v1/shipping/wallet/balance',key,undefined));
+ const balance=await walletBalance(r.rate.provider);
  const current=await snapshot(r.reference);
  // A competing booking changes order status (and may consume wallet balance).
  // Return its durable result before treating those changes as a stale review.
  const duringPreflight=await meta<Booking>(bookingKey(r.reference));if(duringPreflight)return duringPreflight;
- if(Math.round(balance.balance*100)<r.rate.walletKobo)fail('Your Shipbubble wallet needs funding before this booking.');
+ requireWalletFunds(r.rate.provider,balance,r.rate.walletKobo);
  if(current.linked)fail('This order already has a shipment.');
  if(current.fingerprint!==r.fingerprint)fail('Order details changed. Review again before booking.');
  if(r.packedRevision&&(await meta<Packed>('dispatch-packed:'+r.reference))?.revision!==r.packedRevision)fail('Order is no longer packed and ready. Review again.');
