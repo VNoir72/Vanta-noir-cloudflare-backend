@@ -26,7 +26,7 @@ From mobile/: npm ci, npm run start. APP_VARIANT=studio npm run start selects St
 6. Perform a separate reviewed production deployment and migration. The flags default off. Do not disable the website's working payment methods until the custom flow is accepted and verified.
 
 ## Signing / distribution
-App identifiers proposed: store.vantanoir.shop and store.vantanoir.studio. Confirm these are available and owned before signing. EAS profiles exist for customer/studio internal previews and production. Run eas init under the user's Expo account, then associate each app variant with its own EAS project ID. Supply the corresponding extra.eas.projectId through environment/config before building. Never reuse the customer project ID for Studio.
+App identifiers proposed: store.vantanoir.shop and store.vantanoir.studio. Confirm these are available and owned before signing. EAS profiles exist for customer/studio internal previews and production. Customer is linked to Expo owner vanta-noir, slug vanta, project fa2d496b-dfe1-490c-9c6c-c1d961442dd6. The GitHub build base directory must be mobile and branch codex/native-app-2026-10-10. Studio still requires its own separate EAS project ID; never reuse the customer project ID for Studio.
 
 Use EAS signing with the owner's Apple/Google developer accounts. No developer accounts, EAS identity, signing certificates or provisioning profiles are present in this checkout. No APK, IPA or store submission has been produced. iOS internal distribution requires registered devices/ad-hoc provisioning or TestFlight as applicable. Decide the private staff distribution method before shipping Studio.
 

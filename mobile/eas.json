@@ -1,1 +1,44 @@
-{"cli":{"appVersionSource":"remote"},"build":{"preview":{"distribution":"internal","android":{"buildType":"apk"},"env":{"APP_VARIANT":"customer"}},"studio-preview":{"extends":"preview","env":{"APP_VARIANT":"studio"}},"production":{"autoIncrement":true,"env":{"APP_VARIANT":"customer"}},"studio-production":{"extends":"production","env":{"APP_VARIANT":"studio"}}}}
+{
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "env": {
+        "APP_VARIANT": "customer"
+      },
+      "ios": {
+        "image": "latest"
+      }
+    },
+    "studio-preview": {
+      "extends": "preview",
+      "env": {
+        "APP_VARIANT": "studio"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "APP_VARIANT": "customer"
+      },
+      "ios": {
+        "image": "latest"
+      },
+      "android": {
+        "image": "latest"
+      }
+    },
+    "studio-production": {
+      "extends": "production",
+      "env": {
+        "APP_VARIANT": "studio"
+      }
+    }
+  }
+}

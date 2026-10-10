@@ -2,7 +2,8 @@ import { ExpoConfig } from "expo/config";
 const studio = process.env.APP_VARIANT === "studio";
 const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
-  slug: studio ? "vanta-noir-studio" : "vanta-noir",
+  slug: studio ? "vanta-noir-studio" : "vanta",
+  owner: "vanta-noir",
   version: "0.1.0",
   scheme: studio ? "vantanoir-studio" : "vantanoir",
   orientation: "default",
@@ -24,6 +25,9 @@ const config: ExpoConfig = {
     ],
   },
   plugins: ["expo-router", "expo-secure-store", "expo-web-browser"],
-  extra: { variant: studio ? "studio" : "customer" },
+  extra: {
+    variant: studio ? "studio" : "customer",
+    ...(!studio ? { eas: { projectId: "fa2d496b-dfe1-490c-9c6c-c1d961442dd6" } } : {}),
+  },
 };
 export default config;
