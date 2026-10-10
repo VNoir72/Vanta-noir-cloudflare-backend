@@ -1,4 +1,6 @@
 "use client";
+import {CustomTransferPayment} from '@/components/custom-transfer-payment';
+import type {TransferInstructions} from '@/lib/custom-transfer';
 import {PaymentCompletion} from "@/components/payment-completion";
 import {openPageBag} from "@/components/page-bag";
 import {loadPaystack} from "@/lib/paystack-inline";
@@ -18,8 +20,10 @@ import { trackCommerce } from "@/lib/analytics";
 import { PaymentMethods } from "@/components/payment-methods";
 
 export function CheckoutForm() {
+  const [transfer,setTransfer]=useState<{instructions:TransferInstructions;token:string}|null>(null);
+  useEffect(()=>{try{const saved=sessionStorage.getItem('vn-custom-transfer');if(saved)setTransfer(JSON.parse(saved));}catch{}},[]);
   const [paymentReference,setPaymentReference]=useState("");
-  function showConfirmation(reference:string){window.history.replaceState(null,"","/checkout/complete?reference="+encodeURIComponent(reference));setPaymentReference(reference);window.scrollTo({top:0,behavior:"instant"});}
+  function showConfirmation(reference:string){try{sessionStorage.removeItem('vn-custom-transfer');}catch{}setTransfer(null);window.history.replaceState(null,"","/checkout/complete?reference="+encodeURIComponent(reference));setPaymentReference(reference);window.scrollTo({top:0,behavior:"instant"});}
   const [cart,setCart]=useState<CartItem[]>([]),[settings,setSettings]=useState<CheckoutSettings|null>(null);
   const [countryCode,setCountryCode]=useState("NG");
   const [state,setState]=useState(""),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(""),[notice,setNotice]=useState(""),[retry,setRetry]=useState(0);
@@ -62,9 +66,10 @@ export function CheckoutForm() {
   async function applyCode(){const request=++promotionRequest.current;setQuoting(true);setError("");setPromotion(null);try{const r=await fetch(apiUrl("/api/promotions/quote"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))}),signal:AbortSignal.timeout(15000)});const data=await r.json().catch(()=>{throw new Error("The promotion service returned an unreadable response. Please try again.");}) as {code:string;discountKobo:number;error?:string};if(!r.ok)throw new Error(data.error||"This code could not be applied.");if(typeof data.code!=="string"||!Number.isSafeInteger(data.discountKobo)||data.discountKobo<0)throw new Error("The promotion could not be verified. Please try again.");if(request===promotionRequest.current)setPromotion(data);}catch(e){if(request===promotionRequest.current)setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"Checking the promotion took too long. Please try again.");}finally{if(request===promotionRequest.current)setQuoting(false);}}
   async function pay(event:FormEvent<HTMLFormElement>){event.preventDefault();if(submitting.current||!settings?.checkoutReady||total===null||!cart.length||rewards.pending||rewards.error||!rewards.quote)return;submitting.current=true;setBusy(true);setError("");
     const fields=Object.fromEntries(new FormData(event.currentTarget));
-    try{const checkoutData={shippingSelection:liveShipping?shippingSelection:undefined,expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...checkoutData,checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
-      const payload=await response.json() as {authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
+    try{const checkoutData={shippingSelection:liveShipping?shippingSelection:undefined,expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...checkoutData,paymentChannel:settings.customTransferEnabled?'bank_transfer':'hosted',checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
+      const payload=await response.json() as {transfer?:TransferInstructions;authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
       if(payload.reference&&payload.receiptToken){try{sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}catch{/* Storage restrictions must not block the verified payment redirect. */}}
+      if(payload.transfer&&payload.receiptToken){const value={instructions:payload.transfer,token:payload.receiptToken};setTransfer(value);try{sessionStorage.setItem('vn-custom-transfer',JSON.stringify(value));}catch{}setBusy(false);submitting.current=false;return;}
       if(payload.complete||payload.checking){if(!payload.reference)throw new Error("The payment response is incomplete. Please contact customer care before retrying.");showConfirmation(payload.reference!);return;}
       const target=new URL(payload.authorizationUrl||"");if(target.protocol!=="https:"||target.hostname!=="checkout.paystack.com")throw new Error("The payment link could not be verified. Please contact customer care.");
       if(!payload.accessCode) throw new Error("The secure payment window is not ready. Please retry this order; your bag is saved.");
@@ -77,6 +82,7 @@ export function CheckoutForm() {
       });
     }catch(e){setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"The payment service took too long. Please check your order with customer care before trying again.");submitting.current=false;setBusy(false);}
   }
+  if(transfer)return <StoreShell checkout><CustomTransferPayment transfer={transfer.instructions} receiptToken={transfer.token} onPaid={()=>showConfirmation(transfer.instructions.reference)}/></StoreShell>;
   if(paymentReference)return <PaymentCompletion reference={paymentReference}/>;
   return <StoreShell checkout><button type="button" className="dn-back" onClick={openPageBag}><ArrowLeft size={16}/>Back to your bag</button><div className="dn-page-intro"><span className="dn-eyebrow">PRESENCE. POWER. PRECISION.</span><h1>Checkout.</h1><p>Make it yours. Guest checkout in Nigerian naira.</p></div>
     {loading?<div className="dn-panel" role="status">Loading your bag and delivery options…</div>:!settings?<div className="dn-panel"><p role="alert">{error}</p><button className="dn-primary" onClick={()=>setRetry(n=>n+1)}>Try again</button></div>:!cart.length?<div className="dn-empty"><ShoppingBag size={38}/><h2>Your bag is empty.</h2><p>Choose a piece and a size to get started.</p><a className="dn-primary" href="/#collection">Explore the collection <ArrowRight size={16}/></a></div>:<>
@@ -97,9 +103,9 @@ export function CheckoutForm() {
         {rewards.quote?.gift&&<div className="dn-summary-item"><div><strong>Free gift · {rewards.quote.gift.productName}</strong><p>{rewards.quote.gift.color} · {rewards.quote.gift.size} · Qty 1</p><span>Free</span></div></div>}
         <dl className="dn-totals"><div><dt>Subtotal</dt><dd>{formatNaira(rewards.quote?.subtotalKobo??subtotal)}</dd></div>{promotion&&<div><dt>Discount</dt><dd>−{formatNaira(rewards.quote?.discountKobo??promotion.discountKobo)}</dd></div>}<div><dt>Delivery</dt><dd>{countryCode==="NG"&&!state?"Select a state":deliveryFee===null?(liveShipping?"Check delivery prices":"Unavailable"):deliveryFee===0?"Free":formatNaira(deliveryFee)}</dd></div><div className="dn-total"><dt>Total</dt><dd>{(state||countryCode!=="NG")&&total!==null?formatNaira(total):"—"}</dd></div></dl>
         <label className="dn-checkbox"><input type="checkbox" required/>I have read the <a href="/terms-of-service" target="_blank" rel="noreferrer">terms</a> and <a href="/shipping-returns" target="_blank" rel="noreferrer">delivery & returns policy</a>.</label>
-        {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||rewards.pending||Boolean(rewards.error)||!rewards.quote||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Opening Paystack…":settings.checkoutReady?"Continue to payment":"Payments opening soon"}<ArrowRight size={17}/></button>
-        <PaymentMethods/>
-        <p className="dn-small">Payment opens in a secure Paystack window over this page. Your bank may require a separate verification step. Review any provider fee before authorising payment. We confirm your payment here and provide your Vanta Noir receipt. Your card details go directly to Paystack. <a href="/privacy-policy">Privacy policy</a></p>
+        {error&&<p className="dn-error" role="alert">{error}</p>}<button className="dn-primary dn-pay" disabled={busy||quoting||rewards.pending||Boolean(rewards.error)||!rewards.quote||!settings.checkoutReady||(countryCode==="NG"&&!state)||total===null}><LockKeyhole size={17}/>{busy?"Preparing payment…":settings.checkoutReady?"Continue to payment":"Payments opening soon"}<ArrowRight size={17}/></button>
+        {!settings.customTransferEnabled&&<PaymentMethods/>}
+        {settings.customTransferEnabled?<p className="dn-small">Pay by bank transfer through your Vanta Noir checkout. Confirmation and your receipt appear here after verification. Card payments are not available in this custom checkout.</p>:<p className="dn-small">Payment opens in a secure Paystack window over this page. Your bank may require a separate verification step. Review any provider fee before authorising payment. We confirm your payment here and provide your Vanta Noir receipt. Your card details go directly to Paystack. <a href="/privacy-policy">Privacy policy</a></p>}
       </aside></form></>}
   </StoreShell>;
 }

@@ -1,4 +1,6 @@
 type RuntimeEnvironment = {
+  CUSTOMER_APP_ENABLED?: string;
+  CUSTOM_TRANSFER_ENABLED?: string;
   SHIPBUBBLE_CHECKOUT_ENABLED?: string;
   SHIPBUBBLE_TEST_API_KEY?: string;
   SHIPBUBBLE_API_KEY?: string;

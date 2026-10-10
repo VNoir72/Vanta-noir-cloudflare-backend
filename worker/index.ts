@@ -1,3 +1,4 @@
+import {customerApp} from '../lib/customer-app';
 import {bulkDispatchAdmin} from '../lib/bulk-dispatch-admin';
 import {shippingWeightsAdmin} from '../lib/shipping-weights-admin';
 import {shipbubbleWebhook} from '../lib/shipbubble-webhook';
@@ -38,6 +39,7 @@ const worker = {
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
+    if (url.pathname.startsWith("/api/customer/")) return secureResponse(await customerApp(request),request,env);
     if (url.pathname === "/api/shipbubble/webhook") return secureResponse(await shipbubbleWebhook(request),request,env);
     if (url.pathname === "/api/admin/shipping-weights") return secureResponse(await shippingWeightsAdmin(request),request,env);
     if (url.pathname === "/api/admin/bulk-dispatch") return secureResponse(await bulkDispatchAdmin(request),request,env);

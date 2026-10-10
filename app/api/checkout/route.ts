@@ -1,3 +1,6 @@
+import {appSession,linkAppOrder} from '@/lib/customer-app';
+import {startTransferPayment} from '@/lib/custom-transfer';
+import {runtimeEnv} from '@/lib/runtime-env';
 import {resolveShippingSelection,shippingSelectionSchema,ShippingInputError} from '@/lib/shipping-checkout';
 import { checkoutCustomerSchema } from "@/lib/checkout-address";
 import { z } from "zod";
@@ -10,6 +13,7 @@ import { startCheckoutPayment } from "@/lib/checkout-payment";
 import { createPendingOrder } from "@/lib/store-db";
 
 const checkoutSchema = z.object({
+  paymentChannel:z.enum(['hosted','bank_transfer']).default('hosted'),
   shippingSelection:shippingSelectionSchema.optional(),
   checkoutAttempt: z.string().regex(/^[-a-f0-9]{73}$/).optional(),
   rewardCode: z.string().trim().toUpperCase().max(48).default(""),
@@ -54,6 +58,8 @@ export async function POST(request: Request) {
   }
 
   if (!await rateLimit(request, "checkout", 20, 600)) return Response.json({error:"Please wait before starting another checkout."},{status:429});
+  if(parsed.data.paymentChannel==='bank_transfer'&&runtimeEnv().CUSTOM_TRANSFER_ENABLED!=='true')return Response.json({error:'Custom bank-transfer payments are not available yet.'},{status:503});
+  if(request.headers.has('Authorization')){const session=await appSession(request);if(!session||session.email!==parsed.data.customer.email.trim().toLowerCase())return Response.json({error:'Sign in again and use your account email.'},{status:401});}
   const settings = await getCommerceSettings();
   if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length) {
     return Response.json({error:"Online orders are not open yet. Please contact customer care.",code:"STORE_NOT_READY"},{status:503});
@@ -66,12 +72,15 @@ export async function POST(request: Request) {
     const selected=domestic?await resolveShippingSelection(parsed.data.shippingSelection!,parsed.data,Boolean(parsed.data.checkoutAttempt)):undefined;
     const shippingKobo=selected?selected.rate.amountKobo:delivery.feeKobo;
     if(shippingKobo===null)throw new ShippingInputError('Delivery is unavailable for this address.');
+    const {paymentChannel:_channel,...orderInput}=parsed.data;
     const order = await createPendingOrder({
-      ...parsed.data,
+      ...orderInput,
       shippingKobo,
       deliveryEstimate: selected?selected.rate.delivery:delivery.estimate,
       shippingQuote:selected,
     });
+    if(request.headers.has('Authorization'))await linkAppOrder(request,order.reference,parsed.data.customer.email);
+    if(parsed.data.paymentChannel==='bank_transfer')return Response.json(await startTransferPayment(order.reference,order.receiptToken),{headers:{'Cache-Control':'no-store'}});
     const callbackUrl = new URL("/checkout/complete", storefrontOrigin(request)).toString();
 
     return Response.json(await startCheckoutPayment({

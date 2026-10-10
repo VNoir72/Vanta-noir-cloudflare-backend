@@ -45,7 +45,7 @@ export function secureResponse(response: Response, request: Request, settings: S
     headers.set("Access-Control-Allow-Origin", origin);
     headers.append("Vary", "Origin");
     headers.set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-    headers.set("Access-Control-Allow-Headers", "Content-Type, X-Receipt-Token");
+    headers.set("Access-Control-Allow-Headers", "Content-Type, X-Receipt-Token, Authorization");
     headers.set("Access-Control-Max-Age", "600");
   }
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });

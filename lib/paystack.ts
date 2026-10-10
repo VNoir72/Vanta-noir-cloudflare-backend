@@ -106,3 +106,9 @@ export async function verifyPaystackWebhook(rawBody: string, signature: string |
     new TextEncoder().encode(rawBody),
   );
 }
+
+export async function createTransferCharge(args:{reference:string;email:string;amountKobo:number}){
+ return paystackRequest<{reference:string;status:string;account_number:string;account_name:string;bank:{name:string};account_expires_at:string}>('/charge',{
+  method:'POST',body:JSON.stringify({email:args.email,amount:args.amountKobo,currency:'NGN',reference:args.reference,bank_transfer:{account_expires_at:new Date(Date.now()+15*60000).toISOString()}})
+ });
+}
