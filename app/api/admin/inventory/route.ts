@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 const updateSchema = z.object({
   variantId: z.string().trim().min(3).max(120),
   expectedStock: z.number().int().min(0).max(100_000),
+  reason: z.enum(['Inventory update','Manufacturer delivery received','Physical stock count correction']).default('Inventory update'),
   stock: z.number().int().min(0).max(100_000),
 });
 
@@ -25,8 +26,8 @@ export async function PATCH(request: Request) {
   const parsed = updateSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: "Invalid stock update." }, { status: 400 });
   try {
-    if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'inventory',{...parsed.data,reason:'Inventory update'}));
-    await adjustStock({...parsed.data,reason:"Inventory update"},auth.email);
+    if(auth.role!=='owner')return pendingResponse(await submitApproval(auth,'inventory',parsed.data));
+    await adjustStock(parsed.data,auth.email);
     const row=(await listInventory(parsed.data.variantId))[0];
     return Response.json({ ok: true, row }, {headers:{"Cache-Control":"no-store"}});
   } catch (error) {

@@ -258,3 +258,16 @@ body:has(:is(.vn-control-center,.vn-staff-portal)) [role=alertdialog] :is(button
 .vn-record-editor{min-width:0;margin:16px 0;padding:16px;border:1px solid var(--admin-border);border-radius:16px;background:var(--admin-panel);color:var(--admin-text)}
 .vn-record-editor .vn-editor-heading{margin-top:0}.vn-record-editor input,.vn-record-editor select,.vn-record-editor textarea{max-width:100%;min-width:0}
 .vn-record-editor [role=alert]{color:var(--admin-danger)}.vn-record-editor fieldset{min-width:0}
+
+/* Checklist text uses the same readable glass surface in both themes. */
+body:has(.vn-control-center) .vn-sale-readiness{background:var(--admin-panel)!important;color:var(--admin-text)!important}
+body:has(.vn-control-center) .vn-sale-readiness :is(h4,p,strong){color:var(--admin-text)!important}
+body:has(.vn-staff-portal) .vn-team-chat nav button[aria-pressed=true],body:has(.vn-staff-portal) .vn-channel-select[data-active=true]{color:var(--admin-on-accent)!important}
+body:has(.vn-staff-portal) .vn-team-chat nav button[aria-pressed=true] :is(span,svg){color:inherit!important}
+.vn-portal-sidebar nav button{display:flex;align-items:center;gap:10px}.vn-portal-sidebar nav button svg{flex-shrink:0}
+.vn-stock-explainer{padding:18px;margin:16px 0;border:1px solid var(--admin-border);border-radius:16px;background:var(--admin-panel);color:var(--admin-text)}
+.vn-stock-explainer p{margin-top:10px;line-height:1.6}.vn-inventory-actions label{display:grid;gap:6px}
+.vn-inventory-actions{flex-wrap:wrap}.vn-inventory-table td:last-child{min-width:250px}
+
+body:has(:is(.vn-control-center,.vn-staff-portal)) :is(.vn-support .vn-approve-button,.vn-portal-mobile-tools>button[aria-pressed=true],.vn-catalogue-shortcuts button:hover){color:var(--admin-on-accent)!important}
+body:has(:is(.vn-control-center,.vn-staff-portal)) :is(.vn-support .vn-approve-button,.vn-portal-mobile-tools>button[aria-pressed=true],.vn-catalogue-shortcuts button:hover) :is(span,small,p,svg){color:inherit!important}

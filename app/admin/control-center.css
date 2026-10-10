@@ -154,7 +154,7 @@
 @media(max-width:1023px){.vn-ref-grid{grid-template-areas:"revenue" "best" "orders" "attention";grid-template-columns:minmax(0,1fr)}.vn-ref-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.vn-ref-right{grid-template-rows:auto}.vn-price-toolbar{position:static}.vn-ref-card-head{flex-wrap:wrap}}
 @media(max-width:420px){.vn-ref-metrics article{padding:13px}.vn-ref-metrics .vn-metric-value strong{font-size:22px}}
 
-.vn-sale-readiness{padding:20px;border:1px solid var(--admin-border);border-radius:14px;background:var(--admin-accent)}
+.vn-sale-readiness{padding:20px;border:1px solid var(--admin-border);border-radius:14px;background:var(--admin-panel);color:var(--admin-text)}
 .vn-sale-readiness h4{font-size:16px;font-weight:600;color:var(--admin-text)}
 .vn-sale-readiness p{margin-top:8px;font-size:12px;line-height:1.7;color:var(--admin-muted)}
 .vn-sale-readiness ul{display:grid;gap:12px;margin:16px 0;padding:0;list-style:none}

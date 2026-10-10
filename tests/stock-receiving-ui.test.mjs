@@ -1,0 +1,22 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {JSDOM} from 'jsdom';
+const dom=new JSDOM('<div id="root"></div>',{url:'https://api.vantanoir.store/admin',pretendToBeVisual:true});
+for(const k of ['window','document','HTMLElement','HTMLInputElement','Element','Node','Event'])globalThis[k]=dom.window[k];
+globalThis.MessageChannel=class{port1={onmessage:null};port2={postMessage:()=>setTimeout(()=>this.port1.onmessage?.(),0)};};globalThis.IS_REACT_ACT_ENVIRONMENT=true;
+const out=await build({stdin:{contents:"export {InventoryPanel} from './app/admin/inventory-panel';export {createRoot} from 'react-dom/client';export {act,createElement} from 'react';",resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,format:'esm',platform:'browser',define:{'process.env.NODE_ENV':'"development"'},plugins:[{name:'navigation-boundary',setup(b){b.onLoad({filter:/unsaved-changes\.tsx$/},()=>({contents:'export function useUnsavedChanges(){};export function useAdminNavigation(){return f=>f()}',loader:'tsx'}));}}]});
+const {InventoryPanel,createRoot,act,createElement}=await import('data:text/javascript;base64,'+Buffer.from(out.outputFiles[0].text).toString('base64'));
+test('owner can find a draft, receive five into three, then correct the count without publishing',async()=>{
+ let row={id:'v1',productId:'p1',productName:'Test hoodie',sku:'H-1',color:'Black',size:'L',stock:3,reserved:0,available:3,active:1,productStatus:'draft',priceKobo:100};const requests=[];
+ globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);requests.push(body);return Response.json({row:{...row,stock:body.stock,available:body.stock}});};
+ const root=createRoot(document.getElementById('root'));
+ const render=()=>root.render(createElement(InventoryPanel,{rows:[row],onHistory(){},onSaved:r=>{row=r;render();}}));
+ const button=text=>[...document.querySelectorAll('button')].find(b=>b.textContent===text);
+ const enter=async value=>act(async()=>{const input=document.querySelector('input[inputmode="numeric"]');Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set.call(input,value);input.dispatchEvent(new window.Event('input',{bubbles:true}));});
+ await act(async()=>render());assert.ok(document.body.textContent.includes('Test hoodie'));
+ await act(async()=>button('Receive stock').click());await enter('5');assert.ok(document.body.textContent.includes('After saving: 8 units'));
+ await act(async()=>button('Save stock').click());assert.equal(row.stock,8);assert.equal(row.productStatus,'draft');assert.deepEqual(requests[0],{variantId:'v1',stock:8,expectedStock:3,reason:'Manufacturer delivery received'});
+ await act(async()=>button('Correct count').click());await enter('6');await act(async()=>button('Save stock').click());assert.equal(row.stock,6);assert.equal(requests[1].reason,'Physical stock count correction');
+ await act(async()=>root.unmount());dom.window.close();
+});

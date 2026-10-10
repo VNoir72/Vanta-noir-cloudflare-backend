@@ -19,3 +19,9 @@ export function stockTotals(rows: InventoryRow[], threshold=3) {
   const live = rows.filter(isSellable);
   return { onHand: live.reduce((n,r)=>n+r.stock,0), reserved: live.reduce((n,r)=>n+r.reserved,0), available: live.reduce((n,r)=>n+r.available,0), low: live.filter(r=>matchesStockFilter(r,'low',threshold)).length, out: live.filter(r=>matchesStockFilter(r,'out')).length };
 }
+
+export function stockEntryTotal(current:number,entry:string,mode:'receive'|'count'):number|null {
+ const quantity=parseStock(entry);if(quantity===null)return null;
+ const total=mode==='receive'?current+quantity:quantity;
+ return Number.isSafeInteger(total)&&total>=0&&total<=100000?total:null;
+}
