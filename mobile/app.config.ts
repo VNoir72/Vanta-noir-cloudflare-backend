@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.3",
+  version: "0.1.4",
   // Native fingerprints keep incompatible OTA bundles off installed builds.
   ...(!studio ? {
     runtimeVersion: { policy: "fingerprint" as const },
@@ -14,6 +14,7 @@ const config: ExpoConfig = {
       fallbackToCacheTimeout: 0,
     },
   } : { updates: { enabled: false } }),
+  icon: "./assets/app-icon.png",
   scheme: studio ? "vantanoir-studio" : "vantanoir",
   orientation: "default",
   userInterfaceStyle: "automatic",
@@ -25,6 +26,7 @@ const config: ExpoConfig = {
     infoPlist: { ITSAppUsesNonExemptEncryption: false },
   },
   android: {
+    adaptiveIcon: { foregroundImage: "./assets/app-icon.png", backgroundColor: "#0a0a0a" },
     softwareKeyboardLayoutMode: "resize",
     versionCode: 2,
     package: studio ? "store.vantanoir.studio" : "store.vantanoir.shop",
