@@ -32,8 +32,8 @@ export async function PATCH(request: Request) {
   const auth = await adminAuthStateFromRequest(request);
   if (!auth.ok) return Response.json({ error: auth.error }, { status: auth.status });
   const body=await request.json().catch(()=>null);
-  const tracking=z.object({reference:z.string().trim().min(3).max(120),tracking:z.object({carrier:z.string().trim().max(100),trackingNumber:z.string().trim().max(160),trackingUrl:z.string().trim().max(1000).refine(value=>{if(!value)return true;try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password;}catch{return false;}},"Use an HTTPS tracking link."),deliveryEstimate:z.string().trim().max(160)})}).safeParse(body);
-  if(tracking.success){try{await updateOrderTracking(tracking.data.reference,tracking.data.tracking);return Response.json({ok:true});}catch{return Response.json({error:"Tracking could not be saved. Check payment status and retry."},{status:400});}}
+  const tracking=z.object({reference:z.string().trim().min(3).max(120),tracking:z.object({carrier:z.string().trim().max(100),trackingNumber:z.string().trim().max(160),trackingUrl:z.string().trim().max(1000).refine(value=>{if(!value)return true;try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password;}catch{return false;}},"Use an HTTPS tracking link."),deliveryEstimate:z.string().trim().max(160)}).partial().refine(v=>Object.keys(v).length>0),expectedTracking:z.record(z.string()).optional()}).safeParse(body);
+  if(tracking.success){try{await updateOrderTracking(tracking.data.reference,tracking.data.tracking,tracking.data.expectedTracking);return Response.json({ok:true});}catch{return Response.json({error:"Tracking could not be saved. Check payment status and retry."},{status:400});}}
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Invalid update." }, { status: 400 });
   try {

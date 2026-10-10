@@ -5,12 +5,17 @@ export function safeHeroImage(value:string) {
     || /^https:\/\/api\.vantanoir\.store\/api\/media\/products\/[a-zA-Z0-9-]+\.(?:png|jpg|webp|avif)$/i.test(value);
 }
 const image=z.string().trim().max(500).refine(safeHeroImage,'Choose a store image or upload one using the button below.');
+const storeLink=z.string().trim().max(500).refine(v=>/^\/(?!\/)[a-zA-Z0-9_/?#=&%+.,~-]*$/.test(v),'Use a link within your store, starting with /.');
 export const heroMediaSchema=z.object({
   url:z.string().max(500).refine(v=>safeHeroImage(v)||/^https:\/\/api\.vantanoir\.store\/api\/media\/products\/[a-f0-9-]+\.(mp4|webm)$/.test(v),'Upload store media first.'),
+  link:storeLink.optional(),
   type:z.enum(['image','video']), alt:z.string().max(240).default('Vanta Noir campaign'),
 });
 export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
+  contentMode:z.enum(['mixed','products','campaigns']).default('mixed'),
+  productsFirst:z.boolean().default(false),
+  productOrder:z.array(z.string().min(1).max(160)).max(40).default([]),
   fit:z.enum(['contain','cover']).default('cover'),
   playlist:z.array(heroMediaSchema).max(12).default([]),
   desktopHeight:z.number().int().min(40).max(100).default(80),

@@ -1142,15 +1142,19 @@ export async function listAdminOrders(options: OrderQuery = {}): Promise<AdminOr
   const items=await db.prepare(`SELECT order_id AS orderId,product_name AS productName,size,color,quantity FROM order_items WHERE order_id IN (${rows.results.map(()=>"?").join(",")})`).bind(...rows.results.map(o=>o.id)).all<AdminOrder["items"][number]&{orderId:string}>();
   return rows.results.map(order=>({...order,items:items.results.filter(item=>item.orderId===order.id)}));
 }
-export async function updateOrderTracking(reference:string,input:{carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string}) {
+export async function updateOrderTracking(reference:string,input:Partial<{carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string}>,expected?:Record<string,string>) {
   const order=await getOrderByReference(reference);if(!order)throw new Error("Order not found.");
   if(order.paymentStatus!=="paid")throw new Error("This order cannot receive tracking until payment is confirmed.");
-  const db=getDbBinding();
-  const result=await db.prepare("UPDATE orders SET carrier=?,tracking_number=?,tracking_url=?,delivery_estimate=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND (carrier<>? OR tracking_number<>? OR tracking_url<>? OR delivery_estimate<>?)")
-    .bind(input.carrier,input.trackingNumber,input.trackingUrl,input.deliveryEstimate,order.id,input.carrier,input.trackingNumber,input.trackingUrl,input.deliveryEstimate).run();
-  const hash=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(input)));
+  const columns={carrier:'carrier',trackingNumber:'tracking_number',trackingUrl:'tracking_url',deliveryEstimate:'delivery_estimate'};
+  const keys=(Object.keys(columns) as Array<keyof typeof columns>).filter(k=>input[k]!==undefined);if(!keys.length)throw Error('Invalid tracking fields.');
+  const guards=keys.filter(k=>expected&&Object.hasOwn(expected,k));
+  const result=await getDbBinding().prepare(`UPDATE orders SET ${keys.map(k=>columns[k]+'=?').join(',')},updated_at=CURRENT_TIMESTAMP WHERE id=? AND payment_status='paid'${guards.map(k=>' AND COALESCE('+columns[k]+",'')=?").join('')}`)
+    .bind(...keys.map(k=>input[k]),order.id,...guards.map(k=>expected![k])).run();
+  if(!result.meta.changes)throw Error('The order changed. Refresh before editing tracking.');
+  const updated=await getDbBinding().prepare('SELECT carrier,tracking_number AS trackingNumber FROM orders WHERE id=?').bind(order.id).first<{carrier:string;trackingNumber:string}>();
+  const hash=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(updated&&keys.map(k=>[k,input[k]]))));
   const key=Array.from(new Uint8Array(hash)).map(n=>n.toString(16).padStart(2,"0")).join("");
-  await queueOrderEmail(reference,`tracking:${key}`);
+  if(updated?.carrier&&updated?.trackingNumber)await queueOrderEmail(reference,`tracking:${key}`);
 }
 
 export async function listInventory(variantId?: string) {

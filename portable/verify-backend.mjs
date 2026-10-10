@@ -103,6 +103,14 @@ try{
  const stockRow=stockBefore.inventory.find(r=>r.active&&r.productStatus==='published');
  assert.equal(stockRow.reserved,0);assert.equal(stockRow.available,0);
  const stockHeaders={...authHeaders,'Content-Type':'application/json'};
+ const commerceUrl='https://api.vantanoir.store/api/admin/commerce';
+ const originalSettings=(await (await mf.dispatchFetch(commerceUrl,{headers:authHeaders})).json()).settings;
+ const fieldWrite=(section,changes)=>mf.dispatchFetch(commerceUrl,{method:'POST',headers:stockHeaders,body:JSON.stringify({action:'settings-fields',settings:{section,changes}})});
+ const fieldEmail=await fieldWrite('support',[{path:['supportEmail'],before:originalSettings.supportEmail,value:'updated@example.com'}]);assert.equal(fieldEmail.status,200);
+ const fieldTitle=await fieldWrite('design',[{path:['hero','title'],before:originalSettings.hero.title,value:'Owner campaign'}]);assert.equal(fieldTitle.status,200);const fieldSettings=(await fieldTitle.json()).settings;assert.equal(fieldSettings.supportEmail,'updated@example.com');assert.equal(fieldSettings.hero.image,originalSettings.hero.image);
+ const conflictingTitle=await fieldWrite('design',[{path:['hero','title'],before:originalSettings.hero.title,value:'Stale change'}]);assert.equal(conflictingTitle.status,400);
+ assert.equal((await fieldWrite('support',[{path:['hero','title'],before:'Owner campaign',value:'Wrong section'}])).status,400);
+ console.log('Field saves preserve unrelated settings, reject stale values and enforce section access.');
  const stockWrite=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{method:'PATCH',headers:stockHeaders,body:JSON.stringify({variantId:stockRow.id,expectedStock:0,stock:8})});
  assert.equal(stockWrite.status,200);const stockSaved=await stockWrite.json();assert.equal(stockSaved.row.stock,8);assert.equal(stockSaved.row.available,8);
  const staleWrite=await mf.dispatchFetch('https://api.vantanoir.store/api/admin/inventory',{method:'PATCH',headers:stockHeaders,body:JSON.stringify({variantId:stockRow.id,expectedStock:0,stock:2})});assert.equal(staleWrite.status,409);

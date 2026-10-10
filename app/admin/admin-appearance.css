@@ -279,3 +279,12 @@ body:has(:is(.vn-control-center,.vn-staff-portal)) :is(.vn-support .vn-approve-b
 .vn-settings-section>header>div{display:flex;gap:8px;}.vn-settings-section>fieldset{border:0;padding:0;margin:0;min-width:0;}
 .vn-exact .vn-settings-section fieldset[disabled]{opacity:1;}.vn-settings-section textarea{display:block;width:100%;min-height:100px;padding:12px;}.vn-settings-section :is(label,legend,summary){color:var(--admin-text)!important;}.vn-settings-section input[type=checkbox]{width:20px;min-height:20px;}
 .vn-settings-section .vn-product-disclosure{box-shadow:none;padding:14px;}.vn-settings-section header .vn-pill{position:static;transform:none;}
+/* Each edit belongs beside its field, with no enclosing edit card. */
+.vn-record-editor{margin:4px 0;padding:0;border:0;border-radius:0;background:transparent;min-width:0}
+.vn-field-edit{display:flex;align-items:center;gap:8px;min-width:0;margin:6px 0}
+.vn-field-edit>label{flex:1;min-width:0;margin:0}
+.vn-field-edit>select,.vn-field-edit>input,.vn-field-edit>textarea{flex:1;min-width:0}
+.vn-field-actions{display:flex;gap:4px;flex-shrink:0}
+.vn-field-actions .vn-pill{padding:6px 10px;min-height:32px;font-size:12px}
+.vn-record-editor input:disabled,.vn-record-editor textarea:disabled{opacity:1;cursor:default}
+.vn-record-editor .vn-admin-fields{gap:12px}

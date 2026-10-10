@@ -1,10 +1,12 @@
 'use client';
+import {useFieldAction} from './record-editor';
 import { useState } from 'react';
 import type { CommerceSettings } from '@/lib/commerce-config';
 import type { AdminProduct } from '@/lib/store-db';
 import { shopperCollectionLabel } from '@/lib/catalog-search';
 
 export function CollectionNameEditor({settings,onChange,busy}:{settings:CommerceSettings;onChange:(value:CommerceSettings)=>void;busy:boolean}) {
+  const confirmChange=useFieldAction();
   const [open,setOpen]=useState(false),[loading,setLoading]=useState(false),[error,setError]=useState('');
   const [products,setProducts]=useState<AdminProduct[]>([]);
   const [query,setQuery]=useState(''),[selected,setSelected]=useState(''),[name,setName]=useState(''),[notice,setNotice]=useState('');
@@ -27,7 +29,7 @@ export function CollectionNameEditor({settings,onChange,busy}:{settings:Commerce
     const exists=settings.collectionLabels.some(r=>r.source===selected);
     if(!exists&&settings.collectionLabels.length>=100){setNotice('The collection name limit has been reached. Edit an existing name.');return;}
     onChange({...settings,collectionLabels:exists?settings.collectionLabels.map(r=>r.source===selected?{...r,label:name.trim()}:r):[...settings.collectionLabels,{source:selected,label:name.trim()}]});
-    setNotice('Name updated in this form. Select Save settings below to publish it.');
+    setNotice('Confirm the new collection name to publish it.');
   }
   return <section aria-label="Collection names">
     <h3>Customer-facing collection names</h3>
@@ -40,7 +42,7 @@ export function CollectionNameEditor({settings,onChange,busy}:{settings:Commerce
           <label>Original collection name<input readOnly value={selected}/></label>
           <label>Current name buyers see<input readOnly value={label(selected)}/></label>
           <label>New collection name<input maxLength={100} value={name} onChange={e=>setName(e.target.value)} placeholder="Enter the new name"/></label>
-        </div><p>This changes the name for all clothing in this collection.</p><button type="button" className="vn-pill" disabled={!name.trim()||name.trim()===label(selected)} onClick={apply}>Apply new name</button></fieldset>}
+        </div><p>This changes the name for all clothing in this collection.</p><button type="button" className="vn-pill" disabled={!name.trim()||name.trim()===label(selected)} onClick={()=>confirmChange(apply)}>Apply new name</button></fieldset>}
         {notice&&<p role="status">{notice}</p>}
         <label>Find clothing or a collection<input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search clothing or collection"/></label>
         <div style={{overflowX:'auto',maxHeight:480,overflowY:'auto'}} tabIndex={0} aria-label="Clothing and their collections"><table className="vn-data-table"><thead><tr><th>Clothing</th><th>Original collection</th><th>Name buyers see</th><th>Select collection</th></tr></thead><tbody>{visible.map(p=><tr key={p.id}><td>{p.name}</td><td>{p.details?.collection||'Unassigned'}</td><td>{p.details?.collection?label(p.details.collection):'—'}</td><td>{p.details?.collection?<button type="button" className="vn-pill" aria-pressed={selected===p.details.collection} onClick={()=>select(p.details!.collection!)}>Select</button>:<span>Assign under Products</span>}</td></tr>)}</tbody></table></div>

@@ -1,3 +1,4 @@
+import {applyFieldChanges} from '@/lib/admin-field-patch';
 import {SETTINGS_SECTIONS,type SettingsSection} from "@/lib/settings-sections";
 import { z } from "zod";
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
@@ -23,6 +24,23 @@ export async function POST(request:Request){
  const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status});
  const body=await request.json().catch(()=>null) as {action?:string;settings?:unknown;data?:unknown}|null;
  try{
+  if(body?.action==='settings-fields'){
+    const input=z.object({section:z.enum(Object.keys(SETTINGS_SECTIONS) as [SettingsSection,...SettingsSection[]]),changes:z.array(z.object({path:z.array(z.string().min(1)).min(1).max(8),before:z.unknown(),value:z.unknown()})).min(1).max(20)}).parse(body.settings);
+    const allowed:readonly string[]=SETTINGS_SECTIONS[input.section];
+    if(input.changes.some(change=>!allowed.includes(change.path[0])))return Response.json({error:'Invalid section fields.'},{status:400});
+    // Read/compare/write retries preserve concurrent changes to unrelated fields.
+    const db=getDbBinding();
+    for(let attempt=0;attempt<3;attempt++){
+      const row=await db.prepare("SELECT value FROM store_meta WHERE key='commerce_settings'").first<{value:string}>();
+      const current=row?commerceSettingsSchema.parse(JSON.parse(row.value)):await getCommerceSettings();
+      const settings=commerceSettingsSchema.parse(applyFieldChanges(current,input.changes.map(c=>({path:c.path,before:c.before,value:c.value})),true));
+      const issues=checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled());
+      if(settings.acceptingOrders&&issues.length)return Response.json({error:`Complete store setup first: ${issues.join('; ')}.`},{status:400});
+      const saved=row?await db.prepare("UPDATE store_meta SET value=? WHERE key='commerce_settings' AND value=?").bind(JSON.stringify(settings),row.value).run():await db.prepare("INSERT OR IGNORE INTO store_meta(key,value) VALUES('commerce_settings',?)").bind(JSON.stringify(settings)).run();
+      if(saved.meta.changes)return Response.json({settings});
+    }
+    return Response.json({error:'Settings changed during saving. Please retry.'},{status:409});
+  }
   if(body?.action==="settings"||body?.action==='settings-section'){
     let raw=body.settings;
     if(body.action==='settings-section'){
@@ -40,5 +58,5 @@ export async function POST(request:Request){
   if(body?.action==="return"){await updateReturn(returnUpdateSchema.parse(body.data),auth.email);return Response.json({ok:true});}
   if(body?.action==="review"){const input=z.object({id:z.string().max(100),status:z.enum(["published","rejected","pending"])}).parse(body.data);const result=await getDbBinding().prepare("UPDATE product_reviews SET status=? WHERE id=?").bind(input.status,input.id).run();return Response.json({ok:Boolean(result.meta.changes)});}
   return Response.json({error:"Unknown action."},{status:400});
- }catch(e){const message=e instanceof z.ZodError ? e.issues[0]?.message : e instanceof Error ? e.message : "Could not save changes.";return Response.json({error:/^(Return|Move|Refund|Record|Only|This request|Each |Choose a|Use a|Add international|Invalid|Expected)/.test(message||"")?message:"Could not save changes. Check the fields and try again."},{status:400});}
+ }catch(e){const message=e instanceof z.ZodError ? e.issues[0]?.message : e instanceof Error ? e.message : "Could not save changes.";return Response.json({error:/^(This field|Return|Move|Refund|Record|Only|This request|Each |Choose a|Use a|Add international|Invalid|Expected)/.test(message||"")?message:"Could not save changes. Check the fields and try again."},{status:400});}
 }

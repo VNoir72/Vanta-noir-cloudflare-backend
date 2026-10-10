@@ -1,3 +1,4 @@
+import {deliveryChoices} from '../lib/shipping-options';
 import {shippingCountryName} from "./src/shipping-countries";
 import {YouPage,inOrderGroup,OrderGroup} from "./src/components/YouPage";
 import {VirtualReceipt} from "./src/components/VirtualReceipt";
@@ -537,11 +538,11 @@ function Main() {
     setShippingBusy(true);setShippingError('');
     try {
       const next=await api<Quotes>("/api/shipping/quotes",JSON.parse(shippingContext));
-      const cheapest=[...next.rates].sort((a,b)=>a.amountKobo-b.amountKobo)[0];
-      if(!cheapest)throw Error('No courier is available for this destination.');
-      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:"",shippingCustomer:address,shippingSelection:{quoteId:next.quoteId,rateId:cheapest.rateId,provider:cheapest.provider}});
+      const preferred=deliveryChoices(next.rates)[0]?.rate;
+      if(!preferred)throw Error('No courier is available for this destination.');
+      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:"",shippingCustomer:address,shippingSelection:{quoteId:next.quoteId,rateId:preferred.rateId,provider:preferred.provider}});
       if(request!==shippingRequest.current)return;
-      setQuotes(next);setRate(cheapest);setReward(total);setQuoteContext(shippingContext);attempt.current="";
+      setQuotes(next);setRate(preferred);setReward(total);setQuoteContext(shippingContext);attempt.current="";
     } catch(e){if(request===shippingRequest.current){setShippingError(e instanceof Error?e.message:'Delivery could not be checked.');setQuotes(null);setRate(null);setReward(null);}}
     finally{if(request===shippingRequest.current)setShippingBusy(false);}
   }
@@ -555,6 +556,17 @@ function Main() {
     const timer=setTimeout(()=>setShippingRetry(n=>n+1),Math.max(0,quotes.expiresAt-Date.now())+20);
     return()=>clearTimeout(timer);
   },[quotes,payment,checkout]);
+  async function selectDelivery(selectedRate:Rate) {
+    if(!quotes||shippingBusy||quotes.expiresAt<=Date.now())return;
+    const request=++shippingRequest.current;
+    setShippingBusy(true);setShippingError('');setReward(null);
+    try {
+      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:"",shippingCustomer:address,shippingSelection:{quoteId:quotes.quoteId,rateId:selectedRate.rateId,provider:selectedRate.provider}});
+      if(request!==shippingRequest.current)return;
+      setRate(selectedRate);setReward(total);setQuoteContext(shippingContext);attempt.current="";
+    }catch(e){if(request===shippingRequest.current)setShippingError(e instanceof Error?e.message:'Could not update delivery. Please retry.');}
+    finally{if(request===shippingRequest.current)setShippingBusy(false);}
+  }
   async function pay() {
     if(!customer || !(await vault.get("session"))){returnToCheckout.current=true;setCheckout(false);setScreen("Account");throw Error("Sign in to place an order in the app.");}
     if (shippingBusy||quoteContext!==shippingContext||!rate || !quotes || !reward?.totalKobo)
@@ -1394,7 +1406,7 @@ function Main() {
             </Glass>}
             {!addressEditing && <>
             <Glass><Text style={s.h2}>Your order · {cart.reduce((n,i)=>n+i.quantity,0)} items</Text>{cart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:60,height:72,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size}</Text><View style={{flexDirection:"row",alignItems:"center",gap:12}}><Pressable accessibilityRole="button" accessibilityLabel={`Decrease ${i.name} quantity`} disabled={busy||i.quantity<=1} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity-1}:item));resetQuote();}} style={s.chip}><Text>−</Text></Pressable><Text>{i.quantity}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Increase ${i.name} quantity`} disabled={busy||i.quantity>=5} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity+1}:item));resetQuote();}} style={s.chip}><Text>+</Text></Pressable></View><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
-            <Glass><Text style={s.h2}>Shipping</Text>{shippingBusy||quoteContext!==shippingContext?<Text>Calculating shipping…</Text>:rate&&<><Text style={s.productName}>{money(reward?.shippingKobo??rate.amountKobo)}</Text><Text>{rate.delivery}</Text><Text style={s.muted}>Delivery is calculated automatically.</Text></>}{shippingError!==''&&<><Text accessibilityRole="alert">{shippingError}</Text><Button title="Retry shipping" secondary onPress={()=>setShippingRetry(n=>n+1)}/></>}{address.countryCode!=='NG'&&<Text style={s.muted}>Import duties and taxes may be payable by the recipient. Customs can affect delivery times.</Text>}</Glass>
+            <Glass><Text style={s.h2}>Shipping</Text>{shippingBusy||quoteContext!==shippingContext?<Text>Calculating shipping…</Text>:quotes&&<>{deliveryChoices(quotes.rates).map(({label,rate:option})=><Pressable key={option.rateId} accessibilityRole="radio" accessibilityState={{checked:rate?.rateId===option.rateId}} onPress={()=>void selectDelivery(option)} style={{paddingVertical:12,borderBottomWidth:1,borderBottomColor:"#d6d6d6"}}><Text style={s.productName}>{rate?.rateId===option.rateId?'●':'○'} {label} · {money(option.amountKobo)}</Text><Text>{option.delivery}</Text><Text style={s.muted}>{label==='Express'?'Fastest available estimate':'Lower delivery fee'}</Text></Pressable>)}<Text style={s.muted}>Transit estimates start after dispatch. Processing time is separate.</Text></>}{shippingError!==''&&<><Text accessibilityRole="alert">{shippingError}</Text><Button title="Retry shipping" secondary onPress={()=>setShippingRetry(n=>n+1)}/></>}{address.countryCode!=='NG'&&<Text style={s.muted}>Import duties and taxes may be payable by the recipient. Customs can affect delivery times.</Text>}</Glass>
             <Glass><Text style={s.h2}>Payment method</Text><View style={s.row}>
               {([['saved_card','Card'],['bank_transfer','Bank transfer']] as const).map(([method,label])=><Pressable key={method} accessibilityRole="radio" accessibilityLabel={label} accessibilityState={{checked:paymentMethod===method}} onPress={()=>setPaymentMethod(method)} style={[s.chip,paymentMethod===method&&s.chosen]}><Text>{label}</Text></Pressable>)}
             </View>{paymentMethod==="saved_card"?cardList():<Text style={s.muted}>Paystack provides a temporary bank account for this order. Confirmation appears here after verification.</Text>}</Glass>

@@ -21,7 +21,7 @@ let result:unknown={ok:true};
  if(action==='exchange-tracking')await exchangeTracking(data,actor);
  if(action==='order')await orderAction(data,actor,role);
  if(action==='return'){const parsed=returnUpdateSchema.parse(data);if(role!=='owner'){const current=await getDbBinding().prepare('SELECT refund_kobo,refund_status,refund_reference FROM return_requests WHERE id=?').bind(parsed.id).first<{refund_kobo:number;refund_status:string;refund_reference:string}>();if(!current||parsed.refundKobo!==current.refund_kobo||parsed.refundStatus!==current.refund_status||parsed.refundReference!==current.refund_reference)throw new Error('Only the owner can change refunds.');}await updateReturn(parsed,actor);await audit(actor,'return update',parsed.id,parsed.status);}
- if(action==='tracking'){const v=z.object({reference:z.string().min(3),carrier:z.string().trim().min(1).max(100),trackingNumber:z.string().trim().min(1).max(160),trackingUrl:z.string().max(1000).refine(s=>!s||(/^https:\/\//.test(s)&&!new URL(s).username&&!new URL(s).password)),deliveryEstimate:z.string().max(160)}).parse(data);await updateOrderTracking(v.reference,v);await audit(actor,'tracking',v.reference);}
+ if(action==='tracking'){const v=z.object({reference:z.string().min(3),carrier:z.string().trim().max(100).optional(),trackingNumber:z.string().trim().max(160).optional(),trackingUrl:z.string().max(1000).refine(s=>!s||(/^https:\/\//.test(s)&&!new URL(s).username&&!new URL(s).password)).optional(),deliveryEstimate:z.string().max(160).optional(),expected:z.record(z.string()).optional()}).parse(data);await updateOrderTracking(v.reference,v,v.expected);await audit(actor,'tracking',v.reference);}
 
 return result;
 }

@@ -1,3 +1,4 @@
+import {applyFieldChanges} from '../../lib/admin-field-patch';
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
@@ -18,7 +19,7 @@ window.fetch=async(input:any,init?:RequestInit)=>{
  const url=String(input),writing=init?.method&&init.method!=='GET',body=init?.body?JSON.parse(String(init.body)):{};
  if(writing){(window as any).__writes.push({url,body});if((window as any).__fail)return Response.json({error:'Test save failed'},{status:503});}
  if(url.includes('terminal-pickup')){if(writing)pickup={...pickup,details:body.details,revision:'2'};return Response.json({pickup});}
- if(url.includes('/commerce')){if(writing)settings=body.action==='settings-section'?{...settings,...body.settings.values}:body.settings;return Response.json({settings,setupIssues:[],reviews:[],returns:[],emails:[],subscribers:[],stock:[],hasMore:false});}
+ if(url.includes('/commerce')){if(writing)settings=body.action==='settings-fields'?applyFieldChanges(settings,body.settings.changes,true):body.action==='settings-section'?{...settings,...body.settings.values}:body.settings;return Response.json({settings,setupIssues:[],reviews:[],returns:[],emails:[],subscribers:[],stock:[],hasMore:false});}
  if(url.includes('/operations')){if(writing){priceKobo=body.data[0].priceKobo;return Response.json({result:[{id:'test',ok:true}]});}return Response.json({products:[{id:'test',name:'Test garment',priceKobo,status:'draft',variants:[]}]});}
  return Response.json({});
 };
