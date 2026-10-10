@@ -1,4 +1,5 @@
 export type Product = {
+  featured?: boolean;
   id: string;
   name: string;
   slug: string;

@@ -8,7 +8,7 @@ export function transitEstimate(value:string):{min:number;max:number;basis:'cale
  const min=Number(m[1])*factor,max=Number(m[2]||m[1])*factor;
  return min>0&&max>=min?{min,max,basis:m[3]==='working'||m[3]==='business'?'working':'calendar'}:null;
 }
-export function deliveryChoices<T extends {amountKobo:number;delivery:string}>(rates:readonly T[]):Array<{label:'Standard'|'Express';rate:T}> {
+export function deliveryChoices<T extends {amountKobo:number;delivery:string}>(rates:readonly T[]):{label:'Standard'|'Express';rate:T}[] {
  const sorted=[...rates].sort((a,b)=>a.amountKobo-b.amountKobo),standard=sorted[0];
  if(!standard)return [];
  const estimates=sorted.map(rate=>({rate,eta:transitEstimate(rate.delivery)}));

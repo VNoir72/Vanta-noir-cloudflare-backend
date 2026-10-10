@@ -10,7 +10,7 @@ export default function Help(){
  const {colors}=useTheme(); const s=styles(colors);
  const {topic='contact',orderReference='',request='',name='',email=''}=useLocalSearchParams<{topic:string;orderReference:string;request:string;name:string;email:string}>();
  const [settings,setSettings]=useState<Record<string,string>>({}),[status,setStatus]=useState(''),[busy,setBusy]=useState(false),[reference,setReference]=useState('');
- const [form,setForm]=useState({name,email,phone:'',orderReference,category:'order',subject:request==='cancellation'?'Cancellation request':'',message:request==='cancellation'?`Please cancel order ${orderReference}. Reason: `:''});
+ const [form,setForm]=useState({name,email,phone:'',orderReference,category:request==='refund'?'return':'order',subject:request==='refund'?'Refund enquiry':request==='cancellation'?'Cancellation request':'',message:request==='refund'?`Please help with a refund enquiry for order ${orderReference}. Details: `:request==='cancellation'?`Please cancel order ${orderReference}. Reason: `:''});
  const requestId=useRef(Crypto.randomUUID());
  useEffect(()=>{api<{checkout:Record<string,string>}>('/api/catalog').then(r=>setSettings(r.checkout)).catch(()=>setStatus('Could not load the latest delivery policy. Please retry.'));},[]);
  const close=()=>router.back();

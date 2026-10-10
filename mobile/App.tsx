@@ -1,3 +1,6 @@
+import {SettingsHub} from "./src/components/SettingsHub";
+import {AppHero,AppHeroSettings} from "./src/components/AppHero";
+import {hasPaidReceipt} from './src/order-policy';
 import {variantStock,bagPartition} from './src/bag-selection';
 import {CompactBag, QuoteCountdown} from "./src/components/CompactBag";
 import {deliveryChoices} from './src/shipping-options';
@@ -65,11 +68,13 @@ function Button({
   onPress,
   secondary = false,
   disabled = false,
+  compact = false,
 }: {
   title: string;
   onPress: () => void;
   secondary?: boolean;
   disabled?: boolean;
+  compact?: boolean;
 }) {
   const {colors}=useTheme(); const s=styles(colors);
   return (
@@ -79,6 +84,7 @@ function Button({
       onPress={onPress}
       style={[
         s.button,
+        compact && {paddingVertical:10,paddingHorizontal:14,minHeight:44},
         secondary && s.secondary,
         disabled && { opacity: 0.45 },
       ]}
@@ -196,7 +202,7 @@ function Sheet({
   );
 }
 function Main() {
-  const {colors,dark,appearance,setAppearance}=useTheme(); const s=styles(colors);
+  const {colors,dark}=useTheme(); const s=styles(colors);
   const { width } = useWindowDimensions();
   const wide = width >= 760;
   const { tab } = useGlobalSearchParams<{ tab: string }>();
@@ -214,11 +220,17 @@ function Main() {
   const setScreen = (next: Screen) =>
     router.replace({ pathname: "/[tab]", params: { tab: next.toLowerCase() } });
   const [products, setProducts] = useState<Product[]>([]),
-    [hero, setHero] = useState({
+    [hero, setHero] = useState<AppHeroSettings>({
       mobileImage: "/images/vanta-brand-hero-mobile-2026.webp",
       image: "/images/vanta-brand-hero-2026.webp",
       title: "Your next\neveryday uniform.",
     });
+  const [videoAutoplay,setVideoAutoplay]=useState(true);
+  const [viewedIds,setViewedIds]=useState<string[]>([]);
+  const [filtersOpen,setFiltersOpen]=useState(false);
+  const [catalogFilters,setCatalogFilters]=useState({category:'All',size:'All',color:'All',min:'',max:'',stock:false});
+  const [filterDraft,setFilterDraft]=useState(catalogFilters);
+  useEffect(()=>{AsyncStorage.getItem('vanta-video-autoplay').then(v=>setVideoAutoplay(v!=='false')).catch(()=>{});AsyncStorage.getItem('vanta-viewed').then(v=>{if(v)setViewedIds(JSON.parse(v));}).catch(()=>{});},[]);
   const [bagSelection,setBagSelection]=useState<string[]>([]);
   const [bagToast,setBagToast]=useState("");
   const [bagCountryOpen,setBagCountryOpen]=useState(false);
@@ -245,8 +257,8 @@ function Main() {
   const [addressEditing,setAddressEditing] = useState(true);
   const [addressBookEditing,setAddressBookEditing] = useState(false);
   const [deleteOpen,setDeleteOpen]=useState(false);
-  const [profileEditing,setProfileEditing]=useState(false);
-  const [profileName,setProfileName]=useState("");
+
+
   const [leaveCheckout,setLeaveCheckout]=useState(false);
   const [promoOpen,setPromoOpen]=useState(false);
   const [summaryOpen,setSummaryOpen]=useState(true);
@@ -431,7 +443,7 @@ function Main() {
       );
       if (r.order?.paymentStatus === "paid") {
         let stable=r.order;
-        try{stable=(await api<{order:Order}>("/api/customer/receipt?reference="+encodeURIComponent(r.order.reference))).order;}catch{}
+        try{const detailed=(await api<{order:Order}>("/api/customer/receipt?reference="+encodeURIComponent(r.order.reference))).order;if(hasPaidReceipt(detailed))stable=detailed;}catch{}
         setReceipt(stable);
         setShowReceipt(true);
         setPaymentNotice("");
@@ -479,6 +491,7 @@ function Main() {
     attempt.current = "";
   }
   function openProduct(p: Product) {
+    setViewedIds(ids=>{const next=[p.id,...ids.filter(id=>id!==p.id)].slice(0,40);void AsyncStorage.setItem('vanta-viewed',JSON.stringify(next));return next;});
     setSelected(p);
     setColour(0);
     setSize("");
@@ -674,6 +687,10 @@ function Main() {
   const visible = products.filter(
     (p) =>
       (screen !== "Saved" || saved.includes(p.id)) &&
+      (catalogFilters.category==='All'||p.category===catalogFilters.category) &&
+      (!catalogFilters.min||p.priceKobo>=Number(catalogFilters.min)*100) &&
+      (!catalogFilters.max||p.priceKobo<=Number(catalogFilters.max)*100) &&
+      p.colorways.some(c=>(catalogFilters.color==='All'||c.name===catalogFilters.color)&&(catalogFilters.size==='All'||Object.hasOwn(c.stock,catalogFilters.size))&&(!catalogFilters.stock||(!preview(p)&&Object.entries(c.stock).some(([size,stock])=>stock>0&&(catalogFilters.size==='All'||size===catalogFilters.size))))) &&
       (!search ||
         `${p.name} ${p.category}`
           .toLowerCase()
@@ -695,25 +712,7 @@ function Main() {
   return (
     <SafeAreaView style={s.page}>
       <StatusBar style={dark?"light":"dark"} />
-      {screen==='Shop'&&<View style={s.header}>
-        {(
-          <Image
-            source={require("./assets/brand-logo.webp")}
-            style={[s.logo,{backgroundColor:"#ffffff",borderRadius:8}]}
-            resizeMode="contain"
-          />
-        )}
-        <View style={{flex:1}} />
-        <Pressable
-          style={s.close}
-          accessibilityRole="button"
-          accessibilityLabel="Notifications"
-          onPress={() => setNotificationsOpen(true)}
-        >
-          <Ionicons name="notifications-outline" size={24} />
-        </Pressable>
-      </View>}
-      {screen==='Shop'&&<View style={{marginHorizontal:16,marginBottom:8,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.text,borderRadius:16,paddingLeft:12}}><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" value={search} onChangeText={setSearch} style={{flex:1,minHeight:44,color:colors.text,fontSize:15}}/><Pressable accessibilityRole="button" accessibilityLabel="Search collection" onPress={()=>{setSearchOpen(true);setScreen('Shop');}} style={{backgroundColor:colors.text,borderRadius:12,padding:10,margin:4}}><Ionicons name="search-outline" size={22} color={colors.page}/></Pressable></View>}
+      {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:12,paddingVertical:7}]}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:24,paddingHorizontal:12,backgroundColor:colors.surface}}><Ionicons name="search-outline" size={19}/><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" value={search} onChangeText={setSearch} onSubmitEditing={()=>setSearchOpen(true)} style={{flex:1,minHeight:44,color:colors.text,fontSize:14,paddingHorizontal:9}}/>{!!search&&<Pressable accessibilityLabel="Clear search" onPress={()=>setSearch('')} style={{padding:8}}><Ionicons name="close" size={17}/></Pressable>}</View><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={24}/></Pressable></View>}
       <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
       {notice !== "" && (
         <View accessibilityLiveRegion="polite" style={s.notice}>
@@ -732,7 +731,7 @@ function Main() {
       <ScrollView
         key={screen+":"+(customer?.email||"guest")}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[s.content, wide && { paddingHorizontal: 48 },screen==='Bag'&&{padding:0,gap:0}]}
+        contentContainerStyle={[s.content, wide && { paddingHorizontal: 48 },['Bag','Settings','Orders'].includes(screen)&&{padding:0,gap:0}]}
         refreshControl={
           <RefreshControl
             refreshing={loading}
@@ -745,30 +744,8 @@ function Main() {
       >
         {(screen === "Shop" || (screen === "Saved" && customer)) && (
           <>
-            {screen === "Shop" && !search && (
-              <View style={s.hero}>
-                <Image
-                  accessibilityLabel="Vanta Noir campaign"
-                  source={{
-                    uri: imageUrl(
-                      wide ? hero.image : hero.mobileImage || hero.image,
-                    ),
-                  }}
-                  style={{ width: "100%", height: wide ? 360 : 290 }}
-                  resizeMode="contain"
-                />
-                <Glass>
-                  <Text style={s.eyebrow}>PRESENCE. POWER. PRECISION.</Text>
-                  <Text style={s.h1}>{hero.title}</Text>
-                  <Text style={s.muted}>
-                    Technical detail. A distinct silhouette.
-                  </Text>
-                </Glass>
-              </View>
-            )}
-            <Text style={s.h2}>
-              {screen === "Saved" ? "Your saved designs" : "Find your fit"}
-            </Text>
+            {screen==='Shop'&&!search&&<AppHero hero={hero} products={products} autoplay={videoAutoplay} onProduct={openProduct} onCampaign={link=>{const slug=link.match(/^\/products\/([^?#]+)/)?.[1];const product=slug?products.find(p=>p.slug===slug):undefined;if(product)openProduct(product);else if(link.startsWith('/#')||link==='/'){setFilter('All');setSearch('');}else void task(()=>safeOpen(link.startsWith('https://')?link:STORE+link));}}/>}
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={s.h2}>{screen==='Saved'?'Your wishlist':'Find your fit'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -832,7 +809,7 @@ function Main() {
           <>
             <Text style={s.h2}>My orders</Text>
             <TextInput accessibilityLabel="Search orders" placeholder="Order ID or product name" value={orderSearch} onChangeText={setOrderSearch} style={s.input}/>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","To ship","Shipped","Delivered","Returns","Expired"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
             {!customer ? (
               <Glass>
                 <Text>Sign in to see purchases made with your account.</Text>
@@ -846,17 +823,17 @@ function Main() {
                   </Text>
                 )}
                 {orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).map((o) => (
-                  <Glass key={o.reference}>
+                  <View key={o.reference} style={{backgroundColor:colors.surface,padding:12,gap:8,borderBottomWidth:6,borderColor:colors.page}}>
                     <View style={s.row}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.createdAt?new Date(o.createdAt.includes('T')?o.createdAt:o.createdAt.replace(' ','T')+'Z').toLocaleDateString():''}</Text></View>
                     <Text style={s.muted}>{o.reference}</Text>
-                    {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:64,height:76,borderRadius:10}} resizeMode="contain"/>}<View style={{flex:1}}><Text style={s.productName}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
+                    {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
                     <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
 
                     {!!o.trackingNumber&&<Text style={s.muted}>{o.trackingNumber}</Text>}
                     {!!o.deliveryEstimate&&<Text style={s.muted}>{o.deliveryEstimate}</Text>}
-                    {payment?.reference===o.reference&&!paymentExpired&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
-                    <Button title="Remove from my orders" secondary disabled={busy} onPress={()=>Alert.alert('Remove order?', 'Hide this order from your history. This does not cancel a payment or delivery.',[{text:'Keep',style:'cancel'},{text:'Remove',style:'destructive',onPress:()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'DELETE');setOrders(current=>current.filter(item=>item.reference!==o.reference));})}])}/>
-                    <Button
+                    {payment?.reference===o.reference&&!paymentExpired&&inOrderGroup(o,'To pay')&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
+                    <View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}><Button compact title="Remove" secondary disabled={busy} onPress={()=>Alert.alert('Remove order?', 'Hide this order from your history. This does not cancel a payment or delivery.',[{text:'Keep',style:'cancel'},{text:'Remove',style:'destructive',onPress:()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'DELETE');setOrders(current=>current.filter(item=>item.reference!==o.reference));})}])}/>
+                    {hasPaidReceipt(o)&&<Button compact
                       title="View receipt"
                       secondary
                       onPress={() =>
@@ -865,12 +842,13 @@ function Main() {
                             "/api/customer/receipt?reference=" +
                               encodeURIComponent(o.reference),
                           );
+                          if(!hasPaidReceipt(r.order))throw Error("A receipt is available only after payment is confirmed.");
                           setReceipt(r.order);
                           setShowReceipt(true);
                         })
                       }
-                    />
-                    {!["cancelled","expired","shipped","delivered"].includes(o.status) && <Button title="Request cancellation" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"contact",orderReference:o.reference,request:"cancellation",name:customer.name,email:customer.email}})}/>}
+                    />}</View>
+                    {hasPaidReceipt(o)&&<Pressable accessibilityRole="button" onPress={()=>router.push({pathname:"/help",params:{topic:"contact",orderReference:o.reference,request:"refund",name:customer.name,email:customer.email}})} style={{paddingVertical:10}}><Text style={{fontSize:13}}>Refund enquiry / Contact support →</Text></Pressable>}
                     {o.trackingUrl?.startsWith("https://") && (
                       <Button
                         title="Track parcel"
@@ -879,7 +857,7 @@ function Main() {
                         }
                       />
                     )}
-                  </Glass>
+                  </View>
                 ))}
               </>
             )}
@@ -965,56 +943,14 @@ function Main() {
                 )}
               </Glass>
             ) : (
-              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(true);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>{setProfileName(customer.name);setScreen("Settings");}} onCoupon={coupon=>{setCode(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
+              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(true);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>setScreen("Settings")} onCoupon={coupon=>{setCode(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
             )}
             {!customer && <Button title="Settings & help" secondary onPress={()=>setScreen("Settings")}/>}
 
           </>
         )}
-        {screen === "Settings" && <>
-          <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}><Text style={s.h1}>Settings</Text><Button title="Back" secondary onPress={()=>setScreen("Account")}/></View>
-          <Glass><Text style={s.h2}>Appearance</Text><Text style={s.muted}>Follow your device or choose your own look.</Text><View style={s.row}>{(["system","light","dark"] as const).map(mode=><Pressable key={mode} accessibilityRole="radio" aria-checked={appearance===mode} accessibilityState={{checked:appearance===mode}} onPress={()=>void task(()=>setAppearance(mode))} style={[s.chip,appearance===mode&&s.chosen]}><Text>{mode==="system"?"System default":mode==="light"?"Light":"Dark"}</Text></Pressable>)}</View></Glass>
-          {customer ? (              <Glass>
-                <Text style={s.h2}>{customer.name || "Vanta Noir member"}</Text>
-                <Text>{customer.email}</Text>
-                <Field
-                  label="Your name"
-                  value={profileName}
-                  onChange={setProfileName}
-                  editable={profileEditing}
-                />
-                <Button
-                  title={profileEditing?"Save profile":"Edit profile"}
-                  onPress={() =>
-                    void task(async () => {
-                      if(!profileEditing){setProfileName(customer.name);setProfileEditing(true);return;}
-                      const next={...customer,name:profileName.trim()};
-                      await api("/api/customer/me", next, "PATCH");
-                      setCustomer(next);setProfileEditing(false);
-                      setNotice("Profile saved.");
-                    })
-                  }
-                />
-                <Text style={s.h2}>Address & phone number</Text>
-                <Text style={s.muted}>
-                  {customer.addresses[0]
-                    ? [
-                        customer.addresses[0].addressLine1,
-                        customer.addresses[0].city,
-                        customer.addresses[0].state,
-                        customer.addresses[0].phone,
-                      ].join(", ")
-                    : "Save your address when you enter delivery details."}
-                </Text>
-                <Text style={s.h2}>Saved payment cards</Text>{cardList()}
-                <Button title="Edit address or phone number" secondary onPress={()=>setAddressBookEditing(true)}/>
-                <Button
-                  title="Sign out"
-                  secondary
-                  onPress={() => void task(logout)}
-                />
-                <Button title={deleteOpen?"Close account deletion":"Delete account…"} secondary onPress={()=>setDeleteOpen(!deleteOpen)}/>
-                {deleteOpen && <>
+        {screen==='Settings'&&<SettingsHub key={customer?.email||'guest'} customer={customer} country={address.countryCode} countries={shippingCountries} onBack={()=>setScreen('Account')} onSave={async next=>{await api('/api/customer/me',next,'PATCH');setCustomer(next);setAddress(next.addresses[0]||{...emptyAddress,email:next.email});resetQuote();}} onLogout={()=>void task(logout)} onDelete={()=>setDeleteOpen(true)} onHelp={topic=>router.push({pathname:'/help',params:{topic}})} onCountry={()=>setBagCountryOpen(true)} autoplay={videoAutoplay} onAutoplay={async value=>{await AsyncStorage.setItem('vanta-video-autoplay',String(value));setVideoAutoplay(value);}} onClearViewed={async()=>{await AsyncStorage.removeItem('vanta-viewed');setViewedIds([]);}} viewed={<View style={{padding:16,gap:10}}>{viewedIds.flatMap(id=>products.find(p=>p.id===id)?[products.find(p=>p.id===id)!]:[]).map(p=><Pressable key={p.id} onPress={()=>openProduct(p)} style={{flexDirection:'row',gap:12,alignItems:'center',padding:10,backgroundColor:colors.surface}}><Image source={{uri:imageUrl(p.imageUrl)}} style={{width:55,height:65}}/><Text style={{flex:1}}>{p.name}</Text></Pressable>)}{!viewedIds.length&&<Text>No recently viewed pieces.</Text>}</View>}/>}
+        <Sheet title="Delete account" visible={deleteOpen&&!!customer} onClose={()=>setDeleteOpen(false)}>{customer&&<>
                 <Text style={s.h2}>Delete account</Text>
                 <Text style={s.muted}>
                   Deletes your profile, saved addresses and favourites.
@@ -1040,40 +976,20 @@ function Main() {
                         { confirmation: "DELETE" },
                         "DELETE",
                       );
+                      await AsyncStorage.removeItem('vanta-profile-device:'+customer.email);
                       await vault.remove("session");
                       setCustomer(null);
                       setOrders([]);
                       setAddress(emptyAddress);
                       setSaved([]);
                       setDeleteText("");
-                      setDeleteOpen(false);setProfileEditing(false);setScreen("Account");
+                      setDeleteOpen(false);setScreen("Account");
                       setNotice("Your account has been deleted.");
                     })
                   }
                 />
-                </>}
-              </Glass>) : <Glass><Text style={s.h2}>Your account</Text><Text style={s.muted}>Sign in to edit your details, manage delivery addresses or delete your account.</Text><Button title="Sign in or create an account" onPress={()=>setScreen("Account")}/></Glass>}
-                      <Glass>
-              <Text style={s.h2}>Here to help</Text>
-              {[
-                ["About Vanta Noir", "/about.html"],
-                ["Contact & support", "/contact.html"],
-                ["Shipping & returns", "/shipping-returns.html"],
-                ["Privacy policy", "/privacy-policy.html"],
-                ["Terms of service", "/terms-of-service.html"],
-              ].map(([label, path]) => (
-                <Button
-                  key={path}
-                  title={label + " →"}
-                  secondary
-                  onPress={() => router.push({pathname:"/help",params:{topic:path.replace("/", "").replace(".html", "")}})}
-                />
-              ))}
-            </Glass>
-        </>}
-        <Text style={[s.eyebrow, { textAlign: "center", marginVertical: 22 }]}>
-          VANTA NOIR · PRESENCE. POWER. PRECISION.
-        </Text>
+        </>}</Sheet>
+        {screen!=='Settings'&&<Image accessible={false} source={require('./assets/emblem-watermark.png')} resizeMode="contain" style={{alignSelf:'center',width:230,height:140,marginVertical:25,tintColor:colors.text,opacity:dark?0.065:0.04}}/>}
       </ScrollView>
       </Entrance>
       {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
@@ -1082,6 +998,10 @@ function Main() {
         <View style={{flexDirection:'row',alignItems:'center',gap:10}}><Pressable accessibilityRole="checkbox" accessibilityLabel="Select all bag items" accessibilityState={{checked:!!cart.length&&cart.every(i=>bagSelection.includes(i.variantId))}} onPress={()=>{setBagSelection(cart.every(i=>bagSelection.includes(i.variantId))?[]:cart.map(i=>i.variantId));resetQuote();}} style={{flexDirection:'row',alignItems:'center',gap:5,minHeight:44}}><Ionicons name={cart.length&&cart.every(i=>bagSelection.includes(i.variantId))?'checkmark-circle':'ellipse-outline'} size={24}/><Text>All</Text></Pressable><Text style={{flex:1,fontWeight:'700'}}>{money(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text><Button title={payment?'Resume payment':`Checkout (${checkoutCart.reduce((n,i)=>n+i.quantity,0)})`} disabled={busy||(!payment&&(!ready||!checkoutCart.length||checkoutUnavailable))} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {setAddressEditing(Object.keys(addressErrors(address)).length>0);setCheckout(true);}}}/></View>
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
+      <Sheet title="Filters" visible={filtersOpen} onClose={()=>setFiltersOpen(false)} footer={<View style={s.row}><Button title="Clear" secondary onPress={()=>setFilterDraft({category:'All',size:'All',color:'All',min:'',max:'',stock:false})}/><Button title="Apply filters" onPress={()=>{const min=Number(filterDraft.min),max=Number(filterDraft.max);if((filterDraft.min&&(!Number.isFinite(min)||min<0))||(filterDraft.max&&(!Number.isFinite(max)||max<0))||(filterDraft.min&&filterDraft.max&&min>max)){Alert.alert('Check price range','Enter valid minimum and maximum amounts.');return;}setCatalogFilters(filterDraft);setFiltersOpen(false);}}/></View>}>
+        {(['category','size','color'] as const).map(key=><View key={key} style={{gap:8}}><Text style={s.h2}>{key==='category'?'Category':key==='size'?'Size':'Colour'}</Text><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{['All',...new Set(key==='category'?products.map(p=>p.category):key==='size'?products.flatMap(p=>p.colorways.flatMap(c=>Object.keys(c.stock))):products.flatMap(p=>p.colorways.map(c=>c.name)))].map(value=><Pressable key={value} accessibilityRole="radio" accessibilityState={{checked:filterDraft[key]===value}} onPress={()=>setFilterDraft(d=>({...d,[key]:value}))} style={[s.chip,filterDraft[key]===value&&s.chosen]}><Text>{value}</Text></Pressable>)}</View></View>)}
+        <Field label="Minimum price (NGN)" keyboard="number-pad" value={filterDraft.min} onChange={min=>setFilterDraft(d=>({...d,min}))}/><Field label="Maximum price (NGN)" keyboard="number-pad" value={filterDraft.max} onChange={max=>setFilterDraft(d=>({...d,max}))}/><Pressable accessibilityRole="checkbox" accessibilityState={{checked:filterDraft.stock}} onPress={()=>setFilterDraft(d=>({...d,stock:!d.stock}))} style={s.row}><Ionicons name={filterDraft.stock?'checkbox-outline':'square-outline'} size={24}/><Text>In stock only</Text></Pressable>
+      </Sheet>
       <Sheet title="Delivery location" visible={bagCountryOpen} onClose={()=>setBagCountryOpen(false)}>{shippingCountries.map(([id,label])=><Pressable key={id} accessibilityRole="radio" accessibilityState={{checked:address.countryCode===id}} onPress={()=>{setAddress(a=>({...a,countryCode:id,state:'',postalCode:''}));resetQuote();setAddressEditing(true);setBagCountryOpen(false);}} style={{padding:14}}><Text>{address.countryCode===id?'●':'○'} {label}</Text></Pressable>)}</Sheet>
       <View style={s.nav}>
         {(["Shop", "Saved", "Bag", "Orders", "Account"] as Screen[]).map(
@@ -1331,7 +1251,7 @@ function Main() {
             {addressEditing ? <ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>{setAddress(a);setAddressEditing(false);setNotice("");}}/> : <Glass>
               <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}><Text style={s.h2}>Shipping address</Text><Button title="Edit" secondary onPress={()=>setAddressEditing(true)}/></View>
               <Text style={s.productName}>{address.firstName} {address.lastName} · {address.phone}</Text><Text style={s.muted}>{[address.addressLine1,address.addressLine2,address.city,address.state,address.postalCode,shippingCountryName(address.countryCode)].filter(Boolean).join(", ")}</Text><Text style={s.muted}>{address.email}</Text>
-              {customer && <Button title="Save address to my account" secondary disabled={busy} onPress={()=>void task(async()=>{const next={...customer,addresses:[address]};await api("/api/customer/me",next,"PATCH");setCustomer(next);setNotice("Delivery address saved.");})}/>}
+              {customer && <Button title="Save address to my account" secondary disabled={busy} onPress={()=>void task(async()=>{const next={...customer,addresses:[address,...customer.addresses.filter(a=>JSON.stringify(a)!==JSON.stringify(address))].slice(0,5)};await api("/api/customer/me",next,"PATCH");setCustomer(next);setNotice("Delivery address saved.");})}/>}
             </Glass>}
             {!addressEditing && <>
             <Glass><Text style={s.h2}>Your order · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text>{checkoutCart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:86,height:98,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text numberOfLines={2} style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size}</Text>{variantStock(i,products)<=5&&<Text style={{fontSize:12,color:colors.danger}}>{variantStock(i,products)>0?`Only ${variantStock(i,products)} left`:"Unavailable"}</Text>}<View style={{flexDirection:"row",alignItems:"center",gap:12}}><Pressable accessibilityRole="button" accessibilityLabel={`Decrease ${i.name} quantity`} disabled={busy||i.quantity<=1} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity-1}:item));resetQuote();}} style={s.chip}><Text>−</Text></Pressable><Text>{i.quantity}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Increase ${i.name} quantity`} disabled={busy||i.quantity>=Math.min(5,variantStock(i,products))} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity+1}:item));resetQuote();}} style={s.chip}><Text>+</Text></Pressable></View><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
@@ -1375,13 +1295,13 @@ function Main() {
           </>
         )}
       </Sheet>
-      <Sheet title="Saved delivery address" visible={addressBookEditing} onClose={()=>setAddressBookEditing(false)}><ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(!customer)return;const next={...customer,addresses:[a]};await api("/api/customer/me",next,"PATCH");setCustomer(next);setAddress(a);setAddressEditing(false);setAddressBookEditing(false);setNotice("Delivery address saved.");})}/>{notice!==""&&<Text style={s.noticeText}>{notice}</Text>}</Sheet>
+      <Sheet title="Saved delivery address" visible={addressBookEditing} onClose={()=>setAddressBookEditing(false)}><ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(!customer)return;const next={...customer,addresses:[a,...customer.addresses.slice(1)]};await api("/api/customer/me",next,"PATCH");setCustomer(next);setAddress(a);setAddressEditing(false);setAddressBookEditing(false);setNotice("Delivery address saved.");})}/>{notice!==""&&<Text style={s.noticeText}>{notice}</Text>}</Sheet>
       <Sheet
         title="Order receipt"
         visible={showReceipt}
         onClose={() => setShowReceipt(false)}
       >
-        {receipt && (
+        {receipt && hasPaidReceipt(receipt) && (
           <>
             <VirtualReceipt key={receipt.reference+String(showReceipt)} order={receipt}/>
             {receipt.canSaveCard&&<Glass><Text style={s.h2}>Save this card?</Text><Text style={s.muted}>Save this payment method to your signed-in Vanta Noir account for future purchases. Paystack handles the card; Vanta Noir keeps a secure payment token and masked details.</Text><Button title="Save card to my account" disabled={busy} onPress={()=>void task(async()=>{await api("/api/customer/cards",{reference:receipt.reference,consent:true});await refreshCards();setReceipt({...receipt,canSaveCard:false});setNotice("Card saved to your account.");})}/></Glass>}
