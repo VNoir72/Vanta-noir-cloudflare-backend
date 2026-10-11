@@ -4,7 +4,13 @@ plugins {
 }
 group = 'store.vantanoir'
 version = '1.0.0'
-android { namespace 'store.vantanoir.paystack' }
+android {
+  namespace 'store.vantanoir.paystack'
+  defaultConfig {
+    versionCode 1
+    versionName '1.0.0'
+  }
+}
 dependencies {
   // Version documented in Paystack's integration guide; compatible with this Expo Kotlin toolchain.
   implementation 'com.paystack.android:paystack-ui:0.0.9'
