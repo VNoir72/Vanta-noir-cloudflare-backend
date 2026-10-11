@@ -1,3 +1,4 @@
+import {appAccessContext} from '@/lib/app-attestation';
 import {ownedCard,startSavedCardPayment} from '@/lib/customer-cards';
 import {appSession,linkAppOrder} from '@/lib/customer-app';
 import {startTransferPayment} from '@/lib/custom-transfer';
@@ -80,6 +81,7 @@ export async function POST(request: Request) {
     const {paymentChannel:_channel,client:_client,savedCardId:_card,...orderInput}=parsed.data;
     const order = await createPendingOrder({
       ...orderInput,
+      appAccess:await appAccessContext(request),
       shippingKobo,
       deliveryEstimate: selected?selected.rate.delivery:delivery.estimate,
       shippingQuote:selected,
@@ -94,7 +96,7 @@ export async function POST(request: Request) {
       reference:order.reference,receiptToken:order.receiptToken,callbackUrl,
     }),{headers:{'Cache-Control':'no-store'}});
   } catch (error) {
-    const message = error instanceof ShippingInputError ? error.message : error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward/.test(error.message)
+    const message = error instanceof ShippingInputError ? error.message : error instanceof Error && /no longer available|insufficient stock|prices or delivery|reserved|bag is invalid|promotion|reward|app early access/.test(error.message)
       ? error.message : "Checkout could not be created. Please refresh your bag and try again.";
     return Response.json({ error: message }, { status: 400 });
   }

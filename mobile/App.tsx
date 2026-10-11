@@ -1,3 +1,4 @@
+import {RestockAlerts} from './src/components/RestockAlerts';
 import {initializeMonitoring,trackScreen} from './src/monitoring';
 import {ProviderSignIn} from './src/components/ProviderSignIn';
 import {firebaseSignOut,prepareFirebaseDeletion} from './src/firebase-auth';
@@ -267,7 +268,7 @@ function Main() {
   const shippingRequest=useRef(0);
   const [notificationsOpen,setNotificationsOpen]=useState(false);
   const [orderSearch,setOrderSearch]=useState("");
-  useEffect(()=>{const open=(response:Notifications.NotificationResponse|null)=>{const ref=response?.notification.request.content.data?.orderReference;if(typeof ref==='string'&&ref.length<=120){setOrderSearch(ref);setOrderGroup('All');setScreen('Orders');}};void Notifications.getLastNotificationResponseAsync().then(open);const subscription=Notifications.addNotificationResponseReceivedListener(open);return()=>subscription.remove();},[]);
+  useEffect(()=>{const open=(response:Notifications.NotificationResponse|null)=>{const ref=response?.notification.request.content.data?.orderReference;if(response?.notification.request.content.data?.appBenefits){router.push('/benefits');return;}if(typeof ref==='string'&&ref.length<=120){setOrderSearch(ref);setOrderGroup('All');setScreen('Orders');}};void Notifications.getLastNotificationResponseAsync().then(open);const subscription=Notifications.addNotificationResponseReceivedListener(open);return()=>subscription.remove();},[]);
   const [trashSelection,setTrashSelection]=useState<string[]>([]);
   const [deletedOrders,setDeletedOrders]=useState<Order[]>([]),[recycleOpen,setRecycleOpen]=useState(false),[orderFiltersOpen,setOrderFiltersOpen]=useState(false);
   const [orderGroup,setOrderGroup]=useState<OrderGroup>("All");
@@ -279,6 +280,9 @@ function Main() {
   const [leaveCheckout,setLeaveCheckout]=useState(false);
   const [promoOpen,setPromoOpen]=useState(false);
   const [summaryOpen,setSummaryOpen]=useState(true);
+  const [promotionCode,setPromotionCode]=useState("");
+  const [promotionDraft,setPromotionDraft]=useState("");
+  const [rewardDraft,setRewardDraft]=useState("");
   const [paymentMethod,setPaymentMethod]=useState<"bank_transfer"|"saved_card"|"hosted">("bank_transfer");
   const [cards,setCards]=useState<SavedCard[]>([]);
   const [cardsEnabled,setCardsEnabled]=useState(false);
@@ -582,7 +586,7 @@ function Main() {
   const {checkout:checkoutCart,remaining:remainingBag}=bagPartition(cart,bagSelection);
   const checkoutUnavailable=checkoutCart.some(i=>variantStock(i,products)<i.quantity);
   useEffect(()=>{if(!bagToast)return;const t=setTimeout(()=>setBagToast(''),3500);return()=>clearTimeout(t);},[bagToast]);
-  useEffect(()=>{if(screen!=='Bag'&&!checkout)return;let live=true;const refresh=()=>{void api<{products:Product[]}>('/api/catalog').then(data=>{if(live)setProducts(data.products);}).catch(()=>{});};refresh();const t=setInterval(refresh,30000);const l=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(t);l.remove();};},[screen,checkout]);
+  useEffect(()=>{if(!['Bag','Shop','Saved'].includes(screen)&&!checkout)return;let live=true;const refresh=()=>{void api<{products:Product[]}>('/api/catalog').then(data=>{if(live)setProducts(data.products);}).catch(()=>{});};refresh();const t=setInterval(refresh,30000);const l=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(t);l.remove();};},[screen,checkout,customer?.email]);
   function deleteBagSelection(){
     const ids=cart.filter(i=>bagSelection.includes(i.variantId)).map(i=>i.variantId);
     if(!ids.length){setBagToast('Please select which product you want to delete');return;}
@@ -592,7 +596,7 @@ function Main() {
     variantId,
     quantity,
   }));
-  const shippingContext=JSON.stringify({customer:address,cart:compactCart,rewardCode:code.trim().toUpperCase(),promotionCode:""});
+  const shippingContext=JSON.stringify({customer:address,cart:compactCart,rewardCode:code.trim().toUpperCase(),promotionCode});
   async function getQuotes() {
     if(!checkoutCart.length||checkoutUnavailable){setShippingError("Select available items in your bag first.");return;}
     const errors=addressErrors(address);
@@ -603,7 +607,7 @@ function Main() {
       const next=await api<Quotes>("/api/shipping/quotes",JSON.parse(shippingContext));
       const preferred=deliveryChoices(next.rates)[0]?.rate;
       if(!preferred)throw Error('No courier is available for this destination.');
-      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:"",shippingCustomer:address,shippingSelection:{quoteId:next.quoteId,rateId:preferred.rateId,provider:preferred.provider}});
+      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:promotionCode,shippingCustomer:address,shippingSelection:{quoteId:next.quoteId,rateId:preferred.rateId,provider:preferred.provider}});
       if(request!==shippingRequest.current)return;
       setQuotes(next);setRate(preferred);setReward(total);setQuoteContext(shippingContext);attempt.current="";
     } catch(e){if(request===shippingRequest.current){setShippingError(e instanceof Error?e.message:'Delivery could not be checked.');setQuotes(null);setRate(null);setReward(null);}}
@@ -624,7 +628,7 @@ function Main() {
     const request=++shippingRequest.current;
     setShippingBusy(true);setShippingError('');setReward(null);
     try {
-      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:"",shippingCustomer:address,shippingSelection:{quoteId:quotes.quoteId,rateId:selectedRate.rateId,provider:selectedRate.provider}});
+      const total=await api<Reward>("/api/rewards/quote",{cart:compactCart,countryCode:address.countryCode,state:address.state,email:address.email,code:code.trim().toUpperCase(),discountCode:promotionCode,shippingCustomer:address,shippingSelection:{quoteId:quotes.quoteId,rateId:selectedRate.rateId,provider:selectedRate.provider}});
       if(request!==shippingRequest.current)return;
       setRate(selectedRate);setReward(total);setQuoteContext(shippingContext);attempt.current="";
     }catch(e){if(request===shippingRequest.current)setShippingError(e instanceof Error?e.message:'Could not update delivery. Please retry.');}
@@ -676,7 +680,8 @@ function Main() {
         client: "native",
         checkoutAttempt: attempt.current,
         rewardCode: code.trim().toUpperCase(),
-        promotionCode: "",
+        promotionCode:promotionCode.trim().toUpperCase(),
+
         expectedRewardSignature: reward.signature,
         expectedTotalKobo: reward.totalKobo,
         shippingSelection: {
@@ -980,7 +985,7 @@ function Main() {
                 )}
               </Glass>
             ) : (
-              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(true);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>setScreen("Settings")} onCoupon={coupon=>{setCode(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
+              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(true);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>setScreen("Settings")} onCoupon={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
             )}
             {!customer && <Button title="Settings & help" secondary onPress={()=>setScreen("Settings")}/>}
 
@@ -1161,6 +1166,7 @@ function Main() {
                 ))}
             </View>
             <ProductDisclosure title="Details & care"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fabric}</Text><Text style={s.muted}>{selected.details?.fit}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
+            <RestockAlerts key={selected.id+c.name} variantIds={c.variantIds||{}} stock={c.stock}/>
             <ProductDisclosure title="Size guide">{selected.details?.sizeChart?.length?<ScrollView horizontal><View>{selected.details.sizeChart.map((row,i)=><Text key={i} style={s.sizeRow}>{Object.entries(row).map(([k,v])=>`${k}: ${v}`).join('  ·  ')}</Text>)}</View></ScrollView>:<Text style={s.muted}>Measurements are awaiting confirmation. Contact support for sizing help.</Text>}</ProductDisclosure>
             <ProductDisclosure title="Delivery & returns"><Text style={s.muted}>Review the current delivery and returns policy before ordering.</Text><Button compact secondary title="View policy →" onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'shipping-returns'}});}}/></ProductDisclosure>
             <Pressable onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'contact'}});}} style={{minHeight:44,justifyContent:'center'}}><Text style={s.muted}>Need help? Contact support →</Text></Pressable>
@@ -1273,14 +1279,14 @@ function Main() {
               <Text style={s.muted}>Payments processed by Paystack. Card entry opens in the secure payment sheet when available.</Text>
             </Glass>
             <Pressable accessibilityRole="button" accessibilityState={{expanded:promoOpen}} onPress={()=>setPromoOpen(!promoOpen)}><Glass><View style={{flexDirection:"row",justifyContent:"space-between"}}><Text style={{fontSize:17,fontWeight:"700"}}>Promo code{code?" · "+code:""}</Text><Ionicons name={promoOpen?"chevron-up":"chevron-down"} size={22}/></View></Glass></Pressable>
-            {promoOpen&&<Field
+            {promoOpen&&<><View style={{gap:6}}><Text>Discount code (optional)</Text><TextInput accessibilityLabel="Discount code" value={promotionDraft} onChangeText={v=>setPromotionDraft(v.toUpperCase())} autoCapitalize="characters" maxLength={32} style={{minHeight:44,padding:12,borderWidth:1,borderColor:colors.border,borderRadius:12,color:colors.text}}/></View>
+            <Field
               label="Delivery / reward code (optional)"
-              value={code}
-              onChange={(v) => {
-                setCode(v);
-                resetQuote();
-              }}
+              value={rewardDraft}
+              onChange={setRewardDraft}
             />
+            <Button title="Apply codes" disabled={shippingBusy} onPress={()=>{setPromotionCode(promotionDraft.trim().toUpperCase());setCode(rewardDraft.trim().toUpperCase());resetQuote();setShippingRetry(n=>n+1);}}/>
+            <Text style={s.muted}>Tap Apply codes to update your total. Clear a code and apply to remove it.</Text></>
             }
             {reward && (
               <Glass>

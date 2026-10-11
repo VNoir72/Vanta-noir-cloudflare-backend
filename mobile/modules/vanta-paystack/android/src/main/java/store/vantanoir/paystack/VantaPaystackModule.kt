@@ -1,5 +1,7 @@
 package store.vantanoir.paystack
 
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import android.content.Intent
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.functions.Queues
@@ -8,8 +10,20 @@ import expo.modules.kotlin.modules.ModuleDefinition
 
 class VantaPaystackModule : Module() {
   private var pending: Promise? = null
+  private var appCheckConfigured = false
   override fun definition() = ModuleDefinition {
     Name("VantaPaystack")
+    AsyncFunction("appCheckToken") { promise: Promise ->
+      try {
+        val check = FirebaseAppCheck.getInstance()
+        if (!appCheckConfigured) {
+          check.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance())
+          appCheckConfigured = true
+        }
+        check.getAppCheckToken(false).addOnSuccessListener { promise.resolve(it.token) }
+          .addOnFailureListener { promise.reject("APP_CHECK_UNAVAILABLE", "App verification unavailable. Normal shopping is still available.", it) }
+      } catch (error: Exception) { promise.reject("APP_CHECK_UNAVAILABLE", "App verification unavailable.", error) }
+    }
     AsyncFunction("fetchPublicOverCellular") { path: String, promise: Promise ->
       val context=appContext.reactContext
       if(context==null)promise.reject("NO_CONTEXT","Open the app first.",null)

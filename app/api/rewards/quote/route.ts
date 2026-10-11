@@ -1,3 +1,5 @@
+import {appAccessContext} from '@/lib/app-attestation';
+import {checkoutAppPolicy} from '@/lib/app-controls';
 import {checkoutCustomerSchema} from '@/lib/checkout-address';
 import {resolveShippingSelection,shippingSelectionSchema,ShippingInputError} from '@/lib/shipping-checkout';
 import {z} from 'zod';
@@ -26,7 +28,9 @@ export async function POST(request:Request){
       AND COALESCE(json_extract(p.details_json,'$.availability'),'in_stock')='in_stock'
       AND COALESCE(json_extract(p.details_json,'$.priceStatus'),'approved')='approved'`).bind(...v.cart.map(i=>i.variantId)).all<{variantId:string;productId:string;price:number;available:number}>();
     const items=v.cart.map(i=>{const r=rows.results.find(r=>r.variantId===i.variantId);if(!r||r.available<i.quantity)throw new Error('An item is unavailable. Please refresh your bag.');return {productId:r.productId,quantity:i.quantity,lineTotalKobo:r.price*i.quantity};});
-    const {discountKobo,promotion}=await quotePromotion(v.discountCode,items);
+    const access=await appAccessContext(request);
+    await checkoutAppPolicy(v.cart,v.discountCode,v.code,access);
+    const {discountKobo,promotion}=await quotePromotion(v.discountCode,items,access);
     const settings=await getCommerceSettings(),delivery=shippingQuote({...settings,shippingFeeKobo:configuredShippingFeeKobo()},v.state,v.countryCode);
     let shippingKobo=await liveShippingForCountry(v.countryCode)?null:delivery.feeKobo;
     if(v.shippingSelection){
@@ -34,7 +38,7 @@ export async function POST(request:Request){
       const selected=await resolveShippingSelection(v.shippingSelection,{customer:v.shippingCustomer,cart:v.cart,rewardCode:v.code,promotionCode:v.discountCode});
       shippingKobo=selected.rate.amountKobo;
     }
-    const {quote}=await quoteRewards({subtotalKobo:items.reduce((n,i)=>n+i.lineTotalKobo,0),discountKobo,hasDiscount:Boolean(promotion),countryCode:v.countryCode,state:v.state,email:v.email,code:v.code,shippingKobo,cart:v.cart});
+    const {quote}=await quoteRewards({subtotalKobo:items.reduce((n,i)=>n+i.lineTotalKobo,0),discountKobo,hasDiscount:Boolean(promotion),countryCode:v.countryCode,state:v.state,email:v.email,code:v.code,shippingKobo,cart:v.cart,appAccess:access});
     return Response.json(quote,{headers:{'Cache-Control':'no-store'}});
   }catch(e){return Response.json({error:e instanceof z.ZodError?'Check your bag, country and email.':e instanceof Error?e.message:'Rewards could not be checked.'},{status:400});}
 }

@@ -1,3 +1,5 @@
+import {enforceOffer} from './app-controls';
+import {publicAccess,type AppAccess} from './app-controls-policy';
 import {rewardAdminData} from './rewards-db';
 import { z } from 'zod';
 import { getDbBinding, isAdminEmail, runtimeEnv } from './runtime-env';
@@ -38,13 +40,14 @@ export async function savePromotion(input:unknown,actor:string){
  if(!r.meta.changes)throw new Error('Promotion changed. Refresh and retry.');await audit(actor,'promotion saved',v.code);
 }
 export type PromotionRow={code:string;kind:string;value:number;minimum_kobo:number;minimum_quantity:number;product_ids:string;version:number;max_uses:number};
-export async function quotePromotion(code:string,items:Array<{productId:string;lineTotalKobo:number;quantity:number}>){
+export async function quotePromotion(code:string,items:Array<{productId:string;lineTotalKobo:number;quantity:number}>,access:AppAccess=publicAccess){
  if(!code.trim())return {discountKobo:0,promotion:null};
+ const rule=await enforceOffer('promotion',code,access);
  const db=getDbBinding(),now=new Date().toISOString();
  const p=await db.prepare(`SELECT * FROM promotions p WHERE code=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=p.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes')))))`).bind(code.trim().toUpperCase(),now,now).first<PromotionRow>();
  if(!p)throw new Error('This promotion is unavailable or has expired.');const ids=JSON.parse(p.product_ids) as string[];const eligible=items.filter(i=>!ids.length||ids.includes(i.productId));const subtotal=eligible.reduce((s,i)=>s+i.lineTotalKobo,0),quantity=eligible.reduce((s,i)=>s+i.quantity,0);
  if(subtotal<p.minimum_kobo||quantity<p.minimum_quantity)throw new Error('Your bag does not meet this promotion’s requirements.');
- return {discountKobo:Math.min(Math.max(0,subtotal-100),p.kind==='percent'?Math.floor(subtotal*p.value/100):p.value),promotion:p};
+ return {discountKobo:Math.min(rule?.maxDiscountKobo??Infinity,Math.max(0,subtotal-100),p.kind==='percent'?Math.floor(subtotal*p.value/100):p.value),promotion:p};
 }
 export async function allocateExchange(input:unknown,actor:string){
  const v=z.object({returnId:z.string().min(1),items:z.array(z.object({originalVariantId:z.string().min(1),variantId:z.string().min(1),quantity:z.number().int().min(1).max(6)})).min(1).max(21)}).parse(input),db=getDbBinding();

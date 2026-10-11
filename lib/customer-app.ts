@@ -1,3 +1,5 @@
+import {memberHub,setMemberWatch} from './app-members';
+import {appAccessContext} from './app-attestation';
 import {restartPayment} from './restart-payment';
 import {firebaseReady,verifyFirebaseCustomer,deleteFirebaseCustomer} from './firebase-customer';
 import {appSession} from './app-session';
@@ -43,6 +45,12 @@ export async function customerApp(request: Request): Promise<Response> {
   try {
     if (!(await rateLimit(request, "customer-app", 80, 600)))
       return json({ error: "Please wait and try again." }, 429);
+    if(path==='benefits'||path==='benefit-watch'){
+      const access=await appAccessContext(request);if(!access.customerId)return json({error:'Sign in to view your app benefits.'},401);
+      if(path==='benefits'&&request.method==='GET')return json(await memberHub(access));
+      if(path==='benefit-watch'&&request.method==='POST')return json(await setMemberWatch(access,await request.json()));
+      return json({error:'Method not allowed.'},405);
+    }
     if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:firebaseReady()&&runtimeEnv().FIREBASE_APPLE_ENABLED==='true'});
     if(request.method==='POST'&&path==='firebase'){
       if(!firebaseReady())return json({error:'Additional sign-in methods are not available yet.'},503);
@@ -276,6 +284,7 @@ export async function customerApp(request: Request): Promise<Response> {
           .prepare("DELETE FROM app_login_challenges WHERE email=?")
           .bind(s.email),
         db.prepare("DELETE FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=?").bind(s.id),
+      db.prepare("DELETE FROM store_meta WHERE key LIKE ?").bind('app-watch:'+s.id+':%'),
         db.prepare("DELETE FROM store_meta WHERE key=?").bind("firebase-customer:"+s.id),
         db.prepare("DELETE FROM app_customers WHERE id=?").bind(s.id),
       ]);

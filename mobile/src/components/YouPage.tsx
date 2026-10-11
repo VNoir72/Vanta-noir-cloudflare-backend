@@ -1,3 +1,4 @@
+import {useRouter} from 'expo-router';
 import {CurrencyPicker} from './CurrencyPicker';
 import React,{useEffect,useState} from 'react';
 import {ActivityIndicator,Image,Modal,Pressable,ScrollView,StyleSheet,TextInput,View} from 'react-native';
@@ -14,6 +15,7 @@ type Coupon={id:string;title:string;code:string;expiresAt:string;countries:strin
 type Center={toReview:ReviewItem[];coupons:Coupon[]};
 type Panel='Notifications'|'Coupons'|'To review'|'Country & currency'|'Appearance'|null;
 export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSettings,onCoupon,onHelp,countries,country,onCountry}:{countries:readonly (readonly [string,string])[];country:string;onCountry:(code:string)=>void;customer:Customer;orders:Order[];wishlistCount:number;onOrders:(group:OrderGroup)=>void;onWishlist:()=>void;onSettings:()=>void;onCoupon:(code:string)=>void;onHelp:()=>void}){
+ const router=useRouter();
  const {colors,appearance,setAppearance}=useTheme(),reduce=useReducedMotion();
  const [countrySearch,setCountrySearch]=useState('');const [currencyMode,setCurrencyMode]=useState(false);const [photo,setPhoto]=useState('');
  useEffect(()=>{let live=true;AsyncStorage.getItem('vanta-profile-device:'+customer.email).then(v=>{if(live)setPhoto(v?JSON.parse(v).photo||'':'');}).catch(()=>{});return()=>{live=false;};},[customer.email]);
@@ -36,6 +38,7 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
    {([{label:'Wishlist',icon:'heart-outline',value:wishlistCount,action:onWishlist},{label:'Coupons',icon:'ticket-outline',value:data?.coupons.length,action:()=>open('Coupons')},{label:'To review',icon:'star-outline',value:data?.toReview.length,action:()=>open('To review')}] as const).map(item=><Pressable key={item.label} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={[card,{flexGrow:1,flexBasis:'28%',padding:14,alignItems:'center'}]}><Icon name={item.icon} size={26}/><Text style={{fontSize:22,fontWeight:'700'}}>{item.value??'—'}</Text><Text style={{fontSize:12}}>{item.label}</Text></Pressable>)}
   </View>
   {error!==''&&<View style={{gap:10}}><Text accessibilityRole="alert">{error}</Text>{button('Retry account extras',()=>{setLoading(true);api<Center>('/api/customer/center').then(v=>{setData(v);setError('');}).catch(()=>setError('Coupons and review requests could not load. Try again.')).finally(()=>setLoading(false));},true,loading)}</View>}
+  <Pressable accessibilityRole="button" onPress={()=>router.push('/benefits')} style={[s.row,{paddingVertical:12}]}><Icon name="calendar-outline" size={22}/><Text style={{flex:1}}>App benefits · Drops & restock alerts</Text><Icon name="chevron-forward" size={18}/></Pressable>
   <Pressable accessibilityRole="button" onPress={onHelp} style={[s.row,{paddingVertical:12}]}><Icon name="headset-outline" size={22}/><Text style={{flex:1}}>Help & support</Text><Icon name="chevron-forward" size={18}/></Pressable>
   <Modal visible={panel!==null} animationType={reduce?'none':'slide'} presentationStyle="pageSheet" onRequestClose={()=>setPanel(null)}>
    <SafeAreaView style={{flex:1,backgroundColor:colors.page}}><View style={[s.row,{padding:18}]}><Text style={s.title}>{panel}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Close ${panel}`} onPress={()=>setPanel(null)} style={{padding:10}}><Icon name="close" size={26}/></Pressable></View>

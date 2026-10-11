@@ -1,3 +1,7 @@
+import * as appPush from '../lib/customer-push';
+import * as appControls from '../lib/app-controls';
+import * as appMembers from '../lib/app-members';
+import * as appControlRoutes from '../app/api/admin/app-controls/route';
 import * as restart from '../lib/restart-payment';
 import * as demand from '../lib/product-demand';
 import {POST as productInterest} from '../app/api/product-interest/route';
@@ -62,6 +66,7 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
  '/api/admin/payment-updates':{GET:paymentUpdatesRoute},
  '/api/access/keys':{GET:accessKeys},
  '/api/access/evaluate':{POST:evaluateAccess},
+ '/api/admin/app-controls':{GET:appControlRoutes.GET,PATCH:appControlRoutes.PATCH},
  '/api/admin/approvals':{GET:approvals.GET,POST:approvals.POST},
  '/api/admin/inventory':{GET:inventory.GET,PATCH:inventory.PATCH},
  '/api/payments/webhook':{POST:paymentWebhook},
@@ -83,4 +88,4 @@ const routes: Record<string, Record<string, (request: Request) => Promise<Respon
   "/api/admin/products": { GET: products.GET, POST: products.POST, PATCH: products.PATCH, DELETE: products.DELETE },
   "/api/checkout": { POST: checkout },
 };
-export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;if(new URL(request.url).pathname.startsWith('/api/media/'))return media(request,{params:Promise.resolve({key:new URL(request.url).pathname.slice(11).split('/')})});const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...restart,...shippingCheckout,...parcelProfiles,...ga4Oauth,...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...demand,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};
+export default {async fetch(request:Request){try{const settings={ALLOWED_ORIGINS:"https://vantanoir.store"};const denied=checkApiRequest(request,settings);if(denied)return denied;if(new URL(request.url).pathname.startsWith('/api/media/'))return media(request,{params:Promise.resolve({key:new URL(request.url).pathname.slice(11).split('/')})});const route=routes[new URL(request.url).pathname]?.[request.method];if(route)return secureResponse(await route(request),request,settings);const {action,args}=await request.json() as {action:string;args:unknown[]};if(action==="sql")return Response.json(await env.DB.prepare(String(args[0])).bind(...args.slice(1)).all());const fn=({...appPush,...appControls,...appMembers,...restart,...shippingCheckout,...parcelProfiles,...ga4Oauth,...emailDelivery,...checkoutPayments,...paymentUpdates,...reconciliation,...rewards,...store,...commerce,...operations,...merchandising,...demand,...receipts} as unknown as Record<string,(...args:unknown[])=>Promise<unknown>>)[action];return Response.json(await fn(...args)??null);}catch(e){return Response.json({error:e instanceof Error?e.message:"Error"},{status:400});}}};

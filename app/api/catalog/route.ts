@@ -1,3 +1,4 @@
+import {appAccessContext} from '@/lib/app-attestation';
 import {SHIPPING_COUNTRIES} from '@/lib/shipping-countries';
 import { getCommerceSettings } from "@/lib/commerce-db";
 import { listCatalog } from "@/lib/store-db";
@@ -8,9 +9,9 @@ import { salesSignals } from '@/lib/merchandising-db';
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request?:Request) {
   try {
-    const [products, settings, sales] = await Promise.all([listCatalog(), getCommerceSettings(), salesSignals().catch(()=>[])]);
+    const [products, settings, sales] = await Promise.all([listCatalog(request?await appAccessContext(request):undefined), getCommerceSettings(), salesSignals().catch(()=>[])]);
     const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length===0;
     return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
       customerAccountsEnabled:runtimeEnv().CUSTOMER_APP_ENABLED==='true',customTransferEnabled:runtimeEnv().CUSTOM_TRANSFER_ENABLED==='true',shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings,shipbubbleCheckoutEnabled()),

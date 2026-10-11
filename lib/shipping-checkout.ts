@@ -1,3 +1,5 @@
+import {checkoutAppPolicy} from './app-controls';
+import {publicAccess,type AppAccess} from './app-controls-policy';
 import {validatedShippingAddress} from './shipping-address';
 import {liveShippingForCountry} from './runtime-env';
 import {z} from 'zod';
@@ -23,13 +25,14 @@ type QuoteRecord={pricingPolicy:string;inputHash:string;expiresAt:number;giftVar
 export class ShippingInputError extends Error{}
 const invalid=()=>new ShippingInputError('Delivery options changed or expired. Check delivery again before paying.');
 async function fingerprint(input:Input){const canonical={...input,cart:[...input.cart].sort((a,b)=>a.variantId.localeCompare(b.variantId))};const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(canonical)));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
-async function parcelFor(input:Input){
+async function parcelFor(input:Input,access:AppAccess){
+ await checkoutAppPolicy(input.cart,input.promotionCode,input.rewardCode,access);
  const db=getDbBinding();
  const rows=await db.prepare(`SELECT v.id AS variantId,v.product_id AS productId,v.size,p.name,p.price_kobo AS price FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.id IN (${input.cart.map(()=>'?').join(',')}) AND v.active=1 AND p.active=1 AND p.status='published' AND p.price_kobo>0`).bind(...input.cart.map(i=>i.variantId)).all<{variantId:string;productId:string;size:string;name:string;price:number}>();
  const items=input.cart.map(i=>{const r=rows.results.find(r=>r.variantId===i.variantId);if(!r)throw new ShippingInputError('An item is unavailable. Refresh your bag.');return {...r,quantity:i.quantity,lineTotalKobo:r.price*i.quantity};});
  const subtotal=items.reduce((n,i)=>n+i.lineTotalKobo,0);
- const {discountKobo,promotion}=await quotePromotion(input.promotionCode,items);
- const rewards=await quoteRewards({subtotalKobo:subtotal,discountKobo,hasDiscount:Boolean(promotion),countryCode:input.customer.countryCode,state:input.customer.state,email:input.customer.email,code:input.rewardCode,shippingKobo:0,cart:input.cart});
+ const {discountKobo,promotion}=await quotePromotion(input.promotionCode,items,access);
+ const rewards=await quoteRewards({subtotalKobo:subtotal,discountKobo,hasDiscount:Boolean(promotion),countryCode:input.customer.countryCode,state:input.customer.state,email:input.customer.email,code:input.rewardCode,shippingKobo:0,cart:input.cart,appAccess:access});
  if(rewards.gift){const g=rewards.gift;items.push({variantId:g.variantId,productId:g.productId,size:g.size,name:g.productName,price:g.unitPriceKobo,quantity:1,lineTotalKobo:g.unitPriceKobo});}
  const profiles=await Promise.all(items.map(async i=>{const p=await productParcel(i.productId,i.size);return {...i,parcel:p.parcel,revision:p.revision};}));
  const packaging=await packagingProfiles();const prepared=prepareParcel(profiles,packaging.data);
@@ -37,12 +40,12 @@ async function parcelFor(input:Input){
  const profileRevisions=[...profiles.map(p=>({key:'parcel-item:'+encodeURIComponent(p.productId)+':'+encodeURIComponent(p.size),revision:p.revision})),{key:'parcel-packaging',revision:packaging.revision}];
  return {profileRevisions,parcel:{...prepared.suggestion,valueNaira:items.reduce((n,i)=>n+i.lineTotalKobo,0)/100},giftVariantId:rewards.gift?.variantId||''};
 }
-export async function createShippingQuotes(raw:unknown){
+export async function createShippingQuotes(raw:unknown,access:AppAccess=publicAccess){
  const input=shippingInputSchema.parse(raw);
  if(!await liveShippingForCountry(input.customer.countryCode))throw new ShippingInputError('Live delivery is not enabled for this destination.');
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))throw new ShippingInputError('Delivery pricing is temporarily unavailable. Please contact customer care.');
  const pickup=await getPickupDetails();if(!pickup)throw new ShippingInputError('Delivery pickup details are not ready. Please contact customer care.');
- const {parcel,giftVariantId,profileRevisions}=await parcelFor(input),c=input.customer;
+ const {parcel,giftVariantId,profileRevisions}=await parcelFor(input,access),c=input.customer;
  const destination=await validatedShippingAddress(c);
  let rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:c.countryCode,zip:c.postalCode},parcel,'live',fetch,undefined,destination);
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');

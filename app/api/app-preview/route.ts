@@ -1,0 +1,4 @@
+import {getDbBinding} from '@/lib/runtime-env';
+import {appControlsSnapshot} from '@/lib/app-controls';
+import {dropAccess,publicAccess} from '@/lib/app-controls-policy';
+export async function GET(){try{const {config}=await appControlsSnapshot();if(!config.enabled)return Response.json({drops:[],downloadUrl:''});const products=await getDbBinding().prepare("SELECT id FROM products WHERE active=1 AND status='published'").all<{id:string}>();return Response.json({downloadUrl:config.downloadUrl,drops:config.drops.filter(d=>d.website==='teaser'&&!d.paused&&!d.vipEmails.length&&!dropAccess(d,publicAccess)&&products.results.some(p=>p.id===d.productId)).map(d=>({title:d.title,startsAt:d.startsAt,publicAt:d.publicAt,mode:d.mode}))},{headers:{'Cache-Control':'no-store'}});}catch{return Response.json({drops:[],downloadUrl:''},{status:503});}}

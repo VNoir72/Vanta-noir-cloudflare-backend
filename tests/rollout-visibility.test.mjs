@@ -10,7 +10,8 @@ const {reconcileCart}=modules.find(m=>m.reconcileCart);
 const sqlite=new DatabaseSync(':memory:');
 sqlite.exec("CREATE TABLE products(slug TEXT PRIMARY KEY,name TEXT,description TEXT,image_url TEXT,details_json TEXT,active INTEGER,status TEXT); INSERT INTO products VALUES('first-drop','First Drop','New garment','/images/first.webp','{}',1,'published'),('later-drop','Later Drop','Private garment','/images/later.webp','{}',0,'draft');");
 sqlite.exec("ALTER TABLE products ADD COLUMN id TEXT; ALTER TABLE products ADD COLUMN category TEXT DEFAULT 'Streetwear'; ALTER TABLE products ADD COLUMN price_kobo INTEGER DEFAULT 3000000; UPDATE products SET id=slug; CREATE TABLE product_variants(id TEXT,product_id TEXT,active INTEGER,stock INTEGER); CREATE TABLE stock_reservations(variant_id TEXT,quantity INTEGER,expires_at TEXT); INSERT INTO product_variants VALUES('first-m','first-drop',1,2);");
-const db={prepare(sql){const statement=sqlite.prepare(sql);return {all:async()=>({results:statement.all()}),bind(...args){return {first:async()=>statement.get(...args)??null}}}}};
+sqlite.exec('CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT);');
+const db={prepare(sql){const statement=sqlite.prepare(sql);return {first:async()=>statement.get()??null,all:async()=>({results:statement.all()}),bind(...args){return {first:async()=>statement.get(...args)??null}}}}};
 const request=query=>new Request('https://api.vantanoir.store/api/storefront-visibility?'+query);
 test('draft and archived garments expose no name or metadata; republishing restores them',async()=>{
  for(const status of ['draft','archived']){
@@ -50,4 +51,14 @@ test('live product search markup reflects stock and omits preview offers',async(
  assert.equal((await metadata()).offers.availability,'https://schema.org/OutOfStock');
  sqlite.exec(`UPDATE products SET details_json='{"availability":"preview"}' WHERE slug='first-drop'`);
  assert.equal((await metadata()).offers,undefined);
+});
+
+test('app-exclusive product metadata and sitemap remain private until timed public release',async()=>{
+ const rule={version:1,enabled:true,drops:[{productId:'first-drop',title:'Exclusive',mode:'early',startsAt:'2020-01-01T00:00:00Z',publicAt:'2999-01-01T00:00:00Z',perCustomer:2}]};
+ sqlite.prepare('INSERT INTO store_meta VALUES(?,?)').run('app-controls:v1',JSON.stringify(rule));
+ assert.equal((await storefrontVisibility(request('slug=first-drop'),db)).status,404);
+ assert.ok(!(await (await storefrontVisibility(request('mode=sitemap'),db)).json()).slugs.includes('first-drop'));
+ rule.drops[0].publicAt='2021-01-01T00:00:00Z';sqlite.prepare('UPDATE store_meta SET value=?').run(JSON.stringify(rule));
+ assert.equal((await storefrontVisibility(request('slug=first-drop'),db)).status,200);
+ sqlite.exec('DELETE FROM store_meta');
 });

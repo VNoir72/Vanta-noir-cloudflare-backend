@@ -1,16 +1,19 @@
+import {enforceOffer,filterAppCatalog} from './app-controls';
+import {publicAccess,type AppAccess} from './app-controls-policy';
 import { z } from 'zod';
 import { getDbBinding } from './runtime-env';
 import { rewardCampaignSchema, rewardProgress, type RewardCampaign, type RewardGift, type RewardQuote } from './rewards';
 
 export const rewardUseCountSql = `(SELECT COUNT(*) FROM order_rewards r JOIN orders o ON o.id=r.order_id WHERE r.campaign_id=c.id AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))`;
 export const rewardCapacitySql = `(json_extract(c.config_json,'$.maxUses')=0 OR json_extract(c.config_json,'$.maxUses')>${rewardUseCountSql})`;
-export async function rewardGift(variantId: string, cart: Array<{ variantId: string; quantity: number }> = []): Promise<RewardGift | null> {
+export async function rewardGift(variantId: string, cart: Array<{ variantId: string; quantity: number }> = [],access?:AppAccess): Promise<RewardGift | null> {
   if (!variantId) return null;
   const row = await getDbBinding().prepare(`SELECT v.id AS variantId,p.id AS productId,p.name AS productName,v.color,v.size,p.price_kobo AS unitPriceKobo,
     v.stock-COALESCE((SELECT SUM(quantity) FROM stock_reservations WHERE variant_id=v.id AND expires_at>CURRENT_TIMESTAMP),0) AS available
     FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.id=? AND v.active=1 AND p.active=1 AND p.status='published' AND p.price_kobo>0 AND v.size<>'Size pending'
     AND COALESCE(json_extract(p.details_json,'$.availability'),'in_stock')='in_stock'
     AND COALESCE(json_extract(p.details_json,'$.priceStatus'),'approved')='approved'`).bind(variantId).first<RewardGift>();
+  if(row&&access&&!(await filterAppCatalog([{id:row.productId}],access)).length)return null;
   return row ? { ...row, available: Math.max(0, row.available - cart.filter(i => i.variantId === variantId).reduce((s, i) => s + i.quantity, 0)) } : null;
 }
 export async function saveRewardCampaign(input: unknown, actor: string) {
@@ -60,8 +63,9 @@ export async function drawRewardWinners(input: unknown, actor: string) {
   const saved = await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();
   return JSON.parse(saved!.value);
 }
-export async function quoteRewards(input: { subtotalKobo: number; discountKobo: number; hasDiscount: boolean; countryCode: string; state?: string; email?: string; code?: string; shippingKobo: number | null; cart: Array<{variantId:string;quantity:number}> }) {
+export async function quoteRewards(input: { appAccess?:AppAccess; subtotalKobo: number; discountKobo: number; hasDiscount: boolean; countryCode: string; state?: string; email?: string; code?: string; shippingKobo: number | null; cart: Array<{variantId:string;quantity:number}> }) {
   const db = getDbBinding(), now = new Date().toISOString(), code = (input.code || '').trim().toUpperCase();
+  if(code)await enforceOffer('reward',code,input.appAccess);
   const rows = await db.prepare(`SELECT c.config_json,c.version FROM reward_campaigns c WHERE c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql} AND (c.code IS NULL OR c.code=?) ORDER BY CAST(json_extract(c.config_json,'$.priority') AS INTEGER) DESC,c.id`).bind(now, now, code).all<{config_json:string;version:number}>();
   const campaigns = rows.results.map(r => ({ ...rewardCampaignSchema.parse(JSON.parse(r.config_json)), version: r.version }));
   // A private code explicitly chooses its campaign; do not silently substitute an automatic reward.
@@ -70,7 +74,7 @@ export async function quoteRewards(input: { subtotalKobo: number; discountKobo: 
   if (code && !eligible.length) throw new Error('This reward code is unavailable for these checkout details. Check its dates, email, delivery state, country and discount conditions.');
   let campaign: RewardCampaign | null = null, gift: RewardGift | null = null, progress: ReturnType<typeof rewardProgress> | null = null;
   for (const c of eligible) {
-    const g = c.giftMinimumKobo === null ? null : await rewardGift(c.giftVariantId, input.cart), p = rewardProgress(c, input.subtotalKobo, g);
+    const g = c.giftMinimumKobo === null ? null : await rewardGift(c.giftVariantId, input.cart,input.appAccess||publicAccess), p = rewardProgress(c, input.subtotalKobo, g);
     if (!campaign) { campaign = c; gift = g; progress = p; }
     if (p.shippingEligible || p.giftEligible) { campaign = c; gift = g; progress = p; break; }
   }

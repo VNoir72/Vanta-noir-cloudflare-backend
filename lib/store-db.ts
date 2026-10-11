@@ -1,3 +1,5 @@
+import {filterAppCatalog,checkoutAppPolicy,appPolicySql,paidAppLimitExceededSql} from './app-controls';
+import {publicAccess,type AppAccess} from './app-controls-policy';
 import {expireUnpaidOrders} from './order-expiry';
 import {assertCurrentShippingProfiles} from './shipping-checkout';
 import {assertShippingProvider} from './shipping-policy';
@@ -297,7 +299,7 @@ async function seedCatalogOnce() {
   await db.batch(statements);
 }
 
-export async function listCatalog() {
+export async function listCatalog(access:AppAccess=publicAccess) {
   await ensureCatalogSeeded();
   const db = getDbBinding();
   const [productRows, variantRows, imageRows] = await Promise.all([
@@ -351,7 +353,7 @@ export async function listCatalog() {
     imagesByProduct.set(row.productId, current);
   }
 
-  return productRows.results
+  return filterAppCatalog(productRows.results
     .map((product) => {
       const colorways = buildCatalogColorways(
         product,
@@ -374,7 +376,7 @@ export async function listCatalog() {
         featured: Boolean(product.featured),
       } satisfies CatalogProduct;
     })
-    .filter((product) => product.colorways.length > 0).map(individualProductViews);
+    .filter((product) => product.colorways.length > 0).map(individualProductViews),access);
 }
 
 function buildCatalogColorways(
@@ -778,6 +780,7 @@ export async function deleteAdminProduct(productId: string) {
 }
 
 export async function createPendingOrder(args: {
+  appAccess?: AppAccess;
   shippingQuote?: Awaited<ReturnType<typeof resolveShippingSelection>>;
   checkoutAttempt?: string;
   customer: CheckoutCustomer;
@@ -792,6 +795,8 @@ export async function createPendingOrder(args: {
   if(args.shippingQuote){assertShippingProvider(args.shippingQuote.rate.provider);if(args.shippingKobo!==args.shippingQuote.rate.amountKobo)throw Error('The delivery charge changed. Check delivery again.');}
   await ensureCatalogSeeded();
   const db = getDbBinding();
+  const access=args.appAccess||publicAccess;
+  const appPolicy=await checkoutAppPolicy(args.cart,args.promotionCode||"",args.rewardCode||"",access);
   const attempt=args.checkoutAttempt;
   if(attempt&&!/^[-a-f0-9]{73}$/.test(attempt))throw new Error('Invalid checkout attempt.');
   const attemptHash=attempt?await receiptDigest(attempt):'';
@@ -859,8 +864,8 @@ export async function createPendingOrder(args: {
   });
 
   const subtotalKobo = resolved.reduce((sum, item) => sum + item.lineTotalKobo, 0);
-  const {discountKobo,promotion}=await quotePromotion(args.promotionCode||"",resolved);
-  const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',state:args.customer.state,email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart});
+  const {discountKobo,promotion}=await quotePromotion(args.promotionCode||"",resolved,access);
+  const reward = await quoteRewards({subtotalKobo,discountKobo,hasDiscount:Boolean(promotion),countryCode:args.customer.countryCode || 'NG',state:args.customer.state,email:args.customer.email,code:args.rewardCode,shippingKobo:args.shippingKobo,cart:args.cart,appAccess:access});
   if (reward.quote.signature !== (args.expectedRewardSignature || '')) throw new Error('Your reward changed. Refresh checkout to review your gift and delivery before paying.');
   if(args.shippingQuote&&(args.shippingQuote.expiresAt<=Date.now()||args.shippingQuote.giftVariantId!==(reward.gift?.variantId||'')))throw new Error('Your reward or delivery quote changed. Check delivery again before paying.');
   const shippingKobo = reward.quote.shippingKobo!;
@@ -883,7 +888,7 @@ export async function createPendingOrder(args: {
           (id, reference, email, first_name, last_name, phone, address_line_1,
            address_line_2, city, state, country, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
          SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-         WHERE (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
+         WHERE ${appPolicySql} AND (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
            SELECT 1 FROM json_each(?) c
            LEFT JOIN product_variants v ON v.id = json_extract(c.value, '$.variantId')
            LEFT JOIN products p ON p.id = v.product_id
@@ -909,6 +914,7 @@ export async function createPendingOrder(args: {
         subtotalKobo,
         shippingKobo,
         totalKobo, discountKobo, promotion?.code||"",
+        appPolicy.raw||"",JSON.stringify(appPolicy.limits),appPolicy.email,appPolicy.email,
         promotion?.code||"",promotion?.code||"",promotion?.version||0,new Date().toISOString(),new Date().toISOString(),
         reward.campaign?.id||"",reward.campaign?.id||"",reward.campaign?.version||0,new Date().toISOString(),new Date().toISOString(),
         JSON.stringify(allocations),
@@ -937,6 +943,8 @@ export async function createPendingOrder(args: {
     ),
   ];
 
+  statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-app-limits:'+reference,JSON.stringify(appPolicy.limits),id));
+  statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-channel:'+reference,JSON.stringify({channel:access.verifiedApp?'app':'web',customerId:access.customerId}),id));
   if(args.shippingQuote)statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-shipping:'+reference,JSON.stringify({...args.shippingQuote,bookingStatus:'manual_confirmation_required'}),id));
   if(reward.campaign) statements.push(db.prepare("INSERT INTO order_rewards(order_id,campaign_id,title,shipping_savings_kobo,gift_variant_id,max_uses) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(id,reward.campaign.id,reward.campaign.title,reward.quote.shippingSavingsKobo,reward.gift?.variantId||'',reward.campaign.maxUses,id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind(`receipt-access:${reference}`,receiptAccess,id));
@@ -1080,7 +1088,7 @@ export async function markOrderPaid(args: {
   await db.batch([
     db.prepare(`UPDATE orders SET payment_status = 'paid', allocation_token = ?, paid_at = CURRENT_TIMESTAMP,
       updated_at = CURRENT_TIMESTAMP,
-      status = CASE WHEN status IN ('cancelled','expired') OR EXISTS (
+      status = CASE WHEN status IN ('cancelled','expired') OR ${paidAppLimitExceededSql} OR EXISTS (
         SELECT 1 FROM promotions pr WHERE pr.code=orders.promotion_code AND pr.max_uses>0 AND pr.max_uses<=
           (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='paid')
       ) OR EXISTS (

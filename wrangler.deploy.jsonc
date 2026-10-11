@@ -31,6 +31,8 @@
   ],
   "vars": {
     "FIREBASE_AUTH_ENABLED": "true",
+    "FIREBASE_PROJECT_NUMBER": "78543560148",
+    "FIREBASE_ANDROID_APP_ID": "1:78543560148:android:3ff1d214fcac9e506e4a41",
     "FIREBASE_APPLE_ENABLED": "false",
     "AUTH_PROVIDER": "cloudflare-access",
     "GA4_PROPERTY_ID": "554825546",
