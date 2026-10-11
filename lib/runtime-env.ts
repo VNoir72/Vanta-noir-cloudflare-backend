@@ -1,5 +1,6 @@
 type RuntimeEnvironment = {
   FIREBASE_AUTH_ENABLED?: string;
+  FIREBASE_APPLE_ENABLED?: string;
   FIREBASE_SERVICE_ACCOUNT_JSON?: string;
   INTERNATIONAL_COURIER_ENABLED?: string;
   SHIPBUBBLE_NG_COURIER_IDS?: string;

@@ -1,6 +1,6 @@
 import {initializeMonitoring,trackScreen} from './src/monitoring';
 import {ProviderSignIn} from './src/components/ProviderSignIn';
-import {firebaseSignOut} from './src/firebase-auth';
+import {firebaseSignOut,prepareFirebaseDeletion} from './src/firebase-auth';
 import {FirstRun} from './src/components/FirstRun';
 import {ConnectionNotice} from './src/components/ConnectionNotice';
 import {AppRecovery} from './src/components/AppRecovery';
@@ -1006,6 +1006,7 @@ function Main() {
                   disabled={busy || deleteText !== "DELETE"}
                   onPress={() =>
                     void task(async () => {
+                      await prepareFirebaseDeletion(customer.email);
                       await api(
                         "/api/customer/me",
                         { confirmation: "DELETE" },

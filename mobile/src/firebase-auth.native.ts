@@ -1,4 +1,6 @@
-import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,signInWithCredential,GoogleAuthProvider} from '@react-native-firebase/auth';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
+import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
 import {GoogleSignin,isSuccessResponse} from '@react-native-google-signin/google-signin';
 import {api,vault} from './api';
 GoogleSignin.configure({webClientId:'78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com'});
@@ -12,3 +14,24 @@ export async function passwordLogin(email:string,password:string,create:boolean)
 export async function googleLogin(){await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog:true});const response=await GoogleSignin.signIn();if(!isSuccessResponse(response))return false;if(!response.data.idToken)throw Error('Google could not verify this sign-in.');await signInWithCredential(getAuth(),GoogleAuthProvider.credential(response.data.idToken));await exchange();return true;}
 export async function resetPassword(email:string){await sendPasswordResetEmail(getAuth(),email.trim());}
 export async function firebaseSignOut(){try{await signOut(getAuth());await GoogleSignin.signOut();}catch{/* The store session is separately revoked. */}}
+
+async function appleCredential(){
+ const nonce=Array.from(await Crypto.getRandomBytesAsync(32),b=>b.toString(16).padStart(2,'0')).join('');
+ const response=await AppleAuthentication.signInAsync({requestedScopes:[AppleAuthentication.AppleAuthenticationScope.EMAIL],nonce:await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256,nonce)});
+ if(!response.identityToken)throw Error('Apple could not verify this sign-in.');
+ return {credential:AppleAuthProvider.credential(response.identityToken,nonce),code:response.authorizationCode};
+}
+export async function appleLogin(){
+ try{const {credential}=await appleCredential();await signInWithCredential(getAuth(),credential);await exchange();return true;}
+ catch(error){if((error as {code?:string}).code==='ERR_REQUEST_CANCELED')return false;throw error;}
+}
+export async function prepareFirebaseDeletion(email:string){
+ const user=getAuth().currentUser;
+ if(!user?.providerData.some(p=>p.providerId==='apple.com'))return;
+ if(user.email?.toLowerCase()!==email.toLowerCase())throw Error('Sign in with the Apple account used for this store account before deleting it.');
+ const {credential,code}=await appleCredential();
+ if(!code)throw Error('Apple did not return an authorization code. Please try again.');
+ await reauthenticateWithCredential(user,credential);
+ await exchange();
+ await revokeToken(getAuth(),code);
+}

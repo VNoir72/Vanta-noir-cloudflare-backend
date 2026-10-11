@@ -42,12 +42,13 @@ export async function customerApp(request: Request): Promise<Response> {
   try {
     if (!(await rateLimit(request, "customer-app", 80, 600)))
       return json({ error: "Please wait and try again." }, 429);
-    if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:false});
+    if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:firebaseReady()&&runtimeEnv().FIREBASE_APPLE_ENABLED==='true'});
     if(request.method==='POST'&&path==='firebase'){
       if(!firebaseReady())return json({error:'Additional sign-in methods are not available yet.'},503);
       const v=z.object({idToken:z.string().min(100).max(10000),acceptTerms:z.literal(true)}).strict().parse(await request.json());
       if(!await rateLimit(request,'customer-firebase',10,600))return json({error:'Please wait before signing in again.'},429);
       let identity;try{identity=await verifyFirebaseCustomer(v.idToken);}catch{return json({error:'Sign in again with a verified email address.'},401);}
+      if(identity.provider==='apple.com'&&runtimeEnv().FIREBASE_APPLE_ENABLED!=='true')return json({error:'Apple sign-in is not available yet.'},503);
       const email=emailSchema.parse(identity.email),now=Date.now();
       await db.prepare('INSERT OR IGNORE INTO app_customers(id,email,created_at,terms_accepted_at) VALUES(?,?,?,?)').bind(crypto.randomUUID(),email,now,now).run();
       const customer=await db.prepare('SELECT id,email,name FROM app_customers WHERE email=?').bind(email).first<{id:string;email:string;name:string}>();
