@@ -11,3 +11,5 @@ Implemented in source (0.1.10): Google/password login, email verification/reset,
 Outstanding: Apple sign-in (Apple Developer identifiers/credentials required); Firebase server activation and FCM service-account configuration; real-device push, payment interruption, accessibility, rotation and browser testing; beta testers; latest backend/admin and storefront deployment. Source push is not production publication.
 
 Keep intentional noindex on private/checkout/admin pages. Keep current URLs and live publication checks. Do not embed private catalogue snapshots. Do not mark external services or device tests complete without evidence.
+
+Android 0.1.10 EAS build requested from commit a29558d60f767b503be0037a7b35da6e34596ad5; Expo rejected the request because the free Android build quota is exhausted until 2026-11-01. No new APK was created and no paid plan was purchased. Existing 0.1.9 build 1339c67a-298b-4a15-99e2-2d6a75a2c3e3 succeeded but does not include this integration.
