@@ -143,7 +143,7 @@ Validation: mobile typecheck, lint (existing shipping array-style warning only),
 
 Prepared the official Paystack UI Android SDK bridge as a local Expo module. The app uses the existing server-created checkout access code. Only a coarse result (completed/closed/failed) crosses into JavaScript; payment status and receipt eligibility remain server verified. Closing the sheet never calls an order-cancellation API. No raw card fields have been added.
 
-Activation requires EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY in the EAS build environment, matching the Paystack account/mode of the server. It must start with pk_live_ (production) or pk_test_ (staging); NEVER use an sk_ secret here. No public key was configured when this integration was prepared, so the new-card option is hidden. Build a new APK after configuration; native modules cannot be installed via OTA. Android only; iOS remains unchanged.
+Activation requires EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY in the EAS build environment, matching the Paystack account/mode of the server. It must start with pk_live_ (production) or pk_test_ (staging); NEVER use an sk_ secret here. The owner-supplied public key was configured in the Expo production project on 11 October 2026 UTC. The new-card option remains hidden in builds that lack either the key or the native module. Build a new APK after configuration; native modules cannot be installed via OTA. Android only; iOS remains unchanged.
 
 Paystack UI 0.0.9 is pinned to the version in Paystack's current Android integration guide and its compatible Kotlin metadata. Maven's newer 0.1.5 publishes Kotlin 2.4 metadata while this app's React Native toolchain declares Kotlin 2.1.20; upgrading it needs separate native compatibility validation.
 

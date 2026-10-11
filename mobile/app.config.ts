@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.5",
+  version: "0.1.6",
   // Native fingerprints keep incompatible OTA bundles off installed builds.
   ...(!studio ? {
     runtimeVersion: { policy: "fingerprint" as const },
