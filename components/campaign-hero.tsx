@@ -6,6 +6,10 @@ import {heroSchema,type HeroSettings} from '@/lib/storefront-design';
 import {type CatalogProduct,formatNaira} from '@/lib/catalog-runtime';
 import {garmentName} from '@/lib/product-names';
 
+function FloatingCampaign({active,reduced}:{active:boolean;reduced:boolean}){
+ return <div className="vn-floating-campaign" data-moving={active&&!reduced}><div className="vn-ribbon-scene" aria-hidden="true"><i/><i/><i/></div><div className="vn-floating-set"><img src="/images/vanta-burgundy-set-cutout.png" alt="Vanta Noir burgundy tracksuit jacket and trousers" fetchPriority="high"/></div></div>;
+}
+
 export function CampaignHero({value,products=[],formatPrice=formatNaira}:{value?:HeroSettings;products?:CatalogProduct[];formatPrice?:(kobo:number)=>string}){
  const hero=heroSchema.parse(value??{});
  const available=hero.productOrder.length?hero.productOrder.flatMap(id=>products.find(p=>p.id===id)?[products.find(p=>p.id===id)!]:[]):products;
@@ -31,7 +35,7 @@ export function CampaignHero({value,products=[],formatPrice=formatNaira}:{value?
  onTouchStart={e=>{touch.current={x:e.touches[0].clientX,y:e.touches[0].clientY};}}
  onTouchEnd={e=>{const start=touch.current;touch.current=null;if(!start||count<2)return;const dx=e.changedTouches[0].clientX-start.x,dy=e.changedTouches[0].clientY-start.y;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5)move(dx<0?1:-1);}}
  style={{'--hero-desktop':`${hero.desktopHeight}svh`,'--hero-mobile':`${hero.mobileHeight}svh`} as CSSProperties}>
- {media.map((m,i)=><div key={m.url+i} className="vn-hero-frame" aria-hidden={i!==mediaIndex} style={{opacity:i===mediaIndex?1:0}}>{m.type==='video'?<video src={m.url} poster={hero.image} muted playsInline loop preload="metadata" data-active={i===mediaIndex} aria-label={m.alt} style={{objectPosition:hero.focus,objectFit:hero.fit}}/>:<picture>{!hero.playlist.length&&hero.mobileImage&&<source media="(max-width: 767px)" srcSet={hero.mobileImage}/>}<StoreImage src={m.url} alt={i===mediaIndex?m.alt:''} priority={i===0} sizes="100vw" style={{objectPosition:hero.focus,objectFit:hero.fit}}/></picture>}</div>)}
+ {media.map((m,i)=><div key={m.url+i} className="vn-hero-frame" aria-hidden={i!==mediaIndex} style={{opacity:i===mediaIndex?1:0}}>{m.type==='image'&&/vanta-brand-hero|vanta-burgundy-set-campaign/.test(m.url)?<FloatingCampaign active={i===mediaIndex&&visible} reduced={reduced}/>:m.type==='video'?<video src={m.url} poster={hero.image} muted playsInline loop preload="metadata" data-active={i===mediaIndex} aria-label={m.alt} style={{objectPosition:hero.focus,objectFit:hero.fit}}/>:<picture>{!hero.playlist.length&&hero.mobileImage&&<source media="(max-width: 767px)" srcSet={hero.mobileImage}/>}<StoreImage src={m.url} alt={i===mediaIndex?m.alt:''} priority={i===0} sizes="100vw" style={{objectPosition:hero.focus,objectFit:hero.fit}}/></picture>}</div>)}
  {product?<div className="vn-hero-featured-piece" key={product.id}>
    <div className="vn-hero-piece-copy"><span className="dn-eyebrow">THE VANTA NOIR EDIT</span><h2>{garmentName(product.name)}</h2><p>{formatPrice(product.priceKobo)}</p><a className="dn-lime" href={`/products/${product.slug}`}>Shop this piece <ArrowRight size={16}/></a></div>
    <a className="vn-hero-piece-photo" href={`/products/${product.slug}`} aria-label={`Explore ${garmentName(product.name)}`}><StoreImage src={product.colorways[0]?.imageUrl||product.imageUrl} alt={product.imageAlt||garmentName(product.name)} sizes="(max-width:700px) 90vw, 60vw"/></a>
