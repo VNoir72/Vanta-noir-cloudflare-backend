@@ -137,3 +137,14 @@ Version 0.1.4 adds the existing approved vector emblem as the home-screen icon (
 Order confirmation uses flat sections for address, compact products, actual delivery options, enabled payment methods, promo code and summary, with a fixed Place order total. Low-stock counts reflect catalogue data. Countdown denotes actual shipping quote expiry, not a fictitious inventory reservation. New-card entry and unsupported wallets remain unavailable; support/tracking links do not claim a new delivery guarantee. No provider charges, test purchases or fabricated stock urgency were introduced.
 
 Validation: mobile typecheck, lint (existing shipping array-style warning only), Android Metro export; selected/unselected bag partition and exact-variant availability regression tests. Physical-device visual and OTA acceptance remain outstanding. This binary retains production OTA with fingerprint compatibility; the icon/config change intentionally requires installing the new APK.
+
+
+## Paystack native Android payment-sheet integration
+
+Prepared the official Paystack UI Android SDK bridge as a local Expo module. The app uses the existing server-created checkout access code. Only a coarse result (completed/closed/failed) crosses into JavaScript; payment status and receipt eligibility remain server verified. Closing the sheet never calls an order-cancellation API. No raw card fields have been added.
+
+Activation requires EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY in the EAS build environment, matching the Paystack account/mode of the server. It must start with pk_live_ (production) or pk_test_ (staging); NEVER use an sk_ secret here. No public key was configured when this integration was prepared, so the new-card option is hidden. Build a new APK after configuration; native modules cannot be installed via OTA. Android only; iOS remains unchanged.
+
+Paystack UI 0.0.9 is pinned to the version in Paystack's current Android integration guide and its compatible Kotlin metadata. Maven's newer 0.1.5 publishes Kotlin 2.4 metadata while this app's React Native toolchain declares Kotlin 2.1.20; upgrading it needs separate native compatibility validation.
+
+Before activation: build and test on Android using matching staging credentials. Cover successful payment, bank authentication, sheet close, failure, app background/process restart, expired order, server verification outage, duplicate taps and saved-card consent. JavaScript export/typechecking alone does not validate the native payment sheet.

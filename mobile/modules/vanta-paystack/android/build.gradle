@@ -1,0 +1,12 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+group = 'store.vantanoir'
+version = '1.0.0'
+android { namespace 'store.vantanoir.paystack' }
+dependencies {
+  // Version documented in Paystack's integration guide; compatible with this Expo Kotlin toolchain.
+  implementation 'com.paystack.android:paystack-ui:0.0.9'
+  implementation 'androidx.activity:activity-ktx:1.10.1'
+}

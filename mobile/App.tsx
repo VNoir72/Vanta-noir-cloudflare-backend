@@ -1,3 +1,4 @@
+import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
 import {SettingsHub} from "./src/components/SettingsHub";
 import {AppHero,AppHeroSettings} from "./src/components/AppHero";
 import {hasPaidReceipt} from './src/order-policy';
@@ -262,7 +263,7 @@ function Main() {
   const [leaveCheckout,setLeaveCheckout]=useState(false);
   const [promoOpen,setPromoOpen]=useState(false);
   const [summaryOpen,setSummaryOpen]=useState(true);
-  const [paymentMethod,setPaymentMethod]=useState<"bank_transfer"|"saved_card">("bank_transfer");
+  const [paymentMethod,setPaymentMethod]=useState<"bank_transfer"|"saved_card"|"hosted">("bank_transfer");
   const [cards,setCards]=useState<SavedCard[]>([]);
   const [cardsEnabled,setCardsEnabled]=useState(false);
   const [selectedCard,setSelectedCard]=useState("");
@@ -430,6 +431,18 @@ function Main() {
   const [paymentNotice,setPaymentNotice]=useState("");
   const [paymentNow,setPaymentNow]=useState(Date.now());
   const paymentExpired=!!payment&&(payment.expired===true||!!payment.transfer&&Date.parse(payment.transfer.expiresAt)<=paymentNow);
+  const sdkOpen=useRef(false);
+  async function openCardPayment(p:Payment) {
+    if(sdkOpen.current||!p.accessCode||!cardSdkAvailable)return;
+    sdkOpen.current=true;
+    try {
+      const result=await api<{order:Order}>("/api/payments/verify?reference="+encodeURIComponent(p.reference),undefined,"GET",{"X-Receipt-Token":p.receiptToken});
+      if(result.order.paymentStatus==="paid"||["expired","cancelled"].includes(result.order.status)){await checkPayment();return;}
+      await launchCardSdk(p.accessCode);
+      setPaymentNotice("Checking your payment. Please do not pay again until confirmation finishes.");
+      await checkPayment();
+    } finally {sdkOpen.current=false;}
+  }
   async function checkPayment() {
     if (!payment || checkBusy.current) return;
     checkBusy.current = true;
@@ -609,6 +622,7 @@ function Main() {
       throw Error("Delivery quote expired. Check delivery again.");
     if (!attempt.current) attempt.current = uid();
     // Persist the reference capability BEFORE starting payment, including ambiguous network failures.
+    if(paymentMethod==="hosted"&&!cardSdkAvailable)throw Error("Card payments are not available in this build.");
     if (paymentMethod==="bank_transfer"&&!transferEnabled) throw Error("Bank-transfer payments are unavailable.");
     if (paymentMethod==="saved_card"&&(!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired))) throw Error("Choose an available saved card or bank transfer.");
     const reference =
@@ -663,6 +677,7 @@ function Main() {
       }
       throw e;
     }
+    p={...p,channel:paymentMethod,amountKobo:reward.totalKobo};
     await vault.set("pending", JSON.stringify({ payment: p, cart:checkoutCart, bagConsumed:true, ownerEmail:customer.email }));
     setPayment(p);
     if (p.checking)
@@ -1174,7 +1189,7 @@ function Main() {
             <Button title="Leave anyway" secondary onPress={()=>{setLeaveCheckout(false);setCheckout(false);}}/>
           </View>
         </View>:undefined}
-        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{gap:12,flexDirection:"row",alignItems:"center"}}><View style={{flex:1}}><Text style={s.label}>Total</Text><Text style={s.h2}>{money(reward.totalKobo || 0)}</Text></View><Button title={busy?"Please wait…":"Place order"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired))} onPress={()=>void task(pay)}/></View>:undefined}
+        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{gap:12,flexDirection:"row",alignItems:"center"}}><View style={{flex:1}}><Text style={s.label}>Total</Text><Text style={s.h2}>{money(reward.totalKobo || 0)}</Text></View><Button title={busy?"Please wait…":"Place order"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (paymentMethod==="hosted"?!cardSdkAvailable:paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired))} onPress={()=>void task(pay)}/></View>:undefined}
       >
         {notice !== "" && (
           <Text accessibilityLiveRegion="polite" style={s.noticeText}>
@@ -1188,10 +1203,11 @@ function Main() {
               <Image source={require("./assets/brand-logo.webp")} resizeMode="contain" style={{width:170,height:54,alignSelf:"center",backgroundColor:"#fff",borderRadius:12}}/>
               <Text style={[s.eyebrow,{textAlign:"center"}]}>SECURE CHECKOUT</Text>
               {payment.transfer && <PaymentClock expiresAt={payment.transfer.expiresAt}/>}
-              <Text style={s.eyebrow}>{payment.channel==="saved_card"?"CARD PAYMENT":"BANK TRANSFER"}</Text>
+              <Text style={s.eyebrow}>{payment.channel==="saved_card"||payment.channel==="hosted"?"CARD PAYMENT":"BANK TRANSFER"}</Text>
               <Text style={s.h1}>
                 {money(payment.transfer?.amountKobo || payment.amountKobo || reward?.totalKobo || 0)}
               </Text>
+              {payment.channel==='hosted'&&payment.accessCode&&cardSdkAvailable&&<Button title="Continue to secure card payment" disabled={busy} onPress={()=>void task(()=>openCardPayment(payment))}/>}
               {payment.transfer ? (
                 <>
                   <Text style={s.muted}>
@@ -1223,7 +1239,7 @@ function Main() {
                 </>
               ) : (
                 <Text>
-                  We are checking your payment request. Do not pay again.
+                  {payment.channel==='hosted'&&payment.accessCode?"Continue above to enter your card securely. If you already paid, check payment status before trying again.":"We are checking your payment request. Do not pay again."}
                 </Text>
               )}
               <Text selectable style={s.muted}>
@@ -1257,9 +1273,10 @@ function Main() {
             <Glass><Text style={s.h2}>Your order · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text>{checkoutCart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:86,height:98,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text numberOfLines={2} style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size}</Text>{variantStock(i,products)<=5&&<Text style={{fontSize:12,color:colors.danger}}>{variantStock(i,products)>0?`Only ${variantStock(i,products)} left`:"Unavailable"}</Text>}<View style={{flexDirection:"row",alignItems:"center",gap:12}}><Pressable accessibilityRole="button" accessibilityLabel={`Decrease ${i.name} quantity`} disabled={busy||i.quantity<=1} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity-1}:item));resetQuote();}} style={s.chip}><Text>−</Text></Pressable><Text>{i.quantity}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Increase ${i.name} quantity`} disabled={busy||i.quantity>=Math.min(5,variantStock(i,products))} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity+1}:item));resetQuote();}} style={s.chip}><Text>+</Text></Pressable></View><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
             <Glass><Text style={s.h2}>Shipping</Text>{shippingBusy||quoteContext!==shippingContext?<Text>Calculating shipping…</Text>:quotes&&<>{deliveryChoices(quotes.rates).map(({label,rate:option})=><Pressable key={option.rateId} accessibilityRole="radio" accessibilityState={{checked:rate?.rateId===option.rateId}} onPress={()=>void selectDelivery(option)} style={{paddingVertical:12,borderBottomWidth:1,borderBottomColor:"#d6d6d6"}}><Text style={s.productName}>{rate?.rateId===option.rateId?'●':'○'} {label} · {money(option.amountKobo)}</Text><Text>{option.delivery}</Text><Text style={s.muted}>{label==='Express'?'Fastest available estimate':'Lower delivery fee'}</Text></Pressable>)}<QuoteCountdown expiresAt={quotes.expiresAt}/><Text style={s.muted}>Packed within 1–2 business days. Transit estimates start after dispatch.</Text></>}{shippingError!==''&&<><Text accessibilityRole="alert">{shippingError}</Text><Button title="Retry shipping" secondary onPress={()=>setShippingRetry(n=>n+1)}/></>}{address.countryCode!=='NG'&&<Text style={s.muted}>Import duties and taxes may be payable by the recipient. Customs can affect delivery times.</Text>}</Glass>
             <Glass><Text style={s.h2}>Payment method</Text>
+              {cardSdkAvailable&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='hosted'}} onPress={()=>setPaymentMethod('hosted')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:14,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='hosted'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>Pay with a new card</Text></Pressable>}
               {transferEnabled&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='bank_transfer'}} onPress={()=>setPaymentMethod('bank_transfer')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:14,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='bank_transfer'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="business-outline" size={25}/><Text style={s.productName}>Bank transfer · Paystack</Text></Pressable>}
               {cardsEnabled&&cards.map(card=><Pressable key={card.id} accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='saved_card'&&selectedCard===card.id,disabled:card.expired}} disabled={card.expired} onPress={()=>{setSelectedCard(card.id);setPaymentMethod('saved_card');}} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:14,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='saved_card'&&selectedCard===card.id?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>{card.brand} •••• {card.last4}{card.expired?' · Expired':''}</Text></Pressable>)}
-              <Text style={s.muted}>Payments processed by Paystack. New card entry is not yet available in the app.</Text>
+              <Text style={s.muted}>Payments processed by Paystack. Card entry opens in the secure payment sheet when available.</Text>
             </Glass>
             <Pressable accessibilityRole="button" accessibilityState={{expanded:promoOpen}} onPress={()=>setPromoOpen(!promoOpen)}><Glass><View style={{flexDirection:"row",justifyContent:"space-between"}}><Text style={s.h2}>Promo code{code?" · "+code:""}</Text><Ionicons name={promoOpen?"chevron-up":"chevron-down"} size={22}/></View></Glass></Pressable>
             {promoOpen&&<Field

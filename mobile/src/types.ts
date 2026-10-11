@@ -73,7 +73,8 @@ export type Reward = {
 };
 export type SavedCard = {id:string;brand:string;last4:string;expiryMonth:number;expiryYear:number;expired:boolean};
 export type Payment = {
-  channel?: "saved_card" | "bank_transfer";
+  channel?: "saved_card" | "bank_transfer" | "hosted";
+  accessCode?: string;
   amountKobo?: number;
   reference: string;
   receiptToken: string;
