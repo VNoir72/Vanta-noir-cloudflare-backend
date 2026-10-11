@@ -1,3 +1,4 @@
+import {AccountPage} from '@/app/account/account';
 import {KeyboardViewport} from "@/components/keyboard-viewport";
 import {AboutContent} from "@/components/customer-pages";
 import {StorefrontMotion} from "@/components/storefront-motion";
@@ -30,6 +31,7 @@ function AppRoutes({ path, products }: { path: string; products: CatalogProduct[
   if(/^\/products\/[a-z0-9_-]+\/?$/.test(path)) return <Storefront products={products} sizes={[...STORE_SIZES]} detailSlug={path.split("/")[2]}/>;
   switch (path.replace(/\/+$/, "") || "/") {
     case "/": return <Storefront products={products} sizes={[...STORE_SIZES]} />;
+    case "/account": return <AccountPage/>;
     case "/about": return <AboutContent />;
     case "/contact": return <ContactCarePage />;
     case "/help-center": return <HelpCenter />;

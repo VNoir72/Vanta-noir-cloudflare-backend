@@ -1,3 +1,4 @@
+import {featuredImage} from '../lib/featured-image';
 import {sendOrderPushUpdates} from "../lib/customer-push";
 import {customerApp} from '../lib/customer-app';
 import {bulkDispatchAdmin} from '../lib/bulk-dispatch-admin';
@@ -38,6 +39,7 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
+    if(url.pathname==='/api/featured-image')return featuredImage(request);
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
     if (url.pathname.startsWith("/api/customer/")) return secureResponse(await customerApp(request),request,env);

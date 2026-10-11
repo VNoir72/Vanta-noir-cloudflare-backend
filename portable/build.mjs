@@ -17,6 +17,7 @@ snapshot ??= defaultProducts;
 snapshot = snapshot.map(individualProductViews);
 const pages = [...Object.values(SEO_PAGES), ...snapshot.map(product => ({...productSeo(product),product})),
   { path: "/products/_dynamic", title: "Vanta Noir product", description: "Explore the Vanta Noir collection.", noindex:true },
+  { path: "/account", title: "Your account | Vanta Noir", description: "Sign in and manage your Vanta Noir orders.", noindex: true },
   { path: "/email-preferences", title: "Email preferences | Vanta Noir", description: "Manage your Vanta Noir email preferences.", noindex: true },
   { path: "/checkout", title: "Checkout | Vanta Noir", description: "Review your bag and delivery options.", noindex: true },
   { path: "/checkout/complete", title: "Payment confirmation | Vanta Noir", description: "Review your payment and order confirmation.", noindex: true },

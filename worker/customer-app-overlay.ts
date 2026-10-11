@@ -1,3 +1,4 @@
+import {featuredImage} from '../lib/featured-image';
 export {sendOrderPushUpdates} from "../lib/customer-push";
 import {customerApp} from '../lib/customer-app';
 import {POST as checkout} from '../app/api/checkout/route';
@@ -6,6 +7,7 @@ import {checkApiRequest,secureResponse} from '../lib/http-policy';
 /** Add native account/payment routes without replacing deployed admin assets. */
 export async function customerFetch(request:Request):Promise<Response|null>{
  const path=new URL(request.url).pathname;
+ if(path==='/api/featured-image')return featuredImage(request);
  if(!path.startsWith('/api/customer/')&&path!=='/api/checkout')return null;
  const env=runtimeEnv();
  const denied=checkApiRequest(request,env);if(denied)return secureResponse(denied,request,env);

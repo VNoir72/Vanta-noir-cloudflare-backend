@@ -32,8 +32,8 @@ test('website header preserves original search and opens the bag with its count'
  act(()=>button('Search the collection').dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
  assert.equal(document.querySelector('.vn-liquid-search-slot').getAttribute('aria-hidden'),'true');assert.equal(button('Search the collection').value,'tracksuit');
  assert.ok(button('Saved items'));assert.equal(button('Notifications'),null);assert.ok(button('Bag 3'));act(()=>button('Bag 3').click());assert.equal(bags,1);assert.equal(button('Bag 3').querySelector('small').textContent,'3');assert.ok(button('Open menu'));
- assert.equal(document.querySelectorAll('.vn-liquid-desktop-nav a').length,4);
- assert.ok(document.querySelector('a[href="/about"]'));
+ assert.equal(document.querySelectorAll('.vn-liquid-desktop-nav a').length,5);
+ assert.ok(document.querySelector('a[href="/about"]'));assert.ok(document.querySelector('a[href="/account"]'));
  act(()=>button('Open menu').click());assert.equal(button('Open menu').getAttribute('aria-expanded'),'true');
  wide=true;act(()=>mediaChange());assert.equal(button('Open menu').getAttribute('aria-expanded'),'false');
  act(()=>root.unmount());dom.window.close();

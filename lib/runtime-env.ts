@@ -1,4 +1,5 @@
 type RuntimeEnvironment = {
+  ASSETS?: Fetcher;
   FIREBASE_AUTH_ENABLED?: string;
   FIREBASE_APPLE_ENABLED?: string;
   FIREBASE_SERVICE_ACCOUNT_JSON?: string;

@@ -30,6 +30,8 @@
     }
   ],
   "vars": {
+    "FIREBASE_AUTH_ENABLED": "true",
+    "FIREBASE_APPLE_ENABLED": "false",
     "AUTH_PROVIDER": "cloudflare-access",
     "GA4_PROPERTY_ID": "554825546",
     "STOREFRONT_URL": "https://vantanoir.store",

@@ -1,3 +1,4 @@
+import {restartPayment} from './restart-payment';
 import {firebaseReady,verifyFirebaseCustomer,deleteFirebaseCustomer} from './firebase-customer';
 import {appSession} from './app-session';
 export {appSession} from './app-session';
@@ -284,6 +285,7 @@ export async function customerApp(request: Request): Promise<Response> {
           "Account, addresses and favourites deleted. Required transaction records are retained under our published retention policy.",
       });
     }
+    if(path==='restart-payment'&&request.method==='POST'){const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());return json(await restartPayment(s.id,reference));}
     if(path==='orders'&&request.method==='PATCH'){
       const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
       const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(reference,s.id).first();
