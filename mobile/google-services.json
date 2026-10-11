@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "78543560148",
+    "project_id": "vanta-noir",
+    "storage_bucket": "vanta-noir.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78543560148:android:3ff1d214fcac9e506e4a41",
+        "android_client_info": {
+          "package_name": "store.vantanoir.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78543560148-3m38dd81ec7jmnbv1al0d8s8fj1njggi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "store.vantanoir.shop",
+            "certificate_hash": "7c1c6ca2154c4109fa42a717cfb756a40ffabdb8"
+          }
+        },
+        {
+          "client_id": "78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMGePaGAibsAiyFIsMCON8G2nTrOLsx90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

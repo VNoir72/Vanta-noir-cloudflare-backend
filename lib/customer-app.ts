@@ -1,3 +1,4 @@
+import {firebaseReady,verifyFirebaseCustomer,deleteFirebaseCustomer} from './firebase-customer';
 import {appSession} from './app-session';
 export {appSession} from './app-session';
 import {registerPush} from "./customer-push";
@@ -41,6 +42,24 @@ export async function customerApp(request: Request): Promise<Response> {
   try {
     if (!(await rateLimit(request, "customer-app", 80, 600)))
       return json({ error: "Please wait and try again." }, 429);
+    if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:false});
+    if(request.method==='POST'&&path==='firebase'){
+      if(!firebaseReady())return json({error:'Additional sign-in methods are not available yet.'},503);
+      const v=z.object({idToken:z.string().min(100).max(10000),acceptTerms:z.literal(true)}).strict().parse(await request.json());
+      if(!await rateLimit(request,'customer-firebase',10,600))return json({error:'Please wait before signing in again.'},429);
+      let identity;try{identity=await verifyFirebaseCustomer(v.idToken);}catch{return json({error:'Sign in again with a verified email address.'},401);}
+      const email=emailSchema.parse(identity.email),now=Date.now();
+      await db.prepare('INSERT OR IGNORE INTO app_customers(id,email,created_at,terms_accepted_at) VALUES(?,?,?,?)').bind(crypto.randomUUID(),email,now,now).run();
+      const customer=await db.prepare('SELECT id,email,name FROM app_customers WHERE email=?').bind(email).first<{id:string;email:string;name:string}>();
+      if(!customer)throw Error('Account unavailable');
+      const binding=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
+      if(binding&&binding.value!==identity.uid)return json({error:'Use your existing sign-in method or contact support to link accounts.'},409);
+      const token=crypto.randomUUID()+'-'+crypto.randomUUID();
+      await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid)]);
+      const linked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
+      if(linked?.value!==identity.uid)return json({error:'Use your existing sign-in method.'},409);
+      return json({token,customer,expiresAt:now+30*86400000});
+    }
     if (request.method === "POST" && path === "code") {
       const { email, purpose } = z
         .object({ email: emailSchema, purpose:z.enum(['signin','deletion']).default('signin') })
@@ -241,6 +260,8 @@ export async function customerApp(request: Request): Promise<Response> {
         .object({ confirmation: z.literal("DELETE") })
         .parse(await request.json());
       void v;
+      const firebase=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+s.id).first<{value:string}>();
+      if(firebase)await deleteFirebaseCustomer(firebase.value);
       // Explicit cleanup also covers deployments with foreign-key enforcement disabled.
       const cardsTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first();
       await db.batch([
@@ -253,6 +274,7 @@ export async function customerApp(request: Request): Promise<Response> {
           .prepare("DELETE FROM app_login_challenges WHERE email=?")
           .bind(s.email),
         db.prepare("DELETE FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=?").bind(s.id),
+        db.prepare("DELETE FROM store_meta WHERE key=?").bind("firebase-customer:"+s.id),
         db.prepare("DELETE FROM app_customers WHERE id=?").bind(s.id),
       ]);
       return json({

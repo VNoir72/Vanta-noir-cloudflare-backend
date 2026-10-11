@@ -1,3 +1,6 @@
+import {initializeMonitoring,trackScreen} from './src/monitoring';
+import {ProviderSignIn} from './src/components/ProviderSignIn';
+import {firebaseSignOut} from './src/firebase-auth';
 import {FirstRun} from './src/components/FirstRun';
 import {ConnectionNotice} from './src/components/ConnectionNotice';
 import {AppRecovery} from './src/components/AppRecovery';
@@ -226,6 +229,8 @@ function Main() {
         settings: "Settings",
       } as Record<string, Screen>
     )[tab || "shop"] || "Shop";
+  useEffect(()=>{void initializeMonitoring();},[]);
+  useEffect(()=>{void trackScreen(screen);},[screen]);
   const setScreen = (next: Screen) =>
     router.replace({ pathname: "/[tab]", params: { tab: next.toLowerCase() } });
   const [products, setProducts] = useState<Product[]>([]),
@@ -700,6 +705,7 @@ function Main() {
   async function logout() {
     await disablePush();
     await api("/api/customer/logout", {});
+    await firebaseSignOut();
     await vault.remove("session");
     setCustomer(null);
     setCards([]);setCardsEnabled(false);setSelectedCard("");setPaymentMethod("bank_transfer");
@@ -898,6 +904,7 @@ function Main() {
             {!customer ? (
               <Glass>
                 <Text style={s.h2}>Sign in or create an account</Text>
+                <ProviderSignIn onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}}}/>
                 {!accountsEnabled && (
                   <Text style={s.muted}>
                     Customer sign-in is not open on this server yet.
@@ -1004,6 +1011,7 @@ function Main() {
                         { confirmation: "DELETE" },
                         "DELETE",
                       );
+                      await firebaseSignOut();
                       await AsyncStorage.removeItem('vanta-profile-device:'+customer.email);
                       await vault.remove("session");
                       setCustomer(null);

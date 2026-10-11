@@ -1,0 +1,27 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {mkdir,readFile} from 'node:fs/promises';
+import {generateKeyPair,exportJWK,exportPKCS8,SignJWT} from 'jose';
+import {Miniflare} from './miniflare.mjs';
+test('Firebase linking preserves existing customers and rejects disabled/revoked users; deletion removes provider identity',async()=>{
+ await mkdir('work',{recursive:true});await build({entryPoints:['tests/customer-app-worker.ts'],outfile:'work/firebase-customer.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
+ const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true});const jwk=await exportJWK(publicKey);jwk.kid='firebase-test';const now=Math.floor(Date.now()/1000);let disabled=false,validSince='0',deletes=0,unavailable=false;
+ const mf=new Miniflare({modules:true,scriptPath:'work/firebase-customer.mjs',compatibilityDate:'2026-10-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{CUSTOMER_APP_ENABLED:'true',FIREBASE_AUTH_ENABLED:'true',FIREBASE_SERVICE_ACCOUNT_JSON:JSON.stringify({project_id:'vanta-noir',client_email:'test@vanta-noir.iam.gserviceaccount.com',private_key:await exportPKCS8(privateKey)})},outboundService:async req=>{
+ if(req.url.includes('/jwk/securetoken@'))return Response.json({keys:[jwk]});
+ if(req.url==='https://oauth2.googleapis.com/token')return Response.json({access_token:'test',expires_in:3600});
+ assert.equal(req.headers.get('Authorization'),'Bearer test');const b=await req.json();
+ if(req.url.endsWith('accounts:lookup'))return Response.json({users:[{localId:b.localId[0],email:'buyer@example.com',emailVerified:true,disabled,validSince}]});
+ assert.ok(req.url.endsWith('accounts:delete'));assert.equal(b.localId,'firebase-buyer');if(unavailable)return Response.json({error:{message:'UNAVAILABLE'}},{status:503});deletes++;return Response.json({});
+ }});
+ try{const db=await mf.getD1Database('DB');const schema=await readFile('drizzle/0017_customer_app.sql','utf8');await db.batch(schema.split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));await db.batch([db.prepare('CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT)'),db.prepare('CREATE TABLE request_limits(key TEXT PRIMARY KEY,hits INTEGER,expires_at INTEGER)'),db.prepare("INSERT INTO app_customers(id,email,name,created_at,terms_accepted_at) VALUES('existing','buyer@example.com','Original name',?,?)").bind(Date.now(),Date.now())]);
+ const token=await new SignJWT({sub:'firebase-buyer',email:'buyer@example.com',email_verified:true,auth_time:now,firebase:{sign_in_provider:'google.com'}}).setProtectedHeader({alg:'RS256',kid:jwk.kid}).setIssuer('https://securetoken.google.com/vanta-noir').setAudience('vanta-noir').setIssuedAt().setExpirationTime('1h').sign(privateKey);
+ const request=async(path,body,session,method='POST')=>{const r=await mf.dispatchFetch('https://test/api/customer/'+path,{method,headers:{'Content-Type':'application/json',...(session?{Authorization:'Bearer '+session}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json()};};
+ assert.equal((await request('firebase',{idToken:token,acceptTerms:false})).status,400);
+ disabled=true;assert.equal((await request('firebase',{idToken:token,acceptTerms:true})).status,401);disabled=false;validSince=String(now+1);assert.equal((await request('firebase',{idToken:token,acceptTerms:true})).status,401);validSince='0';
+ const login=await request('firebase',{idToken:token,acceptTerms:true});assert.equal(login.status,200);assert.equal(login.data.customer.id,'existing');assert.equal(login.data.customer.name,'Original name');
+ assert.equal((await db.prepare('SELECT COUNT(*) n FROM app_customers').first()).n,1);
+ unavailable=true;assert.equal((await request('me',{confirmation:'DELETE'},login.data.token,'DELETE')).status,400);assert.ok(await db.prepare("SELECT id FROM app_customers WHERE id='existing'").first());
+ unavailable=false;assert.equal((await request('me',{confirmation:'DELETE'},login.data.token,'DELETE')).status,200);assert.equal(deletes,1);assert.equal((await request('me',undefined,login.data.token,'GET')).status,401);
+ }finally{await mf.dispose();}
+});

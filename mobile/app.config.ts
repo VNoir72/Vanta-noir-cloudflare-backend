@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.9",
+  version: "0.1.10",
   // Native fingerprints keep incompatible OTA bundles off installed builds.
   ...(!studio ? {
     runtimeVersion: { policy: "fingerprint" as const },
@@ -20,6 +20,7 @@ const config: ExpoConfig = {
   userInterfaceStyle: "automatic",
   ios: {
     supportsTablet: true,
+    ...(!studio ? {googleServicesFile: "./GoogleService-Info.plist"} : {}),
     bundleIdentifier: studio
       ? "store.vantanoir.studio"
       : "store.vantanoir.shop",
@@ -27,7 +28,7 @@ const config: ExpoConfig = {
   },
   android: {
     allowBackup: false,
-    ...(process.env.GOOGLE_SERVICES_JSON?{googleServicesFile:process.env.GOOGLE_SERVICES_JSON}:{}),
+    ...(!studio ? {googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json"} : {}),
     adaptiveIcon: { foregroundImage: "./assets/app-icon.png", backgroundColor: "#0a0a0a" },
     softwareKeyboardLayoutMode: "resize",
     versionCode: 2,
@@ -39,7 +40,7 @@ const config: ExpoConfig = {
       "android.permission.ACCESS_COARSE_LOCATION",
     ],
   },
-  plugins: ["expo-notifications","expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
+  plugins: [...(!studio ? ["@react-native-firebase/app", "@react-native-firebase/auth", "@react-native-firebase/crashlytics", ["@react-native-firebase/analytics", {ios:{withoutAdIdSupport:true}}], ["expo-build-properties", {ios:{useFrameworks:"dynamic"}}], ["@react-native-google-signin/google-signin", {iosUrlScheme:"com.googleusercontent.apps.78543560148-3eri5t357qd46se1t1lj3pchpk3dsvo3"}]] as NonNullable<ExpoConfig["plugins"]> : []), "expo-notifications","expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
   extra: {
     variant: studio ? "studio" : "customer",
     ...(!studio ? { eas: { projectId: "fa2d496b-dfe1-490c-9c6c-c1d961442dd6" } } : {}),
