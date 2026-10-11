@@ -1,3 +1,5 @@
+import {ProductDisclosure} from './src/components/ProductDisclosure';
+import {useBrandDialog} from './src/components/BrandDialog';
 import {disablePush} from "./src/push";
 import * as Notifications from "expo-notifications";
 import {loadPreferences,usePreferences,displayMoney} from "./src/preferences";
@@ -16,7 +18,6 @@ import { router, useGlobalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   AccessibilityInfo,
   AppState,
   BackHandler,
@@ -206,6 +207,7 @@ function Sheet({
   );
 }
 function Main() {
+ const Alert=useBrandDialog();
   const {colors,dark}=useTheme(); const s=styles(colors);
   const { width } = useWindowDimensions();
   const wide = width >= 760;
@@ -258,6 +260,7 @@ function Main() {
   const [notificationsOpen,setNotificationsOpen]=useState(false);
   const [orderSearch,setOrderSearch]=useState("");
   useEffect(()=>{const open=(response:Notifications.NotificationResponse|null)=>{const ref=response?.notification.request.content.data?.orderReference;if(typeof ref==='string'&&ref.length<=120){setOrderSearch(ref);setOrderGroup('All');setScreen('Orders');}};void Notifications.getLastNotificationResponseAsync().then(open);const subscription=Notifications.addNotificationResponseReceivedListener(open);return()=>subscription.remove();},[]);
+  const [trashSelection,setTrashSelection]=useState<string[]>([]);
   const [deletedOrders,setDeletedOrders]=useState<Order[]>([]),[recycleOpen,setRecycleOpen]=useState(false),[orderFiltersOpen,setOrderFiltersOpen]=useState(false);
   const [orderGroup,setOrderGroup]=useState<OrderGroup>("All");
   const [addressEditing,setAddressEditing] = useState(true);
@@ -830,7 +833,7 @@ function Main() {
         {screen === "Orders" && (
           <>
             <Text style={s.h2}>My orders</Text>
-            <View style={{flexDirection:'row',alignItems:'center',gap:4,padding:8,backgroundColor:colors.surface}}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:20,paddingHorizontal:10}}><Ionicons name="search-outline" size={17}/><TextInput accessibilityLabel="Search orders" placeholder="Order ID or product" value={orderSearch} onChangeText={setOrderSearch} style={{flex:1,minHeight:44,fontSize:13,color:colors.text,paddingHorizontal:6}}/></View><Pressable accessibilityLabel="Filter orders" onPress={()=>setOrderFiltersOpen(true)} style={{padding:8}}><Ionicons name="options-outline" size={22}/></Pressable><Pressable accessibilityLabel="Order support" onPress={()=>router.push({pathname:'/help',params:{topic:'contact'}})} style={{padding:8}}><Ionicons name="headset-outline" size={22}/></Pressable><Pressable accessibilityLabel="Recycle bin: deleted orders" onPress={()=>void task(async()=>{const data=await api<{orders:Order[]}>('/api/customer/orders?deleted=true');setDeletedOrders(data.orders);setRecycleOpen(true);})} style={{padding:8}}><Ionicons name="trash-outline" size={22}/><Ionicons name="refresh" size={11} style={{position:'absolute',bottom:5,right:5,backgroundColor:colors.surface}}/></Pressable></View>
+            <View style={{flexDirection:'row',alignItems:'center',gap:4,padding:8,backgroundColor:colors.surface}}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:20,paddingHorizontal:10}}><Ionicons name="search-outline" size={17}/><TextInput accessibilityLabel="Search orders" placeholder="Order ID or product" value={orderSearch} onChangeText={setOrderSearch} style={{flex:1,minHeight:44,fontSize:13,color:colors.text,paddingHorizontal:6}}/></View><Pressable accessibilityLabel="Filter orders" onPress={()=>setOrderFiltersOpen(true)} style={{padding:8}}><Ionicons name="options-outline" size={22}/></Pressable><Pressable accessibilityLabel="Order support" onPress={()=>router.push({pathname:'/help',params:{topic:'contact'}})} style={{padding:8}}><Ionicons name="headset-outline" size={22}/></Pressable><Pressable accessibilityLabel="Recycle bin: deleted orders" onPress={()=>void task(async()=>{const data=await api<{orders:Order[]}>('/api/customer/orders?deleted=true');setDeletedOrders(data.orders);setTrashSelection([]);setRecycleOpen(true);})} style={{padding:8}}><Ionicons name="trash-outline" size={22}/><Ionicons name="refresh" size={11} style={{position:'absolute',bottom:5,right:5,backgroundColor:colors.surface}}/></Pressable></View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
             {!customer ? (
               <Glass>
@@ -1021,7 +1024,12 @@ function Main() {
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
       <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>
-      <Sheet title="Deleted orders" visible={recycleOpen} onClose={()=>setRecycleOpen(false)}><Text>Removing an order from history does not cancel its payment or delivery.</Text>{!deletedOrders.length&&<Text>No deleted orders.</Text>}{deletedOrders.map(o=><View key={o.reference} style={{paddingVertical:12,gap:6,borderBottomWidth:1,borderColor:colors.border}}><Text>{o.reference}</Text><Text>{o.status} · {money(o.totalKobo)}</Text><Button compact title="Restore order" disabled={busy} onPress={()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'PATCH');setDeletedOrders(items=>items.filter(x=>x.reference!==o.reference));await account();})}/></View>)}</Sheet>
+      <Sheet title="Recycle bin" visible={recycleOpen} onClose={()=>setRecycleOpen(false)} footer={deletedOrders.length?<View style={{flexDirection:'row',gap:8}}><Button compact title={`Restore (${trashSelection.length})`} disabled={busy||!trashSelection.length} onPress={()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference},'PATCH');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}await account();})}/><Button compact secondary title="Delete permanently" disabled={busy||!trashSelection.length} onPress={()=>Alert.alert('Delete permanently?',`Remove ${trashSelection.length} selected order(s) from your history? You cannot restore them. Required payment and delivery records are retained.`,[{text:'Keep',style:'cancel'},{text:'Delete permanently',style:'destructive',onPress:()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference,permanent:true},'DELETE');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}})}])}/></View>:undefined}>
+       <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
+       {!!deletedOrders.length&&<Pressable accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.length===deletedOrders.length}} onPress={()=>setTrashSelection(trashSelection.length===deletedOrders.length?[]:deletedOrders.map(o=>o.reference))} style={{minHeight:44,justifyContent:'center'}}><Text>{trashSelection.length===deletedOrders.length?'Deselect all':'Select all'}</Text></Pressable>}
+       {!deletedOrders.length&&<Text>Your recycle bin is empty.</Text>}
+       {deletedOrders.map(o=><Pressable key={o.reference} accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.includes(o.reference)}} onPress={()=>setTrashSelection(ids=>ids.includes(o.reference)?ids.filter(id=>id!==o.reference):[...ids,o.reference])} style={{flexDirection:'row',alignItems:'center',paddingVertical:8,gap:10,borderBottomWidth:1,borderColor:colors.border,minHeight:54}}><Ionicons name={trashSelection.includes(o.reference)?'checkmark-circle':'ellipse-outline'} size={22}/><View style={{flex:1,gap:3}}><Text numberOfLines={1} style={{fontSize:12,fontWeight:'600'}}>{o.reference}</Text><Text style={{fontSize:11,color:colors.muted}}>{o.status}</Text></View><Text style={{fontSize:12}}>{money(o.totalKobo)}</Text></Pressable>)}
+      </Sheet>
       <Sheet title="Filters" visible={filtersOpen} onClose={()=>setFiltersOpen(false)} footer={<View style={s.row}><Button title="Clear" secondary onPress={()=>setFilterDraft({category:'All',size:'All',color:'All',min:'',max:'',stock:false})}/><Button title="Apply filters" onPress={()=>{const min=Number(filterDraft.min),max=Number(filterDraft.max);if((filterDraft.min&&(!Number.isFinite(min)||min<0))||(filterDraft.max&&(!Number.isFinite(max)||max<0))||(filterDraft.min&&filterDraft.max&&min>max)){Alert.alert('Check price range','Enter valid minimum and maximum amounts.');return;}setCatalogFilters(filterDraft);setFiltersOpen(false);}}/></View>}>
         {(['category','size','color'] as const).map(key=><View key={key} style={{gap:8}}><Text style={s.h2}>{key==='category'?'Category':key==='size'?'Size':'Colour'}</Text><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{['All',...new Set(key==='category'?products.map(p=>p.category):key==='size'?products.flatMap(p=>p.colorways.flatMap(c=>Object.keys(c.stock))):products.flatMap(p=>p.colorways.map(c=>c.name)))].map(value=><Pressable key={value} accessibilityRole="radio" accessibilityState={{checked:filterDraft[key]===value}} onPress={()=>setFilterDraft(d=>({...d,[key]:value}))} style={[s.chip,filterDraft[key]===value&&s.chosen]}><Text>{value}</Text></Pressable>)}</View></View>)}
         <Field label="Minimum price (NGN)" keyboard="number-pad" value={filterDraft.min} onChange={min=>setFilterDraft(d=>({...d,min}))}/><Field label="Maximum price (NGN)" keyboard="number-pad" value={filterDraft.max} onChange={max=>setFilterDraft(d=>({...d,max}))}/><Pressable accessibilityRole="checkbox" accessibilityState={{checked:filterDraft.stock}} onPress={()=>setFilterDraft(d=>({...d,stock:!d.stock}))} style={s.row}><Ionicons name={filterDraft.stock?'checkbox-outline':'square-outline'} size={24}/><Text>In stock only</Text></Pressable>
@@ -1061,9 +1069,10 @@ function Main() {
         )}
       </View>
       <Sheet
-        title="Quick shop"
+        title="Product details"
         visible={!!selected}
         onClose={() => setSelected(null)}
+        footer={selected&&<View style={{flexDirection:'row',gap:8,alignItems:'center'}}><Pressable accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{minWidth:44,minHeight:44,justifyContent:'center',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={23}/></Pressable><View style={{flex:1}}><Button title={preview(selected)?'Preview only':size?'Add to bag →':'Choose a size'} disabled={!size||preview(selected)||!ready||!!payment} onPress={add}/></View></View>}
       >
         {selected && c && (
           <>
@@ -1071,7 +1080,7 @@ function Main() {
               source={{ uri: imageUrl(gallery[view]?.imageUrl || c.imageUrl) }}
               accessibilityLabel={gallery[view]?.imageAlt}
               resizeMode="contain"
-              style={{ height: wide ? 380 : 300, width: "100%" }}
+              style={{ height: wide ? 380 : 260, width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
             />
             <ScrollView horizontal contentContainerStyle={s.row}>
               {gallery.map((g, i) => (
@@ -1091,12 +1100,11 @@ function Main() {
                 </Pressable>
               ))}
             </ScrollView>
-            <Text style={s.eyebrow}>{selected.category}</Text>
-            <Text style={s.h1}>{selected.name}</Text>
+            <Text style={{fontSize:23,fontWeight:"700",lineHeight:27}}>{selected.name}</Text><Text style={s.muted}>{c.name}</Text>
             <Text style={s.h2}>
               {preview(selected) ? "Preview design" : displayMoney(selected.priceKobo)}
             </Text>
-            <Text style={s.muted}>{selected.description}</Text>
+            <View style={{flexDirection:'row',gap:6}}>{[["shirt-outline",selected.category],["resize-outline",selected.details?.fit],["layers-outline",selected.details?.fabric]].filter(([,text])=>!!text).map(([icon,text],i)=><View key={i} style={{flex:1,backgroundColor:colors.secondary,borderRadius:12,padding:9,gap:5}}><Ionicons name={icon as "shirt-outline"} size={20}/><Text numberOfLines={2} style={{fontSize:11}}>{text}</Text></View>)}</View>
             <Text style={s.label}>Colour · {c.name}</Text>
             <View style={s.row}>
               {selected.colorways.map((v, i) => (
@@ -1138,48 +1146,10 @@ function Main() {
                   </Pressable>
                 ))}
             </View>
-            <Button
-              title={
-                preview(selected)
-                  ? "Preview only"
-                  : size
-                    ? "Add to bag"
-                    : "Choose a size"
-              }
-              disabled={!size || preview(selected) || !ready || !!payment}
-              onPress={add}
-            />
-            <Button
-              secondary
-              title={
-                saved.includes(selected.id)
-                  ? "♥ Saved — tap to remove"
-                  : "♡ Save this colour & size"
-              }
-              onPress={() => void task(() => like(selected))}
-            />
-            <Glass>
-              <Text style={s.h2}>Details & care</Text>
-              <Text>{selected.details?.fabric}</Text>
-              <Text>{selected.details?.fit}</Text>
-              <Text>{selected.details?.care}</Text>
-              {selected.details?.sizeChart?.length ? (
-                <>
-                  <Text style={s.h2}>Size guide</Text>
-                  <ScrollView horizontal>
-                    <View>
-                      {selected.details.sizeChart.map((row, i) => (
-                        <Text key={i} style={s.sizeRow}>
-                          {Object.entries(row)
-                            .map(([k, v]) => `${k}: ${v}`)
-                            .join("  ·  ")}
-                        </Text>
-                      ))}
-                    </View>
-                  </ScrollView>
-                </>
-              ) : null}
-            </Glass>
+            <ProductDisclosure title="Details & care"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fabric}</Text><Text style={s.muted}>{selected.details?.fit}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
+            <ProductDisclosure title="Size guide">{selected.details?.sizeChart?.length?<ScrollView horizontal><View>{selected.details.sizeChart.map((row,i)=><Text key={i} style={s.sizeRow}>{Object.entries(row).map(([k,v])=>`${k}: ${v}`).join('  ·  ')}</Text>)}</View></ScrollView>:<Text style={s.muted}>Measurements are awaiting confirmation. Contact support for sizing help.</Text>}</ProductDisclosure>
+            <ProductDisclosure title="Delivery & returns"><Text style={s.muted}>Review the current delivery and returns policy before ordering.</Text><Button compact secondary title="View policy →" onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'shipping-returns'}});}}/></ProductDisclosure>
+            <Pressable onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'contact'}});}} style={{minHeight:44,justifyContent:'center'}}><Text style={s.muted}>Need help? Contact support →</Text></Pressable>
           </>
         )}
       </Sheet>
@@ -1380,15 +1350,15 @@ const styles = (colors:Palette) => StyleSheet.create({
   },
   logo: { width: 155, height: 42 },
   content: {
-    padding: 16,
-    paddingBottom: 24,
-    gap: 14,
+    padding: 12,
+    paddingBottom: 18,
+    gap: 10,
     maxWidth: 1280,
     width: "100%",
     alignSelf: "center",
   },
-  h1: { fontSize: 31, fontWeight: "700", letterSpacing: -1, color: colors.text },
-  h2: { fontSize: 21, fontWeight: "600", color: colors.text },
+  h1: { fontSize: 26, fontWeight: "700", letterSpacing: -1, color: colors.text },
+  h2: { fontSize: 18, fontWeight: "600", color: colors.text },
   eyebrow: {
     fontSize: 10,
     letterSpacing: 2,
@@ -1403,10 +1373,10 @@ const styles = (colors:Palette) => StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 17,
-    padding: 15,
+    padding: 11,
     fontSize: 16,
     color: colors.text,
-    minHeight: 50,
+    minHeight: 44,
   },
   button: {
     backgroundColor: "#c9f774",
@@ -1431,7 +1401,7 @@ const styles = (colors:Palette) => StyleSheet.create({
     borderColor: colors.border,
     boxShadow: "0 8px 24px rgba(35,51,29,0.07)",
   },
-  glassContent: { padding: 14, gap: 10 },
+  glassContent: { padding: 12, gap: 8 },
   hero: { borderRadius: 25, overflow: "hidden", backgroundColor: "#dfe4dc" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 16 },
   product: { gap: 8, marginBottom: 14 },
@@ -1449,8 +1419,9 @@ const styles = (colors:Palette) => StyleSheet.create({
     flexWrap: "wrap",
   },
   chip: {
-    padding: 12,
-    borderRadius: 18,
+    padding: 10,
+    minHeight: 44,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.input,

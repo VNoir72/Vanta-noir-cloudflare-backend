@@ -1,7 +1,9 @@
+import {CurrencyPicker} from './CurrencyPicker';
+import {useBrandDialog} from './BrandDialog';
 import {enablePush,disablePush} from "../push";
 import {usePreferences,savePreferences,refreshCurrencies} from "../preferences";
 import React,{useEffect,useState} from 'react';
-import {Alert,Image,Linking,Pressable,TextInput,View} from 'react-native';
+import {Image,Linking,Pressable,TextInput,View} from 'react-native';
 import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,8 +14,8 @@ import {ShippingAddress} from './ShippingAddress';
 
 type Props={customer:Customer|null;onSave:(next:Customer)=>Promise<void>;onBack:()=>void;onLogout:()=>void;onDelete:()=>void;onHelp:(topic:string)=>void;onCountry:()=>void;country:string;countries:readonly (readonly [string,string])[];viewed:React.ReactNode;onClearViewed:()=>Promise<void>;autoplay:boolean;onAutoplay:(value:boolean)=>Promise<void>};
 export function SettingsHub(p:Props){
+ const Alert=useBrandDialog();
  const preferences=usePreferences();
- const [currencySearch,setCurrencySearch]=useState('');
  const {colors,appearance,setAppearance}=useTheme();
  const [panel,setPanel]=useState('Settings'),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[name,setName]=useState(p.customer?.name||'');
  const [extra,setExtra]=useState({photo:'',gender:'',birthday:''});
@@ -22,14 +24,14 @@ export function SettingsHub(p:Props){
  useEffect(()=>{let live=true;AsyncStorage.getItem(key).then(v=>{if(live&&v)setExtra(JSON.parse(v));}).catch(()=>{});return()=>{live=false;};},[key]);
  const run=async(fn:()=>Promise<void>)=>{if(busy)return;setBusy(true);setMessage('');try{await fn();}catch(e){setMessage(e instanceof Error?e.message:'Please try again.');}finally{setBusy(false);}};
  const open=(s:string)=>{setPanel(s);setMessage('');setEditing(null);setProfileField(null);};
- const row=(label:string,value:string,action:()=>void)=><Pressable key={label} accessibilityRole="button" disabled={busy} onPress={action} style={{flexDirection:'row',alignItems:'center',gap:10,paddingVertical:17,paddingHorizontal:16,backgroundColor:colors.surface,borderBottomWidth:1,borderColor:colors.page}}><Text style={{flex:1,fontSize:15}}>{label}</Text>{value!==''&&<Text numberOfLines={1} style={{fontSize:13,color:colors.muted,maxWidth:'50%'}}>{value}</Text>}<Icon name="chevron-forward" size={18}/></Pressable>;
+ const row=(label:string,value:string,action:()=>void)=><Pressable key={label} accessibilityRole="button" disabled={busy} onPress={action} style={{flexDirection:'row',alignItems:'center',gap:10,paddingVertical:10,paddingHorizontal:16,backgroundColor:colors.surface,borderBottomWidth:1,borderColor:colors.page}}><Text style={{flex:1,fontSize:15}}>{label}</Text>{value!==''&&<Text numberOfLines={1} style={{fontSize:13,color:colors.muted,maxWidth:'50%'}}>{value}</Text>}<Icon name="chevron-forward" size={18}/></Pressable>;
  const gap=<View style={{height:10}}/>;
  const button=(label:string,action:()=>void)=><Pressable disabled={busy} onPress={action} style={{padding:15,margin:16,borderRadius:25,backgroundColor:colors.accent,alignItems:'center'}}><Text style={{fontWeight:'700',color:'#182214'}}>{label}</Text></Pressable>;
  const input=(label:string,value:string,change:(v:string)=>void)=><View style={{padding:16,gap:8,backgroundColor:colors.surface}}><Text>{label}</Text><TextInput accessibilityLabel={label} value={value} onChangeText={change} style={{padding:12,minHeight:44,borderWidth:1,borderColor:colors.border,borderRadius:10,color:colors.text}}/></View>;
  const info=(title:string,body:string)=>Alert.alert(title,body);
  const saveAddresses=async(addresses:Address[])=>{if(!p.customer)return;await p.onSave({...p.customer,addresses});setEditing(null);setMessage('Addresses saved.');};
  const choosePhoto=()=>void run(async()=>{const result=await ImagePicker.launchImageLibraryAsync({mediaTypes:['images'],allowsEditing:true,aspect:[1,1],quality:0.35,base64:true});if(!result.canceled&&result.assets[0].base64){if(result.assets[0].base64.length>1500000)throw Error('Please choose a smaller photo.');const next={...extra,photo:'data:image/jpeg;base64,'+result.assets[0].base64};await AsyncStorage.setItem(key,JSON.stringify(next));setExtra(next);}});
- return <View style={{backgroundColor:colors.page,minHeight:650}}>
+ return <View style={{backgroundColor:colors.page,minHeight:400}}>
   <View style={{flexDirection:'row',alignItems:'center',backgroundColor:colors.surface,padding:10}}><Pressable accessibilityLabel="Back" onPress={()=>panel==='Settings'?p.onBack():open('Settings')} style={{padding:10}}><Icon name="arrow-back" size={24}/></Pressable><Text style={{flex:1,textAlign:'center',fontSize:19,fontWeight:'700'}}>{panel}</Text><View style={{width:44}}/></View>
   {!!message&&<Text accessibilityLiveRegion="polite" style={{padding:16}}>{message}</Text>}
   {panel==='Settings'&&<>
@@ -38,7 +40,7 @@ export function SettingsHub(p:Props){
     {row('General settings','',()=>open('General settings'))}{row('Notification settings','',()=>open('Notification settings'))}{row('Appearance',appearance==='system'?'Follow device':appearance,()=>open('Appearance'))}{row('Viewed','',()=>open('Viewed'))}{row('App image quality',preferences.imageQuality,()=>open('App image quality'))}{row('App video preferences',p.autoplay?'Autoplay muted':'Tap to play',()=>open('App video preferences'))}{row('Network acceleration',preferences.acceleration?'On':'Off',()=>open('Network acceleration'))}{row('Clear browsing history','',()=>Alert.alert('Clear browsing history?','Your bag, saved items and sign-in will be kept.',[{text:'Cancel',style:'cancel'},{text:'Clear',onPress:()=>void run(async()=>{await p.onClearViewed();setMessage('Browsing history cleared.');})}]))}{gap}
     {row('App suggestion','',()=>p.onHelp('contact'))}{row('Privacy policy','',()=>p.onHelp('privacy-policy'))}{row('Legal information','',()=>p.onHelp('terms-of-service'))}{row('Version',Constants.expoConfig?.version||'—',()=>info('Version',Constants.expoConfig?.version||'Unknown'))}{gap}
     {p.customer&&<>{row('Delete account','',p.onDelete)}{button('Sign out',p.onLogout)}</>}
-    <View style={{alignItems:'center',paddingTop:35,paddingBottom:65,gap:10}}><Image source={require('../../assets/emblem-watermark.png')} resizeMode="contain" style={{width:95,height:76,tintColor:colors.text,opacity:0.65}}/><Text style={{fontSize:12,color:colors.muted}}>VANTA NOIR · {Constants.expoConfig?.version}</Text><Text style={{fontSize:11,color:colors.muted}}>© 2026 Vanta Noir. All rights reserved.</Text></View>
+    <View style={{alignItems:'center',paddingTop:18,paddingBottom:25,gap:10}}><Image source={require('../../assets/emblem-watermark.png')} resizeMode="contain" style={{width:95,height:76,tintColor:colors.text,opacity:0.65}}/><Text style={{fontSize:12,color:colors.muted}}>VANTA NOIR · {Constants.expoConfig?.version}</Text><Text style={{fontSize:11,color:colors.muted}}>© 2026 Vanta Noir. All rights reserved.</Text></View>
   </>}
   {panel==='Profile'&&(!p.customer?<Text style={{padding:20}}>Sign in from You to manage your profile.</Text>:<>
     <Pressable onPress={choosePhoto} style={{padding:16,backgroundColor:colors.surface,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text>Photo</Text>{extra.photo?<Image source={{uri:extra.photo}} style={{width:54,height:54,borderRadius:27}}/>:<Icon name="person-circle-outline" size={54}/>}</Pressable>{gap}
@@ -54,7 +56,7 @@ export function SettingsHub(p:Props){
     {p.customer.addresses.map((a,index)=><View key={index} style={{padding:16,backgroundColor:colors.surface,borderBottomWidth:10,borderColor:colors.page,gap:6}}><Text style={{fontWeight:'700'}}>{a.firstName} {a.lastName}</Text><Text style={{color:colors.muted}}>{a.phone}</Text><Text>{[a.addressLine1,a.addressLine2,a.city,a.state,a.countryCode,a.postalCode].filter(Boolean).join(', ')}</Text><View style={{flexDirection:'row',alignItems:'center',gap:14,marginTop:10}}><Pressable accessibilityRole="radio" accessibilityState={{checked:index===0}} onPress={()=>void run(()=>saveAddresses([a,...p.customer!.addresses.filter((_,i)=>i!==index)]))} style={{flex:1,flexDirection:'row',alignItems:'center',gap:6,minHeight:44}}><Icon name={index===0?'checkmark-circle':'ellipse-outline'} size={23}/><Text>Default</Text></Pressable><Pressable accessibilityLabel={`Delete address ${index+1}`} onPress={()=>Alert.alert('Delete address?','This removes the saved address only.',[{text:'Cancel',style:'cancel'},{text:'Delete',style:'destructive',onPress:()=>void run(()=>saveAddresses(p.customer!.addresses.filter((_,i)=>i!==index)))}])} style={{padding:10}}><Icon name="trash-outline" size={23}/></Pressable><Pressable accessibilityLabel={`Edit address ${index+1}`} onPress={()=>{setDraft(a);setEditing(index);}} style={{padding:10}}><Icon name="create-outline" size={23}/></Pressable></View></View>)}
     {p.customer.addresses.length<5?button('Add new address',()=>{setDraft({...emptyAddress,email:p.customer!.email,countryCode:p.country});setEditing(-1);}):<Text style={{padding:16}}>Up to five saved addresses.</Text>}
   </>)}
-  {panel==='Currency'&&<><Text style={{padding:16}}>Converted browsing prices are estimates. Checkout and receipts show the actual charge in NGN. Your bank may apply its own exchange rate.</Text>{input('Search currency',currencySearch,setCurrencySearch)}{Object.keys(preferences.rates).sort().filter(c=>c.includes(currencySearch.toUpperCase())).map(c=>row(c,preferences.currency===c?'✓':'',()=>void run(()=>savePreferences({currency:c}))))}<Text style={{padding:16}}>Exchange rates by ExchangeRate-API. {preferences.rateAt?`Updated ${new Date(preferences.rateAt).toLocaleDateString()}`:'Rates unavailable; NGN remains available.'}</Text></>}
+  {panel==='Currency'&&<View style={{padding:12}}><CurrencyPicker/></View>}
   {panel==='App image quality'&&<>{row('Smart quality','Adapts to connection',()=>void run(()=>savePreferences({imageQuality:'smart'})))}{row('High quality','Suitable for Wi-Fi',()=>void run(()=>savePreferences({imageQuality:'high'})))}{row('Normal quality','Suitable for 3G / 2G',()=>void run(()=>savePreferences({imageQuality:'normal'})))}<Text style={{padding:16}}>Selected: {preferences.imageQuality}. Applies where optimized image sizes are available.</Text></>}
   {panel==='Appearance'&&(['system','light','dark'] as const).map(mode=>row(mode==='system'?'Follow device':mode,appearance===mode?'✓':'',()=>void run(()=>setAppearance(mode))))}
   {panel==='Notification settings'&&<>{row('Push notifications','',()=>open('Push notifications'))}{row('Email subscriptions','',()=>open('Email subscriptions'))}</>}

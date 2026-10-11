@@ -16,3 +16,4 @@ test('paid orders cannot re-enter payment or expiry tabs from stale status',()=>
  assert.equal(inOrderGroup({status:'expired',paymentStatus:'paid'},'Expired'),false);
  assert.equal(inOrderGroup({status:'pending_payment',paymentStatus:'paid'},'To pay'),false);
 });
+test('To pay includes unpaid and failed attempts but excludes terminal and paid orders',()=>{for(const paymentStatus of ['pending','unpaid','failed','abandoned'])assert.equal(inOrderGroup({status:'pending',paymentStatus},'To pay'),true);for(const status of ['expired','cancelled','refunded'])assert.equal(inOrderGroup({status,paymentStatus:'pending'},'To pay'),false);assert.equal(inOrderGroup({status:'processing',paymentStatus:'paid'},'To pay'),false);});

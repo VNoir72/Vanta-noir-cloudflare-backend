@@ -392,7 +392,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     return <div className="dn-options">
       <p className="dn-eyebrow">{product.category}</p>
       {detailSlug && !quick ? <h1>{nameOf(product)}</h1> : <h2>{nameOf(product)}</h2>}<p className="dn-option-price">{isPreview(product) ? "Price announced at launch" : displayCurrency.format(product.priceKobo)}</p>
-      <p className="dn-description">{shopperDescription(sourceProduct.description)}</p>
+      <p className="dn-description">{shopperDescription(sourceProduct.description)}</p><div className="vn-product-highlights">{[["Type",product.category],["Fit",sourceProduct.details?.fit],["Fabric",sourceProduct.details?.fabric]].filter(([,value])=>!!value).map(([label,value])=><div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
       <div className="dn-option-heading">Colour / design <strong>{entry.color.name}</strong><span>{product.colorways.length} {product.colorways.length===1?'option':'options'}</span></div>
       <div className="dn-swatches">{product.colorways.map(color => <button key={color.slug} style={{ "--swatch": swatchBackground(color.name,color.hex) } as React.CSSProperties} aria-label={`Choose ${color.name}`} aria-pressed={color.slug === entry.color.slug} onClick={() => { setSelectedSize(""); if (quick) setQuick({ product, color, key: keyOf(product, color) }); else setDetailColor(color.slug); }}><span /></button>)}</div>
       <div className="dn-option-heading">{productSizes.length===1 && productSizes[0]==="One size" ? "Size" : "Select size"} {productSizes.some(s=>sizes.includes(s)) && <SizeGuide product={sourceProduct} selectedSize={selectedSize} onSelectSize={setSelectedSize} stock={entry.color.stock}/>}</div>

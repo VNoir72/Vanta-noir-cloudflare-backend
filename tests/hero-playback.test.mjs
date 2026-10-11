@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {build} from 'esbuild';
+const built=await build({entryPoints:['mobile/src/hero-policy.ts'],bundle:true,write:false,platform:'node',format:'esm'});const {heroSlides}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const products=[1,2,3,4,5],fallback={url:'/fallback.webp',type:'image',alt:'Campaign'};
+test('three slots by default, fourth only when enabled, products retain order',()=>{assert.deepEqual(heroSlides({contentMode:'products'},products,fallback).map(s=>s.product),[1,2,3]);assert.deepEqual(heroSlides({contentMode:'products',fourthSlideEnabled:true},products,fallback).map(s=>s.product),[1,2,3,4]);});
+test('video takeover excludes every product and image and does not substitute a product if no video exists',()=>{const video={url:'/shoot.mp4',type:'video',alt:'Shoot'};assert.deepEqual(heroSlides({contentMode:'videos',playlist:[fallback,video]},products,fallback),[{media:video,product:undefined}]);assert.equal(heroSlides({contentMode:'videos'},products,fallback).length,0);});

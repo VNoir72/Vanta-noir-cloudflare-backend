@@ -215,6 +215,15 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await request('orders?deleted=true','GET',undefined,a)).data.orders.length,0);
     assert.equal((await request('orders','GET',undefined,a)).data.orders.length,1);
 
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST',permanent:true},a)).status,409);
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST'},a)).status,200);
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST',permanent:true},b)).status,404);
+    assert.equal((await request('orders','DELETE',{reference:'VN-TEST',permanent:true},a)).status,200);
+    assert.equal((await request('orders?deleted=true','GET',undefined,a)).data.orders.length,0);
+    assert.equal((await request('orders','GET',undefined,a)).data.orders.length,0);
+    assert.equal((await request('orders','PATCH',{reference:'VN-TEST'},a)).status,409);
+    assert.ok(await db.prepare("SELECT id FROM orders WHERE reference='VN-TEST'").first(),'Permanent history removal retains the business record');
+
     await db.prepare("INSERT INTO orders(id,reference,email,total_kobo,status,payment_status,created_at) VALUES('2','VN-CARD','a@example.com',123450,'paid','paid',CURRENT_TIMESTAMP)").run();
     await db.prepare("INSERT INTO app_customer_orders(customer_id,reference) VALUES(?,'VN-CARD')").bind(customer.id).run();
     const save=()=>request("cards","POST",{reference:"VN-CARD",consent:true},a);

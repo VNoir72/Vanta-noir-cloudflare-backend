@@ -265,13 +265,18 @@ export async function customerApp(request: Request): Promise<Response> {
       const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
       const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(reference,s.id).first();
       if(!owned)return json({error:'Order not found.'},404);
+      if(await db.prepare('SELECT key FROM store_meta WHERE key=?').bind('purged-order:'+s.id+':'+reference).first())return json({error:'This order was permanently removed from your history.'},409);
       await db.prepare('DELETE FROM store_meta WHERE key=?').bind('hidden-order:'+s.id+':'+reference).run();
       return json({restored:true});
     }
     if(path==='orders'&&request.method==='DELETE'){
-      const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
+      const {reference,permanent}=z.object({reference:z.string().min(1).max(120),permanent:z.boolean().optional()}).strict().parse(await request.json());
       const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(reference,s.id).first();
       if(!owned)return json({error:'Order not found.'},404);
+      if(permanent){
+        if(!await db.prepare('SELECT key FROM store_meta WHERE key=?').bind('hidden-order:'+s.id+':'+reference).first())return json({error:'Move the order to the recycle bin first.'},409);
+        await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('purged-order:'+s.id+':'+reference,JSON.stringify({removedAt:new Date().toISOString()})).run();return json({removed:true,permanent:true});
+      }
       await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('hidden-order:'+s.id+':'+reference,JSON.stringify({hiddenAt:new Date().toISOString()})).run();
       return json({removed:true});
     }
@@ -280,7 +285,7 @@ export async function customerApp(request: Request): Promise<Response> {
       const rows = await db
         .prepare(
           `SELECT o.reference,o.status,o.payment_status AS paymentStatus,o.total_kobo AS totalKobo,o.created_at AS createdAt,o.carrier,o.tracking_number AS trackingNumber,o.tracking_url AS trackingUrl,o.delivery_estimate AS deliveryEstimate
-    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND ${new URL(request.url).searchParams.get('deleted')==='true'?'':'NOT '}EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
+    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key='purged-order:'||a.customer_id||':'||o.reference) AND ${new URL(request.url).searchParams.get('deleted')==='true'?'':'NOT '}EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
         )
         .bind(s.id)
         .all();
