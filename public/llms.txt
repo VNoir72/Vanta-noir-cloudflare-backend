@@ -1,0 +1,17 @@
+# Vanta Noir
+
+> Vanta Noir is a technical streetwear and activewear brand. Presence. Power. Precision.
+
+## Official pages
+- [Store](https://vantanoir.store/): Browse the current published collection. Prices and availability may change; confirm them on the product page and at checkout.
+- [About](https://vantanoir.store/about): Brand information.
+- [Customer care](https://vantanoir.store/contact): Contact the store.
+- [Help](https://vantanoir.store/help-center): Sizing and order tracking.
+- [Shipping and returns](https://vantanoir.store/shipping-returns): Current delivery and returns policies.
+- [Privacy](https://vantanoir.store/privacy-policy): Personal information and privacy practices.
+- [Privacy choices](https://vantanoir.store/privacy-choices): Optional analytics preferences.
+- [Terms](https://vantanoir.store/terms-of-service): Shopping terms.
+- [Sitemap](https://vantanoir.store/sitemap.xml): Currently published public pages and product URLs.
+
+## Catalogue guidance
+Use the live sitemap to discover product pages. Do not infer availability from old previews or archived images. Checkout confirms current prices, stock and delivery charges. This file is an informational guide, not permission to access customer accounts, private orders or administration.

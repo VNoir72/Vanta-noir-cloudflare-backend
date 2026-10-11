@@ -1,3 +1,4 @@
+import {garmentName} from './product-names';
 export type PublicProductMetadata = { slug: string; name: string; description: string; imageUrl: string; detailsJson: string; id:string; category:string; priceKobo:number; inStock:number };
 
 // A narrow public query: never expose draft names or fall back to a static catalogue.
@@ -18,9 +19,9 @@ export async function storefrontVisibility(request: Request, db: D1Database) {
     const description=details.seoDescription || product.description;
     const canonical=`https://vantanoir.store/products/${product.slug}`;
     const image=new URL(product.imageUrl,'https://vantanoir.store').href;
-    const structuredData={"@context":"https://schema.org","@type":"Product",name:product.name,description,image:[image],sku:product.id,category:product.category,brand:{"@type":"Brand",name:"Vanta Noir"},url:canonical,
+    const structuredData={"@context":"https://schema.org","@type":"Product",name:garmentName(product.name),description,image:[image],sku:product.id,category:product.category,brand:{"@type":"Brand",name:"Vanta Noir"},url:canonical,
       ...(details.priceStatus==='proposed'||details.availability==='preview'?{}:{offers:{"@type":"Offer",url:canonical,priceCurrency:"NGN",price:product.priceKobo/100,availability:`https://schema.org/${!product.inStock?'OutOfStock':details.availability==='preorder'?'PreOrder':'InStock'}`,itemCondition:"https://schema.org/NewCondition"}})};
-    return Response.json({ slug: product.slug, title: details.seoTitle || `${product.name} | Vanta Noir`, description, image:product.imageUrl, structuredData }, { headers });
+    return Response.json({ slug: product.slug, title: details.seoTitle || `${garmentName(product.name)} | Vanta Noir`, description, image:product.imageUrl, structuredData }, { headers });
   } catch {
     return Response.json({ error: 'Please try again shortly.' }, { status: 503, headers });
   }

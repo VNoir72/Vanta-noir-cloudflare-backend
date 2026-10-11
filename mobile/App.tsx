@@ -1,3 +1,6 @@
+import {FirstRun} from './src/components/FirstRun';
+import {ConnectionNotice} from './src/components/ConnectionNotice';
+import {AppRecovery} from './src/components/AppRecovery';
 import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
 import {disablePush} from "./src/push";
@@ -736,7 +739,7 @@ function Main() {
       : [];
   return (
     <SafeAreaView style={s.page}>
-      <StatusBar style={dark?"light":"dark"} />
+      <StatusBar style={dark?"light":"dark"} /><ConnectionNotice/>
       {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:12,paddingVertical:7}]}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:24,paddingHorizontal:12,backgroundColor:colors.surface}}><Ionicons name="search-outline" size={19}/><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" value={search} onChangeText={setSearch} onSubmitEditing={()=>setSearchOpen(true)} style={{flex:1,minHeight:44,color:colors.text,fontSize:14,paddingHorizontal:9}}/>{!!search&&<Pressable accessibilityLabel="Clear search" onPress={()=>setSearch('')} style={{padding:8}}><Ionicons name="close" size={17}/></Pressable>}</View><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={24}/></Pressable></View>}
       <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
       {notice !== "" && (
@@ -1332,7 +1335,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Main />
+      <AppRecovery><Main /><FirstRun/></AppRecovery>
     </SafeAreaProvider>
   );
 }

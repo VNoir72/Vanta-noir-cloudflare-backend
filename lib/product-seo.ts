@@ -1,3 +1,4 @@
+import {garmentName} from './product-names';
 import { SITE_URL } from "./seo";
 import type { CatalogProduct } from "./catalog";
 import imageVariants from "./image-assets.json";
@@ -6,11 +7,11 @@ function imageUrl(src: string) {
   return new URL(variants?.at(-1)?.src ?? src,SITE_URL).href;
 }
 export function productSeo(product: CatalogProduct) {
-  return { path: `/products/${product.slug}`, title: product.details?.seoTitle || `${product.name.replace(/^\d+\s+/,"")} | Vanta Noir`, description: product.details?.seoDescription || product.description.slice(0, 200), image: imageUrl(product.imageUrl) };
+  return { path: `/products/${product.slug}`, title: product.details?.seoTitle || `${garmentName(product.name)} | Vanta Noir`, description: product.details?.seoDescription || product.description.slice(0, 200), image: imageUrl(product.imageUrl) };
 }
 export function productJsonLd(product: CatalogProduct) {
   const seo=productSeo(product); const available=product.details?.availability!=="preview" && product.details?.priceStatus!=="proposed" && product.colorways.some(c=>Object.values(c.stock).some(n=>n>0));
-  return { "@context":"https://schema.org", "@type":"Product", name:product.name, description:seo.description,
+  return { "@context":"https://schema.org", "@type":"Product", name:garmentName(product.name), description:seo.description,
     image:[...new Set((product.images?.length ? product.images.map(i=>i.imageUrl) : [product.imageUrl]).map(imageUrl))],
     sku:product.id, brand:{"@type":"Brand", name:"Vanta Noir"}, category:product.category,
     ...(product.details?.fabric ? {material:product.details.fabric}:{}),

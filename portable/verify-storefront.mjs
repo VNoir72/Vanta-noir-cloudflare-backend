@@ -7,7 +7,7 @@ let checked=0;
 for(const file of files){
   const html=await readFile(resolve(root,file),"utf8");
   assert.match(html,/href="\/about"/,`${file} must link to the restored About page`);
-  assert.match(html,/<h1\b/,`${file} must have a page heading`);
+  assert.equal((html.match(/<h1\b/g)||[]).length,1,`${file} must have exactly one main heading`);
   assert.equal((html.match(/class="vn-liquid-header"/g)||[]).length,1,`${file} must use the single current header`);
   assert.doesNotMatch(html, /class="(?:dn-header|vn-store-header)(?: |")/, `${file} contains a retired header`);
   assert.match(html,/aria-label="Open search"/,`${file} needs the inline search control`);
@@ -66,8 +66,6 @@ console.log(`Verified studio mapping and delivery files for ${Object.keys(studio
 
 // Keep seed snapshots out of the startup payload and preserve deferred modules.
 assert.ok(Buffer.byteLength(javascript) < 2_000_000, "Startup JavaScript exceeded the 2 MB uncompressed budget");
-assert.match(home, /rel="preload" as="image"[^>]+media="\(max-width: 767px\)"/);
-assert.match(home, /rel="preload" as="image"[^>]+media="\(min-width: 768px\)"/);
 for (const chunk of [...javascript.matchAll(/catalog-images-[A-Za-z0-9_-]+\.js/g)]) {
   assert.ok((await stat(resolve(root,"assets",chunk[0]))).isFile(), "Missing deferred catalogue module");
 }
@@ -78,3 +76,6 @@ assert.match(about,/vn-about-logo-circle/);
 assert.match(about,/vanta-noir-emblem-960.webp/);
 assert.doesNotMatch(about,/vanta-hero(?:-|\.)/);
 for(const file of ['vanta-hero.png','vanta-hero-480.webp','vanta-hero-960.webp','vanta-hero-1600.webp'])assert.equal(await stat(resolve(root,'images',file)).catch(()=>null),null,'Retired campaign image must not ship: '+file);
+
+assert.match(await readFile(resolve(root,'llms.txt'),'utf8'),/https:\/\/vantanoir.store\/sitemap.xml/,'AI-readable guide links to the live publication-aware sitemap');
+assert.doesNotMatch(await readFile(resolve(root,"index.html"),"utf8"), /<link[^>]+rel="preload"[^>]+href="[^"]*vanta-brand-hero/, "Do not preload retired campaign photographs for the dynamic hero");
