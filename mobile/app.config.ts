@@ -26,6 +26,7 @@ const config: ExpoConfig = {
     infoPlist: { ITSAppUsesNonExemptEncryption: false },
   },
   android: {
+    allowBackup: false,
     adaptiveIcon: { foregroundImage: "./assets/app-icon.png", backgroundColor: "#0a0a0a" },
     softwareKeyboardLayoutMode: "resize",
     versionCode: 2,
