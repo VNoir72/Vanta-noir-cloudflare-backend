@@ -13,7 +13,7 @@ export async function GET(request?:Request) {
   try {
     const [products, settings, sales] = await Promise.all([listCatalog(request?await appAccessContext(request):undefined), getCommerceSettings(), salesSignals().catch(()=>[])]);
     const ready=settings.acceptingOrders && settings.inventoryConfirmed && checkoutSetupIssues(settings,isPaystackConfigured(),configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length===0;
-    return Response.json({ products, merchandising:{sales,stockBadgesEnabled:ready}, checkout: {
+    return Response.json({ products, merchandising:{sales:sales.filter(signal=>products.some(product=>product.id===signal.productId)),stockBadgesEnabled:ready}, checkout: {
       customerAccountsEnabled:runtimeEnv().CUSTOMER_APP_ENABLED==='true',customTransferEnabled:runtimeEnv().CUSTOM_TRANSFER_ENABLED==='true',shipbubbleCheckoutEnabled:shipbubbleCheckoutEnabled(),shippingFeeKobo: configuredShippingFeeKobo(), paymentsEnabled: isPaystackConfigured(), shippingCountry: "Nigeria", ...publicCommerceSettings(settings,shipbubbleCheckoutEnabled()),
       internationalCourierEnabled:internationalCourierEnabled(settings),
       shippingCountries:SHIPPING_COUNTRIES.filter(([code])=>code==='NG'||internationalCourierEnabled(settings)||(settings.internationalEnabled&&settings.internationalZones.some(z=>z.countryCode===code))),
