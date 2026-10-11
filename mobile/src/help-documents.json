@@ -2,7 +2,7 @@
   "terms-of-service": [
     {
       "title": "Products & pricing",
-      "body": "Prices are shown in Nigerian naira. Your selected colour, size, quantity and applicable delivery charge are shown before payment. Availability and totals are checked again by the store when checkout starts. Product imagery may include digital design mockups. Check whether a piece is a preview, preorder or ready to buy; a preview is not a claim that stock is available. Screen settings can affect how colours appear. Check the individual product’s fabric, fit and measurements."
+      "body": "Prices are shown in Nigerian naira. Your selected colour, size, quantity and applicable delivery charge are shown before payment. Availability and totals are checked again by the store when checkout starts. Product imagery may include digital design mockups. Check whether a piece is a preview, preorder or ready to buy; a preview is not a claim that stock is available. Screen settings can affect how colours appear. Check the individual product\u2019s fabric, fit and measurements."
     },
     {
       "title": "Orders & payment",
@@ -14,7 +14,7 @@
     },
     {
       "title": "Using this website",
-      "body": "Use the store lawfully and do not attempt to access another customer’s information, disrupt the service or misrepresent a payment. Brand content and product imagery belong to their respective rights holders. Ask permission before using them commercially."
+      "body": "Use the store lawfully and do not attempt to access another customer\u2019s information, disrupt the service or misrepresent a payment. Brand content and product imagery belong to their respective rights holders. Ask permission before using them commercially."
     },
     {
       "title": "Questions or concerns",
@@ -36,7 +36,7 @@
     },
     {
       "title": "Saved designs & product interest",
-      "body": "When you save a design, we record its colour and any size preference with a random browser identifier. This helps us decide which designs to release. We count likes and confirmed launch alerts separately; a like is not an order. Unsave a design to remove its vote. Clearing browser storage removes your identifier but does not remove earlier votes from the store’s counts."
+      "body": "When you save a design, we record its colour and any size preference with a random browser identifier. This helps us decide which designs to release. We count likes and confirmed launch alerts separately; a like is not an order. Unsave a design to remove its vote. Clearing browser storage removes your identifier but does not remove earlier votes from the store\u2019s counts."
     },
     {
       "title": "Reviews & subscriptions",
@@ -49,6 +49,10 @@
     {
       "title": "Your app account and device storage",
       "body": "The app stores a session credential securely on your device so you stay signed in. Your bag and a random interest identifier are stored on this device. When you create an account, your email, name, saved addresses and favourites are stored with the store. Orders placed while signed in are linked to your account. Pending payment information is kept securely so you can resume checking its status. You can sign out or delete your account under Account. Deleting an account removes its profile, addresses, favourites and sessions; necessary transaction and support records may be retained for the purposes described above."
+    },
+    {
+      "title": "App preferences and notifications",
+      "body": "The app remembers display currency, image quality, video playback and optional network acceleration on this device. Exchange-rate requests are sent to ExchangeRate-API. If you enable order push notifications, your device push token is linked to your signed-in account and used with Expo and Google notification services. You can disable order notifications in Settings. Notifications use a general order-update message; open your account to view the details. Intelligent network acceleration can use mobile data for public catalogue requests when Wi-Fi fails, if you enable it."
     }
   ],
   "about": [
@@ -64,7 +68,7 @@
   "shipping-returns": [
     {
       "title": "Shipping & delivery",
-      "body": "Available courier services, charges and delivery estimates are shown at checkout. Packing time is additional to courier collection and transit time. Delivery estimates are not guaranteed arrival dates. Business days are Monday–Friday, excluding Nigerian public holidays. Preorder and made-to-order preparation times are stated separately before purchase."
+      "body": "Available courier services, charges and delivery estimates are shown at checkout. Packing time is additional to courier collection and transit time. Delivery estimates are not guaranteed arrival dates. Business days are Monday\u2013Friday, excluding Nigerian public holidays. Preorder and made-to-order preparation times are stated separately before purchase."
     }
   ]
 }

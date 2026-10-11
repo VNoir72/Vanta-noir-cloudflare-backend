@@ -1,3 +1,6 @@
+import {appSession} from './app-session';
+export {appSession} from './app-session';
+import {registerPush} from "./customer-push";
 import {expireUnpaidOrders} from './order-expiry';
 import {customerCenter} from './customer-center';
 import {reviewSchema,submitReview} from './commerce-db';
@@ -13,25 +16,6 @@ const emailSchema = z.string().trim().toLowerCase().email().max(200);
 const tokenPattern = /^[a-f0-9-]{73}$/;
 const json = (v: unknown, status = 200) =>
   Response.json(v, { status, headers: { "Cache-Control": "no-store" } });
-export async function appSession(request: Request) {
-  if(runtimeEnv().CUSTOMER_APP_ENABLED!=='true')return null;
-  const token = request.headers.get("Authorization")?.replace(/^Bearer /, "");
-  if (!token || !tokenPattern.test(token)) return null;
-  return getDbBinding()
-    .prepare(
-      `SELECT c.id,c.email,c.name,c.addresses_json,c.favourites_json,s.created_at AS authenticatedAt
- FROM app_sessions s JOIN app_customers c ON c.id=s.customer_id WHERE s.digest=? AND s.expires_at>?`,
-    )
-    .bind(await receiptDigest(token), Date.now())
-    .first<{
-      id: string;
-      email: string;
-      name: string;
-      addresses_json: string;
-      favourites_json: string;
-      authenticatedAt: number;
-    }>();
-}
 export async function linkAppOrder(
   request: Request,
   reference: string,
@@ -183,6 +167,10 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     const s = await appSession(request);
     if (!s) return json({ error: "Please sign in again." }, 401);
+    if(path==='push'&&['POST','DELETE'].includes(request.method)){
+      const {token}=z.object({token:z.string().regex(/^(ExpoPushToken|ExponentPushToken)\[[A-Za-z0-9_-]+\]$/).max(200)}).strict().parse(await request.json());
+      await registerPush(s.id,token,request.method==='DELETE');return json({registered:request.method==='POST'});
+    }
     if (path === "me" && request.method === "GET")
       return json({
         customer: {
@@ -264,6 +252,7 @@ export async function customerApp(request: Request): Promise<Response> {
         db
           .prepare("DELETE FROM app_login_challenges WHERE email=?")
           .bind(s.email),
+        db.prepare("DELETE FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=?").bind(s.id),
         db.prepare("DELETE FROM app_customers WHERE id=?").bind(s.id),
       ]);
       return json({
@@ -271,6 +260,13 @@ export async function customerApp(request: Request): Promise<Response> {
         message:
           "Account, addresses and favourites deleted. Required transaction records are retained under our published retention policy.",
       });
+    }
+    if(path==='orders'&&request.method==='PATCH'){
+      const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
+      const owned=await db.prepare('SELECT reference FROM app_customer_orders WHERE reference=? AND customer_id=?').bind(reference,s.id).first();
+      if(!owned)return json({error:'Order not found.'},404);
+      await db.prepare('DELETE FROM store_meta WHERE key=?').bind('hidden-order:'+s.id+':'+reference).run();
+      return json({restored:true});
     }
     if(path==='orders'&&request.method==='DELETE'){
       const {reference}=z.object({reference:z.string().min(1).max(120)}).strict().parse(await request.json());
@@ -284,7 +280,7 @@ export async function customerApp(request: Request): Promise<Response> {
       const rows = await db
         .prepare(
           `SELECT o.reference,o.status,o.payment_status AS paymentStatus,o.total_kobo AS totalKobo,o.created_at AS createdAt,o.carrier,o.tracking_number AS trackingNumber,o.tracking_url AS trackingUrl,o.delivery_estimate AS deliveryEstimate
-    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
+    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND ${new URL(request.url).searchParams.get('deleted')==='true'?'':'NOT '}EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
         )
         .bind(s.id)
         .all();

@@ -10,6 +10,11 @@ class VantaPaystackModule : Module() {
   private var pending: Promise? = null
   override fun definition() = ModuleDefinition {
     Name("VantaPaystack")
+    AsyncFunction("fetchPublicOverCellular") { path: String, promise: Promise ->
+      val context=appContext.reactContext
+      if(context==null)promise.reject("NO_CONTEXT","Open the app first.",null)
+      else CellularFallback.fetch(context,path,promise)
+    }
     AsyncFunction("launch") { publicKey: String, accessCode: String, promise: Promise ->
       val activity = appContext.currentActivity
       when {

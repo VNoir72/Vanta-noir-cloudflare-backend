@@ -12,7 +12,7 @@ android {
   }
 }
 dependencies {
-  // Version documented in Paystack's integration guide; compatible with this Expo Kotlin toolchain.
-  implementation 'com.paystack.android:paystack-ui:0.0.9'
+  // Kotlin 2.1-compatible SDK; replaces legacy Compose UI dependencies in 0.0.9.
+  implementation 'com.paystack.android:paystack-ui:0.1.3'
   implementation 'androidx.activity:activity-ktx:1.10.1'
 }

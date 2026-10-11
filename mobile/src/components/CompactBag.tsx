@@ -3,7 +3,8 @@ import {Image, Pressable, View} from 'react-native';
 import {Text, Icon, useTheme} from '../theme';
 import {CartItem, Product} from '../types';
 import {variantStock} from '../bag-selection';
-import {imageUrl, money} from '../api';
+import {imageUrl} from '../api';
+import {displayMoney as money} from '../preferences';
 
 export function TrustFooter({onOpen}:{onOpen:(topic:string)=>void}) {
   const {colors}=useTheme();

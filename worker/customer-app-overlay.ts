@@ -1,3 +1,4 @@
+export {sendOrderPushUpdates} from "../lib/customer-push";
 import {customerApp} from '../lib/customer-app';
 import {POST as checkout} from '../app/api/checkout/route';
 import {runtimeEnv} from '../lib/runtime-env';

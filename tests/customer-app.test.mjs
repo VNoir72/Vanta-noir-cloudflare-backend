@@ -201,6 +201,20 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await request('orders','DELETE',{reference:'VN-TEST'},a)).status,200);
     assert.equal((await request('orders','GET',undefined,a)).data.orders.length,0);
     assert.ok(await db.prepare("SELECT id FROM orders WHERE reference='VN-TEST'").first(),'Removing from history preserves the store record');
+    assert.equal((await request('orders?deleted=true','GET',undefined,a)).data.orders.length,1);
+    assert.equal((await request('orders?deleted=true','GET',undefined,b)).data.orders.length,0);
+    assert.equal((await request('orders','PATCH',{reference:'VN-TEST'},b)).status,404);
+    assert.equal((await request('push','POST',{token:'not-a-token'},a)).status,400);
+    assert.equal((await request('push','POST',{token:'ExpoPushToken[test_device]'},a)).status,200);
+    assert.equal((await request('push','DELETE',{token:'ExpoPushToken[test_device]'},b)).status,200);
+    assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM store_meta WHERE key LIKE 'push-device:%'").first()).n,1,'Another customer cannot unregister this device');
+    assert.equal((await request('push','DELETE',{token:'ExpoPushToken[test_device]'},a)).status,200);
+    assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM store_meta WHERE key LIKE 'push-device:%'").first()).n,0);
+
+    assert.equal((await request('orders','PATCH',{reference:'VN-TEST'},a)).status,200);
+    assert.equal((await request('orders?deleted=true','GET',undefined,a)).data.orders.length,0);
+    assert.equal((await request('orders','GET',undefined,a)).data.orders.length,1);
+
     await db.prepare("INSERT INTO orders(id,reference,email,total_kobo,status,payment_status,created_at) VALUES('2','VN-CARD','a@example.com',123450,'paid','paid',CURRENT_TIMESTAMP)").run();
     await db.prepare("INSERT INTO app_customer_orders(customer_id,reference) VALUES(?,'VN-CARD')").bind(customer.id).run();
     const save=()=>request("cards","POST",{reference:"VN-CARD",consent:true},a);

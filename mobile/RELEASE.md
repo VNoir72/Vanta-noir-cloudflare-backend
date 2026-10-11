@@ -148,3 +148,18 @@ Activation requires EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY in the EAS build environment
 Paystack UI 0.0.9 is pinned to the version in Paystack's current Android integration guide and its compatible Kotlin metadata. Maven's newer 0.1.5 publishes Kotlin 2.4 metadata while this app's React Native toolchain declares Kotlin 2.1.20; upgrading it needs separate native compatibility validation.
 
 Before activation: build and test on Android using matching staging credentials. Cover successful payment, bank authentication, sheet close, failure, app background/process restart, expired order, server verification outage, duplicate taps and saved-card consent. JavaScript export/typechecking alone does not validate the native payment sheet.
+
+## 0.1.7 customer experience update
+
+- Paystack UI 0.1.3 replaces 0.0.9's older Compose dependencies. Native build and physical-device card-sheet verification are required; the reported crash is not yet confirmed resolved.
+- Compact checkout/address summary; saved address prompt disappears after matching address is saved.
+- Order search toolbar, status filter, support action, deleted-order list and ownership-checked restore.
+- All catalogue categories appear in a horizontal scroll row.
+- Currency estimates from the provider's available NGN exchange rates in app browsing and website. Checkout/receipts stay NGN. Rates older than 48 hours are not used.
+- Smart/high/normal image quality selects existing optimized image sizes; unsupported image URLs retain their original size.
+- Opt-in Android cellular fallback for timed-out public catalogue/health GET requests. Requires mobile data; never retries payments or mutations.
+- Push registration, removal, response navigation and backend order notification job are prepared. Firebase google-services.json and FCM v1 credentials are missing; remote push is not live. Add GOOGLE_SERVICES_JSON as an EAS file environment variable and configure the matching FCM v1 service account through EAS credentials before building the push-enabled release.
+- Privacy table of contents on app and website; compact hero keeps 210px height with image backdrop and contained video.
+- Logo-video generation: https://manus.im/app/RPZhC3dwLq65keWQ36Zh9G . No completed video has been received or installed yet.
+- Cloudflare production upload was blocked by automatic approval review on 2026-10-11; source is ready but experience overlay is NOT deployed. Existing backend version 4bc47245-6a95-49c6-8c25-0fce56ed3d74 is preserved.
+- Build 14: https://expo.dev/accounts/vanta-noir/projects/vanta/builds/72bce585-c5a5-47dc-a531-07c75260cdf0 . Later minor JS changes (bag estimates/category deduplication) need a matching OTA after backend activation or next APK.

@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: studio ? "Vanta Noir Studio" : "Vanta Noir",
   slug: studio ? "vanta-noir-studio" : "vanta",
   owner: "vanta-noir",
-  version: "0.1.6",
+  version: "0.1.7",
   // Native fingerprints keep incompatible OTA bundles off installed builds.
   ...(!studio ? {
     runtimeVersion: { policy: "fingerprint" as const },
@@ -27,6 +27,7 @@ const config: ExpoConfig = {
   },
   android: {
     allowBackup: false,
+    ...(process.env.GOOGLE_SERVICES_JSON?{googleServicesFile:process.env.GOOGLE_SERVICES_JSON}:{}),
     adaptiveIcon: { foregroundImage: "./assets/app-icon.png", backgroundColor: "#0a0a0a" },
     softwareKeyboardLayoutMode: "resize",
     versionCode: 2,
@@ -38,7 +39,7 @@ const config: ExpoConfig = {
       "android.permission.ACCESS_COARSE_LOCATION",
     ],
   },
-  plugins: ["expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
+  plugins: ["expo-notifications","expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
   extra: {
     variant: studio ? "studio" : "customer",
     ...(!studio ? { eas: { projectId: "fa2d496b-dfe1-490c-9c6c-c1d961442dd6" } } : {}),
