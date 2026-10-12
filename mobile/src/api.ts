@@ -53,7 +53,7 @@ export async function api<T>(
 ): Promise<T> {
   const token = await vault.get("session");
   let appCheck:string|null=null;
-  if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/benefit)/.test(path)))appCheck=await appCheckToken();
+  if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/(benefit|circle))/.test(path)))appCheck=await appCheckToken();
   let response:Response;
   try {response = await fetch(API + path, {
     method,

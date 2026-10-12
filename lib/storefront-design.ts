@@ -8,11 +8,12 @@ const image=z.string().trim().max(500).refine(safeHeroImage,'Choose a store imag
 const storeLink=z.string().trim().max(500).refine(v=>/^\/(?!\/)[a-zA-Z0-9_/?#=&%+.,~-]*$/.test(v),'Use a link within your store, starting with /.');
 export const heroMediaSchema=z.object({
   url:z.string().max(500).refine(v=>safeHeroImage(v)||/^https:\/\/api\.vantanoir\.store\/api\/media\/products\/[a-f0-9-]+\.(mp4|webm)$/.test(v),'Upload store media first.'),
-  link:storeLink.optional(),
+  link:storeLink.optional(), startsAt:z.string().datetime().optional(),endsAt:z.string().datetime().optional(),
   type:z.enum(['image','video']), alt:z.string().max(240).default('Vanta Noir campaign'),
 });
 export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
+  slots:z.array(z.object({kind:z.enum(['product','media','hidden']),productIndex:z.number().int().min(0).max(39).optional(),url:z.string().max(500).optional()})).max(4).optional(),
   contentMode:z.enum(['mixed','products','campaigns','videos']).default('mixed'),
   fourthSlideEnabled:z.boolean().default(false),
   productsFirst:z.boolean().default(false),

@@ -1,3 +1,6 @@
+import {recordPresence,growthConfig} from './growth';
+import {circleMembership,circleStart,circleVerify,circleManage,circleBeforeDeletion} from './circle';
+import {phoneStatus,phoneSend,phoneVerify} from './phone-verification';
 import {memberHub,setMemberWatch} from './app-members';
 import {appAccessContext} from './app-attestation';
 import {restartPayment} from './restart-payment';
@@ -196,6 +199,18 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     const s = await appSession(request);
     if (!s) return json({ error: "Please sign in again." }, 401);
+    if(path==='presence'&&request.method==='POST')return json(await recordPresence(request,s.id,await request.json()));
+    if(path==='phone'&&request.method==='GET')return json(await phoneStatus(s.id));
+    if(path==='phone/send'&&request.method==='POST')return json(await phoneSend(request,s.id));
+    if(path==='phone/verify'&&request.method==='POST')return json(await phoneVerify(s.id,await request.json()));
+    if(path==='circle'||path.startsWith('circle/')){
+      const access=await appAccessContext(request);if(!access.verifiedApp)return json({error:'Circle is available only in the verified Vanta Noir app.'},403);
+      if(path==='circle'&&request.method==='GET'){const config=await growthConfig();return json({config:config.circle,version:config.version,membership:await circleMembership(s.id)});}
+      if(path==='circle/start'&&request.method==='POST')return json(await circleStart(s.id,s.email,await request.json()));
+      if(path==='circle/verify'&&request.method==='POST'){const v=z.object({reference:z.string().max(150)}).strict().parse(await request.json());return json(await circleVerify(v.reference,s.id));}
+      if(path==='circle/manage'&&request.method==='POST')return json(await circleManage(s.id));
+      return json({error:'Method not allowed.'},405);
+    }
     if(path==='push'&&['POST','DELETE'].includes(request.method)){
       const {token}=z.object({token:z.string().regex(/^(ExpoPushToken|ExponentPushToken)\[[A-Za-z0-9_-]+\]$/).max(200)}).strict().parse(await request.json());
       await registerPush(s.id,token,request.method==='DELETE');return json({registered:request.method==='POST'});
@@ -271,7 +286,10 @@ export async function customerApp(request: Request): Promise<Response> {
       if(firebase)await deleteFirebaseCustomer(firebase.value);
       // Explicit cleanup also covers deployments with foreign-key enforcement disabled.
       const cardsTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first();
+      await circleBeforeDeletion(s.id);
       await db.batch([
+        db.prepare("DELETE FROM store_meta WHERE (key LIKE 'presence:%' OR key LIKE 'activity:%') AND json_extract(value,'$.customerId')=?").bind(s.id),
+        db.prepare('DELETE FROM store_meta WHERE key IN (?,?)').bind('phone-verified:'+s.id,'phone-challenge:'+s.id),
         ...(cardsTable ? [db.prepare('DELETE FROM app_customer_cards WHERE customer_id=?').bind(s.id)] : []),
         db.prepare("DELETE FROM app_sessions WHERE customer_id=?").bind(s.id),
         db

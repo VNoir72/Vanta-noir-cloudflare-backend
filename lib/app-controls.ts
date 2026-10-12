@@ -1,3 +1,4 @@
+import {circleMembership} from './circle';
 import {getDbBinding} from './runtime-env';
 import {appControlsSchema,dropAccess,offerAccess,publicAccess,type AppAccess,type AppControls} from './app-controls-policy';
 export {appControlsSchema,publicAccess};
@@ -15,8 +16,9 @@ export async function saveAppControls(input:unknown,actor:string){
 }
 export async function filterAppCatalog<T extends {id:string}>(products:T[],access:AppAccess=publicAccess){const {config}=await appControlsSnapshot();if(!config.enabled)return products;return products.filter(p=>{const d=config.drops.find(d=>d.productId===p.id);return !d||dropAccess(d,access);});}
 export async function enforceOffer(kind:'promotion'|'reward',code:string,access:AppAccess=publicAccess){
- const {config}=await appControlsSnapshot();const rule=config.enabled?config.offers.find(o=>o.kind===kind&&o.code===code.toUpperCase()):undefined;
+ const {config}=await appControlsSnapshot();const rule=config.offers.find(o=>o.kind===kind&&o.code===code.toUpperCase()&&(config.enabled||o.circleOnly));
  if(!rule)return null;
+ if(rule.circleOnly&&(!access.verifiedApp||!access.customerId||!(await circleMembership(access.customerId)).active))throw Error('This promotion is for active Circle members in the app.');
  if(!offerAccess(rule,access))throw Error('This promotion is available only in its selected channel. Open the Vanta Noir app for app-only offers.');
  if(!access.customerId)throw Error('Sign in to use this promotion.');
  if(rule.firstPurchase&&await getDbBinding().prepare("SELECT id FROM orders WHERE lower(email)=? AND payment_status='paid' LIMIT 1").bind(access.email).first())throw Error('This promotion is for your first completed purchase.');

@@ -1,0 +1,13 @@
+import {z} from 'zod';
+import {safeHeroImage} from './storefront-design';
+const https=z.string().url().max(500).refine(s=>{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password;});
+export const growthSchema=z.object({
+ version:z.number().int().nonnegative().default(0),
+ circle:z.object({enabled:z.boolean().default(false),name:z.string().trim().min(2).max(80).default('Vanta Circle'),priceKobo:z.number().int().min(10000).max(100000000).default(150000),interval:z.enum(['monthly','annually']).default('monthly'),planCode:z.string().regex(/^(|PLN_[A-Za-z0-9]+)$/).default(''),benefits:z.array(z.string().trim().min(1).max(160)).max(8).default([])}).default({}),
+ phoneEnabled:z.boolean().default(false),authDomain:z.enum(['vanta-noir.firebaseapp.com','auth.vantanoir.store']).default('vanta-noir.firebaseapp.com'),
+ sponsors:z.array(z.object({id:z.string().uuid(),enabled:z.boolean().default(false),name:z.string().trim().min(1).max(80),title:z.string().trim().min(1).max(100),body:z.string().max(300).default(''),url:https,image:z.union([z.literal(''),z.string().refine(safeHeroImage)]).default(''),channel:z.enum(['app','web','both']).default('both'),startsAt:z.string().datetime().nullable().default(null),endsAt:z.string().datetime().nullable().default(null)}).refine(v=>!v.startsAt||!v.endsAt||v.endsAt>v.startsAt,'End must follow start.')).max(12).default([])
+}).superRefine((v,c)=>{if(v.circle.enabled&&(!v.circle.planCode||!v.circle.benefits.length))c.addIssue({code:'custom',message:'Set a billing plan and benefits before opening Circle.'});if(new Set(v.sponsors.map(s=>s.id)).size!==v.sponsors.length)c.addIssue({code:'custom',message:'Duplicate sponsor identifiers.'});});
+export type GrowthConfig=z.infer<typeof growthSchema>;
+export function presenceState(seen:number|undefined,active:number|undefined,now=Date.now()){return !seen?'unknown':now-seen>120000?'offline':active&&now-active<=120000?'online':'idle';}
+export function sponsorVisible(s:GrowthConfig['sponsors'][number],channel:'app'|'web',now=Date.now()){return s.enabled&&(s.channel==='both'||s.channel===channel)&&(!s.startsAt||Date.parse(s.startsAt)<=now)&&(!s.endsAt||Date.parse(s.endsAt)>now);}
+export function nextPeriod(iso:string,interval:'monthly'|'annually'){const d=new Date(iso);if(!Number.isFinite(d.getTime()))throw Error('Invalid payment date.');const day=d.getUTCDate();d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+(interval==='monthly'?1:12));const last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate();d.setUTCDate(Math.min(day,last));return d.getTime();}

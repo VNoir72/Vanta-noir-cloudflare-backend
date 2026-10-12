@@ -1,4 +1,9 @@
 type RuntimeEnvironment = {
+  CIRCLE_BILLING_ENABLED?: string;
+  AUTH_CUSTOM_DOMAIN_READY?: string;
+  TERMII_API_KEY?: string;
+  TERMII_SENDER_ID?: string;
+  TERMII_BASE_URL?: string;
   ASSETS?: Fetcher;
   FIREBASE_PROJECT_NUMBER?: string;
   FIREBASE_ANDROID_APP_ID?: string;

@@ -8,7 +8,7 @@ import {imageUrl} from '../api';
 import {useReducedMotion} from './Motion';
 import {FloatingCampaign} from './FloatingCampaign';
 import {heroSlides,heroProductImage,HeroMode,HeroMedia} from '../hero-policy';
-export type AppHeroSettings={image:string;mobileImage?:string;title:string;showText?:boolean;buttonText?:string;buttonLink?:string;contentMode?:HeroMode;fourthSlideEnabled?:boolean;productsFirst?:boolean;productOrder?:string[];productCutouts?:Record<string,string>;intervalSeconds?:number;fit?:'contain'|'cover';playlist?:HeroMedia[]};
+export type AppHeroSettings={slots?:import('../hero-policy').HeroSlot[];image:string;mobileImage?:string;title:string;showText?:boolean;buttonText?:string;buttonLink?:string;contentMode?:HeroMode;fourthSlideEnabled?:boolean;productsFirst?:boolean;productOrder?:string[];productCutouts?:Record<string,string>;intervalSeconds?:number;fit?:'contain'|'cover';playlist?:HeroMedia[]};
 function HeroVideo({url,active,autoplay,onEnd,loop}:{url:string;active:boolean;autoplay:boolean;onEnd:()=>void;loop:boolean}){
  const player=useVideoPlayer(imageUrl(url),p=>{p.muted=true;p.loop=loop;});
  useEffect(()=>{if(active&&autoplay)player.play();else player.pause();const sub=AppState.addEventListener('change',state=>{if(state==='active'&&active&&autoplay)player.play();else player.pause();});return()=>sub.remove();},[active,autoplay,player]);

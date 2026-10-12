@@ -1,3 +1,4 @@
+import {circleWebhook} from '@/lib/circle';
 import {recordPaymentUpdate} from "@/lib/payment-events";
 import { getOrderByReference, markOrderPaid } from "@/lib/store-db";
 import { verifyPaystackTransaction, verifyPaystackWebhook } from "@/lib/paystack";
@@ -33,6 +34,8 @@ export async function POST(request: Request) {
   } catch {
     return new Response("Invalid payload", { status: 400 });
   }
+
+  try{if(await circleWebhook(event))return new Response('ok');}catch{return new Response('Unable to apply membership event',{status:500});}
 
   if (
     event.event === "charge.success" &&
