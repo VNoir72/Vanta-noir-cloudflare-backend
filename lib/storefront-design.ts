@@ -13,7 +13,8 @@ export const heroMediaSchema=z.object({
 });
 export const announcementSchema=z.object({enabled:z.boolean().default(false),text:z.string().trim().max(500).default(''),mode:z.enum(['stationary','left','right']).default('stationary'),startsAt:z.string().max(30).default(''),endsAt:z.string().max(30).default('')});
 export const heroSchema=z.object({
-  slots:z.array(z.object({kind:z.enum(['product','media','hidden']),productIndex:z.number().int().min(0).max(39).optional(),url:z.string().max(500).optional()})).max(4).optional(),
+  slots:z.array(z.object({kind:z.enum(['product','media','hidden','campaign','background']),enabled:z.boolean().optional(),background:z.number().int().min(0).max(2).optional(),presentation:z.enum(['floating','full']).optional(),productIndex:z.number().int().min(0).max(39).optional(),url:z.string().max(500).optional()})).max(4).optional(),
+  firstSlideOnly:z.boolean().default(true),
   contentMode:z.enum(['mixed','products','campaigns','videos']).default('mixed'),
   fourthSlideEnabled:z.boolean().default(false),
   productsFirst:z.boolean().default(false),
