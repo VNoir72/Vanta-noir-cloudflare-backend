@@ -14,8 +14,8 @@ const aggregate=`WITH identities AS (SELECT lower(email) email FROM orders UNION
  FROM identities i WHERE i.email LIKE '%@%')`;
 type Customer={email:string;name:string;orders:number;paidOrders:number;grossKobo:number;refundsKobo:number;lastPaid:string|null;tags:string[];netKobo:number};
 export async function crmCustomers(q='',page=1,tag=''){
- const db=getDbBinding(),c=(await automationRule('customers')).config,needle='%'+q.slice(0,100).replace(/[\\%_]/g,'\\$&')+'%';
- const rows=await db.prepare(`${aggregate} SELECT * FROM stats WHERE (email LIKE ? ESCAPE '\\' OR name LIKE ? ESCAPE '\\') AND (?='' OR (?='VIP' AND (paidOrders>=? OR grossKobo-refundsKobo>=?)) OR (?='Repeat buyer' AND paidOrders>1) OR (?='First-time buyer' AND paidOrders=1) OR (?='Inactive' AND julianday(lastPaid)<=julianday('now')-?) OR (?='Prospect' AND paidOrders=0)) ORDER BY lastPaid DESC,email LIMIT 26 OFFSET ?`).bind(needle,needle,tag,tag,c.vipOrders,c.vipSpendKobo,tag,tag,tag,c.inactiveDays,tag,(page-1)*25).all<Customer>();
+ const db=getDbBinding(),c=(await automationRule('customers')).config,needle=q.slice(0,100).toLowerCase();
+ const rows=await db.prepare(`${aggregate} SELECT * FROM stats WHERE (instr(lower(email),?)>0 OR instr(lower(name),?)>0) AND (?='' OR (?='VIP' AND (paidOrders>=? OR grossKobo-refundsKobo>=?)) OR (?='Repeat buyer' AND paidOrders>1) OR (?='First-time buyer' AND paidOrders=1) OR (?='Inactive' AND julianday(lastPaid)<=julianday('now')-?) OR (?='Prospect' AND paidOrders=0)) ORDER BY lastPaid DESC,email LIMIT 26 OFFSET ?`).bind(needle,needle,tag,tag,c.vipOrders,c.vipSpendKobo,tag,tag,tag,c.inactiveDays,tag,(page-1)*25).all<Customer>();
  return {customers:rows.results.slice(0,25).map(r=>({...r,netKobo:Math.max(0,r.grossKobo-r.refundsKobo),tags:customerTags(r.paidOrders,Math.max(0,r.grossKobo-r.refundsKobo),r.lastPaid,c)})),hasMore:rows.results.length>25,page};
 }
 export async function crmProfile(email:string){email=emailSchema.parse(email);const db=getDbBinding(),c=(await automationRule('customers')).config;
