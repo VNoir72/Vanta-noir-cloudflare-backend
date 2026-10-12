@@ -1,35 +1,51 @@
 # Vanta Noir production storefront migration
 
-Prepared 2026-10-12. Not deployed or attached to the live domain.
+Completed live cutover on 2026-10-12.
 
-## Implementation
+## Live deployment
 
-Production Worker serves the tested storefront export, checks live product publication, retains canonical product metadata and a publication-filtered sitemap, redirects HTTP/www to HTTPS apex, retains the existing admin URL, and sends browser business API calls to https://api.vantanoir.store. Preview restrictions and banner are removed from production only. Direct PHP/source requests remain blocked. The browsing preview remains separate.
+- Storefront: https://vantanoir.store/
+- Cloudflare Worker: `vanta-storefront`
+- Deployment ID: `ef2076ddb1614bd68326f96915780668`
+- Deployment time: 2026-10-12T12:58:44.460541Z
+- 712 non-image static assets uploaded. Images served through the existing backend service binding and R2.
+- Bindings: ASSETS, PUBLIC_API (vanta-noir-api), PRODUCT_REDIRECTS.
+- workers.dev and preview URLs disabled for production. Separate read-only browsing preview retained.
 
-Do not deploy the preview adapter to the production domain. `wrangler.jsonc` in this directory includes production routes: deploying this configuration is the live cutover, not a staging action.
+Production serves the tested storefront export, checks live product publication, retains canonical product metadata and a publication-filtered sitemap, redirects HTTP/www to HTTPS apex, retains the existing admin URL, and sends business API calls to https://api.vantanoir.store. PHP gateway behavior is handled by the Worker; direct PHP/source requests remain blocked. Production has no preview banner or forced noindex.
+
+## Routes and rollback
+
+Cloudflare zone: `dbc13094f98c392f79a075f57471fe4e`.
+
+| Pattern | Worker | Route ID |
+| --- | --- | --- |
+| vantanoir.store/* | vanta-storefront | 1d0d619974ba4274b69260a336d8b2fd |
+| www.vantanoir.store/* | vanta-storefront | e2c1160556ac41199688d2753588a28a |
+
+Apex A 66.29.137.179 (proxied) and www CNAME vantanoir.store (proxied) were preserved. Namecheap hosting remains available as fallback. To roll back storefront hosting, first compare current route IDs, patterns and Worker names, then remove only the two routes above. Do not remove API custom domains or unrelated routes. This restores routing to the preserved origin; check the origin before rollback.
 
 ## Verification
 
-- 19 checkout/shipping/config/backend integration checks passed using isolated test databases/provider fixtures.
-- 2 production-adapter tests passed: hostname/API/admin routing, storefront configuration, published-product indexing and PHP blocking.
-- Previous responsive run: 18 phone/tablet portrait/landscape layouts, 162 dialog rotations, no runtime errors.
+- Production and preview adapter suite: 6 tests passed after deployment preparation.
+- Previous isolated checkout/shipping/config/backend checks: 19 passed.
+- Previous responsive run: 18 phone/tablet portrait/landscape layouts and 162 dialog rotations, no overflow/runtime errors. Chromium touch emulation using local exported HTML and API fixtures; not actual Safari hardware testing.
 - Previous PHP.wasm execution: 9 requests passed.
-- Live end-to-end customer sign-in, shipping quote and payment callback checks still require a test customer and provider test credentials. No live charge, courier booking or customer email has been sent.
+- Live browser: catalogue loaded; Apex Checker Cap product page and image loaded; selected size, added to bag, verified subtotal and checkout address/payment interface.
+- Live contact page displays support@vantanoir.store.
+- Live account page loads its sign-in form; no authenticated sign-in performed.
+- Live www redirects to HTTPS apex.
+- Temporary bag item removed; bag returned to zero.
+- No order/payment submitted, courier booking created or customer email sent during the cutover. Actual customer sign-in, provider shipping quotes and payment callbacks remain unverified end-to-end.
 
-## Observed DNS and rollback
+## Zoho and support
 
-Cloudflare zone: dbc13094f98c392f79a075f57471fe4e.
-Apex A: 66.29.137.179, proxied. www CNAME: vantanoir.store, proxied.
-Zone Workers routes were empty at review. Leave these DNS records and Namecheap hosting available during cutover; Worker routes can intercept storefront requests without deleting the old origin. Rollback removes only the two new storefront routes after comparing their IDs and script names. Do not remove API custom domains or unrelated routes.
+User completed Zoho setup for ajibola@vantanoir.store and support@vantanoir.store. Zoho confirmed all DNS records verified. Root MX records now point to mx.zoho.com (10), mx2.zoho.com (20), mx3.zoho.com (50). Zoho zmail DKIM is installed; one merged root SPF preserves authorized hosting senders and adds Zoho. Existing Resend records remain intact. DMARC remains p=none.
 
-Existing incoming email uses mx1-hosting.jellyfish.systems (5), mx2-hosting.jellyfish.systems (10), mx3-hosting.jellyfish.systems (20). Mail/cPanel service records remain on 104.207.79.61. Root SPF currently authorizes Namecheap hosting. Preserve existing Resend records.
+A received Gmail test message passed SPF, DKIM, DMARC and ARC, but landed in spam. User deferred further inbox placement testing. Authentication success does not guarantee inbox placement.
 
-## Zoho handoff
+Live commerce_settings.supportEmail changed from vantanoir.xyz@gmail.com to support@vantanoir.store. Backend EMAIL_REPLY_TO updated to support@vantanoir.store; EMAIL_FROM and other provider secrets preserved. Owner/admin identity unchanged. Creating a mailbox does not grant dashboard access; no new staff access was granted.
 
-User is signing up independently. Use Zoho Mail business email with existing domain vantanoir.store. Obtain the account-specific domain verification TXT record and regional MX/SPF/DKIM values from Zoho's setup screen. Do not guess these values. Verify the domain and create owner/support mailboxes before replacing existing MX records. Check whether any existing Namecheap messages need migration. Merge authorized SPF senders into one SPF record and preserve the existing automated-mail configuration.
+## Registration and retained services
 
-Do not change owner/admin identity or grant staff access until the new mailbox is verified and the intended support user is confirmed. Existing backend already supports a restricted support role; mailbox creation alone grants no dashboard access.
-
-## Domain registration
-
-No domain transfer initiated, no registrar payment, no Namecheap cancellation. Earlier agreement was to keep registration at Namecheap while moving storefront hosting to Cloudflare. User's latest wording says Cloudflare; resolve this wording before any paid registrar action.
+No registrar transfer, registrar payment or Namecheap cancellation performed. Domain registration remains at Namecheap; DNS and storefront run on Cloudflare, company mail on Zoho. Existing backend, database, storage, authentication, payment and shipping services were retained.
