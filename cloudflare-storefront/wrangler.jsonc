@@ -1,0 +1,38 @@
+{
+  "name": "vanta-storefront",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": false,
+  "assets": {
+    "directory": "../outputs/cloudflare-preview",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none"
+  },
+  "services": [
+    {
+      "binding": "PUBLIC_API",
+      "service": "vanta-noir-api"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "PRODUCT_REDIRECTS": "{\"motion-rugby-shirt-p006\":\"season-01-05-rugby-shirt\",\"shadow-utility-button-up-p005\":\"season-01-06-button-up-shirt\",\"baseline-split-basketball-jersey-p008\":\"season-01-08-mesh-basketball-jersey\",\"reflective-outline-singlet-p009\":\"season-01-09-sleeveless-tank\",\"shadow-cable-quarter-zip-p011\":\"season-01-10-knit-quarter-zip\",\"relaxed-cargo-pant-p016\":\"season-01-12-cargo-pants\",\"pleated-wide-trouser-p017\":\"season-01-13-wide-leg-trousers\",\"denim-bermuda-shorts-p020\":\"season-01-14-denim-shorts\",\"motion-mesh-shorts-p019\":\"season-01-15-mesh-shorts\",\"court-varsity-jacket-p037\":\"season-01-16-varsity-jacket\",\"core-bomber-jacket-p036\":\"season-01-17-bomber-jacket\",\"motion-stand-collar-track-jacket-p033\":\"season-01-18-track-jacket\",\"rib-knit-beanie-p043\":\"season-01-22-beanie\",\"transit-crossbody-bag-p044\":\"season-01-23-crossbody-bag\",\"v-buckle-belt-p047\":\"season-01-24-belt\",\"architectural-crew-socks-p049\":\"season-01-25-socks\",\"topographic-boxer-briefs-p050\":\"season-01-26-boxer-briefs\"}"
+  },
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "vantanoir.store/*",
+      "zone_name": "vantanoir.store"
+    },
+    {
+      "pattern": "www.vantanoir.store/*",
+      "zone_name": "vantanoir.store"
+    }
+  ]
+}
