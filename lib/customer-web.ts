@@ -24,6 +24,6 @@ export async function customerRequest<T>(path:string,body?:unknown,method=body?'
 export async function browserAuth(){
  const [{initializeApp,getApps,getApp},auth]=await Promise.all([import('firebase/app'),import('firebase/auth')]);
  let authDomain='vanta-noir.firebaseapp.com';try{const r=await fetch(apiUrl('/api/growth'),{signal:AbortSignal.timeout(5000)});const d=await r.json() as {authDomain?:string};if(r.ok&&d.authDomain==='auth.vantanoir.store')authDomain=d.authDomain;}catch{/* Existing sign-in remains available. */}
- const app=getApps().length?getApp():initializeApp({apiKey:'AIzaSyCMGePaGAibsAiyFIsMCON8G2nTrOLsx90',authDomain,projectId:'vanta-noir'});
+ const app=getApps().length?getApp():initializeApp({apiKey:'AIzaSyB3aZD9bvnM0mjR-XV7Op7V2HJzwmQ7uqg',authDomain,projectId:'vanta-noir',storageBucket:'vanta-noir.firebasestorage.app',messagingSenderId:'78543560148',appId:'1:78543560148:web:36d0b6feed12ae416e4a41',measurementId:'G-Q0S1E7096B'});
  const client=auth.getAuth(app);try{await auth.setPersistence(client,auth.browserLocalPersistence);}catch{await auth.setPersistence(client,auth.browserSessionPersistence);}return {client,...auth};
 }
