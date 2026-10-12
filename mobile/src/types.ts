@@ -49,6 +49,7 @@ export type Address = {
   countryCode: string;
 };
 export type Customer = {
+  phone?: string;
   email: string;
   name: string;
   addresses: Address[];

@@ -20,9 +20,9 @@ export function SettingsHub(p:Props){
  const [monitoring,setMonitoring]=useState<MonitoringChoice>({analytics:false,diagnostics:false});
  useEffect(()=>{void monitoringChoice().then(setMonitoring);},[]);
  const {colors,appearance,setAppearance}=useTheme();
- const [panel,setPanel]=useState('Settings'),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[name,setName]=useState(p.customer?.name||'');
+ const [panel,setPanel]=useState('Settings'),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[name,setName]=useState(p.customer?.name||''),[phone,setPhone]=useState(p.customer?.phone||'');
  const [extra,setExtra]=useState({photo:'',gender:'',birthday:''});
- const [profileField,setProfileField]=useState<'Nickname'|'Birthday'|null>(null),[editing,setEditing]=useState<number|null>(null),[draft,setDraft]=useState<Address>(emptyAddress);
+ const [profileField,setProfileField]=useState<'Nickname'|'Birthday'|'Phone'|null>(null),[editing,setEditing]=useState<number|null>(null),[draft,setDraft]=useState<Address>(emptyAddress);
  const key='vanta-profile-device:'+p.customer?.email;
  useEffect(()=>{let live=true;AsyncStorage.getItem(key).then(v=>{if(live&&v)setExtra(JSON.parse(v));}).catch(()=>{});return()=>{live=false;};},[key]);
  const run=async(fn:()=>Promise<void>)=>{if(busy)return;setBusy(true);setMessage('');try{await fn();}catch(e){setMessage(e instanceof Error?e.message:'Please try again.');}finally{setBusy(false);}};
@@ -50,6 +50,7 @@ export function SettingsHub(p:Props){
     {row('Account information',p.customer.email,()=>info('Account information',`Your account works on the app and website. Email: ${p.customer!.email}\nContact support for account email changes.`))}
     {row('Nickname',p.customer.name||'Not set',()=>setProfileField(profileField==='Nickname'?null:'Nickname'))}{profileField==='Nickname'&&<>{input('Nickname',name,setName)}{button('Save nickname',()=>void run(async()=>{if(!name.trim())throw Error('Enter your name.');await p.onSave({...p.customer!,name:name.trim()});setMessage('Profile saved.');setProfileField(null);}))}</>}
     {row('Gender',extra.gender||'Not set',()=>Alert.alert('Gender','Optional; saved on this device.',[{text:'Woman',onPress:()=>setExtra({...extra,gender:'Woman'})},{text:'Man',onPress:()=>setExtra({...extra,gender:'Man'})},{text:'Prefer not to say',onPress:()=>setExtra({...extra,gender:'Prefer not to say'})}]))}
+    {row('Phone number',p.customer.phone||'Not set',()=>setProfileField(profileField==='Phone'?null:'Phone'))}{profileField==='Phone'&&<>{input('Phone number including country code',phone,setPhone)}{button('Save phone number',()=>void run(async()=>{if(!/^\+?[0-9 ()-]{7,30}$/.test(phone.trim()))throw Error('Enter a valid phone number.');await p.onSave({...p.customer!,phone:phone.trim()});setMessage('Contact number saved.');setProfileField(null);}))}</>}
     {row('Birthday',extra.birthday||'Not set',()=>setProfileField(profileField==='Birthday'?null:'Birthday'))}{profileField==='Birthday'&&input('Birthday (YYYY-MM-DD, optional)',extra.birthday,v=>setExtra({...extra,birthday:v}))}{row('Country/region',p.country,p.onCountry)}
     {button('Save device profile details',()=>void run(async()=>{if(extra.birthday&&(!/^\d{4}-\d{2}-\d{2}$/.test(extra.birthday)||!Number.isFinite(Date.parse(extra.birthday))||new Date(extra.birthday).toISOString().slice(0,10)!==extra.birthday||Date.parse(extra.birthday)>Date.now()))throw Error('Enter a valid birthday in YYYY-MM-DD format.');await AsyncStorage.setItem(key,JSON.stringify(extra));setMessage('Photo, gender and birthday saved on this device.');}))}
     <Text style={{padding:16,color:colors.muted}}>Nickname and addresses sync to your account. Photo, gender and birthday are currently stored on this device only.</Text>

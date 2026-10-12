@@ -200,15 +200,19 @@ export async function customerApp(request: Request): Promise<Response> {
       const {token}=z.object({token:z.string().regex(/^(ExpoPushToken|ExponentPushToken)\[[A-Za-z0-9_-]+\]$/).max(200)}).strict().parse(await request.json());
       await registerPush(s.id,token,request.method==='DELETE');return json({registered:request.method==='POST'});
     }
-    if (path === "me" && request.method === "GET")
+    if (path === "me" && request.method === "GET") {
+      const profile=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind("customer-profile:"+s.id).first<{value:string}>();
+      const phone=profile?JSON.parse(profile.value).phone||"":"";
       return json({
         customer: {
           email: s.email,
           name: s.name,
+          phone,
           addresses: JSON.parse(s.addresses_json),
           favourites: JSON.parse(s.favourites_json),
         },
       });
+    }
     if(path==='center'&&request.method==='GET')return json(await customerCenter(s.id,s.email));
     if(path==='reviews'&&request.method==='POST'){
       if(!await rateLimit(request,'customer-review',10,3600))return json({error:'Please wait before submitting another review.'},429);
@@ -232,21 +236,14 @@ export async function customerApp(request: Request): Promise<Response> {
       const v = z
         .object({
           name: z.string().trim().max(100),
+          phone: z.string().trim().max(30).refine(v=>!v||/^\+?[0-9 ()-]{7,30}$/.test(v),"Enter a valid phone number.").optional(),
           addresses: z.array(checkoutCustomerSchema).max(5),
           favourites: z.array(z.string().max(160)).max(200),
         })
         .parse(await request.json());
-      await db
-        .prepare(
-          "UPDATE app_customers SET name=?,addresses_json=?,favourites_json=? WHERE id=?",
-        )
-        .bind(
-          v.name,
-          JSON.stringify(v.addresses),
-          JSON.stringify([...new Set(v.favourites)]),
-          s.id,
-        )
-        .run();
+      const updates=[db.prepare("UPDATE app_customers SET name=?,addresses_json=?,favourites_json=? WHERE id=?").bind(v.name,JSON.stringify(v.addresses),JSON.stringify([...new Set(v.favourites)]),s.id)];
+      if(v.phone!==undefined)updates.push(db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind("customer-profile:"+s.id,JSON.stringify({phone:v.phone})));
+      await db.batch(updates);
       return json({ saved: true });
     }
     if (path === "logout" && request.method === "POST") {
@@ -286,6 +283,7 @@ export async function customerApp(request: Request): Promise<Response> {
         db.prepare("DELETE FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=?").bind(s.id),
       db.prepare("DELETE FROM store_meta WHERE key LIKE ?").bind('app-watch:'+s.id+':%'),
         db.prepare("DELETE FROM store_meta WHERE key=?").bind("firebase-customer:"+s.id),
+        db.prepare("DELETE FROM store_meta WHERE key=?").bind("customer-profile:"+s.id),
         db.prepare("DELETE FROM app_customers WHERE id=?").bind(s.id),
       ]);
       return json({

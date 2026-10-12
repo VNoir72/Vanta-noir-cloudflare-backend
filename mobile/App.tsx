@@ -301,7 +301,7 @@ function Main() {
   const [email, setEmail] = useState(""),
     [challenge, setChallenge] = useState(""),
     [otp, setOtp] = useState(""),
-    [accepted, setAccepted] = useState(false),
+
     [deleteText, setDeleteText] = useState("");
   const [transferEnabled, setTransferEnabled] = useState(false),
     [accountsEnabled, setAccountsEnabled] = useState(false);
@@ -772,7 +772,7 @@ function Main() {
       <ScrollView
         key={screen+":"+(customer?.email||"guest")}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[s.content, wide && { paddingHorizontal: 48 },['Bag','Settings','Orders'].includes(screen)&&{padding:0,gap:0}]}
+        contentContainerStyle={[s.content,screen==='Account'&&!customer&&{flexGrow:1,justifyContent:'center'}, wide && { paddingHorizontal: 48 },['Bag','Settings','Orders'].includes(screen)&&{padding:0,gap:0}]}
         refreshControl={
           <RefreshControl
             refreshing={loading}
@@ -907,83 +907,11 @@ function Main() {
         )}
         {screen === "Account" && (
           <>
-            {!customer&&<><Text style={s.h1}>Welcome to Vanta Noir</Text><Text style={s.muted}>Presence. Power. Precision.</Text></>}
-            {!customer ? (
-              <Glass>
-                <Text style={s.h2}>Sign in or create an account</Text>
-                <ProviderSignIn onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}}}/>
-                {!accountsEnabled && (
-                  <Text style={s.muted}>
-                    Customer sign-in is not open on this server yet.
-                  </Text>
-                )}
-                <Text style={s.muted}>
-                  We’ll send a one-time email code. No password to remember.
-                </Text>
-                <Field
-                  label="Email address"
-                  value={email}
-                  keyboard="email-address"
-                  onChange={setEmail}
-                />
-                <View style={s.row}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
-                <Button
-                  title="Send sign-in code"
-                  disabled={busy || !accountsEnabled}
-                  onPress={() =>
-                    void task(async () => {
-                      const r = await api<{ challenge: string }>(
-                        "/api/customer/code",
-                        { email },
-                      );
-                      setChallenge(r.challenge);
-                      setOtp("");
-                      setNotice("Check your email for an 8-digit code.");
-                    })
-                  }
-                />
-                {!!challenge && (
-                  <>
-                    <Field
-                      label="8-digit email code"
-                      value={otp}
-                      keyboard="number-pad"
-                      onChange={setOtp}
-                    />
-                    <Pressable
-                      accessibilityRole="checkbox"
-                      accessibilityState={{ checked: accepted }}
-                      onPress={() => setAccepted(!accepted)}
-                      style={s.row}
-                    >
-                      <Ionicons
-                        name={accepted ? "checkbox" : "square-outline"}
-                        size={24}
-                      />
-                      <Text style={{ flex: 1 }}>
-                        I agree to the Terms and acknowledge the Privacy Policy.
-                      </Text>
-                    </Pressable>
-                    <Button
-                      title="Continue"
-                      disabled={busy || !accepted || otp.length !== 8}
-                      onPress={() =>
-                        void task(async () => {
-                          const r = await api<{ token: string }>(
-                            "/api/customer/verify",
-                            { challenge, code: otp, acceptTerms: accepted },
-                          );
-                          await vault.set("session", r.token);
-                          setChallenge("");
-                          setOtp("");
-                          await account();
-                          if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}
-                        })
-                      }
-                    />
-                  </>
-                )}
-              </Glass>
+            {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
+              <View style={{width:'100%',maxWidth:440,alignSelf:'center',paddingVertical:24}}>
+                <ProviderSignIn initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}}}/>
+                <View style={[s.row,{justifyContent:'center',marginTop:14}]}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
+              </View>
             ) : (
               <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(true);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>setScreen("Settings")} onCoupon={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
             )}

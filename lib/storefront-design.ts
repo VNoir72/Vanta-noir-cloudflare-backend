@@ -16,6 +16,7 @@ export const heroSchema=z.object({
   contentMode:z.enum(['mixed','products','campaigns','videos']).default('mixed'),
   fourthSlideEnabled:z.boolean().default(false),
   productsFirst:z.boolean().default(false),
+  productCutouts:z.record(z.string().min(1).max(160),image).default({}),
   productOrder:z.array(z.string().min(1).max(160)).max(40).default([]),
   fit:z.enum(['contain','cover']).default('cover'),
   playlist:z.array(heroMediaSchema).max(12).default([]),

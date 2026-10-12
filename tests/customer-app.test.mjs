@@ -142,7 +142,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
         await request(
           "me",
           "PATCH",
-          { name: "Alice", addresses: [], favourites: ["tee"] },
+          { name: "Alice", phone:"+2348000000000", addresses: [], favourites: ["tee"] },
           a,
         )
       ).status,
@@ -152,6 +152,11 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
       (await request("me", "GET", undefined, b)).data.customer.name,
       "",
     );
+    assert.equal((await request("me","GET",undefined,a)).data.customer.phone,"+2348000000000");
+    assert.equal((await request("me","GET",undefined,b)).data.customer.phone,"");
+    assert.equal((await request("me","PATCH",{name:"Alice",phone:"not-a-phone",addresses:[],favourites:[]},a)).status,400);
+    assert.equal((await request("me","PATCH",{name:"Alice",addresses:[],favourites:["tee"]},a)).status,200);
+    assert.equal((await request("me","GET",undefined,a)).data.customer.phone,"+2348000000000","legacy clients preserve contact phone");
     const customer = await db
       .prepare("SELECT id FROM app_customers WHERE email='a@example.com'")
       .first();

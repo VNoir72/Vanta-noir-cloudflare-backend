@@ -42,6 +42,7 @@
     "outputs",
     "work",
     "backups",
-    "mobile"
+    "mobile",
+    "tests/review-fixture.tsx"
   ]
 }
