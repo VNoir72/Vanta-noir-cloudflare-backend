@@ -1,0 +1,92 @@
+// Preview-only storefront adapter. No production write routes or credentials.
+const PUBLIC_READS = new Set(['/api/catalog', '/api/store-settings', '/api/growth', '/api/reviews']);
+const escape = value => String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;');
+const banner = '<aside aria-label="Preview notice" style="position:relative;z-index:10000;padding:9px 12px;background:#172019;color:white;text-align:center;font:12px system-ui">Cloudflare preview · Browse and try your bag. Sign-in, orders and messages are disabled.</aside>';
+function protect(response) {
+  const r = new Response(response.body, response);
+  r.headers.set('X-Robots-Tag','noindex, nofollow, noarchive');
+  r.headers.set('X-Content-Type-Options','nosniff');
+  r.headers.set('X-Frame-Options','DENY');
+  r.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
+  r.headers.set('Content-Security-Policy',"frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  r.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
+  r.headers.set('Cache-Control','no-store');
+  r.headers.delete('set-cookie');
+  return r;
+}
+function json(value, status=200) {return Response.json(value,{status});}
+async function boundedText(response, limit) {
+  const reader=response.body?.getReader(); if(!reader)return '';
+  const chunks=[];let length=0;
+  try { for(;;){const {done,value}=await reader.read();if(done)break;length+=value.length;if(length>limit){await reader.cancel();throw Error('Response too large');}chunks.push(value);} }
+  finally {reader.releaseLock();}
+  const bytes=new Uint8Array(length);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.length;}
+  return new TextDecoder().decode(bytes);
+}
+// Construct a fresh credential-free request; never forward cookies, auth or Access headers.
+async function publicRead(env, path) {
+  return env.PUBLIC_API.fetch(new Request('https://api.vantanoir.store'+path,{headers:{Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(15000)}));
+}
+async function asset(env, request, path) {
+  const u=new URL(request.url);u.pathname=path;u.search='';
+  return env.ASSETS.fetch(new Request(u,{method:'GET'}));
+}
+async function htmlPreview(response) {
+  const html=await boundedText(response,1500000);
+  return new Response(html.replace('<body>','<body>'+banner),{status:response.status,headers:{'Content-Type':'text/html; charset=utf-8'}});
+}
+async function route(request, env) {
+  const u=new URL(request.url),p=u.pathname;
+  if(!['GET','HEAD'].includes(request.method))return json({error:'Preview only: orders, payments, account changes and messages are disabled.'},409);
+  if(/^\/(?:index\.(?:php|htm)|home(?:\.html)?)$/.test(p))return Response.redirect(u.origin+'/',302);
+  if(/(?:^|\/)\.|\.(?:php|sql|sqlite|db|zip|bak|map|jsonc)$|^\/(?:admin|backups|node_modules|drizzle|lib|app|tests|portable)(?:\/|$)/i.test(p))return new Response('Not found',{status:404});
+  if(p==='/health')return json({ok:true,mode:'read-only-storefront-preview',source:'da3f1be'});
+  if(p==='/robots.txt')return new Response('User-agent: *\nDisallow: /\n');
+  if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:location.origin});',{headers:{'Content-Type':'application/javascript'}});
+  if(p==='/api/customer/auth-methods')return json({google:false,password:false,apple:false,preview:true});
+  if(/^\/images\/[A-Za-z0-9_./-]+\.(?:webp|png|jpg|jpeg|svg|avif|gif|ico)$/.test(p))return publicRead(env,p);
+  if(p.startsWith('/api/')) {
+    if(!PUBLIC_READS.has(p))return json({error:'This action is unavailable in the browsing preview.'},409);
+    return publicRead(env,p+u.search);
+  }
+  if(/^\/images\/vanta-hero(?:-(?:480|960|1600)\.webp|\.png)$/.test(p))return Response.redirect(u.origin+'/images/vanta-brand-hero-2026.webp',301);
+  if(p==='/sitemap.xml') {
+    const live=await publicRead(env,'/api/storefront-visibility?mode=sitemap');
+    if(!live.ok)return new Response('Catalogue temporarily unavailable',{status:503});
+    const data=JSON.parse(await boundedText(live,2000000));
+    if(!Array.isArray(data.slugs))return new Response('Catalogue temporarily unavailable',{status:503});
+    const source=await boundedText(await asset(env,request,'/sitemap.xml'),1000000);
+    const entries=data.slugs.filter(s=>typeof s==='string'&&/^[a-z0-9][a-z0-9_-]{0,239}$/.test(s)).map(s=>'<url><loc>https://vantanoir.store/products/'+escape(s)+'</loc></url>').join('');
+    return new Response(source.replace('</urlset>',entries+'</urlset>'),{headers:{'Content-Type':'application/xml'}});
+  }
+  if(p.startsWith('/products/')) {
+    const m=p.match(/^\/products\/([a-z0-9][a-z0-9_-]{0,239})(?:\.html)?\/?$/);
+    if(!m||m[1]==='_dynamic')return new Response('Not found',{status:404});
+    const slug=m[1];
+    const redirects=JSON.parse(env.PRODUCT_REDIRECTS||'{}');
+    if(redirects[slug])return Response.redirect(u.origin+'/products/'+redirects[slug],301);
+    const live=await publicRead(env,'/api/storefront-visibility?slug='+encodeURIComponent(slug));
+    if(live.status===404)return Response.redirect(u.origin+'/#collection',302);
+    if(!live.ok)return new Response('Product temporarily unavailable. Please try again.',{status:503});
+    const data=JSON.parse(await boundedText(live,200000));
+    if(data.slug!==slug||typeof data.title!=='string'||typeof data.description!=='string')return new Response('Product temporarily unavailable',{status:503});
+    const response=await asset(env,request,'/products/_dynamic.html');if(!response.ok)return response;
+    let html=await boundedText(response,1500000);
+    html=html.replace('"path":"/products/_dynamic"','"path":"/products/'+slug+'"').replace(/<title>.*?<\/title>/s,()=>'<title>'+escape(data.title)+'</title>');
+    const image=typeof data.image==='string'?(data.image.startsWith('/')&&!data.image.startsWith('//')?'https://vantanoir.store'+data.image:data.image):'';
+    html=html.replace(/<meta (?:name|property)="(description|og:title|og:description|og:image|twitter:title|twitter:description|twitter:image)" content="[^"]*">/g,(_,name)=>'<meta '+(name.startsWith('og:')?'property':'name')+'="'+name+'" content="'+escape(name.endsWith('image')?(/^https:\/\//.test(image)?image:''):name.endsWith('title')?data.title:data.description)+'">');
+    if(data.structuredData&&typeof data.structuredData==='object')html=html.replace('</head>','<script type="application/ld+json">'+JSON.stringify(data.structuredData).replaceAll('<','\\u003c')+'</script></head>');
+    return htmlPreview(new Response(html,{headers:{'Content-Type':'text/html'}}));
+  }
+  let path=p;
+  const old=p.match(/^\/(account|about|contact|help-center|privacy-policy|privacy-choices|shipping-returns|terms-of-service|reviews|case-studies|email-preferences|checkout(?:\/complete)?)(?:\.html|\/index\.html|\/)$/);
+  if(old)return Response.redirect(u.origin+'/'+old[1]+u.search,302);
+  if(p==='/')path='/index.html';else if(!p.split('/').at(-1).includes('.'))path=p+'.html';
+  let response=await asset(env,request,path);
+  if(response.status===404){const missing=await asset(env,request,'/404.html');response=new Response(missing.body,{status:404,headers:missing.headers});}
+  return response.headers.get('Content-Type')?.includes('text/html')?htmlPreview(response):response;
+}
+export default {async fetch(request,env) {
+  try {const r=protect(await route(request,env));return request.method==='HEAD'?new Response(null,r):r;}
+  catch {return protect(new Response('Preview temporarily unavailable. Please try again.',{status:503}));}
+}};

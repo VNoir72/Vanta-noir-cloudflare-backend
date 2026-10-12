@@ -1,0 +1,10 @@
+import {cp,mkdir,rm,readFile,writeFile} from 'node:fs/promises';
+const target='outputs/cloudflare-preview';await mkdir(target,{recursive:true});
+await cp('outputs/namecheap',target,{recursive:true,filter:p=>!p.split('/').at(-1).startsWith('.')&&!p.endsWith('.php')});
+await writeFile(target+'/store-config.js','window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:location.origin});');
+await rm(target+'/storefront-release.json',{force:true});
+const entries=JSON.parse(await readFile('data/season01-reconciliation.json','utf8'));
+const config=JSON.parse(await readFile('cloudflare-preview/wrangler.jsonc','utf8'));
+config.vars.PRODUCT_REDIRECTS=JSON.stringify(Object.fromEntries(entries.filter(x=>x.oldSlug).map(x=>[x.oldSlug,x.newSlug])));
+await writeFile('cloudflare-preview/wrangler.jsonc',JSON.stringify(config,null,2)+'\n');
+console.log('Prepared Cloudflare preview assets without PHP or hosting configuration.');
