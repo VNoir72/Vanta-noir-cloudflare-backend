@@ -5,6 +5,7 @@ import {firebaseSignOut,prepareFirebaseDeletion} from './src/firebase-auth';
 import {FirstRun} from './src/components/FirstRun';
 import {ConnectionNotice} from './src/components/ConnectionNotice';
 import {AppRecovery} from './src/components/AppRecovery';
+import {MotionValue} from './src/components/MotionValue';
 import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
 import {disablePush} from "./src/push";
@@ -94,8 +95,9 @@ function Button({
       accessibilityRole="button"
       disabled={disabled}
       onPress={onPress}
-      style={[
+      style={({pressed})=>[
         s.button,
+        {transform:[{scale:pressed?.98:1}],opacity:pressed?.85:1},
         compact && {paddingVertical:10,paddingHorizontal:14,minHeight:44},
         secondary && s.secondary,
         disabled && { opacity: 0.45 },
@@ -216,8 +218,10 @@ function Sheet({
 function Main() {
  const Alert=useBrandDialog();
   const {colors,dark}=useTheme(); const s=styles(colors);
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const wide = width >= 760;
+  const [productWidth,setProductWidth]=useState(0);
+  const productWide=productWidth>=700;
   const { tab } = useGlobalSearchParams<{ tab: string }>();
   const screen =
     (
@@ -1022,12 +1026,12 @@ function Main() {
         footer={selected&&<View style={{flexDirection:'row',gap:8,alignItems:'center'}}><Pressable accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{minWidth:44,minHeight:44,justifyContent:'center',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={23}/></Pressable><View style={{flex:1}}><Button title={preview(selected)?'Preview only':size?'Add to bag →':'Choose a size'} disabled={!size||preview(selected)} onPress={add}/></View></View>}
       >
         {selected && c && (
-          <>
+          <View onLayout={e=>setProductWidth(e.nativeEvent.layout.width)} style={{gap:14}}><View style={{padding:16,borderRadius:22,backgroundColor:colors.glass,borderWidth:1,borderColor:colors.border}}><Text style={{fontSize:11,letterSpacing:1.3}}>{selected.category} · VANTA NOIR</Text><Text style={{fontSize:25,fontWeight:"700",marginVertical:6}}>Presence in every detail.</Text><Text style={s.muted}>{selected.details?.fit||"Find your fit. Make it yours."}</Text></View><View style={{flexDirection:productWide?"row":"column",gap:18,alignItems:"flex-start"}}><View style={{width:productWide?"48%":"100%",gap:10}}>
             <Image
               source={{ uri: imageUrl(gallery[view]?.imageUrl || c.imageUrl) }}
               accessibilityLabel={gallery[view]?.imageAlt}
               resizeMode="contain"
-              style={{ height: wide ? 380 : 260, width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
+              style={{ height: Math.min(productWide?430:320,Math.max(210,height*.55)), width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
             />
             <ScrollView horizontal contentContainerStyle={s.row}>
               {gallery.map((g, i) => (
@@ -1047,7 +1051,7 @@ function Main() {
                 </Pressable>
               ))}
             </ScrollView>
-            <Text style={{fontSize:23,fontWeight:"700",lineHeight:27}}>{selected.name}</Text><Text style={s.muted}>{c.name}</Text>
+            </View><View style={{flex:1,width:"100%",minWidth:0,gap:12,padding:14,borderWidth:1,borderColor:colors.border,borderRadius:22,backgroundColor:colors.glass}}><Text style={{fontSize:23,fontWeight:"700",lineHeight:27}}>{selected.name}</Text><Text style={s.muted}>{c.name}</Text>
             <Text style={s.h2}>
               {preview(selected) ? "Preview design" : displayMoney(selected.priceKobo)}
             </Text>
@@ -1093,12 +1097,12 @@ function Main() {
                   </Pressable>
                 ))}
             </View>
-            <ProductDisclosure title="Details & care"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fabric}</Text><Text style={s.muted}>{selected.details?.fit}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
+            <View style={{flexDirection:"row",gap:8}}>{[["cube-outline","Delivery","shipping-returns"],["resize-outline","Size & fit","sizing"],["help-circle-outline","Support","contact"]].map(([icon,label,topic])=><Pressable key={topic} accessibilityRole="button" onPress={()=>{setSelected(null);router.push({pathname:"/help",params:{topic}});}} style={({pressed})=>({flex:1,minHeight:64,padding:8,gap:6,alignItems:"center",justifyContent:"center",backgroundColor:colors.secondary,borderRadius:14,opacity:pressed?.65:1})}><Ionicons name={icon as "cube-outline"} color={colors.text} size={22}/><Text style={{fontSize:11}}>{label}</Text></Pressable>)}</View><ProductDisclosure title="Details & care"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fabric}</Text><Text style={s.muted}>{selected.details?.fit}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
             <RestockAlerts key={selected.id+c.name} variantIds={c.variantIds||{}} stock={c.stock}/>
             <ProductDisclosure title="Size guide">{selected.details?.sizeChart?.length?<ScrollView horizontal><View>{selected.details.sizeChart.map((row,i)=><Text key={i} style={s.sizeRow}>{Object.entries(row).map(([k,v])=>`${k}: ${v}`).join('  ·  ')}</Text>)}</View></ScrollView>:<Text style={s.muted}>Measurements are awaiting confirmation. Contact support for sizing help.</Text>}</ProductDisclosure>
             <ProductDisclosure title="Delivery & returns"><Text style={s.muted}>Review the current delivery and returns policy before ordering.</Text><Button compact secondary title="View policy →" onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'shipping-returns'}});}}/></ProductDisclosure>
             <Pressable onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'contact'}});}} style={{minHeight:44,justifyContent:'center'}}><Text style={s.muted}>Need help? Contact support →</Text></Pressable>
-          </>
+          </View></View></View>
         )}
       </Sheet>
       <Sheet
@@ -1230,7 +1234,7 @@ function Main() {
                 )}
                 {reward.gift && <Text>Gift: {reward.gift.productName}</Text>}
                 </>}
-                <Text style={{fontSize:17,fontWeight:"700"}}>Total {money(reward.totalKobo || 0)}</Text>
+                <MotionValue value={`Total ${money(reward.totalKobo || 0)}`}/>
                 <Text style={s.muted}>Payments processed by Paystack.</Text>
                 {!transferEnabled && <Text style={s.muted}>Bank-transfer payments are temporarily unavailable. Please try again shortly.</Text>}
               </Glass>

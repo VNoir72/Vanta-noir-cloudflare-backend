@@ -8,3 +8,5 @@ export function heroSlides<P>(hero:{contentMode?:HeroMode;productsFirst?:boolean
  const m=hero.contentMode==='products'&&p.length?[]:media.map(media=>({media,product:undefined as P|undefined}));
  return (hero.productsFirst?[...p,...m]:[...m,...p]).slice(0,max);
 }
+
+export function heroProductImage(product:{id:string;imageUrl?:string;colorways?:{imageUrl?:string}[]},cutouts?:Record<string,string>){return cutouts?.[product.id]||product.imageUrl||product.colorways?.[0]?.imageUrl||'/images/vanta-burgundy-set-cutout.png';}
