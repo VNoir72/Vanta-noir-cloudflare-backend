@@ -1,3 +1,4 @@
+import {automationEnabled} from './automation-state';
 import {connectEmailTracking} from './email-delivery';
 import { z } from "zod";
 import { renderEmailHtml } from "./email-template";
@@ -25,6 +26,7 @@ export async function queueEmail(eventKey:string,recipient:string,subject:string
 }
 export async function queueOrderEmail(reference:string,event:string){
   if(reference.startsWith("VN-WALK-"))return;
+  if(event==='payment'&&!await automationEnabled('payments'))return;
   const db=getDbBinding();
   const order=await db.prepare(`SELECT id,email,first_name AS firstName,last_name AS lastName,total_kobo AS totalKobo,
     subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo,discount_kobo AS discountKobo,status,payment_status AS paymentStatus,
@@ -79,6 +81,19 @@ export async function processEmailOutbox(limit=10){
         }
       }
     }
+    if(row.eventKey.startsWith('subscription:')&&row.eventKey.includes(':release:')&&!await automationEnabled('drops')){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+    if(row.eventKey.startsWith('automation:circle:')&&row.eventKey.endsWith(':expired')){const customerId=row.eventKey.split(':')[2];const renewed=await db.prepare("SELECT key FROM store_meta WHERE key LIKE 'circle-receipt:%' AND json_extract(value,'$.customerId')=? AND COALESCE(json_extract(value,'$.refunded'),0)=0 AND json_extract(value,'$.until')>? LIMIT 1").bind(customerId,Date.now()).first();if(renewed){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}}
+    // Recheck automation switches, current consent and conversion immediately before delivery.
+    const automation=row.eventKey.startsWith('automation:')?row.eventKey.split(':')[1]:row.eventKey.startsWith('subscription:')&&row.eventKey.includes(':restock:')?'restock':null;
+    if(automation&&['checkout','aftercare','inventory','shipping','summary','support','circle','restock'].includes(automation)){
+      if(!await automationEnabled(automation as import('./automation-policy').RuleId)){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+      if(automation==='checkout'||automation==='aftercare'){
+        const parts=row.eventKey.split(':'),orderId=parts[2],subscriberId=parts[parts.length-2],token=parts[parts.length-1];
+        const allowed=await db.prepare("SELECT id FROM subscribers WHERE id=? AND token=? AND status='active' AND kind=?").bind(subscriberId,token,automation).first();
+        const eligible=automation==='checkout'?await db.prepare("SELECT id FROM orders o WHERE id=? AND payment_status='pending' AND status IN ('pending_payment','payment_error','expired') AND NOT EXISTS(SELECT 1 FROM orders p WHERE lower(p.email)=lower(o.email) AND p.payment_status='paid' AND p.created_at>=o.created_at)").bind(orderId).first():await db.prepare("SELECT id FROM orders o WHERE id=? AND status='delivered' AND payment_status='paid' AND NOT EXISTS(SELECT 1 FROM return_requests r WHERE r.order_id=o.id)").bind(orderId).first();
+        if(!allowed||!eligible){await db.prepare("UPDATE email_outbox SET status='cancelled' WHERE id=?").bind(row.id).run();continue;}
+      }
+    }
     try {
       const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,"Content-Type":"application/json","Idempotency-Key":row.id},body:JSON.stringify({from:env.EMAIL_FROM,to:[row.recipient],subject:row.subject,text:row.body,html:renderEmailHtml(row.subject,row.body),...(env.EMAIL_REPLY_TO ? {reply_to:env.EMAIL_REPLY_TO} : {})}),signal:AbortSignal.timeout(12000)});
       if(!response.ok)throw new Error(`Email service returned ${response.status}.`);
@@ -94,7 +109,7 @@ export async function processEmailOutbox(limit=10){
   return {sent,configured:true};
 }
 
-export const subscriptionSchema=z.object({email:z.string().trim().toLowerCase().email().max(200),kind:z.enum(["newsletter","restock","release"]),variantId:z.string().trim().max(160).default(""),productId:z.string().trim().max(160).default(""),consent:z.literal(true)});
+export const subscriptionSchema=z.object({email:z.string().trim().toLowerCase().email().max(200),kind:z.enum(["newsletter","restock","release","checkout","aftercare"]),variantId:z.string().trim().max(160).default(""),productId:z.string().trim().max(160).default(""),consent:z.literal(true)});
 export async function subscribe(input:z.infer<typeof subscriptionSchema>){
   const db=getDbBinding();
   if(input.kind==='release') {
@@ -112,7 +127,7 @@ export async function subscribe(input:z.infer<typeof subscriptionSchema>){
   await db.batch([
     db.prepare("INSERT INTO subscribers (id,email,kind,variant_id,token,status) VALUES (?,?,?,?,?,'pending') ON CONFLICT(email,kind,variant_id) DO UPDATE SET token=excluded.token,status='pending',updated_at=CURRENT_TIMESTAMP WHERE subscribers.status NOT IN ('active','pending')").bind(id,input.email,input.kind,variantId,token),
     db.prepare("INSERT OR IGNORE INTO email_outbox (id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS (SELECT 1 FROM subscribers WHERE id=? AND token=?)")
-      .bind(crypto.randomUUID(),`subscription:${id}:confirm:${token}`,input.email,"Confirm your email · Vanta Noir",`Please confirm that you requested ${input.kind === "release" ? "a release alert for a Vanta Noir product" : input.kind === "restock" ? "a restock alert" : "Vanta Noir collection news"}.\n\nConfirm: ${runtimeEnv().STOREFRONT_URL || SITE_URL}/email-preferences?token=${token}&action=confirm\n\nIf you did not request this, you can ignore this email.\nVanta Noir`,id,token),
+      .bind(crypto.randomUUID(),`subscription:${id}:confirm:${token}`,input.email,"Confirm your email · Vanta Noir",`Please confirm that you requested ${input.kind === "release" ? "a release alert for a Vanta Noir product" : input.kind === "restock" ? "a restock alert" : input.kind === "checkout" ? "checkout reminders" : input.kind === "aftercare" ? "garment-care and review follow-up emails" : "Vanta Noir collection news"}.\n\nConfirm: ${runtimeEnv().STOREFRONT_URL || SITE_URL}/email-preferences?token=${token}&action=confirm\n\nIf you did not request this, you can ignore this email.\nVanta Noir`,id,token),
   ]);
 }
 export async function confirmSubscription(token:string){
@@ -175,7 +190,7 @@ export async function runCommerceMaintenance(){
     .bind(key,JSON.stringify({token,expiresAt:now+300000}),now).run();
   if(!claim.meta.changes)return {sent:0,configured:emailReady(),skipped:true};
   try{
-    await Promise.allSettled([connectEmailTracking(),recoverPaymentEmails(),queueRestockAlerts(),queueLowStockAlerts(),queueReleaseAlerts()]);
+    await connectEmailTracking();
     await db.prepare("DELETE FROM request_limits WHERE expires_at < ?").bind(Math.floor(Date.now()/1000)-86400).run();
     return await processEmailOutbox();
   }finally{

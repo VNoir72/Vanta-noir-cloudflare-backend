@@ -9,6 +9,7 @@ test('checkout attempts, payment email recovery and signed financial event notif
  let initializations=0,failInit=false;const sent=[];
  const mf=new Miniflare({modules:true,scriptPath:'work/payment-hardening-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{ADMIN_EMAIL:'owner@example.com',PAYSTACK_SECRET_KEY:'sk_test_fixture',RESEND_API_KEY:'re_fixture',EMAIL_FROM:'test@example.com'},outboundService:async req=>{
   if(req.url==='https://api.paystack.co/transaction/initialize'){initializations++;if(failInit)return Response.json({status:false,message:'Temporary failure'},{status:503});const body=await req.json();return Response.json({status:true,data:{reference:body.reference,authorization_url:'https://checkout.paystack.com/'+body.reference,access_code:'fixture-access-code'}});}
+  if(req.url.startsWith('https://api.paystack.co/transaction/verify/'))return Response.json({status:true,data:{reference:req.url.split('/').pop(),status:'failed',currency:'NGN',amount:0,domain:'test'}});
   assert.equal(req.url,'https://api.resend.com/emails');sent.push(await req.json());return Response.json({id:'fixture'});
  }});
  try{
@@ -42,6 +43,8 @@ test('checkout attempts, payment email recovery and signed financial event notif
  await rpc('processEmailOutbox',20);assert.equal(sent.filter(x=>x.to.includes('buyer@example.com')).length,1);assert.equal(sent.filter(x=>x.to.includes('owner@example.com')).length,3);
  const expiring=await rpc('createPendingOrder',{...input,checkoutAttempt:randomUUID()+'-'+randomUUID()});
  await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?)").bind('checkout-payment:'+expiring.reference,JSON.stringify({transfer:{expiresAt:new Date(Date.now()-1000).toISOString()}})).run();
+ assert.equal((await rpc('getPublicPaymentOrder',expiring.reference)).status,'pending_payment','A deadline alone cannot bypass provider verification');
+ await rpc('verifyThenExpire');
  assert.equal((await rpc('getPublicPaymentOrder',expiring.reference)).status,'expired');
  assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM stock_reservations WHERE order_id=?').bind(expiring.id).first()).n,0);
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:expiring.reference,receiptToken:expiring.receiptToken})).expired,true,'Expired orders cannot initialize payment again');

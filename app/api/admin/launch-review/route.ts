@@ -7,10 +7,7 @@ export const dynamic='force-dynamic';
 const headers={'Cache-Control':'private, no-store'};
 // One SQLite statement captures the exact product, gallery and variant revision.
 // The same expression guards mutations atomically against concurrent edits/sales.
-const revisionSQL=`json_object('id',p.id,'name',p.name,'description',p.description,'category',p.category,'price',p.price_kobo,'status',p.status,'details',p.details_json,'updated',p.updated_at,'image',p.image_url,'images',(SELECT json_group_array(json_object('id',id,'url',image_url,'alt',image_alt,'color',color,'sort',sort_order)) FROM (SELECT * FROM product_images WHERE product_id=p.id ORDER BY id)),'variants',(SELECT json_group_array(json_object('id',id,'size',size,'color',color,'sku',sku,'stock',stock,'active',active)) FROM (SELECT * FROM product_variants WHERE product_id=p.id ORDER BY id)))`;
-async function setup(){await getDbBinding().prepare(`CREATE TABLE IF NOT EXISTS product_launch_reviews (product_id TEXT PRIMARY KEY, revision TEXT NOT NULL, mode TEXT NOT NULL, actor TEXT NOT NULL, certified_at TEXT NOT NULL, launched_at TEXT)`).run();}
-async function snapshot(id:string){return getDbBinding().prepare(`SELECT ${revisionSQL} AS revision FROM products p WHERE p.id=?`).bind(id).first<{revision:string}>();}
-async function digest(value:string){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value))),v=>v.toString(16).padStart(2,'0')).join('');}
+import {revisionSQL,setup,snapshot,digest} from '@/lib/launch-certification';
 export async function GET(request:Request){
  const auth=await adminAuthStateFromRequest(request);if(!auth.ok)return Response.json({error:auth.error},{status:auth.status,headers});
  try {await setup();const id=new URL(request.url).searchParams.get('id')||'';const before=await snapshot(id);const product=await getAdminProduct(id);const after=await snapshot(id);if(!before||!product)return Response.json({error:'Product not found.'},{status:404,headers});if(before.revision!==after?.revision)return Response.json({error:'Product changed. Reload review.'},{status:409,headers});

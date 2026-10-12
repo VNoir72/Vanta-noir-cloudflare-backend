@@ -287,9 +287,11 @@ export async function customerApp(request: Request): Promise<Response> {
       // Explicit cleanup also covers deployments with foreign-key enforcement disabled.
       const cardsTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first();
       await circleBeforeDeletion(s.id);
+      const crmTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='crm_profiles'").first();
       await db.batch([
         db.prepare("DELETE FROM store_meta WHERE (key LIKE 'presence:%' OR key LIKE 'activity:%') AND json_extract(value,'$.customerId')=?").bind(s.id),
         db.prepare('DELETE FROM store_meta WHERE key IN (?,?)').bind('phone-verified:'+s.id,'phone-challenge:'+s.id),
+        ...(crmTable?[db.prepare('DELETE FROM crm_notes WHERE email=?').bind(s.email),db.prepare('DELETE FROM crm_profiles WHERE email=?').bind(s.email),db.prepare("UPDATE subscribers SET status='unsubscribed',updated_at=CURRENT_TIMESTAMP WHERE lower(email)=?").bind(s.email)]:[]),
         ...(cardsTable ? [db.prepare('DELETE FROM app_customer_cards WHERE customer_id=?').bind(s.id)] : []),
         db.prepare("DELETE FROM app_sessions WHERE customer_id=?").bind(s.id),
         db

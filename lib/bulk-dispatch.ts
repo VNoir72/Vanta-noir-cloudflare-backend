@@ -1,3 +1,4 @@
+import {transitEstimate} from './shipping-options';
 import {SHIPPING_COUNTRIES,shippingCountryName} from './shipping-countries';
 import {verifyLiveCredential} from './terminal-live';
 import {terminalDispatchReady,terminalLiveQuotes,terminalPreflight,terminalBook,terminalBooked} from './terminal-dispatch';
@@ -212,4 +213,23 @@ export async function dispatchBatchReviews(batchId:string,actor:string){
  z.string().uuid().parse(batchId);const b=await meta<{actor:string}>('dispatch-batch:'+batchId);if(b?.actor!==actor)fail('Batch not found.');
  const rows=await getDbBinding().prepare("SELECT r.value AS review,b.value AS booking FROM store_meta i JOIN store_meta r ON r.key='dispatch-review:'||i.value LEFT JOIN store_meta b ON b.key='dispatch-booking:'||json_extract(r.value,'$.reference') WHERE i.key>=? AND i.key<? LIMIT 1000").bind('dispatch-batch-item:'+batchId+':','dispatch-batch-item:'+batchId+':\uffff').all<{review:string;booking:string|null}>();
  return rows.results.flatMap(row=>{const r=JSON.parse(row.review) as DispatchReview;return r.actor===actor?[{...publicReview(r),booking:row.booking?JSON.parse(row.booking) as Booking:null}]:[];});
+}
+
+// Uses the same fingerprint, wallet preflight and one-booking claim as manual dispatch.
+export async function automaticDispatch(reference:string,policy:{shippingMode:'cheapest'|'fastest';providers:('shipbubble'|'terminal')[];maxExtraKobo:number},actor:string,pickupDate:string){
+ const s=await snapshot(reference),packed=await meta<Packed>('dispatch-packed:'+reference);
+ if(!packed||packed.fingerprint!==s.fingerprint)fail('Packing details changed. Mark the order packed again.');
+ const previous=await meta<Booking>(bookingKey(reference));if(previous)return previous;
+ const input={reference,fingerprint:s.fingerprint,parcel:packed.parcel,pickupDate,packed:true as const,requirePacked:true};
+ const options=[];const unavailable=[];
+ for(const provider of policy.providers){try{options.push(...(await dispatchAlternatives({...input,provider},actor)).options);}catch(e){unavailable.push(provider+': '+(e instanceof Error?e.message:'Unavailable'));}}
+ if(!options.length)fail('No enabled provider is available. Enable another provider in Automations or arrange dispatch manually. '+unavailable.join(' '));
+ const days=(v:string)=>transitEstimate(v)?.max??Infinity;
+ const eligible=options.filter(o=>o.chargeKobo<=s.order.shipping_kobo+policy.maxExtraKobo);
+ if(!eligible.length)fail('Available rates exceed the delivery amount plus your extra-cost limit. Review the rate or change the limit.');
+ if(policy.shippingMode==='fastest'&&(eligible.some(o=>!transitEstimate(o.delivery))||new Set(eligible.map(o=>transitEstimate(o.delivery)?.basis)).size>1))fail('Courier estimates cannot be compared reliably. Review shipping or select cheapest.');
+ eligible.sort((a,b)=>policy.shippingMode==='fastest'?(days(a.delivery)-days(b.delivery)||a.chargeKobo-b.chargeKobo):a.chargeKobo-b.chargeKobo);
+ const selected=eligible[0],review=await reviewDispatch({...input,provider:selected.provider,alternativeRateId:selected.id},actor);
+ if(review.chargeKobo>s.order.shipping_kobo+policy.maxExtraKobo)fail('The rate changed beyond your limit. Review dispatch.');
+ await checkDispatchFunds([review.id],actor);return bookDispatch(review.id,actor);
 }
