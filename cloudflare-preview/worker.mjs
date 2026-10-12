@@ -44,12 +44,12 @@ async function route(request, env) {
   if(p==='/robots.txt')return new Response('User-agent: *\nDisallow: /\n');
   if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:location.origin});',{headers:{'Content-Type':'application/javascript'}});
   if(p==='/api/customer/auth-methods')return json({google:false,password:false,apple:false,preview:true});
+  if(/^\/images\/vanta-hero(?:-(?:480|960|1600)\.webp|\.png)$/.test(p))return Response.redirect(u.origin+'/images/vanta-brand-hero-2026.webp',301);
   if(/^\/images\/[A-Za-z0-9_./-]+\.(?:webp|png|jpg|jpeg|svg|avif|gif|ico)$/.test(p))return publicRead(env,p);
   if(p.startsWith('/api/')) {
     if(!PUBLIC_READS.has(p))return json({error:'This action is unavailable in the browsing preview.'},409);
     return publicRead(env,p+u.search);
   }
-  if(/^\/images\/vanta-hero(?:-(?:480|960|1600)\.webp|\.png)$/.test(p))return Response.redirect(u.origin+'/images/vanta-brand-hero-2026.webp',301);
   if(p==='/sitemap.xml') {
     const live=await publicRead(env,'/api/storefront-visibility?mode=sitemap');
     if(!live.ok)return new Response('Catalogue temporarily unavailable',{status:503});
@@ -73,6 +73,8 @@ async function route(request, env) {
     const response=await asset(env,request,'/products/_dynamic.html');if(!response.ok)return response;
     let html=await boundedText(response,1500000);
     html=html.replace('"path":"/products/_dynamic"','"path":"/products/'+slug+'"').replace(/<title>.*?<\/title>/s,()=>'<title>'+escape(data.title)+'</title>');
+    const canonical='https://vantanoir.store/products/'+slug;
+    html=html.replace('</head>','<link rel="canonical" href="'+canonical+'"><meta property="og:url" content="'+canonical+'"></head>');
     const image=typeof data.image==='string'?(data.image.startsWith('/')&&!data.image.startsWith('//')?'https://vantanoir.store'+data.image:data.image):'';
     html=html.replace(/<meta (?:name|property)="(description|og:title|og:description|og:image|twitter:title|twitter:description|twitter:image)" content="[^"]*">/g,(_,name)=>'<meta '+(name.startsWith('og:')?'property':'name')+'="'+name+'" content="'+escape(name.endsWith('image')?(/^https:\/\//.test(image)?image:''):name.endsWith('title')?data.title:data.description)+'">');
     if(data.structuredData&&typeof data.structuredData==='object')html=html.replace('</head>','<script type="application/ld+json">'+JSON.stringify(data.structuredData).replaceAll('<','\\u003c')+'</script></head>');
