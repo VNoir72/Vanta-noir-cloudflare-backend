@@ -29,3 +29,14 @@ build environment and customer variant. Default destination is preview; confirm
 its runtime matches the installed Android build before production publication.
 Physical-device animation, small-screen and payment-flow acceptance remain to
 be confirmed; JavaScript export is not an APK or device test.
+
+## Publication checkpoint
+
+- Verified source pushed as `ded8d084d25fcefebf61ff33508469f85fc6fab1`.
+- Expo GitHub base directory saved as `/mobile`.
+- Expo's web workflow picker did not discover the committed workflow, including
+  after reloading the saved directory. No OTA update was published.
+- Android production-apk build requested from the exact verified commit:
+  `721e0a77-5e5a-4846-bb16-e3902d26483a`.
+  At this checkpoint Expo reports Pending. Automatic store submission is off.
+  Do not claim the APK is ready, installed, or deployed until its result is checked.
