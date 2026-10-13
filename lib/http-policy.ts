@@ -52,17 +52,20 @@ export function secureResponse(response: Response, request: Request, settings: S
 }
 
 // Count actual bytes before any parser sees the body, including chunked requests.
-export async function boundedApiRequest(request:Request):Promise<Request|Response>{
+export async function boundedApiRequest(request:Request, timeoutMs=15000):Promise<Request|Response>{
  const path=new URL(request.url).pathname;
  if(!path.startsWith('/api/')||!request.body)return request;
  const limit=path==='/api/admin/uploads'?33*1024*1024:128*1024;
  const reader=request.body.getReader(),chunks:Uint8Array[]=[];let total=0;
+ let timer:ReturnType<typeof setTimeout>|undefined;
+ const timeout=new Promise<{done:true;value:undefined}>(resolve=>{timer=setTimeout(()=>{void reader.cancel().catch(()=>{});resolve({done:true,value:undefined});},timeoutMs);});
+ const deadline=Date.now()+timeoutMs;
  try{
-  while(true){const {done,value}=await reader.read();if(done)break;total+=value.byteLength;
+  while(true){const {done,value}=await Promise.race([reader.read(),timeout]);if(Date.now()>=deadline)return Response.json({error:'Request body took too long.'},{status:408});if(done)break;total+=value.byteLength;
    if(total>limit){await reader.cancel();return Response.json({error:'The request is too large.'},{status:413});}
    chunks.push(value);
   }
- }finally{reader.releaseLock();}
+ }finally{clearTimeout(timer);reader.releaseLock();}
  const body=new Uint8Array(total);let offset=0;for(const chunk of chunks){body.set(chunk,offset);offset+=chunk.byteLength;}
  return new Request(request,{body});
 }

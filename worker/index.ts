@@ -1,3 +1,4 @@
+import {apiAbuseGuard} from '../lib/abuse-policy';
 import {rateLimit} from '../lib/rate-limit';
 import {runAutomations} from '../lib/automations';
 import {cleanupGrowth} from '../lib/growth';
@@ -43,9 +44,11 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
-    if(url.pathname==='/api/featured-image')return featuredImage(request);
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
+    try { const blocked=await apiAbuseGuard(request);if(blocked)return secureResponse(blocked,request,env); }
+    catch { return secureResponse(Response.json({error:'Request protection is temporarily unavailable.'},{status:503,headers:{'Retry-After':'60'}}),request,env); }
+    if(url.pathname==='/api/featured-image')return featuredImage(request);
     if(url.pathname==='/api/checkout' && request.method==='POST' && !await rateLimit(request,'checkout-body',20,600))return secureResponse(Response.json({error:'Please wait before starting another checkout.'},{status:429}),request,env);
     try{const bounded=await boundedApiRequest(request);if(bounded instanceof Response)return secureResponse(bounded,request,env);request=bounded;}
     catch{return secureResponse(Response.json({error:'Unable to read request.'},{status:400}),request,env);}

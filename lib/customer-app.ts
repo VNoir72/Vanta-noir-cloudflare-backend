@@ -1,3 +1,4 @@
+import {serviceBudget} from './abuse-policy';
 import {recordPresence,growthConfig} from './growth';
 import {circleMembership,circleStart,circleVerify,circleManage,circleBeforeDeletion} from './circle';
 import {phoneStatus,phoneSend,phoneVerify} from './phone-verification';
@@ -121,6 +122,7 @@ export async function customerApp(request: Request): Promise<Response> {
             purpose,
           ),
       ]);
+      if(!await serviceBudget('email'))return json({error:'Email sending is temporarily paused. Please try later.'},429);
       const sent = await fetch("https://api.resend.com/emails", {
         method: "POST",
         signal: AbortSignal.timeout(12000),
@@ -191,6 +193,7 @@ export async function customerApp(request: Request): Promise<Response> {
       }
     }
     if (!s) return json({ error: "Please sign in again." }, 401);
+    if(!await rateLimit(new Request(request.url,{headers:{'cf-connecting-ip':s.id}}),'customer-account:'+(['GET','HEAD'].includes(request.method)?'read':'write'),['GET','HEAD'].includes(request.method)?180:40,60))return json({error:'Please wait a minute before trying again.'},429);
     if(path==='presence'&&request.method==='POST')return json(await recordPresence(request,s.id,await request.json()));
     if(path==='phone'&&request.method==='GET')return json(await phoneStatus(s.id));
     if(path==='phone/send'&&request.method==='POST')return json(await phoneSend(request,s.id));

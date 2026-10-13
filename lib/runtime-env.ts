@@ -1,4 +1,5 @@
 type RuntimeEnvironment = {
+  ABUSE_PAUSED_SERVICES?: string;
   CIRCLE_BILLING_ENABLED?: string;
   AUTH_CUSTOM_DOMAIN_READY?: string;
   TERMII_API_KEY?: string;

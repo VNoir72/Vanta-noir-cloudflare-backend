@@ -1,3 +1,4 @@
+import {rateLimit} from './rate-limit';
 import {filterAppCatalog,checkoutAppPolicy,appPolicySql,paidAppLimitExceededSql} from './app-controls';
 import {publicAccess,type AppAccess} from './app-controls-policy';
 import {expireUnpaidOrders} from './order-expiry';
@@ -813,6 +814,10 @@ export async function createPendingOrder(args: {
     return {id:order.id,reference,receiptToken:attempt!,subtotalKobo:totals!.subtotalKobo,shippingKobo:totals!.shippingKobo,totalKobo:order.totalKobo};
   }
   if(attempt){const existing=await resume();if(existing)return existing;}
+  // Idempotent payment resumes above do not consume a new reservation allowance.
+  for(const [scope,actor,maximum] of [['buyer',args.customer.email.trim().toLowerCase(),8],['ip',args.reservationActor||'',20]] as const){
+    if(args.reservationActor&&actor&&!await rateLimit(new Request('https://internal.invalid',{headers:{'cf-connecting-ip':actor}}),'checkout-daily:'+scope,maximum,86400))throw Error('Daily checkout limit reached. Resume an existing order or contact support.');
+  }
   if(args.shippingQuote)await assertCurrentShippingProfiles(args.shippingQuote.selection);
   const uniqueVariantIds = [...new Set(args.cart.map((item) => item.variantId))];
   if (!args.cart.length || args.cart.length > 20 || uniqueVariantIds.length !== args.cart.length

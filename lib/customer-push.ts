@@ -1,3 +1,4 @@
+import {serviceBudget} from './abuse-policy';
 import {appControlsSnapshot} from './app-controls';
 import {memberWatchReady} from './app-members';
 import {getDbBinding} from './runtime-env';
@@ -12,7 +13,8 @@ export async function registerPush(customerId:string,token:string,remove=false){
  const value:Device={customerId,token,seen:await states(customerId),lastSeen:Date.now()};
  const result=await db.prepare(`INSERT INTO store_meta(key,value) SELECT ?,? WHERE
  EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.customerId')=?) OR
- (SELECT COUNT(*) FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=? AND COALESCE(json_extract(value,'$.lastSeen'),0)>?)<5
+ ((SELECT COUNT(*) FROM store_meta WHERE key LIKE 'push-device:%')<10000 AND
+ (SELECT COUNT(*) FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=? AND COALESCE(json_extract(value,'$.lastSeen'),0)>?)<5)
  ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE json_extract(store_meta.value,'$.customerId')=?`)
  .bind(key,JSON.stringify(value),key,customerId,customerId,Date.now()-90*86400000,customerId).run();
  if(!result.meta.changes)throw Error('Device registration limit reached. Remove an old device first.');
@@ -34,9 +36,10 @@ export async function sendOrderPushUpdates(){
   if((await appControlsSnapshot()).config.enabled)ready=await db.prepare("SELECT key,value FROM store_meta WHERE key LIKE ? AND json_extract(value,'$.status')='ready' ORDER BY key LIMIT 100").bind('app-watch:'+device.customerId+':%').all<{key:string;value:string}>();
   const candidates=ready.results.filter(r=>device.seen[r.key]!==JSON.parse(r.value).readyAt).slice(0,5);
   const alerts:{key:string;value:string}[]=[];for(const candidate of candidates)if(await memberWatchReady(JSON.parse(candidate.value),member.email))alerts.push(candidate);
-  if(alerts.length){const sent=await fetch('https://exp.host/--/api/v2/push/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(alerts.map(()=>({to:device.token,title:'Vanta Noir app alert',body:'A drop or garment you follow is available. Open App benefits to check availability.',channelId:'orders',data:{appBenefits:true},sound:'default'}))),signal:AbortSignal.timeout(10000)});if(sent.ok){const result=await sent.json() as {data:{status:string;id?:string;details?:{error:string}}[]};if(result.data?.some(t=>t.details?.error==='DeviceNotRegistered')){await db.prepare('DELETE FROM store_meta WHERE key=? AND value=?').bind(row.key,row.value).run();continue;}result.data?.forEach((t,i)=>{if(t.status==='ok'&&alerts[i]){device.seen[alerts[i].key]=JSON.parse(alerts[i].value).readyAt;if(t.id)device.ticketIds=[...(device.ticketIds||[]).slice(-9),t.id];}});const changed=JSON.stringify(device);const update=await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(changed,row.key,row.value).run();if(update.meta.changes)row.value=changed;}}
+  if(alerts.length&&await serviceBudget('push',alerts.length)){const sent=await fetch('https://exp.host/--/api/v2/push/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(alerts.map(()=>({to:device.token,title:'Vanta Noir app alert',body:'A drop or garment you follow is available. Open App benefits to check availability.',channelId:'orders',data:{appBenefits:true},sound:'default'}))),signal:AbortSignal.timeout(10000)});if(sent.ok){const result=await sent.json() as {data:{status:string;id?:string;details?:{error:string}}[]};if(result.data?.some(t=>t.details?.error==='DeviceNotRegistered')){await db.prepare('DELETE FROM store_meta WHERE key=? AND value=?').bind(row.key,row.value).run();continue;}result.data?.forEach((t,i)=>{if(t.status==='ok'&&alerts[i]){device.seen[alerts[i].key]=JSON.parse(alerts[i].value).readyAt;if(t.id)device.ticketIds=[...(device.ticketIds||[]).slice(-9),t.id];}});const changed=JSON.stringify(device);const update=await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(changed,row.key,row.value).run();if(update.meta.changes)row.value=changed;}}
   }catch{/* Optional drop alerts never interrupt order updates. */}
   const current=await states(device.customerId);const changed=Object.entries(current).filter(([ref,status])=>device.seen[ref]!==status).slice(0,5);if(!changed.length)continue;
+  if(!await serviceBudget('push',changed.length))continue;
   const response=await fetch('https://exp.host/--/api/v2/push/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(changed.map(([reference])=>({to:device.token,title:'Vanta Noir order update',body:'Your order has an update. Open Vanta Noir to view it.',channelId:'orders',data:{orderReference:reference},sound:'default'}))),signal:AbortSignal.timeout(10000)});
   if(!response.ok)continue;
   const result=await response.json() as {data:{status:string;id?:string;details?:{error:string}}[]};

@@ -1,3 +1,4 @@
+import {serviceBudget} from './abuse-policy';
 import {automationEnabled} from './automation-state';
 import {connectEmailTracking} from './email-delivery';
 import { z } from "zod";
@@ -95,6 +96,9 @@ export async function processEmailOutbox(limit=10){
       }
     }
     try {
+      if(!await serviceBudget('email')){
+        await db.prepare("UPDATE email_outbox SET status='pending',attempts=MAX(0,attempts-1),last_error='Email sending budget reached',next_attempt_at=datetime('now','+1 hour') WHERE id=?").bind(row.id).run();continue;
+      }
       const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,"Content-Type":"application/json","Idempotency-Key":row.id},body:JSON.stringify({from:env.EMAIL_FROM,to:[row.recipient],subject:row.subject,text:row.body,html:renderEmailHtml(row.subject,row.body),...(env.EMAIL_REPLY_TO ? {reply_to:env.EMAIL_REPLY_TO} : {})}),signal:AbortSignal.timeout(12000)});
       if(!response.ok)throw new Error(`Email service returned ${response.status}.`);
       const accepted=await response.json() as {id?:string};
