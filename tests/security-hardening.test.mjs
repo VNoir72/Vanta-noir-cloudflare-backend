@@ -78,7 +78,7 @@ test('security boundaries: expiry, preference limits, shared maintenance and lat
    await db.prepare("UPDATE stock_reservations SET expires_at=datetime('now','-1 minute') WHERE order_id=?").bind(first.id).run();
    const second=await rpc('createPendingOrder',input);
    const paid=o=>rpc('markOrderPaid',{reference:o.reference,amountKobo:o.totalKobo,eventKey:'fixture:'+o.reference,eventType:'verify.success',paymentDomain:'test'});
-   assert.equal((await paid(second)).status,'paid');
+   assert.equal((await paid(second)).status,'processing');
    const late=await paid(first);assert.equal(late.paymentStatus,'paid');assert.equal(late.status,'paid_stock_review');
    assert.equal((await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(variantId).first()).stock,9);
    assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM stock_adjustments WHERE reason=?').bind('Sale '+first.reference).first()).n,0);

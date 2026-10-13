@@ -83,12 +83,12 @@ test('integration: rollout switch, private receipts, admin authorization, addres
   assert.equal((await change('processing','paid',true,false)).status,403);
   assert.equal((await change('delivered','paid')).status,409);
   assert.equal((await change('processing','paid',false)).status,409);
-  const concurrent=await Promise.all(Array.from({length:8},()=>change('processing','paid')));
-  assert.equal(concurrent.filter(r=>r.status===200).length,1,'only one concurrent status update may succeed');
-  assert.ok(concurrent.every(r=>[200,409].includes(r.status)));
+  assert.equal((await rpc('getOrderByReference',order.reference)).status,'processing','verified payment advances automatically');
   assert.equal((await change('shipped','processing')).status,409,'tracking must be saved first');
   await rpc('updateOrderTracking',order.reference,{carrier:'Test carrier',trackingNumber:'TEST-ONLY',trackingUrl:'',deliveryEstimate:''});
-  assert.equal((await change('shipped','processing')).status,200);
+  const concurrent=await Promise.all(Array.from({length:8},()=>change('shipped','processing')));
+  assert.equal(concurrent.filter(r=>r.status===200).length,1,'only one concurrent status update may succeed');
+  assert.ok(concurrent.every(r=>[200,409].includes(r.status)));
   assert.equal((await change('delivered','shipped')).status,200);
   assert.equal((await change('processing','paid')).status,409,'delivered cannot move backwards');
   const guestAfterBulk=await rpc('getGuestOrder',order.reference,customer.email,'');assert.equal(guestAfterBulk.status,'delivered');
