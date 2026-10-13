@@ -1,3 +1,4 @@
+import {createAppCheckCache} from "./app-check-cache";
 import {requireOptionalNativeModule} from "expo";
 import variants from "./image-variants.json";
 import {preferenceSnapshot} from "./preferences";
@@ -35,16 +36,10 @@ export class ApiError extends Error {
     super(message);
   }
 }
-let appCheckCache:{token:string|null;until:number}|null=null;
-let appCheckPending:Promise<string|null>|null=null;
-async function appCheckToken(){
- if(appCheckCache&&appCheckCache.until>Date.now())return appCheckCache.token;
- if(appCheckPending)return appCheckPending;
+const appCheckToken = createAppCheckCache(async () => {
  const native=requireOptionalNativeModule<{appCheckToken?:()=>Promise<string>}>('VantaPaystack');
- if(!native?.appCheckToken)return null;
- appCheckPending=(async()=>{let timer:ReturnType<typeof setTimeout>|undefined;let token:string|null=null;try{token=await Promise.race([native.appCheckToken!(),new Promise<null>(resolve=>{timer=setTimeout(()=>resolve(null),2500);})]);}catch{/* Exclusive access is unavailable; ordinary shopping is unaffected. */}finally{if(timer)clearTimeout(timer);}appCheckCache={token,until:Date.now()+(token?180000:60000)};return token;})();
- try{return await appCheckPending;}finally{appCheckPending=null;}
-}
+ return native?.appCheckToken ? native.appCheckToken() : null;
+});
 export async function api<T>(
   path: string,
   body?: unknown,
@@ -53,7 +48,7 @@ export async function api<T>(
 ): Promise<T> {
   const token = await vault.get("session");
   let appCheck:string|null=null;
-  if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/(benefit|circle))/.test(path)))appCheck=await appCheckToken();
+  if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/(benefit|circle))/.test(path)))appCheck=await appCheckToken(path.startsWith("/api/customer/circle") ? 15000 : 2500);
   let response:Response;
   try {response = await fetch(API + path, {
     method,
