@@ -2,6 +2,7 @@ import {expireUnpaidOrders} from './order-expiry';
 import {getDbBinding, runtimeEnv} from './runtime-env';
 import {chargeSavedAuthorization, paymentMode, verifyPaystackTransaction} from './paystack';
 import {getOrderByReference} from './store-db';
+import {confirmedPaymentFee} from './payment-amount';
 
 export function savedCardsEnabled() {
   return runtimeEnv().SAVED_CARDS_ENABLED === 'true' && /^[a-f0-9]{64}$/i.test(runtimeEnv().APP_CARD_ENCRYPTION_KEY || '') && paymentMode() !== 'unconfigured';
@@ -47,7 +48,9 @@ async function eligibleAuthorization(owner:string,email:string,reference:string)
   if (!order || order.paymentStatus !== 'paid' || order.email.toLowerCase() !== email) return null;
   const transaction = await verifyPaystackTransaction(reference);
   const auth = transaction.authorization;
-  if (transaction.status !== 'success' || transaction.reference !== reference || transaction.currency !== 'NGN' || transaction.domain !== paymentMode() || transaction.amount !== order.totalKobo || transaction.customer?.email?.toLowerCase() !== email || !auth || auth.channel !== 'card' || auth.reusable !== true || !/^AUTH_[a-zA-Z0-9]+$/.test(auth.authorization_code) || !auth.signature || auth.signature.length>200 || !/^\d{4}$/.test(auth.last4)) return null;
+  if (transaction.status !== 'success' || transaction.reference !== reference || transaction.currency !== 'NGN' || transaction.domain !== paymentMode() || transaction.customer?.email?.toLowerCase() !== email || !auth || auth.channel !== 'card' || auth.reusable !== true || !/^AUTH_[a-zA-Z0-9]+$/.test(auth.authorization_code) || !auth.signature || auth.signature.length>200 || !/^\d{4}$/.test(auth.last4)) return null;
+  try { confirmedPaymentFee(order.totalKobo, transaction.amount, transaction.requested_amount, transaction.fees); }
+  catch { return null; }
   const month = Number(auth.exp_month), year = Number(auth.exp_year);
   if (!Number.isInteger(month) || month<1 || month>12 || !Number.isInteger(year) || year<2000 || year>2200 || expired({expiryMonth:month,expiryYear:year})) return null;
   return {...auth,month,year};

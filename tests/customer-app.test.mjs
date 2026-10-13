@@ -19,6 +19,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
   let charges = 0,
     ambiguous = false;
   let transferAmount=125900, transferRequested=123450, transferVerifyFails=false;
+  let providerRequested, providerFees;
   let cardCharges=0, reusable=true, providerEmail="a@example.com", providerAmount=123450, providerMode="test";
   const mf = new Miniflare({
     modules: true,
@@ -40,7 +41,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
         if(transferVerifyFails)return Response.json({status:false,message:'Unavailable'},{status:503});
         return Response.json({status:true,data:{reference:'VN-TEST',status:'ongoing',domain:'test',currency:'NGN',amount:transferAmount,requested_amount:transferRequested}});
       }
-      if(req.url.startsWith("https://api.paystack.co/transaction/verify/"))return Response.json({status:true,data:{reference:"VN-CARD",status:"success",domain:providerMode,amount:providerAmount,currency:"NGN",customer:{email:providerEmail},authorization:{authorization_code:"AUTH_testtoken",signature:"SIG_test",reusable,channel:"card",last4:"1234",brand:"visa",exp_month:"12",exp_year:"2099"}}});
+      if(req.url.startsWith("https://api.paystack.co/transaction/verify/"))return Response.json({status:true,data:{reference:"VN-CARD",status:"success",domain:providerMode,amount:providerAmount,requested_amount:providerRequested,fees:providerFees,currency:"NGN",customer:{email:providerEmail},authorization:{authorization_code:"AUTH_testtoken",signature:"SIG_test",reusable,channel:"card",last4:"1234",brand:"visa",exp_month:"12",exp_year:"2099"}}});
       const body = await req.json();
       if(req.url==="https://api.paystack.co/transaction/charge_authorization"){
         cardCharges++;assert.equal(body.authorization_code,"AUTH_testtoken");assert.equal(body.amount,123450);assert.equal(body.email,"a@example.com");assert.equal(body.currency,"NGN");
@@ -259,6 +260,11 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     providerEmail="b@example.com";assert.equal((await save()).status,400);providerEmail="a@example.com";
     providerAmount=1;assert.equal((await save()).status,400);providerAmount=123450;
     providerMode="live";assert.equal((await save()).status,400);providerMode="test";
+    providerAmount=125900;providerRequested=123450;providerFees=2450;
+    assert.equal((await save()).status,200,"A verified customer-paid fee must not prevent saving a card");
+    providerFees=2449;assert.equal((await save()).status,400,"Reject unexplained amount differences");
+    providerFees=2450;providerRequested=123449;assert.equal((await save()).status,400,"Reject mismatched principal");
+    providerAmount=123450;providerRequested=undefined;providerFees=undefined;
     const saves=await Promise.all([save(),save()]);
     assert.ok(saves.every(r=>r.status===200));
     const saved=(await request("cards","GET",undefined,a)).data;
