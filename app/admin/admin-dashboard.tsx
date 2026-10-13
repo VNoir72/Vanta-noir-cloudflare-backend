@@ -1,4 +1,5 @@
 "use client";
+import {CompactReference} from '@/components/compact-reference';
 import {AutomationsPanel} from './automations-panel';
 import {CrmPanel} from './crm-panel';
 import {AppControlsPanel} from './app-controls';
@@ -506,7 +507,7 @@ function DashboardContent({
   const navigation = <>
         <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button>
         <button className="vn-workspace-selector" onClick={()=>{setMobileNav(false);setSection('settings');}}><i className="vn-workspace-dot"/><span>Vanta Noir Store</span><ChevronDown size={15}/></button>
-        <nav aria-label="Store administration">{sections.filter(item=>!["discounts","delivery"].includes(item)||["operations","discounts","delivery"].includes(section)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}>{item==='approvals'&&<p className="vn-nav-group">Management</p>}<button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</nav>
+        <nav aria-label="Store administration">{sections.filter(item=>['overview','orders','products','customers','app-controls','analytics','settings'].includes(item)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}<details className="vn-more-tools" key={section} open={!['overview','orders','products','customers','app-controls','analytics','settings'].includes(section)}><summary>More tools <ChevronDown size={15}/></summary>{sections.filter(item=>!['overview','orders','products','customers','app-controls','analytics','settings'].includes(item)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</details></nav>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}><ExternalLink size={17}/> Visit storefront</a>
         <button className="vn-owner-block" onClick={()=>{setMobileNav(false);setSection('settings');}}><span className="vn-owner-avatar">VN</span><span>Store owner</span><ChevronRight size={16}/></button>
       </>;
@@ -556,6 +557,7 @@ function DashboardContent({
             </Button>
           </div>
 
+          <nav className="vn-product-tabs" aria-label="Catalogue tools">{[['products','All products'],['inventory','Inventory'],['collections','Collections'],['launch-review','Launch review']].map(([id,label])=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}>{label}</button>)}</nav>
           <div className="grid gap-6">
             <div className="overflow-hidden border border-border bg-muted">
               <div className="flex items-center justify-between border-b border-border px-5 py-4">
@@ -570,7 +572,7 @@ function DashboardContent({
                   <div className="p-8 text-sm text-muted-foreground">{products.length ? "No products match your search." : "No products have been created yet."}</div>
                 ) : (
                   matchingProducts.slice((currentProductPage - 1) * 24, currentProductPage * 24).map((product) => (
-                    <article key={product.id} className="p-4 transition-colors hover:bg-card/[0.025]">
+                    <article key={product.id} className="vn-compact-product p-4 transition-colors hover:bg-card/[0.025]">
                       <button type="button" onClick={() => openProduct(product)} className="flex w-full items-start gap-4 text-left">
                         <div className="size-16 shrink-0 overflow-hidden rounded-sm bg-muted">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -591,7 +593,7 @@ function DashboardContent({
                         </div>
                         <Pencil className="mt-1 size-4 shrink-0 text-muted-foreground" />
                       </button>
-                      <div className="mt-4 flex flex-wrap gap-2 pl-20">
+                      <details className="vn-product-actions"><summary>More actions <MoreHorizontal size={16}/></summary><div className="flex flex-wrap gap-2">
                         <a className="rounded-lg border px-3 py-2 text-xs" href={`/api/admin/tech-packs?id=${encodeURIComponent(product.id)}`} target="_blank" rel="noreferrer">Tech pack ↗</a>
                         {product.status === "published" ? (
                           <Button
@@ -644,7 +646,7 @@ function DashboardContent({
                         >
                           <Trash2 /> Delete
                         </Button>
-                      </div>
+                      </div></details>
                     </article>
                   ))
                 )}
@@ -706,7 +708,7 @@ function DashboardContent({
                   orders.map((order) => (
                     <TableRow key={order.id} className="border-border hover:bg-card/[0.03]">
                       <TableCell>
-                        <p className="font-mono text-xs">{order.reference}</p>
+                        <p className="font-mono text-xs"><CompactReference value={order.reference}/></p>
                         <p className="mt-1 text-[11px] text-muted-foreground">{new Date(order.createdAt).toLocaleString("en-NG")}</p>
                       </TableCell>
                       <TableCell>

@@ -15,9 +15,9 @@ html[data-vn-admin-theme] {
  --admin-ground-image:radial-gradient(ellipse at 85% 15%,#e2ebe4 0%,transparent 55%);
 }
 html[data-vn-admin-theme=dark] {
- --admin-ground:#343f39; --admin-surface:#46564c; --admin-soft:#3d4d43;
- --admin-text:#f2f3ea; --admin-muted:#c1cec1; --admin-border:#718276;
- --admin-glass:rgba(78,96,83,.89); --admin-panel:rgba(83,103,89,.80);
+ --admin-ground:#101411; --admin-surface:#1b211d; --admin-soft:#242c26;
+ --admin-text:#f2f3ea; --admin-muted:#abb7ac; --admin-border:#374239;
+ --admin-glass:rgba(27,33,29,.89); --admin-panel:rgba(27,33,29,.80);
  --admin-edge:rgba(215,230,208,.24); --admin-shadow:rgba(14,27,18,.25);
  --admin-accent:#c8ff65; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;

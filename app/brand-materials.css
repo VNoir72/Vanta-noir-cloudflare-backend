@@ -1,6 +1,6 @@
 /* Shared approved pearl-white/lime materials. No green cast on structural surfaces. */
 :root{
- --vn-brand-white:#fff;--vn-brand-pearl:#f5f7f7;--vn-brand-lime:#c6f276;
+ --vn-brand-white:#fff;--vn-brand-pearl:#f5f7f7;--vn-brand-lime:#c8ff65;
  --vn-brand-ink:#171a1c;--vn-brand-muted:#6b7074;--vn-brand-border:#e7eaeb;
  --vn-glass-surface:linear-gradient(135deg,#fffffff0,#ffffffa8);
  --vn-glass-panel:linear-gradient(145deg,#fffffff5,#ffffffb8);

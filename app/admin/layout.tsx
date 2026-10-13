@@ -1,6 +1,7 @@
 import "./control-center.css";
 import "./dashboard-exact.css";
 import "./admin-appearance.css";
+import "./liquid-workspace.css";
 import {AdminAppearance} from './admin-theme';
 import {adminThemeScript} from '@/lib/admin-theme';
 import {adminThemeCSS} from '@/lib/admin-theme-css';
