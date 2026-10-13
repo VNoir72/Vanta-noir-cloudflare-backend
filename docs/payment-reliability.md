@@ -1,5 +1,16 @@
 # Payment reliability update
 
+## Bank transfer amount correction — 13 October 2026
+
+The transfer instructions previously copied the order principal even when Paystack
+added customer-paid fees. They now fetch the authenticated transaction amount,
+validate its reference, currency, environment and original requested amount, and
+display the provider total. Existing unverified cached instructions are corrected
+on reuse. A verification outage returns checking, preserves the account, and never
+starts another charge. This does not alter merchant fee settings or weaken paid
+order verification. Customer-app regression coverage includes surcharges, exact
+totals, mismatched principals, legacy cache recovery and no duplicate charge.
+
 - Storefront checkout persists a random attempt capability across refreshes and tabs. Matching requests reuse their order/reference and saved Paystack link. Changing the request under an existing capability is rejected. Successful checkout clears that attempt from the browser so a later identical purchase is possible.
 - Existing storefront builds without the new capability remain compatible, but require the new Namecheap build for retry protection and corrected confirmation totals.
 - An ambiguous Paystack initialization timeout preserves its reference and stock reservation and sends the customer to verification, rather than silently starting another transaction. If Paystack never created that reference, customer care must review the attempt; this release does not guess whether a charge occurred.

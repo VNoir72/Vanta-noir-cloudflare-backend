@@ -1,7 +1,7 @@
 import {expireUnpaidOrders} from './order-expiry';
 import { getDbBinding, runtimeEnv } from "./runtime-env";
 import { getOrderByReference } from "./store-db";
-import { createTransferCharge } from "./paystack";
+import { createTransferCharge, paymentMode, verifyPaystackTransaction } from "./paystack";
 export type TransferInstructions = {
   reference: string;
   bankName: string;
@@ -10,6 +10,22 @@ export type TransferInstructions = {
   expiresAt: string;
   amountKobo: number;
 };
+
+// The charge endpoint may omit amount. Never infer the transfer total from
+// the order: customer-paid Paystack fees can make the actual total higher.
+async function confirmTransferAmount(transfer: TransferInstructions, expected: number) {
+  const transaction = await verifyPaystackTransaction(transfer.reference);
+  const requested = typeof transaction.requested_amount === 'string' && /^\d+$/.test(transaction.requested_amount)
+    ? Number(transaction.requested_amount) : transaction.requested_amount;
+  if (transaction.reference !== transfer.reference || transaction.currency !== 'NGN' ||
+      transaction.domain !== paymentMode() || !Number.isSafeInteger(transaction.amount) ||
+      transaction.amount < expected ||
+      (requested == null ? transaction.amount !== expected : requested !== expected) ||
+      !['ongoing', 'pending', 'pending_bank_transfer'].includes(transaction.status)) {
+    throw new Error('Transfer amount could not be confirmed.');
+  }
+  return {...transfer, amountKobo: transaction.amount};
+}
 export async function startTransferPayment(
   reference: string,
   receiptToken: string,
@@ -32,9 +48,17 @@ export async function startTransferPayment(
     .first<{ value: string }>();
   if (row) {
     const saved = JSON.parse(row.value);
-    return saved.transfer
-      ? { ...base, transfer: saved.transfer as TransferInstructions }
-      : { ...base, checking: true };
+    if (!saved.transfer) return {...base, checking: true};
+    if (Date.parse(saved.transfer.expiresAt) <= Date.now()) return {...base, expired: true};
+    if (saved.transferAmountVerified === true) return {...base, transfer: saved.transfer as TransferInstructions};
+    try {
+      const transfer = await confirmTransferAmount(saved.transfer, order.totalKobo);
+      await db.prepare('UPDATE store_meta SET value=? WHERE key=?')
+        .bind(JSON.stringify({...saved, transfer, transferAmountVerified: true}), key).run();
+      return {...base, transfer};
+    } catch {
+      return {...base, checking: true};
+    }
   }
   const claimed = await db
     .prepare("INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)")
@@ -75,7 +99,12 @@ export async function startTransferPayment(
       .prepare("UPDATE store_meta SET value=? WHERE key=?")
       .bind(JSON.stringify({ transfer }), key)
       .run();
-    return { ...base, transfer };
+    // Persist the account first so a verification timeout can be retried
+    // without creating another charge or losing the existing account.
+    const confirmed = await confirmTransferAmount(transfer, order.totalKobo);
+    await db.prepare('UPDATE store_meta SET value=? WHERE key=?')
+      .bind(JSON.stringify({transfer: confirmed, transferAmountVerified: true}), key).run();
+    return { ...base, transfer: confirmed };
   } catch {
     // A timeout is ambiguous: do not create a second charge or release stock.
     // The existing verification and webhook pipeline reconciles this reference.

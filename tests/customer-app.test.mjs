@@ -18,6 +18,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
   const codes = new Map();
   let charges = 0,
     ambiguous = false;
+  let transferAmount=125900, transferRequested=123450, transferVerifyFails=false;
   let cardCharges=0, reusable=true, providerEmail="a@example.com", providerAmount=123450, providerMode="test";
   const mf = new Miniflare({
     modules: true,
@@ -35,6 +36,10 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
       PAYSTACK_SECRET_KEY: "sk_test_local",
     },
     outboundService: async (req) => {
+      if(req.url === 'https://api.paystack.co/transaction/verify/VN-TEST') {
+        if(transferVerifyFails)return Response.json({status:false,message:'Unavailable'},{status:503});
+        return Response.json({status:true,data:{reference:'VN-TEST',status:'ongoing',domain:'test',currency:'NGN',amount:transferAmount,requested_amount:transferRequested}});
+      }
       if(req.url.startsWith("https://api.paystack.co/transaction/verify/"))return Response.json({status:true,data:{reference:"VN-CARD",status:"success",domain:providerMode,amount:providerAmount,currency:"NGN",customer:{email:providerEmail},authorization:{authorization_code:"AUTH_testtoken",signature:"SIG_test",reusable,channel:"card",last4:"1234",brand:"visa",exp_month:"12",exp_year:"2099"}}});
       const body = await req.json();
       if(req.url==="https://api.paystack.co/transaction/charge_authorization"){
@@ -193,8 +198,23 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     const attempts = await Promise.all([transfer(), transfer(), transfer()]);
     assert.equal(charges, 1);
     assert.ok(attempts.some((r) => r.transfer?.accountNumber === "0123456789"));
-    assert.equal((await transfer()).transfer.amountKobo, 123450);
+    assert.equal((await transfer()).transfer.amountKobo, 125900, 'Display provider total including customer-paid fees');
     assert.equal(charges, 1);
+    // Old cached instructions and verification outages must never trigger a
+    // second charge or expose the unconfirmed order total as transfer amount.
+    const cached=JSON.parse((await db.prepare("SELECT value FROM store_meta WHERE key='checkout-payment:VN-TEST'").first()).value);
+    const legacy=JSON.stringify({transfer:{...cached.transfer,amountKobo:123450}});
+    await db.prepare("UPDATE store_meta SET value=? WHERE key='checkout-payment:VN-TEST'").bind(legacy).run();
+    transferVerifyFails=true;
+    assert.equal((await transfer()).checking,true);
+    transferVerifyFails=false;transferRequested=999;
+    assert.equal((await transfer()).checking,true,'Reject mismatched provider principal');
+    transferRequested=123450;
+    assert.equal((await transfer()).transfer.amountKobo,125900,'Repair legacy cached amount');
+    assert.equal(charges,1,'Recovery must reuse the existing charge');
+    await db.prepare("UPDATE store_meta SET value=? WHERE key='checkout-payment:VN-TEST'").bind(legacy).run();
+    transferAmount=123450;transferRequested=null;
+    assert.equal((await transfer()).transfer.amountKobo,123450,'Exact amount works without a surcharge');
     await db
       .prepare("DELETE FROM store_meta WHERE key='checkout-payment:VN-TEST'")
       .run();
