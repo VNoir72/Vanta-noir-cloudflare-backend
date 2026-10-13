@@ -303,6 +303,8 @@ function Main() {
   const [cardsEnabled,setCardsEnabled]=useState(false);
   const [selectedCard,setSelectedCard]=useState("");
   const returnToCheckout=useRef(false);
+  const [trackingOrder,setTrackingOrder]=useState<Order|null>(null);
+  const [checkoutStep,setCheckoutStep]=useState<'review'|'method'>('review');
   const [checkout, setCheckout] = useState(false),
     [address, setAddress] = useState<Address>(emptyAddress),
     [code, setCode] = useState(""),
@@ -891,7 +893,7 @@ function Main() {
                     {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
                     <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
 
-                    <OrderProgress order={o}/>
+                    <Button compact secondary title="Track order" onPress={()=>setTrackingOrder(o)}/>
                     {!!o.trackingNumber&&<Text style={s.muted}>{o.trackingNumber}</Text>}
                     {!!o.deliveryEstimate&&<Text style={s.muted}>{o.deliveryEstimate}</Text>}
                     {payment?.reference===o.reference&&!paymentExpired&&inOrderGroup(o,'To pay')&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
@@ -931,7 +933,7 @@ function Main() {
           <>
             {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
               <View style={{width:'100%',maxWidth:440,alignSelf:'center',paddingVertical:24}}>
-                <ProviderSignIn initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
+                <ProviderSignIn initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckoutStep('review');setCheckout(true);}}}/>
                 <View style={[s.row,{justifyContent:'center',marginTop:14}]}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
               </View>
             ) : (
@@ -989,9 +991,10 @@ function Main() {
       {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
         {quotes&&quotes.expiresAt>Date.now()&&quoteContext===shippingContext&&<QuoteCountdown expiresAt={quotes.expiresAt}/>}
         {!!bagToast&&<Text accessibilityLiveRegion="polite" style={{backgroundColor:colors.text,color:colors.page,padding:14,borderRadius:10}}>{bagToast}</Text>}
-        <View style={{flexDirection:'row',alignItems:'center',gap:10}}><Pressable accessibilityRole="checkbox" accessibilityLabel="Select all bag items" accessibilityState={{checked:!!cart.length&&cart.every(i=>bagSelection.includes(i.variantId))}} onPress={()=>{setBagSelection(cart.every(i=>bagSelection.includes(i.variantId))?[]:cart.map(i=>i.variantId));resetQuote();}} style={{flexDirection:'row',alignItems:'center',gap:5,minHeight:44}}><Ionicons name={cart.length&&cart.every(i=>bagSelection.includes(i.variantId))?'checkmark-circle':'ellipse-outline'} size={24}/><Text>All</Text></Pressable><Text style={{flex:1,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text><Button title={`Checkout (${checkoutCart.reduce((n,i)=>n+i.quantity,0)})`} disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/></View>
+        <View style={{flexDirection:'row',alignItems:'center',gap:10}}><Pressable accessibilityRole="checkbox" accessibilityLabel="Select all bag items" accessibilityState={{checked:!!cart.length&&cart.every(i=>bagSelection.includes(i.variantId))}} onPress={()=>{setBagSelection(cart.every(i=>bagSelection.includes(i.variantId))?[]:cart.map(i=>i.variantId));resetQuote();}} style={{flexDirection:'row',alignItems:'center',gap:5,minHeight:44}}><Ionicons name={cart.length&&cart.every(i=>bagSelection.includes(i.variantId))?'checkmark-circle':'ellipse-outline'} size={24}/><Text>All</Text></Pressable><Text style={{flex:1,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text><Button title={`Checkout (${checkoutCart.reduce((n,i)=>n+i.quantity,0)})`} disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckoutStep('review');setCheckout(true);}}}/></View>
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
+      <Sheet title="Track order" visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><Glass><Text style={s.label}>Order reference</Text><Text selectable>{trackingOrder.reference}</Text><Button compact secondary title="Copy reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(trackingOrder.reference);setNotice('Order reference copied.');})}/><Text style={s.muted}>Current status · {trackingOrder.status.replaceAll('_',' ')}</Text></Glass><OrderProgress order={trackingOrder}/>{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<Button secondary title="Need help with this order?" onPress={()=>{const reference=trackingOrder.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/></>}</Sheet>
       <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>
       <Sheet title="Recycle bin" visible={recycleOpen} onClose={()=>setRecycleOpen(false)} footer={deletedOrders.length?<View style={{flexDirection:'row',gap:8}}><Button compact title={`Restore (${trashSelection.length})`} disabled={busy||!trashSelection.length} onPress={()=>void task(async()=>{const restored:CartItem[]=[];for(const reference of trashSelection){const order=deletedOrders.find(o=>o.reference===reference);for(const item of order?.items||[]){const product=products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)));const color=product?.colorways.find(c=>Object.values(c.variantIds||{}).includes(item.variantId));if(product&&color&&!preview(product))restored.push({variantId:item.variantId,productId:product.id,name:product.name,color:color.name,size:item.size,imageUrl:color.imageUrl,priceKobo:product.priceKobo,quantity:Math.min(item.quantity,5)});}await api('/api/customer/orders',{reference},'PATCH');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));}setCart(items=>{const next=[...items];for(const item of restored){const i=next.findIndex(v=>v.variantId===item.variantId);if(i<0)next.push(item);else next[i]={...next[i],quantity:Math.min(5,next[i].quantity+item.quantity)};}return next;});setBagSelection(restored.map(i=>i.variantId));setTrashSelection([]);await vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setCheckout(false);setRecycleOpen(false);setScreen('Bag');setBagToast(restored.length?'Restored to your bag. Choose Checkout to start a new payment.':'These pieces are no longer available in the catalogue.');})}/><Button compact secondary title="Delete permanently" disabled={busy||!trashSelection.length} onPress={()=>Alert.alert('Delete permanently?',`Remove ${trashSelection.length} selected order(s) from your history? You cannot restore them. Required payment and delivery records are retained.`,[{text:'Keep',style:'cancel'},{text:'Delete permanently',style:'destructive',onPress:()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference,permanent:true},'DELETE');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}})}])}/></View>:undefined}>
        <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
@@ -1124,10 +1127,10 @@ function Main() {
         )}
       </Sheet>
       <Sheet
-        title={paymentExpired ? "Order expired" : payment ? "Your payment" : "Order confirmation"}
+        title={paymentExpired ? "Order expired" : payment ? "Your payment" : checkoutStep==='method'?"Payment method":"Checkout"}
         flat={!payment}
         visible={checkout && !!customer}
-        onClose={() => setLeaveCheckout(true)}
+        onClose={() => !payment&&checkoutStep==='method'?setCheckoutStep('review'):setLeaveCheckout(true)}
         overlay={leaveCheckout ? <View accessibilityViewIsModal style={[StyleSheet.absoluteFill,{backgroundColor:"rgba(0,0,0,0.55)",justifyContent:"center",alignItems:"center",padding:24}]}>
           <View style={{backgroundColor:colors.surface,borderRadius:28,padding:24,gap:20,width:"100%",maxWidth:460}}>
             <Text accessibilityRole="header" style={[s.h2,{textAlign:"center"}]}>Leaving checkout now?</Text>
@@ -1138,7 +1141,7 @@ function Main() {
             <Button title="Leave anyway" secondary onPress={()=>{setLeaveCheckout(false);setCheckout(false);}}/>
           </View>
         </View>:undefined}
-        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{gap:12,flexDirection:"row",alignItems:"center"}}><View style={{flex:1}}><Text style={s.label}>Total</Text><Text style={s.h2}>{money(reward.totalKobo || 0)}</Text></View><Button title={busy?"Please wait…":"Place order"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (paymentMethod==="hosted"?!cardSdkAvailable:paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired))} onPress={()=>void task(pay)}/></View>:undefined}
+        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{gap:12,flexDirection:"row",alignItems:"center"}}><View style={{flex:1}}><Text style={s.label}>Total</Text><Text style={s.h2}>{money(reward.totalKobo || 0)}</Text></View><Button title={busy?"Please wait…":checkoutStep==='review'?"Continue to payment":"Continue"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (checkoutStep==='method'&&(paymentMethod==="hosted"?!cardSdkAvailable:paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired)))} onPress={()=>checkoutStep==='review'?setCheckoutStep('method'):void task(pay)}/></View>:undefined}
       >
         {notice !== "" && (
           <Text accessibilityLiveRegion="polite" style={s.noticeText}>
@@ -1214,20 +1217,14 @@ function Main() {
         ) : (
           <>
 
-            {addressEditing ? <ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(customer){const next={...customer,addresses:[a,...customer.addresses.slice(1)]};await api("/api/customer/me",next,"PATCH");setCustomer(next);}setAddress(a);setAddressEditing(false);setNotice("");})}/> : <Glass>
+            {checkoutStep==='review'&&<>{addressEditing ? <ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(customer){const next={...customer,addresses:[a,...customer.addresses.slice(1)]};await api("/api/customer/me",next,"PATCH");setCustomer(next);}setAddress(a);setAddressEditing(false);setNotice("");})}/> : <Glass>
               <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}><Text style={{fontSize:17,fontWeight:"700"}}>Shipping address</Text><Pressable accessibilityLabel="Edit shipping address" onPress={()=>setAddressEditing(true)} style={{padding:10}}><Ionicons name="create-outline" size={20}/></Pressable></View>
               <Text style={s.muted}>{Object.keys(addressErrors(address)).length?"Tap the pencil to complete your delivery address.":""}</Text><Text style={s.productName}>{address.firstName} {address.lastName} · {address.phone}</Text><Text style={s.muted}>{[address.addressLine1,address.addressLine2,address.city,address.state,address.postalCode,shippingCountryName(address.countryCode)].filter(Boolean).join(", ")}</Text><Text style={s.muted}>{address.email}</Text>
 
             </Glass>}
             {!addressEditing && <>
-            <Glass><Text style={{fontSize:17,fontWeight:"700"}}>Your order · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text>{checkoutCart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:64,height:74,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text numberOfLines={2} style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size}</Text>{variantStock(i,products)<=5&&<Text style={{fontSize:12,color:colors.danger}}>{variantStock(i,products)>0?`Only ${variantStock(i,products)} left`:"Unavailable"}</Text>}<View style={{flexDirection:"row",alignItems:"center",gap:12}}><Pressable accessibilityRole="button" accessibilityLabel={`Decrease ${i.name} quantity`} disabled={busy||i.quantity<=1} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity-1}:item));resetQuote();}} style={s.chip}><Text>−</Text></Pressable><Text>{i.quantity}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Increase ${i.name} quantity`} disabled={busy||i.quantity>=Math.min(5,variantStock(i,products))} onPress={()=>{setCart(current=>current.map(item=>item.variantId===i.variantId?{...item,quantity:item.quantity+1}:item));resetQuote();}} style={s.chip}><Text>+</Text></Pressable></View><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
+            <Glass><Text style={{fontSize:17,fontWeight:"700"}}>Your order · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text>{checkoutCart.map(i=><View key={i.variantId} style={{flexDirection:"row",gap:12,alignItems:"center"}}><Image source={{uri:imageUrl(i.imageUrl)}} style={{width:64,height:74,borderRadius:10}}/><View style={{flex:1,gap:5}}><Text numberOfLines={2} style={s.productName}>{i.name}</Text><Text style={s.muted}>{i.color} / {i.size}</Text>{variantStock(i,products)<=5&&<Text style={{fontSize:12,color:colors.danger}}>{variantStock(i,products)>0?`Only ${variantStock(i,products)} left`:"Unavailable"}</Text>}<Text style={s.muted}>Quantity {i.quantity}</Text><Text>{money(i.priceKobo*i.quantity)}</Text></View></View>)}</Glass>
             <Glass><Text style={{fontSize:17,fontWeight:"700"}}>Shipping</Text>{shippingBusy||quoteContext!==shippingContext?<Text>Calculating shipping…</Text>:quotes&&<>{deliveryChoices(quotes.rates).map(({label,rate:option})=><Pressable key={option.rateId} accessibilityRole="radio" accessibilityState={{checked:rate?.rateId===option.rateId}} onPress={()=>void selectDelivery(option)} style={{paddingVertical:8,borderBottomWidth:1,borderBottomColor:"#d6d6d6"}}><Text style={s.productName}>{rate?.rateId===option.rateId?'●':'○'} {label} · {money(option.amountKobo)}</Text><Text>{option.delivery}</Text><Text style={s.muted}>{label==='Express'?'Fastest available estimate':'Lower delivery fee'}</Text></Pressable>)}<QuoteCountdown expiresAt={quotes.expiresAt}/><Text style={s.muted}>Packed within 1–2 business days. Transit estimates start after dispatch.</Text></>}{shippingError!==''&&<><Text accessibilityRole="alert">{shippingError}</Text><Button title="Retry shipping" secondary onPress={()=>setShippingRetry(n=>n+1)}/></>}{address.countryCode!=='NG'&&<Text style={s.muted}>Import duties and taxes may be payable by the recipient. Customs can affect delivery times.</Text>}</Glass>
-            <Glass><Text style={{fontSize:17,fontWeight:"700"}}>Payment method</Text>
-              {cardSdkAvailable&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='hosted'}} onPress={()=>setPaymentMethod('hosted')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='hosted'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>Pay with a new card</Text></Pressable>}
-              {transferEnabled&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='bank_transfer'}} onPress={()=>setPaymentMethod('bank_transfer')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='bank_transfer'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="business-outline" size={25}/><Text style={s.productName}>Bank transfer · Paystack</Text></Pressable>}
-              {cardsEnabled&&cards.map(card=><Pressable key={card.id} accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='saved_card'&&selectedCard===card.id,disabled:card.expired}} disabled={card.expired} onPress={()=>{setSelectedCard(card.id);setPaymentMethod('saved_card');}} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='saved_card'&&selectedCard===card.id?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>{card.brand} •••• {card.last4}{card.expired?' · Expired':''}</Text></Pressable>)}
-              <Text style={s.muted}>Payments processed by Paystack. Card entry opens in the secure payment sheet when available.</Text>
-            </Glass>
             <Pressable accessibilityRole="button" accessibilityState={{expanded:promoOpen}} onPress={()=>setPromoOpen(!promoOpen)}><Glass><View style={{flexDirection:"row",justifyContent:"space-between"}}><Text style={{fontSize:17,fontWeight:"700"}}>Promo code{code?" · "+code:""}</Text><Ionicons name={promoOpen?"chevron-up":"chevron-down"} size={22}/></View></Glass></Pressable>
             {promoOpen&&<><View style={{gap:6}}><Text>Discount code (optional)</Text><TextInput accessibilityLabel="Discount code" value={promotionDraft} onChangeText={v=>setPromotionDraft(v.toUpperCase())} autoCapitalize="characters" maxLength={32} style={{minHeight:44,padding:12,borderWidth:1,borderColor:colors.border,borderRadius:12,color:colors.text}}/></View>
             <Field
@@ -1258,7 +1255,14 @@ function Main() {
               </Glass>
             )}
             <Glass><View style={s.row}><Ionicons name="shield-checkmark-outline" size={24}/><Text style={{fontSize:17,fontWeight:"700"}}>Security & privacy</Text></View><Text style={s.muted}>Full card numbers and security codes are never stored by Vanta Noir. Only you can access the saved payment methods on your signed-in account.</Text></Glass>
-            </>}
+            </>}</>}
+            {checkoutStep==='method'&&<><Glass><Text style={s.label}>Amount to pay</Text><Text style={s.h1}>{money(reward?.totalKobo||0)}</Text><Text style={s.muted}>Choose how you would like to pay.</Text></Glass>            <Glass><Text style={{fontSize:17,fontWeight:"700"}}>Payment method</Text>
+              {cardSdkAvailable&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='hosted'}} onPress={()=>setPaymentMethod('hosted')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='hosted'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>Pay with a new card</Text></Pressable>}
+              {transferEnabled&&<Pressable accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='bank_transfer'}} onPress={()=>setPaymentMethod('bank_transfer')} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='bank_transfer'?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="business-outline" size={25}/><Text style={s.productName}>Bank transfer · Paystack</Text></Pressable>}
+              {cardsEnabled&&cards.map(card=><Pressable key={card.id} accessibilityRole="radio" accessibilityState={{checked:paymentMethod==='saved_card'&&selectedCard===card.id,disabled:card.expired}} disabled={card.expired} onPress={()=>{setSelectedCard(card.id);setPaymentMethod('saved_card');}} style={{flexDirection:'row',alignItems:'center',gap:14,paddingVertical:10,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name={paymentMethod==='saved_card'&&selectedCard===card.id?'radio-button-on':'radio-button-off'} size={24}/><Ionicons name="card-outline" size={25}/><Text style={s.productName}>{card.brand} •••• {card.last4}{card.expired?' · Expired':''}</Text></Pressable>)}
+              <Text style={s.muted}>Payments processed by Paystack. Card entry opens in the secure payment sheet when available.</Text>
+            </Glass>
+<Button title="Back to checkout" secondary onPress={()=>setCheckoutStep('review')}/></>}
           </>
         )}
       </Sheet>
@@ -1270,7 +1274,7 @@ function Main() {
       >
         {receipt && hasPaidReceipt(receipt) && (
           <>
-            <VirtualReceipt key={receipt.reference+String(showReceipt)} order={receipt}/>
+            <VirtualReceipt key={receipt.reference+String(showReceipt)} order={receipt}/><Button title="View order" onPress={()=>{setShowReceipt(false);setOrderGroup("All");setScreen("Orders");void task(account);}}/>
             {receipt.canSaveCard&&<Glass><Text style={s.h2}>Save this card?</Text><Text style={s.muted}>Save this payment method to your signed-in Vanta Noir account for future purchases. Paystack handles the card; Vanta Noir keeps a secure payment token and masked details.</Text><Button title="Save card to my account" disabled={busy} onPress={()=>void task(async()=>{await api("/api/customer/cards",{reference:receipt.reference,consent:true});await refreshCards();setReceipt({...receipt,canSaveCard:false});setNotice("Card saved to your account.");})}/></Glass>}
             {notice!==""&&<Text accessibilityLiveRegion="polite" style={s.noticeText}>{notice}</Text>}
             <Button
@@ -1350,7 +1354,7 @@ const styles = (colors:Palette) => StyleSheet.create({
     minHeight: 44,
   },
   button: {
-    backgroundColor: "#c9f774",
+    backgroundColor: "#00ff66",
     borderRadius: 24,
     paddingHorizontal: 21,
     paddingVertical: 11,
@@ -1463,7 +1467,7 @@ const styles = (colors:Palette) => StyleSheet.create({
     position: "absolute",
     right: 0,
     top: 0,
-    backgroundColor: "#c9f774",
+    backgroundColor: "#00ff66",
     padding: 3,
     borderRadius: 12,
     fontSize: 10,

@@ -1,6 +1,6 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
-import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
+import {getAuth,multiFactor,getMultiFactorResolver,TotpMultiFactorGenerator,type MultiFactorError,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
 import {GoogleSignin,isSuccessResponse} from '@react-native-google-signin/google-signin';
 import {api,vault} from './api';
 GoogleSignin.configure({webClientId:'78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com'});
@@ -35,3 +35,12 @@ export async function prepareFirebaseDeletion(email:string){
  await exchange();
  await revokeToken(getAuth(),code);
 }
+
+export function securityStatus(){const user=getAuth().currentUser;return {verified:!!user?.emailVerified,factors:user?multiFactor(user).enrolledFactors.map(f=>({uid:f.uid,name:f.displayName||'Authenticator',kind:f.factorId})):[]};}
+export function resolveSecondFactor(error:unknown){
+ if((error as {code?:string})?.code!=='auth/multi-factor-auth-required')return null;
+ const resolver=getMultiFactorResolver(getAuth(),error as MultiFactorError);
+ return {factors:resolver.hints.filter(h=>h.factorId==='totp').map(h=>({uid:h.uid,name:h.displayName||'Authenticator'})),confirm:async(uid:string,code:string)=>{await resolver.resolveSignIn(TotpMultiFactorGenerator.assertionForSignIn(uid,code));await exchange();}};
+}
+export async function beginAuthenticator(){const user=getAuth().currentUser;if(!user?.emailVerified)throw Error('Sign in again with a verified email first.');const secret=await TotpMultiFactorGenerator.generateSecret(await multiFactor(user).getSession());return {key:secret.secretKey,confirm:async(code:string)=>{await multiFactor(user).enroll(TotpMultiFactorGenerator.assertionForEnrollment(secret,code),'Vanta Noir authenticator');await exchange();}};}
+export async function removeAuthenticator(uid:string){const user=getAuth().currentUser;if(!user)throw Error('Please sign in again.');await multiFactor(user).unenroll(uid);await exchange();}

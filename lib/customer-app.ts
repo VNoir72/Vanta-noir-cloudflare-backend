@@ -194,6 +194,18 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     if (!s) return json({ error: "Please sign in again." }, 401);
     if(!await rateLimit(new Request(request.url,{headers:{'cf-connecting-ip':s.id}}),'customer-account:'+(['GET','HEAD'].includes(request.method)?'read':'write'),['GET','HEAD'].includes(request.method)?180:40,60))return json({error:'Please wait a minute before trying again.'},429);
+    if(path==='sessions'&&request.method==='GET'){
+      const current=await receiptDigest(request.headers.get('Authorization')!.slice(7));
+      const rows=await db.prepare('SELECT digest,created_at,expires_at FROM app_sessions WHERE customer_id=? AND expires_at>? ORDER BY created_at DESC LIMIT 100').bind(s.id,Date.now()).all<{digest:string;created_at:number;expires_at:number}>();
+      return json({sessions:rows.results.map(row=>({id:row.digest,createdAt:row.created_at,expiresAt:row.expires_at,current:row.digest===current}))});
+    }
+    if(path==='sessions'&&request.method==='DELETE'){
+      const {id}=z.object({id:z.string().regex(/^[a-f0-9]{64}$/)}).strict().parse(await request.json());
+      const current=await receiptDigest(request.headers.get('Authorization')!.slice(7));
+      if(id===current)return json({error:'Use Sign out to end your current session.'},400);
+      await db.prepare('DELETE FROM app_sessions WHERE customer_id=? AND digest=?').bind(s.id,id).run();
+      return json({revoked:true});
+    }
     if(path==='presence'&&request.method==='POST')return json(await recordPresence(request,s.id,await request.json()));
     if(path==='phone'&&request.method==='GET')return json(await phoneStatus(s.id));
     if(path==='phone/send'&&request.method==='POST')return json(await phoneSend(request,s.id));
@@ -203,6 +215,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if(path==='circle'&&request.method==='GET'){const config=await growthConfig();return json({config:config.circle,version:config.version,membership:await circleMembership(s.id)});}
       if(path==='circle/start'&&request.method==='POST')return json(await circleStart(s.id,s.email,await request.json()));
       if(path==='circle/verify'&&request.method==='POST'){const v=z.object({reference:z.string().max(150)}).strict().parse(await request.json());try{return json(await circleVerify(v.reference,s.id));}catch{return json({error:"Your membership payment is not confirmed yet. If you have paid, do not pay again. Refresh your membership shortly or contact support with your payment reference."},409);}}
+      if(path==='circle/history'&&request.method==='GET'){const rows=await db.prepare("SELECT value FROM store_meta WHERE key LIKE 'circle-receipt:%' AND json_extract(value,'$.customerId')=? ORDER BY CAST(json_extract(value,'$.paidAt') AS INTEGER) DESC LIMIT 100").bind(s.id).all<{value:string}>();return json({receipts:rows.results.map(row=>{const r=JSON.parse(row.value);return {reference:r.reference,amountKobo:r.amount,paidAt:r.paidAt,until:r.until,refunded:r.refunded===true};})});}
       if(path==='circle/manage'&&request.method==='POST')return json(await circleManage(s.id));
       return json({error:'Method not allowed.'},405);
     }

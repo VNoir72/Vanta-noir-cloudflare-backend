@@ -22,12 +22,13 @@ export function VirtualReceipt({order}:{order:Order}) {
  const row=(label:string,value:number,strong=false)=><View key={label} style={s.row}><Text style={[s.ink,strong&&s.bold,{flex:1}]}>{label}</Text><Text style={[s.ink,strong&&s.bold]}>{money(value)}</Text></View>;
  return <View style={{gap:14,width:'100%',maxWidth:430,alignSelf:'center'}}>
   <View style={{alignItems:'center',gap:8,marginBottom:10}}><Text style={{fontSize:11,letterSpacing:2,color:colors.muted}}>{paid?'PAYMENT CONFIRMED':'ORDER DETAILS'}</Text><Text style={{fontSize:28,fontWeight:'700',textAlign:'center'}}>{paid?'Consider it yours.':'Your order.'}</Text><Text style={{textAlign:'center',color:colors.muted}}>Tap your bag to reveal your receipt.</Text></View>
-  <Pressable accessibilityRole="button" accessibilityLabel={opened?'Replay receipt reveal':'Open your order receipt'} accessibilityState={{expanded:opened}} onPress={()=>{setOpened(true);setReplay(n=>n+1);}} style={{alignSelf:'center',width:190,height:204,alignItems:'center',justifyContent:'flex-end',marginBottom:12}}>
+  <Pressable accessibilityRole="button" accessibilityLabel={opened?'Replay receipt reveal':'Open your order receipt'} accessibilityState={{expanded:opened}} onPress={()=>{setOpened(true);setReplay(n=>n+1);}} style={{alignSelf:'center',width:190,height:204,alignItems:'center',justifyContent:'flex-end',marginBottom:12,marginTop:opened?85:0}}>
    <View style={{position:'absolute',top:6,width:68,height:62,borderWidth:5,borderColor:'#343b36',borderRadius:30}}/>
-   <View style={{width:190,height:170,backgroundColor:'#222824',borderRadius:8,borderTopWidth:6,borderTopColor:'#151a17',alignItems:'center',justifyContent:'center',gap:12,boxShadow:'0px 10px 20px rgba(0,0,0,0.16)'}}><Image source={require('../../assets/emblem-watermark.png')} resizeMode="contain" style={{width:68,height:58,tintColor:'#c9f774'}}/><Text style={{color:'#f4f5f0',letterSpacing:4,fontSize:12}}>VANTA NOIR</Text><Text style={{color:'#c9f774',fontSize:9,letterSpacing:2}}>{opened?'TAP TO REPLAY':'TAP TO OPEN'}</Text></View>
+   {opened&&<Animated.View accessibilityElementsHidden style={{position:'absolute',top:35,width:145,height:145,backgroundColor:'#faf8ef',padding:14,alignItems:'center',gap:10,transform:[{translateY:feed.interpolate({inputRange:[0,.55,1],outputRange:[70,-80,-80]})}],opacity:feed.interpolate({inputRange:[0,.15,1],outputRange:[0,1,1]})}}><Text style={{fontSize:10,color:'#172019',letterSpacing:2}}>VANTA NOIR</Text><Text style={{fontSize:10,color:'#172019'}}>PAYMENT RECEIPT</Text><Text style={{fontSize:15,color:'#172019',fontWeight:'700'}}>{money(order.totalKobo+(paid?(order.paymentFeeKobo||0):0))}</Text></Animated.View>}
+   <View style={{width:190,height:170,backgroundColor:'#222824',borderRadius:8,borderTopWidth:6,borderTopColor:'#151a17',alignItems:'center',justifyContent:'center',gap:12,boxShadow:'0px 10px 20px rgba(0,0,0,0.16)'}}><Image source={require('../../assets/emblem-watermark.png')} resizeMode="contain" style={{width:68,height:58,tintColor:'#00ff66'}}/><Text style={{color:'#f4f5f0',letterSpacing:4,fontSize:12}}>VANTA NOIR</Text><Text style={{color:'#00ff66',fontSize:9,letterSpacing:2}}>{opened?'TAP TO REPLAY':'TAP TO OPEN'}</Text></View>
   </Pressable>
   {opened&&<View testID="receipt-feed" style={s.feed}>
-   <Animated.View testID="receipt-paper" onLayout={e=>setHeight(e.nativeEvent.layout.height)} style={{opacity:height?1:0,transform:[{translateY:feed.interpolate({inputRange:[0,1],outputRange:[-56,0]})},{scale:feed.interpolate({inputRange:[0,1],outputRange:[0.9,1]})}]}}>
+   <Animated.View testID="receipt-paper" onLayout={e=>setHeight(e.nativeEvent.layout.height)} style={{opacity:height?feed.interpolate({inputRange:[0,.5,1],outputRange:[0,0,1]}):0,transform:[{translateY:feed.interpolate({inputRange:[0,1],outputRange:[-56,0]})},{scale:feed.interpolate({inputRange:[0,1],outputRange:[0.9,1]})}]}}>
     <View style={s.paper}>
      <Text style={[s.ink,{textAlign:'center',letterSpacing:3,fontSize:17,fontWeight:'700'}]}>VANTA NOIR</Text>
      <Text style={[s.small,{textAlign:'center'}]}>Presence. Power. Precision.</Text>
@@ -59,7 +60,7 @@ export function VirtualReceipt({order}:{order:Order}) {
 const mono=Platform.OS==='ios'?'Menlo':'monospace';
 const s=StyleSheet.create({
  printer:{height:58,backgroundColor:'#252e32',borderRadius:10,zIndex:2,justifyContent:'center',alignItems:'center',marginTop:16,boxShadow:'0px 8px 16px rgba(0,0,0,0.2)'},
- printerBrand:{color:'#c0c8c9',letterSpacing:4,fontSize:9},light:{position:'absolute',left:14,top:13,width:5,height:5,borderRadius:3,backgroundColor:'#c9f774'},
+ printerBrand:{color:'#c0c8c9',letterSpacing:4,fontSize:9},light:{position:'absolute',left:14,top:13,width:5,height:5,borderRadius:3,backgroundColor:'#00ff66'},
  slot:{position:'absolute',bottom:8,left:16,right:16,height:7,backgroundColor:'#080d10',borderRadius:4},
  feed:{overflow:'hidden',marginHorizontal:6,paddingBottom:16},
  paper:{backgroundColor:'#faf8ef',padding:22,paddingTop:30,gap:13,borderLeftWidth:1,borderRightWidth:1,borderColor:'#deddd2'},

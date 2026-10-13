@@ -6,7 +6,7 @@ export function ribbonSvg(theme:number,moving=true,prefix="vn"){
   const y=325+i*2.8;
   const orbit=Array.from({length:65},(_,j)=>{const a=j/64*Math.PI*2,rx=290+i*7,ry=38+i*2.8,cx=i%2?610:420,cy=i%2?170:270;return `${j?'L':'M'} ${(cx+Math.cos(a)*rx*.89+Math.sin(a)*ry*.45).toFixed(2)} ${(cy-Math.cos(a)*rx*.45+Math.sin(a)*ry*.89).toFixed(2)}`;}).join(' ')+' Z';
   const d=mode===2?orbit:`M -80 ${y} C 190 ${510-i*5} 300 ${80+i*3} 560 ${190+i*3} S 835 ${260-i*6} 1100 ${-50+i*3}`;
-  return `<path id="${prefix}r${i}" d="${d}" fill="none" stroke="${i%9===0?'#c9ff43':silver}" stroke-width="${i%9===0?1.8:.65}" opacity="${mode===2?.13: .23+(i%5)*.1}"/>`;
+  return `<path id="${prefix}r${i}" d="${d}" fill="none" stroke="${i%9===0?'#00ff66':silver}" stroke-width="${i%9===0?1.8:.65}" opacity="${mode===2?.13: .23+(i%5)*.1}"/>`;
  }).join('');
  const particles=Array.from({length:mode===2?150:28},(_,i)=>{
   const x=(i*137.51)%1050,y=(i*73.73)%460,r=mode===2?.65+(i%4)*.32:.8;

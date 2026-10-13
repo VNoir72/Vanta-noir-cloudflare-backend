@@ -136,6 +136,17 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     const a = await login("a@example.com"),
       b = await login("b@example.com");
     assert.equal((await request("me")).status, 401);
+    assert.equal((await request('sessions')).status,401);
+    const otherA=await login('a@example.com');
+    const sessionsA=await request('sessions','GET',undefined,a);
+    assert.equal(sessionsA.status,200);assert.equal(sessionsA.data.sessions.length,2);
+    assert.equal(sessionsA.data.sessions.filter(s=>s.current).length,1);
+    const otherId=sessionsA.data.sessions.find(s=>!s.current).id;
+    assert.equal((await request('sessions','DELETE',{id:otherId},b)).status,200);
+    assert.equal((await request('me','GET',undefined,otherA)).status,200,'another customer cannot revoke this session');
+    assert.equal((await request('sessions','DELETE',{id:sessionsA.data.sessions.find(s=>s.current).id},a)).status,400);
+    assert.equal((await request('sessions','DELETE',{id:otherId},a)).status,200);
+    assert.equal((await request('me','GET',undefined,otherA)).status,401,'revocation invalidates the bearer session');
     assert.equal(
       (
         await request(

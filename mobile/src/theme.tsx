@@ -3,8 +3,8 @@ import {Text as NativeText, TextProps, useColorScheme} from 'react-native';
 import {Ionicons as NativeIcon} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export type Appearance = 'system' | 'light' | 'dark';
-const light = {page:'#f5f6f3', surface:'#ffffff', glass:'rgba(255,255,255,.92)', text:'#172019', muted:'#586456', border:'#d3ddcc', input:'#fafcf9', secondary:'#e6ece2', selected:'#d3f599', selectedText:'#182214', accent:'#c9f774', notice:'#dcebc9', danger:'#9d2929'};
-const dark: typeof light = {page:'#0a0a0a', surface:'#171a17', glass:'rgba(25,29,25,.94)', text:'#f2f5ef', muted:'#b1bdad', border:'#394236', input:'#222720', secondary:'#2c3528', selected:'#384a29', selectedText:'#e5f8cf', accent:'#c9f774', notice:'#293b21', danger:'#ffaaa4'};
+const light = {page:'#f5f6f3', surface:'#ffffff', glass:'rgba(255,255,255,.92)', text:'#172019', muted:'#586456', border:'#d3ddcc', input:'#fafcf9', secondary:'#e6ece2', selected:'#d8ffe7', selectedText:'#182214', accent:'#00ff66', notice:'#dcebc9', danger:'#9d2929'};
+const dark: typeof light = {page:'#0a0a0a', surface:'#171a17', glass:'rgba(25,29,25,.94)', text:'#f2f5ef', muted:'#b1bdad', border:'#394236', input:'#222720', secondary:'#2c3528', selected:'#153b27', selectedText:'#d8ffe7', accent:'#00ff66', notice:'#293b21', danger:'#ffaaa4'};
 export type Palette = typeof light;
 const Theme = createContext({colors:light, dark:false, appearance:'system' as Appearance, setAppearance:async (_:Appearance)=>{}});
 export function ThemeProvider({children}:{children:React.ReactNode}) {
