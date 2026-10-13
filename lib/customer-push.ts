@@ -1,17 +1,25 @@
 import {appControlsSnapshot} from './app-controls';
 import {memberWatchReady} from './app-members';
 import {getDbBinding} from './runtime-env';
+import {rateLimit} from './rate-limit';
 import {receiptDigest} from './receipt-access';
-type Device={customerId:string;token:string;seen:Record<string,string>;ticketIds?:string[]};
+type Device={customerId:string;token:string;seen:Record<string,string>;ticketIds?:string[];lastSeen?:number};
 async function states(customerId:string){const db=getDbBinding();const rows=await db.prepare('SELECT o.reference,o.status,o.payment_status AS paymentStatus FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? ORDER BY o.created_at DESC LIMIT 30').bind(customerId).all<{reference:string;status:string;paymentStatus:string}>();return Object.fromEntries(rows.results.map(o=>[o.reference,o.paymentStatus+':'+o.status]));}
 export async function registerPush(customerId:string,token:string,remove=false){
  const db=getDbBinding(),key='push-device:'+await receiptDigest(token);
  if(remove){const row=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(key).first<{value:string}>();if(row&&JSON.parse(row.value).customerId===customerId)await db.prepare('DELETE FROM store_meta WHERE key=?').bind(key).run();return;}
- const value:Device={customerId,token,seen:await states(customerId)};
- await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(key,JSON.stringify(value)).run();
+ if(!await rateLimit(new Request('https://internal.invalid',{headers:{'cf-connecting-ip':customerId}}),'push-registration',10,3600))throw Error('Please wait before registering another device.');
+ const value:Device={customerId,token,seen:await states(customerId),lastSeen:Date.now()};
+ const result=await db.prepare(`INSERT INTO store_meta(key,value) SELECT ?,? WHERE
+ EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.customerId')=?) OR
+ (SELECT COUNT(*) FROM store_meta WHERE key LIKE 'push-device:%' AND json_extract(value,'$.customerId')=? AND COALESCE(json_extract(value,'$.lastSeen'),0)>?)<5
+ ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE json_extract(store_meta.value,'$.customerId')=?`)
+ .bind(key,JSON.stringify(value),key,customerId,customerId,Date.now()-90*86400000,customerId).run();
+ if(!result.meta.changes)throw Error('Device registration limit reached. Remove an old device first.');
 }
 export async function sendOrderPushUpdates(){
  const db=getDbBinding();
+ await db.prepare("DELETE FROM store_meta WHERE key LIKE 'push-device:%' AND COALESCE(json_extract(value,'$.lastSeen'),0)<?").bind(Date.now()-90*86400000).run();
  const cursor=await db.prepare("SELECT value FROM store_meta WHERE key='push-cursor'").first<{value:string}>();
  let rows=await db.prepare("SELECT key,value FROM store_meta WHERE key LIKE 'push-device:%' AND key>? ORDER BY key LIMIT 6").bind(cursor?.value||'').all<{key:string;value:string}>();
  if(!rows.results.length)rows=await db.prepare("SELECT key,value FROM store_meta WHERE key LIKE 'push-device:%' ORDER BY key LIMIT 6").all<{key:string;value:string}>();

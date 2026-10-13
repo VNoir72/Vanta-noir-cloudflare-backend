@@ -22,6 +22,8 @@ jobs:
         shard: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -40,11 +42,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.sha }}
+          persist-credentials: false
       - uses: actions/download-artifact@v6
         with:
           pattern: studio-photos-*
@@ -61,13 +64,6 @@ jobs:
       - run: npm run verify:release
       - run: npm run build:storefront
       - run: npm run verify:storefront
-      - name: Save processed photographs to recovery branch
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/images/catalogue/studio-grey/
-          git diff --cached --quiet || git commit -m 'Restore 3724 approved studio-grey garment views'
-          git push origin HEAD:${{ github.ref_name }}
       - name: Package Namecheap update
         run: python scripts/package-namecheap.py outputs/namecheap outputs/vanta-noir-studio-grey-update.zip
       - uses: actions/upload-artifact@v6
@@ -76,3 +72,31 @@ jobs:
           path: outputs/vanta-noir-studio-grey-update.zip
           retention-days: 30
           if-no-files-found: error
+
+  save-photos:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: studio-photos-*
+          merge-multiple: true
+          path: public/images/catalogue/studio-grey/
+      - name: Save only processed photographs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/images/catalogue/studio-grey/
+          git diff --cached --quiet && exit 0
+          git commit -m 'Restore approved studio-grey garment views'
+          AUTH=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" push origin "HEAD:$TARGET_REF"

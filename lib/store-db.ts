@@ -780,6 +780,7 @@ export async function deleteAdminProduct(productId: string) {
 }
 
 export async function createPendingOrder(args: {
+  reservationActor?: string;
   appAccess?: AppAccess;
   shippingQuote?: Awaited<ReturnType<typeof resolveShippingSelection>>;
   checkoutAttempt?: string;
@@ -800,7 +801,7 @@ export async function createPendingOrder(args: {
   const attempt=args.checkoutAttempt;
   if(attempt&&!/^[-a-f0-9]{73}$/.test(attempt))throw new Error('Invalid checkout attempt.');
   const attemptHash=attempt?await receiptDigest(attempt):'';
-  const {checkoutAttempt:_attempt,...requestData}=args;
+  const {checkoutAttempt:_attempt,reservationActor:_actor,...requestData}=args;
   const requestHash=attempt?await receiptDigest(JSON.stringify(requestData)):'';
   const reference = attempt ? `VN-${attemptHash.slice(0,32).toUpperCase()}` : `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
   async function resume(){
@@ -888,7 +889,10 @@ export async function createPendingOrder(args: {
           (id, reference, email, first_name, last_name, phone, address_line_1,
            address_line_2, city, state, country, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
          SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-         WHERE ${appPolicySql} AND (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
+         WHERE (?='' OR (SELECT COUNT(*) FROM orders o JOIN store_meta m ON m.key='order-reservation-actor:'||o.reference WHERE m.value=? AND o.payment_status='pending' AND EXISTS(SELECT 1 FROM stock_reservations r WHERE r.order_id=o.id AND r.expires_at>CURRENT_TIMESTAMP))<3)
+         AND (SELECT COUNT(DISTINCT o.id) FROM orders o JOIN stock_reservations r ON r.order_id=o.id WHERE lower(o.email)=lower(?) AND o.payment_status='pending' AND r.expires_at>CURRENT_TIMESTAMP)<2
+         AND (SELECT COALESCE(SUM(r.quantity),0) FROM stock_reservations r JOIN orders o ON o.id=r.order_id WHERE lower(o.email)=lower(?) AND o.payment_status='pending' AND r.expires_at>CURRENT_TIMESTAMP)+?<=10
+         AND ${appPolicySql} AND (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
            SELECT 1 FROM json_each(?) c
            LEFT JOIN product_variants v ON v.id = json_extract(c.value, '$.variantId')
            LEFT JOIN products p ON p.id = v.product_id
@@ -914,6 +918,8 @@ export async function createPendingOrder(args: {
         subtotalKobo,
         shippingKobo,
         totalKobo, discountKobo, promotion?.code||"",
+        args.reservationActor||'',args.reservationActor||'',
+        args.customer.email,args.customer.email,allocations.reduce((sum,item)=>sum+item.quantity,0),
         appPolicy.raw||"",JSON.stringify(appPolicy.limits),appPolicy.email,appPolicy.email,
         promotion?.code||"",promotion?.code||"",promotion?.version||0,new Date().toISOString(),new Date().toISOString(),
         reward.campaign?.id||"",reward.campaign?.id||"",reward.campaign?.version||0,new Date().toISOString(),new Date().toISOString(),
@@ -943,6 +949,7 @@ export async function createPendingOrder(args: {
     ),
   ];
 
+  if(args.reservationActor)statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-reservation-actor:'+reference,args.reservationActor,id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-app-limits:'+reference,JSON.stringify(appPolicy.limits),id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-channel:'+reference,JSON.stringify({channel:access.verifiedApp?'app':'web',customerId:access.customerId}),id));
   if(args.shippingQuote)statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-shipping:'+reference,JSON.stringify({...args.shippingQuote,bookingStatus:'manual_confirmation_required'}),id));

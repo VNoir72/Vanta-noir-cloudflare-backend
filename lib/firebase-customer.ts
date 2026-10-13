@@ -29,3 +29,10 @@ export async function verifyFirebaseCustomer(token:string){
  return identity;
 }
 export async function deleteFirebaseCustomer(uid:string){await adminRequest('delete',{localId:uid});}
+
+// Check current provider state for every store session; outages fail closed.
+export async function firebaseSessionValid(uid:string,email:string,authenticatedAt:number){
+ if(!firebaseReady())return false;
+ const user=(await adminRequest('lookup',{localId:[uid]})).users?.[0];
+ return !!user && user.localId===uid && !user.disabled && !!user.emailVerified && user.email?.toLowerCase()===email && Number(user.validSince||0)*1000<=authenticatedAt;
+}

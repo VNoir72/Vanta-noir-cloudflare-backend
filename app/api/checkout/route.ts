@@ -1,3 +1,4 @@
+import {receiptDigest} from '@/lib/receipt-access';
 import {appAccessContext} from '@/lib/app-attestation';
 import {ownedCard,startSavedCardPayment} from '@/lib/customer-cards';
 import {appSession,linkAppOrder} from '@/lib/customer-app';
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
   }
 
 
+  if (!await rateLimit(request, "checkout", 20, 600)) return Response.json({error:"Please wait before starting another checkout."},{status:429});
   const parsed = checkoutSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return Response.json(
@@ -61,10 +63,11 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!await rateLimit(request, "checkout", 20, 600)) return Response.json({error:"Please wait before starting another checkout."},{status:429});
+
   if(parsed.data.paymentChannel==='bank_transfer'&&runtimeEnv().CUSTOM_TRANSFER_ENABLED!=='true')return Response.json({error:'Custom bank-transfer payments are not available yet.'},{status:503});
   const session=await appSession(request);
   if(parsed.data.client==='native'||parsed.data.paymentChannel==='saved_card'||request.headers.has('Authorization')){if(!session||session.email!==parsed.data.customer.email.trim().toLowerCase())return Response.json({error:'Sign in again and use your account email.'},{status:401});}
+  if(parsed.data.paymentChannel==='saved_card'&&session&&Date.now()-session.authenticatedAt>600000)return Response.json({error:'Sign in again before using a saved card.'},{status:401});
   if(parsed.data.paymentChannel==='saved_card'&&(!parsed.data.savedCardId||!session||!await ownedCard(session.id,parsed.data.savedCardId)))return Response.json({error:'Choose an available saved card.'},{status:400});
   const settings = await getCommerceSettings();
   if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length) {
@@ -81,6 +84,7 @@ export async function POST(request: Request) {
     const {paymentChannel:_channel,client:_client,savedCardId:_card,...orderInput}=parsed.data;
     const order = await createPendingOrder({
       ...orderInput,
+      reservationActor:await receiptDigest('checkout-ip:'+(request.headers.get('cf-connecting-ip')||'local')),
       appAccess:await appAccessContext(request),
       shippingKobo,
       deliveryEstimate: selected?selected.rate.delivery:delivery.estimate,

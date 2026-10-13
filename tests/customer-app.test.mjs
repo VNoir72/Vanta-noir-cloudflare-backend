@@ -1,3 +1,4 @@
+import {generateKeyPair,exportJWK,exportPKCS8,SignJWT} from 'jose';
 import test from "node:test";
 import assert from "node:assert/strict";
 import { build } from "esbuild";
@@ -15,6 +16,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     conditions: ["workerd", "browser"],
     external: ["cloudflare:workers"],
   });
+  const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true}),jwk=await exportJWK(publicKey);jwk.kid='fixture';
   const codes = new Map();
   let charges = 0,
     ambiguous = false;
@@ -29,6 +31,7 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     d1Databases: ["DB"],
     bindings: {
       CUSTOMER_APP_ENABLED: "true",
+      FIREBASE_AUTH_ENABLED:'true',FIREBASE_SERVICE_ACCOUNT_JSON:JSON.stringify({project_id:'vanta-noir',client_email:'fixture@example.com',private_key:await exportPKCS8(privateKey)}),
       CUSTOM_TRANSFER_ENABLED: "true",
       SAVED_CARDS_ENABLED:"true",
       APP_CARD_ENCRYPTION_KEY:"11".repeat(32),
@@ -37,6 +40,10 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
       PAYSTACK_SECRET_KEY: "sk_test_local",
     },
     outboundService: async (req) => {
+      if(req.url.includes('/jwk/securetoken@'))return Response.json({keys:[jwk]});
+      if(req.url==='https://oauth2.googleapis.com/token')return Response.json({access_token:'fixture',expires_in:3600});
+      if(req.url.endsWith('accounts:lookup')){const b=await req.json();return Response.json({users:[{localId:b.localId[0],email:b.localId[0],emailVerified:true,validSince:'0'}]});}
+      if(req.url.endsWith('accounts:delete'))return Response.json({});
       if(req.url === 'https://api.paystack.co/transaction/verify/VN-TEST') {
         if(transferVerifyFails)return Response.json({status:false,message:'Unavailable'},{status:503});
         return Response.json({status:true,data:{reference:'VN-TEST',status:'ongoing',domain:'test',currency:'NGN',amount:transferAmount,requested_amount:transferRequested}});
@@ -122,23 +129,9 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.match((await nativeCheckout.json()).error,/Sign in/);
     assert.equal(charges,0,"unauthenticated native checkout cannot charge a customer");
     const login = async (email) => {
-      const c = await request("code", "POST", { email });
-      assert.equal(c.status, 200);
-      const v = {
-        challenge: c.data.challenge,
-        code: codes.get(email),
-        acceptTerms: true,
-      };
-      const responses = await Promise.all([
-        request("verify", "POST", v),
-        request("verify", "POST", v),
-      ]);
-      assert.equal(
-        responses.filter((r) => r.status === 200).length,
-        1,
-        "OTP consumed atomically",
-      );
-      return responses.find((r) => r.status === 200).data.token;
+      const now=Math.floor(Date.now()/1000);
+      const idToken=await new SignJWT({sub:email,email,email_verified:true,auth_time:now,firebase:{sign_in_provider:'password'}}).setProtectedHeader({alg:'RS256',kid:'fixture'}).setIssuer('https://securetoken.google.com/vanta-noir').setAudience('vanta-noir').setIssuedAt().setExpirationTime('1h').sign(privateKey);
+      const result=await request('firebase','POST',{idToken,acceptTerms:true});assert.equal(result.status,200,JSON.stringify(result.data));return result.data.token;
     };
     const a = await login("a@example.com"),
       b = await login("b@example.com");

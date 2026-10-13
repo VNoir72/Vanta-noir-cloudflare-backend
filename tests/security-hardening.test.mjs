@@ -67,6 +67,29 @@ test('security boundaries: expiry, preference limits, shared maintenance and lat
    await db.prepare("UPDATE store_meta SET value=? WHERE key='commerce-maintenance-lease'").bind(JSON.stringify({token:'expired-fixture',expiresAt:0})).run();
    assert.notEqual((await rpc('runCommerceMaintenance')).skipped,true);
   });
+  await t.test('concurrent unpaid reservations are bounded per buyer and IP, and expiry frees capacity',async()=>{
+   const product=(await rpc('listCatalog'))[0],variantId=product.colorways[0].variantIds.S;
+   await db.prepare('UPDATE product_variants SET stock=100 WHERE id=?').bind(variantId).run();
+   const input={customer:{email:'reserve@example.invalid',firstName:'Test',lastName:'Buyer',phone:'08000000000',addressLine1:'Test address',addressLine2:'',city:'Lagos',state:'Lagos',countryCode:'NG'},cart:[{variantId,quantity:1}],shippingKobo:0,expectedTotalKobo:product.priceKobo,reservationActor:'fixture-ip'};
+   const create=value=>mf.dispatchFetch('https://api.example.invalid/test',{method:'POST',body:JSON.stringify({action:'createPendingOrder',args:[value]})});
+   const results=await Promise.all(Array.from({length:6},()=>create(input)));
+   assert.equal(results.filter(r=>r.status===200).length,2);
+   const other={...input,customer:{...input.customer,email:'other@example.invalid'}};
+   assert.equal((await create(other)).status,200);
+   assert.notEqual((await create({...other,customer:{...other.customer,email:'third@example.invalid'}})).status,200,'changing email cannot evade IP cap');
+   await db.prepare("UPDATE stock_reservations SET expires_at=datetime('now','-1 minute')").run();
+   assert.equal((await create(input)).status,200);
+   await db.prepare('DELETE FROM stock_reservations').run();
+  });
+  await t.test('push device cap is atomic and stale tokens are removed',async()=>{
+   const register=token=>mf.dispatchFetch('https://api.example.invalid/test',{method:'POST',body:JSON.stringify({action:'registerPush',args:['fixture-customer',token]})});
+   const results=await Promise.all(Array.from({length:9},(_,i)=>register('ExpoPushToken[fixture_'+i+']')));
+   assert.equal(results.filter(r=>r.status===200).length,5);
+   assert.equal((await db.prepare("SELECT COUNT(*) n FROM store_meta WHERE key LIKE 'push-device:%'").first()).n,5);
+   await db.prepare("UPDATE store_meta SET value=json_set(value,'$.lastSeen',0) WHERE key LIKE 'push-device:%'").run();
+   await rpc('sendOrderPushUpdates');
+   assert.equal((await db.prepare("SELECT COUNT(*) n FROM store_meta WHERE key LIKE 'push-device:%'").first()).n,0);
+  });
   await t.test('late capped promotion payment is recorded but does not allocate stock',async()=>{
    await db.prepare('DELETE FROM reward_campaigns').run();
    const product=(await rpc('listCatalog'))[0],variantId=product.colorways[0].variantIds.S;
@@ -119,4 +142,15 @@ test('configured maintenance retries failed email and preserves a replacement le
   assert.deepEqual(JSON.parse((await db.prepare("SELECT value FROM store_meta WHERE key='commerce-maintenance-lease'").first()).value),replacement);
   assert.equal((await rpc('runCommerceMaintenance')).skipped,true);
  }finally{if(release)release();await mf.dispose();}
+});
+
+test('body byte limit rejects headerless and understated payloads and preserves signed raw bytes',async()=>{
+ await build({entryPoints:['lib/http-policy.ts'],outfile:'work/security-http-policy.mjs',bundle:true,platform:'node',format:'esm'});
+ const {boundedApiRequest}=await import(pathToFileURL(resolve('work/security-http-policy.mjs')).href);
+ for(const headers of [{},{'Content-Length':'1'}]){
+  const result=await boundedApiRequest(new Request('https://api.example.invalid/api/checkout',{method:'POST',headers,body:'x'.repeat(128*1024+1)}));assert.equal(result.status,413);
+ }
+ const raw='{ "signed": true, "spacing": "preserved" }';
+ const result=await boundedApiRequest(new Request('https://api.example.invalid/api/paystack/webhook',{method:'POST',body:raw}));
+ assert.equal(await result.text(),raw);
 });

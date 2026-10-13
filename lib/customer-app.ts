@@ -68,7 +68,13 @@ export async function customerApp(request: Request): Promise<Response> {
       const binding=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
       if(binding&&binding.value!==identity.uid)return json({error:'Use your existing sign-in method or contact support to link accounts.'},409);
       const token=crypto.randomUUID()+'-'+crypto.randomUUID();
-      await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid)]);
+      const sessionDigest=await receiptDigest(token);
+      await db.batch([
+        db.prepare('DELETE FROM app_sessions WHERE expires_at<?').bind(now),
+        db.prepare("DELETE FROM store_meta WHERE key LIKE 'firebase-session:%' AND NOT EXISTS(SELECT 1 FROM app_sessions WHERE digest=substr(store_meta.key,18))"),
+        db.prepare("DELETE FROM store_meta WHERE key LIKE 'deletion-grant:%' AND json_extract(value,'$.expiresAt')<?").bind(now),
+      ]);
+      await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('firebase-session:'+sessionDigest,identity.uid),db.prepare('INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid)]);
       const linked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
       if(linked?.value!==identity.uid)return json({error:'Use your existing sign-in method.'},409);
       return json({token,customer,expiresAt:now+30*86400000});
@@ -77,6 +83,7 @@ export async function customerApp(request: Request): Promise<Response> {
       const { email, purpose } = z
         .object({ email: emailSchema, purpose:z.enum(['signin','deletion']).default('signin') })
         .parse(await request.json());
+      if(purpose!=='deletion')return json({error:'Sign in with your password or Google.'},410);
       const env = runtimeEnv();
       if (!env.RESEND_API_KEY || !env.EMAIL_FROM)
         return json({ error: "Sign-in email is unavailable." }, 503);
@@ -85,7 +92,9 @@ export async function customerApp(request: Request): Promise<Response> {
       });
       if (
         !(await rateLimit(request, "customer-code", 5, 600)) ||
-        !(await rateLimit(limitRequest, "customer-code-email", 3, 600))
+        !(await rateLimit(limitRequest, "customer-code-email", 3, 600)) ||
+        !(await rateLimit(new Request(request.url), "customer-code-global-hour", 50, 3600)) ||
+        !(await rateLimit(new Request(request.url), "customer-code-global-day", 200, 86400))
       )
         return json(
           { error: "Please wait before requesting another code." },
@@ -123,7 +132,7 @@ export async function customerApp(request: Request): Promise<Response> {
         body: JSON.stringify({
           from: env.EMAIL_FROM,
           to: [email],
-          subject: "Your Vanta Noir sign-in code",
+          subject: "Verify your Vanta Noir account deletion",
           text:
             "Your Vanta Noir code is " +
             code +
@@ -161,43 +170,26 @@ export async function customerApp(request: Request): Promise<Response> {
         challenge.digest !== (await receiptDigest(v.challenge + ":" + v.code))
       )
         return json({ error: "That code is invalid or expired." }, 400);
-      if(challenge.purpose!=='deletion'&&v.acceptTerms!==true)return json({error:'Please accept the terms before continuing.'},400);
-      const claimed = await db
-        .prepare("DELETE FROM app_login_challenges WHERE id=? RETURNING email")
-        .bind(v.challenge)
-        .first<{ email: string }>();
-      if (!claimed)
-        return json({ error: "That code has already been used." }, 400);
-      const id = crypto.randomUUID(),
-        now = Date.now(),
-        token = crypto.randomUUID() + "-" + crypto.randomUUID();
-      if(challenge.purpose!=='deletion')await db
-        .prepare(
-          "INSERT OR IGNORE INTO app_customers(id,email,created_at,terms_accepted_at) VALUES(?,?,?,?)",
-        )
-        .bind(id, claimed.email, now, now)
-        .run();
-      const customer = await db
-        .prepare("SELECT id,email,name FROM app_customers WHERE email=?")
-        .bind(claimed.email)
-        .first<{ id: string; email: string; name: string }>();
+      if(challenge.purpose!=='deletion')return json({error:'Sign in with your password or Google.'},410);
+      const claimed=await db.prepare('DELETE FROM app_login_challenges WHERE id=? RETURNING email').bind(v.challenge).first<{email:string}>();
+      if(!claimed)return json({error:'That code has already been used.'},400);
+      const customer=await db.prepare('SELECT id FROM app_customers WHERE email=?').bind(claimed.email).first<{id:string}>();
       if(!customer)return json({error:'No account exists for this email.'},404);
-      await db.batch([
-        db.prepare("DELETE FROM app_sessions WHERE expires_at<?").bind(now),
-        db
-          .prepare(
-            "INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) VALUES(?,?,?,?)",
-          )
-          .bind(
-            await receiptDigest(token),
-            customer!.id,
-            now,
-            now + 30 * 86400000,
-          ),
-      ]);
-      return json({ token, customer, expiresAt: now + 30 * 86400000 });
+      const token=crypto.randomUUID()+'-'+crypto.randomUUID(),expiresAt=Date.now()+600000;
+      await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('deletion-grant:'+await receiptDigest(token),JSON.stringify({customerId:customer.id,expiresAt})).run();
+      return json({token,expiresAt});
     }
-    const s = await appSession(request);
+    // A deletion grant is consumed only by DELETE /me, never general authentication.
+    let s=await appSession(request);
+    if(!s && path==='me' && request.method==='DELETE'){
+      const body=z.object({confirmation:z.literal('DELETE')}).parse(await request.clone().json());
+      if(body.confirmation!=='DELETE')return json({error:'Confirm account deletion.'},400);
+      const token=request.headers.get('Authorization')?.replace(/^Bearer /,'')||'';
+      if(tokenPattern.test(token)){
+        const grant=await db.prepare("DELETE FROM store_meta WHERE key=? AND json_extract(value,'$.expiresAt')>? RETURNING value").bind('deletion-grant:'+await receiptDigest(token),Date.now()).first<{value:string}>();
+        if(grant)s=await db.prepare('SELECT id,email,name,addresses_json,favourites_json,? AS authenticatedAt FROM app_customers WHERE id=?').bind(Date.now(),JSON.parse(grant.value).customerId).first<NonNullable<typeof s>>();
+      }
+    }
     if (!s) return json({ error: "Please sign in again." }, 401);
     if(path==='presence'&&request.method==='POST')return json(await recordPresence(request,s.id,await request.json()));
     if(path==='phone'&&request.method==='GET')return json(await phoneStatus(s.id));
@@ -274,7 +266,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if (Date.now() - s.authenticatedAt > 600000)
         return json(
           {
-            error: "Sign in with a fresh email code, then delete your account.",
+            error: "Sign in again, then delete your account.",
           },
           403,
         );

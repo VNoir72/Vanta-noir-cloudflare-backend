@@ -6,8 +6,9 @@ import {generateKeyPair,exportJWK,exportPKCS8,SignJWT} from 'jose';
 import {Miniflare} from './miniflare.mjs';
 test('Firebase linking preserves existing customers and rejects disabled/revoked users; deletion removes provider identity',async()=>{
  await mkdir('work',{recursive:true});await build({entryPoints:['tests/customer-app-worker.ts'],outfile:'work/firebase-customer.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
- const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true});const jwk=await exportJWK(publicKey);jwk.kid='firebase-test';const now=Math.floor(Date.now()/1000);let disabled=false,validSince='0',deletes=0,unavailable=false;
- const mf=new Miniflare({modules:true,scriptPath:'work/firebase-customer.mjs',compatibilityDate:'2026-10-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{CUSTOMER_APP_ENABLED:'true',FIREBASE_AUTH_ENABLED:'true',FIREBASE_SERVICE_ACCOUNT_JSON:JSON.stringify({project_id:'vanta-noir',client_email:'test@vanta-noir.iam.gserviceaccount.com',private_key:await exportPKCS8(privateKey)})},outboundService:async req=>{
+ const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true});const jwk=await exportJWK(publicKey);jwk.kid='firebase-test';const now=Math.floor(Date.now()/1000);let emailCode='',emailSends=0;let disabled=false,validSince='0',deletes=0,unavailable=false;
+ const mf=new Miniflare({modules:true,scriptPath:'work/firebase-customer.mjs',compatibilityDate:'2026-10-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{RESEND_API_KEY:'re_fixture',EMAIL_FROM:'fixture@example.com',CUSTOMER_APP_ENABLED:'true',FIREBASE_AUTH_ENABLED:'true',FIREBASE_SERVICE_ACCOUNT_JSON:JSON.stringify({project_id:'vanta-noir',client_email:'test@vanta-noir.iam.gserviceaccount.com',private_key:await exportPKCS8(privateKey)})},outboundService:async req=>{
+ if(req.url==='https://api.resend.com/emails'){emailSends++;emailCode=(await req.json()).text.match(/code is (\d{8})/)[1];return Response.json({id:'sent'});}
  if(req.url.includes('/jwk/securetoken@'))return Response.json({keys:[jwk]});
  if(req.url==='https://oauth2.googleapis.com/token')return Response.json({access_token:'test',expires_in:3600});
  assert.equal(req.headers.get('Authorization'),'Bearer test');const b=await req.json();
@@ -22,9 +23,27 @@ test('Firebase linking preserves existing customers and rejects disabled/revoked
  assert.equal((await request('firebase',{idToken:appleToken,acceptTerms:true})).status,503);
  assert.equal((await request('firebase',{idToken:token,acceptTerms:false})).status,400);
  disabled=true;assert.equal((await request('firebase',{idToken:token,acceptTerms:true})).status,401);disabled=false;validSince=String(now+1);assert.equal((await request('firebase',{idToken:token,acceptTerms:true})).status,401);validSince='0';
- const login=await request('firebase',{idToken:token,acceptTerms:true});assert.equal(login.status,200);assert.equal(login.data.customer.id,'existing');assert.equal(login.data.customer.name,'Original name');
+ let login=await request('firebase',{idToken:token,acceptTerms:true});assert.equal(login.status,200);assert.equal(login.data.customer.id,'existing');assert.equal(login.data.customer.name,'Original name');
  assert.equal((await db.prepare('SELECT COUNT(*) n FROM app_customers').first()).n,1);
+
+ assert.equal((await request('code',{email:'buyer@example.com',purpose:'signin'})).status,410);assert.equal(emailSends,0);
+ disabled=true;assert.equal((await request('me',undefined,login.data.token,'GET')).status,401);
+ assert.equal((await db.prepare('SELECT COUNT(*) n FROM app_sessions').first()).n,0);
+ disabled=false;login=await request('firebase',{idToken:token,acceptTerms:true});
+ validSince=String(now+1);assert.equal((await request('me',undefined,login.data.token,'GET')).status,401);validSince='0';
+ login=await request('firebase',{idToken:token,acceptTerms:true});
+ const challenge=await request('code',{email:'buyer@example.com',purpose:'deletion'});assert.equal(challenge.status,200);
+ const verification={challenge:challenge.data.challenge,code:emailCode};
+ const grants=await Promise.all([request('verify',verification),request('verify',verification)]);
+ assert.equal(grants.filter(r=>r.status===200).length,1,'deletion code consumed atomically');
+ const grant=grants.find(r=>r.status===200).data.token;
+ assert.equal((await request('me',undefined,grant,'GET')).status,401);
+ assert.equal((await request('me',{name:'Attacker',addresses:[],favourites:[]},grant,'PATCH')).status,401);
+ assert.equal((await db.prepare('SELECT COUNT(*) n FROM app_sessions').first()).n,1,'deletion grant never inserts a session');
  unavailable=true;assert.equal((await request('me',{confirmation:'DELETE'},login.data.token,'DELETE')).status,400);assert.ok(await db.prepare("SELECT id FROM app_customers WHERE id='existing'").first());
- unavailable=false;assert.equal((await request('me',{confirmation:'DELETE'},login.data.token,'DELETE')).status,200);assert.equal(deletes,1);assert.equal((await request('me',undefined,login.data.token,'GET')).status,401);
+ unavailable=false;assert.equal((await request('me',{confirmation:'DELETE'},grant,'DELETE')).status,200);assert.equal(deletes,1);assert.equal((await request('me',undefined,login.data.token,'GET')).status,401);
+ const sendsBefore=emailSends;
+ const attempts=await Promise.all(Array.from({length:60},(_,i)=>mf.dispatchFetch('https://test/api/customer/code',{method:'POST',headers:{'Content-Type':'application/json','cf-connecting-ip':'192.0.2.'+i},body:JSON.stringify({email:'budget'+i+'@example.invalid',purpose:'deletion'})})));
+ assert.ok(attempts.some(r=>r.status===429));assert.ok(emailSends<=50,'global hourly budget includes all recipients and source IPs');assert.ok(emailSends>sendsBefore);
  }finally{await mf.dispose();}
 });

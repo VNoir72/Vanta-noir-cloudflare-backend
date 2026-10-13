@@ -1,3 +1,4 @@
+import {rateLimit} from '../lib/rate-limit';
 import {runAutomations} from '../lib/automations';
 import {cleanupGrowth} from '../lib/growth';
 import {checkMemberAlerts} from '../lib/app-members';
@@ -18,7 +19,7 @@ import {accessKeys,evaluateAccess} from "../lib/access-evaluation";
 import {reconcilePendingPayments} from "../lib/payment-reconciliation";
 import { runCommerceMaintenance } from "../lib/commerce-db";
 import handler from "vinext/server/app-router-entry";
-import { checkApiRequest, secureResponse } from "../lib/http-policy";
+import { checkApiRequest, boundedApiRequest, secureResponse } from "../lib/http-policy";
 import { POST as uploadProductImage } from "../app/api/admin/uploads/route";
 import { POST as paymentWebhook } from "../app/api/payments/webhook/route";
 import imageVariants from "../lib/image-assets.json";
@@ -45,6 +46,9 @@ const worker = {
     if(url.pathname==='/api/featured-image')return featuredImage(request);
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
+    if(url.pathname==='/api/checkout' && request.method==='POST' && !await rateLimit(request,'checkout-body',20,600))return secureResponse(Response.json({error:'Please wait before starting another checkout.'},{status:429}),request,env);
+    try{const bounded=await boundedApiRequest(request);if(bounded instanceof Response)return secureResponse(bounded,request,env);request=bounded;}
+    catch{return secureResponse(Response.json({error:'Unable to read request.'},{status:400}),request,env);}
     if (url.pathname.startsWith("/api/customer/")) return secureResponse(await customerApp(request),request,env);
     if (url.pathname === "/api/shipbubble/webhook") return secureResponse(await shipbubbleWebhook(request),request,env);
     if (url.pathname === "/api/admin/shipping-weights") return secureResponse(await shippingWeightsAdmin(request),request,env);
