@@ -207,7 +207,7 @@ export async function customerApp(request: Request): Promise<Response> {
       const access=await appAccessContext(request);if(!access.verifiedApp)return json({error:'Circle is available only in the verified Vanta Noir app.'},403);
       if(path==='circle'&&request.method==='GET'){const config=await growthConfig();return json({config:config.circle,version:config.version,membership:await circleMembership(s.id)});}
       if(path==='circle/start'&&request.method==='POST')return json(await circleStart(s.id,s.email,await request.json()));
-      if(path==='circle/verify'&&request.method==='POST'){const v=z.object({reference:z.string().max(150)}).strict().parse(await request.json());return json(await circleVerify(v.reference,s.id));}
+      if(path==='circle/verify'&&request.method==='POST'){const v=z.object({reference:z.string().max(150)}).strict().parse(await request.json());try{return json(await circleVerify(v.reference,s.id));}catch{return json({error:"Your membership payment is not confirmed yet. If you have paid, do not pay again. Refresh your membership shortly or contact support with your payment reference."},409);}}
       if(path==='circle/manage'&&request.method==='POST')return json(await circleManage(s.id));
       return json({error:'Method not allowed.'},405);
     }
