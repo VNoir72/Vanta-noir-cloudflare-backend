@@ -1,3 +1,4 @@
+import countryCurrencies from './country-currencies.json';
 import {useSyncExternalStore} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export type ImageQuality='smart'|'high'|'normal';
@@ -11,3 +12,7 @@ export async function loadPreferences(){try{const v=JSON.parse(await AsyncStorag
 export async function refreshCurrencies(){try{const response=await fetch('https://open.er-api.com/v6/latest/NGN',{signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error();const d=await response.json();const at=Number(d.time_last_update_unix)*1000;if(d.result!=='success'||d.base_code!=='NGN'||!Number.isFinite(at)||Date.now()-at>48*3600000||at>Date.now()+60000)throw Error();const rates=Object.fromEntries(Object.entries(d.rates||{}).filter(([key,value])=>/^[A-Z]{3}$/.test(key)&&typeof value==='number'&&Number.isFinite(value)&&value>0)) as Record<string,number>;state={...state,rates:{...rates,NGN:1},rateAt:at};emit();await AsyncStorage.setItem('vanta-preferences-v1',JSON.stringify(state));}catch{/* Keep NGN available when conversion cannot be verified. */}}
 export function displayMoney(kobo:number){const usable=state.currency==='NGN'||Date.now()-state.rateAt<48*3600000;const rate=usable?state.rates[state.currency]:undefined;const currency=rate?state.currency:'NGN';return (currency==='NGN'?'':'≈ ')+new Intl.NumberFormat('en',{style:'currency',currency}).format(kobo/100*(rate||1));}
 export const preferenceSnapshot=()=>state;
+
+/** Unicode CLDR legal tender snapshot; conversion is for browsing only. */
+export function currencyForCountry(country:string){return (countryCurrencies as Record<string,string>)[country.toUpperCase()]||'NGN';}
+export async function selectCountryCurrency(country:string){await savePreferences({currency:currencyForCountry(country)});void refreshCurrencies();}

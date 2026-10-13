@@ -12,3 +12,13 @@ export function inOrderGroup(order:Order,group:OrderGroup){
  if(group==='Completed')return ['delivered','completed'].includes(order.status);
  return false;
 }
+
+/** Do not imply delivery progress for cancelled, unpaid or review-held orders. */
+export function fulfilmentStep(order:Order):number|null{
+ if(order.paymentStatus!=='paid')return null;
+ if(['delivered','completed'].includes(order.status))return 3;
+ if(['shipped','in_transit','out_for_delivery'].includes(order.status))return 2;
+ if(['ready_to_ship','packed','preparing_to_ship'].includes(order.status))return 1;
+ if(['paid','processing','preparing'].includes(order.status))return 0;
+ return null;
+}

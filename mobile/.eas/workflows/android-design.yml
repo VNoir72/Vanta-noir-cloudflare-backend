@@ -1,0 +1,28 @@
+name: Android design update
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        type: choice
+        options: [preview, production]
+        default: preview
+        required: true
+jobs:
+  update_android:
+    name: Verify and publish Android design
+    type: update
+    environment: production
+    env:
+      APP_VARIANT: customer
+    params:
+      platform: android
+      channel: ${{ inputs.channel }}
+      message: Tech-green account, settings and receipt design
+    hooks:
+      before_update:
+        - name: Check app types
+          run: npm run typecheck
+        - name: Check app lint
+          run: npm run lint
+        - name: Verify currency and order behaviour
+          run: node --test tests/design-behaviour.test.cjs

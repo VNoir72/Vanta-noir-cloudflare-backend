@@ -1,3 +1,4 @@
+import {OrderProgress} from './src/components/OrderProgress';
 import {GoldEmblem} from './src/components/GoldEmblem';
 import {useAccountPresence,markGrowthActivity,SponsoredStories} from './src/components/GrowthExperience';
 import {RestockAlerts} from './src/components/RestockAlerts';
@@ -12,7 +13,7 @@ import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
 import {disablePush} from "./src/push";
 import * as Notifications from "expo-notifications";
-import {loadPreferences,usePreferences,displayMoney} from "./src/preferences";
+import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency} from "./src/preferences";
 import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
 import {SettingsHub} from "./src/components/SettingsHub";
 import {AppHero,AppHeroSettings} from "./src/components/AppHero";
@@ -218,6 +219,14 @@ function Sheet({
   );
 }
 function Main() {
+  async function changeCountry(country:string){
+    await selectCountryCurrency(country);
+    setAddress(a=>({...a,countryCode:country,state:'',postalCode:''}));
+    resetQuote();setAddressEditing(false);
+    if(customer)await AsyncStorage.setItem('vanta-country:'+customer.email,country);
+  }
+
+  const [settingsPanel,setSettingsPanel]=useState('Settings');
  const Alert=useBrandDialog();
   const {colors,dark}=useTheme(); const s=styles(colors);
   const { width, height } = useWindowDimensions();
@@ -882,6 +891,7 @@ function Main() {
                     {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
                     <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
 
+                    <OrderProgress order={o}/>
                     {!!o.trackingNumber&&<Text style={s.muted}>{o.trackingNumber}</Text>}
                     {!!o.deliveryEstimate&&<Text style={s.muted}>{o.deliveryEstimate}</Text>}
                     {payment?.reference===o.reference&&!paymentExpired&&inOrderGroup(o,'To pay')&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
@@ -925,13 +935,13 @@ function Main() {
                 <View style={[s.row,{justifyContent:'center',marginTop:14}]}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
               </View>
             ) : (
-              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>{setAddress(a=>({...a,countryCode:country,state:"",postalCode:""}));resetQuote();setAddressEditing(false);void AsyncStorage.setItem("vanta-country:"+customer.email,country);}} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={()=>setScreen("Settings")} onCoupon={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
+              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={address.countryCode} onCountry={country=>void task(()=>changeCountry(country))} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={panel=>{setSettingsPanel(panel||"Settings");setScreen("Settings");}} onCoupon={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
             )}
-            {!customer && <Button title="Settings & help" secondary onPress={()=>setScreen("Settings")}/>}
+            {!customer && <Button title="Settings & help" secondary onPress={()=>{setSettingsPanel("Settings");setScreen("Settings");}}/>}
 
           </>
         )}
-        {screen==='Settings'&&<SettingsHub key={customer?.email||'guest'} customer={customer} country={address.countryCode} countries={shippingCountries} onBack={()=>setScreen('Account')} onSave={async next=>{await api('/api/customer/me',next,'PATCH');setCustomer(next);setAddress(next.addresses[0]||{...emptyAddress,email:next.email});resetQuote();}} onLogout={()=>void task(logout)} onDelete={()=>setDeleteOpen(true)} onHelp={topic=>router.push({pathname:'/help',params:{topic}})} onCountry={()=>setBagCountryOpen(true)} autoplay={videoAutoplay} onAutoplay={async value=>{await AsyncStorage.setItem('vanta-video-autoplay',String(value));setVideoAutoplay(value);}} onClearViewed={async()=>{await AsyncStorage.removeItem('vanta-viewed');setViewedIds([]);}} viewed={<View style={{padding:16,gap:10}}>{viewedIds.flatMap(id=>products.find(p=>p.id===id)?[products.find(p=>p.id===id)!]:[]).map(p=><Pressable key={p.id} onPress={()=>openProduct(p)} style={{flexDirection:'row',gap:12,alignItems:'center',padding:10,backgroundColor:colors.surface}}><Image source={{uri:imageUrl(p.imageUrl)}} style={{width:55,height:65}}/><Text style={{flex:1}}>{p.name}</Text></Pressable>)}{!viewedIds.length&&<Text>No recently viewed pieces.</Text>}</View>}/>}
+        {screen==='Settings'&&<SettingsHub initialPanel={settingsPanel} key={(customer?.email||'guest')+settingsPanel} customer={customer} country={address.countryCode} countries={shippingCountries} onBack={()=>setScreen('Account')} onSave={async next=>{await api('/api/customer/me',next,'PATCH');setCustomer(next);setAddress(next.addresses[0]||{...emptyAddress,email:next.email});resetQuote();}} onLogout={()=>void task(logout)} onDelete={()=>setDeleteOpen(true)} onHelp={topic=>router.push({pathname:'/help',params:{topic}})} onCountry={()=>setBagCountryOpen(true)} autoplay={videoAutoplay} onAutoplay={async value=>{await AsyncStorage.setItem('vanta-video-autoplay',String(value));setVideoAutoplay(value);}} onClearViewed={async()=>{await AsyncStorage.removeItem('vanta-viewed');setViewedIds([]);}} viewed={<View style={{padding:16,gap:10}}>{viewedIds.flatMap(id=>products.find(p=>p.id===id)?[products.find(p=>p.id===id)!]:[]).map(p=><Pressable key={p.id} onPress={()=>openProduct(p)} style={{flexDirection:'row',gap:12,alignItems:'center',padding:10,backgroundColor:colors.surface}}><Image source={{uri:imageUrl(p.imageUrl)}} style={{width:55,height:65}}/><Text style={{flex:1}}>{p.name}</Text></Pressable>)}{!viewedIds.length&&<Text>No recently viewed pieces.</Text>}</View>}/>}
         <Sheet title="Delete account" visible={deleteOpen&&!!customer} onClose={()=>setDeleteOpen(false)}>{customer&&<>
                 <Text style={s.h2}>Delete account</Text>
                 <Text style={s.muted}>
@@ -993,7 +1003,7 @@ function Main() {
         {(['category','size','color'] as const).map(key=><View key={key} style={{gap:8}}><Text style={s.h2}>{key==='category'?'Category':key==='size'?'Size':'Colour'}</Text><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{['All',...new Set(key==='category'?products.map(p=>p.category):key==='size'?products.flatMap(p=>p.colorways.flatMap(c=>Object.keys(c.stock))):products.flatMap(p=>p.colorways.map(c=>c.name)))].map(value=><Pressable key={value} accessibilityRole="radio" accessibilityState={{checked:filterDraft[key]===value}} onPress={()=>setFilterDraft(d=>({...d,[key]:value}))} style={[s.chip,filterDraft[key]===value&&s.chosen]}><Text>{value}</Text></Pressable>)}</View></View>)}
         <Field label="Minimum price (NGN)" keyboard="number-pad" value={filterDraft.min} onChange={min=>setFilterDraft(d=>({...d,min}))}/><Field label="Maximum price (NGN)" keyboard="number-pad" value={filterDraft.max} onChange={max=>setFilterDraft(d=>({...d,max}))}/><Pressable accessibilityRole="checkbox" accessibilityState={{checked:filterDraft.stock}} onPress={()=>setFilterDraft(d=>({...d,stock:!d.stock}))} style={s.row}><Ionicons name={filterDraft.stock?'checkbox-outline':'square-outline'} size={24}/><Text>In stock only</Text></Pressable>
       </Sheet>
-      <Sheet title="Delivery location" visible={bagCountryOpen} onClose={()=>setBagCountryOpen(false)}>{shippingCountries.map(([id,label])=><Pressable key={id} accessibilityRole="radio" accessibilityState={{checked:address.countryCode===id}} onPress={()=>{setAddress(a=>({...a,countryCode:id,state:'',postalCode:''}));resetQuote();setAddressEditing(false);setBagCountryOpen(false);}} style={{padding:14}}><Text>{address.countryCode===id?'●':'○'} {label}</Text></Pressable>)}</Sheet>
+      <Sheet title="Delivery location" visible={bagCountryOpen} onClose={()=>setBagCountryOpen(false)}>{shippingCountries.map(([id,label])=><Pressable key={id} accessibilityRole="radio" accessibilityState={{checked:address.countryCode===id}} onPress={()=>void task(async()=>{await changeCountry(id);setBagCountryOpen(false);})} style={{padding:14}}><Text>{address.countryCode===id?'●':'○'} {label}</Text></Pressable>)}</Sheet>
       <View style={s.nav}>
         {(["Shop", "Saved", "Bag", "Orders", "Account"] as Screen[]).map(
           (label, i) => (
