@@ -1090,22 +1090,22 @@ export async function markOrderPaid(args: {
       updated_at = CURRENT_TIMESTAMP,
       status = CASE WHEN status IN ('cancelled','expired') OR ${paidAppLimitExceededSql} OR EXISTS (
         SELECT 1 FROM promotions pr WHERE pr.code=orders.promotion_code AND pr.max_uses>0 AND pr.max_uses<=
-          (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='paid')
+          (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='processing')
       ) OR EXISTS (
         SELECT 1 FROM order_rewards own WHERE own.order_id=orders.id AND own.max_uses>0 AND own.max_uses<=
-          (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='paid')
+          (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='processing')
       ) OR EXISTS (
         SELECT 1 FROM order_items oi LEFT JOIN product_variants v ON v.id = oi.variant_id
         WHERE oi.order_id = orders.id AND (v.id IS NULL OR
           v.stock - COALESCE((SELECT SUM(r.quantity) FROM stock_reservations r WHERE r.variant_id = v.id AND r.order_id <> orders.id AND r.expires_at > CURRENT_TIMESTAMP), 0) < (SELECT SUM(quantity) FROM order_items needed WHERE needed.order_id=oi.order_id AND needed.variant_id=oi.variant_id))
-      ) THEN 'paid_stock_review' ELSE 'paid' END
+      ) THEN 'paid_stock_review' ELSE 'processing' END
       WHERE id = ? AND payment_status <> 'paid'`).bind(allocationToken, order.id),
-    db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-SUM(i.quantity),?,'payment' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=? AND status='paid') GROUP BY v.id`).bind(`Sale ${args.reference}`,order.id,order.id,allocationToken),
+    db.prepare(`INSERT INTO stock_adjustments(variant_id,old_stock,new_stock,reason,actor) SELECT v.id,v.stock,v.stock-SUM(i.quantity),?,'payment' FROM order_items i JOIN product_variants v ON v.id=i.variant_id WHERE i.order_id=? AND EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=? AND status='processing') GROUP BY v.id`).bind(`Sale ${args.reference}`,order.id,order.id,allocationToken),
     db.prepare(`UPDATE product_variants SET stock = stock - (
         SELECT SUM(oi.quantity) FROM order_items oi WHERE oi.order_id = ? AND oi.variant_id = product_variants.id
       ), updated_at = CURRENT_TIMESTAMP
       WHERE id IN (SELECT variant_id FROM order_items WHERE order_id = ?)
-        AND EXISTS (SELECT 1 FROM orders WHERE id = ? AND allocation_token = ? AND status = 'paid')`
+        AND EXISTS (SELECT 1 FROM orders WHERE id = ? AND allocation_token = ? AND status = 'processing')`
     ).bind(order.id, order.id, order.id, allocationToken),
     db.prepare("DELETE FROM stock_reservations WHERE order_id = ?").bind(order.id),
     db.prepare("INSERT OR IGNORE INTO payment_events (event_key, reference, event_type) VALUES (?, ?, ?)").bind(args.eventKey, args.reference, args.eventType),

@@ -27,6 +27,7 @@ test('checkout attempts, payment email recovery and signed financial event notif
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);
  assert.equal((await rpc('startCheckoutPayment',{...pay,reference:failed.reference,receiptToken:failed.receiptToken})).checking,true);assert.equal(initializations,2,'An ambiguous provider failure must not initialize again');
  await rpc('markOrderPaid',{reference:a.reference,amountKobo:a.totalKobo,eventKey:'fixture-paid',eventType:'verify.success',paymentDomain:'test'});
+ assert.equal((await rpc('getOrderByReference',a.reference)).status,'processing');
  assert.equal((await rpc('startCheckoutPayment',pay)).complete,true);
  await db.prepare("DELETE FROM email_outbox WHERE event_key=?").bind('order:'+a.reference+':payment').run();
  await rpc('recoverPaymentEmails');await rpc('recoverPaymentEmails');assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE event_key IN (?,?)").bind('order:'+a.reference+':payment','owner-order:'+a.reference+':payment').first()).n,2);
