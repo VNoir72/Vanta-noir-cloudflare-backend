@@ -1,5 +1,5 @@
 import {staffRole} from "./staff-role";
-import { isAdminEmail, runtimeEnv } from "@/lib/runtime-env";
+import { runtimeEnv } from "@/lib/runtime-env";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
 const keySets = new Map<string, ReturnType<typeof createRemoteJWKSet>>();

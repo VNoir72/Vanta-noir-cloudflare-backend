@@ -31,6 +31,7 @@ async function paystackRequest<T>(path: string, init?: RequestInit) {
   if (!secret) throw new Error("PAYSTACK_NOT_CONFIGURED");
   const response = await fetch(`https://api.paystack.co${path}`, {
     ...init,
+    redirect: "manual",
     signal: AbortSignal.timeout(15_000),
     headers: {
       Authorization: `Bearer ${secret}`,
@@ -38,6 +39,7 @@ async function paystackRequest<T>(path: string, init?: RequestInit) {
       ...(init?.headers ?? {}),
     },
   });
+  if (response.status >= 300 && response.status < 400) throw new Error("Unexpected payment provider redirect.");
   const payload = (await response.json()) as {
     status: boolean;
     message: string;
@@ -47,6 +49,11 @@ async function paystackRequest<T>(path: string, init?: RequestInit) {
     throw new Error(payload.message || "Paystack request failed.");
   }
   return payload.data;
+}
+
+function requireKobo(amount: number) {
+  if (!Number.isSafeInteger(amount) || amount <= 0) throw new Error("Invalid payment amount.");
+  return amount;
 }
 
 export async function initializePaystackTransaction(args: {
@@ -62,7 +69,7 @@ export async function initializePaystackTransaction(args: {
       method: "POST",
       body: JSON.stringify({
         email: args.email,
-        amount: args.amountKobo,
+        amount: requireKobo(args.amountKobo),
         currency: "NGN",
         reference: args.reference,
         callback_url: args.callbackUrl,
@@ -90,7 +97,7 @@ function hexToBytes(hex: string) {
   return bytes;
 }
 
-export async function verifyPaystackWebhook(rawBody: string, signature: string | null) {
+export async function verifyPaystackWebhook(rawBody: string | ArrayBuffer, signature: string | null) {
   const secret = secretKey();
   const signatureBytes = signature ? hexToBytes(signature) : null;
   if (!secret || !signatureBytes) return false;
@@ -105,18 +112,18 @@ export async function verifyPaystackWebhook(rawBody: string, signature: string |
     "HMAC",
     key,
     signatureBytes,
-    new TextEncoder().encode(rawBody),
+    typeof rawBody === "string" ? new TextEncoder().encode(rawBody) : rawBody,
   );
 }
 
 export async function createTransferCharge(args:{reference:string;email:string;amountKobo:number}){
  return paystackRequest<{reference:string;status:string;account_number:string;account_name:string;bank:{name:string};account_expires_at:string}>('/charge',{
-  method:'POST',body:JSON.stringify({email:args.email,amount:args.amountKobo,currency:'NGN',reference:args.reference,bank_transfer:{account_expires_at:new Date(Date.now()+15*60000).toISOString()}})
+  method:'POST',body:JSON.stringify({email:args.email,amount:requireKobo(args.amountKobo),currency:'NGN',reference:args.reference,bank_transfer:{account_expires_at:new Date(Date.now()+15*60000).toISOString()}})
  });
 }
 
 export async function chargeSavedAuthorization(args:{reference:string;email:string;amountKobo:number;authorizationCode:string}) {
   return paystackRequest<{reference:string;status:string}>('/transaction/charge_authorization', {
-    method:'POST', body:JSON.stringify({reference:args.reference,email:args.email,amount:args.amountKobo,currency:'NGN',authorization_code:args.authorizationCode})
+    method:'POST', body:JSON.stringify({reference:args.reference,email:args.email,amount:requireKobo(args.amountKobo),currency:'NGN',authorization_code:args.authorizationCode})
   });
 }

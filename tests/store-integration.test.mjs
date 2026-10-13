@@ -13,12 +13,14 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
   const publicJwk = { ...await exportJWK(publicKey), kid: "local-access-test", alg: "RS256", use: "sig" };
   const issuer = "https://vanta-noir-test.cloudflareaccess.com";
   const accessToken = (email, audience = "test-audience", expiration = "5m") => new SignJWT({ email }).setProtectedHeader({ alg: "RS256", kid: publicJwk.kid }).setIssuer(issuer).setAudience(audience).setIssuedAt().setExpirationTime(expiration).sign(privateKey);
+  const initialized=[];
   const mf = new Miniflare({ modules: true, scriptPath: "work/store-test-worker.mjs", compatibilityDate: "2026-05-15", compatibilityFlags: ["nodejs_compat"], d1Databases: ["DB"],
     bindings: { PAYSTACK_SECRET_KEY: "sk_test_local_verification_only", ADMIN_EMAIL: "owner@example.com", AUTH_PROVIDER: "cloudflare-access", CF_ACCESS_TEAM_DOMAIN: issuer, CF_ACCESS_AUD: "test-audience", STANDARD_SHIPPING_FEE_KOBO: "200000", STOREFRONT_URL: "https://vantanoir.store" },
     outboundService: async request => {
       if (request.url === `${issuer}/cdn-cgi/access/certs`) return Response.json({ keys: [publicJwk] });
       const body = await request.json();
       assert.equal(new URL(request.url).hostname, "api.paystack.co");
+      initialized.push(body);
       assert.equal(body.callback_url, "https://vantanoir.store/checkout/complete");
       return Response.json({ status: true, data: { authorization_url: "https://checkout.paystack.com/local-test", reference: body.reference } });
     },
@@ -144,9 +146,16 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     let updated = await rpc("listCatalog");
     assert.equal(updated.find(p => p.id === product.id).colorways.find(c => c.name === color.name).stock[size], 0);
     await assert.rejects(rpc("markOrderPaid", { reference: order.reference, amountKobo: 1, eventKey: "wrong", eventType: "test" }), /amount mismatch/);
+    for (const data of [{domain:'live',amount:order.totalKobo},{domain:'test',amount:-1}]) {
+      const raw=JSON.stringify({event:'charge.success',data:{status:'success',currency:'NGN',reference:order.reference,...data}});
+      const result=await mf.dispatchFetch('https://api.vantanoir.store/api/payments/webhook',{method:'POST',headers:{'x-paystack-signature':createHmac('sha512','sk_test_local_verification_only').update(raw).digest('hex')},body:raw});
+      assert.equal(result.status,400);
+      assert.equal((await rpc('getOrderByReference',order.reference)).paymentStatus,'pending');
+    }
     const payment = { reference: order.reference, amountKobo: order.totalKobo, eventKey: "callback", eventType: "verify.success" };
     await Promise.all([rpc("markOrderPaid", payment), rpc("markOrderPaid", { ...payment, eventKey: "webhook" })]);
     assert.equal((await rpc("sql", "SELECT stock FROM product_variants WHERE id = ?", id)).results[0].stock, 0, "Duplicate payment handling must decrement once");
+    assert.equal((await rpc("sql", "SELECT COUNT(*) n FROM payment_events WHERE reference=?", order.reference)).results[0].n, 1, "Concurrent callback and webhook log payment once");
     const confirmed = await mf.dispatchFetch(`https://api.vantanoir.store/api/payments/verify?reference=${order.reference}`,{headers:{"X-Receipt-Token":order.receiptToken}});
     const confirmation = await confirmed.json();
     assert.equal(confirmation.order.paymentStatus, "paid");
@@ -158,6 +167,11 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     const signature = createHmac("sha512", "sk_test_local_verification_only").update(event).digest("hex");
     const hook = await mf.dispatchFetch("https://api.vantanoir.store/api/payments/webhook", { method: "POST", headers: { "x-paystack-signature": signature }, body: event });
     assert.equal(hook.status, 200);
+    assert.equal((await rpc("sql", "SELECT COUNT(*) n FROM payment_events WHERE reference=?", order.reference)).results[0].n, 1);
+    assert.equal((await mf.dispatchFetch("https://api.vantanoir.store/api/payments/webhook", {method:"POST",headers:{"x-paystack-signature":signature},body:event+" "})).status,401,"Changing even whitespace invalidates signature");
+    const unknown=JSON.stringify({event:"charge.success",data:{id:999,status:"success",currency:"NGN",domain:"test",reference:"VN-UNKNOWN",amount:100}});
+    assert.equal((await mf.dispatchFetch("https://api.vantanoir.store/api/payments/webhook",{method:"POST",headers:{"x-paystack-signature":createHmac("sha512","sk_test_local_verification_only").update(unknown).digest("hex")},body:unknown})).status,200);
+    assert.equal((await rpc("sql","SELECT COUNT(*) n FROM orders WHERE reference='VN-UNKNOWN'")).results[0].n,0);
     assert.equal((await mf.dispatchFetch("https://api.vantanoir.store/api/payments/webhook", { method: "POST", body: event })).status, 401);
     assert.equal((await mf.dispatchFetch("https://api.vantanoir.store/api/catalog", { headers: { Origin: "https://untrusted.example" } })).status, 403);
     assert.equal((await mf.dispatchFetch("https://api.vantanoir.store/api/checkout", { method: "OPTIONS", headers: { Origin: "https://www.vantanoir.store" } })).status, 204);
@@ -172,7 +186,7 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
       const response = await mf.dispatchFetch("https://api.vantanoir.store/auth", { headers: { "cf-access-jwt-assertion": await accessToken(email, audience, expiration) } });
       assert.equal((await response.json()).ok, expected, `Access JWT must validate email, audience and expiry: ${email}/${audience}/${expiration}`);
     }
-    await rpc("sql", "INSERT INTO store_meta(key,value) VALUES('commerce_settings',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", JSON.stringify({supportEmail:"care@example.com",acceptingOrders:true,inventoryConfirmed:true,dispatchNote:"Test dispatch",deliveryNote:"Test delivery",returnPolicy:"Test return policy"}));
+    await rpc("sql", "INSERT INTO store_meta(key,value) VALUES('commerce_settings',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", JSON.stringify({supportEmail:"care@example.com",acceptingOrders:true,inventoryConfirmed:true,dispatchNote:"Test dispatch",deliveryNote:"Test delivery",returnPolicy:"Test return policy",shippingZones:[{state:"Lagos",feeKobo:200000,estimate:"Test delivery"}]}));
     const secondId = Object.values(product.colorways[1].variantIds)[0];
     await rpc("sql", "UPDATE product_variants SET stock=2 WHERE id=?", secondId);
     // Malformed and hostile requests must fail before payment or reservation writes.
@@ -184,9 +198,12 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     }
     assert.deepEqual((await rpc("sql","SELECT COUNT(*) AS count FROM orders")).results,beforeFuzz.results,"Invalid requests cannot create orders");
     const checkoutArgs = { customer, cart: [{ variantId: secondId, quantity: 1 }], expectedTotalKobo: product.priceKobo + 200000 };
-    const started = await mf.dispatchFetch("https://api.vantanoir.store/api/checkout", { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://vantanoir.store" }, body: JSON.stringify(checkoutArgs) });
+    const started = await mf.dispatchFetch("https://api.vantanoir.store/api/checkout", { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://vantanoir.store" }, body: JSON.stringify({...checkoutArgs,amount:1,totalKobo:1,shippingKobo:1}) });
     assert.equal(started.status, 200);
     const startedOrder = await started.json();
+    assert.equal(initialized.at(-1).amount,checkoutArgs.expectedTotalKobo,'Only DB prices and shipping determine the provider amount');
+    assert.equal(initialized.at(-1).transaction_charge,undefined,'Dashboard handles fees');
+    assert.equal(initialized.at(-1).reference,startedOrder.reference);
     await assert.rejects(rpc("updateOrderStatus", startedOrder.reference, "shipped"), /Payment must be confirmed/);
     await rpc("updateOrderStatus", startedOrder.reference, "cancelled");
     assert.equal((await rpc("sql", "SELECT COUNT(*) AS count FROM stock_reservations WHERE order_id IN (SELECT id FROM orders WHERE reference = ?)", startedOrder.reference)).results[0].count, 0, "Cancelling pending checkout releases reserved stock");
@@ -206,7 +223,12 @@ test("store backend: checkout, reservations, payment idempotency, privacy, CORS,
     await rpc("markOrderPaid", { reference: late.reference, amountKobo: late.totalKobo, eventKey: "late", eventType: "test" });
     assert.equal((await rpc("getOrderByReference", late.reference)).status, "paid_stock_review", "Late payment must not consume another shopper's reservation");
     await assert.rejects(rpc("updateOrderStatus", late.reference, "processing"), /stock is still unavailable/);
-    await rpc("markOrderPaid", { reference: next.reference, amountKobo: next.totalKobo, eventKey: "next", eventType: "test" });
+    const pendingEvent=JSON.stringify({event:'charge.success',data:{id:1234,domain:'test',status:'success',currency:'NGN',reference:next.reference,amount:next.totalKobo}});
+    const pendingSignature=createHmac('sha512','sk_test_local_verification_only').update(pendingEvent).digest('hex');
+    const replies=await Promise.all([1,2].map(()=>mf.dispatchFetch('https://api.vantanoir.store/api/payments/webhook',{method:'POST',headers:{'x-paystack-signature':pendingSignature},body:pendingEvent})));
+    assert.ok(replies.every(r=>r.status===200));
+    assert.equal((await rpc('getOrderByReference',next.reference)).status,'processing');
+    assert.equal((await rpc('sql','SELECT COUNT(*) n FROM payment_events WHERE reference=?',next.reference)).results[0].n,1);
     await rpc("sql", "UPDATE product_variants SET stock = 2 WHERE id = ?", secondId);
     await Promise.allSettled([rpc("updateOrderStatus", late.reference, "processing"), rpc("updateOrderStatus", late.reference, "processing")]);
     assert.equal((await rpc("getOrderByReference", late.reference)).status, "processing");

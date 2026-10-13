@@ -1,7 +1,7 @@
 import {circleWebhook} from '@/lib/circle';
 import {recordPaymentUpdate} from "@/lib/payment-events";
 import { getOrderByReference, markOrderPaid } from "@/lib/store-db";
-import { verifyPaystackTransaction, verifyPaystackWebhook } from "@/lib/paystack";
+import { paymentMode, verifyPaystackTransaction, verifyPaystackWebhook } from "@/lib/paystack";
 
 type PaystackWebhook = {
   event?: string;
@@ -19,8 +19,8 @@ type PaystackWebhook = {
 
 export async function POST(request: Request) {
   if(Number(request.headers.get('content-length'))>1000000)return new Response('Payload too large',{status:413});
-  const rawBody = await request.text();
-  if(rawBody.length>1000000)return new Response('Payload too large',{status:413});
+  const rawBody = await request.arrayBuffer();
+  if(rawBody.byteLength>1000000)return new Response('Payload too large',{status:413});
   const verified = await verifyPaystackWebhook(
     rawBody,
     request.headers.get("x-paystack-signature"),
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
   let event: PaystackWebhook;
   try {
-    event = JSON.parse(rawBody) as PaystackWebhook;
+    event = JSON.parse(new TextDecoder("utf-8", {fatal:true}).decode(rawBody)) as PaystackWebhook;
     if(!event || typeof event!=='object' || Array.isArray(event))throw new Error('Invalid payload');
   } catch {
     return new Response("Invalid payload", { status: 400 });
@@ -47,9 +47,15 @@ export async function POST(request: Request) {
     try {
       let payment = event.data;
       const order = await getOrderByReference(event.data.reference);
-      if (order && event.data.amount !== order.totalKobo && event.data.requested_amount == null) {
+      // A valid provider event for another integration must not create an order.
+      // A replay must not trigger verification, stock allocation, or fulfillment again.
+      if (!order || order.paymentStatus === "paid") return new Response("ok");
+      if (payment.domain !== paymentMode() || !Number.isSafeInteger(payment.amount) || payment.amount! <= 0) {
+        return new Response("Invalid payment", {status:400});
+      }
+      if (event.data.amount !== order.totalKobo && event.data.requested_amount == null) {
         const verified = await verifyPaystackTransaction(event.data.reference);
-        if (verified.status !== "success" || verified.currency !== "NGN" || verified.reference !== event.data.reference) throw new Error("Payment is not verified.");
+        if (verified.status !== "success" || verified.currency !== "NGN" || verified.reference !== event.data.reference || verified.domain !== paymentMode()) throw new Error("Payment is not verified.");
         payment = verified;
       }
       await markOrderPaid({

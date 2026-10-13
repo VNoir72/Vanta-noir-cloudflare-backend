@@ -1,3 +1,4 @@
+import {adminAuthStateFromRequest} from '../lib/admin-auth';
 import {apiAbuseGuard} from '../lib/abuse-policy';
 import {rateLimit} from '../lib/rate-limit';
 import {runAutomations} from '../lib/automations';
@@ -46,6 +47,16 @@ const worker = {
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
+    // Authenticate every admin route before dispatch, parsing bodies, or accessing CRM data.
+    // Individual handlers retain their own role/resource checks as defence in depth.
+    if (url.pathname === '/api/admin' || url.pathname.startsWith('/api/admin/')) {
+      try {
+        const auth = await adminAuthStateFromRequest(request);
+        if (!auth.ok) return secureResponse(Response.json({error:auth.error},{status:auth.status}),request,env);
+      } catch {
+        return secureResponse(Response.json({error:'Admin authorization unavailable.'},{status:503}),request,env);
+      }
+    }
     try { const blocked=await apiAbuseGuard(request);if(blocked)return secureResponse(blocked,request,env); }
     catch { return secureResponse(Response.json({error:'Request protection is temporarily unavailable.'},{status:503,headers:{'Retry-After':'60'}}),request,env); }
     if(url.pathname==='/api/featured-image')return featuredImage(request);

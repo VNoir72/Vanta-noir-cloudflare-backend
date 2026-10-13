@@ -876,6 +876,12 @@ export async function createPendingOrder(args: {
   if(args.shippingQuote&&(args.shippingQuote.expiresAt<=Date.now()||args.shippingQuote.giftVariantId!==(reward.gift?.variantId||'')))throw new Error('Your reward or delivery quote changed. Check delivery again before paying.');
   const shippingKobo = reward.quote.shippingKobo!;
   const totalKobo = subtotalKobo + shippingKobo - discountKobo;
+  // All prices are stored in integer kobo already. Never add a manually calculated
+  // Paystack fee: fee pass-through is configured in the Paystack dashboard.
+  if (![subtotalKobo, shippingKobo, discountKobo, totalKobo].every(Number.isSafeInteger)
+      || subtotalKobo < 0 || shippingKobo < 0 || discountKobo < 0 || totalKobo <= 0) {
+    throw new Error("Invalid checkout pricing. Please contact support.");
+  }
   const allocations = resolved.map(i=>({...i}));
   if (reward.gift) {
     const g=reward.gift, allocation=allocations.find(i=>i.variantId===g.variantId);
@@ -1120,7 +1126,8 @@ export async function markOrderPaid(args: {
         AND EXISTS (SELECT 1 FROM orders WHERE id = ? AND allocation_token = ? AND status = 'processing')`
     ).bind(order.id, order.id, order.id, allocationToken),
     db.prepare("DELETE FROM stock_reservations WHERE order_id = ?").bind(order.id),
-    db.prepare("INSERT OR IGNORE INTO payment_events (event_key, reference, event_type) VALUES (?, ?, ?)").bind(args.eventKey, args.reference, args.eventType),
+    // Only the transaction that changed this order to paid may write a payment event.
+    db.prepare("INSERT OR IGNORE INTO payment_events (event_key, reference, event_type) SELECT ?, ?, ? WHERE EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?)").bind(args.eventKey, args.reference, args.eventType, order.id, allocationToken),
     db.prepare("INSERT OR IGNORE INTO store_meta (key,value) SELECT ?,? WHERE EXISTS (SELECT 1 FROM orders WHERE id=? AND allocation_token=?)")
       .bind(`verified-payment:${args.reference}`,args.paymentDomain==='live'?'live':args.paymentDomain==='test'?'test':'unknown',order.id,allocationToken),
     db.prepare("INSERT OR IGNORE INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=? AND allocation_token=?)")

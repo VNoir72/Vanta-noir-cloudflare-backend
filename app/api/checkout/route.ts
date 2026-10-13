@@ -11,7 +11,7 @@ import { getCommerceSettings, rateLimit } from "@/lib/commerce-db";
 import { shippingQuote, checkoutSetupIssues } from "@/lib/commerce-config";
 
 import { isPaystackConfigured } from "@/lib/paystack";
-import { configuredShippingFeeKobo, storefrontOrigin,shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
+import { storefrontOrigin,shipbubbleCheckoutEnabled } from "@/lib/runtime-env";
 import { startCheckoutPayment } from "@/lib/checkout-payment";
 import { createPendingOrder } from "@/lib/store-db";
 
@@ -70,10 +70,10 @@ export async function POST(request: Request) {
   if(parsed.data.paymentChannel==='saved_card'&&session&&Date.now()-session.authenticatedAt>600000)return Response.json({error:'Sign in again before using a saved card.'},{status:401});
   if(parsed.data.paymentChannel==='saved_card'&&(!parsed.data.savedCardId||!session||!await ownedCard(session.id,parsed.data.savedCardId)))return Response.json({error:'Choose an available saved card.'},{status:400});
   const settings = await getCommerceSettings();
-  if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, configuredShippingFeeKobo(),shipbubbleCheckoutEnabled()).length) {
+  if (!settings.acceptingOrders || checkoutSetupIssues(settings, true, null,shipbubbleCheckoutEnabled()).length) {
     return Response.json({error:"Online orders are not open yet. Please contact customer care.",code:"STORE_NOT_READY"},{status:503});
   }
-  const delivery = shippingQuote({...settings, shippingFeeKobo: configuredShippingFeeKobo()}, parsed.data.customer.state, parsed.data.customer.countryCode);
+  const delivery = shippingQuote(settings, parsed.data.customer.state, parsed.data.customer.countryCode);
   try {
     const liveCourier=await liveShippingForCountry(parsed.data.customer.countryCode);
     if(parsed.data.shippingSelection&&!liveCourier)throw new ShippingInputError('Live courier selection is not enabled for this checkout.');
