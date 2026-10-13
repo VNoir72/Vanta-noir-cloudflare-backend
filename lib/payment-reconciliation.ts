@@ -5,7 +5,7 @@ import {markOrderPaid} from './store-db';
 // A bounded safety net for a delayed webhook or a customer who closes the receipt page.
 // Verification never initiates a charge and never treats a browser callback as proof.
 export async function reconcilePendingPayments(){
- await expireUnpaidOrders();
+
  if(!isPaystackConfigured())return {checked:0,confirmed:0};
  const db=getDbBinding(),token=crypto.randomUUID(),now=Date.now(),key='payment-reconciliation';
  const lock=await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE CAST(json_extract(store_meta.value,'$.at') AS INTEGER)<?").bind(key,JSON.stringify({at:now,token}),now-240000).run();

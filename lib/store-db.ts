@@ -1090,10 +1090,10 @@ export async function markOrderPaid(args: {
       updated_at = CURRENT_TIMESTAMP,
       status = CASE WHEN status IN ('cancelled','expired') OR ${paidAppLimitExceededSql} OR EXISTS (
         SELECT 1 FROM promotions pr WHERE pr.code=orders.promotion_code AND pr.max_uses>0 AND pr.max_uses<=
-          (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='processing')
+          (SELECT COUNT(*) FROM orders paid WHERE paid.promotion_code=pr.code AND paid.id<>orders.id AND paid.payment_status='paid')
       ) OR EXISTS (
         SELECT 1 FROM order_rewards own WHERE own.order_id=orders.id AND own.max_uses>0 AND own.max_uses<=
-          (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='processing')
+          (SELECT COUNT(*) FROM order_rewards used JOIN orders paid ON paid.id=used.order_id WHERE used.campaign_id=own.campaign_id AND paid.id<>orders.id AND paid.payment_status='paid')
       ) OR EXISTS (
         SELECT 1 FROM order_items oi LEFT JOIN product_variants v ON v.id = oi.variant_id
         WHERE oi.order_id = orders.id AND (v.id IS NULL OR

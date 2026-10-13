@@ -1,7 +1,7 @@
 import {GoldEmblem} from './src/components/GoldEmblem';
 import {useAccountPresence,markGrowthActivity,SponsoredStories} from './src/components/GrowthExperience';
 import {RestockAlerts} from './src/components/RestockAlerts';
-import {initializeMonitoring,trackScreen} from './src/monitoring';
+import {initializeMonitoring,trackScreen,trackShopping,trackPaidOrder} from './src/monitoring';
 import {ProviderSignIn} from './src/components/ProviderSignIn';
 import {firebaseSignOut,prepareFirebaseDeletion} from './src/firebase-auth';
 import {FirstRun} from './src/components/FirstRun';
@@ -485,6 +485,7 @@ function Main() {
         let stable=r.order;
         try{const detailed=(await api<{order:Order}>("/api/customer/receipt?reference="+encodeURIComponent(r.order.reference))).order;if(hasPaidReceipt(detailed))stable=detailed;}catch{}
         setReceipt(stable);
+        void trackPaidOrder(stable);
         setShowReceipt(true);
         setPaymentNotice("");
         setLeaveCheckout(false);
@@ -531,6 +532,7 @@ function Main() {
     attempt.current = "";
   }
   function openProduct(p: Product) {
+    void trackShopping('view_item',[{productId:p.id,name:p.name,priceKobo:p.priceKobo,quantity:1}]);
     setViewedIds(ids=>{const next=[p.id,...ids.filter(id=>id!==p.id)].slice(0,40);void AsyncStorage.setItem('vanta-viewed',JSON.stringify(next));return next;});
     setSelected(p);
     setColour(0);
@@ -585,6 +587,7 @@ function Main() {
           ],
     );
     setBagSelection(ids=>ids.includes(variantId)?ids:[...ids,variantId]);
+    void trackShopping('add_to_cart',[{productId:selected.id,name:selected.name,priceKobo:selected.priceKobo,quantity:1}]);
     resetQuote();
     setSelected(null);
     setScreen("Bag");
@@ -647,6 +650,7 @@ function Main() {
       throw Error("Wait for shipping to be calculated before paying.");
     if (Date.now() >= quotes.expiresAt)
       throw Error("Delivery quote expired. Check delivery again.");
+    void trackShopping('add_payment_info',checkoutCart);
     if (!attempt.current) attempt.current = uid();
     // Persist the reference capability BEFORE starting payment, including ambiguous network failures.
     if(paymentMethod==="hosted"&&!cardSdkAvailable)throw Error("Card payments are not available in this build.");
@@ -917,7 +921,7 @@ function Main() {
           <>
             {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
               <View style={{width:'100%',maxWidth:440,alignSelf:'center',paddingVertical:24}}>
-                <ProviderSignIn initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;setCheckout(true);}}}/>
+                <ProviderSignIn initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
                 <View style={[s.row,{justifyContent:'center',marginTop:14}]}><Button title="Terms" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"terms-of-service"}})}/><Button title="Privacy" secondary onPress={()=>router.push({pathname:"/help",params:{topic:"privacy-policy"}})}/></View>
               </View>
             ) : (
@@ -975,7 +979,7 @@ function Main() {
       {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
         {quotes&&quotes.expiresAt>Date.now()&&quoteContext===shippingContext&&<QuoteCountdown expiresAt={quotes.expiresAt}/>}
         {!!bagToast&&<Text accessibilityLiveRegion="polite" style={{backgroundColor:colors.text,color:colors.page,padding:14,borderRadius:10}}>{bagToast}</Text>}
-        <View style={{flexDirection:'row',alignItems:'center',gap:10}}><Pressable accessibilityRole="checkbox" accessibilityLabel="Select all bag items" accessibilityState={{checked:!!cart.length&&cart.every(i=>bagSelection.includes(i.variantId))}} onPress={()=>{setBagSelection(cart.every(i=>bagSelection.includes(i.variantId))?[]:cart.map(i=>i.variantId));resetQuote();}} style={{flexDirection:'row',alignItems:'center',gap:5,minHeight:44}}><Ionicons name={cart.length&&cart.every(i=>bagSelection.includes(i.variantId))?'checkmark-circle':'ellipse-outline'} size={24}/><Text>All</Text></Pressable><Text style={{flex:1,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text><Button title={`Checkout (${checkoutCart.reduce((n,i)=>n+i.quantity,0)})`} disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);setCheckout(true);}}}/></View>
+        <View style={{flexDirection:'row',alignItems:'center',gap:10}}><Pressable accessibilityRole="checkbox" accessibilityLabel="Select all bag items" accessibilityState={{checked:!!cart.length&&cart.every(i=>bagSelection.includes(i.variantId))}} onPress={()=>{setBagSelection(cart.every(i=>bagSelection.includes(i.variantId))?[]:cart.map(i=>i.variantId));resetQuote();}} style={{flexDirection:'row',alignItems:'center',gap:5,minHeight:44}}><Ionicons name={cart.length&&cart.every(i=>bagSelection.includes(i.variantId))?'checkmark-circle':'ellipse-outline'} size={24}/><Text>All</Text></Pressable><Text style={{flex:1,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text><Button title={`Checkout (${checkoutCart.reduce((n,i)=>n+i.quantity,0)})`} disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/></View>
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
       <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>

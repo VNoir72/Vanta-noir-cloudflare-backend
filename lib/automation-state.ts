@@ -1,0 +1,13 @@
+import {getDbBinding,runtimeEnv} from './runtime-env';
+import {configSchema,ruleIds,definitions,ruleUpdateSchema,type RuleId} from './automation-policy';
+export async function automationRule(id:RuleId){const r=await getDbBinding().prepare('SELECT enabled,config_json,version FROM automation_rules WHERE id=?').bind(id).first<{enabled:number;config_json:string;version:number}>();return {id,...definitions[id],enabled:r?r.enabled===1:true,version:r?.version||0,config:configSchema.parse(r?JSON.parse(r.config_json):{})};}
+export async function automationEnabled(id:RuleId){return (await automationRule(id)).enabled;}
+export async function saveAutomation(input:unknown,actor:string){const v=ruleUpdateSchema.parse(input),db=getDbBinding(),raw=JSON.stringify(v.config);const r=await db.batch([
+ db.prepare('INSERT INTO automation_rules(id,enabled,config_json) SELECT ?,?,? WHERE ?=0 ON CONFLICT(id) DO UPDATE SET enabled=excluded.enabled,config_json=excluded.config_json,version=automation_rules.version+1,updated_at=CURRENT_TIMESTAMP WHERE automation_rules.version=?').bind(v.id,v.enabled?1:0,raw,v.version,v.version),
+]);
+ // Existing rules use a separate compare-and-swap because INSERT SELECT has no row for nonzero versions.
+ if(!r[0].meta.changes&&v.version>0){const u=await db.prepare('UPDATE automation_rules SET enabled=?,config_json=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND version=?').bind(v.enabled?1:0,raw,v.id,v.version).run();if(!u.meta.changes)throw Error('This rule changed. Reload before saving.');}
+ else if(!r[0].meta.changes)throw Error('This rule changed. Reload before saving.');
+ await db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,'automation settings',?,?)").bind(actor,v.id,JSON.stringify({enabled:v.enabled,config:v.config})).run();return automationRule(v.id);
+}
+export async function automationOverview(){const db=getDbBinding();return {readiness:{email:!!runtimeEnv().RESEND_API_KEY&&!!runtimeEnv().EMAIL_FROM,payments:!!runtimeEnv().PAYSTACK_SECRET_KEY,circleBilling:runtimeEnv().CIRCLE_BILLING_ENABLED==='true'},rules:await Promise.all(ruleIds.map(automationRule)),runs:(await db.prepare('SELECT * FROM automation_runs ORDER BY started_at DESC,id DESC LIMIT 100').all()).results,drops:(await db.prepare('SELECT d.*,p.name FROM automation_drops d JOIN products p ON p.id=d.product_id ORDER BY d.updated_at DESC LIMIT 100').all()).results,products:(await db.prepare("SELECT id,name,status FROM products WHERE status<>'archived' ORDER BY name LIMIT 1000").all()).results};}
