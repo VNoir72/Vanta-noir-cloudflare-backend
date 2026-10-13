@@ -21,3 +21,10 @@ Requested direction: combine the compact owner workspace and simplified Vanta No
 - 18 storefront header, gallery, catalogue browsing, hero and merchandising checks passed. Header test updated to assert the three requested destinations and preserve search/menu/bag behavior.
 - Browser visual inspection was blocked: cloud-browser security policy disallows local file previews. No screenshot acceptance or physical iPad/mobile verification is claimed.
 - Production packaging results recorded in the delivery response. No live deployment or Android rebuild is implied by this source revision.
+
+## Publication follow-up
+
+- Extended compact labels to order search, bulk order review, support/CRM, payment updates, returns, email alerts, sales desk and customer order history. Full tracking and SKU editing is behind a disclosure; copied values, CSV exports, packing slips and provider calls retain the real identifier.
+- New automatically suggested SKUs are stable, size/color-specific codes of at most 12 characters. Existing stock keys and provider identifiers are not rewritten.
+- Full local suite: 263 passed, one existing skip, zero failures. Security-sensitive admin authentication, checkout pricing and Paystack logic match the currently deployed 331c9e6 source.
+- Production hosting is already Cloudflare for both API/admin and storefront. Added reproducible storefront packaging and a source revision marker on /health. Namecheap is the existing fallback and does not need a separate upload for this release.

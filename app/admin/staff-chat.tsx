@@ -1,4 +1,5 @@
 'use client';
+import {CompactReference} from '@/components/compact-reference';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import {MessageCircle,BookOpen,Search,RotateCcw,ChevronDown,Users,ShoppingBag,Truck,Shirt,Headphones,ChartNoAxesCombined} from 'lucide-react';
 import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/ui/dialog';
@@ -43,5 +44,5 @@ export function StaffChat({role='support',email=''}:{role?:StaffRole;email?:stri
 function PortalEnquiry({id}:{id:string}){
  const [data,setData]=useState<{ticket:{subject:string;public_reference:string;status:string;priority:string;order_reference:string};notes:Array<{author:string;body:string;created_at:string}>}|null>(null),[error,setError]=useState('');
  useEffect(()=>{const controller=new AbortController();setData(null);setError('');adminRead<NonNullable<typeof data>>('/api/admin/support?id='+encodeURIComponent(id),v=>!!v?.ticket&&Array.isArray(v?.notes),{signal:controller.signal}).then(setData).catch(e=>{if(!controller.signal.aborted)setError(e.message);});return()=>controller.abort();},[id]);
- return <section className="vn-portal-enquiry"><h2>Related enquiry</h2>{error?<p role="alert">{error}</p>:!data?<p role="status">Loading enquiry…</p>:<><h3>{data.ticket.subject}</h3><p>{data.ticket.public_reference} · {data.ticket.status.replaceAll('_',' ')} · {data.ticket.priority}</p><p>Order: {data.ticket.order_reference||'Not linked'}</p>{data.notes.map((note,i)=><article key={i}><strong>{note.author}</strong><small>{note.created_at} UTC</small><p>{note.body}</p></article>)}<p>This is a read-only view. Return to your Support workspace to request changes or add notes.</p></>}</section>;
+ return <section className="vn-portal-enquiry"><h2>Related enquiry</h2>{error?<p role="alert">{error}</p>:!data?<p role="status">Loading enquiry…</p>:<><h3>{data.ticket.subject}</h3><p><CompactReference value={data.ticket.public_reference||'—'}/> · {data.ticket.status.replaceAll('_',' ')} · {data.ticket.priority}</p><p>Order: {data.ticket.order_reference?<CompactReference value={data.ticket.order_reference}/>:'Not linked'}</p>{data.notes.map((note,i)=><article key={i}><strong>{note.author}</strong><small>{note.created_at} UTC</small><p>{note.body}</p></article>)}<p>This is a read-only view. Return to your Support workspace to request changes or add notes.</p></>}</section>;
 }

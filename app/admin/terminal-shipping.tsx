@@ -1,4 +1,5 @@
 'use client';
+import {compactIdentifier} from '@/lib/compact-identifiers';
 import {OrderParcel} from './parcel-profiles';
 import {useState,useRef,useEffect} from 'react';
 import {NIGERIA_STATES} from '@/lib/commerce-config';
@@ -25,7 +26,7 @@ export function TerminalShipping({order}:{order?:AdminOrder}){
  const rate=session?.rates.find(r=>r.id===selected);
  const eligible=!order||(order.paymentStatus==='paid'&&['paid','processing'].includes(order.status));
  return <section className="vn-product-disclosure" style={{minWidth:0,maxWidth:'100%'}}><button type="button" className="vn-pill" onClick={()=>setOpen(!open)} aria-expanded={open}>{order?'Test delivery — sandbox':'Open sandbox checkout & delivery'}</button>{open&&<div>
- <h3>Sandbox checkout &amp; delivery {order?`· ${order.reference}`:''}</h3><p>Test only. No real payment, pickup, customer email or fulfilment update. Uses your saved test contact for both ends. Enter the whole packed parcel weight and dimensions; measurements are centimetres.</p>
+ <h3>Sandbox checkout &amp; delivery {order?`· ${compactIdentifier(order.reference)}`:''}</h3><p>Test only. No real payment, pickup, customer email or fulfilment update. Uses your saved test contact for both ends. Enter the whole packed parcel weight and dimensions; measurements are centimetres.</p>
  {!eligible&&<p role="alert">This order must be paid and unshipped before testing delivery.</p>}
  <fieldset disabled={busy||!!locked||!eligible} style={{minWidth:0,border:0,padding:0}}>{order&&<OrderParcel reference={order.reference} onUse={suggestion=>{setParcel({...parcel,weightKg:String(suggestion.weightKg),lengthCm:String(suggestion.lengthCm),widthCm:String(suggestion.widthCm),heightCm:String(suggestion.heightCm)});setSession(null);setSelected('');setConfirmed(false);}}/>}<div className="vn-admin-fields">
  {(['line1','city','zip'] as const).map(k=><label key={k}>{({line1:'Test delivery address',city:'City',zip:'Six-digit postcode'})[k]}<input value={address[k]} maxLength={k==='zip'?6:200} onChange={e=>{setAddress({...address,[k]:e.target.value});setSession(null);setSelected('');setConfirmed(false);}}/></label>)}

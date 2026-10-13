@@ -42,7 +42,7 @@ async function route(request, env) {
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
   if(/^\/(?:index\.(?:php|htm)|home(?:\.html)?)$/.test(p))return Response.redirect(u.origin+'/',302);
   if(/(?:^|\/)\.|\.(?:php|sql|sqlite|db|zip|bak|map|jsonc)$|^\/(?:admin|backups|node_modules|drizzle|lib|app|tests|portable)(?:\/|$)/i.test(p))return new Response('Not found',{status:404});
-  if(p==='/health')return json({ok:true,mode:'production-storefront',source:'da3f1be'});
+  if(p==='/health')return json({ok:true,mode:'production-storefront',source:env.RELEASE_SHA||'unknown'});
   if(p==='/robots.txt')return asset(env,request,'/robots.txt');
   if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:"https://api.vantanoir.store"});',{headers:{'Content-Type':'application/javascript'}});
   if(/^\/images\/vanta-hero(?:-(?:480|960|1600)\.webp|\.png)$/.test(p))return Response.redirect(u.origin+'/images/vanta-brand-hero-2026.webp',301);

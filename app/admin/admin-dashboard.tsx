@@ -1,4 +1,5 @@
 "use client";
+import {compactIdentifier,suggestedSku} from '@/lib/compact-identifiers';
 import {CompactReference} from '@/components/compact-reference';
 import {AutomationsPanel} from './automations-panel';
 import {CrmPanel} from './crm-panel';
@@ -498,7 +499,7 @@ function DashboardContent({
       setOrders(current=>current.map(order=>order.reference===reference?{...order,status}:order));
       setRecentOrders(current=>current.map(order=>order.reference===reference?{...order,status}:order));
       void loadReport(reportParams.current);
-      toast.success(`${reference} moved to ${status.replaceAll('_',' ')}.`);
+      toast.success(`${compactIdentifier(reference)} moved to ${status.replaceAll('_',' ')}.`);
       try{await syncStock();}catch{toast.warning('Order saved. Refresh to update stock figures.');}
       return true;
     }catch(e){toast.error(e instanceof Error?e.message:'Order status could not be updated.');return false;}finally{setBusy(null);}
@@ -767,14 +768,6 @@ function Metric({ icon: Icon, label, value }: { icon: typeof ShoppingBag; label:
   );
 }
 
-function suggestedSku(name: string, color: string, size: string, index: number) {
-  const base = `${name}-${color}-${size}`
-    .toUpperCase()
-    .replace(/[^A-Z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 72);
-  return `VN-${base || `STYLE-${index + 1}`}`;
-}
 
 function ProductStatusBadge({ status }: { status: ProductStatus }) {
   const styles: Record<ProductStatus, string> = {
@@ -984,7 +977,7 @@ function ProductEditor({
               <div key={`${variant.id ?? "new"}-${index}`} className="grid gap-3 rounded-xl border border-border bg-muted p-3 sm:grid-cols-[1.25fr_0.7fr_1.2fr_0.7fr_48px] sm:items-end">
                 <FieldInput label="Colour / design" value={variant.color} onChange={(value) => updateVariant(index, { color: value })} placeholder="Jet Black" />
                 <div><Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Size</Label><Select value={variant.size} onValueChange={size => updateVariant(index, { size })}><SelectTrigger aria-label={`Size for variation ${index + 1}`} className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground"><SelectValue/></SelectTrigger><SelectContent>{[...new Set([...VARIANT_SIZES,...form.variants.map(v=>v.size)])].sort(compareSizes).map(size => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>
-                <FieldInput label="SKU" value={variant.sku} onChange={(value) => updateVariant(index, { sku: value })} placeholder="Auto-generated if blank" />
+                <div><span className="text-xs">SKU</span><div><CompactReference value={variant.sku||suggestedSku(form.name,variant.color,variant.size,index)}/></div><details><summary className="text-xs">Edit full SKU</summary><FieldInput label="Full SKU" value={variant.sku} onChange={(value) => updateVariant(index, { sku: value })} placeholder="Short code generated if blank" /></details></div>
                 <div>
                   <Label className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Swatch</Label>
                   <div className="mt-2 flex h-11 items-center gap-2 rounded-xl border border-border bg-muted px-2">

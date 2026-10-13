@@ -1,4 +1,5 @@
 'use client';
+import {CompactReference} from '@/components/compact-reference';
 import {adminRead,hasArray} from '@/lib/admin-read';
 import {formatNaira} from '@/lib/catalog';
 import {useEffect,useRef,useState} from 'react';
@@ -15,7 +16,7 @@ function Value({value,field=''}:{value:any;field?:string}){
 }
 function ChangeDetails({request:r}:{request:Proposal}){
  const entries=Object.entries(r.payload||{}),stock=['inventory','operation:stock'].includes(r.action);
- return <div className="vn-approval-details">{r.action==='upload'?<><img src={'/api/admin/approvals?image='+r.id} alt={r.payload.name} className="vn-approval-image"/><p>{r.payload.name}</p></>:<><h4>Requested change</h4>{stock?<><p>{r.before.product||'Variation'} · {r.before.color} {r.before.size}<br/>{r.before.sku||r.payload.variantId}</p><table className="vn-change-table"><thead><tr><th>Stock when submitted</th><th>Requested stock</th></tr></thead><tbody><tr><td>{r.before.stock}</td><td>{r.payload.stock}</td></tr></tbody></table><p>Reason: {r.payload.reason}</p></>:<dl>{entries.map(([key,v])=><div key={key}><dt>{Array.isArray(r.payload)?`Product ${Number(key)+1}`:label(key)}</dt><dd><Value value={v} field={key}/></dd></div>)}</dl>}{!stock&&r.before!==null&&<details><summary>Values when submitted</summary><Value value={r.before}/></details>}</>}{r.result&&<details><summary>Applied result</summary><Value value={r.result}/></details>}</div>;
+ return <div className="vn-approval-details">{r.action==='upload'?<><img src={'/api/admin/approvals?image='+r.id} alt={r.payload.name} className="vn-approval-image"/><p>{r.payload.name}</p></>:<><h4>Requested change</h4>{stock?<><p>{r.before.product||'Variation'} · {r.before.color} {r.before.size}<br/><CompactReference value={String(r.before.sku||r.payload.variantId)}/></p><table className="vn-change-table"><thead><tr><th>Stock when submitted</th><th>Requested stock</th></tr></thead><tbody><tr><td>{r.before.stock}</td><td>{r.payload.stock}</td></tr></tbody></table><p>Reason: {r.payload.reason}</p></>:<dl>{entries.map(([key,v])=><div key={key}><dt>{Array.isArray(r.payload)?`Product ${Number(key)+1}`:label(key)}</dt><dd><Value value={v} field={key}/></dd></div>)}</dl>}{!stock&&r.before!==null&&<details><summary>Values when submitted</summary><Value value={r.before}/></details>}</>}{r.result&&<details><summary>Applied result</summary><Value value={r.result}/></details>}</div>;
 }
 export function ApprovalsPanel({owner=false,onChanged}:{owner?:boolean;onChanged?:()=>Promise<void>}){
  const [requests,setRequests]=useState<Proposal[]>([]),[status,setStatus]=useState(owner?'pending':'all'),[page,setPage]=useState(1),[more,setMore]=useState(false),[pending,setPending]=useState(0),[error,setError]=useState(''),[notice,setNotice]=useState(''),[loading,setLoading]=useState(false),[busy,setBusy]=useState(''),[notes,setNotes]=useState<Record<string,string>>({});
