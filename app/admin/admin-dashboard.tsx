@@ -3,6 +3,8 @@ import {compactIdentifier,suggestedSku} from '@/lib/compact-identifiers';
 import {CompactReference} from '@/components/compact-reference';
 import {AutomationsPanel} from './automations-panel';
 import {CrmPanel} from './crm-panel';
+import {SettingsWorkspace} from './settings-workspace';
+import './reference-workspace.css';
 import {AppControlsPanel} from './app-controls';
 import {useAdminTheme} from "./admin-theme";
 
@@ -244,6 +246,8 @@ function DashboardContent({
   async function loadReport(params:URLSearchParams){const id=++reportRequest.current;setReportLoading(true);setReportError('');try{const payload=await adminRead<{analytics:AdminAnalytics}>('/api/admin/analytics?'+params,hasAnalytics,{timeoutMs:25000});if(id===reportRequest.current){reportParams.current=params;setAnalytics(payload.analytics);}}catch(e){if(id===reportRequest.current)setReportError((e as Error).message+' Previous report remains displayed.');}finally{if(id===reportRequest.current)setReportLoading(false);}}
   function goTo(target:AdminTarget){navigate(()=>{if(target.section==='orders'){setOrderCustomerEmail(target.customerEmail||'');setOrderQuery(target.query||'');setOrderStatusFilter(target.status||'');setOrderFrom('');setOrderTo('');setOrderEntry(n=>n+1);}if(target.section==='products'){setProductQuery(target.query||'');setProductStatusFilter(target.productStatus||'');setProductPage(1);}if(target.section==='inventory'){setInventoryFilter(target.stockFilter||'all');setInventoryKey(n=>n+1);}if(target.section==='customers')setCustomerQuery(target.query||'');if(target.resource)setOperationsStart(target.resource);setSectionState(target.section);});}
   const [orders, setOrders] = useState(initialOrders);
+  const [openOrderId,setOpenOrderId]=useState<string|null>(null);
+  const openOrder=orders.find(order=>order.id===openOrderId);
   const orderRequest=useRef(0);
   const [orderPage,setOrderPage]=useState(1), [orderTotal,setOrderTotal]=useState(initialOrders.length), [hasMoreOrders,setHasMoreOrders]=useState(initialOrders.length===50);
   const [orderCustomerEmail,setOrderCustomerEmail]=useState(""),[orderQuery,setOrderQuery]=useState(""),[orderStatusFilter,setOrderStatusFilter]=useState(""),[orderFrom,setOrderFrom]=useState(""),[orderTo,setOrderTo]=useState("");
@@ -506,31 +510,31 @@ function DashboardContent({
   }
 
   const navigation = <>
-        <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button>
-        <button className="vn-workspace-selector" onClick={()=>{setMobileNav(false);setSection('settings');}}><i className="vn-workspace-dot"/><span>Vanta Noir Store</span><ChevronDown size={15}/></button>
-        <nav aria-label="Store administration">{sections.filter(item=>['overview','orders','products','customers','app-controls','analytics','settings'].includes(item)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}<details className="vn-more-tools" key={section} open={!['overview','orders','products','customers','app-controls','analytics','settings'].includes(section)}><summary>More tools <ChevronDown size={15}/></summary>{sections.filter(item=>!['overview','orders','products','customers','app-controls','analytics','settings'].includes(item)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</details></nav>
+        <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><span className="vn-reference-wordmark">VANTA NOIR</span></button>
+
+        <nav aria-label="Store administration">{['overview','orders','products','customers','app-controls','automations','analytics','settings'].map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':item==='automations'?'Marketing':item==='analytics'?'Reports':item==='settings'?'Store settings':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}<details className="vn-more-tools" key={section} open={!['overview','orders','products','customers','app-controls','automations','analytics','settings'].includes(section)}><summary>More tools <ChevronDown size={15}/></summary>{sections.filter(item=>!['overview','orders','products','customers','app-controls','automations','analytics','settings'].includes(item)).map(item=>{const Icon=({automations:Settings,'app-controls':Settings,overview:Home,'launch-review':ShieldCheck,'tech-packs':Folder,products:PackageCheck,orders:ShoppingCart,inventory:Boxes,collections:Folder,analytics:ChartNoAxesCombined,discounts:Tag,media:ImagePlus,operations:MoreHorizontal,help:ShieldCheck,settings:Settings,customers:Users,support:Users,returns:RotateCcw,delivery:PackageCheck,approvals:ShieldCheck,staff:Users,activity:History} as Record<string,typeof Boxes>)[item];return <div key={item} className={['discounts','delivery'].includes(item)?'vn-extra-nav':''}><button type="button" aria-current={section===item?'page':undefined} onClick={()=>{setMobileNav(false);setSection(item);}}><Icon size={20}/>{item==='inventory'?'Inventory':item==='automations'?'Marketing':item==='analytics'?'Reports':item==='settings'?'Store settings':(item==='app-controls'?'App controls':sectionLabels[item])||item[0].toUpperCase()+item.slice(1)}</button></div>;})}</details></nav>
         <a className="vn-sidebar-store" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}><ExternalLink size={17}/> Visit storefront</a>
         <button className="vn-owner-block" onClick={()=>{setMobileNav(false);setSection('settings');}}><span className="vn-owner-avatar">VN</span><span>Store owner</span><ChevronRight size={16}/></button>
       </>;
 
   return (
-    <main className="vn-control-center vn-exact min-h-screen bg-muted text-foreground">
+    <main className="vn-control-center vn-exact vn-reference-workspace min-h-screen bg-muted text-foreground">
       <aside className="vn-control-sidebar">{navigation}</aside>
       <Sheet open={mobileNav} onOpenChange={setMobileNav}><SheetContent ref={mobileNavContent} side="left" className="vn-mobile-drawer" overlayClassName="vn-mobile-drawer-overlay" onOpenAutoFocus={event=>{event.preventDefault();mobileNavContent.current?.focus({preventScroll:true});}} onCloseAutoFocus={event=>{event.preventDefault();mobileNavTrigger.current?.focus();}}><SheetTitle className="sr-only">Store navigation</SheetTitle><SheetDescription className="sr-only">All store administration tools</SheetDescription>{navigation}</SheetContent></Sheet>
       <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:Home},{id:'orders',label:'Orders',Icon:ShoppingCart},{id:'products',label:'Products',Icon:PackageCheck},{id:'inventory',label:'Inventory',Icon:Boxes}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><MoreHorizontal size={20}/>More</button></nav>
       <div className="vn-control-content">
       <Toaster theme={useAdminThemeValue} className="vn-admin-toaster" position="top-center" closeButton offset={{top:"88px"}} mobileOffset={{top:"88px",left:"16px",right:"16px"}} />
-      <div className="vn-workspace-bar"><div className="vn-workspace-breadcrumb"><span>Workspace</span><span>/</span><strong>{(section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</strong></div><button className="vn-mobile-brand" aria-label="Vanta Noir overview" onClick={()=>setSection('overview')}><img src="/images/vanta-spire-light.svg" alt="Vanta Noir"/><small>ADMINISTRATION</small></button><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><SupportAlerts onOpen={()=>setSection('support')}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
+      <div className="vn-workspace-bar"><div className="vn-workspace-breadcrumb"><span>Workspace</span><span>/</span><strong>{(section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</strong></div><button className="vn-mobile-brand" aria-label="Vanta Noir overview" onClick={()=>setSection('overview')}><span className="vn-reference-wordmark">VANTA NOIR</span></button><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><SupportAlerts onOpen={()=>setSection('support')}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">VN</span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
       {section !== 'overview' && <button type="button" className="vn-admin-back" onClick={goBack}><ArrowLeft size={18}/><span>Back</span></button>}
       <div className="vn-status-chips"><button onClick={()=>goTo({section:'settings'})}><i className={paymentsMode==='live'?'is-ok':''}/>Payments: {paymentsMode.toUpperCase()}</button><button onClick={()=>goTo({section:'settings'})}><i className={analytics.conversion?.status==='connected'?'is-ok':''}/>{analytics.conversion?.status==='connected'?'GA4 connected':connections?.ga4Configured?'GA4 configured':'GA4 not connected'}</button><button className="vn-email-status-chip" onClick={()=>navigate(()=>{setSectionState('overview');setEmailOpen(true);})}><i className={emailIssues===0?'is-ok':''}/>Order emails: {emailIssues??'…'} delivery issues</button></div>
       {statusPanel&&<div className="vn-operational-status">{statusPanel}</div>}
       <header className="vn-control-header">
-        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Store overview" : (section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">{greeting}. Your brand, your next move.</p></div>
-        <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/><span className="sr-only">Refresh</span></Button><Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button></div>
+        <div><p className="vn-control-eyebrow">Vanta Noir / Control room</p><h1>{section === "overview" ? "Overview" : (section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">{section==='overview'?'Your store at a glance':section==='products'?'Manage your catalogue, inventory and product information.':section==='orders'?'Manage orders and customer relationships.':section==='app-controls'?'Configure customer experience and engagement.':'Manage your store preferences.'}</p></div>
+        <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/><span className="sr-only">Refresh</span></Button>{section==='products'&&<Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button>}</div>
       </header>
 
       <div className="vn-control-body">
-        {section==='overview'&&<LaunchReviewBox products={products} onOpen={()=>setSection('launch-review')}/>}
+        {section==='overview'&&fulfilmentCount>0&&<button className="vn-reference-alert" onClick={()=>goTo({section:'orders',status:'fulfil'})}><PackageCheck size={19}/><span><strong>{fulfilmentCount} {fulfilmentCount===1?'order needs':'orders need'} preparing</strong><small>Review paid orders and prepare the next shipment.</small></span><b>Open orders <ChevronRight size={15}/></b></button>}
         {section==='launch-review'&&<LaunchReview products={products} onEdit={openProduct} onSaved={product=>setProducts(current=>current.map(p=>p.id===product.id?product:p))}/>}
         {(section === "overview" || section === "analytics") && <><div aria-live="polite">{reportLoading&&<p>Loading selected period…</p>}{reportError&&<p role="alert">{reportError}</p>}</div><OverviewPanel analytics={{...analytics,fulfilmentCount}} orders={recentOrders} products={products} lowStock={metrics.lowStock} onNavigate={goTo} onProduct={openProduct} campaignProductId={campaignProductId} onCampaignSaved={setCampaignProductId} fulfilment={fulfilment} connections={connections} paymentsMode={paymentsMode} loading={busy!==null||reportLoading} onRefresh={()=>void refresh()} emailPanel={<EmailDeliveryPanel open={emailOpen} onOpenChange={setEmailOpen} onSummary={setEmailIssues}/>}/>{section==='analytics'&&<button className="vn-pill vn-detailed-reports" onClick={()=>goTo({section:'operations',resource:'reports'})}>Open detailed sales and refund reports →</button>}</>}
         {section==='app-controls'&&<AppControlsPanel products={products} onNavigate={setSection}/>}
@@ -542,22 +546,8 @@ function DashboardContent({
         {section === "collections" && <><CatalogOptionsEditor options={options} onChange={setOptions}/><section className="vn-control-panel"><h2>Browse by category</h2><p>Select a category to manage its products. Collection and audience fields are available in each product’s details.</p><div className="vn-control-categories">{Array.from(new Set(products.map(p=>p.category))).sort().map(category=><button key={category} onClick={()=>{setProductQuery(category);setProductPage(1);setSection("products");}}>{category}<span>{products.filter(p=>p.category===category).length}</span></button>)}</div></section></>}
         {section === "media" && <section className="vn-control-panel"><h2>Product images</h2><p>Choose a product to upload images and assign each view to its colourway.</p><Input aria-label="Search images by product" placeholder="Find a product" value={productQuery} onChange={e=>{setProductQuery(e.target.value);setProductPage(1);}}/><div className="vn-control-media">{matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=><button key={product.id} onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt={product.name} sizes="240px"/><span>{product.name}</span><small>{product.images.length} images</small></button>)}</div><div className="vn-control-actions"><Button disabled={currentProductPage===1} onClick={()=>setProductPage(currentProductPage-1)}>Previous</Button><span>Page {currentProductPage} of {productPages}</span><Button disabled={currentProductPage===productPages} onClick={()=>setProductPage(currentProductPage+1)}>Next</Button></div></section>}
 
-          {(section === "products" || section === "analytics") && <ProductDemandPanel/>}
-        <section className="mt-12" id="product-studio" hidden={section !== "products"}>
-          {section === "products" && <><ReleasePanel products={products}/><CatalogueQuality products={products} onEdit={openProduct}/></>}
-          <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Catalogue control</p>
-              <h2 className="mt-2 font-sans text-4xl">Product studio</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Publish shows a garment in the storefront as a preview without a price. Draft and archived products stay hidden. Open Launch review to complete missing details, certify and launch. Existing launched products remain available.
-              </p>
-            </div>
-            <Button onClick={openNewProduct} className="h-11 rounded-full bg-primary px-5 text-xs uppercase tracking-[0.18em] text-primary-foreground hover:bg-primary">
-              <Plus /> New product
-            </Button>
-          </div>
-
+          {section === "analytics" && <ProductDemandPanel/>}
+        <section className="vn-reference-products" id="product-studio" hidden={section !== "products"}>
           <nav className="vn-product-tabs" aria-label="Catalogue tools">{[['products','All products'],['inventory','Inventory'],['collections','Collections'],['launch-review','Launch review']].map(([id,label])=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}>{label}</button>)}</nav>
           <div className="grid gap-6">
             <div className="overflow-hidden border border-border bg-muted">
@@ -568,33 +558,18 @@ function DashboardContent({
               <div className="border-b border-border p-4">
                 <Input aria-label="Search admin products" placeholder="Search name, collection or product code" value={productQuery} onChange={event => { setProductQuery(event.target.value); setProductPage(1); }} className="border-border bg-muted text-foreground" />
               </div>
-              <div className="divide-y divide-white/10">
+              <div className="vn-reference-product-head"><span>Product</span><span>Price</span><span>Stock</span><span>Visibility</span><span>Actions</span></div><div className="divide-y divide-white/10">
                 {!matchingProducts.length ? (
                   <div className="p-8 text-sm text-muted-foreground">{products.length ? "No products match your search." : "No products have been created yet."}</div>
                 ) : (
                   matchingProducts.slice((currentProductPage - 1) * 24, currentProductPage * 24).map((product) => (
-                    <article key={product.id} className="vn-compact-product p-4 transition-colors hover:bg-card/[0.025]">
-                      <button type="button" onClick={() => openProduct(product)} className="flex w-full items-start gap-4 text-left">
-                        <div className="size-16 shrink-0 overflow-hidden rounded-sm bg-muted">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <StoreImage src={product.imageUrl} alt="" sizes="96px" className="size-full object-cover" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-3">
-                            <p className="truncate text-sm text-foreground">{product.name}</p>
-                            {product.featured && <Star className="mt-0.5 size-3.5 shrink-0 fill-primary text-foreground" />}
-                          </div>
-                          <p className="mt-1 truncate text-xs text-muted-foreground">{product.category}</p>
-                          <div className="mt-3 flex flex-wrap items-center gap-2">
-                            <ProductStatusBadge status={product.status} />
-                            <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                              {product.variants.filter((variant) => variant.active).length} variations
-                            </span>
-                          </div>
-                        </div>
-                        <Pencil className="mt-1 size-4 shrink-0 text-muted-foreground" />
-                      </button>
-                      <details className="vn-product-actions"><summary>More actions <MoreHorizontal size={16}/></summary><div className="flex flex-wrap gap-2">
+                    <article key={product.id} className="vn-compact-product vn-reference-product-row">
+                      <button type="button" onClick={() => openProduct(product)} className="vn-reference-product-name"><StoreImage src={product.imageUrl} alt="" sizes="64px"/><span><strong>{product.name}</strong><small>{product.variants[0]?.sku?compactIdentifier(product.variants[0].sku):product.category}</small></span></button>
+                      <span className="vn-reference-price">{formatNaira(product.priceKobo)}</span>
+                      <span className="vn-reference-stock">{product.variants.filter(v=>v.active).reduce((n,v)=>n+v.stock,0)}<small>on hand</small></span>
+                      <span><ProductStatusBadge status={product.status}/></span>
+                      <button className="vn-small-button" onClick={()=>openProduct(product)}>Edit</button>
+                      <details className="vn-product-actions"><summary aria-label="More product actions"><MoreHorizontal size={16}/></summary><div className="flex flex-wrap gap-2">
                         <a className="rounded-lg border px-3 py-2 text-xs" href={`/api/admin/tech-packs?id=${encodeURIComponent(product.id)}`} target="_blank" rel="noreferrer">Tech pack ↗</a>
                         {product.status === "published" ? (
                           <Button
@@ -678,7 +653,8 @@ function DashboardContent({
           </div>
         </section>
 
-        <section className="mt-12" hidden={section !== "orders"}>
+        {section==='products'&&<details className="vn-reference-secondary"><summary>Demand, release announcements & catalogue checks</summary><ProductDemandPanel/><ReleasePanel products={products}/><CatalogueQuality products={products} onEdit={openProduct}/></details>}
+        <section className="vn-reference-orders" hidden={section !== "orders"}>
           <div className="mb-5 flex items-end justify-between gap-5">
             <div>
               <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Fulfilment</p>
@@ -686,8 +662,8 @@ function DashboardContent({
             </div>
             <Badge variant="outline" className="rounded-none border-border text-muted-foreground">{orderTotal} matching orders</Badge>
           </div>
-          <p><a className="vn-pill" href="/api/admin/bulk-dispatch">Dispatch all packed orders →</a></p>
-          <BulkOrders disabled={busy!==null} onChanged={()=>{void loadOrders(orderPage);void loadReport(reportParams.current);}}/>
+          <nav className="vn-reference-order-tabs" aria-label="Order stages">{[["","All orders"],["fulfil","To prepare"],["processing","Ready to ship"],["shipped","Shipped"],["delivered","Completed"]].map(([status,label])=><button key={status} aria-current={orderStatusFilter===status?"page":undefined} onClick={()=>goTo({section:"orders",status})}>{label}</button>)}</nav>
+          <details className="vn-reference-bulk"><summary>Bulk actions & dispatch</summary><a className="vn-pill" href="/api/admin/bulk-dispatch">Dispatch packed orders →</a><BulkOrders disabled={busy!==null} onChanged={()=>{void loadOrders(orderPage);void loadReport(reportParams.current);}}/></details>
           <p className="vn-report-period">Verified Paystack payments update automatically. This list refreshes every 30 seconds when you have no unsaved edits.</p><form className="vn-admin-fields mb-5" onSubmit={e=>{e.preventDefault();navigate(()=>void loadOrders(1));}}><label>Search orders<input value={orderQuery} onChange={e=>{setOrderQuery(e.target.value);setOrderCustomerEmail('');}} placeholder="Reference, customer name or email"/></label><label>Status<select value={orderStatusFilter} onChange={e=>setOrderStatusFilter(e.target.value)}><option value="">All statuses</option><option value="fulfil">Ready to fulfil</option>{["pending_payment","paid","paid_stock_review","processing","shipped","delivered","cancelled"].map(status=><option key={status} value={status}>{status.replaceAll("_"," ")}</option>)}</select></label><label>From<input type="date" value={orderFrom} onChange={e=>setOrderFrom(e.target.value)}/></label><label>To<input type="date" value={orderTo} onChange={e=>setOrderTo(e.target.value)}/></label><div><button className="vn-pill" disabled={busy!==null}>Find orders</button><button type="button" className="vn-pill ml-3" onClick={()=>exportOrders(orders)}>Export this page</button></div></form>
           <div className="vn-studio-form">
             <Table>
@@ -709,24 +685,13 @@ function DashboardContent({
                   orders.map((order) => (
                     <TableRow key={order.id} className="border-border hover:bg-card/[0.03]">
                       <TableCell>
-                        <p className="font-mono text-xs"><CompactReference value={order.reference}/></p>
+                        <button className="vn-order-open" onClick={()=>navigate(()=>setOpenOrderId(order.id))}>{compactIdentifier(order.reference)}</button>
                         <p className="mt-1 text-[11px] text-muted-foreground">{new Date(order.createdAt).toLocaleString("en-NG")}</p>
                       </TableCell>
                       <TableCell>
                         <p>{order.firstName} {order.lastName}</p>
                         <p className="mt-1 text-xs text-muted-foreground">{order.city}, {order.state}</p>
-                        <details className="mt-2 max-w-sm whitespace-normal text-xs leading-6 text-muted-foreground">
-                          <summary className="cursor-pointer text-foreground underline">Order &amp; delivery details</summary>
-                          <p className="mt-2">{order.addressLine1}{order.addressLine2 ? `, ${order.addressLine2}` : ""}, {order.city}, {order.state}, {order.country || "Nigeria"}</p>
-                          <p>{order.email} · {order.phone}</p>
-                          <ul className="mt-2 space-y-1">
-                            {order.items.map((item, index) => <li key={index}>{item.quantity} × {item.productName} · {item.color} · {item.size}</li>)}
-                          </ul>
-                          {order.paymentStatus!=='paid' && order.providerStatus && <p className="mt-2">Latest Paystack check: {order.providerStatus}. This is separate from the order’s fulfilment status.</p>}
-                          {order.status === "paid_stock_review" && <p className="mt-2 text-amber-200">Payment received. Check inventory before moving to paid or processing; this allocates the stock.</p>}
-                          <OrderTools key={`${order.reference}-${order.trackingNumber}`} order={order} onSaved={tracking=>setOrders(current=>current.map(o=>o.id===order.id?{...o,...tracking}:o))} />
-                          <p className="mt-2 text-muted-foreground">Cancelling an order does not issue a refund or return stock automatically. Manage refunds in Paystack and adjust returned stock in inventory.</p>
-                        </details>
+
                       </TableCell>
                       <TableCell>{formatNaira(order.totalKobo)}</TableCell>
                       <TableCell>
@@ -735,7 +700,7 @@ function DashboardContent({
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <OrderStatusEditor key={`${order.reference}-${order.status}`} reference={order.reference} status={order.status} paymentStatus={order.paymentStatus} busy={busy!==null} onSave={setOrderStatus}/>
+                        <button className="vn-order-open-status" onClick={()=>navigate(()=>setOpenOrderId(order.id))}><span className="vn-order-status">{order.status.replaceAll("_"," ")}</span><ChevronRight size={14}/></button>
 
                       </TableCell>
                     </TableRow>
@@ -746,9 +711,11 @@ function DashboardContent({
           </div>
         </section>
 
+        <Sheet open={!!openOrder} onOpenChange={open=>{if(!open)navigate(()=>setOpenOrderId(null));}}><SheetContent className="vn-reference-order-drawer sm:max-w-md">{openOrder&&<><SheetTitle>{compactIdentifier(openOrder.reference)}</SheetTitle><SheetDescription>{new Date(openOrder.createdAt).toLocaleDateString('en-NG')} · {openOrder.status.replaceAll('_',' ')}</SheetDescription><section><h3>Customer</h3><strong>{openOrder.firstName} {openOrder.lastName}</strong><p>{openOrder.email}<br/>{openOrder.phone}</p><button className="vn-small-button" onClick={()=>navigate(()=>{setOpenOrderId(null);goTo({section:'customers',query:openOrder.email});})}>View customer <ChevronRight size={14}/></button></section><section><h3>Order details</h3><dl><dt>Reference</dt><dd><CompactReference value={openOrder.reference}/></dd><dt>Items</dt><dd>{openOrder.items.reduce((count,item)=>count+item.quantity,0)}</dd><dt>Amount</dt><dd>{formatNaira(openOrder.totalKobo)}</dd><dt>Payment</dt><dd><span className="vn-order-status">{openOrder.paymentStatus}</span></dd></dl><ul className="vn-order-item-list">{openOrder.items.map((item,index)=><li key={index}><strong>{item.quantity} × {item.productName}</strong><small>{item.color} · {item.size}</small></li>)}</ul></section><section><h3>Delivery address</h3><p>{openOrder.addressLine1}{openOrder.addressLine2?`, ${openOrder.addressLine2}`:''}<br/>{openOrder.city}, {openOrder.state}<br/>{openOrder.country||'Nigeria'}</p></section><section><h3>Fulfilment</h3>{openOrder.status==='paid_stock_review'&&<p>Payment received. Review stock before preparing this order.</p>}<OrderStatusEditor key={`${openOrder.reference}-${openOrder.status}`} reference={openOrder.reference} status={openOrder.status} paymentStatus={openOrder.paymentStatus} busy={busy!==null} onSave={setOrderStatus}/><details className="vn-order-shipping"><summary>Prepare shipment & tracking</summary><OrderTools key={`${openOrder.reference}-${openOrder.trackingNumber}`} order={openOrder} onSaved={tracking=>setOrders(current=>current.map(order=>order.id===openOrder.id?{...order,...tracking}:order))}/></details><small>Cancelling does not refund payment or return stock. Record refunds and returned stock separately.</small></section></>}</SheetContent></Sheet>
+
         {section === "orders" && <div className="flex items-center gap-4 mt-5"><button className="vn-pill" disabled={orderPage===1||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage-1))}>Previous</button><span>Page {orderPage}</span><button className="vn-pill" disabled={!hasMoreOrders||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage+1))}>Next</button></div>}
         {section === "automations" && <AutomationsPanel/>}
-        {section === "settings" && <><IntegrationStatus/><CommercePanel view="settings" onNavigate={goTo} onThreshold={setLowStockThreshold}/></>}
+        {section === "settings" && <SettingsWorkspace onNavigate={goTo} connections={<IntegrationStatus/>}>{visibleSections=><CommercePanel view="settings" visibleSections={visibleSections} onNavigate={goTo} onThreshold={setLowStockThreshold}/>}</SettingsWorkspace>}
         {section === "customers"&&<><CrmPanel key={customerQuery} initialQuery={customerQuery} onOrders={email=>goTo({section:'orders',query:email,customerEmail:email})}/><CommercePanel view="care" onNavigate={goTo}/></>}
         {section === "orders" && <LegacyRecords />}
         <div hidden={section !== 'inventory'}><InventoryPanel key={inventoryKey} initialFilter={inventoryFilter} threshold={lowStockThreshold} rows={inventory} onRefresh={syncStock} onSaved={stockSaved} onHistory={()=>navigate(()=>{setOperationsStart('inventory');setSectionState('operations');})}/></div>
