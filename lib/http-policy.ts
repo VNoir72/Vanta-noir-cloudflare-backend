@@ -57,11 +57,11 @@ export async function boundedApiRequest(request:Request, timeoutMs=15000):Promis
  if(!path.startsWith('/api/')||!request.body)return request;
  const limit=path==='/api/admin/uploads'?33*1024*1024:128*1024;
  const reader=request.body.getReader(),chunks:Uint8Array[]=[];let total=0;
- let timer:ReturnType<typeof setTimeout>|undefined;
- const timeout=new Promise<{done:true;value:undefined}>(resolve=>{timer=setTimeout(()=>{void reader.cancel().catch(()=>{});resolve({done:true,value:undefined});},timeoutMs);});
+ let timer:ReturnType<typeof setTimeout>|undefined;let timedOut=false;
+ const timeout=new Promise<{done:true;value:undefined}>(resolve=>{timer=setTimeout(()=>{timedOut=true;void reader.cancel().catch(()=>{});resolve({done:true,value:undefined});},timeoutMs);});
  const deadline=Date.now()+timeoutMs;
  try{
-  while(true){const {done,value}=await Promise.race([reader.read(),timeout]);if(Date.now()>=deadline)return Response.json({error:'Request body took too long.'},{status:408});if(done)break;total+=value.byteLength;
+  while(true){const {done,value}=await Promise.race([reader.read(),timeout]);if(timedOut||Date.now()>=deadline)return Response.json({error:'Request body took too long.'},{status:408});if(done)break;total+=value.byteLength;
    if(total>limit){await reader.cancel();return Response.json({error:'The request is too large.'},{status:413});}
    chunks.push(value);
   }
