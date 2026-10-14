@@ -50,6 +50,8 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
    {label:'Saved addresses',detail:`${customer.addresses.length} addresses`,icon:'location-outline',action:()=>onSettings('Shipping address')},
    {label:'Coupons',detail:String(data?.coupons.filter(c=>!c.status||c.status==='available').length??'—'),icon:'ticket-outline',action:()=>open('Coupons')},
    {label:'Notifications',detail:unread?String(unread):'',icon:'notifications-outline',action:()=>open('Notifications')},
+   {label:'Drop calendar',detail:'Upcoming releases',icon:'calendar-outline',action:()=>router.push('/benefits')},
+   {label:'Vanta Circle',detail:'Membership',icon:'star-outline',action:()=>onSettings('Vanta Circle')},
    {label:'Settings',detail:'',icon:'settings-outline',action:()=>onSettings()},
    {label:'Help & support',detail:'',icon:'headset-outline',action:onHelp},
   ] as const).map(item=><Pressable key={item.label} accessibilityRole="button" onPress={item.action} style={{flexDirection:'row',alignItems:'center',gap:12,minHeight:48,borderBottomWidth:1,borderBottomColor:colors.border}}><Icon name={item.icon} size={22}/><Text style={{flex:1,fontSize:15}}>{item.label}</Text><Text style={{fontSize:13,color:colors.muted}}>{item.detail}</Text><Icon name="chevron-forward" size={16}/></Pressable>)}</View>

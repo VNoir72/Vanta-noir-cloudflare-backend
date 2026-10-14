@@ -101,14 +101,14 @@ function Button({
       onPress={onPress}
       style={({pressed})=>[
         s.button,
-        (title.startsWith('Add to bag')||title.startsWith('Apply filters'))&&{backgroundColor:colors.accent},
+        (title.startsWith('Add to bag')||title.startsWith('Apply filters')||title==='Place order'||title.startsWith('Checkout'))&&{backgroundColor:colors.accent},
         {transform:[{scale:pressed?.98:1}],opacity:pressed?.85:1},
         compact && {paddingVertical:10,paddingHorizontal:14,minHeight:44},
         secondary && s.secondary,
         disabled && { opacity: 0.45 },
       ]}
     >
-      <Text style={[s.buttonText,(title.startsWith('Add to bag')||title.startsWith('Apply filters'))&&{color:'#172019'},secondary&&{color:colors.text}]}>{title}</Text>
+      <Text style={[s.buttonText,(title.startsWith('Add to bag')||title.startsWith('Apply filters')||title==='Place order'||title.startsWith('Checkout'))&&{color:'#172019'},secondary&&{color:colors.text}]}>{title}</Text>
     </Pressable>
   );
 }
@@ -173,6 +173,7 @@ function Sheet({
   overlay,
   flat=false,
   navigation,
+  headerAction,
 }: {
   title: string;
   visible: boolean;
@@ -182,6 +183,7 @@ function Sheet({
   overlay?: React.ReactNode;
   flat?: boolean;
   navigation?: React.ReactNode;
+  headerAction?: React.ReactNode;
 }) {
   const {colors}=useTheme(); const s=styles(colors); const reduce=useReducedMotion();
   return (
@@ -192,8 +194,8 @@ function Sheet({
       onRequestClose={onClose}
     >
       <SafeAreaView style={s.page} onTouchStart={markGrowthActivity}>
-        {title==='Order receipt'&&<View pointerEvents="none" style={{position:'absolute',inset:0,overflow:'hidden',opacity:colors.page==='#101012'?.12:.6}}><Image source={require('./assets/auth-landscape.png')} resizeMode="cover" style={{width:'100%',height:'220%'}}/></View>}
-        <View accessibilityElementsHidden={!!overlay} importantForAccessibility={overlay?'no-hide-descendants':'auto'}><BrandHeader onBack={onClose} title={['Your payment','Order expired'].includes(title)?title:undefined}/></View>
+        {title==='Order receipt'&&<Image source={require('./assets/receipt-silk-background.png')} resizeMode="cover" style={[StyleSheet.absoluteFill,{opacity:colors.page==='#101012'?.2:1}]}/>}
+        <View accessibilityElementsHidden={!!overlay} importantForAccessibility={overlay?'no-hide-descendants':'auto'}><BrandHeader onBack={onClose} action={headerAction} title={['Your payment','Order expired','Product details'].includes(title)?title:undefined}/></View>
         <KeyboardAvoidingView
           accessibilityElementsHidden={!!overlay}
           importantForAccessibility={overlay?"no-hide-descendants":"auto"}
@@ -204,7 +206,7 @@ function Sheet({
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={[s.content,{maxWidth:680,padding:18,gap:14}]}
           >
-            <FlatSections.Provider value={false}>{!['Your payment','Order expired','Order receipt','Product details'].includes(title)&&<PageTitle title={title}/ >}{children}</FlatSections.Provider>
+            <FlatSections.Provider value={flat}>{!['Your payment','Order expired','Order receipt','Product details'].includes(title)&&<PageTitle title={title}/ >}{children}</FlatSections.Provider>
           </ScrollView>
           {footer && <View style={{padding:16,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border}}>{footer}</View>}
         </KeyboardAvoidingView>
@@ -303,7 +305,6 @@ function Main() {
   const [selectedCard,setSelectedCard]=useState("");
   const returnToCheckout=useRef(false);
   const [trackingOrder,setTrackingOrder]=useState<Order|null>(null);
-  const [checkoutStep,setCheckoutStep]=useState<'review'|'method'>('review');
   const [checkout, setCheckout] = useState(false),
     [address, setAddress] = useState<Address>(emptyAddress),
     [code, setCode] = useState(""),
@@ -777,8 +778,8 @@ function Main() {
       {screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim())&&<AuthBackdrop/>}
       <StatusBar style={dark?"light":"dark"} /><ConnectionNotice/>
       {['Bag','Saved','Orders'].includes(screen)&&<BrandHeader onBack={()=>setScreen('Shop')}/>}
-      {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:16,paddingVertical:5}]}>{searchOpen?<><Pressable accessibilityRole="button" accessibilityLabel="Close search" onPress={()=>{setSearchOpen(false);setSearch('');}} style={s.close}><Ionicons name="arrow-back" size={22}/></Pressable><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:24,paddingHorizontal:12}}><Ionicons name="search-outline" size={19}/><TextInput accessibilityLabel="Search garments" placeholder="Search garments" value={search} onChangeText={setSearch} onSubmitEditing={()=>rememberSearch(search)} style={{flex:1,minHeight:44,color:colors.text,fontSize:14,paddingHorizontal:9}}/><Pressable accessibilityRole="button" accessibilityLabel="Clear search" onPress={()=>setSearch('')} style={{padding:8}}><Ionicons name="close" size={17}/></Pressable></View></>:<><Text style={{flex:1,fontSize:19,letterSpacing:2,fontWeight:'600'}}>VANTA NOIR</Text><Pressable accessibilityRole="button" accessibilityLabel="Search garments" onPress={()=>setSearchOpen(true)} style={s.close}><Ionicons name="search-outline" size={23}/></Pressable><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={24}/></Pressable></>}</View>}
-      <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
+      {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:18,paddingVertical:12,gap:10}]}><View style={{flex:1,flexDirection:'row',alignItems:'center',backgroundColor:colors.secondary,borderRadius:28,paddingHorizontal:14}}><Ionicons name="search-outline" size={23}/><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" placeholderTextColor={colors.muted} value={search} onFocus={()=>setSearchOpen(true)} onChangeText={setSearch} onSubmitEditing={()=>rememberSearch(search)} style={{flex:1,minHeight:48,color:colors.text,fontSize:15,paddingHorizontal:10}}/>{searchOpen&&<Pressable accessibilityRole="button" accessibilityLabel="Close search" onPress={()=>{setSearchOpen(false);setSearch('');}} style={{padding:8}}><Ionicons name="close" size={20}/></Pressable>}</View><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={26}/></Pressable></View>}
+      <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}><Pressable accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);router.push('/benefits');}} style={{flexDirection:'row',alignItems:'center',gap:12,minHeight:56,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name="calendar-outline" size={25}/><View style={{flex:1,gap:4}}><Text style={{fontWeight:'600'}}>Drop calendar</Text><Text style={s.muted}>Upcoming releases and your reminders</Text></View><Ionicons name="chevron-forward" size={18}/></Pressable>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
       {notice !== "" && (
         <View accessibilityLiveRegion="polite" style={s.notice}>
           <Text style={{ flex: 1, color: colors.text }}>{notice}</Text>
@@ -811,10 +812,8 @@ function Main() {
           <>
             {screen==='Shop'&&!searchOpen&&<AppHero hero={hero} products={products} autoplay={videoAutoplay} onProduct={openProduct} onCampaign={link=>{const slug=link.match(/^\/products\/([^?#]+)/)?.[1];const product=slug?products.find(p=>p.slug===slug):undefined;if(product)openProduct(product);else if(link.startsWith('/#')||link==='/'){setFilter('All');setSearch('');}else void task(()=>safeOpen(link.startsWith('https://')?link:STORE+link));}}/>}
             {screen==='Shop'&&!searchOpen&&<SponsoredStories/>}{screen==='Shop'&&searchOpen&&!!recentSearches.length&&<View style={{gap:12}}><View style={{flexDirection:'row',justifyContent:'space-between'}}><Text style={{fontWeight:'600'}}>Recent searches</Text><Pressable accessibilityRole="button" onPress={()=>{setRecentSearches([]);void AsyncStorage.removeItem('vanta-recent-searches');}}><Text style={{fontSize:12,color:colors.muted}}>Clear all</Text></Pressable></View><View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{recentSearches.map(text=><Pressable key={text} accessibilityRole="button" onPress={()=>setSearch(text)} style={{paddingHorizontal:14,paddingVertical:9,backgroundColor:colors.secondary,borderRadius:20}}><Text style={{fontSize:12}}>{text}</Text></Pressable>)}</View></View>}
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={s.h2}>{screen==='Saved'?'Saved':search?'Results for “'+search+'”':filter==='All'?'New arrivals':'Shop all'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
-            {screen==='Shop'&&<View style={{flexDirection:'row',gap:7}}>{['Sort','Category','Size','Colour'].map(label=><Pressable key={label} accessibilityRole="button" accessibilityLabel={label==='Sort'?'Sort products':'Filter '+label} onPress={()=>{if(label==='Sort')Alert.alert('Sort products','',[{text:'Featured',onPress:()=>setSortOrder('featured')},{text:'Price: low to high',onPress:()=>setSortOrder('low')},{text:'Price: high to low',onPress:()=>setSortOrder('high')}]);else {setFilterDraft(catalogFilters);setFiltersOpen(true);}}} style={{flex:1,minHeight:36,borderWidth:1,borderColor:colors.border,borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:5}}><Text style={{fontSize:12}}>{label}</Text><Ionicons name="chevron-down" size={12}/></Pressable>)}</View>}
-            {screen==='Shop'&&!searchOpen&&<Pressable accessibilityRole="button" onPress={()=>setCollectionsOpen(true)} style={{minHeight:38,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:13}}>Shop by collection</Text><Ionicons name="arrow-forward" size={19}/></Pressable>}
-            <Text style={{fontSize:12,color:colors.muted}}>{visible.length} {screen==='Saved'?'items':'products'}</Text>
+            {screen==='Shop'&&!searchOpen&&<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8,paddingVertical:2}}>{['All',...new Set(products.map(p=>p.category))].map(category=><Pressable key={category} accessibilityRole="radio" accessibilityState={{checked:filter===category}} onPress={()=>setFilter(category)} style={{paddingHorizontal:18,minHeight:42,borderRadius:24,backgroundColor:filter===category?colors.text:colors.secondary,justifyContent:'center'}}><Text style={{fontSize:13,color:filter===category?colors.page:colors.text}}>{category}</Text></Pressable>)}<Pressable accessibilityRole="button" accessibilityLabel="Shop by collection" onPress={()=>setCollectionsOpen(true)} style={{width:44,height:44,borderRadius:22,backgroundColor:colors.secondary,alignItems:'center',justifyContent:'center'}}><Ionicons name="chevron-forward" size={20}/></Pressable></ScrollView>}
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:26,fontWeight:'700',letterSpacing:-.6}}>{screen==='Saved'?'Saved':search?'Results for “'+search+'”':'Find your fit'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
             {!loading && !visible.length && (
               <Glass>
                 <Text>No designs here yet.</Text>
@@ -828,6 +827,7 @@ function Main() {
                 <Pressable
                   key={p.id}
                   accessibilityRole="button"
+                  accessibilityLabel={p.name}
                   onPress={() => openProduct(p)}
                   style={[s.product, { width: wide ? "31.5%" : "47.5%" }]}
                 >
@@ -837,20 +837,7 @@ function Main() {
                     resizeMode="contain"
                   />
                   <Pressable accessibilityRole="button" accessibilityLabel={(saved.includes(p.id)?'Unsave ':'Save ')+p.name} onPress={event=>{event.stopPropagation();void task(()=>like(p));}} style={{position:'absolute',top:8,right:8,width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name={saved.includes(p.id)?'heart':'heart-outline'} size={21} color={saved.includes(p.id)?colors.accentInk:colors.text}/></Pressable>
-                  <Text style={s.productName}>{p.name}</Text>
-                  <Text>
-                    {preview(p) ? "Save your favourite" : displayMoney(p.priceKobo)}
-                  </Text>
-                  <View style={s.row}>
-                    {p.colorways.slice(0, 6).map((c) => (
-                      <View
-                        key={c.name}
-                        accessibilityLabel={c.name}
-                        style={[s.swatch, { backgroundColor: c.hex }]}
-                      />
-                    ))}
-                  </View>
-                  <View style={{flexDirection:'row',flexWrap:'wrap',gap:4}}>{Object.keys(p.colorways[0]?.stock||{}).filter(value=>value!=='Size pending').slice(0,6).map(value=><Pressable key={value} accessibilityRole="button" accessibilityLabel={p.name+' size '+value} onPress={event=>{event.stopPropagation();openProduct(p);setSize(value);}} style={{minWidth:24,minHeight:28,padding:4,borderWidth:1,borderColor:colors.border,borderRadius:5,alignItems:'center',justifyContent:'center'}}><Text style={{fontSize:10}}>{value}</Text></Pressable>)}</View>
+                  <Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{p.name}</Text><Text style={{fontSize:12,color:colors.muted}}>{p.colorways[0]?.name}</Text>
                   {screen==='Saved'&&<Pressable accessibilityRole="button" accessibilityLabel={'Move '+p.name+' to bag'} onPress={event=>{event.stopPropagation();openProduct(p);}} style={{minHeight:38,borderWidth:1,borderColor:colors.accentInk,borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:6}}><Ionicons name="bag-outline" size={16}/><Text style={{fontSize:12}}>Move to bag</Text></Pressable>}
                 </Pressable>
               ))}
@@ -861,9 +848,9 @@ function Main() {
         {screen === "Saved" && !customer && <Glass><Text style={s.h1}>Your saved designs</Text><Text style={s.muted}>Sign in to save your favourites and keep them with your account.</Text><Button title="Sign in or create an account" onPress={()=>setScreen("Account")}/></Glass>}
         {screen === "Orders" && (
           <>
-            <Text style={s.h2}>My orders</Text>
+            <Text style={[s.h2,{paddingHorizontal:18,paddingTop:16,paddingBottom:12}]}>My orders</Text>
             <View style={{flexDirection:'row',alignItems:'center',gap:4,padding:8,backgroundColor:colors.surface}}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:20,paddingHorizontal:10}}><Ionicons name="search-outline" size={17}/><TextInput accessibilityLabel="Search orders" placeholder="Order ID or product" value={orderSearch} onChangeText={setOrderSearch} style={{flex:1,minHeight:44,fontSize:13,color:colors.text,paddingHorizontal:6}}/></View><Pressable accessibilityLabel="Filter orders" onPress={()=>setOrderFiltersOpen(true)} style={{padding:8}}><Ionicons name="options-outline" size={22}/></Pressable><Pressable accessibilityLabel="Order support" onPress={()=>router.push({pathname:'/help',params:{topic:'contact'}})} style={{padding:8}}><Ionicons name="headset-outline" size={22}/></Pressable><Pressable accessibilityLabel="Recycle bin: deleted orders" onPress={()=>void task(async()=>{const data=await api<{orders:Order[]}>('/api/customer/orders?deleted=true');setDeletedOrders(data.orders);setTrashSelection([]);setRecycleOpen(true);})} style={{padding:8}}><Ionicons name="trash-outline" size={22}/><Ionicons name="refresh" size={11} style={{position:'absolute',bottom:5,right:5,backgroundColor:colors.surface}}/></Pressable></View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8}}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8,paddingHorizontal:18,paddingVertical:12}}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
             {!customer ? (
               <Glass>
                 <Text>Sign in to see purchases made with your account.</Text>
@@ -877,15 +864,15 @@ function Main() {
                   </Text>
                 )}
                 {orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).map((o) => (
-                  <View key={o.reference} style={{backgroundColor:colors.surface,padding:12,gap:8,borderBottomWidth:6,borderColor:colors.page}}>
+                  <View key={o.reference} style={{backgroundColor:colors.surface,padding:18,gap:12,borderBottomWidth:8,borderColor:colors.page}}>
                     <View style={s.row}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.createdAt?new Date(o.createdAt.includes('T')?o.createdAt:o.createdAt.replace(' ','T')+'Z').toLocaleDateString():''}</Text></View>
                     <Text style={s.muted}>{o.reference}</Text>
-                    {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
+                    {o.items?.slice(0,1).map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
                     <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
 
+                    {(o.items?.length||0)>1&&<Text style={s.muted}>+ {o.items!.length-1} more item(s)</Text>}
                     <Button compact secondary title="Track order" onPress={()=>setTrackingOrder(o)}/>
-                    {!!o.trackingNumber&&<Text style={s.muted}>{o.trackingNumber}</Text>}
-                    {!!o.deliveryEstimate&&<Text style={s.muted}>{o.deliveryEstimate}</Text>}
+
                     {payment?.reference===o.reference&&!paymentExpired&&inOrderGroup(o,'To pay')&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
                     <View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}><Button compact title="Remove" secondary disabled={busy} onPress={()=>Alert.alert('Remove order?', 'Hide this order from your history. This does not cancel a payment or delivery.',[{text:'Keep',style:'cancel'},{text:'Remove',style:'destructive',onPress:()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'DELETE');setOrders(current=>current.filter(item=>item.reference!==o.reference));})}])}/>
                     {hasPaidReceipt(o)&&<Button compact
@@ -903,15 +890,6 @@ function Main() {
                         })
                       }
                     />}</View>
-                    {hasPaidReceipt(o)&&<Pressable accessibilityRole="button" onPress={()=>router.push({pathname:"/help",params:{topic:"contact",orderReference:o.reference,request:"refund",name:customer.name,email:customer.email}})} style={{paddingVertical:10}}><Text style={{fontSize:13}}>Refund enquiry / Contact support →</Text></Pressable>}
-                    {o.trackingUrl?.startsWith("https://") && (
-                      <Button
-                        title="Track parcel"
-                        onPress={() =>
-                          void task(() => safeOpen(o.trackingUrl!))
-                        }
-                      />
-                    )}
                   </View>
                 ))}
               </>
@@ -923,7 +901,7 @@ function Main() {
           <>
             {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
               <View style={{width:'100%',flexGrow:1}}>
-                <ProviderSignIn background={false} initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckoutStep('review');setCheckout(true);}}}/>
+                <ProviderSignIn background={false} initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
 
               </View>
             ) : (
@@ -981,10 +959,10 @@ function Main() {
       {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
         {quotes&&quotes.expiresAt>Date.now()&&quoteContext===shippingContext&&<QuoteCountdown expiresAt={quotes.expiresAt}/>}
         {!!bagToast&&<Text accessibilityLiveRegion="polite" style={{backgroundColor:colors.text,color:colors.page,padding:14,borderRadius:10}}>{bagToast}</Text>}
-        <View><Button title="Checkout →" disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckoutStep('review');setCheckout(true);}}}/></View>
+        <View><Button title="Checkout →" disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/></View>
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
-      <Sheet title="Track order" navigation={<AppTabs selected="Orders" onNavigate={label=>{setTrackingOrder(null);setScreen(label);}}/>} visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><View style={{flexDirection:'row',alignItems:'center',gap:12}}><Text style={{fontSize:14,color:colors.muted}}>Reference {trackingOrder.reference}</Text><Pressable accessibilityRole="button" accessibilityLabel="Copy order reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(trackingOrder.reference);setNotice('Order reference copied.');})} style={{width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name="copy-outline" size={19}/></Pressable></View><OrderProgress order={trackingOrder}/>{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<View style={{padding:14,borderRadius:12,borderWidth:1,borderColor:colors.border,flexDirection:"row",alignItems:"center",gap:12}}><Ionicons name="time-outline" size={24}/><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:"600"}}>Last update</Text><Text style={{fontSize:12,color:colors.muted}}>Your order is {trackingOrder.status.replaceAll("_"," ")}.</Text></View></View><Button secondary title="Help with this order" onPress={()=>{const reference=trackingOrder.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/></>}</Sheet>
+      <Sheet title="Track order" footer={<Button secondary title="Help with this order" onPress={()=>{const reference=trackingOrder!.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/>} navigation={<AppTabs selected="Orders" onNavigate={label=>{setTrackingOrder(null);setScreen(label);}}/>} visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><View style={{flexDirection:'row',alignItems:'center',gap:12}}><Text style={{fontSize:14,color:colors.muted}}>Reference {trackingOrder.reference}</Text><Pressable accessibilityRole="button" accessibilityLabel="Copy order reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(trackingOrder.reference);setNotice('Order reference copied.');})} style={{width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name="copy-outline" size={19}/></Pressable></View><OrderProgress order={trackingOrder}/><View style={{padding:12,borderWidth:1,borderColor:colors.border,borderRadius:10,flexDirection:'row',gap:12}}><Ionicons name="location-outline" size={24}/><View style={{flex:1,gap:4}}><Text style={{fontSize:13,fontWeight:'600'}}>Delivery address</Text><Text style={{fontSize:12,lineHeight:18,color:colors.muted}}>Contact support to confirm the delivery address for this order.</Text></View></View>{trackingOrder.trackingUrl?.startsWith('https://')&&<Button secondary title="Track parcel" onPress={()=>void task(()=>safeOpen(trackingOrder.trackingUrl!))}/>}{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<View style={{padding:14,borderRadius:12,borderWidth:1,borderColor:colors.border,flexDirection:"row",alignItems:"center",gap:12}}><Ionicons name="time-outline" size={24}/><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:"600"}}>Last update</Text><Text style={{fontSize:12,color:colors.muted}}>Your order is {trackingOrder.status.replaceAll("_"," ")}.</Text></View></View></>}</Sheet>
       <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","To ship","Shipped","Completed","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>
       <Sheet title="Recycle bin" visible={recycleOpen} onClose={()=>setRecycleOpen(false)} footer={deletedOrders.length?<View style={{flexDirection:'row',gap:8}}><Button compact title={`Restore (${trashSelection.length})`} disabled={busy||!trashSelection.length} onPress={()=>void task(async()=>{const restored:CartItem[]=[];for(const reference of trashSelection){const order=deletedOrders.find(o=>o.reference===reference);for(const item of order?.items||[]){const product=products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)));const color=product?.colorways.find(c=>Object.values(c.variantIds||{}).includes(item.variantId));if(product&&color&&!preview(product))restored.push({variantId:item.variantId,productId:product.id,name:product.name,color:color.name,size:item.size,imageUrl:color.imageUrl,priceKobo:product.priceKobo,quantity:Math.min(item.quantity,5)});}await api('/api/customer/orders',{reference},'PATCH');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));}setCart(items=>{const next=[...items];for(const item of restored){const i=next.findIndex(v=>v.variantId===item.variantId);if(i<0)next.push(item);else next[i]={...next[i],quantity:Math.min(5,next[i].quantity+item.quantity)};}return next;});setBagSelection(restored.map(i=>i.variantId));setTrashSelection([]);await vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setCheckout(false);setRecycleOpen(false);setScreen('Bag');setBagToast(restored.length?'Restored to your bag. Choose Checkout to start a new payment.':'These pieces are no longer available in the catalogue.');})}/><Button compact secondary title="Delete permanently" disabled={busy||!trashSelection.length} onPress={()=>Alert.alert('Delete permanently?',`Remove ${trashSelection.length} selected order(s) from your history? You cannot restore them. Required payment and delivery records are retained.`,[{text:'Keep',style:'cancel'},{text:'Delete permanently',style:'destructive',onPress:()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference,permanent:true},'DELETE');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}})}])}/></View>:undefined}>
        <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
@@ -1000,29 +978,30 @@ function Main() {
       {!(screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim()))&&<AppTabs selected={screen==='Settings'?'Account':screen} onNavigate={label=>{setScreen(label);if(label==='Orders')setOrderGroup('All');if(label==='Orders'||label==='Account')void task(account);}}/>}
       <Sheet
         title="Product details"
-        navigation={<AppTabs selected="Shop" onNavigate={label=>{setSelected(null);setScreen(label);}}/>}
+        headerAction={selected&&<Pressable accessibilityRole="button" accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{width:44,height:44,alignItems:'center',justifyContent:'center'}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={25}/></Pressable>}
         visible={!!selected}
         onClose={() => setSelected(null)}
         footer={selected&&<View style={{flexDirection:'row',gap:8,alignItems:'center'}}><Pressable accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{minWidth:44,minHeight:44,justifyContent:'center',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={23}/></Pressable><View style={{flex:1}}><Button title={preview(selected)?'Preview only':size?'Add to bag →':'Choose a size'} disabled={!size||preview(selected)} onPress={add}/></View></View>}
       >
         {selected && c && (
           <View onLayout={e=>setProductWidth(e.nativeEvent.layout.width)} style={{gap:14}}><View style={{flexDirection:productWide?"row":"column",gap:18,alignItems:"flex-start"}}><View style={{width:productWide?"48%":"100%",gap:10}}>
-            <Image
+            <View><Image
               source={{ uri: imageUrl(gallery[view]?.imageUrl || c.imageUrl) }}
               accessibilityLabel={gallery[view]?.imageAlt}
               resizeMode="contain"
-              style={{ height: Math.min(productWide?430:280,Math.max(210,height*.45)), width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
+              style={{ height: productWide?430:Math.max(240,Math.min(340,productWidth*.8)), width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
             />
-            <ScrollView horizontal contentContainerStyle={s.row}>
+            <Text style={{position:'absolute',right:12,top:12,paddingHorizontal:10,paddingVertical:5,borderRadius:16,backgroundColor:'rgba(0,0,0,.28)',color:'#fff',fontSize:12}}>{view+1} / {gallery.length}</Text></View>
+            <ScrollView horizontal contentContainerStyle={{gap:8}}>
               {gallery.map((g, i) => (
                 <Pressable
                   key={g.imageUrl + i}
                   onPress={() => setView(i)}
-                  style={[s.thumb, view === i && s.chosen]}
+                  style={[s.thumb,{backgroundColor:colors.secondary,borderRadius:8,borderColor:view===i?colors.text:'transparent'}]}
                 >
                   <Image
                     source={{ uri: imageUrl(g.imageUrl) }}
-                    style={{ width: 64, height: 65 }}
+                    style={{ width: Math.max(60,(productWidth-48)/4), height: 72 }}
                     resizeMode="contain"
                   />
                   <Text style={s.navText}>
@@ -1031,8 +1010,8 @@ function Main() {
                 </Pressable>
               ))}
             </ScrollView>
-            </View><View style={{flex:1,width:"100%",minWidth:0,gap:12,padding:0}}><View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10}}><Text style={{flex:1,fontSize:20,fontWeight:'700'}}>{selected.name}</Text><Text style={{fontSize:16,fontWeight:'700'}}>{preview(selected)?'Preview':displayMoney(selected.priceKobo).replace(/\.00$/,'')}</Text></View>
-            <Text style={s.label}>Colour · {c.name}</Text>
+            </View><View style={{flex:1,width:"100%",minWidth:0,gap:12,padding:0}}><Text style={{fontSize:25,fontWeight:'700',letterSpacing:-.5}}>{selected.name}</Text><Text style={{fontSize:18,color:colors.muted}}>{c.name}</Text><Text style={{fontSize:13,color:colors.muted}}>{preview(selected)?'Price shown from catalogue':displayMoney(selected.priceKobo).replace(/\.00$/,'')}</Text><View style={{flexDirection:'row',gap:7}}>{[{icon:'shirt-outline' as const,title:selected.details?.fit||selected.category,detail:'Fit & style'},{icon:'layers-outline' as const,title:selected.details?.fabric||selected.category,detail:'Garment details'},{icon:'color-palette-outline' as const,title:c.name,detail:'Selected colour'}].map(item=><View key={item.detail} style={{flex:1,flexDirection:'row',alignItems:'center',gap:6,padding:10,minHeight:62,borderRadius:12,backgroundColor:colors.secondary}}><Ionicons name={item.icon} size={24}/><View style={{flex:1,gap:3}}><Text numberOfLines={2} style={{fontSize:10,fontWeight:'600'}}>{item.title}</Text><Text style={{fontSize:9,color:colors.muted}}>{item.detail}</Text></View></View>)}</View>
+            <Text style={s.label}>Colour</Text>
             <View style={s.row}>
               {selected.colorways.map((v, i) => (
                 <Pressable
@@ -1043,9 +1022,9 @@ function Main() {
                     setSize("");
                     setView(0);
                   }}
-                  style={[s.chip, colour === i && s.chosen]}
+                  style={{width:46,height:46,borderRadius:23,borderWidth:colour===i?2:1,borderColor:colour===i?colors.text:colors.border,padding:3}}
                 >
-                  <View style={[s.swatch, { backgroundColor: v.hex }]} />
+                  <View style={{flex:1,borderRadius:22,backgroundColor:v.hex}} />
                 </Pressable>
               ))}
             </View>
@@ -1063,30 +1042,29 @@ function Main() {
                     disabled={!preview(selected) && c.stock[k] <= 0}
                     onPress={() => setSize(k)}
                     style={[
-                      s.chip,
-                      size === k && s.chosen,
+                      {flex:1,minHeight:40,borderRadius:24,alignItems:'center',justifyContent:'center',backgroundColor:size===k?colors.text:colors.secondary},
                       !preview(selected) &&
                         c.stock[k] <= 0 && { opacity: 0.35 },
                     ]}
                   >
-                    <Text>{k}</Text>
+                    <Text style={{color:size===k?colors.page:colors.text}}>{k}</Text>
                   </Pressable>
                 ))}
             </View>
-            <ProductDisclosure title="Description"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fit}</Text></ProductDisclosure><ProductDisclosure title="Fabric & care"><Text style={s.muted}>{selected.details?.fabric||'Contact support for fabric details.'}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
+            <ProductDisclosure title="Details & care"><Text style={s.muted}>{selected.description}</Text><Text style={s.muted}>{selected.details?.fit}</Text><Text style={s.muted}>{selected.details?.fabric||'Contact support for fabric details.'}</Text><Text style={s.muted}>{selected.details?.care}</Text></ProductDisclosure>
             <RestockAlerts key={selected.id+c.name} variantIds={c.variantIds||{}} stock={c.stock}/>
-            <ProductDisclosure title="Delivery"><Text style={s.muted}>Review the current delivery and returns policy before ordering.</Text><Button compact secondary title="View policy →" onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'shipping-returns'}});}}/></ProductDisclosure>
+            <ProductDisclosure title="Delivery & returns"><Text style={s.muted}>Review the current delivery and returns policy before ordering.</Text><Button compact secondary title="View policy →" onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'shipping-returns'}});}}/></ProductDisclosure>
             <Pressable onPress={()=>{setSelected(null);router.push({pathname:'/help',params:{topic:'contact'}});}} style={{minHeight:44,justifyContent:'center'}}><Text style={s.muted}>Need help? Contact support →</Text></Pressable>
           </View></View></View>
         )}
       </Sheet>
       <Sheet title="Size guide" visible={sizeGuideOpen&&!!selected} onClose={()=>setSizeGuideOpen(false)}><Text style={{fontSize:15,fontWeight:'600'}}>{selected?.category}</Text><Text style={s.muted}>All measurements are in centimetres (cm).</Text>{selected?.details?.sizeChart?.length?<ScrollView horizontal><View style={{borderWidth:1,borderColor:colors.border,borderRadius:10,overflow:'hidden'}}><View style={{flexDirection:'row',backgroundColor:colors.secondary}}>{Object.keys(selected.details.sizeChart[0]).map(key=><Text key={key} style={{width:110,padding:12,fontSize:12,fontWeight:'600'}}>{key}</Text>)}</View>{selected.details.sizeChart.map((row,i)=><View key={i} style={{flexDirection:'row',borderTopWidth:1,borderColor:colors.border}}>{Object.keys(selected.details!.sizeChart![0]).map(key=><Text key={key} style={{width:110,padding:12,fontSize:13}}>{row[key]}</Text>)}</View>)}</View></ScrollView>:<Text style={s.muted}>Measurements are awaiting confirmation. Contact support for sizing help.</Text>}<Text style={{fontSize:17,fontWeight:'600',marginTop:20}}>How to measure</Text><Text style={s.muted}>Lay a similar garment flat on a table and measure across the chest and from the shoulder to the hem. Compare with this garment’s published measurements.</Text></Sheet>
       <Sheet
-        title={paymentExpired ? "Order expired" : payment ? "Your payment" : checkoutStep==='method'?"Payment method":"Checkout"}
+        title={paymentExpired ? "Order expired" : payment ? "Your payment" : "Order confirmation"}
         flat={!payment}
         navigation={<AppTabs selected="Bag" onNavigate={label=>{setCheckout(false);setLeaveCheckout(false);setScreen(label);}}/>}
         visible={checkout && !!customer}
-        onClose={() => !payment&&checkoutStep==='method'?setCheckoutStep('review'):setLeaveCheckout(true)}
+        onClose={() => setLeaveCheckout(true)}
         overlay={leaveCheckout ? <View accessibilityViewIsModal style={[StyleSheet.absoluteFill,{backgroundColor:"rgba(0,0,0,0.55)",justifyContent:"center",alignItems:"center",padding:24}]}>
           <View style={{backgroundColor:colors.surface,borderRadius:28,padding:24,gap:20,width:"100%",maxWidth:460}}>
             <Text accessibilityRole="header" style={[s.h2,{textAlign:"center"}]}>Leaving checkout now?</Text>
@@ -1097,7 +1075,7 @@ function Main() {
             <Button title="Leave anyway" secondary onPress={()=>{setLeaveCheckout(false);setCheckout(false);}}/>
           </View>
         </View>:undefined}
-        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{gap:12}}><Button title={busy?"Please wait…":checkoutStep==='review'?"Continue to payment":"Continue"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (checkoutStep==='method'&&(paymentMethod==="hosted"?!cardSdkAvailable:paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired)))} onPress={()=>checkoutStep==='review'?setCheckoutStep('method'):void task(pay)}/></View>:undefined}
+        footer={!payment && !addressEditing && reward && quoteContext===shippingContext ? <View style={{flexDirection:'row',gap:16,alignItems:'center'}}><View style={{flex:1,gap:3}}><Text style={{fontSize:12,color:colors.muted}}>Total</Text><Text style={{fontSize:18,fontWeight:'700'}}>{money(reward.totalKobo||0).replace(/\.00$/,'')}</Text></View><View style={{flex:1}}><Button title={busy?"Please wait…":"Place order"} disabled={busy || shippingBusy || checkoutUnavailable || !checkoutCart.length || (paymentMethod==="hosted"?!cardSdkAvailable:paymentMethod==="bank_transfer"?!transferEnabled:!cardsEnabled||!cards.some(c=>c.id===selectedCard&&!c.expired))} onPress={()=>void task(pay)}/></View></View>:undefined}
       >
         {notice !== "" && (
           <Text accessibilityLiveRegion="polite" style={s.noticeText}>
@@ -1119,12 +1097,18 @@ function Main() {
         ) : (
           <>
 
-            {checkoutStep==='review'&&<>{addressEditing ? <ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(customer){const next={...customer,addresses:[a,...customer.addresses.slice(1)]};await api("/api/customer/me",next,"PATCH");setCustomer(next);}setAddress(a);setAddressEditing(false);setNotice("");})}/> : <Glass>
-              <View style={{flexDirection:'row',alignItems:'center',gap:12}}><Ionicons name="location-outline" size={26}/><View style={{flex:1,gap:5}}><Text style={{fontSize:14,fontWeight:'600'}}>Deliver to</Text><Text numberOfLines={3} style={{fontSize:12,lineHeight:17,color:colors.muted}}>{Object.keys(addressErrors(address)).length?'Complete your delivery address.':[address.addressLine1,address.addressLine2,address.city,address.state,shippingCountryName(address.countryCode)].filter(Boolean).join(', ')}</Text></View><Pressable accessibilityRole="button" accessibilityLabel="Edit shipping address" onPress={()=>setAddressEditing(true)} style={{padding:8}}><Ionicons name="create-outline" size={22}/></Pressable></View>
+            {<>{addressEditing ? <ShippingAddress countries={shippingCountries} value={address} signedIn={!!customer} busy={busy} onChange={a=>{setAddress(a);resetQuote();}} onDone={a=>void task(async()=>{if(customer){const next={...customer,addresses:[a,...customer.addresses.slice(1)]};await api("/api/customer/me",next,"PATCH");setCustomer(next);}setAddress(a);setAddressEditing(false);setNotice("");})}/> : <Glass>
+              <View style={{flexDirection:'row',alignItems:'center',gap:12}}><Ionicons name="location-outline" size={26}/><View style={{flex:1,gap:5}}><Text style={{fontSize:14,fontWeight:'600'}}>Shipping address</Text><Text numberOfLines={3} style={{fontSize:12,lineHeight:17,color:colors.muted}}>{Object.keys(addressErrors(address)).length?'Complete your delivery address.':[[address.firstName,address.lastName,address.phone].filter(Boolean).join(' '),address.addressLine1,address.addressLine2,address.city,address.state,shippingCountryName(address.countryCode)].filter(Boolean).join(', ')}</Text></View><Pressable accessibilityRole="button" accessibilityLabel="Edit shipping address" onPress={()=>setAddressEditing(true)} style={{padding:8}}><Ionicons name="create-outline" size={22}/></Pressable></View>
             </Glass>}
             {!addressEditing && <>
-            {checkoutCart.map(i=><Glass key={i.variantId}><View style={{flexDirection:'row',gap:12,alignItems:'center'}}><Image source={{uri:imageUrl(i.imageUrl)}} resizeMode="contain" style={{width:58,height:60,borderRadius:8}}/><View style={{flex:1,gap:4}}><Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{i.name}</Text><Text style={{fontSize:11,color:colors.muted}}>{i.color} · {i.size}</Text><Text style={{fontSize:13,fontWeight:'600'}}>{money(i.priceKobo*i.quantity).replace(/\.00$/,'')}</Text>{variantStock(i,products)<i.quantity&&<Text style={{fontSize:11,color:colors.danger}}>Quantity unavailable</Text>}</View><Text style={{fontSize:12,color:colors.muted}}>Qty {i.quantity}</Text></View></Glass>)}
+            {checkoutCart.map(i=><Glass key={i.variantId}><View style={{flexDirection:'row',gap:12,alignItems:'center'}}><Image source={{uri:imageUrl(i.imageUrl)}} resizeMode="contain" style={{width:80,height:88,borderRadius:8}}/><View style={{flex:1,gap:4}}><Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{i.name}</Text><Text style={{fontSize:11,color:colors.muted}}>{i.color} · {i.size}</Text><Text style={{fontSize:13,fontWeight:'600'}}>{money(i.priceKobo*i.quantity).replace(/\.00$/,'')}</Text>{variantStock(i,products)<i.quantity&&<Text style={{fontSize:11,color:colors.danger}}>Quantity unavailable</Text>}</View><Text style={{fontSize:12,color:colors.muted}}>Qty {i.quantity}</Text></View></Glass>)}
             <View style={{gap:8}}><Text style={{fontSize:15,fontWeight:'600'}}>Shipping method</Text>{shippingBusy||quoteContext!==shippingContext?<Text>Calculating shipping…</Text>:quotes&&deliveryChoices(quotes.rates).map(({label,rate:option})=><Pressable key={option.rateId} accessibilityRole="radio" accessibilityState={{checked:rate?.rateId===option.rateId}} onPress={()=>void selectDelivery(option)} style={{padding:10,minHeight:56,borderWidth:1,borderRadius:10,borderColor:rate?.rateId===option.rateId?colors.accentInk:colors.border,flexDirection:'row',gap:12,alignItems:'center'}}><Ionicons name={rate?.rateId===option.rateId?'radio-button-on':'radio-button-off'} color={rate?.rateId===option.rateId?colors.accentInk:colors.muted} size={23}/><View style={{flex:1,gap:5}}><Text style={{fontSize:13,fontWeight:'600'}}>{label}</Text><Text style={{fontSize:10,color:colors.muted}}>{option.delivery}</Text></View><Text style={{fontSize:13,fontWeight:'600'}}>{money(option.amountKobo).replace(/\.00$/,'')}</Text></Pressable>)}{shippingError!==''&&<><Text accessibilityRole="alert">{shippingError}</Text><Button title="Retry shipping" secondary onPress={()=>setShippingRetry(n=>n+1)}/></>}{address.countryCode!=='NG'&&<Text style={s.muted}>Import duties and taxes may be payable by the recipient. Customs can affect delivery times.</Text>}</View>
+<View style={{gap:4}}><Text style={{fontSize:18,fontWeight:'700',marginTop:8,marginBottom:8}}>Payment method</Text>              {[
+                {id:'hosted',label:'Add a new card',detail:cardSdkAvailable?'Visa · Mastercard · Verve':'Available in the configured Android app',icon:'card-outline' as const,disabled:!cardSdkAvailable},
+                ...(transferEnabled?[{id:'bank_transfer',label:'Bank transfer',detail:'Pay from your bank account',icon:'business-outline' as const,disabled:false}]:[]),
+                ...(cardsEnabled?cards.map(card=>({id:card.id,label:`${card.brand} •••• ${card.last4}`,detail:card.expired?'Expired':'Saved card',icon:'card-outline' as const,disabled:card.expired})):[])
+              ].map(option=>{const chosen=paymentMethod===option.id||(paymentMethod==='saved_card'&&selectedCard===option.id);return <Pressable key={option.id} accessibilityRole="radio" accessibilityState={{checked:chosen,disabled:option.disabled}} disabled={option.disabled} onPress={()=>{if(option.id==='hosted'||option.id==='bank_transfer')setPaymentMethod(option.id);else{setPaymentMethod('saved_card');setSelectedCard(option.id);}}} style={{flexDirection:'row',alignItems:'center',gap:14,padding:14,minHeight:66,borderBottomWidth:1,borderColor:chosen?colors.accentInk:colors.border,borderRadius:0,backgroundColor:colors.glass,opacity:option.disabled?.45:1}}><Ionicons name={option.icon} size={29}/><View style={{flex:1,gap:7}}><Text style={{fontSize:17,fontWeight:'600'}}>{option.label}</Text><Text style={{fontSize:12,color:colors.muted}}>{option.detail}</Text></View><Ionicons name={chosen?'radio-button-on':'radio-button-off'} color={chosen?colors.accentInk:colors.muted} size={24}/></Pressable>;})}
+</View>
             <Pressable accessibilityRole="button" accessibilityState={{expanded:promoOpen}} onPress={()=>setPromoOpen(!promoOpen)}><Glass><View style={{flexDirection:"row",justifyContent:"space-between"}}><Text style={{fontSize:14,fontWeight:"600"}}>Add promo code{code?" · "+code:""}</Text><Ionicons name={promoOpen?"chevron-up":"chevron-down"} size={22}/></View></Glass></Pressable>
             {promoOpen&&<><View style={{gap:6}}><Text>Discount code (optional)</Text><TextInput accessibilityLabel="Discount code" value={promotionDraft} onChangeText={v=>setPromotionDraft(v.toUpperCase())} autoCapitalize="characters" maxLength={32} style={{minHeight:44,padding:12,borderWidth:1,borderColor:colors.border,borderRadius:12,color:colors.text}}/></View>
             <Field
@@ -1143,15 +1127,7 @@ function Main() {
             )}
 
             </>}</>}
-            {checkoutStep==='method'&&<><Text style={s.muted}>Choose how you want to pay.</Text><View style={{padding:20,borderWidth:1,borderColor:colors.border,borderRadius:12,alignItems:'center',gap:10}}><Text style={{fontSize:12,color:colors.muted}}>Total amount</Text><Text style={{fontSize:28,fontWeight:'700'}}>{money(reward?.totalKobo||0).replace(/\.00$/,'')}</Text></View>
-              {[
-                ...(cardSdkAvailable?[{id:'hosted',label:'Card',detail:'Secure payment',icon:'card-outline' as const,disabled:false}]:[]),
-                ...(transferEnabled?[{id:'bank_transfer',label:'Bank transfer',detail:'Pay from your bank account',icon:'business-outline' as const,disabled:false}]:[]),
-                ...(cardsEnabled?cards.map(card=>({id:card.id,label:`${card.brand} •••• ${card.last4}`,detail:card.expired?'Expired':'Saved card',icon:'card-outline' as const,disabled:card.expired})):[])
-              ].map(option=>{const chosen=paymentMethod===option.id||(paymentMethod==='saved_card'&&selectedCard===option.id);return <Pressable key={option.id} accessibilityRole="radio" accessibilityState={{checked:chosen,disabled:option.disabled}} disabled={option.disabled} onPress={()=>{if(option.id==='hosted'||option.id==='bank_transfer')setPaymentMethod(option.id);else{setPaymentMethod('saved_card');setSelectedCard(option.id);}}} style={{flexDirection:'row',alignItems:'center',gap:16,padding:20,minHeight:90,borderWidth:1,borderColor:chosen?colors.accentInk:colors.border,borderRadius:14,backgroundColor:colors.glass,opacity:option.disabled?.45:1}}><Ionicons name={option.icon} size={29}/><View style={{flex:1,gap:7}}><Text style={{fontSize:17,fontWeight:'600'}}>{option.label}</Text><Text style={{fontSize:12,color:colors.muted}}>{option.detail}</Text></View><Ionicons name={chosen?'radio-button-on':'radio-button-off'} color={chosen?colors.accentInk:colors.muted} size={24}/></Pressable>;})}
-              <Pressable accessibilityRole="button" onPress={()=>setCheckoutStep('review')} style={{minHeight:44,alignItems:'center',justifyContent:'center'}}><Text style={{textDecorationLine:'underline',fontSize:13}}>Back to checkout</Text></Pressable>
-              <View style={{flexDirection:'row',gap:14,padding:18,borderRadius:14,borderWidth:1,borderColor:colors.border,marginTop:24}}><Ionicons name="shield-checkmark-outline" size={28}/><View style={{flex:1,gap:5}}><Text style={{fontSize:14,fontWeight:'600'}}>Your payment is secure</Text><Text style={{fontSize:12,lineHeight:18,color:colors.muted}}>Payments processed by Paystack. Card details are entered in its secure payment sheet.</Text></View></View>
-            </>}
+
           </>
         )}
       </Sheet>
@@ -1252,10 +1228,10 @@ const styles = (colors:Palette) => StyleSheet.create({
   glassContent: { padding: 12, gap: 8 },
   hero: { borderRadius: 25, overflow: "hidden", backgroundColor: "#dfe4dc" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 16 },
-  product: { gap: 7, marginBottom: 8,borderWidth:1,borderColor:colors.border,borderRadius:12,padding:7,backgroundColor:colors.glass },
+  product: { gap: 5, marginBottom: 6 },
   productImage: {
     width: "100%",
-    aspectRatio: 0.8,
+    aspectRatio: 1,
     backgroundColor: "#f3f4f1",
     borderRadius: 10,
   },
