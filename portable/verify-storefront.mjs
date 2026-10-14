@@ -37,7 +37,10 @@ assert.ok(!files.some(f=>f.startsWith("qa-")),"Temporary QA files must not be ex
 console.log(`Verified ${files.length} rendered pages and ${checked} local links/assets, including social images, product schema and checkout routes.`);
 
 const catalog=JSON.parse(await readFile("portable/catalog-snapshot.json","utf8"));
-for(const product of catalog){const html=await readFile(resolve(root,`products/${product.slug}.html`),"utf8");assert.doesNotMatch(html,/dn-product-specs/,`${product.slug} must wait for the live catalogue`);assert.ok(!html.includes(product.name),`${product.slug} must not embed a product name`);assert.match(html,/"products":\[\]/);}
+for(const product of catalog){const html=await readFile(resolve(root,`products/${product.slug}.html`),"utf8");assert.doesNotMatch(html,/dn-product-specs/,`${product.slug} must wait for the live catalogue`);// Content hashes can coincidentally contain short names (for example entry-CapDrLme.js).
+  // Exclude only hashed build asset URLs; keep visible text, metadata and inline data in this check.
+  const contentHtml=html.replace(/(?:src|href)="\/assets\/[^"<>]+\.(?:js|css)"/g, '');
+  assert.ok(!contentHtml.includes(product.name),`${product.slug} must not embed a product name`);assert.match(html,/"products":\[\]/);}
 console.log(`Verified privacy-safe product shells on ${catalog.length} product pages.`);
 
 const home=await readFile(resolve(root,"index.html"),"utf8");

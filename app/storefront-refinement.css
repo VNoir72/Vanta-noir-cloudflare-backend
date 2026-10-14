@@ -32,3 +32,27 @@
 @media(min-width:1024px){.dn-app.vn-store-refresh .dn-collection-heading .dn-sort{display:flex!important;align-items:center;gap:10px}.dn-app.vn-store-refresh .dn-card{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important}.dn-app.vn-store-refresh .dn-card-image{height:auto!important;aspect-ratio:1/1;border-radius:5px!important;padding:0!important}.dn-app.vn-store-refresh .dn-card-info{display:flex;flex-direction:column;gap:4px;padding:7px 0!important}.dn-app.vn-store-refresh .dn-card-swatches{order:0;margin:0 0 3px}.dn-app.vn-store-refresh .dn-card-color{order:1;margin:0!important;padding:0!important;display:block}.dn-app.vn-store-refresh .dn-card-color>i,.dn-app.vn-store-refresh .dn-card-color>span:not(.dn-card-size){display:none}.dn-app.vn-store-refresh .dn-card-size{display:flex;flex-wrap:wrap;gap:4px;margin:0!important}.dn-app.vn-store-refresh .dn-card-size b{font-weight:400;padding:3px 5px;border:1px solid #e2e4e5;border-radius:4px;font-size:9px}.dn-app.vn-store-refresh .dn-card-info>a{order:2;margin-top:3px}.dn-app.vn-store-refresh .dn-card-price{order:3;margin:0!important}.dn-app.vn-store-refresh .dn-quick-button{opacity:0;transition:opacity .2s}.dn-app.vn-store-refresh .dn-card:hover .dn-quick-button,.dn-app.vn-store-refresh .dn-card:focus-within .dn-quick-button{opacity:1}.dn-app.vn-store-refresh .dn-heart{background:transparent!important;border:0!important;box-shadow:none!important}}
 @media(max-width:1023px){.dn-card-size b{font-weight:400}.dn-card-size b+b:before{content:' · '}}
 @media(max-width:767px){.dn-app.vn-store-refresh .vn-ribbon-hero .vn-ribbon-copy p{font-size:12px!important;max-width:180px!important;margin:8px 0 14px!important}}
+
+/* Garment reference: compact desktop specifications and price strip above the action. */
+.vn-product-desktop-price{display:none}
+@media(min-width:768px){
+.dn-app.vn-store-refresh .dn-product-page .dn-options>.dn-eyebrow,.dn-app.vn-store-refresh .dn-product-page .vn-product-mobile-price{display:none}
+.dn-app.vn-store-refresh .dn-product-page .dn-options h1{font-size:30px;margin:0 0 5px;letter-spacing:-.035em}
+.dn-app.vn-store-refresh .dn-product-page .vn-selected-colour{font-size:11px;font-weight:550;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 8px}
+.dn-app.vn-store-refresh .dn-product-page .dn-description{font-size:12px;line-height:1.5;margin:0 0 12px}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights{gap:8px;margin:12px 0 14px}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div{display:grid;grid-template-columns:23px minmax(0,1fr);align-items:center;gap:2px 7px;padding:9px;min-height:45px;background:transparent;border:1px solid #e5e7e5;border-radius:5px}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div>svg{grid-row:1/3;width:22px;height:22px}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div>span{font-size:10px;margin:0}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights strong{font-size:10px;line-height:1.35;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dn-app.vn-store-refresh .dn-product-page .dn-option-heading{font-size:12px;margin:10px 0 6px}
+.dn-app.vn-store-refresh .dn-product-page .dn-swatches button{width:33px;height:33px}
+.dn-app.vn-store-refresh .dn-product-page .dn-size-options{gap:9px;justify-content:flex-start}
+.dn-app.vn-store-refresh .dn-product-page .dn-size-options button{flex:0 1 58px;min-width:40px;min-height:28px;padding:4px 12px;border-radius:5px;font-size:11px}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-desktop-price{display:block;background:#eff0ee;border-radius:5px;margin:13px 0 9px;padding:10px 14px;font-size:12px;font-weight:500}
+.dn-app.vn-store-refresh .dn-product-page .vn-desktop-add{min-height:34px;margin-top:0;padding:7px 16px;font-size:12px}
+.dn-app.vn-store-refresh .dn-product-page .vn-desktop-add>span{display:none}
+.dn-app.vn-store-refresh .dn-product-page .dn-save-detail{font-size:12px;margin:9px 0}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-assurance{font-size:11px;margin:10px 0}
+.dn-app.vn-store-refresh .dn-product-page .dn-options summary{min-height:43px;font-size:12px}
+}
