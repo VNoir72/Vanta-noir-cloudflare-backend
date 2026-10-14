@@ -1,8 +1,7 @@
 // Shared verbatim by the dashboard and standalone shipping pages.
 export const adminThemeCSS = String.raw`/* The only admin palettes. All admin components consume these semantic values. */
 html[data-vn-admin-theme] {
- --admin-sidebar-top:#171b1d; --admin-sidebar-bottom:#101214; --admin-sidebar-text:#f6f7f5; --admin-sidebar-muted:#b8bebc; --admin-sidebar-border:#ffffff20; --admin-hair-shadow:#00000003;
- --admin-ground:#f5f6f7; --admin-surface:#fff; --admin-soft:#eef1ef;
+ --admin-ground:#f5f7f7; --admin-surface:#fff; --admin-soft:#eef1ef;
  --admin-text:#171a1c; --admin-muted:#626c65; --admin-border:#dce3de;
  --admin-glass:rgba(255,255,255,.85); --admin-panel:rgba(255,255,255,.76);
  --admin-edge:rgba(255,255,255,.92); --admin-shadow:rgba(31,45,36,.1);
@@ -12,13 +11,13 @@ html[data-vn-admin-theme] {
  --admin-warning:#78561c; --admin-warning-bg:#fff4da;
  --admin-info:#316694; --admin-info-bg:#e8f0f7;
  --admin-scheme:light;
- --admin-backdrop:none;
- --admin-ground-image:none;
+ --admin-backdrop:url('/images/vanta-pearl-leaf-glass.webp');
+ --admin-ground-image:radial-gradient(ellipse at 85% 15%,#e2ebe4 0%,transparent 55%);
 }
 html[data-vn-admin-theme=dark] {
- --admin-ground:#101113; --admin-surface:#1a1c1f; --admin-soft:#23262a;
- --admin-text:#f2f3ea; --admin-muted:#abb7ac; --admin-border:#35383d;
- --admin-glass:rgba(26,28,31,.89); --admin-panel:rgba(26,28,31,.80);
+ --admin-ground:#343f39; --admin-surface:#46564c; --admin-soft:#3d4d43;
+ --admin-text:#f2f3ea; --admin-muted:#c1cec1; --admin-border:#718276;
+ --admin-glass:rgba(78,96,83,.89); --admin-panel:rgba(83,103,89,.80);
  --admin-edge:rgba(215,230,208,.24); --admin-shadow:rgba(14,27,18,.25);
  --admin-accent:#c8ff65; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;
@@ -26,8 +25,8 @@ html[data-vn-admin-theme=dark] {
  --admin-warning:#efdaa2; --admin-warning-bg:#625c3f;
  --admin-info:#c3dbef; --admin-info-bg:#435867;
  --admin-scheme:dark;
- --admin-backdrop:none;
- --admin-ground-image:none;
+ --admin-backdrop:url('/images/admin-leaves.svg');
+ --admin-ground-image:radial-gradient(ellipse at 90% 5%,#5a715d80 0%,transparent 55%);
 }
 html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-theme] :is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen) {
  color-scheme:var(--admin-scheme); color:var(--admin-text);
@@ -81,7 +80,7 @@ html[data-vn-admin-theme] .vn-standalone section {background:var(--admin-panel);
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more) {html[data-vn-admin-theme] {--admin-glass:var(--admin-surface);--admin-panel:var(--admin-surface);--vn-glass-filter:none}}
 @media(max-width:640px) {.vn-appearance-bar{padding:7px 12px}.vn-theme-control{font-size:11px}}
 html[data-vn-admin-theme] {--vn-brand-white:var(--admin-surface);--vn-brand-border:var(--admin-border);--vn-brand-lime:var(--admin-accent)}
-html[data-vn-admin-theme=dark] :is(.vn-control-center,.vn-welcome-screen) {background-image:var(--admin-ground-image);background-size:cover;background-attachment:fixed}
+html[data-vn-admin-theme=dark] :is(.vn-control-center,.vn-welcome-screen) {background-image:url('/images/admin-leaves.svg'),var(--admin-ground-image);background-size:cover;background-attachment:fixed}
 html[data-vn-admin-theme] .vn-control-center :is(.vn-glass,.vn-exact-metrics>article) {background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px);border-radius:22px}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-mobile-drawer) :is(button[aria-current],button[aria-pressed=true],[data-state=active]) {color:var(--admin-on-accent)}
 html[data-vn-admin-theme] [data-slot=button][data-variant=default] {color:var(--admin-on-accent)!important}

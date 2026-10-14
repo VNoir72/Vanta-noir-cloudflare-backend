@@ -1,0 +1,6 @@
+/* Original storefront design: retain the owner accent and contain long content. */
+.dn-app,.approved-filter-modal,.dn-quick-dialog{--vn-lime:var(--vn-brand-lime,#c8ff65);--primary:var(--vn-brand-lime,#c8ff65);--primary-foreground:var(--vn-brand-ink,#101510)}
+.dn-app :is(.dn-primary,.dn-lime,.dn-filter-apply){background:var(--vn-brand-lime,#c8ff65)!important;color:var(--vn-brand-ink,#101510)!important}
+.dn-app .dn-options,.dn-app .dn-card-info,.dn-app .dn-results{min-width:0}.dn-app .dn-card-info h3{overflow-wrap:anywhere}.dn-app .dn-option-heading{gap:8px;flex-wrap:wrap}.dn-app .dn-size-options{flex-wrap:wrap}.dn-app .dn-section-intro{row-gap:14px}
+.vn-reference{display:inline-flex;max-width:100%;align-items:center;gap:4px;flex-wrap:wrap}.vn-reference>button{font:inherit;font-family:ui-monospace,monospace;white-space:nowrap;background:transparent;border:0;cursor:copy;text-decoration:underline dotted;text-underline-offset:4px}.vn-reference input{max-width:100%}
+@media(min-width:768px) and (max-width:1050px){.vn-liquid-top{gap:12px}.vn-liquid-desktop-nav{gap:12px}.vn-liquid-desktop-nav a{white-space:nowrap}}
