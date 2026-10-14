@@ -15,3 +15,12 @@ User scope: use the five attached arrangement references without replacing curre
 Validation: full suite 264 pass, 1 existing skip; focused legacy alias lookup test includes wrong-identity rejection and unchanged courier tracking. Mobile typecheck and lint pass. Production build gates and live visual checks recorded after release.
 
 Native changes require the installed app to receive a compatible app release; publishing web workers alone does not update an installed Android binary.
+
+## Release record
+
+- Admin/API source: `59686e5ba6ad25afc9043902bbc897157ee111dc`. Build `4eb1c2e3-4aa5-4f6d-b6bf-24eb7c3f219b` succeeded with full typecheck, mobile lint/typecheck, regression, build and release gates. Version `910acd3a-2682-4a7d-b385-3d819d93e7c0`, deployment `b84e9c68-0b7a-46bc-81d7-5db91e33fac3`, 100%.
+- Storefront source: `d43676f1b6708e4545e3de3fec14bb2d85b61469`. Version `6d3bdd86-52a8-4efb-a66e-c7b43c180177`, deployment `fa6bf563-cc49-4fa0-b614-6782c62fb0b4`, 100%. Original hero, navbar, pearl/lime glass appearance verified live.
+- Live checks: products table and actual compact SKUs; settings categories; order list/detail and short aliases; five accent choices with original pearl/lime selections unchanged. Final overview uses actual short aliases. No customer order, payment, shipment or brand-setting mutations during UI verification.
+- Final refinements: membership precedes other app controls; shipping editors collapse within order details; duplicate catalogue heading/actions removed; compact SKU generation retained for new variants.
+- Regression gate exposed a body-read timeout race. Fixed explicit timeout state without weakening the gate; all twelve focused security checks and final full release pipeline passed.
+- Native publication remains blocked: automatic approval review rejected opening Expo release controls, citing native Android releases as separate scope. No native release or build was performed and no alternate access path was attempted. Native source edits are committed and checked; explicit approval for separate native publication is still required.
