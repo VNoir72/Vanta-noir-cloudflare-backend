@@ -1,6 +1,7 @@
 "use client";
 import {customerOrderReference} from '@/lib/order-reference';
 import {SettingsWorkspace} from './settings-workspace';
+import {suggestedSku} from '@/lib/compact-identifiers';
 import {CompactReference} from "@/components/compact-reference";
 import {AutomationsPanel} from './automations-panel';
 import {CrmPanel} from './crm-panel';
@@ -659,15 +660,6 @@ function Metric({ icon: Icon, label, value }: { icon: typeof ShoppingBag; label:
       <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
     </article>
   );
-}
-
-function suggestedSku(name: string, color: string, size: string, index: number) {
-  const base = `${name}-${color}-${size}`
-    .toUpperCase()
-    .replace(/[^A-Z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 72);
-  return `VN-${base || `STYLE-${index + 1}`}`;
 }
 
 function ProductStatusBadge({ status }: { status: ProductStatus }) {
