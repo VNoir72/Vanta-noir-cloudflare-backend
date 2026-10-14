@@ -124,7 +124,7 @@ body:has(.vn-staff-portal) .vn-team-chat.vn-staff-portal{
 .vn-team-chat.vn-staff-portal .vn-chat-feed{background:var(--vn-glass-panel)}
 .vn-team-chat.vn-staff-portal .vn-portal-guidance{background:var(--vn-brand-white);border-color:var(--vn-brand-border)}
 .vn-control-center :is(.vn-control-primary,.vn-studio-top-save),.vn-team-chat.vn-staff-portal nav button[aria-pressed=true],.vn-chat-launch{
- background-color:var(--vn-brand-lime)!important;color:var(--vn-brand-ink)!important;
+ background-color:var(--vn-brand-lime)!important;color:var(--admin-on-accent)!important;
  box-shadow:inset 0 1px 0 var(--admin-shadow),0 2px 8px var(--admin-shadow)
 }
 .vn-control-center .vn-control-sidebar nav button[aria-current=page]{background:var(--vn-brand-lime)!important;color:var(--admin-on-accent)!important;border-left-color:var(--vn-brand-ink)!important}
