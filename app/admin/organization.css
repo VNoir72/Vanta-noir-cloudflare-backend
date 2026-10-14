@@ -13,3 +13,7 @@
 .vn-reference{display:inline-flex;max-width:100%;align-items:center;gap:4px;flex-wrap:wrap}.vn-reference>button{font:inherit;font-family:ui-monospace,monospace;white-space:nowrap;background:transparent;border:0;cursor:copy;text-decoration:underline dotted;text-underline-offset:4px}.vn-reference input{max-width:100%}
 @media(min-width:701px) and (max-width:1100px){.vn-exact .vn-exact-metric-title{white-space:normal}.vn-exact .vn-exact-metrics article{gap:8px}.vn-exact .vn-metric-icon{width:34px;height:34px}.vn-exact .vn-approval-summary{flex-wrap:wrap}.vn-exact .vn-order-tabs{gap:6px}}
 @media(max-width:700px){.vn-exact .vn-launch-summary{padding:14px 16px!important}.vn-exact .vn-settings-section>summary{padding:14px}.vn-exact .vn-report-controls form{max-width:100%}}
+
+.vn-exact .vn-metric-action{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;line-height:1.4;color:var(--admin-muted)}
+.vn-exact .vn-connections-disclosure{margin-bottom:16px;border:1px solid var(--admin-border);border-radius:16px;background:var(--admin-glass);overflow:hidden}
+.vn-exact .vn-connections-disclosure>summary{font-weight:600}

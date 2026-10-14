@@ -746,7 +746,7 @@ function DashboardContent({
 
         {section === "orders" && <div className="flex items-center gap-4 mt-5"><button className="vn-pill" disabled={orderPage===1||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage-1))}>Previous</button><span>Page {orderPage}</span><button className="vn-pill" disabled={!hasMoreOrders||busy!==null} onClick={()=>navigate(()=>void loadOrders(orderPage+1))}>Next</button></div>}
         {section === "automations" && <AutomationsPanel/>}
-        {section === "settings" && <><IntegrationStatus/><CommercePanel view="settings" onNavigate={goTo} onThreshold={setLowStockThreshold}/></>}
+        {section === "settings" && <><details className="vn-settings-section vn-connections-disclosure"><summary><h3>Connections &amp; service checks</h3><span>Open <span aria-hidden="true">›</span></span></summary><IntegrationStatus/></details><CommercePanel view="settings" onNavigate={goTo} onThreshold={setLowStockThreshold}/></>}
         {section === "customers"&&<><CrmPanel key={customerQuery} initialQuery={customerQuery} onOrders={email=>goTo({section:'orders',query:email,customerEmail:email})}/><CommercePanel view="care" onNavigate={goTo}/></>}
         {section === "orders" && <LegacyRecords />}
         <div hidden={section !== 'inventory'}><InventoryPanel key={inventoryKey} initialFilter={inventoryFilter} threshold={lowStockThreshold} rows={inventory} onRefresh={syncStock} onSaved={stockSaved} onHistory={()=>navigate(()=>{setOperationsStart('inventory');setSectionState('operations');})}/></div>
