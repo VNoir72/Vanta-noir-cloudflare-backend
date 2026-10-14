@@ -1,3 +1,4 @@
+import {shortOrderReference,legacyOrderPrefixes} from './order-reference';
 import {rateLimit} from './rate-limit';
 import {filterAppCatalog,checkoutAppPolicy,appPolicySql,paidAppLimitExceededSql} from './app-controls';
 import {publicAccess,type AppAccess} from './app-controls-policy';
@@ -804,11 +805,16 @@ export async function createPendingOrder(args: {
   const attemptHash=attempt?await receiptDigest(attempt):'';
   const {checkoutAttempt:_attempt,reservationActor:_actor,...requestData}=args;
   const requestHash=attempt?await receiptDigest(JSON.stringify(requestData)):'';
-  const reference = attempt ? `VN-${attemptHash.slice(0,32).toUpperCase()}` : `VN-${crypto.randomUUID().replaceAll("-", "").toUpperCase()}`;
+  let reference = shortOrderReference(attemptHash||crypto.randomUUID().replaceAll("-", ""));
+  // Preserve payment resumes created before short references were introduced.
+  if(attempt){const legacy=`VN-${attemptHash.slice(0,32).toUpperCase()}`;const prior=await db.prepare('SELECT id FROM orders WHERE reference=?').bind(legacy).first();if(prior)reference=legacy;}
+
   async function resume(){
     const saved=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('checkout-request:'+reference).first<{value:string}>();
     if(!saved)return null;
     if(saved.value!==requestHash)throw new Error('Checkout details changed. Refresh checkout before paying.');
+    const access=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('receipt-access:'+reference).first<{value:string}>();
+    if(!access||JSON.parse(access.value).digest!==attemptHash)throw new Error('Order number conflict. Start a new checkout attempt.');
     const order=await getOrderByReference(reference);if(!order)return null;
     const totals=await db.prepare('SELECT subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo FROM orders WHERE id=?').bind(order.id).first<{subtotalKobo:number;shippingKobo:number}>();
     return {id:order.id,reference,receiptToken:attempt!,subtotalKobo:totals!.subtotalKobo,shippingKobo:totals!.shippingKobo,totalKobo:order.totalKobo};
@@ -1028,6 +1034,14 @@ export async function getPublicPaymentOrder(reference: string) {
 }
 
 export async function getGuestOrder(reference: string, email: string, phone: string) {
+  reference=reference.trim().toUpperCase();
+  const prefixes=legacyOrderPrefixes(reference);
+  if(prefixes.length){
+    const matches=await getDbBinding().prepare("SELECT reference,email,phone FROM orders WHERE reference=? OR (length(reference)=35 AND (reference LIKE ? OR reference LIKE ? OR reference LIKE ? OR reference LIKE ?))").bind(reference,...prefixes.map(p=>p+'%')).all<{reference:string;email:string;phone:string}>();
+    const verified=matches.results.filter(o=>(!!email.trim()&&o.email.toLowerCase()===email.trim().toLowerCase())||(!!phone.replace(/\D/g,'')&&o.phone.replace(/\D/g,'')===phone.replace(/\D/g,'')));
+    if(verified.length!==1)return null;
+    reference=verified[0].reference;
+  }
   await expireUnpaidOrders(reference);
   const db = getDbBinding();
   const order = await db
@@ -1150,7 +1164,9 @@ export type OrderQuery = { page?: number; query?: string; customerEmail?:string;
 function orderQuery(options: OrderQuery) {
   const customerEmail=(options.customerEmail||'').trim().toLowerCase().slice(0,200);
   const query=(options.query ?? "").trim().slice(0,160), status=options.status ?? "", from=options.from ?? "", to=options.to ?? "";
-  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR (first_name || ' ' || last_name) LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR tracking_number LIKE ? ESCAPE '\\') AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(5).fill(`%${query.replace(/[\\%_]/g,'\\$&')}%`),status,status,status,from,from,to,to] };
+  const prefixes=legacyOrderPrefixes(query.toUpperCase());
+  const aliasSql=prefixes.length?" OR (length(reference)=35 AND (reference LIKE ? OR reference LIKE ? OR reference LIKE ? OR reference LIKE ?))":"";
+  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR (first_name || ' ' || last_name) LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR tracking_number LIKE ? ESCAPE '\\'${aliasSql}) AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(5).fill(`%${query.replace(/[\\%_]/g,'\\$&')}%`),...prefixes.map(p=>p+'%'),status,status,status,from,from,to,to] };
 }
 export async function countAdminOrders(options: OrderQuery = {}) {
   const {where,args}=orderQuery(options);

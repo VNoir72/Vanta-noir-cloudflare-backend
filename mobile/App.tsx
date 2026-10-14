@@ -1,3 +1,4 @@
+import {customerOrderReference} from '../lib/order-reference';
 import {OrderProgress} from './src/components/OrderProgress';
 import {GoldEmblem} from './src/components/GoldEmblem';
 import {useAccountPresence,markGrowthActivity,SponsoredStories} from './src/components/GrowthExperience';
@@ -776,7 +777,7 @@ function Main() {
     <SafeAreaView style={s.page} onTouchStart={markGrowthActivity}>
       <StatusBar style={dark?"light":"dark"} /><ConnectionNotice/>
       {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:12,paddingVertical:7}]}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:24,paddingHorizontal:12,backgroundColor:colors.surface}}><Ionicons name="search-outline" size={19}/><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" value={search} onChangeText={setSearch} onSubmitEditing={()=>setSearchOpen(true)} style={{flex:1,minHeight:44,color:colors.text,fontSize:14,paddingHorizontal:9}}/>{!!search&&<Pressable accessibilityLabel="Clear search" onPress={()=>setSearch('')} style={{padding:8}}><Ionicons name="close" size={17}/></Pressable>}</View><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={24}/></Pressable></View>}
-      <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.reference}</Text></Pressable>)}</Sheet>
+      <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{customerOrderReference(o.reference)}</Text></Pressable>)}</Sheet>
       {notice !== "" && (
         <View accessibilityLiveRegion="polite" style={s.notice}>
           <Text style={{ flex: 1, color: colors.text }}>{notice}</Text>
@@ -889,7 +890,7 @@ function Main() {
                 {orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).map((o) => (
                   <View key={o.reference} style={{backgroundColor:colors.surface,padding:12,gap:8,borderBottomWidth:6,borderColor:colors.page}}>
                     <View style={s.row}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.createdAt?new Date(o.createdAt.includes('T')?o.createdAt:o.createdAt.replace(' ','T')+'Z').toLocaleDateString():''}</Text></View>
-                    <Text style={s.muted}>{o.reference}</Text>
+                    <Text style={s.muted}>{customerOrderReference(o.reference)}</Text>
                     {o.items?.map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
                     <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
 
@@ -1000,7 +1001,7 @@ function Main() {
        <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
        {!!deletedOrders.length&&<Pressable accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.length===deletedOrders.length}} onPress={()=>setTrashSelection(trashSelection.length===deletedOrders.length?[]:deletedOrders.map(o=>o.reference))} style={{minHeight:44,justifyContent:'center'}}><Text>{trashSelection.length===deletedOrders.length?'Deselect all':'Select all'}</Text></Pressable>}
        {!deletedOrders.length&&<Text>Your recycle bin is empty.</Text>}
-       {deletedOrders.map(o=><Pressable key={o.reference} accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.includes(o.reference)}} onPress={()=>setTrashSelection(ids=>ids.includes(o.reference)?ids.filter(id=>id!==o.reference):[...ids,o.reference])} style={{flexDirection:'row',alignItems:'center',paddingVertical:8,gap:10,borderBottomWidth:1,borderColor:colors.border,minHeight:54}}><Ionicons name={trashSelection.includes(o.reference)?'checkmark-circle':'ellipse-outline'} size={22}/><View style={{flex:1,gap:3}}><Text numberOfLines={1} style={{fontSize:12,fontWeight:'600'}}>{o.reference}</Text><Text style={{fontSize:11,color:colors.muted}}>{o.status}</Text></View><Text style={{fontSize:12}}>{money(o.totalKobo)}</Text></Pressable>)}
+       {deletedOrders.map(o=><Pressable key={o.reference} accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.includes(o.reference)}} onPress={()=>setTrashSelection(ids=>ids.includes(o.reference)?ids.filter(id=>id!==o.reference):[...ids,o.reference])} style={{flexDirection:'row',alignItems:'center',paddingVertical:8,gap:10,borderBottomWidth:1,borderColor:colors.border,minHeight:54}}><Ionicons name={trashSelection.includes(o.reference)?'checkmark-circle':'ellipse-outline'} size={22}/><View style={{flex:1,gap:3}}><Text numberOfLines={1} style={{fontSize:12,fontWeight:'600'}}>{customerOrderReference(o.reference)}</Text><Text style={{fontSize:11,color:colors.muted}}>{o.status}</Text></View><Text style={{fontSize:12}}>{money(o.totalKobo)}</Text></Pressable>)}
       </Sheet>
       <Sheet title="Filters" visible={filtersOpen} onClose={()=>setFiltersOpen(false)} footer={<View style={s.row}><Button title="Clear" secondary onPress={()=>setFilterDraft({category:'All',size:'All',color:'All',min:'',max:'',stock:false})}/><Button title="Apply filters" onPress={()=>{const min=Number(filterDraft.min),max=Number(filterDraft.max);if((filterDraft.min&&(!Number.isFinite(min)||min<0))||(filterDraft.max&&(!Number.isFinite(max)||max<0))||(filterDraft.min&&filterDraft.max&&min>max)){Alert.alert('Check price range','Enter valid minimum and maximum amounts.');return;}setCatalogFilters(filterDraft);setFiltersOpen(false);}}/></View>}>
         {(['category','size','color'] as const).map(key=><View key={key} style={{gap:8}}><Text style={s.h2}>{key==='category'?'Category':key==='size'?'Size':'Colour'}</Text><View style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{['All',...new Set(key==='category'?products.map(p=>p.category):key==='size'?products.flatMap(p=>p.colorways.flatMap(c=>Object.keys(c.stock))):products.flatMap(p=>p.colorways.map(c=>c.name)))].map(value=><Pressable key={value} accessibilityRole="radio" accessibilityState={{checked:filterDraft[key]===value}} onPress={()=>setFilterDraft(d=>({...d,[key]:value}))} style={[s.chip,filterDraft[key]===value&&s.chosen]}><Text>{value}</Text></Pressable>)}</View></View>)}
@@ -1282,7 +1283,7 @@ function Main() {
               onPress={() =>
                 void task(async () => {
                   await Share.share({
-                    message: `VANTA NOIR\n${receipt.reference}\nPayment: ${receipt.paymentStatus}\n${receipt.items?.map((i) => `${i.quantity} × ${i.productName} (${i.color} / ${i.size})`).join("\n") || ""}\nTotal: ${money(receipt.totalKobo+(receipt.paymentStatus==="paid"?(receipt.paymentFeeKobo||0):0))}`,
+                    message: `VANTA NOIR\n${customerOrderReference(receipt.reference)}\nPayment: ${receipt.paymentStatus}\n${receipt.items?.map((i) => `${i.quantity} × ${i.productName} (${i.color} / ${i.size})`).join("\n") || ""}\nTotal: ${money(receipt.totalKobo+(receipt.paymentStatus==="paid"?(receipt.paymentFeeKobo||0):0))}`,
                   });
                 })
               }
@@ -1362,7 +1363,7 @@ const styles = (colors:Palette) => StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonText: { fontWeight: "600", color: "#182214", fontSize: 15 },
+  buttonText: { fontWeight: "600", color:colors.accentInk, fontSize: 15 },
   secondary: {
     backgroundColor: colors.secondary,
     borderWidth: 1,

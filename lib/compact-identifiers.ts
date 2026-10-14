@@ -1,6 +1,6 @@
 /** Compact presentation only. Never use this label as a database/provider key. */
 export function compactIdentifier(value:string){
-  if(value.length<=12)return value;
+  if(value.length<=16)return value;
   return value.startsWith('VN-')?'VN-…'+value.slice(-8):value.slice(0,5)+'…'+value.slice(-5);
 }
 /** Short, stable new SKU suggestion; the existing database uniqueness check still applies. */

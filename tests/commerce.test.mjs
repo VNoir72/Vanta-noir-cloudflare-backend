@@ -68,6 +68,17 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   await rpc('updateOrderStatus',order.reference,'processing');await rpc('updateOrderStatus',order.reference,'shipped');await rpc('updateOrderStatus',order.reference,'delivered');
   await rpc('updateOrderTracking',order.reference,{carrier:'Test courier',trackingNumber:'LOCAL-123',trackingUrl:'https://courier.example/LOCAL-123',deliveryEstimate:'Test delivery window'});
   const guest=await rpc('getGuestOrder',order.reference,customer.email,'');assert.equal(guest.trackingNumber,'LOCAL-123');assert.ok(guest.items[0].id);assert.equal(await rpc('getGuestOrder',order.reference,'wrong@example.com',''),null);
+  assert.match(order.reference,/^VN-[0-9A-HJKMNP-TV-Z]{10}$/);
+  const legacy='VN-ABCDEF12345678901234567890123456';
+  await rpc('sql',"INSERT INTO orders(id,reference,email,first_name,last_name,phone,address_line_1,city,state,subtotal_kobo,total_kobo,status,payment_status,tracking_number) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",'legacy-short-test',legacy,customer.email,'Legacy','Buyer',customer.phone,'Test street','Kaduna','Kaduna',10000,10000,'shipped','paid','COURIER-DO-NOT-SHORTEN-123456789');
+  const refBuild=await build({entryPoints:['lib/order-reference.ts'],bundle:true,write:false,format:'esm',platform:'node'});
+  const {customerOrderReference}=await import('data:text/javascript;base64,'+Buffer.from(refBuild.outputFiles[0].text).toString('base64'));
+  const alias=customerOrderReference(legacy);
+  assert.equal((await rpc('getGuestOrder',alias,customer.email,'')).reference,legacy);
+  assert.equal((await rpc('getGuestOrder',alias,customer.email,'')).trackingNumber,'COURIER-DO-NOT-SHORTEN-123456789');
+  assert.equal(await rpc('getGuestOrder',alias,'wrong@example.com',''),null);
+  assert.equal((await rpc('listAdminOrders',{query:alias}))[0].reference,legacy);
+  await rpc('sql',"DELETE FROM orders WHERE id='legacy-short-test'");
   assert.equal((await request('/api/admin/commerce')).status,403);assert.equal((await request('/api/admin/orders')).status,403);
   const filtered=await request('/api/admin/orders?query='+order.reference,'GET',undefined,true);const filterData=await filtered.json();assert.equal(filterData.orders.length,1);assert.equal(filterData.total,1);
   const review={productId:product.id,reference:order.reference,email:customer.email,displayName:'Test buyer',rating:4,fit:'true_to_size',body:'The fit and finish worked well for me.'};
