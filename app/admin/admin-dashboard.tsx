@@ -633,7 +633,7 @@ function DashboardContent({
                           </ul>
                           {selectedOrder.paymentStatus!=='paid' && selectedOrder.providerStatus && <p className="mt-2">Latest Paystack check: {selectedOrder.providerStatus}. This is separate from the order’s fulfilment status.</p>}
                           {selectedOrder.status === "paid_stock_review" && <p className="mt-2 text-amber-200">Payment received. Check inventory before moving to paid or processing; this allocates the stock.</p>}
-                          <OrderTools key={`${selectedOrder.reference}-${selectedOrder.trackingNumber}`} order={selectedOrder} onSaved={tracking=>setOrders(current=>current.map(o=>o.id===selectedOrder.id?{...o,...tracking}:o))} />
+                          <details className="vn-organized-disclosure"><summary>Prepare shipment &amp; courier tracking</summary><OrderTools key={`${selectedOrder.reference}-${selectedOrder.trackingNumber}`} order={selectedOrder} onSaved={tracking=>setOrders(current=>current.map(o=>o.id===selectedOrder.id?{...o,...tracking}:o))} /></details>
                           <p className="mt-2 text-muted-foreground">Cancelling an order does not issue a refund or return stock automatically. Manage refunds in Paystack and adjust returned stock in inventory.</p>
 
           <h4>Fulfilment</h4><OrderStatusEditor key={`${selectedOrder.reference}-${selectedOrder.status}`} reference={selectedOrder.reference} status={selectedOrder.status} paymentStatus={selectedOrder.paymentStatus} busy={busy!==null} onSave={setOrderStatus}/></aside>}
