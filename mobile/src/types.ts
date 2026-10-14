@@ -91,6 +91,7 @@ export type Payment = {
   };
 };
 export type Order = {
+  paymentChannel?: string;
   createdAt?: string;
   canSaveCard?: boolean;
   discountKobo?: number;
