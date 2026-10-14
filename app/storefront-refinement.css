@@ -44,7 +44,7 @@
 .dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div{display:grid;grid-template-columns:23px minmax(0,1fr);align-items:center;gap:2px 7px;padding:9px;min-height:45px;background:transparent;border:1px solid #e5e7e5;border-radius:5px}
 .dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div>svg{grid-row:1/3;width:22px;height:22px}
 .dn-app.vn-store-refresh .dn-product-page .vn-product-highlights>div>span{font-size:10px;margin:0}
-.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights strong{font-size:10px;line-height:1.35;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dn-app.vn-store-refresh .dn-product-page .vn-product-highlights strong{grid-column:2;min-width:0;font-size:10px;line-height:1.35;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .dn-app.vn-store-refresh .dn-product-page .dn-option-heading{font-size:12px;margin:10px 0 6px}
 .dn-app.vn-store-refresh .dn-product-page .dn-swatches button{width:33px;height:33px}
 .dn-app.vn-store-refresh .dn-product-page .dn-size-options{gap:9px;justify-content:flex-start}
