@@ -4,7 +4,6 @@ import {CompactReference} from '@/components/compact-reference';
 import {AutomationsPanel} from './automations-panel';
 import {CrmPanel} from './crm-panel';
 import {SettingsWorkspace} from './settings-workspace';
-import './reference-workspace.css';
 import {AppControlsPanel} from './app-controls';
 import {useAdminTheme} from "./admin-theme";
 
