@@ -4754,3 +4754,6 @@ html[data-vn-admin-theme=dark] .vn-concept .vn-control-sidebar nav button[aria-c
 .vn-concept .vn-control-body,.vn-concept .vn-exact-grid>section {min-width:0;max-width:100%}
 .vn-concept .vn-exact-orders {min-width:0;overflow:hidden}
 .vn-concept .vn-exact-order-table {max-width:100%;overflow:auto;contain:inline-size}
+.vn-concept .vn-email-summary-actions {flex-wrap:wrap;max-width:100%}
+/* Keep the workspace in the flexible row when its appearance bar is hidden. */
+.vn-admin-shell>.vn-admin-workspace {grid-row:2}
