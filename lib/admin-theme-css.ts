@@ -5,7 +5,7 @@ html[data-vn-admin-theme] {
  --admin-text:#171a1c; --admin-muted:#626c65; --admin-border:#dce3de;
  --admin-glass:rgba(255,255,255,.85); --admin-panel:rgba(255,255,255,.76);
  --admin-edge:rgba(255,255,255,.92); --admin-shadow:rgba(31,45,36,.1);
- --admin-accent:#c8ff65; --admin-on-accent:#1b2818;
+ --admin-accent:#00ff66; --admin-on-accent:#1b2818;
  --admin-danger:#a12e22; --admin-danger-bg:#fff0ed;
  --admin-success:#35632c; --admin-success-bg:#e8f3dd;
  --admin-warning:#78561c; --admin-warning-bg:#fff4da;
@@ -19,7 +19,7 @@ html[data-vn-admin-theme=dark] {
  --admin-text:#f2f3ea; --admin-muted:#c1cec1; --admin-border:#718276;
  --admin-glass:rgba(78,96,83,.89); --admin-panel:rgba(83,103,89,.80);
  --admin-edge:rgba(215,230,208,.24); --admin-shadow:rgba(14,27,18,.25);
- --admin-accent:#c8ff65; --admin-on-accent:#1b2818;
+ --admin-accent:#00ff66; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;
  --admin-success:#c7e9b2; --admin-success-bg:#465e42;
  --admin-warning:#efdaa2; --admin-warning-bg:#625c3f;

@@ -39,3 +39,13 @@
 .vn-concept .vn-exact-grid{grid-template-columns:minmax(0,1fr)}.vn-concept .vn-exact-revenue,.vn-concept .vn-exact-orders{grid-column:1}.vn-concept .vn-packing-alert{display:flex;align-items:center;gap:14px;padding:12px 16px;margin-bottom:16px;border:1px solid var(--admin-border);border-radius:10px;background:color-mix(in srgb,var(--admin-accent) 10%,var(--admin-surface))}.vn-packing-alert>span{flex:1}.vn-packing-alert strong{display:block;font-size:13px}.vn-packing-alert small{font-size:11px;color:var(--admin-muted)}
 
 .vn-admin-shell:has(.vn-concept)>.vn-appearance-bar{display:none}.vn-concept .vn-header-theme{font-size:11px;border:1px solid var(--admin-border);border-radius:8px;background:var(--admin-surface);padding:7px;color:var(--admin-text);max-width:95px}
+
+/* Concept 02 replaces the old botanical canvas and solid navigation blocks. */
+.vn-control-center.vn-exact.vn-concept{background:var(--admin-ground)!important}
+.vn-control-center.vn-exact.vn-concept::before{background:var(--admin-ground)!important}
+.vn-control-center.vn-exact.vn-concept .vn-control-sidebar nav button[aria-current=page]{background:color-mix(in srgb,var(--admin-accent) 12%,var(--admin-surface))!important;color:var(--admin-text)!important;border-left-color:var(--admin-accent)!important}
+.vn-control-center.vn-exact.vn-concept .vn-control-brand img{width:28px;height:34px}
+.vn-control-center.vn-exact.vn-concept .vn-owner-avatar{background:var(--admin-text)!important;color:var(--admin-surface)!important}
+.vn-concept .vn-settings-content>.vn-product-disclosure{padding:0;border:0;background:transparent!important}
+.vn-concept .vn-settings-content>.vn-product-disclosure>details{margin:8px 0;padding:12px;border:1px solid var(--admin-border);border-radius:10px;background:var(--admin-glass)}
+.vn-concept .vn-settings-content>.vn-product-disclosure>details>summary{cursor:pointer;font-weight:600;min-height:24px}

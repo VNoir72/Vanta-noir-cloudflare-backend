@@ -22,7 +22,7 @@ import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
 import {SettingsHub} from "./src/components/SettingsHub";
 import {AppHero,AppHeroSettings} from "./src/components/AppHero";
 import {hasPaidReceipt} from './src/order-policy';
-import {variantStock,bagPartition} from './src/bag-selection';
+import {variantStock,bagPartition,refreshBagDetails,isBagRefreshNotice} from './src/bag-selection';
 import {CompactBag, QuoteCountdown} from "./src/components/CompactBag";
 import {deliveryChoices} from './src/shipping-options';
 import {shippingCountryName} from "./src/shipping-countries";
@@ -357,6 +357,8 @@ function Main() {
         };
       }>("/api/catalog");
       setProducts(data.products);
+      setCart(items=>refreshBagDetails(items,data.products));
+      setNotice(current=>isBagRefreshNotice(current)?"":current);
       if(data.checkout.shippingCountries?.length)setShippingCountries(data.checkout.shippingCountries);
       setReady(data.checkout.checkoutReady);
       setTransferEnabled(data.checkout.customTransferEnabled === true);
@@ -539,6 +541,8 @@ function Main() {
   useEffect(()=>{if(!paymentExpired)return;setOrders(current=>current.map(o=>o.reference===payment?.reference&&o.paymentStatus!=='paid'?{...o,status:'expired'}:o));setPaymentNotice('');attempt.current='';void vault.remove('pending');void checkPayment();},[paymentExpired]);
   function resetQuote() {
     setQuotes(null);
+    setShippingError("");
+    setNotice(current=>isBagRefreshNotice(current)?"":current);
     setRate(null);
     setReward(null);
     attempt.current = "";
@@ -783,7 +787,7 @@ function Main() {
       {['Bag','Saved','Orders'].includes(screen)&&<BrandHeader onBack={()=>setScreen('Shop')}/>}
       {screen==='Shop'&&<View style={[s.header,{paddingHorizontal:18,paddingVertical:12,gap:10}]}><View style={{flex:1,flexDirection:'row',alignItems:'center',backgroundColor:colors.secondary,borderRadius:28,paddingHorizontal:14}}><Ionicons name="search-outline" size={23}/><TextInput accessibilityLabel="Search garments" placeholder="Find your fit…" placeholderTextColor={colors.muted} value={search} onFocus={()=>setSearchOpen(true)} onChangeText={setSearch} onSubmitEditing={()=>rememberSearch(search)} style={{flex:1,minHeight:48,color:colors.text,fontSize:15,paddingHorizontal:10}}/>{searchOpen&&<Pressable accessibilityRole="button" accessibilityLabel="Close search" onPress={()=>{setSearchOpen(false);setSearch('');}} style={{padding:8}}><Ionicons name="close" size={20}/></Pressable>}</View><Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={()=>setNotificationsOpen(true)} style={s.close}><Ionicons name="notifications-outline" size={26}/></Pressable></View>}
       <Sheet title="Notifications" visible={notificationsOpen} onClose={()=>setNotificationsOpen(false)}><Pressable accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);router.push('/benefits');}} style={{flexDirection:'row',alignItems:'center',gap:12,minHeight:56,borderBottomWidth:1,borderColor:colors.border}}><Ionicons name="calendar-outline" size={25}/><View style={{flex:1,gap:4}}><Text style={{fontWeight:'600'}}>Drop calendar</Text><Text style={s.muted}>Upcoming releases and your reminders</Text></View><Ionicons name="chevron-forward" size={18}/></Pressable>{!customer?<Button title="Sign in to see order updates" onPress={()=>{setNotificationsOpen(false);setScreen('Account');}}/>:!orders.length?<Text>No order updates yet.</Text>:orders.map(o=><Pressable key={o.reference} accessibilityRole="button" onPress={()=>{setNotificationsOpen(false);setOrderGroup('All');setOrderSearch(o.reference);setScreen('Orders');}} style={{paddingVertical:12,borderBottomWidth:1,borderColor:colors.border,gap:4}}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{customerOrderReference(o.reference)}</Text></Pressable>)}</Sheet>
-      {notice !== "" && (
+      {notice !== "" && (!isBagRefreshNotice(notice)||screen==="Bag"||checkout) && (
         <View accessibilityLiveRegion="polite" style={s.notice}>
           <Text style={{ flex: 1, color: colors.text }}>{notice}</Text>
           <Pressable
@@ -837,7 +841,7 @@ function Main() {
                   <Image
                     source={{ uri: imageUrl(p.imageUrl) }}
                     style={s.productImage}
-                    resizeMode="contain"
+                    resizeMode="cover"
                   />
                   <Pressable accessibilityRole="button" accessibilityLabel={(saved.includes(p.id)?'Unsave ':'Save ')+p.name} onPress={event=>{event.stopPropagation();void task(()=>like(p));}} style={{position:'absolute',top:8,right:8,width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name={saved.includes(p.id)?'heart':'heart-outline'} size={21} color={saved.includes(p.id)?colors.accentInk:colors.text}/></Pressable>
                   <Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{p.name}</Text><Text style={{fontSize:12,color:colors.muted}}>{p.colorways[0]?.name}</Text>
@@ -993,7 +997,7 @@ function Main() {
               source={{ uri: imageUrl(gallery[view]?.imageUrl || c.imageUrl) }}
               accessibilityLabel={gallery[view]?.imageAlt}
               resizeMode="contain"
-              style={{ height: productWide?430:Math.max(240,Math.min(340,productWidth*.8)), width: "100%",backgroundColor:"#f2f2f2",borderRadius:16 }}
+              style={{ aspectRatio:0.71, width:"100%",backgroundColor:"transparent",borderRadius:12 }}
             />
             <Text style={{position:'absolute',right:12,top:12,paddingHorizontal:10,paddingVertical:5,borderRadius:16,backgroundColor:'rgba(0,0,0,.28)',color:'#fff',fontSize:12}}>{view+1} / {gallery.length}</Text></View>
             <ScrollView horizontal contentContainerStyle={{gap:8}}>
@@ -1006,7 +1010,7 @@ function Main() {
                   <Image
                     source={{ uri: imageUrl(g.imageUrl) }}
                     style={{ width: Math.max(60,(productWidth-48)/4), height: 72 }}
-                    resizeMode="contain"
+                    resizeMode="cover"
                   />
                   <Text style={s.navText}>
                     {(g.imageAlt.match(/\b(front|back|left|right)\b/i)?.[0] || `View ${i+1}`)}
@@ -1235,8 +1239,8 @@ const styles = (colors:Palette) => StyleSheet.create({
   product: { gap: 5, marginBottom: 6 },
   productImage: {
     width: "100%",
-    aspectRatio: 1,
-    backgroundColor: "#f3f4f1",
+    aspectRatio: 0.71,
+    backgroundColor: "transparent",
     borderRadius: 10,
   },
   productName: { fontWeight: "600", fontSize: 16, color: colors.text },
