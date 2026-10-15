@@ -1,8 +1,8 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),ts=require('typescript');
-const references={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('../lib/order-reference.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{exports:references});
+const references={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/order-reference.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{exports:references});
 const code=ts.transpileModule(fs.readFileSync('src/receipt-download.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
 function setup({granted=true}={}){const calls=[];const exports={};const modules={
- '../../lib/order-reference':references,
+ './order-reference':references,
  'react-native':{Platform:{OS:'android'}},
  './api':{money:n=>`NGN ${n/100}`},
  'expo-print':{printToFileAsync:async opts=>{calls.push(['pdf',opts]);return{uri:'file:///receipt.pdf',base64:'JVBERg=='};},printAsync:async opts=>calls.push(['print',opts])},
@@ -15,3 +15,5 @@ test('Android download writes PDF only into the chosen folder, with escaped rece
 test('Save opens the file chooser without claiming the user saved it',async()=>{const s=setup();assert.equal(await s.download(order,'save'),'shared');assert.deepEqual(s.calls.map(c=>c[0]),['pdf','share']);assert.equal(s.calls[1][1],'file:///receipt.pdf');});
 
 test('legacy customer references are shortened in PDF and filename',async()=>{const s=setup();const reference='VN-0123456789abcdef0123456789abcdef';await s.download({...order,reference},'download');const short=references.customerOrderReference(reference);assert.ok(s.calls[0][1].html.includes(short));assert.ok(!s.calls[0][1].html.includes(reference));assert.equal(s.calls[1][2],'Vanta-Noir-'+short);});
+
+test('native reference and accent helpers match the shared website helpers',()=>{for(const name of ['order-reference','brand-accent'])assert.equal(fs.readFileSync('src/'+name+'.ts','utf8'),fs.readFileSync('../lib/'+name+'.ts','utf8'));});

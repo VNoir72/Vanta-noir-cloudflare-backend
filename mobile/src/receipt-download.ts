@@ -1,4 +1,4 @@
-import {customerOrderReference} from '../../lib/order-reference';
+import {customerOrderReference} from './order-reference';
 import {Platform} from 'react-native';
 import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system/legacy';

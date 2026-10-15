@@ -1,4 +1,4 @@
-import {customerOrderReference} from '../../../lib/order-reference';
+import {customerOrderReference} from '../order-reference';
 import {AppTabs, BrandHeader, PageTitle, Segments} from './AppChrome';
 import {useRouter} from 'expo-router';
 import {CurrencyPicker} from './CurrencyPicker';

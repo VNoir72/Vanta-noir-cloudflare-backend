@@ -1,4 +1,4 @@
-import {customerOrderReference} from '../lib/order-reference';
+import {customerOrderReference} from './src/order-reference';
 import {CatalogFilters} from './src/components/CatalogFilters';
 import {AppTabs, BrandHeader, PageTitle} from './src/components/AppChrome';
 import {PaymentSummary} from './src/components/PaymentSummary';

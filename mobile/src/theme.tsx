@@ -1,4 +1,4 @@
-import {accentInk} from '../../lib/brand-accent';
+import {accentInk} from './brand-accent';
 import React, {createContext, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {Text as NativeText, TextProps, useColorScheme,AppState} from 'react-native';
 import {Ionicons as NativeIcon} from '@expo/vector-icons';

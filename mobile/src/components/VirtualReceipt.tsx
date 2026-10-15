@@ -1,4 +1,4 @@
-import {customerOrderReference} from '../../../lib/order-reference';
+import {customerOrderReference} from '../order-reference';
 import React,{useEffect,useRef,useState} from 'react';
 import {Animated,Easing,Platform,Pressable,StyleSheet,View,Modal,ScrollView} from 'react-native';
 import {Text,Icon,useTheme} from '../theme';
