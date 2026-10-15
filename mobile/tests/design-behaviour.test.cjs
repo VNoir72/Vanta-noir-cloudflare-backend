@@ -7,7 +7,7 @@ const ts=require('typescript');
 function load(file,mocks={}){
  const filename=path.resolve(__dirname,'../src',file),exports={};
  const code=ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,esModuleInterop:true,target:ts.ScriptTarget.ES2022}}).outputText;
- vm.runInNewContext(code,{exports,require:id=>id in mocks?mocks[id]:require(path.resolve(path.dirname(filename),id)),Date,Intl,Set,Number,Object,JSON,AbortSignal,fetch:async()=>{throw Error('offline');}});
+ vm.runInNewContext(code,{exports,require:id=>id in mocks?mocks[id]:id.startsWith('.')?(id.endsWith('.json')?require(path.resolve(path.dirname(filename),id)):load(id+'.ts',mocks)):require(id),Date,Intl,Set,Number,Object,JSON,AbortSignal,AbortController,setTimeout,clearTimeout,fetch:async()=>{throw Error('offline');}});
  return exports;
 }
 test('country choices update browsing currency, persist, and never turn stale rates into prices',async()=>{
