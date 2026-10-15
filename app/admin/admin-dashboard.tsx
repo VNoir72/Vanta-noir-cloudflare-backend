@@ -569,12 +569,12 @@ function DashboardContent({
           <div className="grid gap-6">
             <div hidden={catalogTab!=='catalogue'}>
 
-            <div className="overflow-hidden border border-border bg-muted">
-              <div className="flex items-center justify-between border-b border-border px-5 py-4">
+            <div className="vn-catalogue-panel overflow-hidden border border-border bg-muted">
+              <div className="vn-catalogue-filters flex items-center justify-between border-b border-border px-5 py-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">All products</p>
                 <Badge variant="outline" className="rounded-full border-border text-muted-foreground">{products.length} records</Badge><select aria-label="Product status filter" value={productStatusFilter} onChange={e=>{setProductStatusFilter(e.target.value);setProductPage(1);}}><option value="">All product statuses</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select><select aria-label="Product collection" value={productCollection} onChange={e=>{setProductCollection(e.target.value);setProductPage(1);}}><option value="">All collections</option>{Array.from(new Set(products.map(p=>p.details?.collection).filter(Boolean))).map(c=><option key={c} value={c}>{c}</option>)}</select>
               </div>
-              <div className="border-b border-border p-4">
+              <div className="vn-catalogue-search border-b border-border p-4">
                 <Input aria-label="Search admin products" placeholder="Search name, collection or product code" value={productQuery} onChange={event => { setProductQuery(event.target.value); setProductPage(1); }} className="border-border bg-muted text-foreground" />
               </div>
               <div className="vn-workspace-table"><table><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>

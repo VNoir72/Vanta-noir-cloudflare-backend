@@ -45,6 +45,9 @@ function safeFailure(reason:unknown){
  const allowed=['A Shipbubble sandbox key is required.','Terminal sandbox key is required.','Shipping provider timed out or could not be reached.','Shipbubble did not validate both addresses.','Shipbubble clothing category is unavailable.','Terminal sandbox packaging was not accepted.','Shipping provider rejected the request.'];
  return allowed.includes(message)?message:'Provider response could not be verified.';
 }
+export class ShippingProviderError extends Error{
+ constructor(public status:number,public stage:string,public fields:string[]){super(`Shipping provider HTTP ${status}.`);}
+}
 export async function providerJson(url:string,key:string,body:unknown,send:typeof fetch=fetch) {
   let response:Response;
   try { response=await send(url,{method:body===undefined?'GET':'POST',redirect:'manual',signal:AbortSignal.timeout(12000),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})}); }
@@ -56,7 +59,7 @@ export async function providerJson(url:string,key:string,body:unknown,send:typeo
     const stage=url.endsWith('/address/validate')?'address':url.endsWith('/fetch_rates')?'rates':url.endsWith('/labels/categories')?'categories':'other';
     const fields=['phone','email','address','pickup_date','sender_address_code','reciever_address_code','package_items','package_dimension','category_id','wallet','balance','weight'].filter(field=>sample.toLowerCase().includes(field));
     console.warn(JSON.stringify({event:'shipping_provider_rejected',stage,status:response.status,fields}));
-    throw Error(`Shipping provider HTTP ${response.status}.`);
+    throw new ShippingProviderError(response.status,stage,fields);
   }
   const reader=response.body?.getReader();if(!reader)throw Error('Empty provider response.');
   let text='',size=0;const decoder=new TextDecoder();

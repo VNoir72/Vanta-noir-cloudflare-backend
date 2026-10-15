@@ -60,4 +60,14 @@
 .vn-control-center.vn-exact.vn-concept .vn-glass{border-radius:10px;box-shadow:0 2px 12px var(--admin-shadow)}
 .vn-control-center.vn-exact.vn-concept .vn-exact-card-head{padding:4px 0}
 .vn-control-center.vn-exact.vn-concept .vn-exact-revenue{padding:14px 16px}
-.vn-control-center.vn-exact.vn-concept .vn-control-brand img{width:32px;height:32px;object-fit:cover;object-position:left}
+.vn-control-center.vn-exact.vn-concept .vn-control-brand img{width:32px;height:32px;object-fit:contain}
+.vn-control-center.vn-exact.vn-concept .vn-app-controls,.vn-control-center.vn-exact.vn-concept .vn-growth{margin-top:0;padding:0;border:0;border-radius:0;background:transparent!important;box-shadow:none}
+.vn-concept .vn-app-readiness{margin:0 0 12px!important;padding:8px 12px!important}
+.vn-concept .vn-growth .vn-app-actions{display:flex;gap:8px;margin:8px 0}
+.vn-concept .vn-growth .vn-app-actions button{font-size:12px;min-height:34px;padding:7px 12px;border-radius:8px;background:var(--admin-surface);border:1px solid var(--admin-border)}
+.vn-concept .vn-catalogue-panel{display:grid;grid-template-columns:minmax(240px,1fr) auto;gap:0 12px;border:0;background:transparent}
+.vn-concept .vn-catalogue-filters{grid-column:2;grid-row:1;padding:0 0 14px;border:0;gap:8px}
+.vn-concept .vn-catalogue-filters>p,.vn-concept .vn-catalogue-filters>[data-slot=badge]{display:none}
+.vn-concept .vn-catalogue-search{grid-column:1;grid-row:1;padding:0 0 14px;border:0}
+.vn-concept .vn-catalogue-panel>.vn-workspace-table,.vn-concept .vn-catalogue-panel>.vn-pagination{grid-column:1/-1}
+@media(max-width:700px){.vn-concept .vn-catalogue-panel{display:block}.vn-concept .vn-catalogue-filters{flex-wrap:wrap}.vn-concept .vn-catalogue-search{padding-bottom:12px}}

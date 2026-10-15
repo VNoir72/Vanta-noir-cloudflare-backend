@@ -10,7 +10,7 @@ import {productParcel,packagingProfiles} from './parcel-profiles';
 import {prepareParcel} from './parcel-estimates';
 import {quoteRewards} from './rewards-db';
 import {quotePromotion} from './operations';
-import {shipbubbleQuote,type ComparisonRate} from './shipping-comparison';
+import {shipbubbleQuote,ShippingProviderError,type ComparisonRate} from './shipping-comparison';
 import {assertShippingProvider} from './shipping-policy';
 export const shippingInputSchema=z.object({
  customer:checkoutCustomerSchema,
@@ -46,7 +46,14 @@ export async function createShippingQuotes(raw:unknown,access:AppAccess=publicAc
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))throw new ShippingInputError('Delivery pricing is temporarily unavailable. Please contact customer care.');
  const pickup=await getPickupDetails();if(!pickup)throw new ShippingInputError('Delivery pickup details are not ready. Please contact customer care.');
  const {parcel,giftVariantId,profileRevisions}=await parcelFor(input,access),c=input.customer;
- const destination=await validatedShippingAddress(c);
+ const destination=await validatedShippingAddress(c).catch(error=>{
+  if(error instanceof ShippingProviderError&&error.status===400&&error.stage==='address'){
+   if(error.fields.includes('phone'))throw new ShippingInputError('Check your delivery phone number, including the country code, then retry shipping.');
+   if(error.fields.includes('email'))throw new ShippingInputError('Check your email address, then retry shipping.');
+   throw new ShippingInputError('The courier could not validate your delivery details. Check the street, city and contact details, then retry shipping.');
+  }
+  throw error;
+ });
  let rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:c.countryCode,zip:c.postalCode},parcel,'live',fetch,undefined,destination);
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');
  // Return actual courier prices. Shipping discounts are applied by validated rewards.
