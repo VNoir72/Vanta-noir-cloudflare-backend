@@ -71,3 +71,9 @@
 .vn-concept .vn-catalogue-search{grid-column:1;grid-row:1;padding:0 0 14px;border:0}
 .vn-concept .vn-catalogue-panel>.vn-workspace-table,.vn-concept .vn-catalogue-panel>.vn-pagination{grid-column:1/-1}
 @media(max-width:700px){.vn-concept .vn-catalogue-panel{display:block}.vn-concept .vn-catalogue-filters{flex-wrap:wrap}.vn-concept .vn-catalogue-search{padding-bottom:12px}}
+.vn-control-center.vn-exact.vn-concept .vn-settings-section{padding:0;border-radius:10px;margin:0 0 10px}
+.vn-control-center.vn-exact.vn-concept .vn-settings-section>summary{padding:14px 16px;min-height:52px}
+.vn-control-center.vn-exact.vn-concept .vn-settings-section>summary h3{font-size:14px}
+.vn-control-center.vn-exact.vn-concept .vn-settings-section[open]{padding:0 14px 14px}
+.vn-control-center.vn-exact.vn-concept .vn-settings-layout>nav button{color:var(--admin-text)!important}
+.vn-control-center.vn-exact.vn-concept .vn-settings-layout>nav [aria-current=page]{background:color-mix(in srgb,var(--admin-accent) 12%,var(--admin-surface))!important}
