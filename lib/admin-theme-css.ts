@@ -82,6 +82,7 @@ html[data-vn-admin-theme] .vn-standalone section {background:var(--admin-panel);
 html[data-vn-admin-theme] {--vn-brand-white:var(--admin-surface);--vn-brand-border:var(--admin-border);--vn-brand-lime:var(--admin-accent)}
 html[data-vn-admin-theme] .vn-control-center :is(.vn-glass,.vn-exact-metrics>article) {background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px);border-radius:10px}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-mobile-drawer) :is(button[aria-current],button[aria-pressed=true],[data-state=active]) {color:var(--admin-on-accent)}
+html[data-vn-admin-theme] .vn-control-center :is(.vn-accent-presets,.vn-admin-appearance-options) button[aria-pressed=true] {color:var(--admin-text)}
 html[data-vn-admin-theme] [data-slot=button][data-variant=default] {color:var(--admin-on-accent)!important}
 html[data-vn-admin-theme] [data-slot=button][data-variant=destructive] {background:var(--admin-danger-bg)!important;color:var(--admin-danger)!important}
 html[data-vn-admin-theme] .vn-standalone :is(input,select,textarea) {background:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border)}
