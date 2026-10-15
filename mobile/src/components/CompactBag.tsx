@@ -5,7 +5,7 @@ import {CartItem, Product} from '../types';
 import {variantStock} from '../bag-selection';
 import {countryFlag} from '../country-flag';
 import {imageUrl} from '../api';
-import {displayMoney as money} from '../preferences';
+import {displayMoney as money, usePreferences} from '../preferences';
 
 export function TrustFooter({onOpen}:{onOpen:(topic:string)=>void}) {
   const {colors}=useTheme();
@@ -21,6 +21,7 @@ export function QuoteCountdown({expiresAt}:{expiresAt:number}) {
 }
 export function CompactBag({cart,products,selected,onSelect,onQuantity,onDelete,busy,onCountry,onAddress,country}:{cart:CartItem[];products:Product[];selected:string[];onSelect:(ids:string[])=>void;onQuantity:(id:string,n:number)=>void;onDelete:(ids?:string[])=>void;onAddress:()=>void;onSaved:()=>void;onCountry:()=>void;country:string;busy:boolean;onHelp:(topic:string)=>void}) {
  const {colors}=useTheme();
+ const preference=usePreferences();
  const editing=true;
  const iconButton={padding:9,minWidth:44,minHeight:44,alignItems:'center' as const,justifyContent:'center' as const};
  return <View style={{padding:12,gap:6}}>
@@ -34,6 +35,6 @@ export function CompactBag({cart,products,selected,onSelect,onQuantity,onDelete,
      {(unavailable||stock<i.quantity||stock<=5)&&<Text style={{fontSize:10,color:colors.danger}}>{unavailable?'Unavailable':`Only ${stock} available`}</Text>}</View>
    </View>;})}
    {!cart.length&&<Text style={{paddingVertical:24,textAlign:'center'}}>Your bag is empty.</Text>}
-   {!!cart.length&&<Text style={{fontSize:11,color:colors.muted,paddingVertical:6}}>Shipping and any offers are calculated at checkout.</Text>}
+   {!!cart.length&&<Text style={{fontSize:11,color:colors.muted,paddingVertical:6}}>Displayed in {preference.currency}. Payment is charged in NGN; the exact naira total is shown before payment. Shipping and offers are calculated at checkout.</Text>}
  </View>;
 }

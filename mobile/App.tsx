@@ -18,7 +18,7 @@ import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
 import {disablePush,registerDefaultOrderPush} from "./src/push";
 import * as Notifications from "expo-notifications";
-import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency} from "./src/preferences";
+import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency,refreshCurrencies} from "./src/preferences";
 import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
 import {SettingsHub} from "./src/components/SettingsHub";
 import {AppHero,AppHeroSettings} from "./src/components/AppHero";
@@ -613,7 +613,7 @@ function Main() {
   const {checkout:checkoutCart,remaining:remainingBag}=bagPartition(cart,bagSelection);
   const checkoutUnavailable=checkoutCart.some(i=>variantStock(i,products)<i.quantity);
   useEffect(()=>{if(!bagToast)return;const t=setTimeout(()=>setBagToast(''),3500);return()=>clearTimeout(t);},[bagToast]);
-  useEffect(()=>{if(!['Bag','Shop','Saved'].includes(screen)&&!checkout)return;let live=true;const refresh=()=>{void api<{products:Product[]}>('/api/catalog').then(data=>{if(live)setProducts(data.products);}).catch(()=>{});};refresh();const t=setInterval(refresh,30000);const l=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(t);l.remove();};},[screen,checkout,customer?.email]);
+  useEffect(()=>{if(!['Bag','Shop','Saved'].includes(screen)&&!checkout)return;let live=true,pending=false;const refresh=()=>{if(pending||AppState.currentState!=='active')return;pending=true;void refreshCurrencies();void api<{products:Product[]}>('/api/catalog').then(data=>{if(live){setProducts(data.products);setCart(items=>refreshBagDetails(items,data.products));setNotice(current=>current==='Could not refresh the catalogue. Pull down to retry.'?'':current);}}).catch(()=>{}).finally(()=>{pending=false;});};refresh();const t=setInterval(refresh,30000);const l=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(t);l.remove();};},[screen,checkout,customer?.email]);
   function deleteBagSelection(requested?:string[]){
     const ids=cart.filter(i=>(requested||bagSelection).includes(i.variantId)).map(i=>i.variantId);
     if(!ids.length){setBagToast('Please select which product you want to delete');return;}

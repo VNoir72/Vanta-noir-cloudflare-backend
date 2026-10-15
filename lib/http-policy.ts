@@ -16,7 +16,7 @@ export function checkApiRequest(request: Request, settings: Settings): Response 
   if (url.pathname.startsWith("/api/admin/") && !["GET", "HEAD", "OPTIONS"].includes(request.method)
     && origin !== url.origin) return Response.json({ error: "Open the admin dashboard to make this change." }, { status: 403 });
   if (request.method === "OPTIONS") return new Response(null, { status: 204 });
-  const maxBytes = url.pathname === "/api/admin/uploads" ? 33 * 1024 * 1024 : 128 * 1024;
+  const maxBytes = url.pathname === "/api/admin/uploads" ? 33 * 1024 * 1024 : url.pathname === "/api/customer/me" && request.method === "PATCH" ? 1600 * 1024 : 128 * 1024;
   if (Number(request.headers.get("content-length") ?? 0) > maxBytes) return Response.json({ error: "The request is too large." }, { status: 413 });
   return null;
 }
@@ -55,7 +55,7 @@ export function secureResponse(response: Response, request: Request, settings: S
 export async function boundedApiRequest(request:Request, timeoutMs=15000):Promise<Request|Response>{
  const path=new URL(request.url).pathname;
  if(!path.startsWith('/api/')||!request.body)return request;
- const limit=path==='/api/admin/uploads'?33*1024*1024:128*1024;
+ const limit=path==='/api/admin/uploads'?33*1024*1024:path==='/api/customer/me'&&request.method==='PATCH'?1600*1024:128*1024;
  const reader=request.body.getReader(),chunks:Uint8Array[]=[];let total=0;
  let timer:ReturnType<typeof setTimeout>|undefined;let timedOut=false;
  const timeout=new Promise<{done:true;value:undefined}>(resolve=>{timer=setTimeout(()=>{timedOut=true;void reader.cancel().catch(()=>{});resolve({done:true,value:undefined});},timeoutMs);});

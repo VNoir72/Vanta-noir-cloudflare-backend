@@ -1,4 +1,5 @@
 "use client";
+import {rememberViewed} from '@/lib/viewed-products';
 import {fetchCatalogResponse} from '@/lib/catalog-fetch';
 import { SponsoredStories } from '@/components/growth-experience';
 import { BrandIcon } from '@/components/brand-icon';
@@ -266,6 +267,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
 
   const pageTracked = useRef(false);
   useEffect(() => {
+    if(detailProduct)rememberViewed({id:detailProduct.id,name:detailProduct.name,slug:detailProduct.slug,imageUrl:detailProduct.imageUrl});
     const track = () => { if (!pageTracked.current && readStorage("vanta-noir-analytics-consent") === "granted" && (window as Window & {gtag?:unknown}).gtag) { trackProducts(detailProduct ? "view_item" : "view_item_list", detailProduct ? [detailProduct] : products); pageTracked.current = true; } };
     try { track(); } catch { /* Optional storage. */ }
     window.addEventListener("vanta-analytics-ready", track); return () => window.removeEventListener("vanta-analytics-ready", track);

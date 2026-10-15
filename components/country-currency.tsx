@@ -1,0 +1,5 @@
+ 'use client';
+import {useEffect,useState} from 'react';
+import {useDisplayCurrency} from '@/lib/display-currency';
+import {SHIPPING_COUNTRIES} from '@/lib/shipping-countries';
+export function CountryCurrency(){const fx=useDisplayCurrency(),[country,setCountry]=useState('NG');useEffect(()=>{const sync=()=>{try{setCountry(localStorage.getItem('vn-country')||'NG');}catch{}};sync();window.addEventListener('vn-currency-change',sync);return()=>window.removeEventListener('vn-currency-change',sync);},[]);return <div className="vn-account-form"><label>Country / region<select value={country} onChange={e=>{setCountry(e.target.value);fx.chooseCountry(e.target.value);}}>{SHIPPING_COUNTRIES.map(([code,name])=><option key={code} value={code}>{name}</option>)}</select></label><p>Display currency: {fx.currency}. Payment is charged in Nigerian naira (NGN). Review the exact NGN total before paying. This does not change your saved delivery address.</p>{fx.error&&<button onClick={fx.reload}>Retry exchange rates</button>}</div>;}

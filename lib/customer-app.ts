@@ -1,3 +1,5 @@
+import {profileDetailsSchema} from './customer-profile';
+import {currencyRates} from './currency-rates';
 import {serviceBudget} from './abuse-policy';
 import {recordPresence,growthConfig} from './growth';
 import {circleMembership,circleStart,circleVerify,circleManage,circleBeforeDeletion} from './circle';
@@ -55,6 +57,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if(path==='benefit-watch'&&request.method==='POST')return json(await setMemberWatch(access,await request.json()));
       return json({error:'Method not allowed.'},405);
     }
+    if(request.method==='GET'&&path==='currencies')return currencyRates();
     if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:firebaseReady()&&runtimeEnv().FIREBASE_APPLE_ENABLED==='true'});
     if(request.method==='POST'&&path==='firebase'){
       if(!firebaseReady())return json({error:'Additional sign-in methods are not available yet.'},503);
@@ -230,12 +233,14 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     if (path === "me" && request.method === "GET") {
       const profile=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind("customer-profile:"+s.id).first<{value:string}>();
-      const phone=profile?JSON.parse(profile.value).phone||"":"";
+      const details=profile?JSON.parse(profile.value):{};
+      const phone=details.phone||"";
       return json({
         customer: {
           email: s.email,
           name: s.name,
           phone,
+          profile: {photo:details.photo||"",gender:details.gender||"",birthday:details.birthday||""},
           addresses: JSON.parse(s.addresses_json),
           favourites: JSON.parse(s.favourites_json),
         },
@@ -262,6 +267,7 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     if (path === "me" && request.method === "PATCH") {
       const v = z.object({
+        profile:profileDetailsSchema.optional(),
         name:z.string().trim().max(100).optional(),
         phone:z.string().trim().max(30).refine(v=>!v||/^\+?[0-9 ()-]{7,30}$/.test(v),'Enter a valid phone number.').optional(),
         addresses:z.array(checkoutCustomerSchema).max(5).optional(),
@@ -287,7 +293,7 @@ export async function customerApp(request: Request): Promise<Response> {
           .bind(...values,s.id,...(changedAddresses?[s.addresses_json]:[])).run();
         if(saved.meta.changes===0)return json({error:'Your account changed. Reload before saving.'},409);
       }
-      if(v.phone!==undefined)await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind('customer-profile:'+s.id,JSON.stringify({phone:v.phone})).run();
+      if(v.phone!==undefined||v.profile!==undefined)await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=json_patch(store_meta.value,excluded.value)").bind('customer-profile:'+s.id,JSON.stringify({...v.profile,...(v.phone!==undefined?{phone:v.phone}:{})})).run();
       return json({ saved: true });
     }
     if (path === "logout" && request.method === "POST") {
