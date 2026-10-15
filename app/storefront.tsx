@@ -1,4 +1,5 @@
 "use client";
+import {fetchCatalogResponse} from '@/lib/catalog-fetch';
 import { SponsoredStories } from '@/components/growth-experience';
 import { BrandIcon } from '@/components/brand-icon';
 import { recordProductInterest } from '@/lib/product-interest-client';
@@ -142,18 +143,18 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   }, []);
   useEffect(() => {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), 45000);
     let active = true;
     setCatalogError(false);
     setCatalogLoaded(false);
     lastCatalogRefresh.current=Date.now();
-    Promise.all([fetch(apiUrl("/api/catalog"), { cache: "no-store", signal: controller.signal }), import("@/lib/catalog-images")])
-      .then(async ([response, { individualProductViews }]) => {
+    fetchCatalogResponse(apiUrl("/api/catalog"), controller.signal)
+      .then(async (response) => {
         if (!response.ok) throw new Error("Catalogue unavailable");
         const data = await response.json() as {products?: CatalogProduct[];merchandising?:MerchandisingData};
         if (!Array.isArray(data.products)) throw new Error("Invalid catalogue");
         if (!active) return;
-        const current = data.products.map(individualProductViews);
+        const current = data.products;
         setProducts(current);
         setMerchandising(data.merchandising??EMPTY_MERCHANDISING);
         setCart(bag => reconcileCart(bag, current));

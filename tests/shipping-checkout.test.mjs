@@ -26,6 +26,7 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  await t.test('repeat checkout reuses a valid quote and cached addresses survive low validation balance',async()=>{
   const before=calls;addressBlocked=true;
   const repeat=await rpc('createShippingQuotes',input);assert.equal(repeat.quoteId,quotes.quoteId);assert.equal(calls,before);
+  await db.prepare("UPDATE store_meta SET value=json_set(value,'$.expiresAt',0) WHERE key LIKE 'shipbubble-address:%' OR key LIKE 'shipping-address-v2:%'").run();
   const changedCart=await rpc('createShippingQuotes',{...input,cart:[{variantId,quantity:2}]});assert.ok(changedCart.rates.length);assert.equal(calls,before+2,'only categories and rates, neither address is revalidated');
   await assert.rejects(rpc('createShippingQuotes',{...input,customer:{...input.customer,addressLine1:'99 New Unverified Street'}}),/402/);
   addressBlocked=false;

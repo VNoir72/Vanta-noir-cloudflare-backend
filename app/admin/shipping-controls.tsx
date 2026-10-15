@@ -15,7 +15,7 @@ export function ShippingControls(){
  {c?.lowBalance&&<p className="vn-shipping-warning" role="status"><AlertTriangle size={18}/>Wallet below ₦5,000. Top up in Shipbubble to protect address validation and dispatch. This is a warning threshold, not a guarantee of sufficient funds for every shipment.</p>}
  {activeIssue&&<p className="vn-shipping-warning" role="status"><AlertTriangle size={18}/>{issue.kind==='funding'?'Shipbubble recently rejected checkout because of wallet or address credits. Check funding, then retry.':'Shipbubble recently rejected a quote. Check the connection and courier coverage, then retry.'}</p>}
  {error&&<p role="alert">{error}</p>}{c?.status==='failed'&&<p role="alert">{c.error}</p>}
- <p><CheckCircle2 size={15}/> Validated addresses are reused for up to 30 days; exact, unchanged checkout quotes are reused until their 15-minute expiry. New addresses still need Shipbubble validation.</p>
+ <p><CheckCircle2 size={15}/> Matching validated addresses are reused without an automatic expiry, for saved addresses and guest checkout; exact, unchanged checkout quotes are reused until their 15-minute expiry. New addresses still need Shipbubble validation.</p>
  <a className="vn-pill" href="https://app.shipbubble.com" target="_blank" rel="noopener noreferrer">Open Shipbubble <ArrowUpRight size={15}/></a>
  <details className="vn-organized-disclosure"><summary>Pickup address & contact</summary><TerminalPickup/></details><details className="vn-organized-disclosure"><summary>Product weights & packaging</summary><ParcelProfiles/></details>
  <a className="vn-pill" href="/api/admin/bulk-dispatch">Prepare shipments</a>

@@ -1,6 +1,5 @@
 import {transitEstimate} from './shipping-options';
 import {SHIPPING_COUNTRIES,shippingCountryName} from './shipping-countries';
-import {terminalDispatchReady,terminalLiveQuotes,terminalPreflight,terminalBook,terminalBooked} from './terminal-dispatch';
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {orderParcel} from './parcel-profiles';
@@ -59,11 +58,9 @@ async function dispatchContext(raw:unknown){
  if(!s.pickup)fail('Save your business pickup details first.');
  const o=s.order,p=s.pickup.details;
  const provider=input.provider||s.selection.rate.provider;
- if(provider==='terminal'&&!await terminalDispatchReady())fail('Terminal is unavailable. Enable another courier in Shipbubble and refresh the alternatives.');
+ if(provider==='terminal')fail('Terminal is unavailable. Enable another courier in Shipbubble and refresh the alternatives.');
  const country=SHIPPING_COUNTRIES.find(([code,name])=>code===o.country||name===o.country)![0];
- if(country!=='NG'&&provider==='terminal')fail('International Terminal dispatch is not enabled.');
- const destination={first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:/Postal code: ([^\n]+)/.exec(o.address_line_2||'')?.[1]||''};
- let rates:ComparisonRate[];try{rates=provider==='terminal'?await terminalLiveQuotes({...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},destination,{...input.parcel,valueNaira:o.subtotal_kobo/100},s.parcel.suggestion?.packagingWeightKg||0):await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble then refresh alternatives. No booking has been submitted.');}
+ let rates:ComparisonRate[];try{rates=await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble then refresh alternatives. No booking has been submitted.');}
  return {input,s,packed,o,p,country,rates,provider};
 }
 
@@ -71,7 +68,7 @@ type Alternative={actor:string;reference:string;fingerprint:string;parcel:Measur
 export async function dispatchAlternatives(raw:unknown,actor:string){
  const {input,s,rates}=await dispatchContext(raw);
  const options=[];
- for(const rate of rates.filter(r=>r.provider==='terminal'||r.courierId&&r.requestToken).sort((a,b)=>a.walletKobo-b.walletKobo)){
+ for(const rate of rates.filter(r=>r.provider==='shipbubble'&&r.courierId&&r.requestToken).sort((a,b)=>a.walletKobo-b.walletKobo)){
   const id=crypto.randomUUID();const value:Alternative={actor,reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:input.pickupDate,expiresAt:Date.now()+10*60_000,rate};
   await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('dispatch-alternative:'+id,JSON.stringify(value)).run();
   options.push({id,provider:rate.provider,carrier:rate.carrier,service:rate.service,chargeKobo:rate.walletKobo,delivery:rate.delivery});
@@ -87,7 +84,7 @@ export async function reviewDispatch(raw:unknown,actor:string){
  const rate=matchSelectedCourier(rates,selected);
  if((await snapshot(input.reference)).fingerprint!==s.fingerprint)fail('Order details changed while checking rates. Reload before reviewing.');
  if(input.requirePacked&&(await meta<Packed>('dispatch-packed:'+input.reference))?.revision!==packed?.revision)fail('Packing changed during review.');
- const review:DispatchReview={id:crypto.randomUUID(),reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:provider==='terminal'?'Next available courier pickup':input.pickupDate,rate,expiresAt:Date.now()+10*60_000,shippingKobo:o.shipping_kobo,destination:[o.city,o.state,shippingCountryName(country)].filter(Boolean).join(', '),recipient:o.first_name+' '+o.last_name,address:[o.address_line_1,o.address_line_2,o.city,o.state].filter(Boolean).join(', '),pickupAddress:[p.line1,p.line2,p.city,p.state].filter(Boolean).join(', '),actor,...(input.requirePacked?{packedRevision:packed!.revision}:{})};
+ const review:DispatchReview={id:crypto.randomUUID(),reference:input.reference,fingerprint:s.fingerprint,parcel:input.parcel,pickupDate:input.pickupDate,rate,expiresAt:Date.now()+10*60_000,shippingKobo:o.shipping_kobo,destination:[o.city,o.state,shippingCountryName(country)].filter(Boolean).join(', '),recipient:o.first_name+' '+o.last_name,address:[o.address_line_1,o.address_line_2,o.city,o.state].filter(Boolean).join(', '),pickupAddress:[p.line1,p.line2,p.city,p.state].filter(Boolean).join(', '),actor,...(input.requirePacked?{packedRevision:packed!.revision}:{})};
  await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('dispatch-review:'+review.id,JSON.stringify(review)).run();
  return publicReview(review);
 }
@@ -137,10 +134,9 @@ export async function bookDispatch(id:string,actor:string){
  const duringSnapshot=await meta<Booking>(bookingKey(r.reference));if(duringSnapshot)return duringSnapshot;
  if(s.linked)fail('This order already has a shipment.');
  if(s.fingerprint!==r.fingerprint)fail('Order, pickup details or weights changed. Review again before booking.');
- const isTerminal=r.rate.provider==='terminal';
- const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!isTerminal&&!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
+ if(r.rate.provider!=='shipbubble')fail('Terminal Africa is disabled. Review a Shipbubble service instead.');
+ const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
  // Read-only preflight: never automatically fund the wallet or charge the customer again.
- if(isTerminal){try{await terminalPreflight(r.rate);}catch(e){const concurrent=await meta<Booking>(bookingKey(r.reference));if(concurrent)return concurrent;throw e;}}
  const balance=await walletBalance(r.rate.provider);
  const current=await snapshot(r.reference);
  // A competing booking changes order status (and may consume wallet balance).
@@ -156,20 +152,18 @@ export async function bookDispatch(id:string,actor:string){
  if(!claimed.meta.changes)return await meta<Booking>(bookingKey(r.reference))||fail('Order is already booked or no longer awaiting dispatch.');
  let shipmentId:string|undefined;
  try{
-  const raw=isTerminal?await terminalBook(r.rate):await providerJson('https://api.shipbubble.com/v1/shipping/labels',key,{request_token:r.rate.requestToken,service_code:r.rate.service,courier_id:r.rate.courierId});
+  const raw=await providerJson('https://api.shipbubble.com/v1/shipping/labels',key,{request_token:r.rate.requestToken,service_code:r.rate.service,courier_id:r.rate.courierId});
   // Persist the provider ID even if later response validation or local linking fails.
-  if(isTerminal&&typeof (raw as any)?.shipment_id==='string'&&/^[A-Za-z0-9_-]{3,120}$/.test((raw as any).shipment_id)){shipmentId=(raw as any).shipment_id;await db.prepare('UPDATE store_meta SET value=? WHERE key=?').bind(JSON.stringify({...attempt,shipmentId}),bookingKey(r.reference)).run();}
-  const terminalResult=isTerminal?terminalBooked(raw,s.order.email):null;
   const partial=z.object({order_id:z.string().regex(/^SB-[A-Za-z0-9-]{1,100}$/)}).safeParse(raw);if(partial.success){shipmentId=partial.data.order_id;await db.prepare('UPDATE store_meta SET value=? WHERE key=?').bind(JSON.stringify({...attempt,shipmentId}),bookingKey(r.reference)).run();}
-  const shipment=terminalResult?{order_id:terminalResult.shipmentId,ship_to:{email:s.order.email},tracking_url:terminalResult.trackingUrl,payment:{shipping_fee:r.rate.walletKobo/100},courier:{name:r.rate.carrier,tracking_code:terminalResult.trackingNumber}}:createdShipment.parse(raw);
+  const shipment=createdShipment.parse(raw);
   if(shipment.ship_to.email.trim().toLowerCase()!==s.order.email.trim().toLowerCase())throw Error('Recipient mismatch');
   const trackingUrl=safeTracking(shipment.tracking_url),chargeKobo=Math.round(shipment.payment.shipping_fee*100);
   const done:Booking={...attempt,state:'booked',shipmentId:shipment.order_id,trackingUrl,chargeKobo,carrier:shipment.courier.name,...(chargeKobo!==r.rate.walletKobo?{message:'Provider charge differs from the reviewed quote. Check the Shipbubble receipt.'}:{})};
   const mapping=JSON.stringify({reference:r.reference,linkedAt:new Date().toISOString()});
   // One transaction records the shipment, tracking and audit before reporting success.
   await db.batch([
-   db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind((isTerminal?'terminal-order:':'shipbubble-order:')+r.reference,shipment.order_id),
-   db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind((isTerminal?'terminal-shipment:':'shipbubble-shipment:')+shipment.order_id,mapping),
+   db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('shipbubble-order:'+r.reference,shipment.order_id),
+   db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('shipbubble-shipment:'+shipment.order_id,mapping),
    db.prepare("UPDATE orders SET carrier=?,tracking_number=?,tracking_url=?,status=CASE WHEN status='paid' THEN 'processing' ELSE status END,updated_at=CURRENT_TIMESTAMP WHERE reference=?").bind(shipment.courier.name,shipment.courier.tracking_code||shipment.order_id,trackingUrl,r.reference),
    db.prepare('UPDATE store_meta SET value=? WHERE key=?').bind(JSON.stringify(done),bookingKey(r.reference)),
    db.prepare('INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,?,?,?)').bind(actor,'bulk dispatch booked',r.reference,JSON.stringify({reviewId:id,shipmentId:shipment.order_id,chargeKobo,pickupDate:r.pickupDate,parcel:r.parcel}))
@@ -197,7 +191,7 @@ export async function readyDispatchOrders(provider='all',after=''){
  z.enum(['all','shipbubble','terminal']).parse(provider);
  const refs=await getDbBinding().prepare("SELECT o.reference FROM orders o JOIN store_meta p ON p.key='dispatch-packed:'||o.reference WHERE o.payment_status='paid' AND o.status IN ('paid','processing') AND NOT EXISTS(SELECT 1 FROM store_meta b WHERE b.key='dispatch-booking:'||o.reference) AND o.reference>? ORDER BY o.reference LIMIT 51").bind(after).all<{reference:string}>();
  const ready=[],skipped=[];
- for(const {reference} of refs.results.slice(0,50)){try{const s=await snapshot(reference),p=await meta<Packed>('dispatch-packed:'+reference);if(provider!=='all'&&s.selection?.rate.provider!==provider)continue;if(!p||p.fingerprint!==s.fingerprint||s.linked||!s.selection?.rate.service)throw Error();if(s.selection.rate.provider==='terminal'&&!await terminalDispatchReady()){skipped.push({reference,reason:'Terminal wallet not ready'});continue;}ready.push({reference,fingerprint:s.fingerprint,parcel:p.parcel});}catch{skipped.push({reference,reason:'Order or packing details changed; check again'});}}
+ for(const {reference} of refs.results.slice(0,50)){try{const s=await snapshot(reference),p=await meta<Packed>('dispatch-packed:'+reference);if(provider!=='all'&&s.selection?.rate.provider!==provider)continue;if(!p||p.fingerprint!==s.fingerprint||s.linked||!s.selection?.rate.service)throw Error();if(s.selection.rate.provider==='terminal'){skipped.push({reference,reason:'Terminal Africa removed; review Shipbubble alternatives'});continue;}ready.push({reference,fingerprint:s.fingerprint,parcel:p.parcel});}catch{skipped.push({reference,reason:'Order or packing details changed; check again'});}}
  return {ready,skipped,next:refs.results.length>50?refs.results[49].reference:null};
 }
 export async function startDispatchBatch(actor:string){const id=crypto.randomUUID();await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('dispatch-batch:'+id,JSON.stringify({actor,createdAt:new Date().toISOString()})).run();return {id};}

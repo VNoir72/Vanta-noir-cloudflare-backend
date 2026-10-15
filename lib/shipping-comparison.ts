@@ -15,14 +15,6 @@ function kobo(v: unknown) {
   if (typeof v !== 'number' || !Number.isFinite(v) || v <= 0 || v > 10_000_000) return null;
   return Math.round(v * 100);
 }
-export function terminalRates(data: unknown, quoteOnly=false): ComparisonRate[] {
-  if (!Array.isArray(data)) throw Error('Terminal returned an unexpected rates format.');
-  return data.slice(0,100).flatMap((value,index) => {
-    const r=object(value),amount=kobo(r.amount),id=identifier(r.rate_id)||(quoteOnly?`quote-only-${index}`:'');
-    if (!id || amount===null || r.currency!=='NGN' || !label(r.carrier_name) || r.dropoff_required===true || r.type==='cargo') return [];
-    return [{provider:'terminal' as const,id,carrier:label(r.carrier_name,100),service:label(r.carrier_rate_description),amountKobo:amount,walletKobo:amount,currency:'NGN' as const,delivery:label(r.delivery_time)||'Estimate unavailable'}];
-  });
-}
 export function shipbubbleRates(data: unknown): ComparisonRate[] {
   const body=object(data),token=identifier(body.request_token);
   if (!token || !Array.isArray(body.couriers)) throw Error('Shipbubble returned an unexpected rates format.');
@@ -31,20 +23,6 @@ export function shipbubbleRates(data: unknown): ComparisonRate[] {
     if (!id || amount===null || wallet===null || !['NGN','₦'].includes(String(r.currency)) || !label(r.courier_name) || r.service_type!=='pickup' || r.pickup_station || r.dropoff_station) return [];
     return [{provider:'shipbubble' as const,id:token+':'+id,carrier:label(r.courier_name,100),service:id,amountKobo:amount,walletKobo:wallet,currency:'NGN' as const,delivery:label(r.delivery_eta)||'Estimate unavailable',...(courierIdentifier(r.courier_id)?{courierId:courierIdentifier(r.courier_id),requestToken:token}:{})}];
   });
-}
-export async function compareRates(terminal:()=>Promise<ComparisonRate[]>,shipbubble:()=>Promise<ComparisonRate[]>) {
-  const providers=['terminal','shipbubble'] as const;
-  const replies=await Promise.allSettled([Promise.resolve().then(terminal),Promise.resolve().then(shipbubble)]);
-  const status=replies.map((reply,i)=>({provider:providers[i],status:reply.status==='rejected'?'error':reply.value.length?'quoted':'unavailable',...(reply.status==='rejected'?{error:safeFailure(reply.reason)}:{})}));
-  const rates=replies.flatMap(r=>r.status==='fulfilled'?r.value:[]).sort((a,b)=>a.amountKobo-b.amountKobo||a.provider.localeCompare(b.provider)||a.id.localeCompare(b.id));
-  // Keep distinct services visible; a courier name alone does not establish equivalent coverage, duties or speed.
-  return {mode:'sandbox' as const,bookingEnabled:false as const,checkoutEnabled:false as const,rates,providers:status,partial:status.some(s=>s.status==='error'),cheapest:rates[0]?{provider:rates[0].provider,id:rates[0].id}:null};
-}
-function safeFailure(reason:unknown){
- const message=reason instanceof Error?reason.message:'';
- if(/^Shipping provider HTTP [1-5][0-9]{2}\.$/.test(message))return message;
- const allowed=['A Shipbubble sandbox key is required.','Terminal sandbox key is required.','Shipping provider timed out or could not be reached.','Shipbubble did not validate both addresses.','Shipbubble clothing category is unavailable.','Terminal sandbox packaging was not accepted.','Shipping provider rejected the request.'];
- return allowed.includes(message)?message:'Provider response could not be verified.';
 }
 export class ShippingProviderError extends Error{
  constructor(public status:number,public stage:string,public fields:string[]){super(status===200?'Shipping provider rejected the request.':`Shipping provider HTTP ${status}.`);}
@@ -90,13 +68,4 @@ export async function shipbubbleQuote(key:string,pickup:TestAddress,destination:
   // Both provider quotes use the same total packed weight and external dimensions.
   const data=await request('fetch_rates',{sender_address_code:sender,reciever_address_code:receiver,category_id:category.category_id,pickup_date:pickupDate,service_type:'pickup',package_items:[{name:mode==='sandbox'?'Sandbox clothing':'Clothing order',description:mode==='sandbox'?'Synthetic test parcel':'Packed clothing order',unit_weight:parcel.weightKg,unit_amount:parcel.valueNaira,quantity:1}],package_dimension:{length:parcel.lengthCm,width:parcel.widthCm,height:parcel.heightCm}});
   return shipbubbleRates(data);
-}
-export async function terminalSandbox(key:string,pickup:TestAddress,destination:TestAddress,parcel:TestParcel,send:typeof fetch=fetch){
-  if(!key.trim())throw Error('Terminal sandbox key is required.');
-  const request=(path:string,body:unknown)=>providerJson('https://sandbox.terminal.africa/v1'+path,key.trim(),body,send);
-  const packaging=object(await request('/packaging',{name:'Vanta Noir comparison QA',type:'box',length:parcel.lengthCm,width:parcel.widthCm,height:parcel.heightCm,size_unit:'cm',weight:0.1,weight_unit:'kg'}));
-  const id=identifier(packaging.packaging_id);if(!id)throw Error('Terminal sandbox packaging was not accepted.');
-  const data=await request('/rates/shipment/quotes',{pickup_address:pickup,delivery_address:destination,parcel:{description:'Synthetic clothing parcel',packaging:id,weight_unit:'kg',items:[{name:'Sandbox clothing',description:'Synthetic test parcel',currency:'NGN',value:parcel.valueNaira,weight:Math.round((parcel.weightKg-0.1)*100000)/100000,quantity:1}]},currency:'NGN',cash_on_delivery:false,persist_data:false});
-  // Non-persisted sandbox quotes can omit rate_id. Display-only IDs must never be booked.
-  return terminalRates(data,true);
 }
