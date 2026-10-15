@@ -3,6 +3,8 @@ import Constants from 'expo-constants';
 import {Platform} from 'react-native';
 import {api} from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+const listeners=new Set<(enabled:boolean)=>void>();
+export function subscribePush(listener:(enabled:boolean)=>void){listeners.add(listener);return()=>{listeners.delete(listener);};}
 Notifications.setNotificationHandler({handleNotification:async()=>({shouldPlaySound:true,shouldSetBadge:false,shouldShowBanner:true,shouldShowList:true})});
 export async function enablePush(owner?:string){
  if(Platform.OS==='web')throw Error('Enable phone push notifications in the installed Android app.');
@@ -15,8 +17,9 @@ export async function enablePush(owner?:string){
  await api('/api/customer/push',{token});
  await AsyncStorage.setItem('vanta-push-token',token);
  if(owner)await AsyncStorage.setItem('vanta-order-push:'+owner,'on');
+ listeners.forEach(listener=>listener(true));
 }
-export async function disablePush(owner?:string){const token=await AsyncStorage.getItem('vanta-push-token');if(token)await api('/api/customer/push',{token},'DELETE');await AsyncStorage.removeItem('vanta-push-token');if(owner)await AsyncStorage.setItem('vanta-order-push:'+owner,'off');}
+export async function disablePush(owner?:string){const token=await AsyncStorage.getItem('vanta-push-token');if(token)await api('/api/customer/push',{token},'DELETE');await AsyncStorage.removeItem('vanta-push-token');if(owner)await AsyncStorage.setItem('vanta-order-push:'+owner,'off');listeners.forEach(listener=>listener(false));}
 
 /** Register signed-in accounts by default, respecting explicit opt-out and OS permission. */
 export async function registerDefaultOrderPush(owner:string){

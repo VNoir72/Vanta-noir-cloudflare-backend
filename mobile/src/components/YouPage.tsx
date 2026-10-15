@@ -9,7 +9,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text,Icon,useTheme} from '../theme';
 import {Customer,Order} from '../types';
-import {enablePush,disablePush} from '../push';
+import {enablePush,disablePush,subscribePush} from '../push';
 import {api,money} from '../api';
 import {useReducedMotion} from './Motion';
 import {OrderGroup,inOrderGroup} from '../order-policy';
@@ -22,7 +22,7 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
  const router=useRouter();
  const {colors,appearance,setAppearance}=useTheme(),reduce=useReducedMotion();
  const [pushEnabled,setPushEnabled]=useState(false);
- useEffect(()=>{void AsyncStorage.getItem('vanta-push-token').then(token=>setPushEnabled(!!token));},[]);
+ useEffect(()=>{let live=true;void AsyncStorage.getItem('vanta-push-token').then(token=>{if(live)setPushEnabled(!!token);}).catch(()=>{});const unsubscribe=subscribePush(setPushEnabled);return()=>{live=false;unsubscribe();};},[]);
  const [notificationTab,setNotificationTab]=useState<'All'|'Orders'|'Drops'>('All'),[dropUpdates,setDropUpdates]=useState<{title:string;startsAt:string}[]>([]);
  const [expandedCoupon,setExpandedCoupon]=useState<string|null>(null);
  const [couponTab,setCouponTab]=useState<'available'|'used'|'expired'>('available'),[couponCode,setCouponCode]=useState('');

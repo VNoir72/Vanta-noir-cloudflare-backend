@@ -34,6 +34,6 @@ export function CompactBag({cart,products,selected,onSelect,onQuantity,onDelete,
      {(unavailable||stock<i.quantity||stock<=5)&&<Text style={{fontSize:10,color:colors.danger}}>{unavailable?'Unavailable':`Only ${stock} available`}</Text>}</View>
    </View>;})}
    {!cart.length&&<Text style={{paddingVertical:24,textAlign:'center'}}>Your bag is empty.</Text>}
-   {!!cart.length&&<View style={{marginTop:8,paddingVertical:10,borderTopWidth:1,borderColor:colors.border,gap:8}}><Text style={{fontSize:14,fontWeight:'600'}}>Order summary</Text><View style={{flexDirection:'row',justifyContent:'space-between'}}><Text style={{fontSize:13,color:colors.muted}}>Subtotal ({cart.filter(i=>selected.includes(i.variantId)).reduce((n,i)=>n+i.quantity,0)} items)</Text><Text style={{fontSize:14}}>{money(cart.filter(i=>selected.includes(i.variantId)).reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text></View><View style={{flexDirection:'row',justifyContent:'space-between',paddingTop:12,borderTopWidth:1,borderColor:colors.border}}><Text style={{fontWeight:'700'}}>Total</Text><Text style={{fontWeight:'700'}}>{money(cart.filter(i=>selected.includes(i.variantId)).reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text></View></View>}
+   {!!cart.length&&<Text style={{fontSize:11,color:colors.muted,paddingVertical:6}}>Shipping and any offers are calculated at checkout.</Text>}
  </View>;
 }
