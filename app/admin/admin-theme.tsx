@@ -6,7 +6,7 @@ import {installAdminTheme} from '@/lib/admin-theme';
 declare global { interface Window { __vnAdminThemeStop?: () => void } }
 export function AdminAppearance() {
   const settings=useStoreSettings();
-  useEffect(()=>{const root=document.documentElement;root.style.setProperty('--admin-accent',settings.brandAccent.admin);root.style.setProperty('--admin-on-accent',accentInk(settings.brandAccent.admin));return()=>{root.style.removeProperty('--admin-accent');root.style.removeProperty('--admin-on-accent');};},[settings.brandAccent.admin]);
+  useEffect(()=>{const root=document.documentElement;root.style.setProperty('--admin-accent',settings.brandAccent.admin);try{localStorage.setItem('vn-admin-accent',settings.brandAccent.admin);}catch{}root.style.setProperty('--admin-on-accent',accentInk(settings.brandAccent.admin));return()=>{root.style.removeProperty('--admin-accent');root.style.removeProperty('--admin-on-accent');};},[settings.brandAccent.admin]);
   useEffect(() => {
     window.__vnAdminThemeStop ??= installAdminTheme();
     document.querySelectorAll('[data-admin-theme-control]').forEach(control => { if (control instanceof HTMLSelectElement) control.value = document.documentElement.dataset.vnAdminMode || 'system'; });

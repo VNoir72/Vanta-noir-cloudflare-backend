@@ -16,11 +16,11 @@ html[data-vn-admin-theme] {
  --admin-ground-image:linear-gradient(transparent,transparent);
 }
 html[data-vn-admin-theme=dark] {
- --admin-panel-reflection:linear-gradient(125deg,rgba(111,140,119,.13),transparent 65%);
- --admin-ground:#14201b; --admin-surface:#202e27; --admin-soft:#2b3c32;
- --admin-text:#f4f7f5; --admin-muted:#b8c6bd; --admin-border:#42564a;
- --admin-glass:rgba(35,52,43,.88); --admin-panel:rgba(35,51,42,.76);
- --admin-edge:rgba(218,244,227,.16); --admin-shadow:rgba(0,0,0,.28);
+ --admin-panel-reflection:linear-gradient(125deg,color-mix(in srgb,var(--admin-accent) 8%,transparent),transparent 65%);
+ --admin-ground:#151519; --admin-surface:#222227; --admin-soft:#2d2d34;
+ --admin-text:#f5f5f7; --admin-muted:#bebec7; --admin-border:#464650;
+ --admin-glass:rgba(34,34,39,.88); --admin-panel:rgba(34,34,39,.76);
+ --admin-edge:rgba(235,235,245,.16); --admin-shadow:rgba(0,0,0,.28);
  --admin-accent:#00ff66; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;
  --admin-success:#c7e9b2; --admin-success-bg:#465e42;
@@ -28,7 +28,7 @@ html[data-vn-admin-theme=dark] {
  --admin-info:#c3dbef; --admin-info-bg:#435867;
  --admin-scheme:dark;
  --admin-backdrop:none;
- --admin-ground-image:radial-gradient(ellipse at 12% 8%,rgba(102,143,115,.19),transparent 65%),linear-gradient(145deg,rgba(31,48,39,.7),rgba(9,17,13,.5));
+ --admin-ground-image:radial-gradient(ellipse at 12% 8%,color-mix(in srgb,var(--admin-accent) 8%,transparent),transparent 65%);
 }
 html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-theme] :is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen) {
  color-scheme:var(--admin-scheme); color:var(--admin-text);
@@ -36,7 +36,7 @@ html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-them
  --card:var(--admin-panel); --card-foreground:var(--admin-text);
  --popover:var(--admin-glass); --popover-foreground:var(--admin-text);
  --muted:var(--admin-soft); --muted-foreground:var(--admin-muted);
- --border:var(--admin-border); --input:var(--admin-border); --ring:var(--admin-muted);
+ --border:var(--admin-border); --input:var(--admin-border); --ring:var(--admin-accent);
  --primary:var(--admin-accent); --primary-foreground:var(--admin-on-accent);
  --secondary:var(--admin-soft); --secondary-foreground:var(--admin-text);
  --accent:var(--admin-soft); --accent-foreground:var(--admin-text);
@@ -63,7 +63,7 @@ html[data-vn-admin-theme] .vn-studio-footer {margin-bottom:0;padding-bottom:max(
 html[data-vn-admin-theme] :is(input,textarea,select) {color-scheme:var(--admin-scheme)}
 html[data-vn-admin-theme] :is(input,textarea)::placeholder {color:var(--admin-muted);opacity:1}
 html[data-vn-admin-theme] option {background:var(--admin-surface);color:var(--admin-text)}
-html[data-vn-admin-theme] :focus-visible {outline:2px solid var(--admin-muted);outline-offset:3px}
+html[data-vn-admin-theme] :focus-visible {outline:2px solid var(--admin-accent);outline-offset:3px}
 /* One viewport budget: Appearance takes its natural height; the workspace gets the rest. */
 .vn-admin-shell {height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;overflow:hidden}
 .vn-admin-workspace {min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -85,7 +85,7 @@ html[data-vn-admin-theme] {--vn-brand-white:var(--admin-surface);--vn-brand-bord
 html[data-vn-admin-theme] .vn-control-center :is(.vn-glass,.vn-exact-metrics>article) {background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px);border-radius:10px}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-mobile-drawer) :is(button[aria-current],button[aria-pressed=true],[data-state=active]) {color:var(--admin-on-accent)}
 html[data-vn-admin-theme] .vn-control-center :is(.vn-accent-presets,.vn-admin-appearance-options) button[aria-pressed=true] {color:var(--admin-text)}
-html[data-vn-admin-theme] [data-slot=button][data-variant=default] {color:var(--admin-on-accent)!important}
+html[data-vn-admin-theme] [data-slot=button][data-variant=default] {background:var(--admin-accent)!important;color:var(--admin-on-accent)!important}
 html[data-vn-admin-theme] [data-slot=button][data-variant=destructive] {background:var(--admin-danger-bg)!important;color:var(--admin-danger)!important}
 html[data-vn-admin-theme] .vn-standalone :is(input,select,textarea) {background:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border)}
 html[data-vn-admin-theme] .vn-standalone :is(button,.button,.pill) {color:var(--admin-on-accent)}
