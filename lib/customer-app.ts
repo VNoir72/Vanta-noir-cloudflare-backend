@@ -240,7 +240,7 @@ export async function customerApp(request: Request): Promise<Response> {
           email: s.email,
           name: s.name,
           phone,
-          profile: {photo:details.photo||"",gender:details.gender||"",birthday:details.birthday||""},
+          profile: ["photo","gender","birthday"].some(key=>Object.hasOwn(details,key)) ? {photo:details.photo||"",gender:details.gender||"",birthday:details.birthday||""} : undefined,
           addresses: JSON.parse(s.addresses_json),
           favourites: JSON.parse(s.favourites_json),
         },
