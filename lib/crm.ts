@@ -6,13 +6,15 @@ import {circleMembership} from './circle';
 const emailSchema=z.string().trim().toLowerCase().email().max(200);
 const aggregate=`WITH identities AS (SELECT lower(email) email FROM orders UNION SELECT lower(email) FROM app_customers UNION SELECT lower(email) FROM subscribers UNION SELECT email FROM crm_profiles), stats AS (
  SELECT i.email,COALESCE((SELECT name FROM app_customers a WHERE lower(a.email)=i.email),(SELECT first_name||' '||last_name FROM orders o WHERE lower(o.email)=i.email ORDER BY created_at DESC LIMIT 1),'') name,
+ (SELECT phone FROM orders o WHERE lower(o.email)=i.email ORDER BY created_at DESC LIMIT 1) phone,
+ (SELECT MAX(created_at) FROM orders o WHERE lower(o.email)=i.email) lastOrder,
  (SELECT COUNT(*) FROM orders o WHERE lower(o.email)=i.email) orders,
  (SELECT COUNT(*) FROM orders o WHERE lower(o.email)=i.email AND payment_status='paid') paidOrders,
  (SELECT COALESCE(SUM(total_kobo),0) FROM orders o WHERE lower(o.email)=i.email AND payment_status='paid') grossKobo,
  (SELECT COALESCE(SUM(r.refund_kobo),0) FROM return_requests r JOIN orders o ON o.id=r.order_id WHERE lower(o.email)=i.email AND r.refund_status='completed') refundsKobo,
  (SELECT MAX(paid_at) FROM orders o WHERE lower(o.email)=i.email AND payment_status='paid') lastPaid
  FROM identities i WHERE i.email LIKE '%@%')`;
-type Customer={email:string;name:string;orders:number;paidOrders:number;grossKobo:number;refundsKobo:number;lastPaid:string|null;tags:string[];netKobo:number};
+type Customer={email:string;name:string;phone:string|null;lastOrder:string|null;orders:number;paidOrders:number;grossKobo:number;refundsKobo:number;lastPaid:string|null;tags:string[];netKobo:number};
 export async function crmCustomers(q='',page=1,tag=''){
  const db=getDbBinding(),c=(await automationRule('customers')).config,needle=q.slice(0,100).toLowerCase();
  const rows=await db.prepare(`${aggregate} SELECT * FROM stats WHERE (instr(lower(email),?)>0 OR instr(lower(name),?)>0) AND (?='' OR (?='VIP' AND (paidOrders>=? OR grossKobo-refundsKobo>=?)) OR (?='Repeat buyer' AND paidOrders>1) OR (?='First-time buyer' AND paidOrders=1) OR (?='Inactive' AND julianday(lastPaid)<=julianday('now')-?) OR (?='Prospect' AND paidOrders=0)) ORDER BY lastPaid DESC,email LIMIT 26 OFFSET ?`).bind(needle,needle,tag,tag,c.vipOrders,c.vipSpendKobo,tag,tag,tag,c.inactiveDays,tag,(page-1)*25).all<Customer>();

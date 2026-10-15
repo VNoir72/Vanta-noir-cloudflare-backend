@@ -1,6 +1,6 @@
 'use client';
-import {useEffect,useLayoutEffect,useRef,useState} from 'react';
-import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/ui/dialog';
+import { useEffect,useLayoutEffect,useRef,useState } from 'react';
+import { Dialog,DialogContent,DialogTitle,DialogDescription } from '@/components/ui/dialog';
 const guides:Array<[RegExp,string]>=[
  [/price|amount.*₦|naira/i,'Enter the amount in naira (₦), not kobo. For example, enter 30000 for ₦30,000. Use Save price or Save edited prices to apply it. Staff submissions wait for owner approval.'],
  [/stock|quantity|on hand/i,'Enter the actual number you have for this size and colour. Zero prevents purchases of that variation. Reserved units belong to checkouts in progress. Save the changed row to update availability; do not enter sample quantities for stock you do not have.'],
@@ -28,7 +28,7 @@ export function AdminFieldHelp(){
  useEffect(()=>{
   const added=new Set<HTMLButtonElement>(),seen=new WeakMap<Element,HTMLButtonElement>();
   function scan(){document.querySelectorAll<HTMLElement>('main input,main select,main textarea,[role="dialog"] input,[role="dialog"] select,[role="dialog"] textarea, main [role="combobox"], [role="dialog"] [role="combobox"]').forEach(field=>{
-   if(field.closest('.vn-help-dialog,.vn-workspace-bar,.vn-catalogue-filters,.vn-catalogue-search,.vn-control-actions')||field.getAttribute('type')==='hidden'||field.getAttribute('type')==='file')return;
+   if(field.closest('.vn-help-dialog,.vn-workspace-bar,.vn-catalogue-filters,.vn-catalogue-search,.vn-catalogue-toolbar,.vn-workspace-table,.vn-report-controls,.vn-control-actions')||field.getAttribute('type')==='hidden'||field.getAttribute('type')==='file')return;
    if(seen.get(field)?.isConnected)return;
    const label=field.closest('label')||(field.id?document.querySelector('label[for="'+CSS.escape(field.id)+'"]'):null);
    const title=(field.getAttribute('aria-label')||label?.textContent||field.getAttribute('placeholder')||'This field').replace(/\s+/g,' ').trim().slice(0,120);
