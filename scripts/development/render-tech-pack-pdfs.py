@@ -33,7 +33,8 @@ def render(r):
     for x in body[split:]:nc.append(x.extract())
     title=new.select('.footer span')[0];title.string=title.get_text().replace(' — CONTINUED','')+' — CONTINUED';a.insert_after(new)
   else:raise ValueError('Pagination did not converge')
-  f.write_text(str(s));dest=root/'pdf'/(f.stem+'.pdf');doc.write_pdf(dest)
+  f.write_text(str(s));dest=root/'pdf'/(f.stem+'.pdf');pdf_bytes=doc.write_pdf();pending=dest.with_suffix('.pending');pending.write_bytes(pdf_bytes);pending.replace(dest)
+  if dest.read_bytes()!=pdf_bytes:raise ValueError('Saved PDF integrity mismatch')
   return {'id':r['id'],'color':r['color'],'file':str(dest.relative_to(root)),'pages':len(doc.pages),'issues':[],'bytes':dest.stat().st_size}
  except Exception as e:return {'id':r['id'],'color':r['color'],'error':str(e)}
 if __name__=='__main__':
