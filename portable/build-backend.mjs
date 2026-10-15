@@ -1,6 +1,16 @@
 import { spawnSync } from "node:child_process";
 import { readFile, readdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
+import { existsSync } from "node:fs";
+
+// Vite scans workspace tsconfigs, including the Expo app. A clean website
+// checkout therefore needs the locked mobile configuration dependency too.
+if (!existsSync("mobile/node_modules/expo/tsconfig.base.json")) {
+  console.log("Installing locked mobile dependencies required by workspace configuration…");
+  const install = spawnSync("npm", ["ci", "--prefix", "mobile", "--no-audit", "--no-fund"], {stdio:"inherit"});
+  if (install.error) throw install.error;
+  if (install.status !== 0) process.exit(install.status ?? 1);
+}
 
 const pkg = JSON.parse(await readFile("node_modules/vinext/package.json", "utf8"));
 const bin = typeof pkg.bin === "string" ? pkg.bin : pkg.bin.vinext;
