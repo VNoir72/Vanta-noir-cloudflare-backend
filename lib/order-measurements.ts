@@ -2,6 +2,7 @@ import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {getPickupDetails} from './terminal-pickup';
 import {shipbubbleQuote} from './shipping-comparison';
+import {validatedOrderShippingAddress} from './order-shipping-address';
 const referenceSchema=z.string().regex(/^VN-[A-Za-z0-9_-]{1,100}$/);
 const dimensions=z.coerce.number().finite().positive().max(200);
 export const orderMeasurementsSchema=z.object({weightKg:z.coerce.number().finite().positive().max(50),lengthCm:dimensions,widthCm:dimensions,heightCm:dimensions});
@@ -32,7 +33,8 @@ export async function quoteMeasuredOrder(reference:string,revision:string){
  if(!order||!['NG','Nigeria'].includes(order.country))throw Error('Choose a paid, unshipped Nigerian order.');
  if(await db.prepare('SELECT key FROM store_meta WHERE key=?').bind('shipbubble-order:'+reference).first())throw Error('This order already has a linked shipment.');
  const pickup=await getPickupDetails();if(!pickup)throw Error('Save the business pickup address first.');
- const rates=await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:order.first_name,last_name:order.last_name,email:order.email,phone:order.phone,line1:[order.address_line_1,order.address_line_2].filter(Boolean).join(', '),city:order.city,state:order.state,country:'NG',zip:''},{...saved.measurements,valueNaira:order.subtotal_kobo/100},'live');
+ const destination=await validatedOrderShippingAddress(order);
+ const rates=await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:order.first_name,last_name:order.last_name,email:order.email,phone:order.phone,line1:[order.address_line_1,order.address_line_2].filter(Boolean).join(', '),city:order.city,state:order.state,country:'NG',zip:''},{...saved.measurements,valueNaira:order.subtotal_kobo/100},'live',fetch,undefined,destination);
  if((await orderMeasurements(reference))?.revision!==revision)throw Error('Measurements changed while fetching rates. Reload and request fresh rates.');
  return {rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo),shippingKobo:order.shipping_kobo,quotedAt:new Date().toISOString()};
 }

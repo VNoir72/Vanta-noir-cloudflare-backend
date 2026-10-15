@@ -6,6 +6,7 @@ import {orderParcel} from './parcel-profiles';
 import {orderMeasurements,orderMeasurementsSchema,type Measurements} from './order-measurements';
 import {getPickupDetails} from './terminal-pickup';
 import {providerJson,shipbubbleQuote,type ComparisonRate} from './shipping-comparison';
+import {validatedOrderShippingAddress} from './order-shipping-address';
 
 const refSchema=z.string().regex(/^VN-[A-Za-z0-9_-]{1,100}$/);
 export class DispatchError extends Error{}
@@ -60,7 +61,7 @@ async function dispatchContext(raw:unknown){
  const provider=input.provider||s.selection.rate.provider;
  if(provider==='terminal')fail('Terminal is unavailable. Enable another courier in Shipbubble and refresh the alternatives.');
  const country=SHIPPING_COUNTRIES.find(([code,name])=>code===o.country||name===o.country)![0];
- let rates:ComparisonRate[];try{rates=await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble then refresh alternatives. No booking has been submitted.');}
+ let rates:ComparisonRate[];try{const destination=await validatedOrderShippingAddress(o);rates=await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate,destination);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble then refresh alternatives. No booking has been submitted.');}
  return {input,s,packed,o,p,country,rates,provider};
 }
 
