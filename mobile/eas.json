@@ -55,6 +55,11 @@
       "env": {
         "APP_VARIANT": "studio"
       }
+    },
+    "reference-review": {
+      "extends": "preview",
+      "environment": "production",
+      "channel": "preview"
     }
   }
 }

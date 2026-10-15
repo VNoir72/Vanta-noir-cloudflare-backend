@@ -1,70 +1,88 @@
-import {customerOrderReference} from '../../../lib/order-reference';
-import React,{useEffect,useState} from 'react';
-import {Animated,Easing,Image,Platform,Pressable,StyleSheet,View} from 'react-native';
-import {Text,useTheme} from '../theme';
+import {customerOrderReference} from '../order-reference';
+import React,{useEffect,useRef,useState} from 'react';
+import {Animated,Easing,Platform,Pressable,StyleSheet,View} from 'react-native';
+import {Text,Icon,useTheme} from '../theme';
 import {Order} from '../types';
 import {money} from '../api';
+import {downloadReceipt} from '../receipt-download';
 import {useReducedMotion} from './Motion';
 
 /** A branded bag opens the verified receipt; reduced motion reveals it immediately. */
-export function VirtualReceipt({order}:{order:Order}) {
+export function VirtualReceipt({order,onViewOrder}:{order:Order;onViewOrder?:()=>void;itemImages?:Record<string,string>}) {
  const {colors}=useTheme(), reduce=useReducedMotion();
+ const [revealed,setRevealed]=useState(false),[torn,setTorn]=useState(false),[tearing,setTearing]=useState(false),[notice,setNotice]=useState('');
+ const savingRef=useRef(false);
+ const [tear]=useState(()=>new Animated.Value(0));
+ const [saving,setSaving]=useState(false),[error,setError]=useState('');
+ const compactMoney=(amount:number)=>money(amount).replace(/\.00$/, '');
+ const method=order.paymentChannel==='bank_transfer'?'Bank transfer':order.paymentChannel==='saved_card'||order.paymentChannel==='hosted'||order.paymentChannel==='card'?'Card':'—';
  const [height,setHeight]=useState(0),[replay,setReplay]=useState(0),[opened,setOpened]=useState(false);
  const [feed]=useState(()=>new Animated.Value(0));
  const measured=height>0;
  const paid=order.paymentStatus==='paid';
  useEffect(()=>{
   if(!measured||!opened)return;
-  feed.stopAnimation();feed.setValue(reduce?1:0);
-  if(reduce)return;
-  const motion=Animated.timing(feed,{toValue:1,duration:850,delay:80,easing:Easing.out(Easing.quad),useNativeDriver:true});
-  motion.start();return()=>motion.stop();
+  feed.stopAnimation();feed.setValue(0);
+  const motion=Animated.timing(feed,{toValue:1,duration:reduce?0:1400,delay:reduce?0:80,easing:Easing.out(Easing.quad),useNativeDriver:false});
+  motion.start(({finished})=>{if(finished)setRevealed(true);});return()=>motion.stop();
  },[feed,measured,reduce,order.reference,replay,opened]);
- const row=(label:string,value:number,strong=false)=><View key={label} style={s.row}><Text style={[s.ink,strong&&s.bold,{flex:1}]}>{label}</Text><Text style={[s.ink,strong&&s.bold]}>{money(value)}</Text></View>;
- return <View style={{gap:14,width:'100%',maxWidth:430,alignSelf:'center'}}>
-  <View style={{alignItems:'center',gap:8,marginBottom:10}}><Text style={{fontSize:11,letterSpacing:2,color:colors.muted}}>{paid?'PAYMENT CONFIRMED':'ORDER DETAILS'}</Text><Text style={{fontSize:28,fontWeight:'700',textAlign:'center'}}>{paid?'Consider it yours.':'Your order.'}</Text><Text style={{textAlign:'center',color:colors.muted}}>Tap your bag to reveal your receipt.</Text></View>
-  <Pressable accessibilityRole="button" accessibilityLabel={opened?'Replay receipt reveal':'Open your order receipt'} accessibilityState={{expanded:opened}} onPress={()=>{setOpened(true);setReplay(n=>n+1);}} style={{alignSelf:'center',width:190,height:204,alignItems:'center',justifyContent:'flex-end',marginBottom:12,marginTop:opened?85:0}}>
-   <View style={{position:'absolute',top:6,width:68,height:62,borderWidth:5,borderColor:'#343b36',borderRadius:30}}/>
-   {opened&&<Animated.View accessibilityElementsHidden style={{position:'absolute',top:35,width:145,height:145,backgroundColor:'#faf8ef',padding:14,alignItems:'center',gap:10,transform:[{translateY:feed.interpolate({inputRange:[0,.55,1],outputRange:[70,-80,-80]})}],opacity:feed.interpolate({inputRange:[0,.15,1],outputRange:[0,1,1]})}}><Text style={{fontSize:10,color:colors.accentInk,letterSpacing:2}}>VANTA NOIR</Text><Text style={{fontSize:10,color:colors.accentInk}}>PAYMENT RECEIPT</Text><Text style={{fontSize:15,color:colors.accentInk,fontWeight:'700'}}>{money(order.totalKobo+(paid?(order.paymentFeeKobo||0):0))}</Text></Animated.View>}
-   <View style={{width:190,height:170,backgroundColor:'#222824',borderRadius:8,borderTopWidth:6,borderTopColor:'#151a17',alignItems:'center',justifyContent:'center',gap:12,boxShadow:'0px 10px 20px rgba(0,0,0,0.16)'}}><Image source={require('../../assets/emblem-watermark.png')} resizeMode="contain" style={{width:68,height:58,tintColor:'#00ff66'}}/><Text style={{color:'#f4f5f0',letterSpacing:4,fontSize:12}}>VANTA NOIR</Text><Text style={{color:'#00ff66',fontSize:9,letterSpacing:2}}>{opened?'TAP TO REPLAY':'TAP TO OPEN'}</Text></View>
-  </Pressable>
-  {opened&&<View testID="receipt-feed" style={s.feed}>
-   <Animated.View testID="receipt-paper" onLayout={e=>setHeight(e.nativeEvent.layout.height)} style={{opacity:height?feed.interpolate({inputRange:[0,.5,1],outputRange:[0,0,1]}):0,transform:[{translateY:feed.interpolate({inputRange:[0,1],outputRange:[-56,0]})},{scale:feed.interpolate({inputRange:[0,1],outputRange:[0.9,1]})}]}}>
+ useEffect(()=>()=>tear.stopAnimation(),[tear]);
+ const openReceipt=()=>{if(tearing||savingRef.current)return;setRevealed(false);setTorn(false);tear.setValue(0);setOpened(true);setReplay(n=>n+1);setNotice('');};
+ const tearReceipt=()=>{if(tearing||torn)return;setRevealed(false);setTearing(true);Animated.timing(tear,{toValue:1,duration:reduce?0:620,easing:Easing.inOut(Easing.cubic),useNativeDriver:true}).start(({finished})=>{if(finished){setTearing(false);setTorn(true);setRevealed(true);}});};
+ const exportReceipt=async(mode:'download'|'save')=>{if(savingRef.current)return;savingRef.current=true;setSaving(true);setError('');try{const result=await downloadReceipt(order,mode);setNotice(result==='saved'?'Receipt saved to your selected folder.':result==='downloaded'?'Receipt download started.':'');}catch{setError('Could not save your receipt. Please try again.');}finally{savingRef.current=false;setSaving(false);}};
+ const row=(label:string,value:number,strong=false)=><View key={label} style={s.row}><Text style={[s.ink,strong&&s.bold,{flex:1}]}>{label}</Text><Text style={[s.ink,strong&&s.bold]}>{compactMoney(value)}</Text></View>;
+ return <View style={{gap:10,width:'100%',maxWidth:430,alignSelf:'center'}}>
+  <Animated.View testID="receipt-scene" style={{height:feed.interpolate({inputRange:[0,1],outputRange:[280,Math.max(430,height+110)]}),overflow:'hidden',width:'100%'}}>
+   <Animated.Image accessibilityElementsHidden source={require('../../assets/receipt-bag-foreground.png')} resizeMode="contain" style={{position:'absolute',top:feed.interpolate({inputRange:[0,1],outputRange:[26,Math.max(240,height-92)]}),zIndex:0,width:'100%',height:230}}/>
+   <Animated.View testID="receipt-paper" pointerEvents={opened?'auto':'none'} accessibilityElementsHidden={!opened} importantForAccessibility={opened?'auto':'no-hide-descendants'} onLayout={e=>setHeight(e.nativeEvent.layout.height)} style={{position:'absolute',top:0,left:48,right:48,zIndex:1,opacity:feed.interpolate({inputRange:[0,.08,1],outputRange:[0,1,1]}),transform:[{translateY:feed.interpolate({inputRange:[0,1],outputRange:[260,8]})}]}}>
+    <Animated.View style={{transform:[{translateX:tear.interpolate({inputRange:[0,.35,.65,1],outputRange:[0,-3,5,5]})},{translateY:tear.interpolate({inputRange:[0,1],outputRange:[0,9]})},{rotate:tear.interpolate({inputRange:[0,.5,1],outputRange:['0deg','-1deg','1deg']})}]}}>
     <View style={s.paper}>
-     <Text style={[s.ink,{textAlign:'center',letterSpacing:3,fontSize:17,fontWeight:'700'}]}>VANTA NOIR</Text>
-     <Text style={[s.small,{textAlign:'center'}]}>Presence. Power. Precision.</Text>
+     <Text style={[s.ink,{textAlign:'center',letterSpacing:3,fontSize:10,fontWeight:'600'}]}>VANTA NOIR</Text>
      <View style={s.rule}/>
-     <Text style={s.small}>{paid?'PAYMENT RECEIPT':'ORDER · PAYMENT UNCONFIRMED'}</Text>
+     <Text style={s.small}>{paid?'Order receipt':'Order · payment unconfirmed'}</Text>
      <Text selectable style={[s.small,{fontSize:10}]}>{customerOrderReference(order.reference)}</Text>
      <View style={s.rule}/>
-     {order.items?.map((item,i)=><View key={item.variantId+':'+i} style={{gap:5}}>
-      <View style={s.row}><Text style={[s.ink,s.bold,{flex:1}]}>{item.productName}</Text><Text style={s.ink}>{money(item.quantity*item.unitPriceKobo)}</Text></View>
-      <Text style={s.small}>{item.color} / {item.size} / Qty {item.quantity}</Text>
-      <Text style={s.small}>{money(item.unitPriceKobo)} each</Text>
+     {order.items?.map((item,i)=><View key={item.variantId+':'+i} style={{flexDirection:'row',gap:9,alignItems:'center'}}>
+
+      <View style={{flex:1,gap:3}}><Text style={[s.ink,s.bold,{fontSize:10,lineHeight:14}]}>{item.productName}</Text><Text style={s.small}>{item.color} · {item.size} · × {item.quantity}</Text></View>
+      <Text style={[s.ink,{fontSize:10}]}>{compactMoney(item.quantity*item.unitPriceKobo)}</Text>
      </View>)}
      <View style={s.rule}/>
-     {order.subtotalKobo!==undefined&&row('Subtotal',order.subtotalKobo+(order.discountKobo||0))}
+     {row('Subtotal',order.subtotalKobo!==undefined?order.subtotalKobo+(order.discountKobo||0):(order.items||[]).reduce((total,item)=>total+item.unitPriceKobo*item.quantity,0))}
      {!!order.discountKobo&&row('Discount',-order.discountKobo)}
-     {order.shippingKobo!==undefined&&row('Delivery',order.shippingKobo)}
+     {order.shippingKobo!==undefined&&row('Shipping',order.shippingKobo)}
      {!!order.paymentFeeKobo&&row('Payment processing fee',order.paymentFeeKobo)}
-     {row(paid?'Total paid':'Order total',order.totalKobo+(paid?(order.paymentFeeKobo||0):0),true)}
-     <View style={[s.stamp,{borderColor:paid?'#225c3b':'#69542f'}]}><Text style={[s.ink,{fontSize:21,letterSpacing:4,color:paid?'#225c3b':'#69542f'}]}>{paid?'PAID':'UNPAID'}</Text></View>
-     {paid&&['paid_stock_review','cancelled'].includes(order.status)&&<Text style={s.small}>Payment received. Customer care is reviewing this order before fulfilment.</Text>}
-     <Text style={[s.small,{textAlign:'center'}]}>{paid?'Thank you for your order.':'Payment has not been confirmed.'}{'\n'}vantanoir.store</Text>
+     {row('Total',order.totalKobo+(paid?(order.paymentFeeKobo||0):0),true)}{paid&&<View style={[s.stamp,{borderColor:colors.accentInk}]}><Text style={{fontSize:25,fontWeight:'700',letterSpacing:2,color:colors.accentInk}}>PAID</Text></View>}<View style={{height:26}}/>
     </View>
+    <Animated.View accessibilityElementsHidden style={{height:1,borderTopWidth:1,borderStyle:'dashed',borderColor:'#9caa9c',opacity:tear.interpolate({inputRange:[0,.7,1],outputRange:[1,.7,0]}),transform:[{scaleX:tear.interpolate({inputRange:[0,1],outputRange:[1,0]})}]}}/>
     <View accessibilityElementsHidden style={s.teeth}>{Array.from({length:24},(_,i)=><View key={i} style={s.tooth}/>)}</View>
+    </Animated.View>
    </Animated.View>
+   <Animated.View testID="receipt-bag-front" style={{position:'absolute',top:feed.interpolate({inputRange:[0,1],outputRange:[80,Math.max(240,height-92)+54]}),zIndex:2,width:'100%',height:176,overflow:'hidden'}}><Pressable accessibilityRole="button" accessibilityLabel={opened?'Replay receipt reveal':'Open your order receipt'} accessibilityState={{expanded:opened}} onPress={openReceipt} style={{width:'100%',height:'100%'}}><Animated.Image source={require('../../assets/receipt-bag-foreground.png')} resizeMode="contain" style={{position:'absolute',top:-54,width:'100%',height:230}}/></Pressable></Animated.View>
+  </Animated.View>
+  {!opened&&<>{paid&&<View style={{alignSelf:'center',width:34,height:34,borderRadius:17,borderWidth:1.5,borderColor:colors.accentInk,alignItems:'center',justifyContent:'center'}}><Icon name="checkmark" size={22} color={colors.accentInk}/></View>}
+  <View style={{alignItems:'center',gap:7}}><Text style={{fontSize:23,fontWeight:'700'}}>{paid?'Payment confirmed':'Your order'}</Text><Text style={{fontSize:14,color:colors.muted}}>Thank you for your order.</Text></View>
+  <View style={{padding:12,borderRadius:12,borderWidth:1,borderColor:colors.border,backgroundColor:colors.glass,gap:7}}>{[['Reference',customerOrderReference(order.reference)],['Amount paid',compactMoney(order.totalKobo+(paid?(order.paymentFeeKobo||0):0))],['Payment method',method],['Status',paid?'Confirmed':'Unconfirmed']].map(([label,value])=><View key={label} style={{flexDirection:'row',gap:14,alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:12,color:colors.muted}}>{label}</Text><Text numberOfLines={1} selectable style={{fontSize:12,fontWeight:label==='Reference'||label==='Amount paid'?'600':'400',maxWidth:'65%',...(label==='Status'?{backgroundColor:colors.selected,color:colors.accentInk,borderRadius:8,paddingHorizontal:9,paddingVertical:3}:{})}}>{value}</Text></View>)}</View>
+  {!opened&&<Pressable accessibilityRole="button" accessibilityLabel="Tap bag to view receipt" onPress={openReceipt} style={{minHeight:64,padding:12,borderRadius:12,borderWidth:1,borderColor:colors.border,backgroundColor:colors.glass,flexDirection:'row',gap:14,alignItems:'center'}}><View style={{width:40,height:40,borderRadius:20,backgroundColor:colors.selected,alignItems:'center',justifyContent:'center'}}><Icon name="bag-outline" size={22} color={colors.accentInk}/></View><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:'600'}}>Tap bag to view receipt</Text><Text style={{fontSize:11,color:colors.muted}}>See your order summary.</Text></View></Pressable>}
+  {onViewOrder&&<Pressable accessibilityRole="button" onPress={onViewOrder} style={{minHeight:46,borderRadius:10,backgroundColor:colors.accent,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:28,marginTop:4}}><Text style={{color:colors.onAccent,fontSize:14,fontWeight:'600'}}>View order</Text><Icon name="arrow-forward" size={20} color={colors.onAccent}/></Pressable>}
+  </>}
+  {!!error&&<Text accessibilityRole="alert">{error}</Text>}{!!notice&&<Text accessibilityLiveRegion="polite">{notice}</Text>}
+  {opened&&revealed&&<View style={{flexDirection:'row',gap:8}}>
+   <Pressable accessibilityRole="button" disabled={saving||tearing} onPress={()=>void exportReceipt('save')} style={s.action}><Icon name="save-outline" size={20}/><Text>{saving?'Saving…':'Save'}</Text></Pressable>
+   <Pressable accessibilityRole="button" disabled={saving||tearing||torn} onPress={tearReceipt} style={s.action}><Icon name="cut-outline" size={20}/><Text>{torn?'Torn':'Tear'}</Text></Pressable>
+   <Pressable accessibilityRole="button" disabled={saving||tearing} onPress={openReceipt} style={s.action}><Icon name="refresh" size={20}/><Text>Replay</Text></Pressable>
   </View>}
-  {opened&&!reduce&&<Pressable accessibilityRole="button" onPress={()=>setReplay(n=>n+1)} style={{padding:12,alignSelf:'center'}}><Text style={{color:colors.muted}}>Replay receipt animation</Text></Pressable>}
+
  </View>;
 }
 const mono=Platform.OS==='ios'?'Menlo':'monospace';
 const s=StyleSheet.create({
+ action:{flex:1,minHeight:44,flexDirection:'row',gap:6,alignItems:'center',justifyContent:'center'},
  printer:{height:58,backgroundColor:'#252e32',borderRadius:10,zIndex:2,justifyContent:'center',alignItems:'center',marginTop:16,boxShadow:'0px 8px 16px rgba(0,0,0,0.2)'},
  printerBrand:{color:'#c0c8c9',letterSpacing:4,fontSize:9},light:{position:'absolute',left:14,top:13,width:5,height:5,borderRadius:3,backgroundColor:'#00ff66'},
  slot:{position:'absolute',bottom:8,left:16,right:16,height:7,backgroundColor:'#080d10',borderRadius:4},
  feed:{overflow:'hidden',marginHorizontal:6,paddingBottom:16},
- paper:{backgroundColor:'#faf8ef',padding:22,paddingTop:30,gap:13,borderLeftWidth:1,borderRightWidth:1,borderColor:'#deddd2'},
+ paper:{backgroundColor:'#fffefa',padding:16,paddingTop:20,gap:7,borderRadius:2,borderWidth:1,borderColor:'#e6e4df',boxShadow:'0 5px 16px rgba(0,0,0,.16)'},
  ink:{color:'#202621',fontFamily:mono,fontSize:12,lineHeight:19},small:{color:'#586057',fontFamily:mono,fontSize:10,lineHeight:16},bold:{fontWeight:'700'},row:{flexDirection:'row',justifyContent:'space-between',gap:10,flexWrap:'wrap'},rule:{borderTopWidth:1,borderStyle:'dashed',borderColor:'#bfc4b7',marginVertical:3},
  stamp:{alignSelf:'center',borderWidth:2,paddingHorizontal:18,paddingVertical:4,transform:[{rotate:'-7deg'}],marginVertical:10},
  teeth:{flexDirection:'row',height:9,overflow:'hidden'},tooth:{flex:1,height:9,backgroundColor:'#faf8ef',transform:[{skewY:'-30deg'}],marginRight:1}

@@ -4,7 +4,7 @@ import { SHIPPING_COUNTRIES } from './shipping-countries';
 
 export const NIGERIA_STATES = ["Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT Abuja", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"];
 export const commerceSettingsSchema = z.object({
-  brandAccent: z.object({admin:z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#c8ff65'),storefront:z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#c8ff65')}).default({}),
+  brandAccent: z.object({admin:z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#00ff66'),storefront:z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#c8ff65')}).default({}),
   hero: heroSchema.default({}),
   announcement: announcementSchema.default({}),
   aboutImage: aboutImageSchema.default({}),

@@ -40,7 +40,7 @@ const config: ExpoConfig = {
       "android.permission.ACCESS_COARSE_LOCATION",
     ],
   },
-  plugins: [...(!studio ? ["expo-apple-authentication", "@react-native-firebase/app", "@react-native-firebase/auth", "@react-native-firebase/crashlytics", ["@react-native-firebase/analytics", {ios:{withoutAdIdSupport:true}}], ["expo-build-properties", {ios:{useFrameworks:"dynamic"}}], ["@react-native-google-signin/google-signin", {iosUrlScheme:"com.googleusercontent.apps.78543560148-3eri5t357qd46se1t1lj3pchpk3dsvo3"}]] as NonNullable<ExpoConfig["plugins"]> : []), "expo-notifications","expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
+  plugins: [...(!studio ? ["expo-apple-authentication", "@react-native-firebase/app", "@react-native-firebase/auth", "@react-native-firebase/crashlytics", ["@react-native-firebase/analytics", {ios:{withoutAdIdSupport:true}}], ["expo-build-properties", {ios:{useFrameworks:"dynamic"}}], ["@react-native-google-signin/google-signin", {iosUrlScheme:"com.googleusercontent.apps.78543560148-3eri5t357qd46se1t1lj3pchpk3dsvo3"}]] as NonNullable<ExpoConfig["plugins"]> : []), "expo-notifications","expo-sharing","expo-video", ["expo-image-picker", {photosPermission:"Choose a profile photo for Vanta Noir.", cameraPermission:false, microphonePermission:false}], "expo-router", "expo-secure-store", "expo-web-browser", "expo-font"],
   extra: {
     variant: studio ? "studio" : "customer",
     ...(!studio ? { eas: { projectId: "fa2d496b-dfe1-490c-9c6c-c1d961442dd6" } } : {}),
