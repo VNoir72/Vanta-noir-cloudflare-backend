@@ -1,5 +1,5 @@
 "use client";
-import {Building2,Truck,CreditCard,Palette,Package,RotateCcw,ChevronDown} from 'lucide-react';
+import { Building2,Truck,CreditCard,Palette,Package,RotateCcw,ChevronDown } from 'lucide-react';
 import { CompactReference } from '@/components/compact-reference';
 import { RecordEditor } from './record-editor';
 import { changedFields } from '@/lib/admin-field-patch';
