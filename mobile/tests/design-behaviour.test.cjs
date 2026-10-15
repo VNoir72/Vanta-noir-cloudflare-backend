@@ -21,7 +21,7 @@ test('country choices update browsing currency, persist, and never turn stale ra
  await p.savePreferences({currency:'USD',rates:{NGN:1,USD:0.001},rateAt:Date.now()});
  assert.equal(p.displayMoney(100000),'≈ $1.00');
  await p.savePreferences({rateAt:Date.now()-49*3600000});
- assert.match(p.displayMoney(100000),/NGN/);
+ assert.equal(p.displayMoney(100000),'USD conversion unavailable');
  assert.doesNotMatch(p.displayMoney(100000),/≈/);
 });
 test('order journey does not imply shipment for unpaid, cancelled or stock-review orders',()=>{
