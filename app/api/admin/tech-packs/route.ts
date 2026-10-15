@@ -1,5 +1,7 @@
 import {standardPDF} from '@/lib/manufacturer-standard-pdf.mjs';
 import {adminAuthStateFromRequest} from '@/lib/admin-auth';
+import {garmentPDFs,garmentPDF,renderGarmentPDFs} from '@/lib/tech-pack-pdf-attachments';
+import {runtimeEnv} from '@/lib/runtime-env';
 import {getDbBinding} from '@/lib/runtime-env';
 import {buildTechPack,renderTechPackHTML} from '@/lib/tech-packs.mjs';
 
@@ -16,6 +18,18 @@ export async function GET(request:Request) {
     if (id) {
       const product=await db.prepare('SELECT id,name,slug,category,image_url,image_alt,details_json,updated_at FROM products WHERE id = ?').bind(id).first();
       if (!product) return Response.json({error:'Garment not found.'},{status:404,headers});
+      const format=url.searchParams.get('format');
+      if(format==='files')return new Response(renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
+      if(format==='attachments')return Response.json({id,pdfs:garmentPDFs(id),revision:'R05',status:'sampling draft'},{headers});
+      if(format==='pdf'){
+        const pdf=garmentPDF(id,url.searchParams.get('color'));
+        if(!pdf)return Response.json({error:'Choose a saved colourway for this garment.'},{status:404,headers});
+        const bucket=runtimeEnv().BUCKET;
+        if(!bucket)return Response.json({error:'PDF storage is unavailable.'},{status:503,headers});
+        const object=await bucket.get('tech-packs/r05-20261015/'+pdf.file);
+        if(!object||object.size!==pdf.bytes||object.customMetadata?.sha256!==pdf.sha256)return Response.json({error:'This PDF is unavailable. Please retry later.'},{status:503,headers});
+        return new Response(object.body,{headers:{...headers,'Content-Type':'application/pdf','Content-Length':String(object.size),'Content-Disposition':`attachment; filename="${pdf.file}"`}});
+      }
       const [images,variants]=await Promise.all([
         db.prepare('SELECT product_id,image_url,image_alt,color,sort_order FROM product_images WHERE product_id = ? ORDER BY sort_order,id').bind(id).all(),
         db.prepare('SELECT product_id,sku,size,color FROM product_variants WHERE product_id = ? ORDER BY color,size').bind(id).all()
@@ -33,6 +47,6 @@ export async function GET(request:Request) {
       db.prepare(`SELECT COUNT(*) AS total FROM products p ${where}`).bind(...args).first<{total:number}>(),
       db.prepare(`SELECT p.id,p.name,p.category,p.status,p.updated_at FROM products p ${where} ORDER BY p.name,p.id LIMIT 30 OFFSET ?`).bind(...args,(page-1)*30).all()
     ]);
-    return Response.json({products:rows.results,total:count?.total||0,page,pageSize:30},{headers});
+    return Response.json({products:rows.results.map(p=>({...p,pdfs:garmentPDFs(String(p.id))})),total:count?.total||0,page,pageSize:30},{headers});
   } catch {return Response.json({error:'Tech packs could not be loaded. Please retry.'},{status:500,headers});}
 }
