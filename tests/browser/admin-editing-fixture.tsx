@@ -2,7 +2,7 @@ import {applyFieldChanges} from '../../lib/admin-field-patch';
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../../app/globals.css';
-import '../../app/admin/admin-appearance.css';
+import "../../app/admin/workspace.css";
 import {adminThemeCSS} from '../../lib/admin-theme-css';
 const style=document.createElement('style');style.textContent=adminThemeCSS;document.head.appendChild(style);document.documentElement.dataset.vnAdminTheme='light';
 import {TerminalPickup} from '../../app/admin/terminal-pickup';

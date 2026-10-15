@@ -1,13 +1,12 @@
 'use client';
-import {compactIdentifier} from '@/lib/compact-identifiers';
-import {adminRead,hasArray} from '@/lib/admin-read';
-import {Ga4Connection} from './ga4-connection';
-import {useEffect,useRef,useState} from 'react';
-import {Bell,Search} from 'lucide-react';
-import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/ui/dialog';
-import type {AdminProduct} from '@/lib/store-db';
-import {formatNaira} from '@/lib/catalog';
-import {useAdminNavigation} from './unsaved-changes';
+import { compactIdentifier } from '@/lib/compact-identifiers';
+import { adminRead,hasArray } from '@/lib/admin-read';
+import { Ga4Connection } from './ga4-connection';
+import { useEffect,useRef,useState } from 'react';
+import { Bell,Search } from 'lucide-react';
+import { Dialog,DialogContent,DialogTitle,DialogDescription } from '@/components/ui/dialog';
+import type { AdminProduct } from '@/lib/store-db';
+import { formatNaira } from '@/lib/catalog';
 type Row=Record<string,any>;
 export type AdminTarget={section:string;query?:string;customerEmail?:string;status?:string;resource?:string;stockFilter?:'low'|'out'|'available';productStatus?:string};
 export function AdminSearch({products,onNavigate,onProduct}:{products:AdminProduct[];onNavigate:(target:AdminTarget)=>void;onProduct:(product:AdminProduct)=>void}){

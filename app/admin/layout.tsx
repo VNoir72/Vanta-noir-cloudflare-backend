@@ -1,8 +1,4 @@
-import "./control-center.css";
-import "./dashboard-exact.css";
-import "./admin-appearance.css";
-import "./organization.css";
-import "./concept.css";
+import "./workspace.css";
 import {AdminAppearance} from './admin-theme';
 import {adminThemeScript} from '@/lib/admin-theme';
 import {adminThemeCSS} from '@/lib/admin-theme-css';

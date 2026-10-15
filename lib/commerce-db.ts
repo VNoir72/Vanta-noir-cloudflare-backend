@@ -1,13 +1,13 @@
-import {serviceBudget} from './abuse-policy';
-import {automationEnabled} from './automation-state';
-import {connectEmailTracking} from './email-delivery';
+import { serviceBudget } from './abuse-policy';
+import { automationEnabled } from './automation-state';
+import { connectEmailTracking } from './email-delivery';
 import { z } from "zod";
 import { renderEmailHtml } from "./email-template";
-import { getDbBinding, runtimeEnv } from "./runtime-env";
-import { commerceSettingsSchema, defaultCommerceSettings, type CommerceSettings } from "./commerce-config";
+import { getDbBinding,runtimeEnv } from "./runtime-env";
+import { commerceSettingsSchema,defaultCommerceSettings,type CommerceSettings } from "./commerce-config";
 import { formatNaira } from "./catalog";
 import { SITE_URL } from "./seo";
-import { queueReleaseAlerts, releaseAvailable, releaseStoreReady } from './merchandising-db';
+import { releaseAvailable,releaseStoreReady } from './merchandising-db';
 
 export async function getCommerceSettings(): Promise<CommerceSettings> {
   const row=await getDbBinding().prepare("SELECT value FROM store_meta WHERE key = 'commerce_settings'").first<{value:string}>();

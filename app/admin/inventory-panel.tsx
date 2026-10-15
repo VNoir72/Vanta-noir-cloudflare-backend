@@ -1,9 +1,9 @@
 'use client';
-import {CompactReference} from '@/components/compact-reference';
-import {useMemo,useRef,useState} from 'react';
-import {parseStock,stockEntryTotal,matchesStockFilter,stockTotals,type InventoryRow,type StockFilter} from '@/lib/admin-inventory';
-import {useUnsavedChanges,useAdminNavigation} from './unsaved-changes';
-import {toast} from 'sonner';
+import { CompactReference } from '@/components/compact-reference';
+import { useMemo,useRef,useState } from 'react';
+import { stockEntryTotal,matchesStockFilter,stockTotals,type InventoryRow,type StockFilter } from '@/lib/admin-inventory';
+import { useUnsavedChanges,useAdminNavigation } from './unsaved-changes';
+import { toast } from 'sonner';
 type Feedback={text:string;error?:boolean};
 export function InventoryPanel({rows,onSaved,onHistory,onRefresh,initialFilter='all',threshold=3}:{threshold?:number;initialFilter?:StockFilter;rows:InventoryRow[];onSaved:(row:InventoryRow)=>void;onHistory:()=>void;onRefresh?:()=>Promise<void>}){
  const [drafts,setDrafts]=useState<Record<string,string>>({}),[feedback,setFeedback]=useState<Record<string,Feedback>>({}),[saving,setSaving]=useState<Record<string,boolean>>({});

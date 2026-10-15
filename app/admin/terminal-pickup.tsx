@@ -1,17 +1,17 @@
 'use client';
-import {useEffect,useRef,useState} from 'react';
-import {NIGERIA_STATES} from '@/lib/commerce-config';
-import type {PickupDetails,PickupRecord} from '@/lib/terminal-pickup';
-import {RecordEditor} from './record-editor';
-import {useAdminNavigation} from './unsaved-changes';
+import { useEffect,useRef,useState } from 'react';
+import { NIGERIA_STATES } from '@/lib/commerce-config';
+import type { PickupDetails,PickupRecord } from '@/lib/terminal-pickup';
+import { RecordEditor } from './record-editor';
+import { useAdminNavigation } from './unsaved-changes';
 const blank:PickupDetails={line1:'',line2:'',city:'',state:'',country:'NG',first_name:'',last_name:'',phone:'',email:'',zip:''};
 export function TerminalPickup(){
- const [value,setValue]=useState<PickupDetails>(blank),[baseline,setBaseline]=useState<PickupDetails>(blank),[revision,setRevision]=useState<string|null>(null),[ready,setReady]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState('');const lock=useRef(false),form=useRef<HTMLFormElement>(null);const [editing,setEditing]=useState(false);const navigate=useAdminNavigation();const dirty=JSON.stringify(value)!==JSON.stringify(baseline);
+ const [value,setValue]=useState<PickupDetails>(blank),[baseline,setBaseline]=useState<PickupDetails>(blank),[revision,setRevision]=useState<string|null>(null),[ready,setReady]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState('');const lock=useRef(false);const navigate=useAdminNavigation();const dirty=JSON.stringify(value)!==JSON.stringify(baseline);
 
  function apply(p:PickupRecord|null){setValue(p?.details||blank);setBaseline(p?.details||blank);setRevision(p?.revision||null);setSaved(p?.updatedAt||'');setReady(true);}
  async function load(){if(lock.current)return;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/admin/terminal-pickup',{cache:'no-store',signal:AbortSignal.timeout(20000)});const d:any=await r.json();if(!r.ok)throw new Error(d.error||'Could not load pickup details.');apply(d.pickup);}catch(e){setError((e as Error).message);}finally{lock.current=false;setBusy(false);}}
  useEffect(()=>{void load();},[]);
- async function save(details:PickupDetails){if(lock.current||!ready)return false;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/admin/terminal-pickup',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({details,revision}),signal:AbortSignal.timeout(20000)});const d:any=await r.json();if(!r.ok)throw new Error(d.error||'Could not save pickup details.');apply(d.pickup);setEditing(false);return true;}catch(e){setError((e as Error).name==='TimeoutError'?'Save response timed out. Your edits are preserved. Reload saved details to check whether they were saved.':(e as Error).message);return false;}finally{lock.current=false;setBusy(false);}}
+ async function save(details:PickupDetails){if(lock.current||!ready)return false;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/admin/terminal-pickup',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({details,revision}),signal:AbortSignal.timeout(20000)});const d:any=await r.json();if(!r.ok)throw new Error(d.error||'Could not save pickup details.');apply(d.pickup);return true;}catch(e){setError((e as Error).name==='TimeoutError'?'Save response timed out. Your edits are preserved. Reload saved details to check whether they were saved.':(e as Error).message);return false;}finally{lock.current=false;setBusy(false);}}
  return <section className="vn-product-disclosure" style={{minWidth:0,overflowWrap:'anywhere'}}><h3>Business pickup details</h3><p>Enter the address where your courier will collect parcels. These details are private to the owner. Saving prepares your pickup profile; it does not enable live shipping. Existing sandbox tests keep their separate test address.</p>
  {ready&&<RecordEditor name="Pickup details" initialValue={baseline} initialEditing={!saved} busy={busy} onSave={save}>{(value,setValue)=><div className="vn-admin-fields">
  {([['line1','Pickup street address','text',200],['line2','Address line 2 (optional)','text',200],['city','Pickup city','text',100],['first_name','Contact first name','text',100],['last_name','Contact last name','text',100],['phone','Contact phone number','tel',25],['email','Contact email','email',254],['zip','Pickup postcode','text',6]] as const).map(([key,label,type,max])=><label key={key}>{label}<input aria-label={label} type={type} required={key!=='line2'} maxLength={max} value={value[key]} inputMode={key==='zip'?'numeric':undefined} pattern={key==='zip'?'[0-9]{6}':undefined} onChange={e=>setValue({...value,[key]:e.target.value})}/>{key==='phone'&&<small>Use 080… or +234…</small>}{key==='zip'&&<small>Use the six-digit postcode for the actual pickup address.</small>}</label>)}

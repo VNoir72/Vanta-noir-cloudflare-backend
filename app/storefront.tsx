@@ -1,54 +1,53 @@
 "use client";
-import {SponsoredStories} from '@/components/growth-experience';
-import {BrandIcon} from '@/components/brand-icon';
-import {recordProductInterest} from '@/lib/product-interest-client';
+import { SponsoredStories } from '@/components/growth-experience';
+import { BrandIcon } from '@/components/brand-icon';
+import { recordProductInterest } from '@/lib/product-interest-client';
 import './storefront.css';
-import {CollectionPlaceholder} from "@/components/storefront-motion";
-import {PriceFilter} from "@/components/price-filter";
-import {replaceBrowseUrl} from "@/lib/browse-history";
-import {useDisplayCurrency} from "@/lib/display-currency";
-import {garmentName} from "@/lib/product-names";
+import { CollectionPlaceholder } from "@/components/storefront-motion";
+import { PriceFilter } from "@/components/price-filter";
+import { replaceBrowseUrl } from "@/lib/browse-history";
+import { useDisplayCurrency } from "@/lib/display-currency";
+import { garmentName } from "@/lib/product-names";
 
 import { shopperDescription } from "@/lib/product-specs";
 import { ProductSpecifications } from "./product-specifications";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect,useMemo,useRef,useState } from "react";
 import { flushSync } from "react-dom";
-import { ArrowLeft, ArrowRight, Check, Heart, HelpCircle, Menu, Plus, Search, ShoppingBag, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { ArrowLeft,ArrowRight,Check,Heart,Plus,Search,ShoppingBag,SlidersHorizontal,Sparkles,X } from "lucide-react";
 
-import {StoreAnnouncement} from "@/components/store-announcement";
+import { StoreAnnouncement } from "@/components/store-announcement";
 import { CampaignHero } from "@/components/campaign-hero";
 import StoreImage from "@/components/store-image";
-import { SlidingGarmentViews, garmentViews } from "@/components/sliding-garment-views";
-import {StoreHeader} from "@/components/store-header";
+import { SlidingGarmentViews,garmentViews } from "@/components/sliding-garment-views";
+import { StoreHeader } from "@/components/store-header";
 import { StoreFooter } from "@/components/store-shell";
 import { SizeGuide } from "@/components/size-guide";
 import { CustomerSignup } from "@/components/customer-signup";
-import { homepageSections, EMPTY_MERCHANDISING, isNewArrival, isPreview, bestSellerUnits, bestSellerScore, confirmedSoldOut, sellingFast, lowStockMessage, type MerchandisingData } from '@/lib/merchandising';
+import { EMPTY_MERCHANDISING,isNewArrival,isPreview,bestSellerUnits,bestSellerScore,confirmedSoldOut,sellingFast,lowStockMessage,type MerchandisingData } from '@/lib/merchandising';
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductGallery } from "@/components/product-gallery";
 import { apiUrl } from "@/lib/api-client";
 import { useStoreSettings } from "@/lib/store-settings";
 import { readStorage } from "@/lib/browser-store";
-import { trackProducts, trackCommerce } from "@/lib/analytics";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import {BagDrawer} from "@/components/bag-drawer";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { STORE_COLORWAYS, type CatalogColorway, type CatalogProduct } from "@/lib/catalog-runtime";
-import { CART_STORAGE_KEY, cartInventory, catalogVariantId, reconcileCart, restoreCart, type CartItem } from "@/lib/cart";
+import { trackProducts,trackCommerce } from "@/lib/analytics";
+import { Dialog,DialogClose,DialogContent,DialogDescription,DialogTitle } from "@/components/ui/dialog";
+import { BagDrawer } from "@/components/bag-drawer";
+import { Select,SelectContent,SelectItem,SelectTrigger,SelectValue } from "@/components/ui/select";
+import { STORE_COLORWAYS,type CatalogColorway,type CatalogProduct } from "@/lib/catalog-runtime";
+import { CART_STORAGE_KEY,cartInventory,catalogVariantId,reconcileCart,restoreCart,type CartItem } from "@/lib/cart";
 
-import { SHOP_CATEGORIES, SHOP_SECTIONS, categoryFor as baseCategoryFor, matchesCategory as baseMatchesCategory } from "@/lib/shop-categories";
+import { SHOP_SECTIONS,categoryFor as baseCategoryFor } from "@/lib/shop-categories";
 import { stableProductCards } from "@/lib/catalog-cards";
-import {useCatalogOptions} from "@/lib/use-catalog-options";
-import { validAudience, matchesAudience, browseParams, collectionLink, productLink } from "@/lib/catalog-browsing";
+import { useCatalogOptions } from "@/lib/use-catalog-options";
+import { validAudience,matchesAudience,browseParams,collectionLink,productLink } from "@/lib/catalog-browsing";
 import { catalogStyles } from "@/lib/catalog-styles";
 import { swatchBackground } from "@/lib/catalog-swatches";
-import { productCardLabel } from "@/lib/product-card-label";
 import { compareSizes } from "@/lib/size-labels";
-import { catalogSearchScore, shopperCollectionLabel } from "@/lib/catalog-search";
-import { colourLabel, colourFamily, matchesColour } from "@/lib/catalog-colours";
+import { catalogSearchScore } from "@/lib/catalog-search";
+import { colourFamily,matchesColour } from "@/lib/catalog-colours";
 type Category = string;
 type Entry = { product: CatalogProduct; color: CatalogColorway; key: string };
-const CATEGORIES: Category[] = ["All", ...SHOP_SECTIONS, "New arrivals", "Best sellers"];
+
 const CART_KEY = CART_STORAGE_KEY, SAVED_KEY = "vn-discover-saved-v1";
 const nameOf = (product: CatalogProduct) => garmentName(product.name);
 const keyOf = (product: CatalogProduct, color: CatalogColorway) => `${color.sourceProductId??product.id}:${color.slug}`;
@@ -60,7 +59,6 @@ function read(key: string): unknown { try { return JSON.parse(localStorage.getIt
 function write(key: string, value: unknown) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Shopping works without browser storage. */ } }
 
 export function Storefront({ products: initialProducts, sizes, detailSlug }: { products: CatalogProduct[]; sizes: string[]; detailSlug?: string }) {
-  const [searchOpen,setSearchOpen]=useState(false);
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const settings = useStoreSettings();
   const displayCurrency=useDisplayCurrency();
@@ -201,7 +199,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   useEffect(() => { if (!message) return; const id = setTimeout(() => setMessage(""), 3800); return () => clearTimeout(id); }, [message]);
 
   const displayProducts = useMemo(()=>catalogStyles(products),[products]);
-  const collectionLabel=(value:string)=>shopperCollectionLabel(value,settings.collectionLabels);
+
   const stylesFor=(p:CatalogProduct)=>{const c=categoryFor(p);const text=`${p.name} ${p.category}`.toLowerCase();return [...(/performance|active|training|gym|legging|sports bra|jersey/.test(text)?['Activewear']:[]),...(/street|graphic|cargo|hoodie|denim|jogger|baggy|oversized/.test(text)?['Streetwear']:[]),...(c?.section==='Outerwear'?['Outerwear']:[]),...(/basic|essential|plain|underwear|socks/.test(text)?['Essentials']:[])];};
   const matchesCollection=(p:CatalogProduct)=>collectionFilter==='All'||stylesFor(p).includes(collectionFilter);
   const entries = useMemo(() => {
@@ -216,13 +214,11 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     return result;
   }, [displayProducts]);
   const audienceProducts = products.filter(p => matchesAudience(p,audienceFilter));
-  const availableCategories = options.categories.filter(c => audienceProducts.some(p => categoryFor(p)?.id === c.id));
-  const availableCollections = [...new Set(audienceProducts.flatMap(stylesFor))].sort();
+
   useEffect(() => { setVisibleCount(36); }, [query, category, audienceFilter, collectionFilter, colorFilter, sizeFilter, priceFilter, savedOnly, sort, priceRange, dropFilter,inStockOnly]);
-  const categoryProducts = audienceProducts.filter(p => matchesCategory(p, category) && matchesCollection(p));
-  const catalogColors = [...new Map(categoryProducts.flatMap(p => p.colorways).map(c => [colourFamily(c.name), {name:colourFamily(c.name),hex:c.hex}])).values()];
+
   const orderSizes=(values:string[])=>values.sort(compareSizes);
-  const catalogSizes = orderSizes([...new Set(categoryProducts.flatMap(p=>p.colorways.flatMap(c=>Object.keys(c.stock))))].filter(size => size !== "Size pending"));
+
   const showEditorial = hydrated && !detailSlug && audienceFilter === "All" && category === "All" && !query && !savedOnly && collectionFilter === "All" && colorFilter === "All" && sizeFilter === "All" && priceFilter === "All" && priceRange[0]===0 && priceRange[1]===10000000 && dropFilter==="All" && !inStockOnly;
   const showHomepageMerch = hydrated && !detailSlug && category === 'All' && !query && !savedOnly && collectionFilter === 'All' && colorFilter === 'All' && sizeFilter === 'All' && priceFilter === 'All' && priceRange[0]===0 && priceRange[1]===10000000 && dropFilter==='All' && !inStockOnly;
   const CollectionHeading = !detailSlug && !showEditorial ? "h1" : "h2";
@@ -254,7 +250,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const filtered = filteredState.cards;
   const inventory = useMemo(() => cartInventory(products), [products]);
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = cart.reduce((sum, item) => sum + item.priceKobo * item.quantity, 0);
+
   const activeFilters = Number(category !== "All") + Number(audienceFilter !== "All") + Number(collectionFilter !== "All") + Number(colorFilter !== "All") + Number(sizeFilter !== "All") + Number(priceFilter !== "All"||priceRange[0]>0||priceRange[1]<10000000)+Number(dropFilter!=="All")+Number(inStockOnly);
   const detailProduct = detailSlug ? displayProducts.find(p => p.slug === detailSlug || p.colorways.some(c=>c.sourceSlug===detailSlug)) : undefined;
   useEffect(() => {
@@ -284,7 +280,6 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const browseContext = {audience:audienceFilter,category,collection:collectionFilter,query,color:colorFilter,size:sizeFilter,price:priceFilter,sort,saved:savedOnly};
   const productHref = (product:CatalogProduct,color:CatalogColorway) => productLink(color.sourceSlug??product.slug,color.slug,browseContext);
   function clearFilters() { setAudienceFilter("All");setPriceRange([0,10000000]);setDropFilter("All");setInStockOnly(false);setDropQuery("");setColourQuery(""); setCategory("All"); setCollectionFilter("All"); setColorFilter("All"); setSizeFilter("All"); setPriceFilter("All"); setQuery(""); setSavedOnly(false); setSort("featured"); }
-  function chooseAudience(value:string) { clearFilters(); setAudienceFilter(value); }
   const savingInterest=useRef(new Set<string>());
   async function toggleSaved(entry: Entry,saveSize=false) {
     if(savingInterest.current.has(entry.key))return;
@@ -357,7 +352,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     return () => lifecycle.abort();
   }, []);
 
-  function renderFilters(prefix = "catalog") {
+  function renderFilters() {
     // Pending selections never change cards, the URL or saved browsing preferences.
     const {audience:audienceFilter,category,collection:collectionFilter,color:colorFilter,size:sizeFilter,priceRange,drop:dropFilter,inStock:inStockOnly}=filterDraft;
     const update=<K extends keyof typeof filterDraft>(key:K,value:(typeof filterDraft)[K])=>setFilterDraft(d=>({...d,[key]:value}));

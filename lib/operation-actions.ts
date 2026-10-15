@@ -1,10 +1,10 @@
-import {saveRewardCampaign,drawRewardWinners} from '@/lib/rewards-db';
-import {getDbBinding} from '@/lib/runtime-env';
-import {z} from 'zod';
-import {permits,operationsData,adjustStock,bulkPrices,importProducts,savePromotion,saveStaff,deleteStaff,allocateExchange,exchangeTracking,orderAction,audit} from '@/lib/operations';
-import {updateReturn,returnUpdateSchema} from '@/lib/commerce-db';
-import {updateOrderTracking} from '@/lib/store-db';
-import type {StaffRole} from './operations-permissions';
+import { saveRewardCampaign,drawRewardWinners } from '@/lib/rewards-db';
+import { getDbBinding } from '@/lib/runtime-env';
+import { z } from 'zod';
+import { permits,adjustStock,bulkPrices,importProducts,savePromotion,saveStaff,deleteStaff,allocateExchange,exchangeTracking,orderAction,audit } from '@/lib/operations';
+import { updateReturn,returnUpdateSchema } from '@/lib/commerce-db';
+import { updateOrderTracking } from '@/lib/store-db';
+import type { StaffRole } from './operations-permissions';
 export const actionResource:Record<string,string>={stock:'inventory',prices:'bulk',import:'bulk',promotion:'promotions',reward:'promotions','reward-draw':'promotions',staff:'staff','staff-delete':'staff',exchange:'returns','exchange-tracking':'returns',return:'returns',order:'orders',tracking:'orders'};
 export async function executeOperation(action:string,data:unknown,actor:string,role:StaffRole){
 if(!actionResource[action]||!permits(role,actionResource[action]))throw new Error('Access denied.');

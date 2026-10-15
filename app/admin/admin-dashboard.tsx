@@ -1,46 +1,30 @@
 "use client";
-import {customerOrderReference} from '@/lib/order-reference';
-import {SettingsWorkspace} from './settings-workspace';
-import {suggestedSku} from '@/lib/compact-identifiers';
-import {CompactReference} from "@/components/compact-reference";
-import {AutomationsPanel} from './automations-panel';
-import {CrmPanel} from './crm-panel';
-import {AppControlsPanel} from './app-controls';
-import {useAdminTheme} from "./admin-theme";
+import { AdminBrand } from "./admin-brand";
+import { customerOrderReference } from '@/lib/order-reference';
+import { SettingsWorkspace } from './settings-workspace';
+import { suggestedSku } from '@/lib/compact-identifiers';
+import { AutomationsPanel } from './automations-panel';
+import { CrmPanel } from './crm-panel';
+import { AppControlsPanel } from './app-controls';
+import { useAdminTheme } from "./admin-theme";
 
-import {adminRead,hasArray,hasAnalytics} from "@/lib/admin-read";
+import { adminRead,hasArray,hasAnalytics } from "@/lib/admin-read";
 import { resolvedProductDetails } from "@/lib/product-specs";
 
-import Link from "next/link";
-import { useLocalGreeting } from "./use-local-greeting";
-import {TechPackArchive} from "./tech-pack-archive";
-import {useCatalogOptions} from "@/lib/use-catalog-options";
-import {CatalogOptionsEditor} from "./catalog-options-editor";
-import {defaultOptions} from "@/lib/catalog-options";
-import {AdminSearch,NotificationBell,CustomersPanel,IntegrationStatus,type AdminTarget} from './management-tools';
-import {EmailDeliveryPanel} from "./email-delivery-panel";
-import {OverviewPanel,ReportControls,type ConnectionSummary,type FulfilmentCounts} from "./overview-panel";
-import {LayoutDashboard,Layers,ChartNoAxesCombined,Tag,Settings,ExternalLink,Search,PanelLeft,ArrowUpRight,Menu,ChevronDown,ChevronRight,Users,ShieldCheck,History,Folder,MoreHorizontal,Home,ShoppingCart} from "lucide-react";
+import { TechPackArchive } from "./tech-pack-archive";
+import { useCatalogOptions } from "@/lib/use-catalog-options";
+import { CatalogOptionsEditor } from "./catalog-options-editor";
+import { defaultOptions } from "@/lib/catalog-options";
+import { AdminSearch,NotificationBell,type AdminTarget } from './management-tools';
+import { EmailDeliveryPanel } from "./email-delivery-panel";
+import { OverviewPanel,ReportControls,type ConnectionSummary } from "./overview-panel";
+import { ChartNoAxesCombined,Tag,Settings,ExternalLink,Menu,Users,ShieldCheck,MoreHorizontal,Home,ShoppingCart } from "lucide-react";
 import { LegacyRecords } from "./legacy-records";
-import { useEffect, useMemo, useState, useRef, type Dispatch, type SetStateAction } from "react";
+import { useEffect,useMemo,useState,useRef,type Dispatch,type SetStateAction } from "react";
 import {
-  Archive,
-  ArrowLeft,
-  Boxes,
-  Eye,
-  EyeOff,
-  ImagePlus,
-  LogOut,
-  PackageCheck,
-  Pencil,
-  Plus,
-  RefreshCw,
-  RotateCcw,
-  Save,
-  ShoppingBag,
-  Star,
-  Trash2,
-  X,
+Archive,Boxes,ImagePlus,PackageCheck,Plus,
+RefreshCw,Save,Trash2,
+X
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -49,51 +33,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+Select,
+SelectContent,
+SelectItem,
+SelectTrigger,
+SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Toaster } from "@/components/ui/sonner";
-import { VARIANT_SIZES, storeSizeSchema, compareSizes } from "@/lib/sizing";
-import { formatNaira, STORE_SIZES } from "@/lib/catalog";
-import type { AdminAnalytics, AdminOrder, AdminProduct, ProductStatus } from "@/lib/store-db";
-import { allowedOrderStatuses } from "@/lib/order-status";
+import { VARIANT_SIZES,storeSizeSchema,compareSizes } from "@/lib/sizing";
+import { formatNaira } from "@/lib/catalog";
+import type { AdminAnalytics,AdminOrder,AdminProduct,ProductStatus } from "@/lib/store-db";
 import { CatalogueQuality } from "./catalogue-quality";
-import { LaunchReview, LaunchReviewBox } from './launch-review';
+import { LaunchReview } from './launch-review';
 import { ProductDemandPanel } from './product-demand-panel';
 import { ReleasePanel } from './release-panel';
 import { ProductReadiness } from "./product-readiness";
 import { ProductProperties } from "./product-properties";
-import {useAdminHasChanges} from "./unsaved-changes";
-import {ApprovalsPanel} from "./approvals-panel";
-import {WorkspaceHelp} from './workspace-help';
-import {SupportAlerts} from './support-alerts';
-import {SupportDashboard} from "./support-dashboard";
+import { useAdminHasChanges } from "./unsaved-changes";
+import { ApprovalsPanel } from "./approvals-panel";
+import { WorkspaceHelp } from './workspace-help';
+import { SupportDashboard } from "./support-dashboard";
 import { OperationsPanel } from "./operations-panel";
 import { CommercePanel } from "./commerce-panel";
-import { OrderTools, exportOrders } from "./order-tools";
-import { productDetails, type ProductDetails } from "@/lib/product-details";
+import { OrderTools,exportOrders } from "./order-tools";
+import { productDetails,type ProductDetails } from "@/lib/product-details";
 import { StudioImagery } from "./studio-imagery";
-import {Sheet,SheetContent,SheetTitle,SheetDescription} from "@/components/ui/sheet";
+import { Sheet,SheetContent,SheetTitle,SheetDescription } from "@/components/ui/sheet";
 import StoreImage from "@/components/store-image";
 
-import {InventoryPanel} from './inventory-panel';
-import {stockTotals,parseStock,type InventoryRow} from '@/lib/admin-inventory';
-import {UnsavedChangesProvider,useUnsavedChanges,useAdminNavigation} from './unsaved-changes';
-import {BulkOrders} from './bulk-orders';
-import {OrderStatusEditor} from './order-status-editor';
+import { InventoryPanel } from './inventory-panel';
+import { stockTotals,parseStock,type InventoryRow } from '@/lib/admin-inventory';
+import { UnsavedChangesProvider,useUnsavedChanges,useAdminNavigation } from './unsaved-changes';
+import { BulkOrders } from './bulk-orders';
+import { OrderStatusEditor } from './order-status-editor';
 
 
 type ProductImageDraft = {
@@ -208,24 +182,16 @@ function DashboardContent({
   paymentsMode?: string;
 }) {
   const useAdminThemeValue = useAdminTheme();
-  const greeting = useLocalGreeting();
   const {options,setOptions}=useCatalogOptions();
   const [section, commitSection] = useState("overview");
-  const sectionHistory = useRef<string[]>([]);
   const currentSection = useRef("overview");
   function setSectionState(next:string) {
     if (next === currentSection.current) return;
-    sectionHistory.current.push(currentSection.current);
     currentSection.current = next;
     commitSection(next);
   }
   const navigate=useAdminNavigation();
   const hasChanges=useAdminHasChanges();
-  const goBack = () => navigate(() => {
-    const previous = sectionHistory.current.pop() || "overview";
-    currentSection.current = previous;
-    commitSection(previous);
-  });
   const setSection=(next:string)=>{if(next!==section)navigate(()=>setSectionState(next));};
   const [operationsStart,setOperationsStart]=useState<string|undefined>('reports');
   const [lowStockThreshold,setLowStockThreshold]=useState(3);
@@ -234,9 +200,8 @@ function DashboardContent({
   const mobileNavContent=useRef<HTMLDivElement|null>(null);
   useEffect(()=>{setMobileNav(false);document.querySelector('.vn-control-content')?.scrollTo({top:0,behavior:'instant'});window.scrollTo({top:0,behavior:'instant'});},[section]);
   useEffect(()=>{const mq=window.matchMedia("(min-width: 1024px)");const close=()=>{if(mq.matches)setMobileNav(false);};mq.addEventListener("change",close);return()=>mq.removeEventListener("change",close);},[]);
-  const [connections,setConnections]=useState<ConnectionSummary|null>(null),[fulfilment,setFulfilment]=useState<FulfilmentCounts|null>(null),[emailOpen,setEmailOpen]=useState(false),[emailIssues,setEmailIssues]=useState<number|null>(null);
+  const [connections,setConnections]=useState<ConnectionSummary|null>(null),[emailOpen,setEmailOpen]=useState(false);
   useEffect(()=>{const controller=new AbortController();adminRead<ConnectionSummary>("/api/admin/management?resource=integrations",v=>typeof v?.paymentsConfigured==='boolean'&&typeof v?.emailConfigured==='boolean',{signal:controller.signal}).then(setConnections).catch(()=>{});return()=>controller.abort();},[]);
-  const sections = ["overview", "launch-review", "products", "orders", "inventory", "customers", "automations", "support", "returns", "analytics", "collections", "tech-packs", "media", "operations", "discounts", "delivery", "approvals", "staff", "activity", "app-controls", "settings", "help"];
   const sectionLabels:Record<string,string>={overview:'Overview',analytics:'Reports',automations:'Marketing',settings:'Store settings','launch-review':'Launch review','tech-packs':'Tech-pack archive',help:'Help & how to use',support:'Support',approvals:'Staff approvals',collections:'Collections',returns:'Returns & refunds',staff:'Staff access',activity:'Activity',operations:'More tools'};
   const operationSections:Record<string,string>={returns:'returns',delivery:'courier',staff:'staff',activity:'activity',discounts:'promotions'};
   const [recentOrders,setRecentOrders]=useState(initialOrders),[campaignProductId,setCampaignProductId]=useState(''),[customerQuery,setCustomerQuery]=useState(''),[inventoryFilter,setInventoryFilter]=useState<'low'|'out'|'available'|'all'>('all'),[inventoryKey,setInventoryKey]=useState(0),[orderEntry,setOrderEntry]=useState(0),[fulfilmentCount,setFulfilmentCount]=useState(initialAnalytics.fulfilmentCount||0);
@@ -250,10 +215,10 @@ function DashboardContent({
   const selectedOrder=orders.find(o=>o.id===selectedOrderId);
   const [catalogTab,setCatalogTab]=useState("catalogue");
   const orderRequest=useRef(0);
-  const [orderPage,setOrderPage]=useState(1), [orderTotal,setOrderTotal]=useState(initialOrders.length), [hasMoreOrders,setHasMoreOrders]=useState(initialOrders.length===50);
+  const [orderPage,setOrderPage]=useState(1), [hasMoreOrders,setHasMoreOrders]=useState(initialOrders.length===50);
   const [orderCustomerEmail,setOrderCustomerEmail]=useState(""),[orderQuery,setOrderQuery]=useState(""),[orderStatusFilter,setOrderStatusFilter]=useState(""),[orderFrom,setOrderFrom]=useState(""),[orderTo,setOrderTo]=useState("");
   function orderParams(page:number){return new URLSearchParams({page:String(page),query:orderQuery,customerEmail:orderCustomerEmail,status:orderStatusFilter,from:orderFrom,to:orderTo}).toString();}
-  async function loadOrders(page:number,silent=false){const request=++orderRequest.current;if(!silent)setBusy("orders");try{const payload=await adminRead<{orders:AdminOrder[];total:number;hasMore:boolean}>(`/api/admin/orders?${orderParams(page)}`,v=>hasArray('orders')(v)&&Number.isFinite(v.total)&&typeof v.hasMore==='boolean');if(request!==orderRequest.current||(silent&&hasChanges()))return;setOrders(payload.orders);setOrderPage(page);setOrderTotal(payload.total);setHasMoreOrders(payload.hasMore);}catch(e){if(!silent&&request===orderRequest.current)toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{if(!silent&&request===orderRequest.current)setBusy(null);}}
+  async function loadOrders(page:number,silent=false){const request=++orderRequest.current;if(!silent)setBusy("orders");try{const payload=await adminRead<{orders:AdminOrder[];total:number;hasMore:boolean}>(`/api/admin/orders?${orderParams(page)}`,v=>hasArray('orders')(v)&&Number.isFinite(v.total)&&typeof v.hasMore==='boolean');if(request!==orderRequest.current||(silent&&hasChanges()))return;setOrders(payload.orders);setOrderPage(page);setHasMoreOrders(payload.hasMore);}catch(e){if(!silent&&request===orderRequest.current)toast.error(e instanceof Error?e.message:"Could not load orders.");}finally{if(!silent&&request===orderRequest.current)setBusy(null);}}
   useEffect(()=>{if(section==='orders')void loadOrders(1);},[section,orderEntry]);
   const orderRefresh=useRef(()=>{});orderRefresh.current=()=>{if(section==='orders'&&!document.hidden&&!hasChanges())void loadOrders(orderPage,true);};
   useEffect(()=>{const timer=setInterval(()=>orderRefresh.current(),30000);return()=>clearInterval(timer);},[]);
@@ -299,7 +264,7 @@ function DashboardContent({
         adminRead<{products:AdminProduct[]}>('/api/admin/products',hasArray('products')),
       ]);
       // Publish one coherent snapshot only after every required read succeeds.
-      setOrders(ordersPayload.orders);setOrderTotal(ordersPayload.total);setHasMoreOrders(ordersPayload.hasMore);
+      setOrders(ordersPayload.orders);setHasMoreOrders(ordersPayload.hasMore);
       setInventory(inventoryPayload.inventory);setAnalytics(analyticsPayload.analytics);
       setRecentOrders(recentPayload.orders);setProducts(productsPayload.products);
       toast.success("Dashboard refreshed.");
@@ -514,10 +479,10 @@ function DashboardContent({
   const [marketingTab,setMarketingTab]=useState<'automations'|'campaigns'>('automations');
   const primarySections=[['overview','Overview',Home],['orders','Orders',ShoppingCart],['products','Products',PackageCheck],['customers','Customers',Users],['app-controls','App controls',Settings],['automations','Marketing',Tag],['analytics','Reports',ChartNoAxesCombined],['settings','Store settings',Settings]] as const;
   const parentSection=({inventory:'products',collections:'products','launch-review':'products','tech-packs':'products',media:'products',support:'customers',returns:'orders',delivery:'settings',staff:'settings',approvals:'settings',activity:'analytics',discounts:'automations',operations:operationsStart==='sales'?'orders':operationsStart==='bulk'||operationsStart==='inventory'?'products':'analytics'} as Record<string,string>)[section]||section;
-  const workspaceTabs:Record<string,string[][]>={products:[['products','Catalogue'],['inventory','Inventory'],['collections','Collections'],['launch-review','Launch review'],['tech-packs','Tech packs'],['demand','Demand'],['media','Media'],['bulk','Bulk import']],orders:[['orders','Orders'],['returns','Returns & refunds'],['sales','Offline sales']],customers:[['customers','Directory'],['support','Support']],automations:[['campaigns','Campaigns'],['discounts','Coupons'],['automations','Automations']],analytics:[['analytics','Sales & conversion'],['reports','Detailed reports'],['activity','Activity']],settings:[['settings','Preferences'],['staff','Staff'],['approvals','Approvals']]};
+  const workspaceTabs:Record<string,string[][]>={products:[['products','Catalogue'],['inventory','Inventory'],['collections','Collections'],['launch-review','Launch review'],['tech-packs','Tech packs'],['demand','Demand']],orders:[['orders','Orders'],['returns','Returns & refunds'],['sales','Offline sales']],customers:[['customers','Directory'],['support','Support']],automations:[['campaigns','Campaigns'],['discounts','Coupons'],['automations','Automations']],analytics:[['analytics','Sales & conversion'],['reports','Detailed reports'],['activity','Activity']],settings:[['settings','Preferences'],['staff','Staff'],['approvals','Approvals']]};
   const tabNavigate=(id:string)=>{if(id==='demand'){setCatalogTab('demand');setSection('products');}else if(['bulk','sales','reports'].includes(id)){goTo({section:'operations',resource:id});}else if(id==='campaigns'||id==='automations'){navigate(()=>{setMarketingTab(id);setSectionState('automations');});}else{if(id==='products')setCatalogTab('catalogue');setSection(id);}};
   const navigation = <>
-    <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><img src="/images/vanta-spire-light.svg" alt=""/><strong>VANTA NOIR</strong></button>
+    <button className="vn-control-brand" aria-label="Vanta Noir overview" onClick={()=>{setMobileNav(false);setSection('overview');}}><AdminBrand/></button>
     <nav aria-label="Store administration">{primarySections.map(([id,label,Icon])=><button key={id} type="button" aria-current={parentSection===id?'page':undefined} onClick={()=>{setMobileNav(false);setSection(id);}}><Icon size={18}/>{label}</button>)}</nav>
     <div className="vn-sidebar-help"><button onClick={()=>setSection('help')}><ShieldCheck size={17}/>Help</button><button onClick={()=>document.querySelector<HTMLButtonElement>('.vn-chat-launch')?.click()}><Users size={17}/>Team chat</button></div>
   </>;
@@ -529,7 +494,7 @@ function DashboardContent({
       <nav className="vn-mobile-tabs" aria-label="Quick navigation">{[{id:'overview',label:'Overview',Icon:Home},{id:'orders',label:'Orders',Icon:ShoppingCart},{id:'products',label:'Products',Icon:PackageCheck},{id:'inventory',label:'Inventory',Icon:Boxes}].map(({id,label,Icon})=><button key={id} aria-current={section===id?'page':undefined} onClick={()=>setSection(id)}><Icon size={20}/>{label}</button>)}<button aria-label="More navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(true);}}><MoreHorizontal size={20}/>More</button></nav>
       <div className="vn-control-content">
       <Toaster theme={useAdminThemeValue} className="vn-admin-toaster" position="top-center" closeButton offset={{top:"88px"}} mobileOffset={{top:"88px",left:"16px",right:"16px"}} />
-      <div className="vn-workspace-bar"><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold} onCounts={setFulfilment}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">AD</span><span>Admin<small>Owner</small></span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><select aria-label="Admin appearance" data-admin-theme-control defaultValue="system" className="vn-header-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="schedule">Auto · time</option></select><a className="vn-visit-store vn-pill" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}>Visit store <ExternalLink size={14}/></a><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
+      <div className="vn-workspace-bar"><AdminSearch products={products} onNavigate={goTo} onProduct={openProduct}/><NotificationBell user={adminName} lowStock={metrics.lowStock} drafts={products.filter(p=>p.status==='draft').length} onNavigate={goTo} onCampaign={setCampaignProductId} onFulfilment={setFulfilmentCount} onThreshold={setLowStockThreshold}/><details className="vn-account-menu"><summary aria-label="Account menu"><span className="vn-owner-avatar">AD</span><span>Admin<small>Owner</small></span></summary><div><strong>Store owner</strong><p>{adminName}</p><button onClick={()=>setSection('settings')}>Store settings</button><a href={signOutPath} onClick={e=>{e.preventDefault();navigate(()=>{window.location.href=signOutPath;});}}>Sign out</a></div></details><select aria-label="Admin appearance" data-admin-theme-control defaultValue="system" className="vn-header-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="schedule">Auto · time</option></select><a className="vn-visit-store vn-pill" href="/" onClick={e=>{e.preventDefault();navigate(()=>{window.location.href='/';});}}>Visit store <ExternalLink size={14}/></a><button type="button" className="vn-menu-toggle" aria-label="Toggle navigation" aria-expanded={mobileNav} onClick={event=>{mobileNavTrigger.current=event.currentTarget;setMobileNav(!mobileNav);}}><Menu size={23}/></button></div>
       {statusPanel&&<div className="vn-operational-status">{statusPanel}</div>}
       <header className="vn-control-header">
         <div><h1>{section === "overview" ? "Overview" : (section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">{{overview:'Here’s what’s happening with your store today.',products:'Manage your catalogue, inventory and product information.',orders:'Manage orders and fulfilment.',customers:'Manage customer relationships.',settings:'Manage your store preferences and configuration.','app-controls':'Manage your mobile app, membership, offers and notifications.',automations:'Manage campaigns, coupons and automations.',analytics:'Understand sales and store performance.'}[parentSection]||'Manage your store.'}</p></div>
@@ -537,10 +502,10 @@ function DashboardContent({
       </header>
 
       <div className="vn-control-body">
-        {workspaceTabs[parentSection]&&<nav className="vn-workspace-tabs" aria-label={parentSection+' workspace'}>{workspaceTabs[parentSection].map(([id,label])=><button key={id} aria-current={(id==='demand'?section==='products'&&catalogTab==='demand':(id==='campaigns'||id==='automations'?section==='automations'&&marketingTab===id:id===section)&&(id!=='products'||catalogTab==='catalogue'))?'page':undefined} onClick={()=>tabNavigate(id)}>{label}</button>)}</nav>}
+        {parentSection==='products'&&<details className="vn-catalogue-tools"><summary>Catalogue tools</summary><button onClick={()=>tabNavigate('media')}>Media library</button><button onClick={()=>tabNavigate('bulk')}>Bulk import & prices</button></details>}{workspaceTabs[parentSection]&&<nav className="vn-workspace-tabs" aria-label={parentSection+' workspace'}>{workspaceTabs[parentSection].map(([id,label])=><button key={id} aria-current={(id==='demand'?section==='products'&&catalogTab==='demand':(id==='campaigns'||id==='automations'?section==='automations'&&marketingTab===id:id===section)&&(id!=='products'||catalogTab==='catalogue'))?'page':undefined} onClick={()=>tabNavigate(id)}>{label}</button>)}</nav>}
         {section==='overview'&&<div className="vn-packing-alert"><PackageCheck size={24}/><span><strong>{fulfilmentCount} orders to prepare</strong><small>Review paid orders and packing.</small></span><button className="vn-pill vn-control-primary" onClick={()=>goTo({section:'orders',status:'fulfil'})}>Review orders</button></div>}
         {section==='launch-review'&&<LaunchReview products={products} onEdit={openProduct} onSaved={product=>setProducts(current=>current.map(p=>p.id===product.id?product:p))}/>}
-        {(section === "overview" || section === "analytics") && <><div aria-live="polite">{reportLoading&&<p>Loading selected period…</p>}{reportError&&<p role="alert">{reportError}</p>}</div><OverviewPanel analytics={{...analytics,fulfilmentCount}} orders={recentOrders} products={products} lowStock={metrics.lowStock} onNavigate={goTo} onProduct={openProduct} campaignProductId={campaignProductId} onCampaignSaved={setCampaignProductId} fulfilment={fulfilment} connections={connections} paymentsMode={paymentsMode} loading={busy!==null||reportLoading} onRefresh={()=>void refresh()} emailPanel={<EmailDeliveryPanel open={emailOpen} onOpenChange={setEmailOpen} onSummary={setEmailIssues}/>}/>{section==='analytics'&&<button className="vn-pill vn-detailed-reports" onClick={()=>goTo({section:'operations',resource:'reports'})}>Open detailed sales and refund reports →</button>}</>}
+        {(section === "overview" || section === "analytics") && <><div aria-live="polite">{reportLoading&&<p>Loading selected period…</p>}{reportError&&<p role="alert">{reportError}</p>}</div><OverviewPanel analytics={{...analytics,fulfilmentCount}} orders={recentOrders} products={products} lowStock={metrics.lowStock} onNavigate={goTo} onProduct={openProduct} campaignProductId={campaignProductId} onCampaignSaved={setCampaignProductId} connections={connections} paymentsMode={paymentsMode} loading={busy!==null||reportLoading} onRefresh={()=>void refresh()} emailPanel={<EmailDeliveryPanel open={emailOpen} onOpenChange={setEmailOpen}/>}/>{section==='analytics'&&<button className="vn-pill vn-detailed-reports" onClick={()=>goTo({section:'operations',resource:'reports'})}>Open detailed sales and refund reports →</button>}</>}
         {section==='app-controls'&&<AppControlsPanel products={products} onNavigate={setSection}/>}
         {section==='tech-packs'&&<TechPackArchive/>}
         {section==='help'&&<WorkspaceHelp role="admin"/>}
@@ -643,29 +608,6 @@ function DashboardContent({
       </div>
       </div>
     </main>
-  );
-}
-
-function Metric({ icon: Icon, label, value }: { icon: typeof ShoppingBag; label: string; value: string }) {
-  return (
-    <article className="bg-muted p-6">
-      <Icon className="size-4 text-muted-foreground" />
-      <p className="mt-8 text-2xl">{value}</p>
-      <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
-    </article>
-  );
-}
-
-function ProductStatusBadge({ status }: { status: ProductStatus }) {
-  const styles: Record<ProductStatus, string> = {
-    draft: "border-border bg-card/[0.04] text-muted-foreground",
-    published: "border-border bg-primary/[0.08] text-foreground",
-    archived: "border-red-200/15 bg-red-200/[0.04] text-red-100/50",
-  };
-  return (
-    <Badge variant="outline" className={`rounded-full text-[10px] uppercase tracking-[0.12em] ${styles[status]}`}>
-      {PRODUCT_STATUS_LABELS[status]}
-    </Badge>
   );
 }
 

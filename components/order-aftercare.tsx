@@ -1,6 +1,5 @@
 "use client";
-import {CompactReference} from '@/components/compact-reference';
-import { useState, type FormEvent } from "react";
+import { useState,type FormEvent } from "react";
 import { apiUrl } from "@/lib/api-client";
 import { formatNaira } from "@/lib/catalog-runtime";
 export type TrackedOrder = {reference:string;totalKobo:number;status:string;paymentStatus:string;createdAt:string;carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string;items:Array<{id:number;productId:string;productName:string;size:string;color:string;quantity:number}>;returnRequest?:{id:string;kind:string;status:string;notes:string;refundKobo:number;refundStatus:string;exchangeStatus?:string;exchangeCarrier?:string;exchangeTracking?:string}|null};

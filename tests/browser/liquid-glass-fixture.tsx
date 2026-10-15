@@ -1,6 +1,6 @@
 import {StorefrontMotion} from "../../components/storefront-motion";
 import React,{useState} from 'react';import{createRoot}from'react-dom/client';
-import '../../app/globals.css';import '../../app/liquid-glass.css';import '../../app/admin/admin-appearance.css';
+import "../../app/admin/workspace.css";
 import {SlidingGarmentViews} from '../../components/sliding-garment-views';
 import {SizeGuideEditor} from '../../app/admin/size-guide-editor';import{productDetails}from'../../lib/product-details';
 import{loadPaystack}from'../../lib/paystack-inline';

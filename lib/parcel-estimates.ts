@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 // Planning assumptions, not measured garment specifications or courier promises.
 export const parcelDimensions=z.object({lengthCm:z.number().positive().max(200),widthCm:z.number().positive().max(200),heightCm:z.number().positive().max(200)});
 export const itemParcelSchema=parcelDimensions.extend({weightGrams:z.number().int().positive().max(50000),measured:z.boolean(),approvedForCheckout:z.boolean().optional()});

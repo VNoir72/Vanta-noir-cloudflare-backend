@@ -1,13 +1,12 @@
 "use client";
-import {ContactForm} from './contact-form';
-import { defaultCommerceSettings } from '@/lib/commerce-config';
+import { ContactForm } from './contact-form';
 import { shippingCountryName } from "@/lib/shipping-countries";
-import { useState, type FormEvent } from "react";
-import { ArrowRight, Mail, PackageSearch } from "lucide-react";
+import { useState,type FormEvent } from "react";
+import { ArrowRight,PackageSearch } from "lucide-react";
 import { StoreShell } from "./store-shell";
 import { AnalyticsPreferences } from "./analytics-consent";
 import { ProductReviews } from "./product-reviews";
-import { OrderAftercare, type TrackedOrder } from "./order-aftercare";
+import { OrderAftercare,type TrackedOrder } from "./order-aftercare";
 import { useStoreSettings } from "@/lib/store-settings";
 import { apiUrl } from "@/lib/api-client";
 import { formatNaira } from "@/lib/catalog-runtime";

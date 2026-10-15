@@ -1,6 +1,6 @@
-import {circleMembership} from './circle';
-import {getDbBinding} from './runtime-env';
-import {appControlsSchema,dropAccess,offerAccess,publicAccess,type AppAccess,type AppControls} from './app-controls-policy';
+import { circleMembership } from './circle';
+import { getDbBinding } from './runtime-env';
+import { appControlsSchema,dropAccess,offerAccess,publicAccess,type AppAccess } from './app-controls-policy';
 export {appControlsSchema,publicAccess};
 export const APP_CONTROLS_KEY='app-controls:v1';
 export async function appControlsSnapshot(){const r=await getDbBinding().prepare('SELECT value FROM store_meta WHERE key=?').bind(APP_CONTROLS_KEY).first<{value:string}>();return {raw:r?.value||null,config:appControlsSchema.parse(r?JSON.parse(r.value):{})};}

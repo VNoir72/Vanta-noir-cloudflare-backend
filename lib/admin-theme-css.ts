@@ -11,22 +11,22 @@ html[data-vn-admin-theme] {
  --admin-warning:#78561c; --admin-warning-bg:#fff4da;
  --admin-info:#316694; --admin-info-bg:#e8f0f7;
  --admin-scheme:light;
- --admin-backdrop:url('/images/vanta-pearl-leaf-glass.webp');
- --admin-ground-image:radial-gradient(ellipse at 85% 15%,#e2ebe4 0%,transparent 55%);
+ --admin-backdrop:none;
+ --admin-ground-image:linear-gradient(transparent,transparent);
 }
 html[data-vn-admin-theme=dark] {
- --admin-ground:#343f39; --admin-surface:#46564c; --admin-soft:#3d4d43;
- --admin-text:#f2f3ea; --admin-muted:#c1cec1; --admin-border:#718276;
- --admin-glass:rgba(78,96,83,.89); --admin-panel:rgba(83,103,89,.80);
- --admin-edge:rgba(215,230,208,.24); --admin-shadow:rgba(14,27,18,.25);
+ --admin-ground:#17191c; --admin-surface:#202328; --admin-soft:#282c31;
+ --admin-text:#f4f5f6; --admin-muted:#afb5bd; --admin-border:#3b4149;
+ --admin-glass:rgba(32,35,40,.89); --admin-panel:rgba(32,35,40,.80);
+ --admin-edge:rgba(255,255,255,.12); --admin-shadow:rgba(0,0,0,.25);
  --admin-accent:#00ff66; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;
  --admin-success:#c7e9b2; --admin-success-bg:#465e42;
  --admin-warning:#efdaa2; --admin-warning-bg:#625c3f;
  --admin-info:#c3dbef; --admin-info-bg:#435867;
  --admin-scheme:dark;
- --admin-backdrop:url('/images/admin-leaves.svg');
- --admin-ground-image:radial-gradient(ellipse at 90% 5%,#5a715d80 0%,transparent 55%);
+ --admin-backdrop:none;
+ --admin-ground-image:linear-gradient(transparent,transparent);
 }
 html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-theme] :is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen) {
  color-scheme:var(--admin-scheme); color:var(--admin-text);

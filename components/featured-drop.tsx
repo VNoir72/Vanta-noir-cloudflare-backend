@@ -1,17 +1,16 @@
 "use client";
-import {useEffect,useState} from 'react';
+import { useEffect,useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import {ArrowLeft,ArrowRight,Pause,Play} from 'lucide-react';
-import {SlidingGarmentViews,garmentViews} from './sliding-garment-views';
-import {type CatalogProduct} from '@/lib/catalog-runtime';
-import {confirmedSoldOut} from '@/lib/merchandising';
-import {garmentName} from '@/lib/product-names';
+import { SlidingGarmentViews,garmentViews } from './sliding-garment-views';
+import { type CatalogProduct } from '@/lib/catalog-runtime';
+import { confirmedSoldOut } from '@/lib/merchandising';
+import { garmentName } from '@/lib/product-names';
 
 export function FeaturedDrop({products,formatPrice}:{products:CatalogProduct[];formatPrice:(kobo:number)=>string}) {
   const [viewport,api]=useEmblaCarousel({align:'start',loop:false});
   const [paused,setPaused]=useState(false),[hovered,setHovered]=useState(false),[focused,setFocused]=useState(false);
   const [reduced,setReduced]=useState(true),[visible,setVisible]=useState(false),[pageVisible,setPageVisible]=useState(true);
-  const [index,setIndex]=useState(0),[count,setCount]=useState(0);
+  const [count,setCount]=useState(0);
   useEffect(()=>{
     const preference=window.matchMedia('(prefers-reduced-motion: reduce)');
     const motion=()=>setReduced(preference.matches),visibility=()=>setPageVisible(!document.hidden);
@@ -20,7 +19,7 @@ export function FeaturedDrop({products,formatPrice}:{products:CatalogProduct[];f
   },[]);
   useEffect(()=>{
     if(!api)return;
-    const update=()=>{setIndex(api.selectedScrollSnap());setCount(api.scrollSnapList().length);};
+    const update=()=>{setCount(api.scrollSnapList().length);};
     update();api.on('select',update).on('reInit',update);
     const interaction=()=>setPaused(true);api.on('pointerDown',interaction);
     const observer=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting),{threshold:0.25});observer.observe(api.rootNode());

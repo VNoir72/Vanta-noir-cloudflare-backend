@@ -1,15 +1,13 @@
-import {submitApproval,pendingResponse} from '@/lib/approvals';
+import { submitApproval,pendingResponse } from '@/lib/approvals';
 import { z } from "zod";
-import { productDetailsSchema } from "@/lib/product-details";
-import { storeSizeSchema } from "@/lib/sizing";
 
 import { adminAuthStateFromRequest } from "@/lib/admin-auth";
 import {
-  PRODUCT_STATUSES,
-  deleteAdminProduct,
-  listAdminProducts,
-  saveAdminProduct,
-  setAdminProductStatus,
+PRODUCT_STATUSES,
+deleteAdminProduct,
+listAdminProducts,
+saveAdminProduct,
+setAdminProductStatus,
 } from "@/lib/store-db";
 
 export const dynamic = "force-dynamic";

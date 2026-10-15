@@ -1,21 +1,20 @@
 "use client";
-import {AppAccessPreview} from "./app-access-preview";
-import { useEffect, useState, type ReactNode } from "react";
-import {PageBag} from './page-bag';
-import {StoreHeader} from "./store-header";
-import {CART_STORAGE_KEY,restoreCart} from "@/lib/cart";
-import {readStorage} from "@/lib/browser-store";
-import { validAudience, collectionLink } from "@/lib/catalog-browsing";
+import { AppAccessPreview } from "./app-access-preview";
+import { useEffect,useState,type ReactNode } from "react";
+import { PageBag } from './page-bag';
+import { StoreHeader } from "./store-header";
+import { CART_STORAGE_KEY,restoreCart } from "@/lib/cart";
+import { readStorage } from "@/lib/browser-store";
+import { validAudience,collectionLink } from "@/lib/catalog-browsing";
+import { CustomerSignup } from "./customer-signup";
+import { NewsletterPopup } from "./newsletter-popup";
+import { useStoreSettings } from "@/lib/store-settings";
+import { PaymentMethods } from "./payment-methods";
 function useDepartment() {
   const [audience,setAudience]=useState("All");
   useEffect(()=>{try {setAudience(validAudience(sessionStorage.getItem("vn-shop-audience")) ?? "All");}catch{}},[]);
   return audience;
 }
-import { ArrowRight, Heart, HelpCircle, Search, ShoppingBag } from "lucide-react";
-import { CustomerSignup } from "./customer-signup";
-import { NewsletterPopup } from "./newsletter-popup";
-import { useStoreSettings } from "@/lib/store-settings";
-import { PaymentMethods } from "./payment-methods";
 
 export function StoreFooter({ department }: { department?: string } = {}) {
   const settings=useStoreSettings();

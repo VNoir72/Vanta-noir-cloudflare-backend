@@ -1,28 +1,28 @@
 "use client";
-import {CompactReference} from '@/components/compact-reference';
-import {RecordEditor} from './record-editor';
-import {changedFields} from '@/lib/admin-field-patch';
-import {SETTINGS_SECTIONS,type SettingsSection} from "@/lib/settings-sections";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {Building2,Truck,CreditCard,Palette,Package,RotateCcw,ChevronDown} from 'lucide-react';
+import { CompactReference } from '@/components/compact-reference';
+import { RecordEditor } from './record-editor';
+import { changedFields } from '@/lib/admin-field-patch';
+import { type SettingsSection } from "@/lib/settings-sections";
+import { useEffect,useRef,useState,type ReactNode } from "react";
 import { type CommerceSettings } from "@/lib/commerce-config";
 import { exportCsv } from "./order-tools";
 import { formatNaira } from "@/lib/catalog";
-import { StoreDesignFields, InternationalShippingFields } from "./store-design-fields";
+import { StoreDesignFields,InternationalShippingFields } from "./store-design-fields";
 import { reconcileAdminDraft } from "@/lib/admin-draft";
-import {useUnsavedChanges,useOperationDraft} from './unsaved-changes';
-import {adminRead} from "@/lib/admin-read";
+import { adminRead } from "@/lib/admin-read";
 import { toast } from "sonner";
 type ReturnCase={id:string;version:number;reference:string;email:string;kind:string;reason:string;itemsJson:string;status:string;notes:string;refundKobo:number;refundReference:string;refundStatus:string;restocked:number};
 type Payload={settings:CommerceSettings;emailConfigured:boolean;paymentsConfigured:boolean;setupIssues:string[];hasMore:boolean;reviews:Array<{id:string;productName:string;displayName:string;rating:number;body:string;status:string}>;returns:ReturnCase[];emails:Array<{id:string;recipient:string;subject:string;status:string;attempts:number;lastError:string}>;subscribers:Array<{id:string;email:string;kind:string;variantId:string;status:string;createdAt:string}>;stock:Array<{id:number;sku:string;old_stock:number;new_stock:number;reason:string;actor:string;created_at:string}>};
 export function CommercePanel({onNavigate,onThreshold,view='all',visibleSections}:{visibleSections?:readonly SettingsSection[];view?:'all'|'settings'|'care';onNavigate?:(t:{section:string;resource?:string})=>void;onThreshold?:(n:number)=>void}={}){
   const [data,setData]=useState<Payload|null>(null),[settings,setSettings]=useState<CommerceSettings|null>(null),[error,setError]=useState(""),[busy,setBusy]=useState(false),[page,setPage]=useState(1);
   const serverSettings=useRef<CommerceSettings|null>(null),loadSequence=useRef(0),saving=useRef(false);
-  const [loading,setLoading]=useState(false),[editing,setEditing]=useState<SettingsSection|null>(null);
+  const [loading,setLoading]=useState(false);
   const [lastSavedSettings,setLastSavedSettings]=useState<CommerceSettings|null>(null);
   async function load(){const sequence=++loadSequence.current;setLoading(true);setError("");try{const p=await adminRead<Payload>(`/api/admin/commerce?page=${page}`,v=>!!v?.settings&&['setupIssues','reviews','returns','emails','subscribers','stock'].every(k=>Array.isArray(v[k]))&&['collectionLabels','shippingZones','internationalZones'].every(k=>Array.isArray(v.settings[k])));if(sequence!==loadSequence.current)return;const previous=serverSettings.current;serverSettings.current=p.settings;setData(p);onThreshold?.(p.settings.lowStockThreshold);setLastSavedSettings(p.settings);setSettings(current=>reconcileAdminDraft(current,previous,p.settings));}catch(e){if(sequence===loadSequence.current)setError(e instanceof Error?e.message:"Please try again.");}finally{if(sequence===loadSequence.current)setLoading(false);}}
   useEffect(()=>{void load();return()=>{loadSequence.current++;};},[page]);
   async function action(action:string,input?:unknown){if(saving.current)return false;saving.current=true;setBusy(true);try{const r=await fetch("/api/admin/commerce",{method:"POST",headers:{"Content-Type":"application/json"},signal:AbortSignal.timeout(30000),body:JSON.stringify({action,...(action.startsWith("settings")?{settings:input}:{data:input})})});const p=await r.json() as {error?:string;configured?:boolean;settings?:CommerceSettings};if(!r.ok)throw new Error(p.error||"Could not save changes.");if(action.startsWith("settings")&&p.settings){const saved=p.settings;window.dispatchEvent(new CustomEvent("vn-store-settings-saved",{detail:saved}));setLastSavedSettings(saved);serverSettings.current=saved;setData(current=>current?{...current,settings:saved}:current);setSettings(current=>reconcileAdminDraft(current,action.startsWith("settings-")?settings:input as CommerceSettings,saved));}toast.success(p.configured===false?"Emails remain queued until the sender is configured.":"Saved.");await load();return true;}catch(e){toast.error(e instanceof Error?e.message:"Please try again.");return false;}finally{saving.current=false;setBusy(false);}}
-  function section(id:SettingsSection,title:string,children:(value:CommerceSettings,setValue:(value:CommerceSettings)=>void)=>ReactNode){return <details className="vn-settings-section" hidden={visibleSections&&!visibleSections.includes(id)} open={visibleSections?.length===1?true:undefined} data-settings-section={id}><summary><h3>{title}</h3><span>Edit <span aria-hidden="true">›</span></span></summary>{data&&<RecordEditor name={title} initialValue={data.settings} busy={busy} onSave={value=>action('settings-fields',{section:id,changes:changedFields(data.settings,value)})}>{(value,setValue)=>children(value,setValue)}</RecordEditor>}</details>;}
+  function section(id:SettingsSection,title:string,children:(value:CommerceSettings,setValue:(value:CommerceSettings)=>void)=>ReactNode){const Icon=({support:Building2,international:Truck,fulfilment:Package,design:Palette,returns:RotateCcw,checkout:CreditCard} as Record<string,typeof Building2>)[id]||Building2;return <details className="vn-settings-section" hidden={visibleSections&&!visibleSections.includes(id)} open={visibleSections?.length===1?true:undefined} data-settings-section={id}><summary><Icon size={19} aria-hidden="true"/><h3>{title}</h3><span>Edit <ChevronDown size={15} aria-hidden="true"/></span></summary>{data&&<RecordEditor name={title} initialValue={data.settings} busy={busy} onSave={value=>action('settings-fields',{section:id,changes:changedFields(data.settings,value)})}>{(value,setValue)=>children(value,setValue)}</RecordEditor>}</details>;}
   if(error&&!data)return <section className="vn-admin-panel"><p role="alert">{error}</p><button className="vn-pill" onClick={load}>Retry</button></section>;
   if(!data||!settings)return <section className="vn-admin-panel"><p>Loading customer tools…</p></section>;
   return <section className="vn-admin-panel"><h2>{view==='care'?'Customer care':'Store settings'}</h2>
