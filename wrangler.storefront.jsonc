@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "vanta-storefront",
+  "main": "worker/storefront.mjs",
+  "compatibility_date": "2026-10-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "outputs/namecheap",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "services": [{"binding":"PUBLIC_API","service":"vanta-noir-api"}],
+  "routes": [
+    {"pattern":"vantanoir.store/*","zone_name":"vantanoir.store"},
+    {"pattern":"www.vantanoir.store/*","zone_name":"vantanoir.store"}
+  ],
+  "observability": {"enabled":true,"head_sampling_rate":1,"redact_query_string":true}
+}
