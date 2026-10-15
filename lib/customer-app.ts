@@ -256,17 +256,29 @@ export async function customerApp(request: Request): Promise<Response> {
       return json({removed:true});
     }
     if (path === "me" && request.method === "PATCH") {
-      const v = z
-        .object({
-          name: z.string().trim().max(100),
-          phone: z.string().trim().max(30).refine(v=>!v||/^\+?[0-9 ()-]{7,30}$/.test(v),"Enter a valid phone number.").optional(),
-          addresses: z.array(checkoutCustomerSchema).max(5),
-          favourites: z.array(z.string().max(160)).max(200),
-        })
-        .parse(await request.json());
-      const updates=[db.prepare("UPDATE app_customers SET name=?,addresses_json=?,favourites_json=? WHERE id=?").bind(v.name,JSON.stringify(v.addresses),JSON.stringify([...new Set(v.favourites)]),s.id)];
-      if(v.phone!==undefined)updates.push(db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind("customer-profile:"+s.id,JSON.stringify({phone:v.phone})));
-      await db.batch(updates);
+      const v = z.object({
+        name:z.string().trim().max(100).optional(),
+        phone:z.string().trim().max(30).refine(v=>!v||/^\+?[0-9 ()-]{7,30}$/.test(v),'Enter a valid phone number.').optional(),
+        addresses:z.array(checkoutCustomerSchema).max(5).optional(),
+        expectedAddresses:z.array(checkoutCustomerSchema).max(5).optional(),
+        favourites:z.array(z.string().max(160)).max(200).optional(),
+      }).parse(await request.json());
+      const columns:string[]=[],values:unknown[]=[];
+      if(v.name!==undefined){columns.push('name=?');values.push(v.name);}
+      if(v.favourites!==undefined){columns.push('favourites_json=?');values.push(JSON.stringify([...new Set(v.favourites)]));}
+      const changedAddresses=v.addresses!==undefined&&JSON.stringify(v.addresses)!==s.addresses_json;
+      if(changedAddresses){
+        // Old full-profile clients may not silently overwrite an existing address book.
+        if(v.expectedAddresses===undefined&&JSON.parse(s.addresses_json).length)return json({error:'Your saved addresses changed. Reload your account before editing them.'},409);
+        if(v.expectedAddresses!==undefined&&JSON.stringify(v.expectedAddresses)!==s.addresses_json)return json({error:'Your saved addresses changed on another device. Reload before saving.'},409);
+        columns.push('addresses_json=?');values.push(JSON.stringify(v.addresses));
+      }
+      if(columns.length){
+        const saved=await db.prepare('UPDATE app_customers SET '+columns.join(',')+' WHERE id=?'+(changedAddresses?' AND addresses_json=?':''))
+          .bind(...values,s.id,...(changedAddresses?[s.addresses_json]:[])).run();
+        if(saved.meta.changes===0)return json({error:'Your account changed. Reload before saving.'},409);
+      }
+      if(v.phone!==undefined)await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").bind('customer-profile:'+s.id,JSON.stringify({phone:v.phone})).run();
       return json({ saved: true });
     }
     if (path === "logout" && request.method === "POST") {

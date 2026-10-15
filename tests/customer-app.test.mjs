@@ -167,6 +167,13 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await request("me","PATCH",{name:"Alice",phone:"not-a-phone",addresses:[],favourites:[]},a)).status,400);
     assert.equal((await request("me","PATCH",{name:"Alice",addresses:[],favourites:["tee"]},a)).status,200);
     assert.equal((await request("me","GET",undefined,a)).data.customer.phone,"+2348000000000","legacy clients preserve contact phone");
+    const address={email:'a@example.com',firstName:'Alice',lastName:'Customer',phone:'+2348000000000',addressLine1:'12 Example Road',addressLine2:'',city:'Lagos',state:'Lagos',countryCode:'NG',postalCode:''};
+    assert.equal((await request('me','PATCH',{addresses:[address],expectedAddresses:[]},a)).status,200);
+    assert.equal((await request('me','PATCH',{name:'Alice updated',favourites:['tee']},a)).status,200);
+    assert.deepEqual((await request('me','GET',undefined,a)).data.customer.addresses,[address],'unrelated profile edits preserve saved addresses');
+    assert.equal((await request('me','PATCH',{addresses:[],expectedAddresses:[]},a)).status,409,'stale device cannot delete saved addresses');
+    assert.equal((await request('me','PATCH',{addresses:[]},a)).status,409,'legacy full-profile payload cannot wipe addresses');
+    assert.equal((await request('me','PATCH',{addresses:[],expectedAddresses:[address]},a)).status,200,'intentional current address deletion works');
     const customer = await db
       .prepare("SELECT id FROM app_customers WHERE email='a@example.com'")
       .first();

@@ -25,7 +25,7 @@ export function secureResponse(response: Response, request: Request, settings: S
   const headers = new Headers(response.headers);
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
-  headers.set("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  if (!headers.has("Content-Security-Policy")) headers.set("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   if(new URL(request.url).protocol==="https:")headers.set("Strict-Transport-Security", "max-age=31536000");
   if (!headers.has("Referrer-Policy")) headers.set("Referrer-Policy", "strict-origin-when-cross-origin");

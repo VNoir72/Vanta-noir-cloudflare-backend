@@ -16,7 +16,7 @@ test('country choices update browsing currency, persist, and never turn stale ra
  for(const [country,currency] of [['NG','NGN'],['US','USD'],['GB','GBP'],['FR','EUR'],['KE','KES'],['JP','JPY']]){
   await p.selectCountryCurrency(country);
   assert.equal(p.preferenceSnapshot().currency,currency);
-  assert.equal(saved.at(-1).currency,currency);
+  assert.equal(saved.at(-1).currency,currency);assert.equal(saved.at(-1).country,country);
  }
  await p.savePreferences({currency:'USD',rates:{NGN:1,USD:0.001},rateAt:Date.now()});
  assert.equal(p.displayMoney(100000),'≈ $1.00');
@@ -28,4 +28,14 @@ test('order journey does not imply shipment for unpaid, cancelled or stock-revie
  const p=load('order-policy.ts');
  for(const [status,expected] of [['processing',0],['packed',1],['shipped',2],['delivered',3],['paid_stock_review',null],['cancelled',null],['refunded',null]])assert.equal(p.fulfilmentStep({status,paymentStatus:'paid'}),expected);
  assert.equal(p.fulfilmentStep({status:'shipped',paymentStatus:'pending'}),null);
+});
+
+test('profile and favourites edits exclude unchanged addresses; address edits carry a concurrency baseline',()=>{
+ const {customerPatch}=load('customer-patch.ts');
+ const before={name:'A',email:'a@example.com',phone:'',addresses:[{addressLine1:'12 Example Road'}],favourites:[]};
+ assert.equal(customerPatch(before,{...before,name:'B'}).addresses,undefined);
+ assert.equal(customerPatch(before,{...before,favourites:['tee']}).addresses,undefined);
+ const changed=customerPatch(before,{...before,addresses:[]});
+ assert.equal(JSON.stringify(changed.expectedAddresses),JSON.stringify(before.addresses));
+ assert.equal(changed.addresses.length,0);
 });

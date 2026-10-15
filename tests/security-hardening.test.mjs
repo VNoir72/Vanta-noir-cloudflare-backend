@@ -177,3 +177,13 @@ test('body byte limit rejects headerless and understated payloads and preserves 
  const result=await boundedApiRequest(new Request('https://api.example.invalid/api/paystack/webhook',{method:'POST',body:raw}));
  assert.equal(await result.text(),raw);
 });
+
+test('shared response hardening preserves a stricter route CSP',async()=>{
+ await build({entryPoints:['lib/http-policy.ts'],outfile:'work/security-http.mjs',bundle:true,platform:'node',format:'esm'});
+ const {secureResponse}=await import(pathToFileURL(resolve('work/security-http.mjs')).href);
+ const policy="default-src 'none'; img-src 'self'; frame-ancestors 'none'";
+ const response=secureResponse(new Response('safe',{headers:{'Content-Security-Policy':policy}}),new Request('https://api.example.invalid/api/admin/tech-packs'),{});
+ assert.equal(response.headers.get('Content-Security-Policy'),policy);
+ assert.equal(response.headers.get('X-Content-Type-Options'),'nosniff');
+ assert.equal(response.headers.get('Cache-Control'),'no-store');
+});

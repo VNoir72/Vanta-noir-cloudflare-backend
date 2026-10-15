@@ -4,7 +4,7 @@ import {buildTechPack,renderTechPackHTML,imageURL} from '../lib/tech-packs.mjs';
 test('packs retain garment identity and saved measurements without inventing XS or regional equivalents',()=>{
  const pack=buildTechPack({id:'a',name:'A',details_json:JSON.stringify({sizeGuide:{status:'reference',sections:[{title:'Top',rows:[{size:'S',chest:51}]}]}})},[{product_id:'b',image_url:'/images/wrong.webp'}],[{product_id:'b',color:'wrong'}]);
  assert.deepEqual(pack.pictures,[]);assert.deepEqual(pack.colors,[]);
- const html=renderTechPackHTML(pack);assert.match(html,/China \(CN\/CH\)/);assert.match(html,/<th>XS<\/th><td>Pending/);assert.match(html,/<th>S<\/th><td>51/);assert.equal((html.match(/<article class="sheet">/g)||[]).length,2);
+ const html=renderTechPackHTML(pack);assert.match(html,/China \(CN\/CH\)/);assert(!html.includes('<th>XS</th>'));assert.match(html,/<td>51<\/td>/);assert.match(html,/<th class="sample">M<\/th>/);assert.equal((html.match(/<article class="sheet">/g)||[]).length,12);assert.match(html,/Height is independent/);assert.match(html,/not verified international numeric equivalents/);
 });
 test('stored text is escaped and images cannot inject active URLs',()=>{
  const html=renderTechPackHTML(buildTechPack({id:'a',name:'<script>alert(1)</script>',details_json:'{"features":"<img onerror=evil>"}'}));
