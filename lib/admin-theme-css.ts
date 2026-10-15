@@ -12,9 +12,11 @@ html[data-vn-admin-theme] {
  --admin-info:#316694; --admin-info-bg:#e8f0f7;
  --admin-scheme:light;
  --admin-backdrop:none;
+ --admin-panel-reflection:linear-gradient(transparent,transparent);
  --admin-ground-image:linear-gradient(transparent,transparent);
 }
 html[data-vn-admin-theme=dark] {
+ --admin-panel-reflection:linear-gradient(125deg,rgba(111,140,119,.13),transparent 65%);
  --admin-ground:#14201b; --admin-surface:#202e27; --admin-soft:#2b3c32;
  --admin-text:#f4f7f5; --admin-muted:#b8c6bd; --admin-border:#42564a;
  --admin-glass:rgba(35,52,43,.88); --admin-panel:rgba(35,51,42,.76);

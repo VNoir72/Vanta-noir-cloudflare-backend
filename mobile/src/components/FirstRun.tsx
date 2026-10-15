@@ -3,7 +3,7 @@ import {Modal,Pressable,ScrollView,View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text,useTheme} from '../theme';
-const pages=[['Presence. Power. Precision.','Explore Vanta Noir, save your favourite pieces and choose your colour and fit.'],['Your bag, your account','Browse freely. Sign in to place orders in the app, manage addresses and follow your deliveries. Guest checkout is available on our website.'],['You stay in control','Change your currency and appearance in Settings. Notifications are optional. You can manage your information or delete your account there too.']];
+const pages=[['Presence. Power. Precision.','Explore Vanta Noir, save your favourite pieces and choose your colour and fit.'],['Your bag, your account','Browse freely. Sign in to place orders in the app, manage addresses and follow your deliveries. Guest checkout is available on our website.'],['You stay in control','Choose your country, currency and appearance from You. Notifications are optional. You can manage your information or delete your account there too.']];
 export function FirstRun(){
  const {colors}=useTheme();const [open,setOpen]=useState(false),[step,setStep]=useState(0),[error,setError]=useState('');
  useEffect(()=>{let live=true;void AsyncStorage.getItem('vanta-onboarding-v1').then(v=>{if(live&&!v)setOpen(true);}).catch(()=>{});return()=>{live=false;};},[]);

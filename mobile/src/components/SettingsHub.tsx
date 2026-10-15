@@ -24,7 +24,7 @@ export function SettingsHub(p:Props){
  const preferences=usePreferences();
  const [monitoring,setMonitoring]=useState<MonitoringChoice>({analytics:false,diagnostics:false});
  useEffect(()=>{void monitoringChoice().then(setMonitoring);},[]);
- const {colors,appearance,setAppearance}=useTheme();
+ const {colors}=useTheme();
  const [panel,setPanel]=useState(p.initialPanel||'Settings'),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[name,setName]=useState(p.customer?.name||''),[phone,setPhone]=useState(p.customer?.phone||'');
  const [extra,setExtra]=useState({photo:'',gender:'',birthday:''});
  const [profileField,setProfileField]=useState<'Nickname'|'Birthday'|'Phone'|null>(null),[editing,setEditing]=useState<number|null>(null),[draft,setDraft]=useState<Address>(emptyAddress);
@@ -37,7 +37,7 @@ export function SettingsHub(p:Props){
  const section=(title:string)=><Text accessibilityRole="header" style={{fontSize:11,letterSpacing:1.5,fontWeight:'700',color:colors.muted,paddingHorizontal:16,paddingTop:24,paddingBottom:10}}>{title}</Text>;
  const gap=<View style={{height:10}}/>;
  const button=(label:string,action:()=>void)=><Pressable disabled={busy} onPress={action} style={{padding:15,margin:16,borderRadius:25,backgroundColor:colors.accent,alignItems:'center'}}><Text style={{fontWeight:'700',color:colors.onAccent}}>{label}</Text></Pressable>;
- const input=(label:string,value:string,change:(v:string)=>void)=><View style={{padding:16,gap:8,backgroundColor:colors.surface}}><Text>{label}</Text><TextInput accessibilityLabel={label} value={value} onChangeText={change} style={{padding:12,minHeight:44,borderWidth:1,borderColor:colors.border,borderRadius:10,color:colors.text}}/></View>;
+ const input=(label:string,value:string,change:(v:string)=>void)=><View style={{padding:16,gap:8,backgroundColor:colors.surface}}><Text>{label}</Text><TextInput accessibilityLabel={label} value={value} onChangeText={change} maxLength={label.startsWith('Phone')?30:label.startsWith('Birthday')?10:80} style={{padding:12,minHeight:44,borderWidth:1,borderColor:colors.border,borderRadius:10,color:colors.text}}/></View>;
  const info=(title:string,body:string)=>Alert.alert(title,body);
  const saveAddresses=async(addresses:Address[])=>{if(!p.customer)return;await p.onSave({...p.customer,addresses});setEditing(null);setMessage('Addresses saved.');};
  const choosePhoto=()=>void run(async()=>{const result=await ImagePicker.launchImageLibraryAsync({mediaTypes:['images'],allowsEditing:true,aspect:[1,1],quality:0.35,base64:true});if(!result.canceled&&result.assets[0].base64){if(result.assets[0].base64.length>1500000)throw Error('Please choose a smaller photo.');const next={...extra,photo:'data:image/jpeg;base64,'+result.assets[0].base64};await AsyncStorage.setItem(key,JSON.stringify(next));setExtra(next);}});
@@ -45,17 +45,16 @@ export function SettingsHub(p:Props){
   <BrandHeader title={panel==='Shipping address'?'Saved addresses':panel} onBack={()=>panel==='Settings'?p.onBack():open('Settings')}/><View style={{height:12}}/>
   {!!message&&<Text accessibilityLiveRegion="polite" style={{padding:16}}>{message}</Text>}
   {panel==='Settings'&&<>
-    {row('Theme',appearance==='system'?'System':appearance==='dark'?'Dark':'Light',()=>open('Appearance'))}
     {row('Country',p.countries.find(([code])=>code===p.country)?.[1]||p.country,p.onCountry)}
     {row('Currency',preferences.currency,()=>{open('Currency');void refreshCurrencies();})}
     {row('Image quality',preferences.imageQuality==='smart'?'Auto':preferences.imageQuality,()=>open('App image quality'))}
     {row('Security','',()=>open('Account security'))}
     {row('Help & support','',()=>p.onHelp('contact'))}
-    {p.customer&&row('Delete account','',p.onDelete)}
-    {row('Vanta Circle','',()=>open('Vanta Circle'))}{row('Profile','',()=>open('Profile'))}{row('Notification settings','',()=>open('Notification settings'))}
+    {row('Vanta Circle','',()=>open('Vanta Circle'))}{row('Notification settings','',()=>open('Notification settings'))}
     {row('General settings','Media & browsing',()=>open('General settings'))}
     {row('Privacy & diagnostics','',()=>open('Privacy & diagnostics'))}
     {row('About Vanta Noir','',()=>open('About Vanta Noir'))}{row('Drop calendar','',()=>p.onHelp('calendar'))}
+    {p.customer&&row('Delete account','',p.onDelete)}
     {p.customer&&button('Sign out',p.onLogout)}
     <Text style={{textAlign:'center',fontSize:11,color:colors.muted,padding:18}}>VANTA NOIR · {Constants.expoConfig?.version}</Text>
   </>}
@@ -78,9 +77,8 @@ export function SettingsHub(p:Props){
   {panel==='Privacy & diagnostics'&&<><Text style={{padding:16}}>Optional usage analytics and crash reports help improve Vanta Noir. These reports go to Google Firebase. We do not add your email, address, payment details or search text to analytics. You can turn either option off at any time.</Text>{row('Usage analytics',monitoring.analytics?'On':'Off',()=>void run(async()=>{const next={...monitoring,analytics:!monitoring.analytics};await saveMonitoring(next);setMonitoring(next);} ))}{row('Crash diagnostics',monitoring.diagnostics?'On':'Off',()=>void run(async()=>{const next={...monitoring,diagnostics:!monitoring.diagnostics};await saveMonitoring(next);setMonitoring(next);} ))}</>}
   {panel==='Currency' &&<View style={{padding:12}}><CurrencyPicker/></View>}
   {panel==='App image quality'&&<>{row('Smart quality','Adapts to connection',()=>void run(()=>savePreferences({imageQuality:'smart'})))}{row('High quality','Suitable for Wi-Fi',()=>void run(()=>savePreferences({imageQuality:'high'})))}{row('Normal quality','Suitable for 3G / 2G',()=>void run(()=>savePreferences({imageQuality:'normal'})))}<Text style={{padding:16}}>Selected: {preferences.imageQuality}. Applies where optimized image sizes are available.</Text></>}
-  {panel==='Appearance'&&(['system','light','dark'] as const).map(mode=>row(mode==='system'?'Follow device':mode,appearance===mode?'✓':'',()=>void run(()=>setAppearance(mode))))}
   {panel==='Notification settings'&&<>{row('Push notifications','',()=>open('Push notifications'))}{row('Email subscriptions','',()=>open('Email subscriptions'))}</>}
-  {panel==='Push notifications'&&<><Text style={{padding:16}}>Receive payment and delivery updates on your phone. Sign in to link this device to your account.</Text>{button('Enable order notifications',()=>void run(async()=>{if(!p.customer)throw Error('Please sign in first.');await enablePush();setMessage('This device is registered for order notifications.');}))}{button('Disable order notifications',()=>void run(async()=>{await disablePush();setMessage('Order notifications disabled for this device.');}))}{row('Phone notification settings','',()=>void Linking.openSettings())}</>}
+  {panel==='Push notifications'&&<><Text style={{padding:16}}>Receive payment and delivery updates on your phone. Sign in to link this device to your account.</Text>{button('Enable order notifications',()=>void run(async()=>{if(!p.customer)throw Error('Please sign in first.');await enablePush(p.customer?.email);setMessage('This device is registered for order notifications.');}))}{button('Disable order notifications',()=>void run(async()=>{await disablePush(p.customer?.email);setMessage('Order notifications disabled for this device.');}))}{row('Phone notification settings','',()=>void Linking.openSettings())}</>}
   {panel==='Email subscriptions'&&<View style={{padding:16,gap:12}}><Text>Order and payment emails are separate from optional collection news.</Text>{p.customer&&button('Subscribe to collection news',()=>Alert.alert('Subscribe to email news?',`Send a confirmation email to ${p.customer!.email}?`,[{text:'Cancel',style:'cancel'},{text:'Subscribe',onPress:()=>void run(async()=>{await api('/api/subscriptions',{email:p.customer!.email,kind:'newsletter',consent:true});setMessage('Check your email to confirm your subscription.');})}]))}<Text>To stop collection news, use the unsubscribe link in a Vanta Noir email.</Text></View>}
   {panel==='General settings'&&<>
    {section('MEDIA & CONNECTION')}{row('App image quality',preferences.imageQuality,()=>open('App image quality'))}{row('App video preferences',p.autoplay?'Autoplay muted':'Tap to play',()=>open('App video preferences'))}{row('Network acceleration',preferences.acceleration?'On':'Off',()=>open('Network acceleration'))}

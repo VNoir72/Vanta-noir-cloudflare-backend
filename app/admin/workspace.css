@@ -4757,3 +4757,17 @@ html[data-vn-admin-theme=dark] .vn-concept .vn-control-sidebar nav button[aria-c
 .vn-concept .vn-email-summary-actions {flex-wrap:wrap;max-width:100%}
 /* Keep the workspace in the flexible row when its appearance bar is hidden. */
 .vn-admin-shell>.vn-admin-workspace {grid-row:2}
+
+/* Approved reference density; real records retain their own values and actions. */
+.vn-concept .vn-exact-metrics>article {min-height:86px;padding:12px;gap:10px}
+.vn-concept .vn-exact-metrics strong {font-size:23px;line-height:1.2}
+.vn-concept .vn-exact-metrics p {font-size:11px;margin-top:6px}
+.vn-concept .vn-exact-chart {height:185px;min-height:0}
+.vn-concept .vn-exact-revenue {padding:14px}
+.vn-concept .vn-control-header {margin-block:12px}
+.vn-concept .vn-control-header h1 {font-size:25px}
+.vn-concept .vn-packing-alert {padding:10px 14px;min-height:52px}
+.vn-concept .vn-exact-card-head h2 {font-size:15px}
+html[data-vn-admin-theme=dark] .vn-concept :is(.vn-glass,.vn-exact-metrics>article,.vn-control-sidebar) {
+ background:var(--admin-panel-reflection),var(--admin-panel);
+}
