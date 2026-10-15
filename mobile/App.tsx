@@ -1,3 +1,4 @@
+import {BackgroundUpdates} from './src/components/BackgroundUpdates';
 import {customerPatch} from "./src/customer-patch";
 import {customerOrderReference} from './src/order-reference';
 import {CatalogFilters} from './src/components/CatalogFilters';
@@ -1166,7 +1167,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <AppRecovery><Main /></AppRecovery>
+      <AppRecovery><BackgroundUpdates/><Main /></AppRecovery>
     </SafeAreaProvider>
   );
 }

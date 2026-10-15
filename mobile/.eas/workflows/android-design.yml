@@ -17,7 +17,7 @@ jobs:
     params:
       platform: android
       channel: ${{ inputs.channel }}
-      message: Tech-green account, settings and receipt design
+      message: Quiet background refresh and OTA downloads; preserve active screens
     hooks:
       before_update:
         - name: Check app types
