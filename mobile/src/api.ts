@@ -1,3 +1,4 @@
+import {fetchWithTimeout} from "./fetch-with-timeout";
 import {createAppCheckCache} from "./app-check-cache";
 import {requireOptionalNativeModule} from "expo";
 import variants from "./image-variants.json";
@@ -51,7 +52,7 @@ export async function api<T>(
   let appCheck:string|null=null;
   if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/(benefit|circle))/.test(path)))appCheck=await appCheckToken(path.startsWith("/api/customer/circle") ? 15000 : 2500);
   let response:Response;
-  const request = () => fetch(API + path, {
+  const request = () => fetchWithTimeout(API + path, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -60,8 +61,7 @@ export async function api<T>(
       ...headers,
     },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    signal: AbortSignal.timeout(['/api/shipping/quotes','/api/rewards/quote'].includes(path)?45000:preferenceSnapshot().acceleration&&method==="GET"&&["/api/catalog","/health"].includes(path)?8000:20000),
-  });
+  }, ['/api/shipping/quotes','/api/rewards/quote'].includes(path)?45000:preferenceSnapshot().acceleration&&method==="GET"&&["/api/catalog","/health"].includes(path)?8000:20000);
   try {
     let retried=false;
     try{response=await request();}catch(error){if(path!=="/api/catalog"||method!=="GET")throw error;retried=true;response=await request();}
