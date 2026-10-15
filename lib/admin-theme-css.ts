@@ -1,7 +1,7 @@
 // Shared verbatim by the dashboard and standalone shipping pages.
 export const adminThemeCSS = String.raw`/* The only admin palettes. All admin components consume these semantic values. */
 html[data-vn-admin-theme] {
- --admin-ground:#f5f7f7; --admin-surface:#fff; --admin-soft:#eef1ef;
+ --admin-logo-ground:#17191c; --admin-ground:#f5f7f7; --admin-surface:#fff; --admin-soft:#eef1ef;
  --admin-text:#171a1c; --admin-muted:#626c65; --admin-border:#dce3de;
  --admin-glass:rgba(255,255,255,.85); --admin-panel:rgba(255,255,255,.76);
  --admin-edge:rgba(255,255,255,.92); --admin-shadow:rgba(31,45,36,.1);

@@ -1157,16 +1157,18 @@ export type AdminOrder = {
   phone: string; addressLine1: string; addressLine2: string; city: string; state: string; country: string;
   totalKobo: number; status: string; paymentStatus: string; providerStatus?: string; createdAt: string;
   carrier: string; trackingNumber: string; trackingUrl: string; deliveryEstimate: string;
-  items: Array<{ productName: string; size: string; color: string; quantity: number }>;
+  subtotalKobo?:number;shippingKobo?:number;discountKobo?:number;paidAt?:string;packedAt?:string;deliveryMethod?:string;
+  items: Array<{ productName: string; size: string; color: string; quantity: number;productId?:string;sku?:string;unitPriceKobo?:number;imageUrl?:string }>;
 };
 
-export type OrderQuery = { page?: number; query?: string; customerEmail?:string; status?: string; from?: string; to?: string };
+export type OrderQuery = { page?: number; query?: string; customerEmail?:string; status?: string; from?: string; to?: string;payment?:string;delivery?:string };
 function orderQuery(options: OrderQuery) {
   const customerEmail=(options.customerEmail||'').trim().toLowerCase().slice(0,200);
   const query=(options.query ?? "").trim().slice(0,160), status=options.status ?? "", from=options.from ?? "", to=options.to ?? "";
+  const payment=options.payment||'',delivery=options.delivery||'';
   const prefixes=legacyOrderPrefixes(query.toUpperCase());
   const aliasSql=prefixes.length?" OR (length(reference)=35 AND (reference LIKE ? OR reference LIKE ? OR reference LIKE ? OR reference LIKE ?))":"";
-  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR (first_name || ' ' || last_name) LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR tracking_number LIKE ? ESCAPE '\\'${aliasSql}) AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing'))) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(5).fill(`%${query.replace(/[\\%_]/g,'\\$&')}%`),...prefixes.map(p=>p+'%'),status,status,status,from,from,to,to] };
+  return { where: `(?='' OR lower(email)=?) AND (?='' OR reference LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR (first_name || ' ' || last_name) LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR tracking_number LIKE ? ESCAPE '\\'${aliasSql}) AND (?='' OR status=? OR (?='fulfil' AND payment_status='paid' AND status IN ('paid','processing')) OR (?='ready' AND payment_status='paid' AND status IN ('paid','processing') AND EXISTS(SELECT 1 FROM store_meta WHERE key='dispatch-packed:'||orders.reference))) AND (?='' OR payment_status=?) AND (?='' OR lower(COALESCE((SELECT json_extract(value,'$.rate.service') FROM store_meta WHERE key='order-shipping:'||orders.reference),'')) LIKE ?) AND (?='' OR created_at>=?) AND (?='' OR created_at<date(?,'+1 day'))`, args:[customerEmail,customerEmail,query,...Array(5).fill(`%${query.replace(/[\\%_]/g,'\\$&')}%`),...prefixes.map(p=>p+'%'),status,status,status,status,payment,payment,delivery,'%'+delivery.toLowerCase()+'%',from,from,to,to] };
 }
 export async function countAdminOrders(options: OrderQuery = {}) {
   const {where,args}=orderQuery(options);
@@ -1179,10 +1181,13 @@ export async function listAdminOrders(options: OrderQuery = {}): Promise<AdminOr
   const rows=await db.prepare(`SELECT id,reference,email,first_name AS firstName,last_name AS lastName,total_kobo AS totalKobo,status,payment_status AS paymentStatus,
     phone,address_line_1 AS addressLine1,address_line_2 AS addressLine2,city,state,country,created_at AS createdAt,
     carrier,tracking_number AS trackingNumber,tracking_url AS trackingUrl,delivery_estimate AS deliveryEstimate,
+    subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo,discount_kobo AS discountKobo,paid_at AS paidAt,
+    (SELECT json_extract(value,'$.markedAt') FROM store_meta WHERE key='dispatch-packed:'||orders.reference) AS packedAt,
+    (SELECT json_extract(value,'$.rate.service') FROM store_meta WHERE key='order-shipping:'||orders.reference) AS deliveryMethod,
     (SELECT json_extract(value,'$.status') FROM store_meta WHERE key='payment-diagnostic:'||orders.reference) AS providerStatus
     FROM orders WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET ?`).bind(...args,(page-1)*50).all<Omit<AdminOrder,"items">>();
   if(!rows.results.length)return [];
-  const items=await db.prepare(`SELECT order_id AS orderId,product_name AS productName,size,color,quantity FROM order_items WHERE order_id IN (${rows.results.map(()=>"?").join(",")})`).bind(...rows.results.map(o=>o.id)).all<AdminOrder["items"][number]&{orderId:string}>();
+  const items=await db.prepare(`SELECT order_id AS orderId,product_id AS productId,product_name AS productName,size,color,quantity,unit_price_kobo AS unitPriceKobo,(SELECT sku FROM product_variants WHERE id=order_items.variant_id) AS sku,(SELECT image_url FROM products WHERE id=order_items.product_id) AS imageUrl FROM order_items WHERE order_id IN (${rows.results.map(()=>"?").join(",")})`).bind(...rows.results.map(o=>o.id)).all<AdminOrder["items"][number]&{orderId:string}>();
   return rows.results.map(order=>({...order,items:items.results.filter(item=>item.orderId===order.id)}));
 }
 export async function updateOrderTracking(reference:string,input:Partial<{carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string}>,expected?:Record<string,string>) {

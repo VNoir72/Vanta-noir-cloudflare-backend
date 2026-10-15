@@ -81,6 +81,13 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   await rpc('sql',"DELETE FROM orders WHERE id='legacy-short-test'");
   assert.equal((await request('/api/admin/commerce')).status,403);assert.equal((await request('/api/admin/orders')).status,403);
   const filtered=await request('/api/admin/orders?query='+order.reference,'GET',undefined,true);const filterData=await filtered.json();assert.equal(filterData.orders.length,1);assert.equal(filterData.total,1);
+  assert.equal(filterData.orders[0].items[0].unitPriceKobo,product.priceKobo);
+  const paidFilter=await (await request('/api/admin/orders?query='+order.reference+'&payment=paid','GET',undefined,true)).json();assert.equal(paidFilter.total,1);
+  const pendingFilter=await (await request('/api/admin/orders?query='+order.reference+'&payment=pending','GET',undefined,true)).json();assert.equal(pendingFilter.total,0);assert.equal(pendingFilter.orders.length,0);
+  await rpc('sql',"INSERT INTO store_meta(key,value) VALUES(?,?)",'order-shipping:'+order.reference,JSON.stringify({rate:{service:'Standard delivery'}}));
+  const deliveryFilter=await (await request('/api/admin/orders?query='+order.reference+'&delivery=standard','GET',undefined,true)).json();assert.equal(deliveryFilter.total,1);
+  const expressFilter=await (await request('/api/admin/orders?query='+order.reference+'&delivery=express','GET',undefined,true)).json();assert.equal(expressFilter.total,0);
+
   const review={productId:product.id,reference:order.reference,email:customer.email,displayName:'Test buyer',rating:4,fit:'true_to_size',body:'The fit and finish worked well for me.'};
   assert.equal((await request('/api/reviews','POST',{...review,email:'wrong@example.com'})).status,400);
   assert.equal((await request('/api/reviews','POST',review)).status,201);
