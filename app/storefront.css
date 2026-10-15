@@ -101,5 +101,5 @@
 
 .vn-motion-value>span{display:inline-block;animation:vn-number-in .2s ease-out}@keyframes vn-number-in{from{opacity:.45;transform:translateY(4px);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}.vn-brand-loading{padding:24px;max-width:440px;margin:auto;text-align:center}.vn-brand-loading img{height:52px;width:64px;margin:auto;filter:brightness(.2)}.vn-brand-loading>span{display:block;height:12px;border-radius:9px;background:linear-gradient(100deg,#eaf0e4,#fff,#eaf0e4);background-size:200% 100%;animation:vn-skeleton 1.4s ease infinite;margin:12px auto;width:80%}.vn-brand-loading>span:last-child{width:55%}@keyframes vn-skeleton{to{background-position:-200% 0}}@media(prefers-reduced-motion:reduce){.vn-motion-value>span,.vn-brand-loading>span{animation:none}}
 /* Studio photographs already include their own backdrop and floor shadow. */
-.dn-card-image .vn-independent-frame img,.dn-category-grid img,.dn-category-card img{object-fit:cover;background:transparent;border-radius:0}
+.dn-card-image .vn-independent-frame img,.dn-category-grid img,.dn-category-card img,.dn-shortcuts img{object-fit:cover;background:transparent;border-radius:0}
 .dn-card-image,.dn-detail-photo,.dn-quick-photo,.dn-thumbnails button{background:linear-gradient(#c5c5c5,#d6d6d6 65%,#e4e4e4)}
