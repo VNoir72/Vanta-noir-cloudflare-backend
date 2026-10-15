@@ -49,3 +49,15 @@
 .vn-concept .vn-settings-content>.vn-product-disclosure{padding:0;border:0;background:transparent!important}
 .vn-concept .vn-settings-content>.vn-product-disclosure>details{margin:8px 0;padding:12px;border:1px solid var(--admin-border);border-radius:10px;background:var(--admin-glass)}
 .vn-concept .vn-settings-content>.vn-product-disclosure>details>summary{cursor:pointer;font-weight:600;min-height:24px}
+
+/* Clear legacy named grid areas; otherwise they create an invisible second column. */
+.vn-control-center.vn-exact.vn-concept .vn-exact-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:none}
+.vn-control-center.vn-exact.vn-concept .vn-exact-grid>*{grid-area:auto;grid-column:1;border-radius:10px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metrics article{padding:14px!important;min-height:112px;border-radius:10px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metrics strong{margin-top:8px;font-size:24px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metric-title{margin-bottom:8px}
+.vn-control-center.vn-exact.vn-concept .vn-metric-icon{right:12px;top:12px;width:30px;height:30px;color:var(--admin-accent)}
+.vn-control-center.vn-exact.vn-concept .vn-glass{border-radius:10px;box-shadow:0 2px 12px var(--admin-shadow)}
+.vn-control-center.vn-exact.vn-concept .vn-exact-card-head{padding:4px 0}
+.vn-control-center.vn-exact.vn-concept .vn-exact-revenue{padding:14px 16px}
+.vn-control-center.vn-exact.vn-concept .vn-control-brand img{width:32px;height:32px;object-fit:cover;object-position:left}

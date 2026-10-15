@@ -52,3 +52,9 @@ test('provider errors, redirects and oversized bodies cannot leak secrets',async
  await assert.rejects(providerJson('https://example.com','SECRET',{},async()=>new Response('x'.repeat(512001))),/size limit/);
  await assert.rejects(providerJson('https://example.com','SECRET',{},async()=>Response.json({status:'failed',message:'SECRET'})),/rejected/);
 });
+test('provider rejection diagnostics contain only fixed field classifications',async()=>{
+ const original=console.warn,logs=[];console.warn=value=>logs.push(value);
+ try{await assert.rejects(providerJson('https://api.shipbubble.com/v1/shipping/address/validate','SECRET',{},async()=>Response.json({message:'Invalid phone: SECRET_PRIVATE_CONTACT',email:'private@example.com'},{status:400})),/HTTP 400/);}finally{console.warn=original;}
+ assert.deepEqual(JSON.parse(logs[0]),{event:'shipping_provider_rejected',stage:'address',status:400,fields:['phone','email']});
+ assert.ok(!logs.join('').includes('SECRET'));assert.ok(!logs.join('').includes('private@example.com'));
+});

@@ -49,7 +49,15 @@ export async function providerJson(url:string,key:string,body:unknown,send:typeo
   let response:Response;
   try { response=await send(url,{method:body===undefined?'GET':'POST',redirect:'manual',signal:AbortSignal.timeout(12000),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})}); }
   catch { throw Error('Shipping provider timed out or could not be reached.'); }
-  if (!response.ok) {await response.body?.cancel();throw Error(`Shipping provider HTTP ${response.status}.`);}
+  if (!response.ok) {
+    // Log only fixed classifications, never provider messages, credentials or contacts.
+    const reader=response.body?.getReader();let sample='';
+    if(reader)try{const decoder=new TextDecoder();while(sample.length<16000){const part=await reader.read();if(part.done)break;sample+=decoder.decode(part.value).slice(0,16000-sample.length);}}finally{await reader.cancel().catch(()=>{});}
+    const stage=url.endsWith('/address/validate')?'address':url.endsWith('/fetch_rates')?'rates':url.endsWith('/labels/categories')?'categories':'other';
+    const fields=['phone','email','address','pickup_date','sender_address_code','reciever_address_code','package_items','package_dimension','category_id','wallet','balance','weight'].filter(field=>sample.toLowerCase().includes(field));
+    console.warn(JSON.stringify({event:'shipping_provider_rejected',stage,status:response.status,fields}));
+    throw Error(`Shipping provider HTTP ${response.status}.`);
+  }
   const reader=response.body?.getReader();if(!reader)throw Error('Empty provider response.');
   let text='',size=0;const decoder=new TextDecoder();
   try {while(true){const part=await reader.read();if(part.done)break;size+=part.value.byteLength;if(size>512_000)throw Error('Provider response exceeded the size limit.');text+=decoder.decode(part.value,{stream:true});}text+=decoder.decode();}
