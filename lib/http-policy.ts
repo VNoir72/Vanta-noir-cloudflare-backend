@@ -62,7 +62,7 @@ export async function boundedApiRequest(request:Request, timeoutMs=15000):Promis
  const deadline=Date.now()+timeoutMs;
  try{
   while(true){const {done,value}=await Promise.race([reader.read(),timeout]);if(timedOut||Date.now()>=deadline)return Response.json({error:'Request body took too long.'},{status:408});if(done)break;total+=value.byteLength;
-   if(total>limit){await reader.cancel();return Response.json({error:'The request is too large.'},{status:413});}
+   if(total>limit){void reader.cancel().catch(()=>{});return Response.json({error:'The request is too large.'},{status:413});}
    chunks.push(value);
   }
  }finally{clearTimeout(timer);reader.releaseLock();}

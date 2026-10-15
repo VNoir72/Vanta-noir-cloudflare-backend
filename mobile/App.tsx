@@ -10,7 +10,6 @@ import {initializeMonitoring,trackScreen,trackShopping,trackPaidOrder} from './s
 import {AuthBackdrop} from './src/components/AuthBackdrop';
 import {ProviderSignIn} from './src/components/ProviderSignIn';
 import {firebaseSignOut,prepareFirebaseDeletion} from './src/firebase-auth';
-import {FirstRun} from './src/components/FirstRun';
 import {ConnectionNotice} from './src/components/ConnectionNotice';
 import {AppRecovery} from './src/components/AppRecovery';
 import {MotionValue} from './src/components/MotionValue';
@@ -1167,7 +1166,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <AppRecovery><Main /><FirstRun/></AppRecovery>
+      <AppRecovery><Main /></AppRecovery>
     </SafeAreaProvider>
   );
 }

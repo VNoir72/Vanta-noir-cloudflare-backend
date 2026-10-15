@@ -173,6 +173,8 @@ test('body byte limit rejects headerless and understated payloads and preserves 
  }
  const slow=new Request('https://api.example.invalid/api/checkout',{method:'POST',duplex:'half',body:new ReadableStream({start(){}})});
  assert.equal((await boundedApiRequest(slow,20)).status,408);
+ const uncooperative=new Request('https://api.example.invalid/api/checkout',{method:'POST',duplex:'half',body:new ReadableStream({start(c){c.enqueue(new Uint8Array(128*1024+1));},cancel(){return new Promise(()=>{});}})});
+ assert.equal((await Promise.race([boundedApiRequest(uncooperative,20),new Promise(resolve=>setTimeout(()=>resolve({status:'hung'}),100))])).status,413);
  const raw='{ "signed": true, "spacing": "preserved" }';
  const result=await boundedApiRequest(new Request('https://api.example.invalid/api/paystack/webhook',{method:'POST',body:raw}));
  assert.equal(await result.text(),raw);
