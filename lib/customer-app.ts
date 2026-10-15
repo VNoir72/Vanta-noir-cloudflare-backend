@@ -266,11 +266,15 @@ export async function customerApp(request: Request): Promise<Response> {
       const columns:string[]=[],values:unknown[]=[];
       if(v.name!==undefined){columns.push('name=?');values.push(v.name);}
       if(v.favourites!==undefined){columns.push('favourites_json=?');values.push(JSON.stringify([...new Set(v.favourites)]));}
-      const changedAddresses=v.addresses!==undefined&&JSON.stringify(v.addresses)!==s.addresses_json;
+      // Compare schema-normalized snapshots, not JSON key order or omitted defaults.
+      // Keep the original database bytes below for the atomic concurrent-write guard.
+      const storedAddresses=z.array(checkoutCustomerSchema).safeParse(JSON.parse(s.addresses_json));
+      const addressSnapshot=storedAddresses.success?JSON.stringify(storedAddresses.data):s.addresses_json;
+      const changedAddresses=v.addresses!==undefined&&JSON.stringify(v.addresses)!==addressSnapshot;
       if(changedAddresses){
         // Old full-profile clients may not silently overwrite an existing address book.
         if(v.expectedAddresses===undefined&&JSON.parse(s.addresses_json).length)return json({error:'Your saved addresses changed. Reload your account before editing them.'},409);
-        if(v.expectedAddresses!==undefined&&JSON.stringify(v.expectedAddresses)!==s.addresses_json)return json({error:'Your saved addresses changed on another device. Reload before saving.'},409);
+        if(v.expectedAddresses!==undefined&&JSON.stringify(v.expectedAddresses)!==addressSnapshot)return json({error:'Your saved addresses changed on another device. Reload before saving.'},409);
         columns.push('addresses_json=?');values.push(JSON.stringify(v.addresses));
       }
       if(columns.length){

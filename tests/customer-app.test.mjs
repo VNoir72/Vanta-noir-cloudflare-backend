@@ -174,6 +174,14 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     assert.equal((await request('me','PATCH',{addresses:[],expectedAddresses:[]},a)).status,409,'stale device cannot delete saved addresses');
     assert.equal((await request('me','PATCH',{addresses:[]},a)).status,409,'legacy full-profile payload cannot wipe addresses');
     assert.equal((await request('me','PATCH',{addresses:[],expectedAddresses:[address]},a)).status,200,'intentional current address deletion works');
+    // Historical records may omit schema defaults and use another JSON key order.
+    const legacyAddress={city:'Lagos',state:'Lagos',addressLine1:'12 Example Road',phone:address.phone,lastName:'Customer',firstName:'Alice',email:'a@example.com'};
+    await db.prepare("UPDATE app_customers SET addresses_json=? WHERE email='a@example.com'").bind(JSON.stringify([legacyAddress],null,2)).run();
+    assert.equal((await request('me','PATCH',{name:'Legacy account',addresses:[legacyAddress]},a)).status,200,'equivalent legacy snapshot is not a conflicting address edit');
+    const revisedAddress={...address,addressLine1:'14 Example Road'};
+    assert.equal((await request('me','PATCH',{addresses:[revisedAddress],expectedAddresses:[legacyAddress]},a)).status,200,'legacy defaults and JSON key order do not block intentional edits');
+    assert.equal((await request('me','PATCH',{addresses:[],expectedAddresses:[legacyAddress]},a)).status,409,'normalized stale snapshot still cannot delete newer address');
+    assert.deepEqual((await request('me','GET',undefined,a)).data.customer.addresses,[revisedAddress]);
     const customer = await db
       .prepare("SELECT id FROM app_customers WHERE email='a@example.com'")
       .first();
