@@ -1,0 +1,44 @@
+{
+  "recordedAt": "2026-10-15",
+  "sourceCommit": "37736396e35d676adcd281a6a71af4f7ab573b97",
+  "website": {
+    "commit": "b3c7a424ab424b2e5b01fee44cbeb9aeecac6d51",
+    "worker": "vanta-storefront",
+    "version": "28d6c50f-3602-4283-b698-bb2141e4abe1",
+    "deployment": "95d95cfc-c65b-461f-bc43-bb3063efefa4"
+  },
+  "backend": {
+    "commit": "37736396e35d676adcd281a6a71af4f7ab573b97",
+    "worker": "vanta-noir-api",
+    "version": "61f35c2c-9aec-42a0-9959-b24b09c56737",
+    "deployment": "e3459fa9-68bf-4f21-8505-d115154a54c3"
+  },
+  "android": {
+    "installedBuildTarget": 32,
+    "sourceBranch": "codex/build32-final-check-2026-10-15",
+    "commit": "792ed40fa3798c57e8e7ae27c16c2d2563d20fc3",
+    "updateGroup": "3e93dad8-997b-4f20-9b36-6828c166936d",
+    "channel": "production",
+    "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
+    "fingerprint": "9829b16b33975c503904e03aebd352fa673a78ca",
+    "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized."
+  },
+  "garments": {
+    "records": 735,
+    "colourwayPdfs": 1001,
+    "revision": "R06",
+    "allPositivePrices": true,
+    "sampleApproval": "Not granted by this review",
+    "pdfPrefix": "tech-packs/r06-20261015/",
+    "databaseRollbackKeyPrefix": "garment-r06-backup-20261015:"
+  },
+  "rollback": {
+    "websiteVersion": "5588efe4-6233-4a0d-b133-dfde9bdfbe9a",
+    "backendVersion": "05968022-9e75-4e86-80ec-665ea19bdb1a"
+  },
+  "limits": [
+    "Signed-in customer browser and installed-phone acceptance are not established by automated checks.",
+    "Two upstream mobile build-tool advisories remain; patched decoder verified and vulnerable build tools excluded from Android bundle.",
+    "Factory samples, final vector flats, suppliers, physical weights and manufacturing approval remain required."
+  ]
+}
