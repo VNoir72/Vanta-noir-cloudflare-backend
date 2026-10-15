@@ -4,6 +4,9 @@ test('specialist construction is appropriate and existing instructions win',()=>
  assert.equal(garmentFamily({name:'Arc Baggy Jeans',category:'Jeans'}),'denim');
  assert.equal(garmentFamily({name:'Angular Sunglasses'}),'eyewear');
  assert.match(developmentConstruction({name:'Core Sports Bottle'}).stitching,/not sewn/);
+ assert.equal(garmentFamily({name:'Structured corset',category:'Bodysuits and fitted tops'}),'structured');
+ assert.equal(garmentFamily({name:'Cotton lounge set',category:'Casual and denim sets'},{fabric:'100% cotton jersey'}),'jersey');
+ assert.equal(garmentFamily({name:'Camp-Collar Trouser Set'},{garmentType:'Shirt and trousers set',fabric:'Cotton poplin; Stretch woven suiting'}),'shirt');
  const sock=developmentConstruction({id:'sock',name:'Crew socks'});assert.match(sock.stitching,/link toe/i);assert.doesNotMatch(sock.stitching,/sleeve/);
  const knit=developmentConstruction({name:'Cable quarter-zip',category:'Knitwear'});assert.match(knit.stitching,/fully fashioned/i);
  const brief=developmentConstruction({name:'Boxer Briefs'});assert.match(brief.stitching,/514/);

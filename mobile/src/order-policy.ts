@@ -1,7 +1,7 @@
 import {Order} from './types';
 export type OrderGroup='All'|'To pay'|'Processing'|'Shipped'|'Delivered'|'Expired'|'Returns';
 export function hasPaidReceipt(order:Order){return order.paymentStatus==='paid';}
-export function inOrderGroup(order:Order,group:OrderGroup){
+export function inOrderGroup(order:Pick<Order,'status'|'paymentStatus'>,group:OrderGroup){
  if(group==='All')return true;
  if(group==='Returns')return ['returned','return_requested','refunded','partially_refunded'].includes(order.status)||['refunded','partially_refunded'].includes(order.paymentStatus);
  if(group==='Expired')return ['expired','cancelled'].includes(order.status)&&order.paymentStatus!=='paid';

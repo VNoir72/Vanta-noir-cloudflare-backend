@@ -25,7 +25,7 @@ const core={
  'vn-pdf-p01-2-25':['Close-fitting stretch boxer brief','95% cotton/5% elastane jersey, 180 GSM','Retain original waistband and pouch construction.',18000],
  'vn-stealth':['Oversized hoodie with genuinely baggy trousers','Heavyweight cotton-rich fleece; retain saved composition and weight specification','Retain exact Stealth cut, reflective piping, hood and original branding.',120000]
 };
-const fallbackPrices={eyewear:35000,bottle:30000,glove:25000,sock:20000,belt:30000,bag:50000,knit:75000,cap:35000,bra:30000,stretch:30000,denim:85000,fleece:75000,shell:85000,outerwear:110000,shirt:65000,woven:75000,jersey:40000};
+const fallbackPrices={structured:65000,eyewear:35000,bottle:30000,glove:25000,sock:20000,belt:30000,bag:50000,knit:75000,cap:35000,bra:30000,stretch:30000,denim:85000,fleece:75000,shell:85000,outerwear:110000,shirt:65000,woven:75000,jersey:40000};
 const audit=[];
 for(const p of data.products){const d=JSON.parse(p.details_json||'{}'),before={...d};const spec=core[p.id];
  if(spec){const [fit,fabric,features]=spec;
