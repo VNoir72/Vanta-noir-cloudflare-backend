@@ -1,5 +1,5 @@
 'use client';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {useStoreSettings} from '@/lib/store-settings';
 import {accentInk} from '@/lib/brand-accent';
 import {installAdminTheme} from '@/lib/admin-theme';
@@ -22,4 +22,11 @@ export function useAdminTheme() {
     return () => window.removeEventListener('vn-admin-theme-change', update);
   }, []);
   return theme;
+}
+
+/** Hydrated dashboard controls mount after the initial theme controller applies. */
+export function AdminThemeSelect({className}:{className?:string}) {
+ const ref=useRef<HTMLSelectElement>(null);
+ useEffect(()=>{const sync=()=>{if(ref.current)ref.current.value=document.documentElement.dataset.vnAdminMode||'system';};sync();window.addEventListener('vn-admin-theme-change',sync);return()=>window.removeEventListener('vn-admin-theme-change',sync);},[]);
+ return <select ref={ref} aria-label="Admin appearance" data-admin-theme-control defaultValue="system" className={className}><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="schedule">Auto · time</option></select>;
 }
