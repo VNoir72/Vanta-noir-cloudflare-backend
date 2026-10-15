@@ -185,6 +185,14 @@ test("customer accounts isolate data and cards, encrypt tokens, enforce consent,
     const customer = await db
       .prepare("SELECT id FROM app_customers WHERE email='a@example.com'")
       .first();
+    const circleUntil=Date.now()+86400000;
+    await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('circle-receipt:web-status-fixture',JSON.stringify({customerId:customer.id,reference:'private-reference',amount:500000,paidAt:Date.now(),until:circleUntil})).run();
+    const webCircle=await request('circle/status','GET',undefined,a);
+    assert.equal(webCircle.status,200,'web account may read its own membership without app attestation');
+    assert.deepEqual(webCircle.data,{membership:{active:true,until:circleUntil,cancelled:false}});
+    assert.equal((await request('circle/status','GET',undefined,b)).data.membership.active,false,'membership does not leak between accounts');
+    assert.equal((await request('circle/start','POST',{version:1,recurringConsent:true},a)).status,403,'web cannot enrol through the app-only route');
+    assert.equal((await request('circle/history','GET',undefined,a)).status,403,'status access does not unlock app billing endpoints');
     await db
       .prepare(
         "INSERT INTO orders(id,reference,email,total_kobo,status,payment_status,created_at) VALUES('1','VN-TEST','a@example.com',123450,'pending_payment','pending',CURRENT_TIMESTAMP)",

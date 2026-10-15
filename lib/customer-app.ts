@@ -210,6 +210,11 @@ export async function customerApp(request: Request): Promise<Response> {
     if(path==='phone'&&request.method==='GET')return json(await phoneStatus(s.id));
     if(path==='phone/send'&&request.method==='POST')return json(await phoneSend(request,s.id));
     if(path==='phone/verify'&&request.method==='POST')return json(await phoneVerify(s.id,await request.json()));
+    // Account-owned membership status is shared; enrolment and benefits retain app verification.
+    if(path==='circle/status'&&request.method==='GET'){
+      const membership=await circleMembership(s.id);
+      return json({membership:{active:membership.active,until:membership.until,cancelled:membership.cancelled}});
+    }
     if(path==='circle'||path.startsWith('circle/')){
       const access=await appAccessContext(request);if(!access.verifiedApp)return json({error:'Circle is available only in the verified Vanta Noir app.'},403);
       if(path==='circle'&&request.method==='GET'){const config=await growthConfig();return json({config:config.circle,version:config.version,membership:await circleMembership(s.id)});}

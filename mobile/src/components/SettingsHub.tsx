@@ -18,7 +18,7 @@ import {Address,Customer,emptyAddress} from '../types';
 import {api} from '../api';
 import {ShippingAddress} from './ShippingAddress';
 
-type Props={initialPanel?:string;customer:Customer|null;onSave:(next:Customer)=>Promise<void>;onBack:()=>void;onLogout:()=>void;onDelete:()=>void;onHelp:(topic:string)=>void;onCountry:()=>void;country:string;countries:readonly (readonly [string,string])[];viewed:React.ReactNode;onClearViewed:()=>Promise<void>;autoplay:boolean;onAutoplay:(value:boolean)=>Promise<void>};
+type Props={initialPanel?:string;customer:Customer|null;onSave:(next:Customer)=>Promise<void>;onBack:()=>void;onOrders:()=>void;onLogout:()=>void;onDelete:()=>void;onHelp:(topic:string)=>void;onCountry:()=>void;country:string;countries:readonly (readonly [string,string])[];viewed:React.ReactNode;onClearViewed:()=>Promise<void>;autoplay:boolean;onAutoplay:(value:boolean)=>Promise<void>};
 export function SettingsHub(p:Props){
  const Alert=useBrandDialog();
  const preferences=usePreferences();
@@ -32,7 +32,7 @@ export function SettingsHub(p:Props){
  useEffect(()=>{let live=true;AsyncStorage.getItem(key).then(v=>{if(live&&v)setExtra(JSON.parse(v));}).catch(()=>{});return()=>{live=false;};},[key]);
  const run=async(fn:()=>Promise<void>)=>{if(busy)return;setBusy(true);setMessage('');try{await fn();}catch(e){setMessage(e instanceof Error?e.message:'Please try again.');}finally{setBusy(false);}};
  const open=(s:string)=>{setPanel(s);setMessage('');setEditing(null);setProfileField(null);};
- const icons:Record<string,React.ComponentProps<typeof Icon>['name']>={'Account information':'person-outline','Nickname':'create-outline','Gender':'person-outline','Phone number':'call-outline','Birthday':'calendar-outline','Country/region':'globe-outline','Sign-in security':'lock-closed-outline','Usage analytics':'bar-chart-outline','Crash diagnostics':'bug-outline','Drop calendar':'calendar-outline','Push notifications':'notifications-outline','Email subscriptions':'mail-outline','Language':'language-outline','Theme':'moon-outline','Country':'globe-outline','Image quality':'image-outline','Security':'lock-closed-outline','Appearance':'contrast-outline','Account security':'shield-checkmark-outline','Help & support':'headset-outline','About Vanta Noir':'information-circle-outline','Vanta Circle':'star-outline','Verify phone':'call-outline','Profile':'person-circle-outline','Shipping address':'location-outline','Ship to':'globe-outline','Currency':'cash-outline','General settings':'settings-outline','Notification settings':'notifications-outline','Viewed':'eye-outline','Privacy & diagnostics':'shield-checkmark-outline','App suggestion':'help-circle-outline','Privacy policy':'document-text-outline','Legal information':'document-text-outline','Delete account':'trash-outline','App video preferences':'play-outline'};
+ const icons:Record<string,React.ComponentProps<typeof Icon>['name']>={'Account information':'person-outline','Nickname':'create-outline','Gender':'person-outline','Phone number':'call-outline','Birthday':'calendar-outline','Country/region':'globe-outline','Sign-in security':'lock-closed-outline','Usage analytics':'bar-chart-outline','Crash diagnostics':'bug-outline','Drop calendar':'calendar-outline','Push notifications':'notifications-outline','Email subscriptions':'mail-outline','Language':'language-outline','Theme':'moon-outline','Country':'globe-outline','Image quality':'image-outline','Security':'lock-closed-outline','Appearance':'contrast-outline','Account security':'shield-checkmark-outline','Help & support':'headset-outline','About Vanta Noir':'information-circle-outline','Vanta Circle':'star-outline','Verify phone':'call-outline','Orders':'cube-outline','Profile':'person-circle-outline','Shipping address':'location-outline','Ship to':'globe-outline','Currency':'cash-outline','General settings':'settings-outline','Notification settings':'notifications-outline','Viewed':'eye-outline','Privacy & diagnostics':'shield-checkmark-outline','App suggestion':'help-circle-outline','Privacy policy':'document-text-outline','Legal information':'document-text-outline','Delete account':'trash-outline','App video preferences':'play-outline'};
  const row=(label:string,value:string,action:()=>void)=><Pressable key={label} accessibilityRole="button" disabled={busy} onPress={action} style={{flexDirection:'row',alignItems:'center',gap:10,minHeight:48,paddingVertical:10,paddingHorizontal:12,marginHorizontal:16,marginBottom:6,borderRadius:12,backgroundColor:colors.glass,borderWidth:1,borderColor:colors.border}}><Icon name={icons[label]||'settings-outline'} size={21} color={label==='Delete account'?colors.danger:colors.text}/><Text style={{flex:1,fontSize:15,color:label==='Delete account'?colors.danger:colors.text}}>{label}</Text>{value!==''&&<Text numberOfLines={1} style={{fontSize:13,color:colors.muted,maxWidth:'50%'}}>{value}</Text>}<Icon name="chevron-forward" size={18}/></Pressable>;
  const section=(title:string)=><Text accessibilityRole="header" style={{fontSize:11,letterSpacing:1.5,fontWeight:'700',color:colors.muted,paddingHorizontal:16,paddingTop:24,paddingBottom:10}}>{title}</Text>;
  const gap=<View style={{height:10}}/>;
@@ -45,20 +45,27 @@ export function SettingsHub(p:Props){
   <BrandHeader title={panel==='Shipping address'?'Saved addresses':panel} onBack={()=>panel==='Settings'?p.onBack():open('Settings')}/><View style={{height:12}}/>
   {!!message&&<Text accessibilityLiveRegion="polite" style={{padding:16}}>{message}</Text>}
   {panel==='Settings'&&<>
+    {section('ACCOUNT')}
+    {row('Profile',p.customer?.name||'Sign in to manage',()=>open('Profile'))}
+    {row('Shipping address','Saved addresses',()=>open('Shipping address'))}
+    {row('Orders','',p.onOrders)}
+    {section('PREFERENCES')}
     {row('Country',p.countries.find(([code])=>code===p.country)?.[1]||p.country,p.onCountry)}
     {row('Currency',preferences.currency,()=>{open('Currency');void refreshCurrencies();})}
-    {row('Image quality',preferences.imageQuality==='smart'?'Auto':preferences.imageQuality,()=>open('App image quality'))}
+    {row('General settings','Media & browsing',()=>open('General settings'))}
+    {row('Notification settings','',()=>open('Notification settings'))}
+    {row('Privacy & diagnostics','',()=>open('Privacy & diagnostics'))}
     {row('Security','',()=>open('Account security'))}
     {row('Help & support','',()=>p.onHelp('contact'))}
-    {row('Vanta Circle','',()=>open('Vanta Circle'))}{row('Notification settings','',()=>open('Notification settings'))}
-    {row('General settings','Media & browsing',()=>open('General settings'))}
-    {row('Privacy & diagnostics','',()=>open('Privacy & diagnostics'))}
-    {row('About Vanta Noir','',()=>open('About Vanta Noir'))}{row('Drop calendar','',()=>p.onHelp('calendar'))}
+    {section('APP BENEFITS')}
+    {row('Vanta Circle','Membership',()=>open('Vanta Circle'))}
+    {row('Drop calendar','',()=>p.onHelp('calendar'))}
+    {row('About Vanta Noir','',()=>open('About Vanta Noir'))}
     {p.customer&&row('Delete account','',p.onDelete)}
     {p.customer&&button('Sign out',p.onLogout)}
     <Text style={{textAlign:'center',fontSize:11,color:colors.muted,padding:18}}>VANTA NOIR · {Constants.expoConfig?.version}</Text>
   </>}
-  {panel==='Vanta Circle'&&p.customer&&<CircleMembership/>}{panel==='Verify phone'&&p.customer&&<PhoneVerification/>}
+  {panel==='Vanta Circle'&&(p.customer?<CircleMembership/>:<Text style={{padding:20}}>Sign in from You to see your Vanta Circle membership.</Text>)}{panel==='Verify phone'&&p.customer&&<PhoneVerification/>}
   {panel==='Profile'&&(!p.customer?<Text style={{padding:20}}>Sign in from You to manage your profile.</Text>:<>
     <Pressable onPress={choosePhoto} style={{padding:16,backgroundColor:colors.surface,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text>Photo</Text>{extra.photo?<Image source={{uri:extra.photo}} style={{width:54,height:54,borderRadius:27}}/>:<Icon name="person-circle-outline" size={54}/>}</Pressable>{gap}
     {row('Account information',p.customer.email,()=>info('Account information',`Your account works on the app and website. Email: ${p.customer!.email}\nContact support for account email changes.`))}
