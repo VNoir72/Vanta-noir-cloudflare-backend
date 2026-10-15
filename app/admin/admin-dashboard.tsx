@@ -19,7 +19,7 @@ import { defaultOptions } from "@/lib/catalog-options";
 import { AdminSearch,NotificationBell,type AdminTarget } from './management-tools';
 import { EmailDeliveryPanel } from "./email-delivery-panel";
 import { OverviewPanel,ReportControls,type ConnectionSummary } from "./overview-panel";
-import { Eye,EyeOff,ChartNoAxesCombined,Settings,ExternalLink,Menu,Users,MoreHorizontal,Home,ShoppingCart,ShoppingBag,Box,PanelsTopLeft,Megaphone,HelpCircle,MessageCircle,Search,ChevronLeft,ChevronRight,MoreVertical } from "lucide-react";
+import { Eye,EyeOff,ChartNoAxesCombined,Settings,ExternalLink,Menu,Users,ShoppingCart,ShoppingBag,Box,PanelsTopLeft,Megaphone,HelpCircle,MessageCircle,Search,ChevronLeft,ChevronRight,MoreVertical } from "lucide-react";
 import { LegacyRecords } from "./legacy-records";
 import { useEffect,useMemo,useState,useRef,type Dispatch,type SetStateAction } from "react";
 import {
