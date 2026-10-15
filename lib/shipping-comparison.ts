@@ -1,3 +1,4 @@
+import {cachedShipbubbleAddress} from './shipbubble-address-cache';
 import {shippingCountryName} from './shipping-countries';
 /** Rate normalization and quote requests. No shipment booking endpoints. */
 export type ComparisonRate = {
@@ -46,7 +47,7 @@ function safeFailure(reason:unknown){
  return allowed.includes(message)?message:'Provider response could not be verified.';
 }
 export class ShippingProviderError extends Error{
- constructor(public status:number,public stage:string,public fields:string[]){super(`Shipping provider HTTP ${status}.`);}
+ constructor(public status:number,public stage:string,public fields:string[]){super(status===200?'Shipping provider rejected the request.':`Shipping provider HTTP ${status}.`);}
 }
 export async function providerJson(url:string,key:string,body:unknown,send:typeof fetch=fetch) {
   let response:Response;
@@ -57,7 +58,7 @@ export async function providerJson(url:string,key:string,body:unknown,send:typeo
     const reader=response.body?.getReader();let sample='';
     if(reader)try{const decoder=new TextDecoder();while(sample.length<16000){const part=await reader.read();if(part.done)break;sample+=decoder.decode(part.value).slice(0,16000-sample.length);}}finally{await reader.cancel().catch(()=>{});}
     const stage=url.endsWith('/address/validate')?'address':url.endsWith('/fetch_rates')?'rates':url.endsWith('/labels/categories')?'categories':'other';
-    const fields=['phone','email','address','pickup_date','sender_address_code','reciever_address_code','package_items','package_dimension','category_id','wallet','balance','weight'].filter(field=>sample.toLowerCase().includes(field));
+    const fields=['phone','email','address','pickup_date','sender_address_code','reciever_address_code','package_items','package_dimension','category_id','wallet','balance','credit','weight'].filter(field=>sample.toLowerCase().includes(field));
     console.warn(JSON.stringify({event:'shipping_provider_rejected',stage,status:response.status,fields}));
     throw new ShippingProviderError(response.status,stage,fields);
   }
@@ -67,7 +68,7 @@ export async function providerJson(url:string,key:string,body:unknown,send:typeo
   finally {await reader.cancel().catch(()=>{});}
   let parsed:unknown;try{parsed=JSON.parse(text);}catch{throw Error('Unreadable provider response.');}
   const payload=object(parsed);
-  if(payload.status!==true&&payload.status!=='success')throw Error('Shipping provider rejected the request.');
+  if(payload.status!==true&&payload.status!=='success'){const sample=JSON.stringify(payload).toLowerCase();throw new ShippingProviderError(response.status,url.includes('/address/')?'address':'rates',['wallet','balance','credit'].filter(field=>sample.includes(field)));}
   return payload.data;
 }
 export type TestAddress={first_name:string;last_name:string;email:string;phone:string;line1:string;city:string;state:string;country:string;zip:string};
@@ -80,7 +81,7 @@ export async function shipbubbleQuote(key:string,pickup:TestAddress,destination:
   if(mode==='live'&&!key.trim().startsWith('sb_prod_'))throw Error('A Shipbubble live key is required.');
   if(mode==='sandbox'&&!key.trim().startsWith('sb_sandbox_'))throw Error('A Shipbubble sandbox key is required.');
   const request=(path:string,body?:unknown)=>providerJson('https://api.shipbubble.com/v1/shipping/'+path,key.trim(),body,send);
-  const address=(a:TestAddress)=>request('address/validate',{name:`${a.first_name} ${a.last_name}`,email:a.email,phone:a.phone,address:[a.line1,a.city,a.state,a.zip,shippingCountryName(a.country)].filter(Boolean).join(', ')});
+  const address=(a:TestAddress)=>{const body={name:`${a.first_name} ${a.last_name}`,email:a.email,phone:a.phone,address:[a.line1,a.city,a.state,a.zip,shippingCountryName(a.country)].filter(Boolean).join(', ')};return mode==='live'?cachedShipbubbleAddress(key,body,()=>request('address/validate',body)):request('address/validate',body);};
   const [from,to,categories]=await Promise.all([address(pickup),validatedDestination||address(destination),request('labels/categories')]);
   const sender=object(from).address_code,receiver=object(to).address_code;
   if(!Number.isSafeInteger(sender)||!Number.isSafeInteger(receiver))throw Error('Shipbubble did not validate both addresses.');

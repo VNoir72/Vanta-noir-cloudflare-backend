@@ -1,6 +1,5 @@
 import {transitEstimate} from './shipping-options';
 import {SHIPPING_COUNTRIES,shippingCountryName} from './shipping-countries';
-import {verifyLiveCredential} from './terminal-live';
 import {terminalDispatchReady,terminalLiveQuotes,terminalPreflight,terminalBook,terminalBooked} from './terminal-dispatch';
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
@@ -64,7 +63,7 @@ async function dispatchContext(raw:unknown){
  const country=SHIPPING_COUNTRIES.find(([code,name])=>code===o.country||name===o.country)![0];
  if(country!=='NG'&&provider==='terminal')fail('International Terminal dispatch is not enabled.');
  const destination={first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:/Postal code: ([^\n]+)/.exec(o.address_line_2||'')?.[1]||''};
- let rates:ComparisonRate[];try{rates=provider==='terminal'?await terminalLiveQuotes({...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},destination,{...input.parcel,valueNaira:o.subtotal_kobo/100},s.parcel.suggestion?.packagingWeightKg||0):await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble or choose another connected provider, then refresh alternatives. No booking has been submitted.');}
+ let rates:ComparisonRate[];try{rates=provider==='terminal'?await terminalLiveQuotes({...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},destination,{...input.parcel,valueNaira:o.subtotal_kobo/100},s.parcel.suggestion?.packagingWeightKg||0):await shipbubbleQuote(runtimeEnv().SHIPBUBBLE_API_KEY||'',{...p,line1:[p.line1,p.line2].filter(Boolean).join(', ')},{first_name:o.first_name,last_name:o.last_name,email:o.email,phone:o.phone,line1:[o.address_line_1,o.address_line_2].filter(Boolean).join(', '),city:o.city,state:o.state,country,zip:''},{...input.parcel,valueNaira:o.subtotal_kobo/100},'live',fetch,input.pickupDate);}catch{fail('Courier rates are unavailable. Enable another courier in Shipbubble then refresh alternatives. No booking has been submitted.');}
  return {input,s,packed,o,p,country,rates,provider};
 }
 
@@ -104,11 +103,7 @@ const providerName=(p:WalletProvider)=>p==='terminal'?'Terminal Africa':'Shipbub
 const walletMoney=(kobo:number)=>new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN'}).format(kobo/100);
 async function walletBalance(provider:WalletProvider){
  try{
-  if(provider==='terminal'){
-   const wallet=await verifyLiveCredential(runtimeEnv().TERMINAL_AFRICA_LIVE_SECRET_KEY||'',true);
-   if(!wallet.walletActive||!wallet.walletEnabled)fail('Terminal Africa wallet is not active. Booking stopped.');
-   return wallet.balanceKobo!;
-  }
+  if(provider==='terminal')fail('Terminal Africa is disabled. Review a Shipbubble service instead.');
   const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';
   if(!key.startsWith('sb_prod_'))fail('A live Shipbubble connection is required.');
   const wallet=z.object({currency:z.literal('NGN'),balance:z.number().finite().nonnegative()}).parse(await providerJson('https://api.shipbubble.com/v1/shipping/wallet/balance',key,undefined));
@@ -222,8 +217,8 @@ export async function automaticDispatch(reference:string,policy:{shippingMode:'c
  const previous=await meta<Booking>(bookingKey(reference));if(previous)return previous;
  const input={reference,fingerprint:s.fingerprint,parcel:packed.parcel,pickupDate,packed:true as const,requirePacked:true};
  const options=[];const unavailable=[];
- for(const provider of policy.providers){try{options.push(...(await dispatchAlternatives({...input,provider},actor)).options);}catch(e){unavailable.push(provider+': '+(e instanceof Error?e.message:'Unavailable'));}}
- if(!options.length)fail('No enabled provider is available. Enable another provider in Automations or arrange dispatch manually. '+unavailable.join(' '));
+ for(const provider of ['shipbubble'] as const){try{options.push(...(await dispatchAlternatives({...input,provider},actor)).options);}catch(e){unavailable.push(provider+': '+(e instanceof Error?e.message:'Unavailable'));}}
+ if(!options.length)fail('No enabled provider is available. Check Shipbubble funding and enabled couriers, or arrange dispatch manually. '+unavailable.join(' '));
  const days=(v:string)=>transitEstimate(v)?.max??Infinity;
  const eligible=options.filter(o=>o.chargeKobo<=s.order.shipping_kobo+policy.maxExtraKobo);
  if(!eligible.length)fail('Available rates exceed the delivery amount plus your extra-cost limit. Review the rate or change the limit.');

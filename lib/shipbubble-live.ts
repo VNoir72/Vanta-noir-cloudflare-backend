@@ -9,16 +9,17 @@ export async function shipbubbleReadiness(){
  const last=await db.prepare("SELECT value FROM store_meta WHERE key='shipbubble-last-webhook'").first<{value:string}>();
  const counts=await db.prepare("SELECT COUNT(*) AS saved,COALESCE(SUM(CASE WHEN json_extract(value,'$.data.measured')=1 THEN 1 ELSE 0 END),0) AS measured FROM store_meta WHERE key LIKE 'parcel-item:%'").first<{saved:number;measured:number}>();
  const packaging=await packagingProfiles();
- return {provider:'shipbubble',keyConfigured:runtimeEnv().SHIPBUBBLE_API_KEY?.startsWith('sb_prod_')===true,checkoutEnabled:shipbubbleCheckoutEnabled(),bookingEnabled:true,bookingMode:'owner-confirmed bulk dispatch',pickupReady:!!await getPickupDetails(),itemProfiles:counts,measuredPackaging:packaging.data.filter((p:{measured:boolean})=>p.measured).length,connection:row?JSON.parse(row.value):null,lastWebhook:last?JSON.parse(last.value):null,webhookPath:'/api/shipbubble/webhook'};
+ const issue=await db.prepare("SELECT value FROM store_meta WHERE key='shipbubble-checkout-issue'").first<{value:string}>();
+ return {checkoutIssue:issue?JSON.parse(issue.value):null,warningThresholdKobo:500000,provider:'shipbubble',keyConfigured:runtimeEnv().SHIPBUBBLE_API_KEY?.startsWith('sb_prod_')===true,checkoutEnabled:shipbubbleCheckoutEnabled(),bookingEnabled:true,bookingMode:'owner-confirmed bulk dispatch',pickupReady:!!await getPickupDetails(),itemProfiles:counts,measuredPackaging:packaging.data.filter((p:{measured:boolean})=>p.measured).length,connection:row?JSON.parse(row.value):null,lastWebhook:last?JSON.parse(last.value):null,webhookPath:'/api/shipbubble/webhook'};
 }
 export async function checkShipbubbleLive(){
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';
- let result:{status:string;checkedAt:string;error?:string;walletFunded?:boolean};
+ let result:{status:string;checkedAt:string;error?:string;walletFunded?:boolean;balanceKobo?:number;lowBalance?:boolean};
  try{
   if(!key.startsWith('sb_prod_'))throw Error('A production key is required.');
   const data=await providerJson('https://api.shipbubble.com/v1/shipping/wallet/balance',key,undefined) as {balance?:unknown;currency?:unknown};
   if(data?.currency!=='NGN'||typeof data.balance!=='number'||!Number.isFinite(data.balance))throw Error('Unexpected wallet response.');
-  result={status:'connected',checkedAt:new Date().toISOString(),walletFunded:data.balance>0};
+  result={status:'connected',checkedAt:new Date().toISOString(),walletFunded:data.balance>0,balanceKobo:Math.round(data.balance*100),lowBalance:data.balance<5000};
  }catch(e){const message=e instanceof Error?e.message:'';result={status:'failed',checkedAt:new Date().toISOString(),error:/^Shipping provider HTTP \d{3}\.$/.test(message)?message:'Production account could not be verified. Check the live key and API access in Shipbubble.'};}
  await getDbBinding().prepare('INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(connectionKey,JSON.stringify(result)).run();
  return shipbubbleReadiness();
@@ -39,4 +40,12 @@ export async function runShipbubbleLiveCheck(){
  if(!claim.meta.changes)return;
  await checkShipbubbleLive();
  await db.prepare('UPDATE store_meta SET value=? WHERE key=? AND value=?').bind(JSON.stringify({...job,status:'completed',completedAt:new Date().toISOString()}),jobKey,running).run();
+}
+
+/** Wallet observation is independent from checkout and never books or tops up. */
+export async function monitorShipbubbleWallet(){
+ if(!runtimeEnv().SHIPBUBBLE_API_KEY?.startsWith('sb_prod_'))return;
+ const row=await getDbBinding().prepare("SELECT value FROM store_meta WHERE key=?").bind(connectionKey).first<{value:string}>();
+ if(row&&Date.now()-Date.parse(JSON.parse(row.value).checkedAt)<15*60_000)return;
+ await checkShipbubbleLive();
 }

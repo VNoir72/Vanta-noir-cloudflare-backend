@@ -3,9 +3,9 @@ import {assertShippingProvider,shippingProviders} from '../lib/shipping-policy.t
 test('Terminal selection is blocked independently of credentials',()=>{assert.equal(shippingProviders.terminal.selectable,false);assert.equal(shippingProviders.terminal.bookingEnabled,false);assert.throws(()=>assertShippingProvider('terminal'),/verification/);assertShippingProvider('shipbubble');});
 test('Shipbubble checkout binds measured quotes to address, bag, rewards and authoritative payment totals',async t=>{
  await build({entryPoints:['tests/commerce-worker.ts'],outfile:'work/shipping-checkout.mjs',bundle:true,format:'esm',platform:'neutral',target:'es2022',conditions:['workerd','browser'],external:['cloudflare:workers']});
- let calls=0,lastWeight=0;const mf=new Miniflare({modules:true,scriptPath:'work/shipping-checkout.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture',SHIPBUBBLE_CHECKOUT_ENABLED:'true',INTERNATIONAL_COURIER_ENABLED:'true',SHIPBUBBLE_NG_COURIER_IDS:'a,b',TERMINAL_AFRICA_LIVE_SECRET_KEY:'NEVER-USE'},outboundService:async r=>{
+ let calls=0,lastWeight=0,addressBlocked=false;const mf=new Miniflare({modules:true,scriptPath:'work/shipping-checkout.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{SHIPBUBBLE_API_KEY:'sb_prod_fixture',SHIPBUBBLE_CHECKOUT_ENABLED:'true',INTERNATIONAL_COURIER_ENABLED:'true',SHIPBUBBLE_NG_COURIER_IDS:'a,b',TERMINAL_AFRICA_LIVE_SECRET_KEY:'NEVER-USE'},outboundService:async r=>{
  calls++;const u=new URL(r.url);assert.equal(u.hostname,'api.shipbubble.com');assert.equal(r.headers.get('Authorization'),'Bearer sb_prod_fixture');
- if(u.pathname.endsWith('/address/validate')){const body=await r.json();const overseas=body.address.endsWith('United Kingdom');return Response.json({status:'success',data:{address_code:overseas?456:123,country_code:overseas?'GB':'NG',postal_code:overseas?'SW1A 1AA':'100001'}});}
+ if(u.pathname.endsWith('/address/validate')){if(addressBlocked)return Response.json({status:'failed',message:'Insufficient wallet balance for address validation'},{status:402});const body=await r.json();const overseas=body.address.endsWith('United Kingdom');return Response.json({status:'success',data:{address_code:overseas?456:123,country_code:overseas?'GB':'NG',postal_code:overseas?'SW1A 1AA':'100001'}});}
  if(u.pathname.endsWith('/labels/categories'))return Response.json({status:'success',data:[{category:'Fashion wears',category_id:987}]});
  assert.ok(u.pathname.endsWith('/fetch_rates'),'No booking or Terminal calls');const body=await r.json();assert.equal(body.service_type,'pickup');assert.ok(body.package_items[0].unit_weight>0);lastWeight=body.package_items[0].unit_weight;
  return Response.json({status:'success',data:{request_token:'test_token',couriers:[{courier_id:'a',service_code:'slow',courier_name:'Courier A',service_type:'pickup',currency:'NGN',total:1000,rate_card_amount:2000},{courier_id:'b',service_code:'fast',courier_name:'Courier B',service_type:'pickup',currency:'NGN',total:1500},...(body.reciever_address_code===456?[{courier_id:'c',service_code:'overseas',courier_name:'International courier',service_type:'pickup',currency:'NGN',total:1200}]:[])]}});
@@ -23,6 +23,14 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  const quotes=await rpc('createShippingQuotes',input),selection={quoteId:quotes.quoteId,rateId:quotes.rates[0].rateId,provider:'shipbubble'};
  assert.equal(calls,4);assert.equal(quotes.rates[0].amountKobo,150000);assert.equal(quotes.rates[0].carrier,'Courier B');assert.ok(!JSON.stringify(quotes).includes('test_token'));
  const resolved=await rpc('resolveShippingSelection',selection,input);
+ await t.test('repeat checkout reuses a valid quote and cached addresses survive low validation balance',async()=>{
+  const before=calls;addressBlocked=true;
+  const repeat=await rpc('createShippingQuotes',input);assert.equal(repeat.quoteId,quotes.quoteId);assert.equal(calls,before);
+  const changedCart=await rpc('createShippingQuotes',{...input,cart:[{variantId,quantity:2}]});assert.ok(changedCart.rates.length);assert.equal(calls,before+2,'only categories and rates, neither address is revalidated');
+  await assert.rejects(rpc('createShippingQuotes',{...input,customer:{...input.customer,addressLine1:'99 New Unverified Street'}}),/402/);
+  addressBlocked=false;
+ });
+
  await t.test('required state, optional Nigerian postcode and overseas destination',async()=>{
  const before=calls;
  await assert.rejects(rpc('createShippingQuotes',{...input,customer:{...input.customer,state:''}}));assert.equal(calls,before);

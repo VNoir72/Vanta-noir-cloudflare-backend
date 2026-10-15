@@ -1,3 +1,4 @@
+import {cachedShipbubbleAddress} from './shipbubble-address-cache';
 import {addressLookupSchema} from './checkout-address';
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {providerJson} from './shipping-comparison';
@@ -9,7 +10,8 @@ export async function validatedShippingAddress(raw:unknown){
  const db=getDbBinding(),cache=await cacheKey(c.postalCode);
  const stored=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(cache).first<{value:string}>();
  if(stored){const entry=JSON.parse(stored.value);if(entry.expiresAt>Date.now())return entry.data as {address_code:number;postalCode:string;city:string;state:string};}
- const data=await providerJson('https://api.shipbubble.com/v1/shipping/address/validate',key,{name:c.firstName+' '+c.lastName,email:c.email,phone:c.phone,address:[c.addressLine1,c.addressLine2,c.city,c.state,c.postalCode,shippingCountryName(c.countryCode)].filter(Boolean).join(', ')}) as {address_code?:number;country_code?:string;postal_code?:string;city?:string;state?:string};
+ const address={name:c.firstName+' '+c.lastName,email:c.email,phone:c.phone,address:[c.addressLine1,c.addressLine2,c.city,c.state,c.postalCode,shippingCountryName(c.countryCode)].filter(Boolean).join(', ')};
+ const data=await cachedShipbubbleAddress(key,address,()=>providerJson('https://api.shipbubble.com/v1/shipping/address/validate',key,address)) as {address_code?:number;country_code?:string;postal_code?:string;city?:string;state?:string};
  if(!Number.isSafeInteger(data?.address_code)||data.country_code&&data.country_code!==c.countryCode)throw Error('The courier could not verify this destination.');
  // Only display a postcode when the provider explicitly confirms the country.
  const postalCode=data.country_code===c.countryCode&&typeof data.postal_code==='string'&&(c.countryCode==='NG'?/^\d{6}$/:/^[\p{L}\p{N} -]{1,32}$/u).test(data.postal_code)?data.postal_code:'';

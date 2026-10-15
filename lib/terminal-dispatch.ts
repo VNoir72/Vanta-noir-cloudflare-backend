@@ -4,8 +4,7 @@ import {terminalRates,type ComparisonRate,type TestAddress,type TestParcel} from
 import {verifyLiveCredential} from './terminal-live';
 const providerId=z.string().regex(/^[A-Za-z0-9_-]{3,120}$/);
 export async function terminalDispatchReady(){
- const row=await getDbBinding().prepare("SELECT json_extract(value,'$.status') AS status,json_extract(value,'$.authenticated') AS authenticated,json_extract(value,'$.walletActive') AS active,json_extract(value,'$.walletEnabled') AS enabled FROM store_meta WHERE key='terminal_live_connection'").first<{status:string;authenticated:number;active:number;enabled:number}>();
- return !!runtimeEnv().TERMINAL_AFRICA_LIVE_SECRET_KEY?.trim()&&row?.status==='connected'&&row.authenticated===1&&row.active===1&&row.enabled===1;
+ return false; // Owner selected Shipbubble exclusively; historical records remain readable.
 }
 export async function terminalRequest(path:string,body?:unknown){
  if(!(['/packaging','/rates/shipment/quotes','/shipments/pickup'].includes(path)||/^\/rates\/[A-Za-z0-9_-]{3,120}$/.test(path)))throw Error('Unsupported Terminal operation.');

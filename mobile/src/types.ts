@@ -57,7 +57,7 @@ export type Customer = {
 };
 export type Rate = {
   rateId: string;
-  provider: "shipbubble" | "terminal_africa";
+  provider: "shipbubble";
   carrier: string;
   amountKobo: number;
   delivery: string;

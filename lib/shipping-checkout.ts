@@ -46,8 +46,12 @@ export async function createShippingQuotes(raw:unknown,access:AppAccess=publicAc
  const key=runtimeEnv().SHIPBUBBLE_API_KEY||'';if(!key.startsWith('sb_prod_'))throw new ShippingInputError('Delivery pricing is temporarily unavailable. Please contact customer care.');
  const pickup=await getPickupDetails();if(!pickup)throw new ShippingInputError('Delivery pickup details are not ready. Please contact customer care.');
  const {parcel,giftVariantId,profileRevisions}=await parcelFor(input,access),c=input.customer;
+ const inputHash=await fingerprint(input),db=getDbBinding();
+ // Reuse only an unexpired quote for the exact cart, address and current parcel revisions.
+ const cached=await db.prepare("SELECT key,value FROM store_meta WHERE key LIKE 'shipping-quote:%' AND json_extract(value,'$.inputHash')=? AND json_extract(value,'$.expiresAt')>? ORDER BY json_extract(value,'$.expiresAt') DESC LIMIT 1").bind(inputHash,Date.now()+30000).first<{key:string;value:string}>();
+ if(cached){const record=JSON.parse(cached.value) as QuoteRecord;if(record.pricingPolicy===pricingPolicy&&record.giftVariantId===giftVariantId&&JSON.stringify(record.parcel)===JSON.stringify(parcel)&&JSON.stringify(record.profileRevisions)===JSON.stringify(profileRevisions))return {quoteId:cached.key.slice('shipping-quote:'.length),expiresAt:record.expiresAt,rates:record.rates.map(r=>({rateId:r.selectionId,provider:r.provider,carrier:r.carrier,amountKobo:r.amountKobo,delivery:r.delivery}))};}
  const destination=await validatedShippingAddress(c).catch(error=>{
-  if(error instanceof ShippingProviderError&&error.status===400&&error.stage==='address'){
+  if(error instanceof ShippingProviderError&&error.stage==='address'&&!(error.fields.some(f=>['wallet','balance','credit'].includes(f))||[401,402,403,429].includes(error.status))&&error.status===400){
    if(error.fields.includes('phone'))throw new ShippingInputError('Check your delivery phone number, including the country code, then retry shipping.');
    if(error.fields.includes('email'))throw new ShippingInputError('Check your email address, then retry shipping.');
    throw new ShippingInputError('The courier could not validate your delivery details. Check the street, city and contact details, then retry shipping.');
@@ -57,8 +61,7 @@ export async function createShippingQuotes(raw:unknown,access:AppAccess=publicAc
  let rates=await shipbubbleQuote(key,{...pickup.details,line1:[pickup.details.line1,pickup.details.line2].filter(Boolean).join(', ')},{first_name:c.firstName,last_name:c.lastName,email:c.email,phone:c.phone,line1:[c.addressLine1,c.addressLine2].filter(Boolean).join(', '),city:c.city,state:c.state,country:c.countryCode,zip:c.postalCode},parcel,'live',fetch,undefined,destination);
  if(!rates.length)throw new ShippingInputError('No pickup delivery service is available for this address. Please contact customer care.');
  // Return actual courier prices. Shipping discounts are applied by validated rewards.
- const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash:await fingerprint(input),expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,selectionId:crypto.randomUUID()}))};
- const db=getDbBinding();
+ const quoteId=crypto.randomUUID(),record:QuoteRecord={pricingPolicy,inputHash,expiresAt:Date.now()+15*60_000,giftVariantId,parcel,profileRevisions,rates:rates.sort((a,b)=>a.amountKobo-b.amountKobo).map(r=>({...r,selectionId:crypto.randomUUID()}))};
  await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('shipping-quote:'+quoteId,JSON.stringify(record)).run();
  // Quote records contain hashes, parcel data and provider references, not customer contact details.
  await db.prepare("DELETE FROM store_meta WHERE key LIKE 'shipping-quote:%' AND json_extract(value,'$.expiresAt')<?").bind(Date.now()-86400000).run();

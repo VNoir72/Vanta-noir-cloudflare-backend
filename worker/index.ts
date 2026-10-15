@@ -11,11 +11,7 @@ import { bulkDispatchAdmin } from '../lib/bulk-dispatch-admin';
 import { shippingWeightsAdmin } from '../lib/shipping-weights-admin';
 import { shipbubbleWebhook } from '../lib/shipbubble-webhook';
 import { shipbubbleAdmin } from '../lib/shipbubble-admin';
-import { runShipbubbleLiveCheck } from '../lib/shipbubble-live';
-import { runLiveCheck } from '../lib/terminal-live';
-import { runComparisonJob } from '../lib/shipping-comparison-job';
-import { runDeliveryAcceptance } from '../lib/terminal-delivery-acceptance';
-import { runTerminalJob } from '../lib/terminal-jobs';
+import { runShipbubbleLiveCheck, monitorShipbubbleWallet } from '../lib/shipbubble-live';
 import { accessKeys,evaluateAccess } from "../lib/access-evaluation";
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { runCommerceMaintenance } from "../lib/commerce-db";
@@ -40,7 +36,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await cleanupGrowth().catch(()=>{}); await runAutomations(); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runTerminalJob().catch(()=>{}); await runLiveCheck().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await runDeliveryAcceptance().catch(()=>{}); await runComparisonJob().catch(()=>{}); })()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await cleanupGrowth().catch(()=>{}); await runAutomations(); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await monitorShipbubbleWallet().catch(()=>{}); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
@@ -58,6 +54,7 @@ const worker = {
     }
     try { const blocked=await apiAbuseGuard(request);if(blocked)return secureResponse(blocked,request,env); }
     catch { return secureResponse(Response.json({error:'Request protection is temporarily unavailable.'},{status:503,headers:{'Retry-After':'60'}}),request,env); }
+    if(['/api/admin/terminal','/api/admin/terminal-live','/api/admin/terminal-shipping','/api/admin/shipping-comparison'].includes(url.pathname))return secureResponse(Response.json({error:'Terminal Africa is disabled. Use Shipbubble in Shipping & pickup.'},{status:410}),request,env);
     if(url.pathname==='/api/featured-image')return featuredImage(request);
     if(url.pathname==='/api/checkout' && request.method==='POST' && !await rateLimit(request,'checkout-body',20,600))return secureResponse(Response.json({error:'Please wait before starting another checkout.'},{status:429}),request,env);
     try{const bounded=await boundedApiRequest(request);if(bounded instanceof Response)return secureResponse(bounded,request,env);request=bounded;}

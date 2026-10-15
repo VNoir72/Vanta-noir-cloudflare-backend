@@ -101,7 +101,7 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
   assert.equal((await rpc('readyDispatchOrders')).ready.length,0);
   assert.equal(bookingCalls,before);
  });
- await t.test('Terminal routing stays closed for an inactive wallet and preserves its saved courier with one shared booking lock',async()=>{
+ await t.test('Terminal remains disabled even when its historical wallet record becomes active',async()=>{
   await db.prepare("DELETE FROM orders WHERE reference LIKE 'VN-NEW-%'").run();
   await db.prepare("UPDATE orders SET address_line_2='Postal code: 100001' WHERE reference='VN-TERMINAL'").run();
   await meta('order-shipping:VN-TERMINAL',{rate:{provider:'terminal',carrier:'Terminal Courier',service:'Ground',id:'RT-OLD',amountKobo:500000,walletKobo:500000,currency:'NGN'}});
@@ -109,21 +109,16 @@ test('Bulk dispatch preserves courier/destination, locks paid bookings, links au
   const r=await row('VN-TERMINAL');await rpc('markDispatchPacked',{reference:r.reference,fingerprint:r.fingerprint,parcel:r.defaults,packed:true},'owner@example.com');
   assert.equal((await rpc('readyDispatchOrders','terminal')).ready.length,0);await assert.rejects(review('VN-TERMINAL'));assert.equal(terminalCalls,0);
   await meta('terminal_live_connection',{status:'connected',authenticated:true,walletActive:true,walletEnabled:true});
-  assert.equal((await rpc('readyDispatchOrders','terminal')).ready.length,1);
-  const q=await review('VN-TERMINAL');assert.equal(q.provider,'terminal');assert.equal(q.chargeKobo,600000);assert.equal(q.pickupDate,'Next available courier pickup');
-  terminalBalance=null;await assert.rejects(rpc('bookDispatch',q.id,'owner@example.com'),/balance could not be verified/);
-  terminalBalance=1;await assert.rejects(rpc('bookDispatch',q.id,'owner@example.com'),/Insufficient funds.*Terminal Africa/);assert.equal(terminalBookings,0);assert.equal(await db.prepare("SELECT value FROM store_meta WHERE key='dispatch-booking:VN-TERMINAL'").first(),null);const shipReview=await review('VN-NOFUNDS');await assert.rejects(rpc('checkDispatchFunds',[shipReview.id,q.id],'owner@example.com'),/Insufficient funds.*Terminal Africa/);assert.equal(terminalBookings,0);terminalBalance=100000;
-  const before=bookingCalls;const results=await Promise.all([rpc('bookDispatch',q.id,'owner@example.com'),rpc('bookDispatch',q.id,'owner@example.com')]);
-  assert.ok(results.some(r=>r.state==='booked'));assert.equal(terminalBookings,1);assert.equal(bookingCalls,before);
-  assert.equal((await db.prepare("SELECT value FROM store_meta WHERE key='terminal-order:VN-TERMINAL'").first()).value,'SH-FIXTURE');
-  assert.equal(await db.prepare("SELECT value FROM store_meta WHERE key='shipbubble-order:VN-TERMINAL'").first(),null);
-  assert.equal((await rpc('bookDispatch',q.id,'owner@example.com')).state,'booked');assert.equal(terminalBookings,1);
+  assert.equal((await rpc('readyDispatchOrders','terminal')).ready.length,0);
+  await assert.rejects(review('VN-TERMINAL'),/unavailable/);
+  assert.equal(terminalCalls,0);assert.equal(terminalBookings,0);
+  assert.equal(JSON.parse((await db.prepare("SELECT value FROM store_meta WHERE key='order-shipping:VN-TERMINAL'").first()).value).rate.provider,'terminal','historical references are preserved');
  });
  await t.test('mass-dispatch UI saves packed status, reviews all ready orders and requests pickups only after confirmation',async()=>{
   const html=await(await mf.dispatchFetch('https://test/preview')).text(),errors=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e));
   const dom=new JSDOM(html,{url:'https://test/api/admin/bulk-dispatch',runScripts:'dangerously',virtualConsole:vc,beforeParse(w){w.fetch=async(url,opts)=>{const b=JSON.parse(opts.body);try{let result;if(b.action==='packed')result=await rpc('markDispatchPacked',b,'owner@example.com');else if(b.action==='ready')result=await rpc('readyDispatchOrders',b.provider,b.after);else if(b.action==='start-batch')result=await rpc('startDispatchBatch','owner@example.com');else if(b.action==='review'){result=await rpc('reviewDispatch',{...b,requirePacked:true},'owner@example.com');await rpc('appendDispatchReview',b.batchId,result.id,'owner@example.com');}else if(b.action==='check-funds')result=await rpc('checkDispatchFunds',b.ids,'owner@example.com');else result=await rpc('bookDispatch',b.id,'owner@example.com');return {ok:true,json:async()=>result};}catch(e){return {ok:false,json:async()=>({error:e.message})};}};}});
   try{const d=dom.window.document,mark=d.querySelector('[data-reference="VN-PACKED"] .mark-packed');assert.deepEqual(errors,[]);mark.click();for(let i=0;i<300&&mark.dataset.packed!=='true';i++)await new Promise(r=>setTimeout(r,10));assert.equal(mark.dataset.packed,'true');
-   d.getElementById('review-all').click();for(let i=0;i<300&&d.getElementById('review-panel').hidden;i++)await new Promise(r=>setTimeout(r,10));assert.equal(d.getElementById('review-panel').hidden,false);assert.ok(dom.window.location.search.includes('batch='));assert.match(d.getElementById('total').textContent,/Shipbubble/);assert.match(d.getElementById('total').textContent,/Terminal Africa/);
+   d.getElementById('review-all').click();for(let i=0;i<300&&d.getElementById('review-panel').hidden;i++)await new Promise(r=>setTimeout(r,10));assert.equal(d.getElementById('review-panel').hidden,false);assert.ok(dom.window.location.search.includes('batch='));assert.match(d.getElementById('total').textContent,/Shipbubble/);assert.doesNotMatch(d.getElementById('total').textContent,/Terminal Africa/);
    const before=bookingCalls;d.getElementById('book').click();assert.equal(bookingCalls,before);assert.match(d.getElementById('progress').textContent,/approval/);
    d.getElementById('confirm').checked=true;d.getElementById('book').click();for(let i=0;i<300&&!d.getElementById('review-list').textContent.includes('Booked');i++)await new Promise(r=>setTimeout(r,10));assert.match(d.getElementById('review-list').textContent,/Booked/);assert.equal(bookingCalls,before+1);assert.deepEqual(errors,[]);
   }finally{dom.window.close();}
