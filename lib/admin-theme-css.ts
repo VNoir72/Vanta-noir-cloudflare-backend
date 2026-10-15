@@ -15,10 +15,10 @@ html[data-vn-admin-theme] {
  --admin-ground-image:linear-gradient(transparent,transparent);
 }
 html[data-vn-admin-theme=dark] {
- --admin-ground:#17191c; --admin-surface:#202328; --admin-soft:#282c31;
- --admin-text:#f4f5f6; --admin-muted:#afb5bd; --admin-border:#3b4149;
- --admin-glass:rgba(32,35,40,.89); --admin-panel:rgba(32,35,40,.80);
- --admin-edge:rgba(255,255,255,.12); --admin-shadow:rgba(0,0,0,.25);
+ --admin-ground:#14201b; --admin-surface:#202e27; --admin-soft:#2b3c32;
+ --admin-text:#f4f7f5; --admin-muted:#b8c6bd; --admin-border:#42564a;
+ --admin-glass:rgba(35,52,43,.88); --admin-panel:rgba(35,51,42,.76);
+ --admin-edge:rgba(218,244,227,.16); --admin-shadow:rgba(0,0,0,.28);
  --admin-accent:#00ff66; --admin-on-accent:#1b2818;
  --admin-danger:#ffb7ad; --admin-danger-bg:#65443e;
  --admin-success:#c7e9b2; --admin-success-bg:#465e42;
@@ -26,7 +26,7 @@ html[data-vn-admin-theme=dark] {
  --admin-info:#c3dbef; --admin-info-bg:#435867;
  --admin-scheme:dark;
  --admin-backdrop:none;
- --admin-ground-image:linear-gradient(transparent,transparent);
+ --admin-ground-image:radial-gradient(ellipse at 12% 8%,rgba(102,143,115,.19),transparent 65%),linear-gradient(145deg,rgba(31,48,39,.7),rgba(9,17,13,.5));
 }
 html[data-vn-admin-theme],html[data-vn-admin-theme] body,html[data-vn-admin-theme] :is(.vn-control-center,.vn-staff-portal,.vn-access-page,.vn-welcome-screen) {
  color-scheme:var(--admin-scheme); color:var(--admin-text);

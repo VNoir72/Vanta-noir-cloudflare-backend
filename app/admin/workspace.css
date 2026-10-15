@@ -4492,7 +4492,6 @@ transform: rotate(180deg) }
 .vn-concept .vn-revenue-description {font-size:10px}
 .vn-concept .vn-packing-alert {margin:14px 0 0}
 .vn-concept .vn-control-header:has(+.vn-control-body .vn-packing-alert) {padding-top:16px}
-.vn-inline-navigation {display:none}
 .vn-table-footer {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;font-size:11px;color:var(--admin-muted)}
 .vn-table-footer>div {display:flex;align-items:center;gap:8px}
 .vn-concept .vn-order-workspace {display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:16px}
@@ -4611,13 +4610,6 @@ transform: rotate(180deg) }
 @media(max-width:1023px){
  .vn-control-center.vn-exact.vn-concept .vn-control-sidebar {display:none}
  .vn-control-center.vn-exact.vn-concept .vn-control-content {margin-left:0;padding:10px 14px 84px}
- .vn-inline-navigation {display:flex;flex-direction:column;position:relative;padding:18px 20px;background:var(--admin-surface);border-bottom:1px solid var(--admin-border);max-height:70dvh;overflow:auto;overscroll-behavior:contain}
- .vn-inline-navigation nav {display:flex;flex-direction:column;gap:10px;margin-top:14px}
- .vn-inline-navigation nav button {display:flex;align-items:center;gap:14px;min-height:42px;padding:10px 12px;text-align:left;border-radius:7px;flex:none}
- .vn-inline-navigation nav button[aria-current=page] {background:color-mix(in srgb,var(--admin-accent) 15%,transparent);border-left:3px solid var(--admin-accent)}
- .vn-inline-navigation .vn-control-brand {width:160px}
- .vn-inline-navigation .vn-nav-close {position:absolute;right:18px;top:16px}
- .vn-inline-navigation .vn-sidebar-help {display:flex;margin:0;padding:14px 12px;gap:28px}
  .vn-concept .vn-order-workspace.has-selection,.vn-reference-crm.has-selection {grid-template-columns:minmax(0,1fr) 270px}
  .vn-concept .vn-order-filters {grid-template-columns:1fr 1fr}
 }
@@ -4642,8 +4634,6 @@ body:has(.vn-concept) .vn-chat-launch {display:none}
 .vn-concept .vn-control-header h1,.vn-concept .vn-circle-summary h3,.vn-concept .vn-settings-content h3 {font-weight:650}
 .vn-concept .vn-growth>p:empty {display:none}
 .vn-concept .vn-circle-summary {margin-top:0!important}
-.vn-inline-navigation {scroll-margin-top:0}
-@media(max-width:1023px){.vn-control-center.vn-exact.vn-concept{display:block;overflow:visible;height:auto;min-height:100dvh}.vn-control-center.vn-exact.vn-concept .vn-control-content{height:auto;overflow:visible}.vn-control-center.vn-exact.vn-concept .vn-mobile-tabs{position:fixed;inset:auto 0 0;z-index:30;min-height:64px;padding-bottom:env(safe-area-inset-bottom)}}
 
 @media(max-width:1100px){
  .vn-concept .vn-order-workspace.has-selection {grid-template-columns:minmax(0,1fr)}
@@ -4690,3 +4680,73 @@ body:has(.vn-concept) .vn-chat-launch {display:none}
 @media(max-width:600px){.vn-shipping-wallet{flex-wrap:wrap}.vn-shipping-wallet button{width:100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){:is(.vn-concept,.vn-staff-portal) *, :is(.vn-concept,.vn-staff-portal) *::before,:is(.vn-concept,.vn-staff-portal) *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}:is(.vn-concept,.vn-staff-portal) :is(button,.vn-pill):active {transform:none!important}}
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more){.vn-concept :is(.vn-control-sidebar,.vn-control-topbar,.vn-workspace-tabs,.vn-settings-content,.vn-order-detail,.vn-customer-detail,.vn-workspace-table,.vn-circle-summary,.vn-report-metrics article),.vn-staff-portal .vn-chat-panel {background:var(--admin-surface);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}}
+
+/* One navigation surface: its grid track expands beside, never over, the workspace. */
+.vn-control-center.vn-exact.vn-concept {
+ display:grid;grid-template-columns:184px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);
+ height:100%;min-height:0;overflow:hidden;gap:0;padding:0;
+ transition:grid-template-columns 240ms cubic-bezier(.2,.8,.2,1);
+}
+.vn-control-center.vn-exact.vn-concept>.vn-workspace-bar {
+ grid-column:1/-1;grid-row:1;position:relative;inset:auto;margin:0;padding:10px 16px;
+ min-width:0;min-height:60px;border-radius:0;z-index:20;display:flex;gap:10px;
+ background:var(--admin-glass);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+ border-bottom:1px solid var(--admin-edge);
+}
+.vn-control-center.vn-exact.vn-concept>.vn-control-sidebar {
+ grid-column:1;grid-row:2;position:relative;inset:auto;width:auto;min-width:0;height:100%;max-height:none;
+ margin:0;padding:16px 8px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
+ display:flex;flex-direction:column;gap:20px;border-radius:0;border-right:1px solid var(--admin-edge);
+ transition:opacity 180ms ease,transform 240ms ease,visibility 240ms;
+}
+.vn-control-center.vn-exact.vn-concept>.vn-control-content {
+ grid-column:2;grid-row:2;margin:0;padding:16px;min-width:0;width:100%;max-width:none;
+ height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;container-type:inline-size;
+}
+.vn-concept .vn-sidebar-help {margin-top:auto;display:flex;flex-direction:column;gap:12px;padding:16px 4px 8px}
+.vn-concept .vn-sidebar-help button {display:flex;align-items:center;gap:8px;min-height:40px;text-align:left}
+.vn-concept .vn-mobile-brand {display:none}
+.vn-concept .vn-menu-toggle {margin-left:auto;flex:none;order:99}
+.vn-concept .vn-control-sidebar nav button {transition:background 180ms ease,transform 140ms ease,box-shadow 180ms ease}
+.vn-concept .vn-control-sidebar nav button svg {flex:none}
+html[data-vn-admin-theme=dark] .vn-concept .vn-control-sidebar nav button[aria-current=page] {
+ background:color-mix(in srgb,var(--admin-accent) 16%,var(--admin-surface));color:var(--admin-accent);
+ border:1px solid color-mix(in srgb,var(--admin-accent) 35%,transparent);
+ box-shadow:inset 0 1px 0 var(--admin-edge),0 4px 18px var(--admin-shadow);
+}
+@media(max-width:1023px){
+ .vn-control-center.vn-exact.vn-concept {grid-template-columns:0px minmax(0,1fr)}
+ .vn-control-center.vn-exact.vn-concept[data-navigation-open=true] {grid-template-columns:112px minmax(0,1fr)}
+ .vn-control-center.vn-exact.vn-concept>.vn-control-sidebar {padding:12px 6px;gap:12px}
+ .vn-control-center.vn-exact.vn-concept[data-navigation-open=false]>.vn-control-sidebar {visibility:hidden;opacity:0;transform:translateX(-100%);pointer-events:none}
+ .vn-control-center.vn-exact.vn-concept>.vn-control-sidebar .vn-control-brand {display:none}
+ .vn-control-center.vn-exact.vn-concept>.vn-control-sidebar nav {gap:8px;width:100%;margin:0}
+ .vn-control-center.vn-exact.vn-concept>.vn-control-sidebar nav button {padding:9px 4px;gap:6px;font-size:11px;line-height:1.35;min-height:44px;white-space:normal;text-align:left}
+ .vn-concept .vn-sidebar-help button {font-size:11px;gap:6px}
+ .vn-concept .vn-sidebar-help svg {width:16px;flex:none}
+ .vn-control-center.vn-exact.vn-concept>.vn-control-content {padding:12px 10px max(16px,env(safe-area-inset-bottom))}
+ .vn-concept .vn-mobile-brand {display:block;flex:1;min-width:60px;max-width:150px;padding:0}
+ .vn-concept .vn-mobile-brand img {width:100%;height:auto;max-height:40px;object-fit:contain}
+ .vn-control-center.vn-exact.vn-concept>.vn-workspace-bar {padding:8px 10px;gap:6px}
+ .vn-concept .vn-workspace-bar .vn-account-menu {display:block}
+ .vn-concept .vn-header-theme {max-width:72px;font-size:11px;padding:4px}
+ .vn-concept .vn-menu-toggle {display:flex;width:40px;height:40px;align-items:center;justify-content:center}
+ .vn-concept .vn-workspace-bar .vn-visit-store {display:none}
+}
+@container(max-width:540px){
+ .vn-concept .vn-exact-metrics {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .vn-concept .vn-control-header {flex-wrap:wrap;gap:10px}
+ .vn-concept .vn-packing-alert {flex-wrap:wrap;gap:8px;padding:10px}
+ .vn-concept .vn-packing-alert button {width:auto;min-height:36px}
+ .vn-concept .vn-control-header h1 {font-size:22px}
+ .vn-concept .vn-settings-layout,.vn-concept .vn-order-workspace.has-selection,.vn-concept .vn-reference-crm.has-selection {grid-template-columns:minmax(0,1fr)}
+ .vn-concept .vn-exact-grid {grid-template-columns:minmax(0,1fr)}
+ .vn-concept .vn-catalogue-toolbar {grid-template-columns:minmax(0,1fr)}
+}
+@container(max-width:300px){
+ .vn-concept .vn-exact-metrics {grid-template-columns:minmax(0,1fr)!important}
+ .vn-concept .vn-control-actions {flex-wrap:wrap;min-width:0;max-width:100%}
+ .vn-concept .vn-exact-orders {padding:10px}
+ .vn-concept .vn-settings-content {padding:10px}
+ .vn-concept .vn-circle-summary {grid-template-columns:minmax(0,1fr)}
+}
