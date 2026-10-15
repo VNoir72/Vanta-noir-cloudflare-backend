@@ -33,4 +33,4 @@ for (const path of Object.keys(images)) {
 
 const optimized = spawnSync(process.execPath, ["scripts/optimize-images.mjs", "dist/client"], { stdio: "inherit" });
 if (optimized.error) throw optimized.error;
-if (optimized.status !== 0) process.exit(optimized.status ?? 1);
+if (optimized.status !== 0) throw new Error(`Image optimization failed: exit=${optimized.status}, signal=${optimized.signal ?? "none"}`);
