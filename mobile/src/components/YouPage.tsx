@@ -26,8 +26,8 @@ export function YouPage({customer,orders,wishlistCount,onOrders,onWishlist,onSet
  const [notificationTab,setNotificationTab]=useState<'All'|'Orders'|'Drops'>('All'),[dropUpdates,setDropUpdates]=useState<{title:string;startsAt:string}[]>([]);
  const [expandedCoupon,setExpandedCoupon]=useState<string|null>(null);
  const [couponTab,setCouponTab]=useState<'available'|'used'|'expired'>('available'),[couponCode,setCouponCode]=useState('');
- const [countrySearch,setCountrySearch]=useState('');const [currencyMode,setCurrencyMode]=useState(false);const [photo,setPhoto]=useState('');
- useEffect(()=>{let live=true;AsyncStorage.getItem('vanta-profile-device:'+customer.email).then(v=>{if(live)setPhoto(v?JSON.parse(v).photo||'':'');}).catch(()=>{});return()=>{live=false;};},[customer.email]);
+ const [countrySearch,setCountrySearch]=useState('');const [currencyMode,setCurrencyMode]=useState(false);const [photo,setPhoto]=useState(customer.profile?.photo||'');
+ useEffect(()=>{let live=true;AsyncStorage.getItem('vanta-profile-device:'+customer.email).then(v=>{if(live)setPhoto(customer.profile?.photo??(v?JSON.parse(v).photo||'':''));}).catch(()=>{});return()=>{live=false;};},[customer.email,customer.profile?.photo]);
  const [panel,setPanel]=useState<Panel>(null),[data,setData]=useState<Center|null>(null),[error,setError]=useState(''),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false);
  const [seen,setSeen]=useState<string[]|null>(null),[review,setReview]=useState<ReviewItem|null>(null),[rating,setRating]=useState(5),[fit,setFit]=useState('true_to_size'),[body,setBody]=useState(''),[displayName,setDisplayName]=useState(customer.name),[message,setMessage]=useState('');
  const seenKey='vanta-order-updates:'+customer.email;
