@@ -28,7 +28,7 @@ export function AdminFieldHelp(){
  useEffect(()=>{
   const added=new Set<HTMLButtonElement>(),seen=new WeakMap<Element,HTMLButtonElement>();
   function scan(){document.querySelectorAll<HTMLElement>('main input,main select,main textarea,[role="dialog"] input,[role="dialog"] select,[role="dialog"] textarea, main [role="combobox"], [role="dialog"] [role="combobox"]').forEach(field=>{
-   if(field.closest('.vn-help-dialog')||field.getAttribute('type')==='hidden'||field.getAttribute('type')==='file')return;
+   if(field.closest('.vn-help-dialog,.vn-workspace-bar,.vn-catalogue-filters,.vn-catalogue-search,.vn-control-actions')||field.getAttribute('type')==='hidden'||field.getAttribute('type')==='file')return;
    if(seen.get(field)?.isConnected)return;
    const label=field.closest('label')||(field.id?document.querySelector('label[for="'+CSS.escape(field.id)+'"]'):null);
    const title=(field.getAttribute('aria-label')||label?.textContent||field.getAttribute('placeholder')||'This field').replace(/\s+/g,' ').trim().slice(0,120);
