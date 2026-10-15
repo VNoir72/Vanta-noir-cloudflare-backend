@@ -80,8 +80,7 @@ html[data-vn-admin-theme] .vn-standalone section {background:var(--admin-panel);
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more) {html[data-vn-admin-theme] {--admin-glass:var(--admin-surface);--admin-panel:var(--admin-surface);--vn-glass-filter:none}}
 @media(max-width:640px) {.vn-appearance-bar{padding:7px 12px}.vn-theme-control{font-size:11px}}
 html[data-vn-admin-theme] {--vn-brand-white:var(--admin-surface);--vn-brand-border:var(--admin-border);--vn-brand-lime:var(--admin-accent)}
-html[data-vn-admin-theme=dark] :is(.vn-control-center,.vn-welcome-screen) {background-image:url('/images/admin-leaves.svg'),var(--admin-ground-image);background-size:cover;background-attachment:fixed}
-html[data-vn-admin-theme] .vn-control-center :is(.vn-glass,.vn-exact-metrics>article) {background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px);border-radius:22px}
+html[data-vn-admin-theme] .vn-control-center :is(.vn-glass,.vn-exact-metrics>article) {background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px);border-radius:10px}
 html[data-vn-admin-theme] :is(.vn-control-center,.vn-mobile-drawer) :is(button[aria-current],button[aria-pressed=true],[data-state=active]) {color:var(--admin-on-accent)}
 html[data-vn-admin-theme] [data-slot=button][data-variant=default] {color:var(--admin-on-accent)!important}
 html[data-vn-admin-theme] [data-slot=button][data-variant=destructive] {background:var(--admin-danger-bg)!important;color:var(--admin-danger)!important}

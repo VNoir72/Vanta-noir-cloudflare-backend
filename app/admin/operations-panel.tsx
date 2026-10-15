@@ -50,7 +50,7 @@ export function OperationsPanel({role,initialSection,onChanged,dedicated=false,s
 
  const products=(data.products||[]) as Row[];
  return <section className="ops-panel" aria-label="Store operations"><div className="ops-heading"><div><p>VANTA NOIR / OPERATIONS</p><h2>Run your store</h2></div><Button variant="outline" onClick={()=>navigate(()=>void load())} disabled={loading||busy}>Refresh</Button></div>
- {role!=='owner'&&<p className="ops-notice">{supportWorkspace?'Your order and return updates require owner approval before taking effect.':'Sales submissions reserve stock immediately; the owner approves the final sale. Other changes require approval before taking effect.'}</p>}
+ {role!=='owner'&&<p className="ops-notice">{role==='sales'?'Sales submissions reserve stock immediately; the owner approves the final sale.':supportWorkspace?'Your order and return updates require owner approval before taking effect.':'Changes requiring approval appear in My requests for owner review.'}</p>}
  <Tabs value={section} onValueChange={s=>navigate(()=>{setSection(s);setPage(1);setData({});setNotice('');setError('');})}><TabsList className="ops-tabs">{(dedicated?[section]:sections).map(s=><TabsTrigger key={s} value={s}>{labels[s]}</TabsTrigger>)}</TabsList>
  {error&&<p role="alert" className="ops-error">{error}</p>}{notice&&<p role="status" className="ops-notice">{notice}</p>}{loading&&!Object.keys(data).length?<p className="ops-empty">Loading {labels[section].toLowerCase()}…</p>:<TabsContent value={section} className="ops-content"><fieldset disabled={busy} style={{minWidth:0,border:0,padding:0}}>
  {section==='sales'&&<SalesDesk owner={role==='owner'} onChanged={onChanged}/>}
