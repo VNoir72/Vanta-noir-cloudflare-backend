@@ -15,15 +15,15 @@
   },
   "android": {
     "installedBuildTarget": 32,
-    "sourceBranch": "codex/build32-auth-email-2026-10-16",
-    "commit": "4acf75626555ea44a7e82a972b3634c26c24e66f",
-    "updateGroup": "14612574-666d-448d-8640-93ea37b66953",
+    "sourceBranch": "codex/build32-verification-wait-2026-10-16",
+    "commit": "459c1f631df3c6831c2075519ac7927cfa727040",
+    "updateGroup": "8c3998d8-9934-47bb-8af8-c8f244ac381f",
     "channel": "production",
     "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
     "fingerprint": "9829b16b33975c503904e03aebd352fa673a78ca",
     "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized.",
     "behavior": "Quiet background download; apply on next normal launch without forced reload.",
-    "workflow": "01a1450f-d9f1-79b3-bc93-e97167a8efbd"
+    "workflow": "01a14549-133b-7fe0-b0f8-d1f58ea20237"
   },
   "garments": {
     "records": 735,
@@ -48,7 +48,7 @@
   "rollback": {
     "websiteVersion": "36a704c5-2302-4534-9aa7-5109a4ddf8ea",
     "backendVersion": "89cc1627-a991-4a37-bc4d-b99e3b597dcb",
-    "androidUpdateGroup": "102540ba-1849-45d8-8a9e-38421fc552ce"
+    "androidUpdateGroup": "14612574-666d-448d-8640-93ea37b66953"
   },
   "limits": [
     "Signed-in customer browser and installed-phone acceptance are not established by automated checks.",

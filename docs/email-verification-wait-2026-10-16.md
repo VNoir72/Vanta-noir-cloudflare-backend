@@ -1,0 +1,9 @@
+# Email verification waiting screen — 16 October 2026
+
+Published Android production OTA 8c3998d8-9934-47bb-8af8-c8f244ac381f from commit 459c1f631df3c6831c2075519ac7927cfa727040. EAS workflow 01a14549-133b-7fe0-b0f8-d1f58ea20237 succeeded. Runtime and fingerprint stay 9829b16b33975c503904e03aebd352fa673a78ca.
+
+Unverified password signup/login keeps the Firebase identity and displays a dedicated waiting screen. No store session is granted until provider reload confirms verification and the backend accepts the refreshed ID token. Returning to the foreground or polling every ten active seconds checks verification without reloading the app. Manual checking, resending, and starting again with a different email are available. Password text is cleared. Unverified identities restore the waiting screen through the auth-state listener. Delivery failures retain the pending identity.
+
+Shared-source TypeScript, lint and seven mobile tests passed. EAS repeated the checks on the exact build-32 source before publishing. Two focused backend email/identity tests also passed.
+
+Live checks: existing backend release is at 100% traffic with Firebase and Resend bindings; Resend dashboard shows vantanoir.store verified with DKIM and SPF sending records verified and sending enabled. Existing store messages show Delivered. Search for Verify your email returned no results in the last 15 days. User screenshot showed a Firebase-sent email from the previous client flow. No new real verification delivery, inbox placement, clicked link or installed-device acceptance is claimed. User has been asked to request a fresh verification email from the updated app. Email-link hostname has not been changed.
