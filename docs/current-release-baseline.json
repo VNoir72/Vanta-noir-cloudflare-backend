@@ -23,7 +23,17 @@
     "fingerprint": "9829b16b33975c503904e03aebd352fa673a78ca",
     "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized.",
     "behavior": "Quiet background download; apply on next normal launch without forced reload.",
-    "workflow": "01a14549-133b-7fe0-b0f8-d1f58ea20237"
+    "workflow": "01a14549-133b-7fe0-b0f8-d1f58ea20237",
+    "ownerConfirmedInstalledBuild": 32,
+    "ownerConfirmationDate": "2026-10-16",
+    "retiredBuilds": [
+      {
+        "build": 33,
+        "expoBuildId": "4b1c1a64-e415-4ea8-8860-ac29b780d635",
+        "status": "retired from release targeting; Expo artifact retained",
+        "reason": "Owner explicitly confirmed build 32 is installed. Do not use build 33 as the active baseline or attribute current verification issues to build 33."
+      }
+    ]
   },
   "garments": {
     "records": 735,
