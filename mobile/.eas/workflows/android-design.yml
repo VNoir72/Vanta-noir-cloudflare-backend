@@ -17,7 +17,7 @@ jobs:
     params:
       platform: android
       channel: ${{ inputs.channel }}
-      message: Quiet background refresh and OTA downloads; preserve active screens
+      message: Resend verification and password reset; preserve build-32 runtime
     hooks:
       before_update:
         - name: Check app types

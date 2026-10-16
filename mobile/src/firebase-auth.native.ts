@@ -1,6 +1,6 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
-import {getAuth,multiFactor,getMultiFactorResolver,TotpMultiFactorGenerator,type MultiFactorError,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
+import {getAuth,multiFactor,getMultiFactorResolver,TotpMultiFactorGenerator,type MultiFactorError,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
 import {GoogleSignin,isSuccessResponse} from '@react-native-google-signin/google-signin';
 import {api,vault} from './api';
 GoogleSignin.configure({webClientId:'78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com'});
@@ -8,11 +8,11 @@ async function exchange(){const user=getAuth().currentUser;if(!user?.emailVerifi
 export async function passwordLogin(email:string,password:string,create:boolean){
  const auth=getAuth();
  const credential=create?await createUserWithEmailAndPassword(auth,email.trim(),password):await signInWithEmailAndPassword(auth,email.trim(),password);
- if(!credential.user.emailVerified){await sendEmailVerification(credential.user);await signOut(auth);return 'Check your email to verify your address, then choose Sign in.';}
+ if(!credential.user.emailVerified){await api('/api/customer/email',{purpose:'verification',idToken:await credential.user.getIdToken(true)});await signOut(auth);return 'Check your email to verify your address, then choose Sign in.';}
  await exchange();return '';
 }
 export async function googleLogin(){await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog:true});const response=await GoogleSignin.signIn();if(!isSuccessResponse(response))return false;if(!response.data.idToken)throw Error('Google could not verify this sign-in.');await signInWithCredential(getAuth(),GoogleAuthProvider.credential(response.data.idToken));await exchange();return true;}
-export async function resetPassword(email:string){await sendPasswordResetEmail(getAuth(),email.trim());}
+export async function resetPassword(email:string){await api('/api/customer/email',{purpose:'reset',email:email.trim()});}
 export async function firebaseSignOut(){try{await signOut(getAuth());await GoogleSignin.signOut();}catch{/* The store session is separately revoked. */}}
 
 async function appleCredential(){
