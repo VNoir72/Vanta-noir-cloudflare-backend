@@ -29,7 +29,7 @@ The catalogue SQL was tested twice against a local database: stock increments ar
 
 ## Approval and deployment status
 
-Automatic approval review blocked the Expo production confirmation and the Cloudflare asset upload. No production deployment, OTA release or catalogue ingestion was completed in this continuation. The D1 import file was transferred to its staging upload URL but was not ingested. Do not reuse expired upload credentials; never commit them.
+Automatic approval review blocked the Expo production confirmation and the Cloudflare asset upload. No production deployment, OTA release or catalogue ingestion was completed in this continuation. An earlier D1 import file was transferred to its staging upload URL but was not ingested. That staged file is superseded by the final text corrections; generate and upload the current migration before ingestion. Do not reuse expired upload credentials; never commit them.
 
 Once production publishing is explicitly cleared, deploy the prepared backend and storefront, ingest the verified catalogue migration, publish the build-32 OTA from the recorded commit, and verify live counts, health, approval controls, stock adjustments and OTA runtime/channel. Capture the resulting version/deployment/update-group IDs in the live baseline only after success.
 
