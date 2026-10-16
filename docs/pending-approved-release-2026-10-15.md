@@ -42,3 +42,9 @@ The delivery contains 735 products and 1,001 saved-colourway packs, including ar
 ## Welcome message
 
 The removed welcome screen was the three-page first-run onboarding: “Presence. Power. Precision.”, “Your bag, your account” and “You stay in control”. The separate “Welcome to Vanta Circle” text remains in the payment confirmation flow.
+
+## Final file validation and delivery status
+
+The final R07 export contains 1,001 PDFs and 18,084 pages. All passed page-count and footer-overlap validation after correcting 30 long artwork sheets; representative garment, accessory and artwork pages were visually checked. The searchable index resolves all local links. All eight delivery ZIP files passed CRC validation.
+
+The batch save of the main pack archive, six PDF archives and release-data checkpoint timed out without an ordered completion receipt. A subsequent Library metadata check still showed the previous seven archive versions and no new checkpoint. Do not assume that the replacements succeeded, and do not blindly repeat an unknown finalization. The verified local copies are in `/workspace/scratch/fd3d7a047dcb/`, named `vanta-noir-all-garment-development-packs.zip`, `vanta-noir-garment-pdfs-01.zip` through `-06.zip`, and `vanta-noir-pending-release-data.zip`.
