@@ -1,44 +1,59 @@
 {
-  "recordedAt": "2026-10-15",
-  "sourceCommit": "37736396e35d676adcd281a6a71af4f7ab573b97",
+  "recordedAt": "2026-10-16",
+  "sourceCommit": "efecc51c6e606ed476221153e4c20dd3bd2d9eb7",
   "website": {
-    "commit": "b3c7a424ab424b2e5b01fee44cbeb9aeecac6d51",
+    "commit": "f17349a0577011338e340529706bfd1cee07300d",
     "worker": "vanta-storefront",
-    "version": "28d6c50f-3602-4283-b698-bb2141e4abe1",
-    "deployment": "95d95cfc-c65b-461f-bc43-bb3063efefa4"
+    "version": "36a704c5-2302-4534-9aa7-5109a4ddf8ea",
+    "deployment": "41f16797-db3d-4b5b-ae69-e83835367a83"
   },
   "backend": {
-    "commit": "37736396e35d676adcd281a6a71af4f7ab573b97",
+    "commit": "efecc51c6e606ed476221153e4c20dd3bd2d9eb7",
     "worker": "vanta-noir-api",
-    "version": "61f35c2c-9aec-42a0-9959-b24b09c56737",
-    "deployment": "e3459fa9-68bf-4f21-8505-d115154a54c3"
+    "version": "3da4438e-437e-42d5-b845-f8a1a2688572",
+    "deployment": "d4f7a68c-a7c3-4b3f-9843-a7d2b4fd99d6"
   },
   "android": {
     "installedBuildTarget": 32,
-    "sourceBranch": "codex/build32-final-check-2026-10-15",
-    "commit": "792ed40fa3798c57e8e7ae27c16c2d2563d20fc3",
-    "updateGroup": "3e93dad8-997b-4f20-9b36-6828c166936d",
+    "sourceBranch": "codex/build32-silent-refresh-2026-10-15",
+    "commit": "e6b937d566009966171d7c91d8aac02b28294b6b",
+    "updateGroup": "102540ba-1849-45d8-8a9e-38421fc552ce",
     "channel": "production",
     "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
     "fingerprint": "9829b16b33975c503904e03aebd352fa673a78ca",
-    "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized."
+    "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized.",
+    "behavior": "Quiet background download; apply on next normal launch without forced reload."
   },
   "garments": {
     "records": 735,
     "colourwayPdfs": 1001,
-    "revision": "R06",
+    "revision": "R07",
     "allPositivePrices": true,
     "sampleApproval": "Not granted by this review",
-    "pdfPrefix": "tech-packs/r06-20261015/",
-    "databaseRollbackKeyPrefix": "garment-r06-backup-20261015:"
+    "pdfPrefix": "tech-packs/r07-20261015/",
+    "databaseRollbackKeyPrefix": "garment-r06-backup-20261015:",
+    "pdfPages": 18084,
+    "verifiedPdfs": 1001,
+    "missingPdfs": 0,
+    "invalidPdfChecksums": 0,
+    "ownerSpecificationApproval": "2026-10-15; editable",
+    "catalogueRevision": "owner-approved-20261015-r07",
+    "stockAdjustedVariants": 4327,
+    "unitsAdded": 12981,
+    "draftProducts": 704,
+    "duplicateStockAdjustments": 0,
+    "snapshotTable": "catalogue_approval_snapshots"
   },
   "rollback": {
-    "websiteVersion": "5588efe4-6233-4a0d-b133-dfde9bdfbe9a",
-    "backendVersion": "05968022-9e75-4e86-80ec-665ea19bdb1a"
+    "websiteVersion": "28d6c50f-3602-4283-b698-bb2141e4abe1",
+    "backendVersion": "61f35c2c-9aec-42a0-9959-b24b09c56737",
+    "androidUpdateGroup": "3e93dad8-997b-4f20-9b36-6828c166936d"
   },
   "limits": [
     "Signed-in customer browser and installed-phone acceptance are not established by automated checks.",
     "Two upstream mobile build-tool advisories remain; patched decoder verified and vulnerable build tools excluded from Android bundle.",
     "Factory samples, final vector flats, suppliers, physical weights and manufacturing approval remain required."
-  ]
+  ],
+  "sourceBranch": "codex/approved-defaults-2026-10-15",
+  "temporaryPdfImporterEnabled": false
 }

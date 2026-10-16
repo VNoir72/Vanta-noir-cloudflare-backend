@@ -1,8 +1,8 @@
-# Pending owner-approved specifications and quiet OTA release
+# Completed owner-approved specifications and quiet OTA release
 
-Prepared on 16 October 2026 from the 15 October release baseline. This record is a staging record, not a claim of deployment. `current-release-baseline.json` remains the live release record.
+Completed on 16 October 2026 from the 15 October release baseline. `current-release-baseline.json` records the verified live versions, source commits and rollback targets.
 
-## Prepared changes
+## Released changes
 
 - Garment names replace VD identifiers in display labels; stable database IDs and URLs remain intact.
 - Existing saved specifications and size charts receive an editable brand-owner approval status dated 15 October 2026. Numeric chart measurements, prices, colourways, publication status and fulfilment modes remain unchanged.
@@ -29,11 +29,15 @@ The catalogue SQL was tested twice against a local database: stock increments ar
 
 ## Approval and deployment status
 
-Automatic approval review blocked the Expo production confirmation and the Cloudflare asset upload. No production deployment, OTA release or catalogue ingestion was completed in this continuation. An earlier D1 import file was transferred to its staging upload URL but was not ingested. That staged file is superseded by the final text corrections; generate and upload the current migration before ingestion. Do not reuse expired upload credentials; never commit them.
+The owner explicitly approved the remaining PDF upload and public GitHub publication after the earlier automatic approval review pauses. Those actions are now complete.
 
-Once production publishing is explicitly cleared, deploy the prepared backend and storefront, ingest the verified catalogue migration, publish the build-32 OTA from the recorded commit, and verify live counts, health, approval controls, stock adjustments and OTA runtime/channel. Capture the resulting version/deployment/update-group IDs in the live baseline only after success.
+- Android production OTA group: `102540ba-1849-45d8-8a9e-38421fc552ce`, from commit `e6b937d566009966171d7c91d8aac02b28294b6b`, with the unchanged build-32 runtime recorded above.
+- Storefront: version `36a704c5-2302-4534-9aa7-5109a4ddf8ea`, deployment `41f16797-db3d-4b5b-ae69-e83835367a83`, serving 100% of traffic.
+- Backend/admin: version `3da4438e-437e-42d5-b845-f8a1a2688572`, deployment `d4f7a68c-a7c3-4b3f-9843-a7d2b4fd99d6`, serving 100% of traffic. Corresponding source and final PDF manifest: `efecc51c6e606ed476221153e4c20dd3bd2d9eb7`.
+- Catalogue revision `owner-approved-20261015-r07` is ingested: 735 approved products and 4,327 distinct stock adjustments adding 12,981 units. No duplicate adjustments were found. Publication counts remain 704 draft, 15 published and 16 archived. Do not run the stock migration again as a new revision.
+- All 1,001 R07 objects exist in private R2 storage; every byte length and SHA-256 metadata value matches the deployed manifest. The temporary bounded importer is disabled.
 
-Migration generator: `scripts/development/approve-catalogue.mjs snapshot.json approved.json`. It creates the approved JSON and matching SQL with revision `owner-approved-20261015-r07`. The source snapshot must contain complete `products`, `product_variants` and `product_images` arrays, not truncated API output.
+Migration generator: `scripts/development/approve-catalogue.mjs snapshot.json approved.json`. The complete approved snapshot and original-row rollback records were retained; future migrations must reconcile current live values rather than replay this release blindly.
 
 ## Pack scope and remaining factory evidence
 
@@ -45,6 +49,6 @@ The removed welcome screen was the three-page first-run onboarding: “Presence.
 
 ## Final file validation and delivery status
 
-The final R07 export contains 1,001 PDFs and 18,084 pages. All passed page-count and footer-overlap validation after correcting 30 long artwork sheets; representative garment, accessory and artwork pages were visually checked. The searchable index resolves all local links. All eight delivery ZIP files passed CRC validation.
+The final R07 export contains 1,001 PDFs and 18,084 pages. All passed page-count and footer-overlap validation; representative garment, accessory and artwork pages were visually checked. After scratch cleanup removed 386 pending PDFs, they were reproduced from the approved snapshot and committed template, retaining page counts. Their regenerated checksums are recorded in the final manifest. All 1,001 private R2 objects now match that manifest.
 
-The batch save of the main pack archive, six PDF archives and release-data checkpoint timed out without an ordered completion receipt. A subsequent Library metadata check still showed the previous seven archive versions and no new checkpoint. Do not assume that the replacements succeeded, and do not blindly repeat an unknown finalization. The verified local copies are in `/workspace/scratch/fd3d7a047dcb/`, named `vanta-noir-all-garment-development-packs.zip`, `vanta-noir-garment-pdfs-01.zip` through `-06.zip`, and `vanta-noir-pending-release-data.zip`.
+The earlier batch replacement of the standalone delivery ZIP archives timed out without a completion receipt. Those historical downloadable archive replacements are not confirmed by this deployment. A separate private recovery checkpoint was saved successfully before resuming the final upload. This record confirms the live admin PDF set, not replacement of those older offline archive files.
