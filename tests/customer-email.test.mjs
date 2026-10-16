@@ -13,7 +13,7 @@ test('Resend auth email validates identity, keeps reset responses private and ra
   const data=await req.json();
   if(req.url.endsWith('accounts:lookup'))return Response.json({users:data.email?.[0]==='absent@example.invalid'?[]:[{localId:'email-user',email:'buyer@example.invalid',emailVerified:false,disabled,validSince:'0'}]});
   if(req.url.endsWith('accounts:sendOobCode')){links.push(data);assert.equal(data.returnOobLink,true);assert.equal(data.continueUrl,'https://vantanoir.store/account');return Response.json({oobLink:'https://vanta-noir.firebaseapp.com/__/auth/action?mode='+data.requestType+'&oobCode=fixture-secret'});}
-  assert.equal(req.url,'https://api.resend.com/emails');assert.ok(req.headers.get('Idempotency-Key'));sends.push(data);return Response.json({id:'fixture'},{status:resendFailure?503:200});
+  assert.equal(req.url,'https://api.resend.com/emails');assert.ok(req.headers.get('Idempotency-Key'));assert.equal(data.from,'Vanta Noir <accounts@vantanoir.store>');sends.push(data);return Response.json({id:'fixture'},{status:resendFailure?503:200});
  }});
  try{
   const db=await mf.getD1Database('DB');await db.batch([db.prepare('CREATE TABLE store_meta(key TEXT PRIMARY KEY,value TEXT)'),db.prepare('CREATE TABLE request_limits(key TEXT PRIMARY KEY,hits INTEGER,expires_at INTEGER)')]);

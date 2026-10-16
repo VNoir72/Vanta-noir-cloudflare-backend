@@ -10,8 +10,9 @@
   "backend": {
     "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
     "worker": "vanta-noir-api",
-    "version": "5b0d3ad5-36a5-4434-a196-2b98e71e2cea",
-    "deployment": "0c893dcc-4668-4c7d-a539-ba26b90adfbb"
+    "version": "174cc2ce-737f-4599-af05-fc0e905ec67d",
+    "deployment": "ed4ccd08-8291-4fb3-82ad-8a9ce78207e5",
+    "senderPatch": "Verification and password reset use Vanta Noir <accounts@vantanoir.store>; order sender unchanged."
   },
   "android": {
     "installedBuildTarget": 32,
@@ -33,7 +34,8 @@
         "status": "retired from release targeting; Expo artifact retained",
         "reason": "Owner explicitly confirmed build 32 is installed. Do not use build 33 as the active baseline or attribute current verification issues to build 33."
       }
-    ]
+    ],
+    "verificationWaitingScreen": "Owner confirmed working on build 32 on 2026-10-16"
   },
   "garments": {
     "records": 735,
