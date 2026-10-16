@@ -1,10 +1,11 @@
+import {customerSessionToken} from './customer-cookie';
 import {runtimeEnv,getDbBinding} from './runtime-env';
 import {firebaseSessionValid} from './firebase-customer';
 import {receiptDigest} from './receipt-access';
 const tokenPattern=/^[a-f0-9-]{73}$/;
 export async function appSession(request: Request) {
   if(runtimeEnv().CUSTOMER_APP_ENABLED!=='true')return null;
-  const token = request.headers.get("Authorization")?.replace(/^Bearer /, "");
+  const token = customerSessionToken(request);
   if (!token || !tokenPattern.test(token)) return null;
   const db=getDbBinding();
   const session=await db

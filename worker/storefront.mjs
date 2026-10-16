@@ -1,7 +1,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// ../../cloudflare-storefront/worker.mjs
+// cloudflare-storefront/worker.mjs
 var escape = /* @__PURE__ */ __name((value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("'", "&#39;"), "escape");
 function protect(response) {
   const r = new Response(response.body, response);
@@ -9,7 +9,7 @@ function protect(response) {
   r.headers.set("Strict-Transport-Security", "max-age=31536000");
   r.headers.set("X-Frame-Options", "DENY");
   r.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  r.headers.set("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  r.headers.set("Content-Security-Policy", "default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; media-src 'self' https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.vantanoir.store https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://auth.vantanoir.store https://vanta-noir.firebaseapp.com; frame-src https://auth.vantanoir.store https://vanta-noir.firebaseapp.com https://accounts.google.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.vantanoir.store https://checkout.paystack.com");
   r.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   r.headers.set("Cache-Control", "no-store");
   r.headers.delete("set-cookie");
@@ -107,7 +107,7 @@ async function route(request, env) {
     html = html.replace("</head>", '<link rel="canonical" href="' + canonical + '"><meta property="og:url" content="' + canonical + '"></head>');
     const image = typeof data.image === "string" ? data.image.startsWith("/") && !data.image.startsWith("//") ? "https://vantanoir.store" + data.image : data.image : "";
     html = html.replace(/<meta (?:name|property)="(description|og:title|og:description|og:image|twitter:title|twitter:description|twitter:image)" content="[^"]*">/g, (_, name) => "<meta " + (name.startsWith("og:") ? "property" : "name") + '="' + name + '" content="' + escape(name.endsWith("image") ? /^https:\/\//.test(image) ? image : "" : name.endsWith("title") ? data.title : data.description) + '">');
-    if (data.structuredData && typeof data.structuredData === "object") html = html.replace("</head>", '<script type="application/ld+json">' + JSON.stringify(data.structuredData).replaceAll("<", "\\u003c") + "<\/script></head>");
+    if (data.structuredData && typeof data.structuredData === "object") html = html.replace("</head>", '<script type="application/ld+json">' + JSON.stringify(data.structuredData).replaceAll("<", "\\u003c") + "</script></head>");
     return htmlPreview(new Response(html, { headers: { "Content-Type": "text/html" } }));
   }
   let path = p;
@@ -134,5 +134,3 @@ var worker_default = { async fetch(request, env) {
 export {
   worker_default as default
 };
-
-

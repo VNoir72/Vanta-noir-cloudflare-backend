@@ -4,9 +4,10 @@ function protect(response) {
   const r = new Response(response.body, response);
   // Production pages preserve their own indexing policy.
   r.headers.set('X-Content-Type-Options','nosniff');
+  r.headers.set('Strict-Transport-Security','max-age=31536000');
   r.headers.set('X-Frame-Options','DENY');
   r.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
-  r.headers.set('Content-Security-Policy',"frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  r.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; media-src 'self' https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.vantanoir.store https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://auth.vantanoir.store https://vanta-noir.firebaseapp.com; frame-src https://auth.vantanoir.store https://vanta-noir.firebaseapp.com https://accounts.google.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.vantanoir.store https://checkout.paystack.com");
   r.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
   r.headers.set('Cache-Control','no-store');
   r.headers.delete('set-cookie');

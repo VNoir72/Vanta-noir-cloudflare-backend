@@ -2,7 +2,7 @@
 import {useDisplayCurrency} from '@/lib/display-currency';
 import {fetchCatalogResponse} from '@/lib/catalog-fetch';
 import {CheckoutEmailPreferences} from '@/components/checkout-email-preferences';
-import {customerHeaders,customerRequest} from '@/lib/customer-web';
+import {customerHeaders,customerHasSession,customerRequest} from '@/lib/customer-web';
 import {deliveryChoices} from '@/lib/shipping-options';
 import {checkoutCustomerSchema} from '@/lib/checkout-address';
 import {CustomTransferPayment} from '@/components/custom-transfer-payment';
@@ -31,7 +31,7 @@ export function CheckoutForm() {
   const [signedEmail,setSignedEmail]=useState('');
   const [savedAddresses,setSavedAddresses]=useState<Record<string,string>[]>([]);
   const appliedDefaultAddress=useRef(false);
-  useEffect(()=>{if(customerHeaders().Authorization)void customerRequest<{customer:{email:string;addresses?:Record<string,string>[]}}>('me').then(r=>{setSignedEmail(r.customer.email);setEmail(r.customer.email);setSavedAddresses((r.customer.addresses||[]).filter(a=>checkoutCustomerSchema.safeParse(a).success));}).catch(()=>{});},[]);
+  useEffect(()=>{if(customerHasSession())void customerRequest<{customer:{email:string;addresses?:Record<string,string>[]}}>('me').then(r=>{setSignedEmail(r.customer.email);setEmail(r.customer.email);setSavedAddresses((r.customer.addresses||[]).filter(a=>checkoutCustomerSchema.safeParse(a).success));}).catch(()=>{});},[]);
   const [transfer,setTransfer]=useState<{instructions:TransferInstructions;token:string}|null>(null);
   useEffect(()=>{try{const saved=sessionStorage.getItem('vn-custom-transfer');if(saved)setTransfer(JSON.parse(saved));}catch{}},[]);
   const [paymentReference,setPaymentReference]=useState("");
@@ -102,7 +102,7 @@ export function CheckoutForm() {
   async function applyCode(){const request=++promotionRequest.current;setQuoting(true);setError("");setPromotion(null);try{const r=await fetch(apiUrl("/api/promotions/quote"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))}),signal:AbortSignal.timeout(15000)});const data=await r.json().catch(()=>{throw new Error("The promotion service returned an unreadable response. Please try again.");}) as {code:string;discountKobo:number;error?:string};if(!r.ok)throw new Error(data.error||"This code could not be applied.");if(typeof data.code!=="string"||!Number.isSafeInteger(data.discountKobo)||data.discountKobo<0)throw new Error("The promotion could not be verified. Please try again.");if(request===promotionRequest.current)setPromotion(data);}catch(e){if(request===promotionRequest.current)setError(e instanceof Error&&e.name!=="TimeoutError"?e.message:"Checking the promotion took too long. Please try again.");}finally{if(request===promotionRequest.current)setQuoting(false);}}
   async function pay(event:FormEvent<HTMLFormElement>){event.preventDefault();if(submitting.current||!settings?.checkoutReady||total===null||!cart.length||rewards.pending||rewards.error||!rewards.quote)return;submitting.current=true;setBusy(true);setError("");
     const fields=Object.fromEntries(new FormData(event.currentTarget));delete fields.paymentChoice;
-    try{const checkoutData={paymentChannel:settings.customTransferEnabled?paymentMethod:'hosted',shippingSelection:liveShipping?shippingSelection:undefined,expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",headers:{"Content-Type":"application/json",...customerHeaders()},body:JSON.stringify({...checkoutData,checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
+    try{const checkoutData={paymentChannel:settings.customTransferEnabled?paymentMethod:'hosted',shippingSelection:liveShipping?shippingSelection:undefined,expectedTotalKobo:total,rewardCode,expectedRewardSignature:rewards.quote.signature,promotionCode:promotion?.code||"",customer:fields,cart:cart.map(({variantId,quantity})=>({variantId,quantity}))};const attempt=await checkoutAttempt(checkoutData);const response=await fetch(apiUrl("/api/checkout"),{method:"POST",credentials:"include",headers:{"Content-Type":"application/json",...customerHeaders()},body:JSON.stringify({...checkoutData,checkoutAttempt:attempt}),signal:AbortSignal.timeout(30000)});
       const payload=await response.json() as {transfer?:TransferInstructions;authorizationUrl?:string;accessCode?:string;reference?:string;receiptToken?:string;complete?:boolean;checking?:boolean;expired?:boolean;error?:string};if(!response.ok)throw new Error(payload.error||"Payment could not start. Please try again.");
       if(payload.reference&&payload.receiptToken){try{sessionStorage.setItem(`vn-receipt:${payload.reference}`,payload.receiptToken);}catch{/* Storage restrictions must not block the verified payment redirect. */}}
       if(payload.reference){

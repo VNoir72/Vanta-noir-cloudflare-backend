@@ -1,3 +1,6 @@
+import {customerEmail} from './customer-email';
+import {customerSessionToken,customerCookieResponse,webSessionRequest} from './customer-cookie';
+import {completeIdentityDeletion} from './customer-deletion';
 import {profileDetailsSchema} from './customer-profile';
 import {currencyRates} from './currency-rates';
 import {serviceBudget} from './abuse-policy';
@@ -7,7 +10,7 @@ import {phoneStatus,phoneSend,phoneVerify} from './phone-verification';
 import {memberHub,setMemberWatch} from './app-members';
 import {appAccessContext} from './app-attestation';
 import {restartPayment} from './restart-payment';
-import {firebaseReady,verifyFirebaseCustomer,deleteFirebaseCustomer} from './firebase-customer';
+import {firebaseReady,verifyFirebaseCustomer} from './firebase-customer';
 import {appSession} from './app-session';
 export {appSession} from './app-session';
 import {registerPush} from "./customer-push";
@@ -57,6 +60,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if(path==='benefit-watch'&&request.method==='POST')return json(await setMemberWatch(access,await request.json()));
       return json({error:'Method not allowed.'},405);
     }
+    if(request.method==='POST'&&path==='email')return customerEmail(request);
     if(request.method==='GET'&&path==='currencies')return currencyRates();
     if(request.method==='GET'&&path==='auth-methods')return json({password:firebaseReady(),google:firebaseReady(),apple:firebaseReady()&&runtimeEnv().FIREBASE_APPLE_ENABLED==='true'});
     if(request.method==='POST'&&path==='firebase'){
@@ -65,6 +69,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if(!await rateLimit(request,'customer-firebase',10,600))return json({error:'Please wait before signing in again.'},429);
       let identity;try{identity=await verifyFirebaseCustomer(v.idToken);}catch{return json({error:'Sign in again with a verified email address.'},401);}
       if(identity.provider==='apple.com'&&runtimeEnv().FIREBASE_APPLE_ENABLED!=='true')return json({error:'Apple sign-in is not available yet.'},503);
+      if(await db.prepare('SELECT key FROM store_meta WHERE key=?').bind('identity-deletion:'+identity.uid).first())return json({error:'Account deletion is still completing. Please try again later.'},409);
       const email=emailSchema.parse(identity.email),now=Date.now();
       await db.prepare('INSERT OR IGNORE INTO app_customers(id,email,created_at,terms_accepted_at) VALUES(?,?,?,?)').bind(crypto.randomUUID(),email,now,now).run();
       const customer=await db.prepare('SELECT id,email,name FROM app_customers WHERE email=?').bind(email).first<{id:string;email:string;name:string}>();
@@ -81,7 +86,7 @@ export async function customerApp(request: Request): Promise<Response> {
       await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('firebase-session:'+sessionDigest,identity.uid),db.prepare('INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid)]);
       const linked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
       if(linked?.value!==identity.uid)return json({error:'Use your existing sign-in method.'},409);
-      return json({token,customer,expiresAt:now+30*86400000});
+      return customerCookieResponse(request,{...(webSessionRequest(request)?{}:{token}),customer,expiresAt:now+30*86400000},token,now+30*86400000);
     }
     if (request.method === "POST" && path === "code") {
       const { email, purpose } = z
@@ -184,27 +189,38 @@ export async function customerApp(request: Request): Promise<Response> {
       await db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('deletion-grant:'+await receiptDigest(token),JSON.stringify({customerId:customer.id,expiresAt})).run();
       return json({token,expiresAt});
     }
-    // A deletion grant is consumed only by DELETE /me, never general authentication.
+    if(path==='logout'&&request.method==='POST'){
+      const token=customerSessionToken(request);
+      if(tokenPattern.test(token)){const digest=await receiptDigest(token);await db.batch([db.prepare('DELETE FROM app_sessions WHERE digest=?').bind(digest),db.prepare('DELETE FROM store_meta WHERE key=?').bind('firebase-session:'+digest)]);}
+      return customerCookieResponse(request,{signedOut:true},'',0);
+    }
+    // A deletion grant authorizes only DELETE /me and survives retryable prerequisite failures.
     let s=await appSession(request);
     if(!s && path==='me' && request.method==='DELETE'){
       const body=z.object({confirmation:z.literal('DELETE')}).parse(await request.clone().json());
       if(body.confirmation!=='DELETE')return json({error:'Confirm account deletion.'},400);
       const token=request.headers.get('Authorization')?.replace(/^Bearer /,'')||'';
       if(tokenPattern.test(token)){
-        const grant=await db.prepare("DELETE FROM store_meta WHERE key=? AND json_extract(value,'$.expiresAt')>? RETURNING value").bind('deletion-grant:'+await receiptDigest(token),Date.now()).first<{value:string}>();
+        const grant=await db.prepare("SELECT value FROM store_meta WHERE key=? AND json_extract(value,'$.expiresAt')>?").bind('deletion-grant:'+await receiptDigest(token),Date.now()).first<{value:string}>();
         if(grant)s=await db.prepare('SELECT id,email,name,addresses_json,favourites_json,? AS authenticatedAt FROM app_customers WHERE id=?').bind(Date.now(),JSON.parse(grant.value).customerId).first<NonNullable<typeof s>>();
       }
     }
     if (!s) return json({ error: "Please sign in again." }, 401);
     if(!await rateLimit(new Request(request.url,{headers:{'cf-connecting-ip':s.id}}),'customer-account:'+(['GET','HEAD'].includes(request.method)?'read':'write'),['GET','HEAD'].includes(request.method)?180:40,60))return json({error:'Please wait a minute before trying again.'},429);
+    if(path==='web-session'&&request.method==='POST'){
+      if(!webSessionRequest(request))return json({error:'Open the website to continue.'},403);
+      const token=customerSessionToken(request),row=await db.prepare('SELECT expires_at FROM app_sessions WHERE digest=?').bind(await receiptDigest(token)).first<{expires_at:number}>();
+      if(!row)return json({error:'Please sign in again.'},401);
+      return customerCookieResponse(request,{expiresAt:row.expires_at},token,row.expires_at);
+    }
     if(path==='sessions'&&request.method==='GET'){
-      const current=await receiptDigest(request.headers.get('Authorization')!.slice(7));
+      const current=await receiptDigest(customerSessionToken(request));
       const rows=await db.prepare('SELECT digest,created_at,expires_at FROM app_sessions WHERE customer_id=? AND expires_at>? ORDER BY created_at DESC LIMIT 100').bind(s.id,Date.now()).all<{digest:string;created_at:number;expires_at:number}>();
       return json({sessions:rows.results.map(row=>({id:row.digest,createdAt:row.created_at,expiresAt:row.expires_at,current:row.digest===current}))});
     }
     if(path==='sessions'&&request.method==='DELETE'){
       const {id}=z.object({id:z.string().regex(/^[a-f0-9]{64}$/)}).strict().parse(await request.json());
-      const current=await receiptDigest(request.headers.get('Authorization')!.slice(7));
+      const current=await receiptDigest(customerSessionToken(request));
       if(id===current)return json({error:'Use Sign out to end your current session.'},400);
       await db.prepare('DELETE FROM app_sessions WHERE customer_id=? AND digest=?').bind(s.id,id).run();
       return json({revoked:true});
@@ -296,15 +312,6 @@ export async function customerApp(request: Request): Promise<Response> {
       if(v.phone!==undefined||v.profile!==undefined)await db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=json_patch(store_meta.value,excluded.value)").bind('customer-profile:'+s.id,JSON.stringify({...v.profile,...(v.phone!==undefined?{phone:v.phone}:{})})).run();
       return json({ saved: true });
     }
-    if (path === "logout" && request.method === "POST") {
-      await db
-        .prepare("DELETE FROM app_sessions WHERE digest=?")
-        .bind(
-          await receiptDigest(request.headers.get("Authorization")!.slice(7)),
-        )
-        .run();
-      return json({ signedOut: true });
-    }
     if (path === "me" && request.method === "DELETE") {
       if (Date.now() - s.authenticatedAt > 600000)
         return json(
@@ -318,12 +325,17 @@ export async function customerApp(request: Request): Promise<Response> {
         .parse(await request.json());
       void v;
       const firebase=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+s.id).first<{value:string}>();
-      if(firebase)await deleteFirebaseCustomer(firebase.value);
+      // Resolve billing before removing either identity. A failed prerequisite leaves login intact.
+      await circleBeforeDeletion(s.id);
       // Explicit cleanup also covers deployments with foreign-key enforcement disabled.
       const cardsTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='app_customer_cards'").first();
-      await circleBeforeDeletion(s.id);
       const crmTable=await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='crm_profiles'").first();
       await db.batch([
+        // Queue provider cleanup in the same transaction as local deletion.
+        ...(firebase?[db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('identity-deletion:'+firebase.value,JSON.stringify({uid:firebase.value,createdAt:Date.now()}))]:[]),
+        db.prepare("DELETE FROM store_meta WHERE key LIKE 'deletion-grant:%' AND json_extract(value,'$.customerId')=?").bind(s.id),
+        db.prepare("DELETE FROM store_meta WHERE key IN (SELECT 'firebase-session:'||digest FROM app_sessions WHERE customer_id=?)").bind(s.id),
+        db.prepare("DELETE FROM store_meta WHERE key IN (?,?)").bind('circle-enrol:'+s.id,'circle-member:'+s.id),
         db.prepare("DELETE FROM store_meta WHERE (key LIKE 'presence:%' OR key LIKE 'activity:%') AND json_extract(value,'$.customerId')=?").bind(s.id),
         db.prepare('DELETE FROM store_meta WHERE key IN (?,?)').bind('phone-verified:'+s.id,'phone-challenge:'+s.id),
         ...(crmTable?[db.prepare('DELETE FROM crm_notes WHERE email=?').bind(s.email),db.prepare('DELETE FROM crm_profiles WHERE email=?').bind(s.email),db.prepare("UPDATE subscribers SET status='unsubscribed',updated_at=CURRENT_TIMESTAMP WHERE lower(email)=?").bind(s.email)]:[]),
@@ -341,8 +353,10 @@ export async function customerApp(request: Request): Promise<Response> {
         db.prepare("DELETE FROM store_meta WHERE key=?").bind("customer-profile:"+s.id),
         db.prepare("DELETE FROM app_customers WHERE id=?").bind(s.id),
       ]);
+      const identityDeletionPending=firebase ? !await completeIdentityDeletion(firebase.value) : false;
       return json({
         deleted: true,
+        identityDeletionPending,
         message:
           "Account, addresses and favourites deleted. Required transaction records are retained under our published retention policy.",
       });

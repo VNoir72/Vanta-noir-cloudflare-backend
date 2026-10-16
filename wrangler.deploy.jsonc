@@ -50,6 +50,7 @@
     ]
   },
   "observability": {
+    "redact_query_string": true,
     "enabled": true
   },
   "routes": [

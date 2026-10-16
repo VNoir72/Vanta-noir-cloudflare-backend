@@ -17,7 +17,7 @@ async function adminToken(){
 }
 async function adminRequest(action:string,body:unknown){
  const response=await fetch(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:${action}`,{method:'POST',headers:{Authorization:'Bearer '+await adminToken(),'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(12000)});
- const result=await response.json() as {users?:{localId:string;email?:string;emailVerified?:boolean;disabled?:boolean;validSince?:string}[];error?:{message?:string}};
+ const result=await response.json() as {oobLink?:string;users?:{localId:string;email?:string;emailVerified?:boolean;disabled?:boolean;validSince?:string}[];error?:{message?:string}};
  if(!response.ok&&!(action==='delete'&&result.error?.message==='USER_NOT_FOUND'))throw Error('Firebase account service is temporarily unavailable.');
  return result;
 }
@@ -35,4 +35,22 @@ export async function firebaseSessionValid(uid:string,email:string,authenticated
  if(!firebaseReady())return false;
  const user=(await adminRequest('lookup',{localId:[uid]})).users?.[0];
  return !!user && user.localId===uid && !user.disabled && !!user.emailVerified && user.email?.toLowerCase()===email && Number(user.validSince||0)*1000<=authenticatedAt;
+}
+
+export async function firebaseVerificationEmail(token:string){
+ const identity=await verifyFirebaseToken(token,undefined,false);
+ const user=(await adminRequest('lookup',{localId:[identity.uid]})).users?.[0];
+ if(!user||user.localId!==identity.uid||user.disabled||user.email?.toLowerCase()!==identity.email||Number(user.validSince||0)*1000>identity.authenticatedAt)throw Error('Please sign in again.');
+ return {email:identity.email,verified:user.emailVerified===true};
+}
+export async function firebaseActionLink(email:string,type:'VERIFY_EMAIL'|'PASSWORD_RESET',userIp:string){
+ if(type==='PASSWORD_RESET'){
+  const user=(await adminRequest('lookup',{email:[email]})).users?.[0];
+  if(!user||user.disabled)return null;
+ }
+ const result=await adminRequest('sendOobCode',{requestType:type,email,returnOobLink:true,continueUrl:'https://vantanoir.store/account',canHandleCodeInApp:false,...(type==='PASSWORD_RESET'?{userIp}:{})});
+ if(!result.oobLink)throw Error('Email link is temporarily unavailable.');
+ const url=new URL(result.oobLink);
+ if(url.protocol!=='https:'||!['vanta-noir.firebaseapp.com','auth.vantanoir.store'].includes(url.hostname)||url.pathname!=='/__/auth/action')throw Error('Email link is temporarily unavailable.');
+ return url.href;
 }

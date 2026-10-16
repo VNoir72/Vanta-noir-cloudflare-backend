@@ -1,3 +1,4 @@
+import {retryIdentityDeletions} from '../lib/customer-deletion';
 import { adminAuthStateFromRequest } from '../lib/admin-auth';
 import { apiAbuseGuard } from '../lib/abuse-policy';
 import { rateLimit } from '../lib/rate-limit';
@@ -36,7 +37,7 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await cleanupGrowth().catch(()=>{}); await runAutomations(); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await monitorShipbubbleWallet().catch(()=>{}); })()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await retryIdentityDeletions().catch(()=>{console.error("Account cleanup retry unavailable");}); await cleanupGrowth().catch(()=>{}); await runAutomations().catch(()=>{console.error("Automation cycle unavailable");}); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await monitorShipbubbleWallet().catch(()=>{}); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
