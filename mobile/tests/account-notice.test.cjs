@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),ts=require('typescript');
 const source=fs.readFileSync(require('node:path').join(__dirname,'../App.tsx'),'utf8');
 function fixture(){
- const start=source.indexOf('  const accountNotice = useRef'),code=source.slice(start,source.indexOf('  useEffect(() => {',start));
+ const start=source.indexOf('  const accountEpoch = useRef'),code=source.slice(start,source.indexOf('  useEffect(() => {',start));
  let notice='',fail=true;
  const ctx={Error,useRef:value=>({current:value}),vault:{get:async k=>k==='session'?'test-token':null},api:async path=>{if(fail)throw Error('Network request failed');return path.endsWith('/me')?{customer:{email:'test@example.test',favourites:[],addresses:[]}}:{orders:[]}},AsyncStorage:{getItem:async()=>null},ApiError:class extends Error{},setCustomer:()=>{},setSaved:()=>{},setAddress:()=>{},setOrders:()=>{},refreshCards:async()=>{},setNotice:value=>{notice=typeof value==='function'?value(notice):value;}};
  vm.createContext(ctx);vm.runInContext(ts.transpileModule(code,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,ctx);

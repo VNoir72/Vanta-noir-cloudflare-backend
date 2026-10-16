@@ -1,3 +1,4 @@
+import {signOutStore} from './src/sign-out';
 import {BackgroundUpdates} from './src/components/BackgroundUpdates';
 import {customerPatch} from "./src/customer-patch";
 import {customerOrderReference} from './src/order-reference';
@@ -16,7 +17,7 @@ import {AppRecovery} from './src/components/AppRecovery';
 import {MotionValue} from './src/components/MotionValue';
 import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
-import {disablePush,registerDefaultOrderPush} from "./src/push";
+import {registerDefaultOrderPush} from "./src/push";
 import * as Notifications from "expo-notifications";
 import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency,refreshCurrencies} from "./src/preferences";
 import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
@@ -373,11 +374,14 @@ function Main() {
     }
   }
   async function refreshCards() {
+    const epoch=accountEpoch.current;
     try {
       const data=await api<{enabled:boolean;cards:SavedCard[]}>("/api/customer/cards");
+      if(epoch!==accountEpoch.current)return;
       setCards(data.cards || []);setCardsEnabled(data.enabled===true);
       setSelectedCard(current=>data.cards?.some(c=>c.id===current&&!c.expired)?current:data.cards?.find(c=>!c.expired)?.id || "");
     } catch(e) {
+      if(epoch!==accountEpoch.current)return;
       setCards([]);setCardsEnabled(false);setSelectedCard("");
       if(e instanceof ApiError && e.status===401)throw e;
     }
@@ -396,25 +400,31 @@ function Main() {
       {!cardsEnabled && <Text style={s.muted}>Saved-card payments are currently unavailable.</Text>}
     </>;
   }
+  const accountEpoch = useRef(0);
   const accountNotice = useRef("");
   async function account(silent = false) {
+    const epoch=accountEpoch.current;
     if (!(await vault.get("session"))) return;
     try {
       const r = await api<{ customer: Customer }>("/api/customer/me");
+      if(epoch!==accountEpoch.current)return;
       setCustomer(r.customer);
       setSaved(r.customer.favourites);
       const countryPreference=await AsyncStorage.getItem("vanta-country:"+r.customer.email);
+      if(epoch!==accountEpoch.current)return;
       setAddress((a) => ({
         ...a,
         ...r.customer.addresses[0],
         ...(!r.customer.addresses.length&&countryPreference?{countryCode:countryPreference}:{}),
         email: r.customer.email,
       }));
-      setOrders(
-        (await api<{ orders: Order[] }>("/api/customer/orders")).orders,
-      );
+      const latestOrders=await api<{ orders: Order[] }>("/api/customer/orders");
+      if(epoch!==accountEpoch.current)return;
+      setOrders(latestOrders.orders);
       await refreshCards();
+      if(epoch!==accountEpoch.current)return;
       const pending=await vault.get("pending");
+      if(epoch!==accountEpoch.current)return;
       if(pending){const restored=JSON.parse(pending);if(restored.ownerEmail===r.customer.email){
         if(!restored.bagConsumed){const bag:CartItem[]=JSON.parse(await AsyncStorage.getItem('vanta-bag')||'[]');const remaining=bag.flatMap(i=>{const q=i.quantity-(restored.cart?.find((b:CartItem)=>b.variantId===i.variantId)?.quantity||0);return q>0?[{...i,quantity:q}]:[];});await AsyncStorage.setItem('vanta-bag',JSON.stringify(remaining));setCart(remaining);await vault.set('pending',JSON.stringify({...restored,bagConsumed:true}));}
         setPayment(restored.payment);setPendingCart(restored.cart);attempt.current=restored.payment.receiptToken;}}
@@ -423,6 +433,7 @@ function Main() {
       accountNotice.current = "";
       if (previousNotice) setNotice(current => current === previousNotice ? "" : current);
     } catch (e) {
+      if(epoch!==accountEpoch.current)return;
       if(e instanceof ApiError && e.status===401){await vault.remove("session");setCustomer(null);setCards([]);setCardsEnabled(false);setSelectedCard("");setPayment(null);setPendingCart([]);setOrders([]);setAddress(emptyAddress);setSaved([]);setCheckout(false);}
       if (!silent) {
         const message = e instanceof Error ? e.message : "Account unavailable.";
@@ -576,10 +587,11 @@ function Main() {
       size,
       liked,
     });
-    const next = liked ? [...saved, p.id] : saved.filter((i) => i !== p.id);
-    setSaved(next);
+    const latest = await api<{customer:Customer}>("/api/customer/me");
+    const next = liked ? [...new Set([...latest.customer.favourites, p.id])] : latest.customer.favourites.filter((i) => i !== p.id);
     if (customer) {
       await api("/api/customer/me", { favourites: next }, "PATCH");
+      setSaved(next);
       setCustomer({ ...customer, favourites: next });
     }
   }
@@ -748,10 +760,10 @@ function Main() {
       );
   }
   async function logout() {
-    await disablePush();
-    await api("/api/customer/logout", {});
-    await firebaseSignOut();
-    await vault.remove("session");
+    accountEpoch.current++;
+    await signOutStore();
+    accountNotice.current = "";
+    setNotice("");
     setCustomer(null);
     setCards([]);setCardsEnabled(false);setSelectedCard("");setPaymentMethod("bank_transfer");
     setPayment(null);setPendingCart([]);attempt.current="";
