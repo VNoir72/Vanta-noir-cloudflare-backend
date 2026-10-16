@@ -4,14 +4,14 @@
   "website": {
     "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
     "worker": "vanta-storefront",
-    "version": "dfa3f535-60b5-4598-b679-5d4cdbc23709",
-    "deployment": "5739fa89-c0a2-4fcc-8fd9-4da03e82523b"
+    "version": "bf48292d-02e7-44ab-a56b-c3f1a7d1af63",
+    "deployment": "4aedb7da-c709-48e2-b72d-109f0b44d654"
   },
   "backend": {
     "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
     "worker": "vanta-noir-api",
-    "version": "174cc2ce-737f-4599-af05-fc0e905ec67d",
-    "deployment": "ed4ccd08-8291-4fb3-82ad-8a9ce78207e5",
+    "version": "c2e590d1-bcaa-4cee-80f6-d7d720324efd",
+    "deployment": "7da536fc-46df-47ac-af1a-9622c302d27a",
     "senderPatch": "Verification and password reset use Vanta Noir <accounts@vantanoir.store>; order sender unchanged."
   },
   "android": {
@@ -85,6 +85,7 @@
       "tables": 54,
       "products": 735,
       "productionDatabaseChanged": false
-    }
+    },
+    "brandedEmailActionUrl": "https://vantanoir.store/auth/action"
   }
 }

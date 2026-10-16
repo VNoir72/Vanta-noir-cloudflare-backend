@@ -52,5 +52,9 @@ export async function firebaseActionLink(email:string,type:'VERIFY_EMAIL'|'PASSW
  if(!result.oobLink)throw Error('Email link is temporarily unavailable.');
  const url=new URL(result.oobLink);
  if(url.protocol!=='https:'||!['vanta-noir.firebaseapp.com','auth.vantanoir.store'].includes(url.hostname)||url.pathname!=='/__/auth/action')throw Error('Email link is temporarily unavailable.');
- return url.href;
+ const code=url.searchParams.get('oobCode');
+ if(!code||code.length>2048)throw Error('Email link is temporarily unavailable.');
+ const branded=new URL('https://vantanoir.store/auth/action');
+ branded.hash=new URLSearchParams({mode:type==='VERIFY_EMAIL'?'verifyEmail':'resetPassword',oobCode:code}).toString();
+ return branded.href;
 }

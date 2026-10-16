@@ -1,3 +1,4 @@
+import {authActionHtml,authActionScript} from './auth-action.mjs';
 // Production storefront adapter. Business APIs remain at api.vantanoir.store.
 const escape = value => String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;');
 function protect(response) {
@@ -6,7 +7,7 @@ function protect(response) {
   r.headers.set('X-Content-Type-Options','nosniff');
   r.headers.set('Strict-Transport-Security','max-age=31536000');
   r.headers.set('X-Frame-Options','DENY');
-  r.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
+  r.headers.set('Referrer-Policy',response.headers.get('Referrer-Policy')||'strict-origin-when-cross-origin');
   r.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; media-src 'self' https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.vantanoir.store https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://auth.vantanoir.store https://vanta-noir.firebaseapp.com; frame-src https://auth.vantanoir.store https://vanta-noir.firebaseapp.com https://accounts.google.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.vantanoir.store https://checkout.paystack.com");
   r.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
   r.headers.set('Cache-Control','no-store');
@@ -43,6 +44,7 @@ async function route(request, env) {
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
   if(/^\/(?:index\.(?:php|htm)|home(?:\.html)?)$/.test(p))return Response.redirect(u.origin+'/',302);
   if(/(?:^|\/)\.|\.(?:php|sql|sqlite|db|zip|bak|map|jsonc)$|^\/(?:admin|backups|node_modules|drizzle|lib|app|tests|portable)(?:\/|$)/i.test(p))return new Response('Not found',{status:404});
+  if(p==='/auth/action'||p==='/auth/action.js')return new Response(p.endsWith('.js')?authActionScript:authActionHtml,{headers:{'Content-Type':p.endsWith('.js')?'application/javascript; charset=utf-8':'text/html; charset=utf-8','Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow'}});
   if(p==='/health')return json({ok:true,mode:'production-storefront',source:env.RELEASE_SHA||'unknown'});
   if(p==='/robots.txt')return asset(env,request,'/robots.txt');
   if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:"https://api.vantanoir.store"});',{headers:{'Content-Type':'application/javascript'}});
