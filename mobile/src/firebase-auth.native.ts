@@ -1,6 +1,6 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
-import {getAuth,multiFactor,getMultiFactorResolver,TotpMultiFactorGenerator,type MultiFactorError,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
+import {getAuth,onAuthStateChanged,multiFactor,getMultiFactorResolver,TotpMultiFactorGenerator,type MultiFactorError,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,signInWithCredential,GoogleAuthProvider,AppleAuthProvider,reauthenticateWithCredential,revokeToken} from '@react-native-firebase/auth';
 import {GoogleSignin,isSuccessResponse} from '@react-native-google-signin/google-signin';
 import {api,vault} from './api';
 GoogleSignin.configure({webClientId:'78543560148-017c9ov5ja032ehpba0vebl8mj5d8igs.apps.googleusercontent.com'});
@@ -8,7 +8,7 @@ async function exchange(){const user=getAuth().currentUser;if(!user?.emailVerifi
 export async function passwordLogin(email:string,password:string,create:boolean){
  const auth=getAuth();
  const credential=create?await createUserWithEmailAndPassword(auth,email.trim(),password):await signInWithEmailAndPassword(auth,email.trim(),password);
- if(!credential.user.emailVerified){await api('/api/customer/email',{purpose:'verification',idToken:await credential.user.getIdToken(true)});await signOut(auth);return 'Check your email to verify your address, then choose Sign in.';}
+ if(!credential.user.emailVerified){await api('/api/customer/email',{purpose:'verification',idToken:await credential.user.getIdToken(true)});return 'Open the verification link in your email, then return here.';}
  await exchange();return '';
 }
 export async function googleLogin(){await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog:true});const response=await GoogleSignin.signIn();if(!isSuccessResponse(response))return false;if(!response.data.idToken)throw Error('Google could not verify this sign-in.');await signInWithCredential(getAuth(),GoogleAuthProvider.credential(response.data.idToken));await exchange();return true;}
@@ -44,3 +44,20 @@ export function resolveSecondFactor(error:unknown){
 }
 export async function beginAuthenticator(){const user=getAuth().currentUser;if(!user?.emailVerified)throw Error('Sign in again with a verified email first.');const secret=await TotpMultiFactorGenerator.generateSecret(await multiFactor(user).getSession());return {key:secret.secretKey,confirm:async(code:string)=>{await multiFactor(user).enroll(TotpMultiFactorGenerator.assertionForEnrollment(secret,code),'Vanta Noir authenticator');await exchange();}};}
 export async function removeAuthenticator(uid:string){const user=getAuth().currentUser;if(!user)throw Error('Please sign in again.');await multiFactor(user).unenroll(uid);await exchange();}
+
+// Keep the Firebase identity only; no store session is granted before verification.
+export function watchPendingVerification(callback:(email:string)=>void){
+ return onAuthStateChanged(getAuth(),user=>{if(user&&!user.emailVerified&&user.email)callback(user.email);});
+}
+export async function resendVerification(){
+ const user=getAuth().currentUser;
+ if(!user)throw Error('Your verification session expired. Go back and sign in again.');
+ await api('/api/customer/email',{purpose:'verification',idToken:await user.getIdToken(true)});
+}
+export async function finishVerification(){
+ const user=getAuth().currentUser;
+ if(!user)throw Error('Your verification session expired. Go back and sign in again.');
+ await user.reload();
+ if(!getAuth().currentUser?.emailVerified)return false;
+ await exchange();return true;
+}

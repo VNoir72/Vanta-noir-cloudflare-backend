@@ -17,7 +17,7 @@ jobs:
     params:
       platform: android
       channel: ${{ inputs.channel }}
-      message: Resend verification and password reset; preserve build-32 runtime
+      message: Wait for verified email before continuing; preserve build-32 runtime
     hooks:
       before_update:
         - name: Check app types
@@ -25,4 +25,4 @@ jobs:
         - name: Check app lint
           run: npm run lint
         - name: Verify currency and order behaviour
-          run: node --test tests/design-behaviour.test.cjs
+          run: node --test tests/design-behaviour.test.cjs tests/email-verification.test.cjs

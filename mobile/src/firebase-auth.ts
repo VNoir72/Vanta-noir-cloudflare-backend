@@ -10,3 +10,7 @@ export function securityStatus(){return {verified:false,factors:[] as {uid:strin
 export function resolveSecondFactor(_error:unknown):null|{factors:{uid:string;name:string}[];confirm:(uid:string,code:string)=>Promise<void>}{return null;}
 export async function beginAuthenticator():Promise<{key:string;confirm:(code:string)=>Promise<void>}>{throw Error('Authenticator setup requires the Android app.');}
 export async function removeAuthenticator(_uid:string):Promise<void>{throw Error('Authenticator settings require the Android app.');}
+
+export function watchPendingVerification(_callback:(email:string)=>void){return ()=>{};}
+export async function resendVerification():Promise<void>{throw Error('Open the app to verify your email.');}
+export async function finishVerification():Promise<boolean>{return false;}
