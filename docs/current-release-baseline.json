@@ -1,28 +1,29 @@
 {
   "recordedAt": "2026-10-16",
-  "sourceCommit": "efecc51c6e606ed476221153e4c20dd3bd2d9eb7",
+  "sourceCommit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
   "website": {
-    "commit": "f17349a0577011338e340529706bfd1cee07300d",
+    "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
     "worker": "vanta-storefront",
-    "version": "36a704c5-2302-4534-9aa7-5109a4ddf8ea",
-    "deployment": "41f16797-db3d-4b5b-ae69-e83835367a83"
+    "version": "dfa3f535-60b5-4598-b679-5d4cdbc23709",
+    "deployment": "5739fa89-c0a2-4fcc-8fd9-4da03e82523b"
   },
   "backend": {
-    "commit": "efecc51c6e606ed476221153e4c20dd3bd2d9eb7",
+    "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
     "worker": "vanta-noir-api",
-    "version": "3da4438e-437e-42d5-b845-f8a1a2688572",
-    "deployment": "d4f7a68c-a7c3-4b3f-9843-a7d2b4fd99d6"
+    "version": "5b0d3ad5-36a5-4434-a196-2b98e71e2cea",
+    "deployment": "0c893dcc-4668-4c7d-a539-ba26b90adfbb"
   },
   "android": {
     "installedBuildTarget": 32,
-    "sourceBranch": "codex/build32-silent-refresh-2026-10-15",
-    "commit": "e6b937d566009966171d7c91d8aac02b28294b6b",
-    "updateGroup": "102540ba-1849-45d8-8a9e-38421fc552ce",
+    "sourceBranch": "codex/build32-auth-email-2026-10-16",
+    "commit": "4acf75626555ea44a7e82a972b3634c26c24e66f",
+    "updateGroup": "14612574-666d-448d-8640-93ea37b66953",
     "channel": "production",
     "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
     "fingerprint": "9829b16b33975c503904e03aebd352fa673a78ca",
     "releaseRule": "Use this build-32 branch and its native dependencies/lockfile for OTA. Port compatible JavaScript changes from the shared source. Do not publish from a different native fingerprint or create a replacement APK unless a required native change is explained and authorized.",
-    "behavior": "Quiet background download; apply on next normal launch without forced reload."
+    "behavior": "Quiet background download; apply on next normal launch without forced reload.",
+    "workflow": "01a1450f-d9f1-79b3-bc93-e97167a8efbd"
   },
   "garments": {
     "records": 735,
@@ -45,15 +46,33 @@
     "snapshotTable": "catalogue_approval_snapshots"
   },
   "rollback": {
-    "websiteVersion": "28d6c50f-3602-4283-b698-bb2141e4abe1",
-    "backendVersion": "61f35c2c-9aec-42a0-9959-b24b09c56737",
-    "androidUpdateGroup": "3e93dad8-997b-4f20-9b36-6828c166936d"
+    "websiteVersion": "36a704c5-2302-4534-9aa7-5109a4ddf8ea",
+    "backendVersion": "89cc1627-a991-4a37-bc4d-b99e3b597dcb",
+    "androidUpdateGroup": "102540ba-1849-45d8-8a9e-38421fc552ce"
   },
   "limits": [
     "Signed-in customer browser and installed-phone acceptance are not established by automated checks.",
     "Two upstream mobile build-tool advisories remain; patched decoder verified and vulnerable build tools excluded from Android bundle.",
     "Factory samples, final vector flats, suppliers, physical weights and manufacturing approval remain required."
   ],
-  "sourceBranch": "codex/approved-defaults-2026-10-15",
-  "temporaryPdfImporterEnabled": false
+  "sourceBranch": "codex/account-service-fixes-2026-10-16",
+  "temporaryPdfImporterEnabled": false,
+  "accountServiceFixes": {
+    "resendActionEmails": true,
+    "httpOnlyWebSessions": true,
+    "durableIdentityDeletion": true,
+    "savedCardsEnabled": true,
+    "queryStringRedaction": true,
+    "focusedTestsPassed": 24,
+    "storefrontPagesVerified": 698,
+    "internationalShipping": "enabled/live",
+    "productionTrafficPercent": 100,
+    "isolatedDatabaseRestore": {
+      "integrity": "ok",
+      "foreignKeyViolations": 0,
+      "tables": 54,
+      "products": 735,
+      "productionDatabaseChanged": false
+    }
+  }
 }
