@@ -20,13 +20,13 @@ export async function GET(request:Request) {
       if (!product) return Response.json({error:'Garment not found.'},{status:404,headers});
       const format=url.searchParams.get('format');
       if(format==='files')return new Response(renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
-      if(format==='attachments')return Response.json({id,pdfs:garmentPDFs(id),revision:'R06',status:'sampling draft'},{headers});
+      if(format==='attachments')return Response.json({id,pdfs:garmentPDFs(id),revision:'R07',status:'owner-approved specifications'},{headers});
       if(format==='pdf'){
         const pdf=garmentPDF(id,url.searchParams.get('color'));
         if(!pdf)return Response.json({error:'Choose a saved colourway for this garment.'},{status:404,headers});
         const bucket=runtimeEnv().BUCKET;
         if(!bucket)return Response.json({error:'PDF storage is unavailable.'},{status:503,headers});
-        const object=await bucket.get('tech-packs/r06-20261015/'+pdf.file);
+        const object=await bucket.get('tech-packs/r07-20261015/'+pdf.file);
         if(!object||object.size!==pdf.bytes||object.customMetadata?.sha256!==pdf.sha256)return Response.json({error:'This PDF is unavailable. Please retry later.'},{status:503,headers});
         return new Response(object.body,{headers:{...headers,'Content-Type':'application/pdf','Content-Length':String(object.size),'Content-Disposition':`attachment; filename="${pdf.file}"`}});
       }
