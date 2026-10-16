@@ -360,7 +360,7 @@ function Main() {
       }>("/api/catalog");
       setProducts(data.products);
       setCart(items=>refreshBagDetails(items,data.products));
-      setNotice(current=>isBagRefreshNotice(current)?"":current);
+      setNotice(current=>isBagRefreshNotice(current)||current==="Could not refresh the catalogue. Pull down to retry."?"":current);
       if(data.checkout.shippingCountries?.length)setShippingCountries(data.checkout.shippingCountries);
       setReady(data.checkout.checkoutReady);
       setTransferEnabled(data.checkout.customTransferEnabled === true);
@@ -396,7 +396,8 @@ function Main() {
       {!cardsEnabled && <Text style={s.muted}>Saved-card payments are currently unavailable.</Text>}
     </>;
   }
-  async function account() {
+  const accountNotice = useRef("");
+  async function account(silent = false) {
     if (!(await vault.get("session"))) return;
     try {
       const r = await api<{ customer: Customer }>("/api/customer/me");
@@ -418,9 +419,16 @@ function Main() {
         if(!restored.bagConsumed){const bag:CartItem[]=JSON.parse(await AsyncStorage.getItem('vanta-bag')||'[]');const remaining=bag.flatMap(i=>{const q=i.quantity-(restored.cart?.find((b:CartItem)=>b.variantId===i.variantId)?.quantity||0);return q>0?[{...i,quantity:q}]:[];});await AsyncStorage.setItem('vanta-bag',JSON.stringify(remaining));setCart(remaining);await vault.set('pending',JSON.stringify({...restored,bagConsumed:true}));}
         setPayment(restored.payment);setPendingCart(restored.cart);attempt.current=restored.payment.receiptToken;}}
 
+      const previousNotice = accountNotice.current;
+      accountNotice.current = "";
+      if (previousNotice) setNotice(current => current === previousNotice ? "" : current);
     } catch (e) {
       if(e instanceof ApiError && e.status===401){await vault.remove("session");setCustomer(null);setCards([]);setCardsEnabled(false);setSelectedCard("");setPayment(null);setPendingCart([]);setOrders([]);setAddress(emptyAddress);setSaved([]);setCheckout(false);}
-      setNotice(e instanceof Error ? e.message : "Account unavailable.");
+      if (!silent) {
+        const message = e instanceof Error ? e.message : "Account unavailable.";
+        accountNotice.current = message;
+        setNotice(message);
+      }
     }
   }
   useEffect(() => {
@@ -439,7 +447,7 @@ function Main() {
       } finally {
         hydrated.current = true;
         await load();
-        await account();
+        await account(true);
       }
     })();
   }, []);
