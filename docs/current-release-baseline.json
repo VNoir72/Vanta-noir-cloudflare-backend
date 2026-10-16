@@ -2,10 +2,10 @@
   "recordedAt": "2026-10-16",
   "sourceCommit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
   "website": {
-    "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
+    "commit": "6bf7aadd4a152cc7f6f7ba2c9ee2a2819068480e",
     "worker": "vanta-storefront",
-    "version": "bf48292d-02e7-44ab-a56b-c3f1a7d1af63",
-    "deployment": "4aedb7da-c709-48e2-b72d-109f0b44d654"
+    "version": "1faa59f0-ba5c-42f9-ab0f-4c1d3c4af27f",
+    "deployment": "21485efc-d2aa-4eb5-8072-e318ac554ad4"
   },
   "backend": {
     "commit": "39a0f37e7bd8f95ec74dc6598afd0c0033add89b",
@@ -86,6 +86,7 @@
       "products": 735,
       "productionDatabaseChanged": false
     },
-    "brandedEmailActionUrl": "https://vantanoir.store/auth/action"
+    "brandedEmailActionUrl": "https://vantanoir.store/auth/action",
+    "websiteVerificationWaitingScreen": true
   }
 }
