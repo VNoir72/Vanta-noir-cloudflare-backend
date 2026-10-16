@@ -1,6 +1,6 @@
 // Normalize editable/display wording without changing product IDs or URLs.
 export function garmentName(name: string) {
-  const clean = catalogueWording(name).replace(/^\d{1,3}[ .—-]+/, '')
+  const clean = catalogueWording(name).replace(/^VD(?:[\s-]+(?:P?\d+|[A-Z]\d+))*[\s:—–-]+/i, '').replace(/^\d{1,3}[ .—-]+/, '')
     .replace(/\s*\((?:extra\s+)?unlabelled illustration\)/gi, '')
     .replace(/\s+/g, ' ').trim();
   const parts = clean.split(/\s+[—–]\s+/);

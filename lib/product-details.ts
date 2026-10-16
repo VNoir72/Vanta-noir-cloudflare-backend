@@ -5,6 +5,8 @@ import { sizeGuideSchema } from "./sizing";
 const short = z.string().trim().max(240).default("");
 const measurement = z.number().positive().max(400).nullable().optional();
 export const productDetailsSchema = z.object({
+  specificationStatus: z.enum(["reference", "approved"]).default("reference"),
+  specificationApprovedAt: z.string().max(40).default(""),
   packaging: z.string().trim().max(12000).default(""),
   qualityTargets: z.string().trim().max(12000).default(""),
   stitching: z.string().trim().max(12000).default(""),

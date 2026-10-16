@@ -1,3 +1,4 @@
+import {recordStoreReachable} from './store-reachability';
 import {fetchWithTimeout} from "./fetch-with-timeout";
 import {createAppCheckCache} from "./app-check-cache";
 import {requireOptionalNativeModule} from "expo";
@@ -69,7 +70,7 @@ export async function api<T>(
   } catch(error){
     if(preferenceSnapshot().acceleration&&Platform.OS==='android'&&method==='GET'&&['/api/catalog','/health'].includes(path)){
       const network=requireOptionalNativeModule<{fetchPublicOverCellular:(path:string)=>Promise<string>}>('VantaPaystack');
-      if(network){try{return JSON.parse(await network.fetchPublicOverCellular(path)) as T;}catch{/* Preserve the initial request error. */}}
+      if(network){try{const result=JSON.parse(await network.fetchPublicOverCellular(path)) as T;recordStoreReachable();return result;}catch{/* Preserve the initial request error. */}}
     }
     throw error;
   }
@@ -78,6 +79,7 @@ export async function api<T>(
     .catch(() => ({ error: "The store could not be reached." }));
   if (!response.ok)
     throw new ApiError(data.error || "Please try again.", response.status);
+  recordStoreReachable();
   return data as T;
 }
 export const imageUrl = (value:string) => {

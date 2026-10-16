@@ -21,7 +21,7 @@ export const SECTION_FIELDS: Record<"top" | "bottom" | "onepiece", MeasurementKe
 const rowSchema = z.object({ size: storeSizeSchema, chest: measurement, waist: measurement, waistStretched: measurement,
   hip: measurement, shoulder: measurement, sleeve: measurement, length: measurement, inseam: measurement });
 export const sizeGuideSchema = z.object({
-  status: z.enum(["reference", "confirmed"]).default("reference"),
+  status: z.enum(["reference", "approved", "confirmed"]).default("reference"),
   notes: z.string().trim().max(1500).default(""),
   sections: z.array(z.object({
     kind: z.enum(["top", "bottom", "onepiece"]),
