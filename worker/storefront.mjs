@@ -10,15 +10,18 @@ var authActionScript = String.raw`(()=>{
  const el=id=>document.getElementById(id);
  const show=(title,message,mark='↗')=>{el('title').textContent=title;el('message').textContent=message;el('mark').textContent=mark;};
  const err=message=>{el('error').textContent=message;el('error').hidden=false;};
+ // Google checks the browser key's website restrictions. Send only our origin,
+ // never the action URL or one-time code; all other page requests stay no-referrer.
  const request=async(action,body)=>{
-  const r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:'+action+'?key=AIzaSyB3aZD9bvnM0mjR-XV7Op7V2HJzwmQ7uqg',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(15000)});
-  const data=await r.json();if(!r.ok)throw Error(data.error?.message||'UNAVAILABLE');return data;
+  const r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:'+action+'?key=AIzaSyB3aZD9bvnM0mjR-XV7Op7V2HJzwmQ7uqg',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'omit',referrer:location.origin+'/',referrerPolicy:'strict-origin',signal:AbortSignal.timeout(15000)});
+  const data=await r.json();if(!r.ok){if(r.status===403)throw Error('SERVICE_UNAVAILABLE');throw Error(data.error?.message||'UNAVAILABLE');}return data;
  };
  const failure=e=>{
   const message=String(e.message||'');
   if(/EXPIRED_OOB_CODE|INVALID_OOB_CODE/.test(message))return 'This link has expired or has already been used. If you already verified, return to the app. Otherwise, request a fresh email from your account.';
   if(/WEAK_PASSWORD|PASSWORD_DOES_NOT_MEET_REQUIREMENTS/.test(message))return 'Please choose a stronger password with a mix of uppercase and lowercase letters, numbers and symbols.';
   if(/USER_DISABLED|EMAIL_NOT_FOUND/.test(message))return 'This account action is unavailable. Please contact support.';
+  if(message==='SERVICE_UNAVAILABLE')return 'Account services are temporarily unavailable. Please try again later or contact support.';
   return 'We could not connect securely. Check your connection and try again.';
  };
  if(!code||code.length>2048||!['verifyEmail','resetPassword'].includes(mode))return;

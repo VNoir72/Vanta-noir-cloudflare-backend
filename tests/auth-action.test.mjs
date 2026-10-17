@@ -19,3 +19,26 @@ test('branded action route is private, uncacheable, and contains no tracking',as
  const r=await worker.fetch(new Request('https://vantanoir.store/auth/action'),{});assert.equal(r.status,200);assert.equal(r.headers.get('referrer-policy'),'no-referrer');assert.equal(r.headers.get('cache-control'),'no-store');assert.match(r.headers.get('x-robots-tag'),/noindex/);assert.match(await r.text(),/VANTA NOIR/);
  const js=await worker.fetch(new Request('https://vantanoir.store/auth/action.js'),{});assert.equal(js.status,200);assert.match(js.headers.get('content-type'),/javascript/);
 });
+
+for (const mode of ['verifyEmail','resetPassword']) {
+ test(mode+' sends only the site origin to Google after removing action parameters',async()=>{
+  let dom;const calls=[];
+  dom=page(mode,async(url,init)=>{calls.push({url,init});return Response.json({requestType:'PASSWORD_RESET'});});
+  if(mode==='verifyEmail')await dom.window.document.getElementById('verify').onclick();else await tick();
+  assert.equal(calls.length,1);
+  assert.equal(dom.window.location.href,'https://vantanoir.store/auth/action');
+  assert.equal(calls[0].init.referrer,'https://vantanoir.store/');
+  assert.equal(calls[0].init.referrerPolicy,'strict-origin');
+  assert.equal(calls[0].init.credentials,'omit');
+  assert.equal(new URL(calls[0].url).searchParams.has('oobCode'),false);
+  assert.equal(dom.window.document.querySelector('meta[name="referrer"]').content,'no-referrer');
+  dom.window.close();
+ });
+}
+test('a forbidden provider request reports a service problem rather than a connection problem',async()=>{
+ const dom=page('verifyEmail',async()=>Response.json({error:{message:'Requests from referer <empty> are blocked.'}},{status:403}));
+ await dom.window.document.getElementById('verify').onclick();
+ assert.match(dom.window.document.getElementById('error').textContent,/temporarily unavailable/);
+ assert.doesNotMatch(dom.window.document.getElementById('error').textContent,/Check your connection/);
+ assert.equal(dom.window.document.getElementById('verify').disabled,false);dom.window.close();
+});
