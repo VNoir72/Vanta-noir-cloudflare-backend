@@ -18,3 +18,8 @@ export async function trackPaidOrder(order:Order){
  try{const key='vanta-analytics-purchase:'+order.reference;if(await AsyncStorage.getItem(key))return;if(!choice.analytics)return;await logEvent(getAnalytics(),'purchase',payload);await AsyncStorage.setItem(key,'1');}catch{/* A later verified receipt can retry. */}finally{purchasesInFlight.delete(order.reference);}
 }
 export function reportScreenFailure(){if(!choice.diagnostics)return;try{recordError(getCrashlytics(),new Error('Store screen rendering failed'),'StoreScreenRecovery');}catch{}}
+
+export async function trackAuth(event:'sign_up'|'login',method:'email'|'google'|'apple'){
+ if(!choice.analytics)return;
+ try{if(event==='sign_up')await logEvent(getAnalytics(),'sign_up',{method});else await logEvent(getAnalytics(),'login',{method});}catch{/* Analytics must never interrupt authentication. */}
+}

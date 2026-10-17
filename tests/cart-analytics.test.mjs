@@ -6,7 +6,7 @@ import { mkdir } from "node:fs/promises";
 await mkdir("work", { recursive: true });
 await build({ entryPoints: ["lib/cart.ts", "lib/analytics.ts"], outdir: "work/cart-tests", bundle: true, format: "esm", platform: "node", outExtension: { ".js": ".mjs" } });
 const { restoreCart, reconcileCart } = await import("../work/cart-tests/cart.mjs");
-const { trackCommerce, trackPurchase } = await import("../work/cart-tests/analytics.mjs");
+const { trackCommerce, trackPurchase, trackAuth } = await import("../work/cart-tests/analytics.mjs");
 const item = { productId: "p1", variantId: "persisted-database-id", name: "Hoodie", size: "M", color: "Jet Black", imageUrl: "/images/hoodie.webp", priceKobo: 11000000, quantity: 3 };
 
 test("corrupt saved bags cannot bypass stock, quantity, or current prices", () => {
@@ -39,4 +39,17 @@ test("analytics use naira values and purchase events are deduplicated", () => {
     assert.equal(events[1][2].transaction_id, purchase.transactionId);
     assert.equal(events[1][2].email, undefined);
   } finally { delete globalThis.window; }
+});
+
+test("auth tracking respects consent and contains only the sign-in method", () => {
+ const events=[],stored=new Map();
+ globalThis.window={gtag:(...args)=>events.push(args),localStorage:{getItem:k=>stored.get(k)}};
+ try {
+  trackAuth('sign_up','email');assert.equal(events.length,0);
+  stored.set('vanta-noir-analytics-consent','granted');
+  trackAuth('sign_up','email');trackAuth('login','google');
+  assert.deepEqual(events,[['event','sign_up',{method:'email'}],['event','login',{method:'google'}]]);
+  window.gtag=()=>{throw Error('Blocked analytics');};
+  assert.doesNotThrow(()=>trackAuth('login','email'));
+ } finally {delete globalThis.window;}
 });

@@ -7,6 +7,9 @@ export function trackEvent(name: string, properties: Record<string, unknown> = {
   if (!analyticsAllowed()) return;
   (window as AnalyticsWindow).gtag?.("event", name, properties);
 }
+export function trackAuth(event: "sign_up" | "login", method: "email" | "google" | "apple") {
+  try { trackEvent(event, { method }); } catch { /* Analytics must never interrupt authentication. */ }
+}
 export function trackProducts(event: "view_item" | "view_item_list" | "select_item" | "add_to_wishlist", products: CatalogProduct[]) {
   trackEvent(event, { currency: "NGN", items: products.map(p => ({ item_id: p.id, item_name: p.name, item_brand: "Vanta Noir", item_category: p.category, price: p.priceKobo / 100 })) });
 }
