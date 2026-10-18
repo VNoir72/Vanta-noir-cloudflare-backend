@@ -16,8 +16,10 @@ export function Wordmark(){return <Text style={{color:ink,textAlign:'center',fon
 export function Onboarding({children,onComplete}:{children:React.ReactNode;onComplete:(create:boolean)=>void}){
  const {colors}=useTheme();
  const [step,setStep]=useState<'loading'|'welcome'|'privacy'|'done'>('loading');
+ const [hasChoice,setHasChoice]=useState(false);
  const [create,setCreate]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
- useEffect(()=>{let alive=true;void Promise.all([AsyncStorage.getItem('vanta-onboarding-v1'),vault.get('session'),AsyncStorage.getItem('vanta-monitoring')]).then(([seen,session,choice])=>{if(alive)setStep(seen||session||choice?'done':'welcome');}).catch(()=>{if(alive)setStep('welcome');});return()=>{alive=false;};},[]);
+ useEffect(()=>{let alive=true;void Promise.all([AsyncStorage.getItem('vanta-onboarding-v1'),vault.get('session'),AsyncStorage.getItem('vanta-monitoring')]).then(([seen,session,choice])=>{if(alive){setHasChoice(choice!==null);setStep(seen||session?'done':'welcome');}}).catch(()=>{if(alive)setStep('welcome');});return()=>{alive=false;};},[]);
+ async function begin(nextCreate:boolean){if(busy)return;setCreate(nextCreate);if(!hasChoice){setStep('privacy');return;}setBusy(true);setError('');try{await AsyncStorage.setItem('vanta-onboarding-v1','complete');onComplete(nextCreate);setStep('done');}catch{setError('Could not continue. Please try again.');}finally{setBusy(false);}}
  async function finish(analytics:boolean){if(busy)return;setBusy(true);setError('');try{const current=await monitoringChoice();await saveMonitoring({...current,analytics});await AsyncStorage.setItem('vanta-onboarding-v1','complete');onComplete(create);setStep('done');}catch{setError('Could not save your choice. Please try again.');}finally{setBusy(false);}}
  if(step==='done')return <>{children}</>;
  if(step==='loading')return <View style={{flex:1,backgroundColor:background,justifyContent:'center'}}><ActivityIndicator color={colors.accent}/></View>;
@@ -26,7 +28,8 @@ export function Onboarding({children,onComplete}:{children:React.ReactNode;onCom
  <Text accessibilityRole="header" style={{color:ink,fontSize:36,lineHeight:42,fontWeight:'300',marginTop:-30}}>Presence.{'\n'}Power. Precision.</Text>
  <Text style={{color:ink,fontSize:21,marginTop:12}}>Welcome to Vanta Noir.</Text>
  <Text style={{color:'#bfbfba',fontSize:13,lineHeight:21,marginTop:10,marginBottom:26}}>Considered pieces. Your everyday signature.</Text>
- <View style={{gap:10}}><EditorialButton label="Get started" onPress={()=>{setCreate(true);setStep('privacy');}}/><EditorialButton label="Sign in" secondary onPress={()=>{setCreate(false);setStep('privacy');}}/></View>
+ <View style={{gap:10}}><EditorialButton label="Get started" disabled={busy} onPress={()=>void begin(true)}/><EditorialButton label="Sign in" secondary disabled={busy} onPress={()=>void begin(false)}/></View>
+ {!!error&&<Text accessibilityRole="alert" style={{color:ink,marginTop:14}}>{error}</Text>}
  <Text style={{color:ink,letterSpacing:3,fontSize:11,textAlign:'center',marginTop:35}}>Your next everyday uniform.</Text>
  </>:<>
  <Text style={{color:colors.accent,fontSize:10,letterSpacing:4,textAlign:'center',marginTop:40}}>YOUR PRIVACY</Text>
