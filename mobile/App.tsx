@@ -1,3 +1,4 @@
+import {Onboarding} from './src/components/Onboarding';
 import {signOutStore} from './src/sign-out';
 import {BackgroundUpdates} from './src/components/BackgroundUpdates';
 import {customerPatch} from "./src/customer-patch";
@@ -234,6 +235,7 @@ function Main() {
   const wide = width >= 760;
   const [productWidth,setProductWidth]=useState(0);
   const productWide=productWidth>=700;
+  const [onboardingCreate,setOnboardingCreate]=useState(false);
   const { tab,panel:requestedPanel } = useGlobalSearchParams<{ tab: string;panel?:string }>();
   useEffect(()=>{if(tab==='settings'&&requestedPanel)setSettingsPanel(requestedPanel);},[tab,requestedPanel]);
   const screen =
@@ -803,6 +805,7 @@ function Main() {
       : [];
   useAccountPresence(!!customer);
   return (
+    <Onboarding onComplete={create=>{setOnboardingCreate(create);setScreen('Account');}}>
     <SafeAreaView style={s.page} onTouchStart={markGrowthActivity}>
       {screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim())&&<AuthBackdrop/>}
       <StatusBar style={dark?"light":"dark"} /><ConnectionNotice/>
@@ -845,202 +848,7 @@ function Main() {
             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:26,fontWeight:'700',letterSpacing:-.6}}>{screen==='Saved'?'Saved':search?'Results for “'+search+'”':'Find your fit'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
             {!loading && !visible.length && (
               <Glass>
-                <Text>No designs here yet.</Text>
-                <Text style={s.muted}>
-                  Try another filter or save a design you like.
-                </Text>
-              </Glass>
-            )}
-            <View style={s.grid}>
-              {visible.map((p) => (
-                <Pressable
-                  key={p.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={p.name}
-                  onPress={() => openProduct(p)}
-                  style={[s.product, { width: wide ? "31.5%" : "47.5%" }]}
-                >
-                  <Image
-                    source={{ uri: imageUrl(p.imageUrl) }}
-                    style={[s.productImage,screen==='Saved'&&{aspectRatio:1,height:undefined}]}
-                    resizeMode="cover"
-                  />
-                  <Pressable accessibilityRole="button" accessibilityLabel={(saved.includes(p.id)?'Unsave ':'Save ')+p.name} onPress={event=>{event.stopPropagation();void task(()=>like(p));}} style={{position:'absolute',top:8,right:8,width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name={saved.includes(p.id)?'heart':'heart-outline'} size={21} color={saved.includes(p.id)?colors.accentInk:colors.text}/></Pressable>
-                  <Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{p.name}</Text><Text style={{fontSize:12,color:colors.muted}}>{p.colorways[0]?.name}</Text>
-                  {screen==='Saved'&&<Pressable accessibilityRole="button" accessibilityLabel={'Move '+p.name+' to bag'} onPress={event=>{event.stopPropagation();openProduct(p);}} style={{minHeight:38,borderWidth:1,borderColor:colors.accentInk,borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:6}}><Ionicons name="bag-outline" size={16}/><Text style={{fontSize:12}}>Move to bag</Text></Pressable>}
-                </Pressable>
-              ))}
-            </View>
-          </>
-        )}
-        {screen === "Bag" && <CompactBag cart={cart} products={products} selected={bagSelection} busy={busy} country={preferences.country} onAddress={()=>{setSettingsPanel('Shipping address');setScreen('Settings');}} onSelect={ids=>{setBagSelection(ids);resetQuote();}} onQuantity={(id,n)=>{setCart(items=>items.map(i=>i.variantId===id?{...i,quantity:n}:i));resetQuote();}} onDelete={deleteBagSelection} onSaved={()=>setScreen('Saved')} onCountry={()=>setBagCountryOpen(true)} onHelp={topic=>router.push({pathname:'/help',params:{topic}})}/>}
-        {screen === "Saved" && !customer && <Glass><Text style={s.h1}>Your saved designs</Text><Text style={s.muted}>Sign in to save your favourites and keep them with your account.</Text><Button title="Sign in or create an account" onPress={()=>setScreen("Account")}/></Glass>}
-        {screen === "Orders" && (
-          <>
-            <Text style={[s.h2,{paddingHorizontal:18,paddingTop:16,paddingBottom:12}]}>My orders</Text>
-            <View style={{flexDirection:'row',alignItems:'center',gap:4,padding:8,backgroundColor:colors.surface}}><View style={{flex:1,flexDirection:'row',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:20,paddingHorizontal:10}}><Ionicons name="search-outline" size={17}/><TextInput accessibilityLabel="Search orders" placeholder="Order ID or product" value={orderSearch} onChangeText={setOrderSearch} style={{flex:1,minHeight:44,fontSize:13,color:colors.text,paddingHorizontal:6}}/></View><Pressable accessibilityLabel="Filter orders" onPress={()=>setOrderFiltersOpen(true)} style={{padding:8}}><Ionicons name="options-outline" size={22}/></Pressable><Pressable accessibilityLabel="Order support" onPress={()=>router.push({pathname:'/help',params:{topic:'contact'}})} style={{padding:8}}><Ionicons name="headset-outline" size={22}/></Pressable><Pressable accessibilityLabel="Recycle bin: deleted orders" onPress={()=>void task(async()=>{const data=await api<{orders:Order[]}>('/api/customer/orders?deleted=true');setDeletedOrders(data.orders);setTrashSelection([]);setRecycleOpen(true);})} style={{padding:8}}><Ionicons name="trash-outline" size={22}/><Ionicons name="refresh" size={11} style={{position:'absolute',bottom:5,right:5,backgroundColor:colors.surface}}/></Pressable></View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8,paddingHorizontal:18,paddingVertical:12}}>{(["All","To pay","Processing","Shipped","Delivered","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} accessibilityRole="radio" accessibilityLabel={group} accessibilityState={{checked:orderGroup===group}} onPress={()=>setOrderGroup(group)} style={[s.chip,orderGroup===group&&s.chosen]}><Text>{group}</Text></Pressable>)}</ScrollView>
-            {!customer ? (
-              <Glass>
-                <Text>Sign in to see purchases made with your account.</Text>
-                <Button title="Sign in" onPress={() => setScreen("Account")} />
-              </Glass>
-            ) : (
-              <>
-                {!orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,customerOrderReference(o.reference),...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).length && (
-                  <Text style={s.muted}>
-                    No orders in this section yet.
-                  </Text>
-                )}
-                {orders.filter(o=>inOrderGroup(o,orderGroup)&&[o.reference,customerOrderReference(o.reference),...(o.items||[]).map(i=>i.productName)].join(' ').toLowerCase().includes(orderSearch.toLowerCase())).map((o) => (
-                  <View key={o.reference} style={{backgroundColor:colors.surface,padding:12,gap:8,borderBottomWidth:4,borderColor:colors.page}}>
-                    <View style={s.row}><Text style={s.productName}>{o.status.replaceAll('_',' ')}</Text><Text style={s.muted}>{o.createdAt?new Date(o.createdAt.includes('T')?o.createdAt:o.createdAt.replace(' ','T')+'Z').toLocaleDateString():''}</Text></View>
-                    <Text style={s.muted}>{customerOrderReference(o.reference)}</Text>
-                    {o.items?.slice(0,1).map((item,index)=><View key={item.variantId+index} style={s.row}>{products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))?.imageUrl&&<Image source={{uri:imageUrl(products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)))!.imageUrl)}} style={{width:48,height:58,borderRadius:6}} resizeMode="contain"/>}<View style={{flex:1}}><Text numberOfLines={2} style={{fontSize:13,fontWeight:"600"}}>{item.productName}</Text><Text style={s.muted}>{item.color} · {item.size} · ×{item.quantity}</Text></View><Text>{money(item.unitPriceKobo*item.quantity)}</Text></View>)}
-                    <Text style={{fontWeight:"700",textAlign:"right"}}>Total: {money(o.totalKobo)}</Text>
-
-                    {(o.items?.length||0)>1&&<Text style={s.muted}>+ {o.items!.length-1} more item(s)</Text>}
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:6,alignItems:'center'}}><Button compact secondary title="Track order" onPress={()=>setTrackingOrder(o)}/>
-
-                    {(inOrderGroup(o,'Delivered')||inOrderGroup(o,'Expired'))&&<Button compact secondary title="Order again" onPress={()=>{const available:CartItem[]=[];for(const item of o.items||[]){const product=products.find(p=>p.colorways.some(c=>Object.values(c.variantIds||{}).includes(item.variantId)));const color=product?.colorways.find(c=>Object.values(c.variantIds||{}).includes(item.variantId));if(product&&color&&!preview(product)){const next={variantId:item.variantId,productId:product.id,name:product.name,color:color.name,size:item.size,imageUrl:color.imageUrl,priceKobo:product.priceKobo,quantity:Math.min(item.quantity,5)};const stock=variantStock(next,products);if(stock>0)available.push({...next,quantity:Math.min(next.quantity,stock)});}}if(!available.length){setNotice('These pieces are currently unavailable.');return;}setCart(items=>{const next=[...items];for(const item of available){const index=next.findIndex(v=>v.variantId===item.variantId);if(index<0)next.push(item);else next[index]={...item,quantity:Math.min(5,variantStock(item,products),next[index].quantity+item.quantity)};}return next;});setBagSelection(available.map(item=>item.variantId));resetQuote();setScreen('Bag');setBagToast('Available pieces added to your bag.');}}/>}
-                    {payment?.reference===o.reference&&!paymentExpired&&inOrderGroup(o,'To pay')&&<Button title="Continue payment" onPress={()=>setCheckout(true)}/>}
-                    <Button compact title="Remove" secondary disabled={busy} onPress={()=>Alert.alert('Remove order?', 'Hide this order from your history. This does not cancel a payment or delivery.',[{text:'Keep',style:'cancel'},{text:'Remove',style:'destructive',onPress:()=>void task(async()=>{await api('/api/customer/orders',{reference:o.reference},'DELETE');setOrders(current=>current.filter(item=>item.reference!==o.reference));})}])}/>
-                    {hasPaidReceipt(o)&&<Button compact
-                      title="View receipt"
-                      secondary
-                      onPress={() =>
-                        void task(async () => {
-                          const r = await api<{ order: Order }>(
-                            "/api/customer/receipt?reference=" +
-                              encodeURIComponent(o.reference),
-                          );
-                          if(!hasPaidReceipt(r.order))throw Error("A receipt is available only after payment is confirmed.");
-                          setReceipt(r.order);
-                          setShowReceipt(true);
-                        })
-                      }
-                    />}</ScrollView>
-                  </View>
-                ))}
-              </>
-            )}
-
-          </>
-        )}
-        {screen === "Account" && (
-          <>
-            {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
-              <View style={{width:'100%',flexGrow:1}}>
-                <ProviderSignIn background={false} initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
-
-              </View>
-            ) : (
-              <YouPage key={customer.email} customer={customer} countries={shippingCountries} country={preferences.country} onCountry={country=>void task(()=>changeCountry(country))} orders={orders} wishlistCount={saved.length} onOrders={group=>{setOrderGroup(group);setScreen("Orders");void task(account);}} onWishlist={()=>setScreen("Saved")} onSettings={panel=>{setSettingsPanel(panel||"Settings");setScreen("Settings");}} onEligibleItems={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setScreen("Shop");setFilter("All");setSearch("");setNotice("Offer selected. Eligibility is checked at checkout.");}} onCoupon={coupon=>{setCode(coupon);setRewardDraft(coupon);resetQuote();setPromoOpen(true);setScreen("Bag");setNotice(coupon?"Coupon selected. Check delivery to validate it at checkout.":"Automatic rewards are checked at checkout.");}} onHelp={()=>router.push({pathname:"/help",params:{topic:"contact"}})}/>
-            )}
-            {!customer && <Button title="Settings & help" secondary onPress={()=>{setSettingsPanel("Settings");setScreen("Settings");}}/>}
-
-          </>
-        )}
-        {screen==='Settings'&&<SettingsHub initialPanel={settingsPanel} key={(customer?.email||'guest')+settingsPanel} customer={customer} country={preferences.country} countries={shippingCountries} onBack={()=>setScreen('Account')} onOrders={()=>{setOrderGroup('All');setScreen('Orders');void task(account);}} onSave={async next=>{const patch=customerPatch(customer!,next);await api('/api/customer/me',patch,'PATCH');setCustomer(next);if(patch.addresses){setAddress(next.addresses[0]||{...emptyAddress,email:next.email});resetQuote();}}} onLogout={()=>void task(logout)} onDelete={()=>setDeleteOpen(true)} onHelp={topic=>topic==='calendar'?router.push('/benefits'):router.push({pathname:'/help',params:{topic}})} onCountry={()=>setBagCountryOpen(true)} autoplay={videoAutoplay} onAutoplay={async value=>{await AsyncStorage.setItem('vanta-video-autoplay',String(value));setVideoAutoplay(value);}} onClearViewed={async()=>{await AsyncStorage.removeItem('vanta-viewed');setViewedIds([]);}} viewed={<View style={{padding:16,gap:10}}>{viewedIds.flatMap(id=>products.find(p=>p.id===id)?[products.find(p=>p.id===id)!]:[]).map(p=><Pressable key={p.id} onPress={()=>openProduct(p)} style={{flexDirection:'row',gap:12,alignItems:'center',padding:10,backgroundColor:colors.surface}}><Image source={{uri:imageUrl(p.imageUrl)}} style={{width:55,height:65}}/><Text style={{flex:1}}>{p.name}</Text></Pressable>)}{!viewedIds.length&&<Text>No recently viewed pieces.</Text>}</View>}/>}
-        <Sheet title="Delete account" visible={deleteOpen&&!!customer} onClose={()=>setDeleteOpen(false)}>{customer&&<>
-                <Text style={s.h2}>Delete account</Text>
-                <Text style={s.muted}>
-                  Deletes your profile, saved addresses and favourites.
-                  Necessary transaction records are retained under the published
-                  retention policy. Sign in with a fresh code first if your
-                  session is more than 10 minutes old.
-                </Text>
-                <Button title="Verify with a fresh email code" secondary disabled={busy} onPress={()=>void task(async()=>{const r=await api<{challenge:string}>("/api/customer/code",{email:customer.email,purpose:"deletion"});setChallenge(r.challenge);setOtp("");setNotice("Check your email for your verification code.");})}/>
-                {!!challenge && <><Field label="8-digit verification code" value={otp} keyboard="number-pad" onChange={setOtp}/><Button title="Verify identity" disabled={busy||otp.length!==8} onPress={()=>void task(async()=>{const r=await api<{token:string}>("/api/customer/verify",{challenge,code:otp});await vault.set("session",r.token);setChallenge("");setOtp("");setNotice("Identity verified. You can now confirm account deletion.");})}/></>}
-                <Field
-                  label="Type DELETE to confirm"
-                  value={deleteText}
-                  onChange={setDeleteText}
-                />
-                <Button
-                  title="Delete my account"
-                  secondary
-                  disabled={busy || deleteText !== "DELETE"}
-                  onPress={() =>
-                    void task(async () => {
-                      await prepareFirebaseDeletion(customer.email);
-                      await api(
-                        "/api/customer/me",
-                        { confirmation: "DELETE" },
-                        "DELETE",
-                      );
-                      await firebaseSignOut();
-                      await AsyncStorage.removeItem('vanta-profile-device:'+customer.email);
-                      await vault.remove("session");
-                      setCustomer(null);
-                      setOrders([]);
-                      setAddress(emptyAddress);
-                      setSaved([]);
-                      setDeleteText("");
-                      setDeleteOpen(false);setScreen("Account");
-                      setNotice("Your account has been deleted.");
-                    })
-                  }
-                />
-        </>}</Sheet>
-        {screen==='Shop'&&<Image accessible={false} source={require('./assets/emblem-watermark.png')} resizeMode="contain" style={{alignSelf:'center',width:230,height:140,marginVertical:25,tintColor:colors.text,opacity:dark?0.065:0.04}}/>}
-      </ScrollView>
-      </Entrance>
-      {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
-        {quotes&&quotes.expiresAt>Date.now()&&quoteContext===shippingContext&&<QuoteCountdown expiresAt={quotes.expiresAt}/>}
-        {!!bagToast&&<Text accessibilityLiveRegion="polite" style={{backgroundColor:colors.text,color:colors.page,padding:14,borderRadius:10}}>{bagToast}</Text>}
-        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:12}}><Button compact title="Checkout →" disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/><View style={{alignItems:'flex-end',flex:1}}><Text style={{fontSize:11,color:colors.muted}}>Selected total · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text><Text accessibilityLiveRegion="polite" style={{fontSize:16,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text></View></View>
-        {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
-      </View>}
-      <Sheet title="Track order" footer={<Button secondary title="Help with this order" onPress={()=>{const reference=trackingOrder!.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/>} navigation={<AppTabs selected="Orders" onNavigate={label=>{setTrackingOrder(null);setScreen(label);}}/>} visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><View style={{flexDirection:'row',alignItems:'center',gap:12}}><Text style={{fontSize:14,color:colors.muted}}>Reference {customerOrderReference(trackingOrder.reference)}</Text><Pressable accessibilityRole="button" accessibilityLabel="Copy order reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(customerOrderReference(trackingOrder.reference));setNotice('Order reference copied.');})} style={{width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name="copy-outline" size={19}/></Pressable></View><OrderProgress order={trackingOrder}/><View style={{padding:12,borderWidth:1,borderColor:colors.border,borderRadius:10,flexDirection:'row',gap:12}}><Ionicons name="location-outline" size={24}/><View style={{flex:1,gap:4}}><Text style={{fontSize:13,fontWeight:'600'}}>Delivery address</Text><Text style={{fontSize:12,lineHeight:18,color:colors.muted}}>Contact support to confirm the delivery address for this order.</Text></View></View>{trackingOrder.trackingUrl?.startsWith('https://')&&<Button secondary title="Track parcel" onPress={()=>void task(()=>safeOpen(trackingOrder.trackingUrl!))}/>}{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<View style={{padding:14,borderRadius:12,borderWidth:1,borderColor:colors.border,flexDirection:"row",alignItems:"center",gap:12}}><Ionicons name="time-outline" size={24}/><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:"600"}}>Last update</Text><Text style={{fontSize:12,color:colors.muted}}>Your order is {trackingOrder.status.replaceAll("_"," ")}.</Text></View></View></>}</Sheet>
-      <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","Shipped","Delivered","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>
-      <Sheet title="Recycle bin" visible={recycleOpen} onClose={()=>setRecycleOpen(false)} footer={deletedOrders.length?<View style={{flexDirection:'row',gap:8}}><Button compact title={`Restore (${trashSelection.length})`} disabled={busy||!trashSelection.length} onPress={()=>void task(async()=>{const restored=deletedOrders.filter(o=>trashSelection.includes(o.reference));for(const order of restored){await api('/api/customer/orders',{reference:order.reference},'PATCH');setDeletedOrders(items=>items.filter(o=>o.reference!==order.reference));setOrders(items=>[order,...items.filter(o=>o.reference!==order.reference)]);}const group:OrderGroup=restored.every(o=>inOrderGroup(o,'Delivered'))?'Delivered':restored.every(o=>inOrderGroup(o,'Expired'))?'Expired':'All';setOrderGroup(group);setTrashSelection([]);setRecycleOpen(false);setScreen('Orders');setNotice('Orders restored to your history.');})}/><Button compact secondary title="Delete permanently" disabled={busy||!trashSelection.length} onPress={()=>Alert.alert('Delete permanently?',`Remove ${trashSelection.length} selected order(s) from your history? You cannot restore them. Required payment and delivery records are retained.`,[{text:'Keep',style:'cancel'},{text:'Delete permanently',style:'destructive',onPress:()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference,permanent:true},'DELETE');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}})}])}/></View>:undefined}>
-       <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
-       {!!deletedOrders.length&&<Pressable accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.length===deletedOrders.length}} onPress={()=>setTrashSelection(trashSelection.length===deletedOrders.length?[]:deletedOrders.map(o=>o.reference))} style={{minHeight:44,justifyContent:'center'}}><Text>{trashSelection.length===deletedOrders.length?'Deselect all':'Select all'}</Text></Pressable>}
-       {!deletedOrders.length&&<Text>Your recycle bin is empty.</Text>}
-       {deletedOrders.map(o=><Pressable key={o.reference} accessibilityRole="checkbox" accessibilityState={{checked:trashSelection.includes(o.reference)}} onPress={()=>setTrashSelection(ids=>ids.includes(o.reference)?ids.filter(id=>id!==o.reference):[...ids,o.reference])} style={{flexDirection:'row',alignItems:'center',paddingVertical:8,gap:10,borderBottomWidth:1,borderColor:colors.border,minHeight:54}}><Ionicons name={trashSelection.includes(o.reference)?'checkmark-circle':'ellipse-outline'} size={22}/><View style={{flex:1,gap:3}}><Text numberOfLines={1} style={{fontSize:12,fontWeight:'600'}}>{customerOrderReference(o.reference)}</Text><Text style={{fontSize:11,color:colors.muted}}>{o.status}</Text></View><Text style={{fontSize:12}}>{money(o.totalKobo)}</Text></Pressable>)}
-      </Sheet>
-      <Sheet title="Filters" visible={filtersOpen} onClose={()=>setFiltersOpen(false)} footer={<View style={s.row}><Button title="Clear" secondary onPress={()=>setFilterDraft({category:'All',size:'All',color:'All',min:'',max:'',stock:false})}/><Button title="Apply filters" onPress={()=>{const min=Number(filterDraft.min),max=Number(filterDraft.max);if((filterDraft.min&&(!Number.isFinite(min)||min<0))||(filterDraft.max&&(!Number.isFinite(max)||max<0))||(filterDraft.min&&filterDraft.max&&min>max)){Alert.alert('Check price range','Enter valid minimum and maximum amounts.');return;}setCatalogFilters(filterDraft);setFiltersOpen(false);}}/></View>}>
-        <CatalogFilters products={products} value={filterDraft} onChange={setFilterDraft}/>
-      </Sheet>
-      <Sheet title="Collections" visible={collectionsOpen} onClose={()=>setCollectionsOpen(false)} navigation={<AppTabs selected="Shop" onNavigate={tab=>{setCollectionsOpen(false);setScreen(tab);}}/>}><View style={s.grid}>{[...new Set(products.map(p=>p.category))].map(category=>{const product=products.find(p=>p.category===category)!;return <Pressable key={category} accessibilityRole="button" onPress={()=>{setFilter(category);setCollectionsOpen(false);}} style={{width:'47%',height:205,borderRadius:12,overflow:'hidden',backgroundColor:colors.secondary}}><Image source={{uri:imageUrl(product.imageUrl)}} resizeMode="cover" style={{width:'100%',height:'100%'}}/><View style={{position:'absolute',left:0,right:0,bottom:0,padding:12,backgroundColor:'rgba(0,0,0,.5)'}}><Text style={{fontSize:16,fontWeight:'600',color:'#fff'}}>{category}</Text></View></Pressable>;})}</View></Sheet>
-      <Sheet title="Country & currency" visible={bagCountryOpen} onClose={()=>setBagCountryOpen(false)}>{shippingCountries.map(([id,label])=><Pressable key={id} accessibilityRole="radio" accessibilityState={{checked:preferences.country===id}} onPress={()=>void task(async()=>{await changeCountry(id);setBagCountryOpen(false);})} style={{padding:14}}><Text>{preferences.country===id?'●':'○'} {label}</Text></Pressable>)}</Sheet>
-      {!(screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim()))&&<AppTabs selected={screen==='Settings'?'Account':screen} onNavigate={label=>{setScreen(label);if(label==='Orders')setOrderGroup('All');if(label==='Orders'||label==='Account')void task(account);}}/>}
-      <Sheet
-        title="Product details"
-        headerAction={selected&&<Pressable accessibilityRole="button" accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{width:44,height:44,alignItems:'center',justifyContent:'center'}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={25}/></Pressable>}
-        visible={!!selected}
-        onClose={() => setSelected(null)}
-        footer={selected&&<View style={{flexDirection:'row',gap:8,alignItems:'center'}}><Pressable accessibilityLabel="Save product" onPress={()=>void task(()=>like(selected))} style={{minWidth:44,minHeight:44,justifyContent:'center',alignItems:'center',borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name={saved.includes(selected.id)?'heart':'heart-outline'} size={23}/></Pressable><View style={{flex:1}}><Button title={preview(selected)?'Preview only':size?'Add to bag →':'Choose a size'} disabled={!size||preview(selected)} onPress={add}/></View></View>}
-      >
-        {selected && c && (
-          <View onLayout={e=>setProductWidth(e.nativeEvent.layout.width)} style={{gap:14}}><View style={{flexDirection:productWide?"row":"column",gap:18,alignItems:"flex-start"}}><View style={{width:productWide?"48%":"100%",gap:10}}>
-            <View><Image
-              source={{ uri: imageUrl(gallery[view]?.imageUrl || c.imageUrl) }}
-              accessibilityLabel={gallery[view]?.imageAlt}
-              resizeMode="contain"
-              style={{ aspectRatio:0.71, width:"100%",backgroundColor:"transparent",borderRadius:12 }}
-            />
-            <Text style={{position:'absolute',right:12,top:12,paddingHorizontal:10,paddingVertical:5,borderRadius:16,backgroundColor:'rgba(0,0,0,.28)',color:'#fff',fontSize:12}}>{view+1} / {gallery.length}</Text></View>
-            <ScrollView horizontal contentContainerStyle={{gap:8}}>
-              {gallery.map((g, i) => (
-                <Pressable
-                  key={g.imageUrl + i}
-                  onPress={() => setView(i)}
-                  style={[s.thumb,{backgroundColor:colors.secondary,borderRadius:8,borderColor:view===i?colors.text:'transparent'}]}
-                >
-                  <Image
-                    source={{ uri: imageUrl(g.imageUrl) }}
-                    style={{ width: Math.max(60,(productWidth-48)/4), height: 72 }}
-                    resizeMode="cover"
-                  />
-                  <Text style={s.navText}>
-                    {(g.imageAlt.match(/\b(front|back|left|right)\b/i)?.[0] || `View ${i+1}`)}
-                  </Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            </View><View style={{flex:1,width:"100%",minWidth:0,gap:12,padding:0}}><Text style={{fontSize:25,fontWeight:'700',letterSpacing:-.5}}>{selected.name}</Text><Text style={{fontSize:18,color:colors.muted}}>{c.name}</Text><Text style={{fontSize:13,color:colors.muted}}>{preview(selected)?'Price shown from catalogue':displayMoney(selected.priceKobo).replace(/\.00$/,'')}</Text><View style={{flexDirection:'row',gap:7}}>{[{icon:'shirt-outline' as const,title:selected.details?.fit||selected.category,detail:'Fit & style'},{icon:'layers-outline' as const,title:selected.details?.fabric||selected.category,detail:'Garment details'},{icon:'color-palette-outline' as const,title:c.name,detail:'Selected colour'}].map(item=><View key={item.detail} style={{flex:1,flexDirection:'row',alignItems:'center',gap:6,padding:10,minHeight:62,borderRadius:12,backgroundColor:colors.secondary}}><Ionicons name={item.icon} size={24}/><View style={{flex:1,gap:3}}><Text numberOfLines={2} style={{fontSize:10,fontWeight:'600'}}>{item.title}</Text><Text style={{fontSize:9,color:colors.muted}}>{item.detail}</Text></View></View>)}</View>
+              …7376 tokens truncated…ed}}>{item.detail}</Text></View></View>)}</View>
             <Text style={s.label}>Colour</Text>
             <View style={s.row}>
               {selected.colorways.map((v, i) => (
@@ -1179,6 +987,7 @@ function Main() {
         )}
       </Sheet>
     </SafeAreaView>
+    </Onboarding>
   );
 }
 export default function App() {
