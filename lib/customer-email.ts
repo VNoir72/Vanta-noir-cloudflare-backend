@@ -1,3 +1,5 @@
+import {verificationEmailHtml} from './auth-email-template';
+import {getCommerceSettings} from './commerce-db';
 import {z} from 'zod';
 import {firebaseReady,firebaseVerificationEmail,firebaseActionLink} from './firebase-customer';
 import {runtimeEnv} from './runtime-env';
@@ -28,8 +30,9 @@ export async function customerEmail(request:Request){
   const title=v.purpose==='verification'?'Verify your email':'Reset your password';
   const intro=v.purpose==='verification'?'Confirm this email address to finish setting up your Vanta Noir account.':'Use this secure link to choose a new password for your Vanta Noir account.';
   const text=`${title}\n\n${intro}\n\n${link}\n\nIf you did not request this, ignore this email. Never share this link.\nVanta Noir`;
-  const html=`<div style="background:#111;color:#f5f1e8;padding:32px;font-family:Arial,sans-serif;max-width:560px;margin:auto"><p style="letter-spacing:4px">VANTA NOIR</p><h1>${title}</h1><p>${intro}</p><p style="padding:20px 0"><a href="${escape(link)}" style="background:#f5f1e8;color:#111;padding:14px 22px;text-decoration:none">${title}</a></p><p>If the button does not work, copy this link:</p><p style="word-break:break-all">${escape(link)}</p><p>If you did not request this, ignore this email. Never share this link.</p></div>`;
-  const sent=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+env.RESEND_API_KEY,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},body:JSON.stringify({from:'Vanta Noir <accounts@vantanoir.store>',...(env.EMAIL_REPLY_TO?{reply_to:env.EMAIL_REPLY_TO}:{}),to:[email],subject:title+' · Vanta Noir',text,html}),signal:AbortSignal.timeout(12000)});
+  const accent=(await getCommerceSettings()).brandAccent.storefront;
+  const html=v.purpose==='verification'?verificationEmailHtml(link,accent):`<div style="background:#111;color:#f5f1e8;padding:32px;font-family:Arial,sans-serif;max-width:560px;margin:auto"><p style="letter-spacing:4px">VANTA NOIR</p><h1>${title}</h1><p>${intro}</p><p style="padding:20px 0"><a href="${escape(link)}" style="background:#f5f1e8;color:#111;padding:14px 22px;text-decoration:none">${title}</a></p><p>If the button does not work, copy this link:</p><p style="word-break:break-all">${escape(link)}</p><p>If you did not request this, ignore this email. Never share this link.</p></div>`;
+  const sent=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+env.RESEND_API_KEY,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},body:JSON.stringify({from:'Vanta Noir <accounts@vantanoir.store>',...(env.EMAIL_REPLY_TO?{reply_to:env.EMAIL_REPLY_TO}:{}),to:[email],subject:v.purpose==='verification'?'Verify your Vanta Noir account':title+' · Vanta Noir',text,html}),signal:AbortSignal.timeout(12000)});
   if(!sent.ok)throw Error('Delivery unavailable');
   return response(success);
  }catch{return response({error:'We could not send the email. Please try again shortly.'},503);}
