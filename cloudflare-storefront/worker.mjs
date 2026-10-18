@@ -1,4 +1,4 @@
-import {authActionHtml,authActionScript} from './auth-action.mjs';
+import {authActionHtml,authActionScript,themedAuthActionHtml} from './auth-action.mjs';
 // Production storefront adapter. Business APIs remain at api.vantanoir.store.
 const escape = value => String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;');
 function protect(response) {
@@ -44,7 +44,14 @@ async function route(request, env) {
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
   if(/^\/(?:index\.(?:php|htm)|home(?:\.html)?)$/.test(p))return Response.redirect(u.origin+'/',302);
   if(/(?:^|\/)\.|\.(?:php|sql|sqlite|db|zip|bak|map|jsonc)$|^\/(?:admin|backups|node_modules|drizzle|lib|app|tests|portable)(?:\/|$)/i.test(p))return new Response('Not found',{status:404});
-  if(p==='/auth/action'||p==='/auth/action.js')return new Response(p.endsWith('.js')?authActionScript:authActionHtml,{headers:{'Content-Type':p.endsWith('.js')?'application/javascript; charset=utf-8':'text/html; charset=utf-8','Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow'}});
+  if(p==='/auth/action'||p==='/auth/action.js'){
+   let html=authActionHtml;
+   if(p==='/auth/action'&&env.PUBLIC_API){try{
+    const response=await env.PUBLIC_API.fetch(new Request('https://api.vantanoir.store/api/store-settings',{headers:{Accept:'application/json'},credentials:'omit',signal:AbortSignal.timeout(3000)}));
+    if(response.ok){const settings=JSON.parse(await boundedText(response,100000));html=themedAuthActionHtml(settings.brandAccent?.storefront);}
+   }catch{/* Keep account access available if the theme service is unavailable. */}}
+   return new Response(p.endsWith('.js')?authActionScript:html,{headers:{'Content-Type':p.endsWith('.js')?'application/javascript; charset=utf-8':'text/html; charset=utf-8','Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow'}});
+  }
   if(p==='/health')return json({ok:true,mode:'production-storefront',source:env.RELEASE_SHA||'unknown'});
   if(p==='/robots.txt')return asset(env,request,'/robots.txt');
   if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:"https://api.vantanoir.store"});',{headers:{'Content-Type':'application/javascript'}});

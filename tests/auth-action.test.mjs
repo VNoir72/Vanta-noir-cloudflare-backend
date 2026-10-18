@@ -42,3 +42,13 @@ test('a forbidden provider request reports a service problem rather than a conne
  assert.doesNotMatch(dom.window.document.getElementById('error').textContent,/Check your connection/);
  assert.equal(dom.window.document.getElementById('verify').disabled,false);dom.window.close();
 });
+test('account page uses the current storefront accent without forwarding customer credentials',async()=>{
+ const env={PUBLIC_API:{fetch:async request=>{assert.equal(request.url,'https://api.vantanoir.store/api/store-settings');assert.equal(request.headers.get('cookie'),null);assert.equal(request.headers.get('authorization'),null);return Response.json({brandAccent:{storefront:'#930022'}});}}};
+ const r=await worker.fetch(new Request('https://vantanoir.store/auth/action',{headers:{cookie:'private=fixture',authorization:'Bearer fixture'}}),env);
+ const html=await r.text();assert.match(html,/--accent:#930022;--on-accent:#ffffff/);assert.match(html,/class="envelope"/);assert.match(html,/welcome-burgundy.jpg/);
+});
+test('invalid accent and unavailable theme service cannot break account access',async()=>{
+ for(const fetch of [async()=>Response.json({brandAccent:{storefront:'red;display:none'}}),async()=>{throw Error('offline');}]){
+  const r=await worker.fetch(new Request('https://vantanoir.store/auth/action'),{PUBLIC_API:{fetch}});assert.equal(r.status,200);const html=await r.text();assert.match(html,/--accent:#c8ff65/);assert.doesNotMatch(html,/red;display:none/);
+ }
+});
