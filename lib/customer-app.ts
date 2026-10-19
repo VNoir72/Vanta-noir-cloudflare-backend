@@ -1,4 +1,5 @@
 import {customerEmail} from './customer-email';
+import {customerAccessAllowed,customerAccessKey} from './customer-access';
 import {customerSessionToken,customerCookieResponse,webSessionRequest} from './customer-cookie';
 import {completeIdentityDeletion} from './customer-deletion';
 import {profileDetailsSchema} from './customer-profile';
@@ -71,6 +72,7 @@ export async function customerApp(request: Request): Promise<Response> {
       if(identity.provider==='apple.com'&&runtimeEnv().FIREBASE_APPLE_ENABLED!=='true')return json({error:'Apple sign-in is not available yet.'},503);
       if(await db.prepare('SELECT key FROM store_meta WHERE key=?').bind('identity-deletion:'+identity.uid).first())return json({error:'Account deletion is still completing. Please try again later.'},409);
       const email=emailSchema.parse(identity.email),now=Date.now();
+      if(!await customerAccessAllowed(email,identity.authenticatedAt))return json({error:'Account access is restricted or a fresh sign-in is required. Contact customer care for help.'},401);
       await db.prepare('INSERT OR IGNORE INTO app_customers(id,email,created_at,terms_accepted_at) VALUES(?,?,?,?)').bind(crypto.randomUUID(),email,now,now).run();
       const customer=await db.prepare('SELECT id,email,name FROM app_customers WHERE email=?').bind(email).first<{id:string;email:string;name:string}>();
       if(!customer)throw Error('Account unavailable');
@@ -83,9 +85,10 @@ export async function customerApp(request: Request): Promise<Response> {
         db.prepare("DELETE FROM store_meta WHERE key LIKE 'firebase-session:%' AND NOT EXISTS(SELECT 1 FROM app_sessions WHERE digest=substr(store_meta.key,18))"),
         db.prepare("DELETE FROM store_meta WHERE key LIKE 'deletion-grant:%' AND json_extract(value,'$.expiresAt')<?").bind(now),
       ]);
-      await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('firebase-session:'+sessionDigest,identity.uid),db.prepare('INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid)]);
+      await db.batch([db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind('firebase-customer:'+customer.id,identity.uid),db.prepare('INSERT INTO store_meta(key,value) VALUES(?,?)').bind('firebase-session:'+sessionDigest,identity.uid),db.prepare("INSERT INTO app_sessions(digest,customer_id,created_at,expires_at) SELECT ?,?,?,? WHERE EXISTS (SELECT 1 FROM store_meta WHERE key=? AND value=?) AND NOT EXISTS (SELECT 1 FROM store_meta WHERE key=? AND (json_extract(value,'$.status')='suspended' OR json_extract(value,'$.validAfter')>=?))").bind(await receiptDigest(token),customer.id,identity.authenticatedAt,now+30*86400000,'firebase-customer:'+customer.id,identity.uid,customerAccessKey(email),identity.authenticatedAt)]);
       const linked=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+customer.id).first<{value:string}>();
       if(linked?.value!==identity.uid)return json({error:'Use your existing sign-in method.'},409);
+      if(!await db.prepare('SELECT digest FROM app_sessions WHERE digest=?').bind(sessionDigest).first())return json({error:'Account access changed. Sign in again or contact customer care.'},401);
       return customerCookieResponse(request,{...(webSessionRequest(request)?{}:{token}),customer,expiresAt:now+30*86400000},token,now+30*86400000);
     }
     if (request.method === "POST" && path === "code") {

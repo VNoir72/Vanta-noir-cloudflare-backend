@@ -1,4 +1,5 @@
 import {customerSessionToken} from './customer-cookie';
+import {customerAccessAllowed} from './customer-access';
 import {runtimeEnv,getDbBinding} from './runtime-env';
 import {firebaseSessionValid} from './firebase-customer';
 import {receiptDigest} from './receipt-access';
@@ -23,6 +24,7 @@ export async function appSession(request: Request) {
       authenticatedAt: number;
     }>();
   if(!session)return null;
+  if(!await customerAccessAllowed(session.email,session.authenticatedAt))return null;
   const binding=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-customer:'+session.id).first<{value:string}>();
   const proof=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind('firebase-session:'+await receiptDigest(token)).first<{value:string}>();
   if(!binding||proof?.value!==binding.value){await db.prepare('DELETE FROM app_sessions WHERE digest=?').bind(await receiptDigest(token)).run();return null;}
@@ -30,5 +32,7 @@ export async function appSession(request: Request) {
   try { valid=!!binding && await firebaseSessionValid(binding.value,session.email,session.authenticatedAt); }
   catch { return null; } // Provider outage never authorizes a session or deletes it.
   if(!valid){await db.prepare('DELETE FROM app_sessions WHERE digest=?').bind(await receiptDigest(token)).run();return null;}
+  // Recheck after the provider request, during which an owner can suspend it.
+  if(!await customerAccessAllowed(session.email,session.authenticatedAt))return null;
   return session;
 }

@@ -1,4 +1,5 @@
 import {shortOrderReference,legacyOrderPrefixes} from './order-reference';
+import {customerAccessAllowed,customerAccessKey} from './customer-access';
 import {rateLimit} from './rate-limit';
 import {filterAppCatalog,checkoutAppPolicy,appPolicySql,paidAppLimitExceededSql} from './app-controls';
 import {publicAccess,type AppAccess} from './app-controls-policy';
@@ -796,6 +797,7 @@ export async function createPendingOrder(args: {
   expectedRewardSignature?: string;
 }) {
   if(args.shippingQuote){assertShippingProvider(args.shippingQuote.rate.provider);if(args.shippingKobo!==args.shippingQuote.rate.amountKobo)throw Error('The delivery charge changed. Check delivery again.');}
+  if(!await customerAccessAllowed(args.customer.email))throw Error('Account access is restricted. Contact customer care.');
   await ensureCatalogSeeded();
   const db = getDbBinding();
   const access=args.appAccess||publicAccess;
@@ -906,7 +908,8 @@ export async function createPendingOrder(args: {
           (id, reference, email, first_name, last_name, phone, address_line_1,
            address_line_2, city, state, country, subtotal_kobo, shipping_kobo, total_kobo, discount_kobo, promotion_code)
          SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-         WHERE (?='' OR (SELECT COUNT(*) FROM orders o JOIN store_meta m ON m.key='order-reservation-actor:'||o.reference WHERE m.value=? AND o.payment_status='pending' AND EXISTS(SELECT 1 FROM stock_reservations r WHERE r.order_id=o.id AND r.expires_at>CURRENT_TIMESTAMP))<3)
+         WHERE NOT EXISTS(SELECT 1 FROM store_meta WHERE key=? AND json_extract(value,'$.status')='suspended')
+         AND (?='' OR (SELECT COUNT(*) FROM orders o JOIN store_meta m ON m.key='order-reservation-actor:'||o.reference WHERE m.value=? AND o.payment_status='pending' AND EXISTS(SELECT 1 FROM stock_reservations r WHERE r.order_id=o.id AND r.expires_at>CURRENT_TIMESTAMP))<3)
          AND (SELECT COUNT(DISTINCT o.id) FROM orders o JOIN stock_reservations r ON r.order_id=o.id WHERE lower(o.email)=lower(?) AND o.payment_status='pending' AND r.expires_at>CURRENT_TIMESTAMP)<2
          AND (SELECT COALESCE(SUM(r.quantity),0) FROM stock_reservations r JOIN orders o ON o.id=r.order_id WHERE lower(o.email)=lower(?) AND o.payment_status='pending' AND r.expires_at>CURRENT_TIMESTAMP)+?<=10
          AND ${appPolicySql} AND (?='' OR EXISTS(SELECT 1 FROM promotions pr WHERE code=? AND version=? AND active=1 AND starts_at<=? AND ends_at>? AND (max_uses=0 OR max_uses>(SELECT COUNT(*) FROM orders o WHERE o.promotion_code=pr.code AND (o.payment_status='paid' OR (o.status='pending_payment' AND o.created_at>datetime('now','-15 minutes'))))))) AND (?='' OR EXISTS(SELECT 1 FROM reward_campaigns c WHERE c.id=? AND c.version=? AND c.active=1 AND c.starts_at<=? AND c.ends_at>? AND ${rewardCapacitySql})) AND NOT EXISTS (
@@ -935,6 +938,7 @@ export async function createPendingOrder(args: {
         subtotalKobo,
         shippingKobo,
         totalKobo, discountKobo, promotion?.code||"",
+        customerAccessKey(args.customer.email),
         args.reservationActor||'',args.reservationActor||'',
         args.customer.email,args.customer.email,allocations.reduce((sum,item)=>sum+item.quantity,0),
         appPolicy.raw||"",JSON.stringify(appPolicy.limits),appPolicy.email,appPolicy.email,

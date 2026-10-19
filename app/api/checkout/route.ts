@@ -1,4 +1,5 @@
 import {receiptDigest} from '@/lib/receipt-access';
+import {customerAccessAllowed} from '@/lib/customer-access';
 import {appAccessContext} from '@/lib/app-attestation';
 import {ownedCard,startSavedCardPayment} from '@/lib/customer-cards';
 import {appSession,linkAppOrder} from '@/lib/customer-app';
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
 
 
   if(parsed.data.paymentChannel==='bank_transfer'&&runtimeEnv().CUSTOM_TRANSFER_ENABLED!=='true')return Response.json({error:'Custom bank-transfer payments are not available yet.'},{status:503});
+  if(!await customerAccessAllowed(parsed.data.customer.email))return Response.json({error:'Account access is restricted. Contact customer care.'},{status:403});
   const session=await appSession(request);
   if(parsed.data.client==='native'||parsed.data.paymentChannel==='saved_card'||request.headers.has('Authorization')){if(!session||session.email!==parsed.data.customer.email.trim().toLowerCase())return Response.json({error:'Sign in again and use your account email.'},{status:401});}
   if(parsed.data.paymentChannel==='saved_card'&&session&&Date.now()-session.authenticatedAt>600000)return Response.json({error:'Sign in again before using a saved card.'},{status:401});
