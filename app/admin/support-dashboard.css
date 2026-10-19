@@ -20,7 +20,7 @@
 .vn-support-sidebar footer small {overflow-wrap:anywhere}
 .vn-support-main {min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .vn-support-top {height:60px;min-height:60px;padding:8px 16px;background:var(--admin-glass);border-bottom:1px solid var(--admin-edge);backdrop-filter:blur(22px);gap:8px;flex-wrap:nowrap}
-.vn-support-content {padding:16px;overflow:auto;min-height:0;min-width:0;container-type:inline-size}
+.vn-support-content {width:100%;flex:1 1 auto;margin:0 auto;padding:16px;overflow:auto;min-height:0;min-width:0;container-type:inline-size}
 .vn-support-title h1 {font-size:25px}
 .vn-support-title {margin-bottom:16px}
 .vn-support :is(.vn-support-inbox,.vn-support-stats>button,.vn-support-lookup,.ops-panel) {border-radius:10px;background:var(--admin-panel);border-color:var(--admin-edge);box-shadow:var(--vn-glass-shadow);backdrop-filter:blur(18px)}
