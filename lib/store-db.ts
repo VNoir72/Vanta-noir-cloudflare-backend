@@ -1,3 +1,4 @@
+import {shipmentProgress,trackingUrl as brandedTrackingUrl} from './shipment-progress';
 import {shortOrderReference,legacyOrderPrefixes} from './order-reference';
 import {customerAccessAllowed,customerAccessKey} from './customer-access';
 import {rateLimit} from './rate-limit';
@@ -1092,7 +1093,8 @@ export async function getGuestOrder(reference: string, email: string, phone: str
 
   const returnRequest = await db.prepare("SELECT r.id,r.kind,r.status,r.notes,r.refund_kobo AS refundKobo,r.refund_status AS refundStatus,r.created_at AS createdAt,e.status AS exchangeStatus,e.carrier AS exchangeCarrier,e.tracking_number AS exchangeTracking FROM return_requests r LEFT JOIN exchanges e ON e.return_id=r.id WHERE r.order_id=?").bind(order.id).first();
   return {
-    carrier: order.carrier, trackingNumber: order.trackingNumber, trackingUrl: order.trackingUrl, deliveryEstimate: order.deliveryEstimate, returnRequest,
+    carrier: order.carrier, brandedTrackingNumber: order.reference, trackingNumber: order.trackingNumber, courierTrackingNumber: order.trackingNumber, trackingUrl: brandedTrackingUrl(order.reference), deliveryEstimate: order.deliveryEstimate, returnRequest,
+    deliveryProgress: await shipmentProgress(order.reference),
     reference: order.reference,
     totalKobo: order.totalKobo,
     status: order.status,

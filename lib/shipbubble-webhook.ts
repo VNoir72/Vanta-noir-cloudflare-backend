@@ -1,8 +1,7 @@
 import {z} from 'zod';
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {providerJson} from './shipping-comparison';
-const shipmentSchema=z.object({order_id:z.string().regex(/^SB-[A-Za-z0-9-]{1,100}$/),status:z.enum(['pending','confirmed','picked_up','in_transit','completed','cancelled']),courier:z.object({name:z.string().trim().min(1).max(100),tracking_code:z.string().max(160).nullable().optional()})});
-type Shipment=z.infer<typeof shipmentSchema>;
+import {shipmentSchema,saveShipmentProgress,type Shipment} from './shipment-progress';
 const mappingKey=(id:string)=>'shipbubble-shipment:'+id;
 const referenceSchema=z.string().regex(/^VN-[A-Za-z0-9-]{1,100}$/);
 export async function readWebhookBody(request:Request){
@@ -19,6 +18,7 @@ export async function applyShipbubbleShipment(shipment:Shipment){
  const db=getDbBinding();const mapping=await db.prepare('SELECT value FROM store_meta WHERE key=?').bind(mappingKey(shipment.order_id)).first<{value:string}>();
  if(!mapping)return {linked:false,updated:false};
  const reference=referenceSchema.parse(JSON.parse(mapping.value).reference);
+ await saveShipmentProgress(reference,shipment);
  const target=shipment.status==='completed'?'delivered':['picked_up','in_transit'].includes(shipment.status)?'shipped':null;
  // A cancelled shipment does not cancel or refund a paid store order. No backward transitions.
  if(!target)return {linked:true,updated:false};

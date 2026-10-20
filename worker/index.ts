@@ -1,3 +1,4 @@
+import {trackingPageResponse} from '../lib/tracking-page';
 import {retryIdentityDeletions} from '../lib/customer-deletion';
 import { adminAuthStateFromRequest } from '../lib/admin-auth';
 import { apiAbuseGuard } from '../lib/abuse-policy';
@@ -60,6 +61,7 @@ const worker = {
     if(url.pathname==='/api/checkout' && request.method==='POST' && !await rateLimit(request,'checkout-body',20,600))return secureResponse(Response.json({error:'Please wait before starting another checkout.'},{status:429}),request,env);
     try{const bounded=await boundedApiRequest(request);if(bounded instanceof Response)return secureResponse(bounded,request,env);request=bounded;}
     catch{return secureResponse(Response.json({error:'Unable to read request.'},{status:400}),request,env);}
+    if (['/api/tracking/page','/api/tracking/client.js'].includes(url.pathname)&&['GET','HEAD'].includes(request.method)) return secureResponse(trackingPageResponse(url.pathname),request,env);
     if (url.pathname.startsWith("/api/customer/")) return secureResponse(await customerApp(request),request,env);
     if (url.pathname === "/api/shipbubble/webhook") return secureResponse(await shipbubbleWebhook(request),request,env);
     if (url.pathname === "/api/admin/shipping-weights") return secureResponse(await shippingWeightsAdmin(request),request,env);

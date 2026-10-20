@@ -1,3 +1,4 @@
+import {saveShipmentProgress,shipmentSchema} from './shipment-progress';
 import {transitEstimate} from './shipping-options';
 import {SHIPPING_COUNTRIES,shippingCountryName} from './shipping-countries';
 import {z} from 'zod';
@@ -169,6 +170,8 @@ export async function bookDispatch(id:string,actor:string){
    db.prepare('UPDATE store_meta SET value=? WHERE key=?').bind(JSON.stringify(done),bookingKey(r.reference)),
    db.prepare('INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,?,?,?)').bind(actor,'bulk dispatch booked',r.reference,JSON.stringify({reviewId:id,shipmentId:shipment.order_id,chargeKobo,pickupDate:r.pickupDate,parcel:r.parcel}))
   ]);
+  // A tracking snapshot failure must never turn an already booked shipment into a retry.
+  await saveShipmentProgress(r.reference,shipmentSchema.parse(raw)).catch(()=>{});
   return done;
  }catch{
   const uncertain:Booking={...attempt,state:'needs_review',...(shipmentId?{shipmentId}:{}),message:'Booking may have reached the provider. Check its shipment list before taking further action. Automatic retry is blocked to prevent a second charge.'};

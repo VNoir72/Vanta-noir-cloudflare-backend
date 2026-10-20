@@ -1,9 +1,9 @@
 import {z} from 'zod';
-export const ruleIds=['payments','inventory','shipping','expiry','customers','checkout','circle','restock','support','summary','drops','aftercare'] as const;
+export const ruleIds=['payments','inventory','shipping','expiry','customers','checkout','circle','restock','support','summary','drops','aftercare','delivery','security','interest'] as const;
 export type RuleId=typeof ruleIds[number];
 const integer=(min:number,max:number,value:number)=>z.number().int().min(min).max(max).default(value);
 export const configSchema=z.object({
- intervalMinutes:integer(5,1440,5),delayHours:integer(1,720,2),reviewDays:integer(1,90,7),
+ intervalMinutes:integer(5,1440,5),delayHours:integer(1,720,2),reviewDays:integer(1,90,7),deliveryHours:integer(6,720,48),
  lowStockThreshold:integer(0,100,3),vipSpendKobo:integer(100,100000000000,100000000),vipOrders:integer(1,1000,5),inactiveDays:integer(1,3650,90),
  supportHours:integer(1,168,24),summaryHour:integer(0,23,18),timezone:z.enum(['Africa/Lagos','UTC','America/New_York']).default('Africa/Lagos'),
  shippingMode:z.enum(['cheapest','fastest']).default('cheapest'),providers:z.array(z.enum(['shipbubble','terminal'])).min(1).max(2).default(['shipbubble']).transform(()=>['shipbubble'] as ('shipbubble'|'terminal')[]),
@@ -22,6 +22,9 @@ export const definitions:Record<RuleId,{title:string;description:string;fields:(
  support:{title:'Support assignment and escalation',description:'Assign unassigned enquiries to active support staff and escalate enquiries needing a staff response.',fields:['supportHours']},
  summary:{title:'Daily business summary',description:'Summarise sales, packing, low stock, refunds and automation failures for the owner.',fields:['summaryHour','timezone']},
  drops:{title:'Scheduled drops',description:'Publish approved scheduled products and process release announcements. Existing app early-access rules are preserved.',fields:[]},
+ delivery:{title:'Delivery progress and exceptions',description:'Refresh Shipbubble tracking and alert the owner to cancelled or stalled shipments. No automatic refunds or replacement bookings.',fields:['deliveryHours']},
+ security:{title:'Security review alerts',description:'Flag payment-verification discrepancies and repeated request-limit activity for owner review. Accounts are never automatically suspended.',fields:[]},
+ interest:{title:'Daily product-interest digest',description:'Email the owner a daily summary of saved designs, confirmed alerts and size and colour demand.',fields:['summaryHour','timezone']},
  aftercare:{title:'Delivery follow-up',description:'Send garment-care guidance after delivery and a later review invitation to customers who requested these emails.',fields:['delayHours','reviewDays']}
 };
 export const ruleUpdateSchema=z.object({id:z.enum(ruleIds),enabled:z.boolean(),version:z.number().int().nonnegative(),config:configSchema}).strict();

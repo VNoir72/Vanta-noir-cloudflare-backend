@@ -1,6 +1,6 @@
 import {getDbBinding,runtimeEnv} from './runtime-env';
 import {configSchema,ruleIds,definitions,ruleUpdateSchema,type RuleId} from './automation-policy';
-export async function automationRule(id:RuleId){const r=await getDbBinding().prepare('SELECT enabled,config_json,version FROM automation_rules WHERE id=?').bind(id).first<{enabled:number;config_json:string;version:number}>();return {id,...definitions[id],enabled:r?r.enabled===1:true,version:r?.version||0,config:configSchema.parse(r?JSON.parse(r.config_json):{})};}
+export async function automationRule(id:RuleId){const r=await getDbBinding().prepare('SELECT enabled,config_json,version FROM automation_rules WHERE id=?').bind(id).first<{enabled:number;config_json:string;version:number}>();return {id,...definitions[id],enabled:r?r.enabled===1:true,version:r?.version||0,config:configSchema.parse(r?JSON.parse(r.config_json):{intervalMinutes:id==='interest'?60:['delivery','security'].includes(id)?15:5})};}
 export async function automationEnabled(id:RuleId){return (await automationRule(id)).enabled;}
 export async function saveAutomation(input:unknown,actor:string){const v=ruleUpdateSchema.parse(input),db=getDbBinding(),raw=JSON.stringify(v.config);const r=await db.batch([
  db.prepare('INSERT INTO automation_rules(id,enabled,config_json) SELECT ?,?,? WHERE ?=0 ON CONFLICT(id) DO UPDATE SET enabled=excluded.enabled,config_json=excluded.config_json,version=automation_rules.version+1,updated_at=CURRENT_TIMESTAMP WHERE automation_rules.version=?').bind(v.id,v.enabled?1:0,raw,v.version,v.version),
