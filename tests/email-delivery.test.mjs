@@ -12,9 +12,10 @@ test('Resend tracking verifies signatures and owner resends are confirmed, bound
  const secretBytes=Buffer.from('12345678901234567890123456789012'),secret='whsec_'+secretBytes.toString('base64');let creates=0,sends=[],listDenied=false;
  const mf=new Miniflare({modules:true,scriptPath:'work/email-delivery-worker.mjs',compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{ADMIN_EMAIL:'owner@example.com',AUTH_PROVIDER:'cloudflare-access',CF_ACCESS_TEAM_DOMAIN:issuer,CF_ACCESS_AUD:'email',RESEND_API_KEY:'re_fixture',EMAIL_FROM:'Vanta Noir <test@example.com>',EMAIL_WEBHOOK_URL:'https://api.example.com/api/email/webhook'},outboundService:async req=>{
   if(req.url===issuer+'/cdn-cgi/access/certs')return Response.json({keys:[jwk]});
+  if(req.url===issuer+'/cdn-cgi/access/get-identity')return new Response('Metadata unavailable',{status:503});
   if(req.url.startsWith('https://api.resend.com/webhooks')&&req.method==='GET')return listDenied?Response.json({error:'Restricted'},{status:403}):Response.json({data:[],has_more:false});
   if(req.url==='https://api.resend.com/webhooks'&&req.method==='POST'){creates++;assert.equal((await req.json()).endpoint,'https://api.example.com/api/email/webhook');return Response.json({id:'hook-fixture',signing_secret:secret});}
-  assert.equal(req.url,'https://api.resend.com/emails');const body=await req.json();sends.push(body);return Response.json({id:'email-'+sends.length});
+  assert.equal(req.url,'https://api.resend.com/emails');const body=await req.json();sends.push(body);return Response.json({id:body.to.includes('buyer@example.com')?'email-1':'other-email-'+sends.length});
  }});
  try{
  const db=await mf.getD1Database('DB');for(const f of (await readdir('drizzle')).filter(f=>f.endsWith('.sql')).sort())await db.batch((await readFile('drizzle/'+f,'utf8')).replaceAll('--> statement-breakpoint','').split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
@@ -33,8 +34,8 @@ test('Resend tracking verifies signatures and owner resends are confirmed, bound
  const resend={action:'resend',reference:order.reference,recipient:'corrected@example.com',requestId:randomUUID(),confirmed:true};assert.equal((await admin(owner,'POST',resend)).status,409,'Unpaid orders cannot send a paid confirmation');
  await rpc('markOrderPaid',{reference:order.reference,amountKobo:order.totalKobo,eventKey:'fixture-payment',eventType:'test'});
  assert.equal((await admin(owner,'POST',resend)).status,409,'Original still pending; do not create a duplicate send');
- await rpc('processEmailOutbox',10);let data=await (await admin(owner)).json();const original=data.emails.find(e=>e.eventKey.endsWith(':payment'));assert.equal(original.deliveryStatus,'bounced','Webhook before send response mapping is retained');
- assert.equal((await hook({...event,type:'email.delivered',created_at:new Date(Date.now()-10000).toISOString()})).status,200);assert.equal((await rpc('emailDeliveryData')).emails[0].deliveryStatus,'bounced','Out of order delivered must not hide a bounce');
+ await rpc('processEmailOutbox',10);let data=await (await admin(owner)).json();const original=data.emails.find(e=>e.eventKey==='order:'+order.reference+':payment');assert.equal(original.deliveryStatus,'bounced','Webhook before send response mapping is retained');
+ assert.equal((await hook({...event,type:'email.delivered',created_at:new Date(Date.now()-10000).toISOString()})).status,200);assert.equal((await rpc('emailDeliveryData')).emails.find(e=>e.eventKey==='order:'+order.reference+':payment').deliveryStatus,'bounced','Out of order delivered must not hide a bounce');
  assert.equal((await admin(owner,'POST',{...resend,confirmed:false})).status,400);
  const results=await Promise.all([admin(owner,'POST',resend),admin(owner,'POST',resend)]);assert.deepEqual(results.map(r=>r.status),[200,200],JSON.stringify(await Promise.all(results.map(r=>r.clone().json()))));
  assert.equal((await admin(owner,'POST',{...resend,requestId:randomUUID()})).status,409);assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE event_key LIKE 'order:%:manual-confirmation:%'").first()).n,1);

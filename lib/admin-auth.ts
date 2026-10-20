@@ -1,3 +1,4 @@
+import {observeAdminSignIn} from './admin-sign-in';
 import {staffRole} from "./staff-role";
 import { runtimeEnv } from "@/lib/runtime-env";
 import { createRemoteJWKSet, jwtVerify } from "jose";
@@ -6,6 +7,7 @@ const keySets = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 
 export async function adminAuthStateFromRequest(request: Request) {
   let email: string | null = null;
+  let verifiedToken: string | null = null;
   if (!runtimeEnv().ADMIN_EMAIL?.trim()) {
     return { ok: false as const, status: 503, error: "Admin access has not been configured." };
   }
@@ -20,6 +22,7 @@ export async function adminAuthStateFromRequest(request: Request) {
       let keys = keySets.get(team.origin);
       if (!keys) { keys = createRemoteJWKSet(new URL("/cdn-cgi/access/certs", team.origin)); keySets.set(team.origin, keys); }
       const { payload } = await jwtVerify(token, keys, { issuer: team.origin, audience, algorithms: ["RS256"], requiredClaims: ["exp"] });
+      verifiedToken = token;
       email = typeof payload.email === "string" ? payload.email : null;
     } catch {
       return { ok: false as const, status: 403, error: "Admin session is invalid or expired. Please sign in again." };
@@ -30,11 +33,12 @@ export async function adminAuthStateFromRequest(request: Request) {
     return { ok: false as const, status: 403, error: "Admin access denied." };
   }
   const path=new URL(request.url).pathname;
-  const allowed = role === "owner" || path === "/api/admin/chat" || path === "/admin" || path === "/api/admin/operations" || (path === "/api/admin/approvals" && request.method === "GET")
+  const allowed = role === "owner" || (path === "/api/admin/sign-in-device" && request.method === "POST") || path === "/api/admin/chat" || path === "/admin" || path === "/api/admin/operations" || (path === "/api/admin/approvals" && request.method === "GET")
     || (role === "support" && path === "/api/admin/support")
     || (role === "sales" && path === "/api/admin/sales")
     || (role === "catalogue" && ["/api/admin/products","/api/admin/inventory","/api/admin/uploads"].includes(path) && request.method!=="DELETE")
     || (role === "analyst" && ["/api/admin/analytics","/api/admin/product-demand"].includes(path) && request.method==="GET");
   if(!allowed)return {ok:false as const,status:403,error:"Your staff role cannot access this section."};
+  if(verifiedToken)await observeAdminSignIn(request,{email,role},verifiedToken).catch(()=>{console.error('Admin sign-in recording unavailable');});
   return { ok: true as const, email, role };
 }

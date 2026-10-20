@@ -1,3 +1,4 @@
+import {AdminSignInDevice} from './sign-in-device';
 import {StaffChat} from "./staff-chat";
 import {SupportDashboard} from "./support-dashboard";
 import {ga4ErrorMessage} from '@/lib/ga4-errors';
@@ -61,7 +62,7 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
     );
   }
 
-  if(role==="support") return <main className="vn-control-center vn-staff-view"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider></main>;
-  if(role!=="owner") return <><AdminFieldHelp/><UnsavedChangesProvider><StaffWorkspace role={role} email={user.email} signOutPath={signOutPath}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider></>;
-  return <><StaffChat role={role} email={user.email}/><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
+  if(role==="support") return <><AdminSignInDevice/><main className="vn-control-center vn-staff-view"><UnsavedChangesProvider><SupportDashboard email={user.email} signOutPath={signOutPath}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider></main></>;
+  if(role!=="owner") return <><AdminSignInDevice/><AdminFieldHelp/><UnsavedChangesProvider><StaffWorkspace role={role} email={user.email} signOutPath={signOutPath}/><StaffChat role={role} email={user.email}/></UnsavedChangesProvider></>;
+  return <><AdminSignInDevice/><StaffChat role={role} email={user.email}/><AdminFieldHelp/><AdminDashboardLoader adminName={user.displayName} signOutPath={signOutPath} paymentsMode={paymentMode()} statusPanel={<>{ga4Result&&ga4Result!=='connected'&&<p role="alert">Google Analytics connection was not completed. {ga4ErrorMessage(params.ga4_error)}</p>}<PaymentUpdates/></>} /></>;
 }
