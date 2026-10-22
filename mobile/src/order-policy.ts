@@ -1,4 +1,5 @@
 import {Order} from './types';
+import {deliveryStep} from './delivery-progress';
 export type OrderGroup='All'|'To pay'|'Processing'|'Shipped'|'Delivered'|'Expired'|'Returns';
 export function hasPaidReceipt(order:Order){return order.paymentStatus==='paid';}
 export function inOrderGroup(order:Pick<Order,'status'|'paymentStatus'>,group:OrderGroup){
@@ -14,10 +15,5 @@ export function inOrderGroup(order:Pick<Order,'status'|'paymentStatus'>,group:Or
 
 /** Do not imply delivery progress for cancelled, unpaid or review-held orders. */
 export function fulfilmentStep(order:Order):number|null{
- if(order.paymentStatus!=='paid')return null;
- if(['delivered','completed'].includes(order.status))return 3;
- if(['shipped','in_transit','out_for_delivery'].includes(order.status))return 2;
- if(['ready_to_ship','packed','preparing_to_ship'].includes(order.status))return 1;
- if(['paid','processing','preparing'].includes(order.status))return 0;
- return null;
+ return deliveryStep(order);
 }

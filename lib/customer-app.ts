@@ -1,4 +1,5 @@
 import {trackingUrl as brandedTrackingUrl} from './shipment-progress';
+import {shipmentProgress} from './shipment-progress';
 import {customerEmail} from './customer-email';
 import {customerAccessAllowed,customerAccessKey} from './customer-access';
 import {customerSessionToken,customerCookieResponse,webSessionRequest} from './customer-cookie';
@@ -387,14 +388,16 @@ export async function customerApp(request: Request): Promise<Response> {
     }
     if (path === "orders" && request.method === "GET") {
       await expireUnpaidOrders();
+      const requestedReference=new URL(request.url).searchParams.get('reference')||'';
+      if(requestedReference.length>120)return json({error:'Invalid reference.'},400);
       const rows = await db
         .prepare(
           `SELECT o.reference,o.status,o.payment_status AS paymentStatus,o.total_kobo AS totalKobo,o.created_at AS createdAt,o.carrier,o.tracking_number AS trackingNumber,o.tracking_url AS trackingUrl,o.delivery_estimate AS deliveryEstimate
-    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key='purged-order:'||a.customer_id||':'||o.reference) AND ${new URL(request.url).searchParams.get('deleted')==='true'?'':'NOT '}EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
+    FROM app_customer_orders a JOIN orders o ON o.reference=a.reference WHERE a.customer_id=? AND (?='' OR o.reference=?) AND NOT EXISTS(SELECT 1 FROM store_meta WHERE key='purged-order:'||a.customer_id||':'||o.reference) AND ${new URL(request.url).searchParams.get('deleted')==='true'?'':'NOT '}EXISTS(SELECT 1 FROM store_meta WHERE key='hidden-order:'||a.customer_id||':'||o.reference) ORDER BY o.created_at DESC LIMIT 100`,
         )
-        .bind(s.id)
+        .bind(s.id,requestedReference,requestedReference)
         .all();
-      const orders=await Promise.all(rows.results.map(async o=>({...o,trackingUrl:brandedTrackingUrl(String(o.reference)),items:(await db.prepare('SELECT variant_id AS variantId,product_name AS productName,color,size,quantity,unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id=(SELECT id FROM orders WHERE reference=?)').bind(o.reference).all()).results})));
+      const orders=await Promise.all(rows.results.map(async o=>({...o,trackingUrl:brandedTrackingUrl(String(o.reference)),deliveryProgress:o.paymentStatus==='paid'?await shipmentProgress(String(o.reference)):null,items:(await db.prepare('SELECT variant_id AS variantId,product_name AS productName,color,size,quantity,unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id=(SELECT id FROM orders WHERE reference=?)').bind(o.reference).all()).results})));
       return json({ orders });
     }
     if (path === "receipt" && request.method === "GET") {

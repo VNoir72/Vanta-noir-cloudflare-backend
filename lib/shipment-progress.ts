@@ -12,7 +12,7 @@ export const shipmentSchema=z.object({
 export type Shipment=z.infer<typeof shipmentSchema>;
 export type Progress={shipmentId:string;status:Shipment['status'];carrier:string;observedAt:string;changedAt:string;activityAt?:string;rank:number;events:Array<{message:string;location:string;at:string|null}>;timeline:Array<{status:string;at:string}>};
 const ranks={pending:0,confirmed:1,picked_up:2,in_transit:3,completed:4,cancelled:5};
-export function trackingUrl(reference:string){return new URL('/track?reference='+encodeURIComponent(reference),runtimeEnv().STOREFRONT_URL||'https://vantanoir.store').href;}
+export function trackingUrl(reference:string){return new URL('/help-center?reference='+encodeURIComponent(reference)+'#track-order',runtimeEnv().STOREFRONT_URL||'https://vantanoir.store').href;}
 const clean=(s:string)=>s.replace(/[\u0000-\u001f\u007f]/g,' ').trim();
 function timestamp(value?:string|null){if(!value)return null;const t=Date.parse(value);return Number.isFinite(t)&&t<=Date.now()+300000?new Date(t).toISOString():null;}
 export async function shipmentProgress(reference:string){const r=await getDbBinding().prepare('SELECT value FROM store_meta WHERE key=?').bind('shipment-progress:'+reference).first<{value:string}>();return r?JSON.parse(r.value) as Progress:null;}

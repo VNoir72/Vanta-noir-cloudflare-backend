@@ -110,8 +110,8 @@ async function route(request, env) {
   if(p==='/admin'||p==='/admin/')return Response.redirect('https://api.vantanoir.store/admin',302);
   if(p.startsWith('/api/'))return Response.redirect('https://api.vantanoir.store'+p+u.search,307);
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
-  if(p==='/track'||p==='/track.js')return publicRead(env,p==='/track'?'/api/tracking/page':'/api/tracking/client.js');
-  if(p==='/track/')return Response.redirect(u.origin+'/track'+u.search,302);
+  if(p==='/track'||p==='/track/')return Response.redirect(u.origin+'/help-center'+u.search+'#track-order',302);
+  if(p==='/track.js')return new Response('Gone',{status:410});
   if(/^\/(?:index\.(?:php|htm)|home(?:\.html)?)$/.test(p))return Response.redirect(u.origin+'/',302);
   if(/(?:^|\/)\.|\.(?:php|sql|sqlite|db|zip|bak|map|jsonc)$|^\/(?:admin|backups|node_modules|drizzle|lib|app|tests|portable)(?:\/|$)/i.test(p))return new Response('Not found',{status:404});
   if(p==='/auth/action'||p==='/auth/action.js'){
