@@ -104,6 +104,7 @@ export type Order = {
   shippingKobo?: number;
   paymentFeeKobo?: number;
   carrier?: string;
+  deliveryProgress?: import('./delivery-progress').DeliveryProgress|null;
   trackingNumber?: string;
   trackingUrl?: string;
   deliveryEstimate?: string;

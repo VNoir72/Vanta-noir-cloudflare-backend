@@ -1,4 +1,3 @@
-import {Onboarding} from './src/components/Onboarding';
 import {signOutStore} from './src/sign-out';
 import {BackgroundUpdates} from './src/components/BackgroundUpdates';
 import {customerPatch} from "./src/customer-patch";
@@ -235,7 +234,6 @@ function Main() {
   const wide = width >= 760;
   const [productWidth,setProductWidth]=useState(0);
   const productWide=productWidth>=700;
-  const [onboardingCreate,setOnboardingCreate]=useState(false);
   const { tab,panel:requestedPanel } = useGlobalSearchParams<{ tab: string;panel?:string }>();
   useEffect(()=>{if(tab==='settings'&&requestedPanel)setSettingsPanel(requestedPanel);},[tab,requestedPanel]);
   const screen =
@@ -311,6 +309,9 @@ function Main() {
   const [selectedCard,setSelectedCard]=useState("");
   const returnToCheckout=useRef(false);
   const [trackingOrder,setTrackingOrder]=useState<Order|null>(null);
+  const [trackingRefreshError,setTrackingRefreshError]=useState('');
+  const trackingReference=trackingOrder?.reference;
+  useEffect(()=>{if(!trackingReference||!customer)return;let live=true,pending=false;const refresh=()=>{if(pending||AppState.currentState!=='active')return;pending=true;void api<{orders:Order[]}>('/api/customer/orders?reference='+encodeURIComponent(trackingReference)).then(({orders:updated})=>{if(!live)return;const latest=updated[0];if(latest){setTrackingOrder(current=>current?.reference===trackingReference?latest:current);setOrders(current=>current.map(order=>order.reference===trackingReference?latest:order));setTrackingRefreshError('');}else setTrackingOrder(null);}).catch(()=>{if(live)setTrackingRefreshError('Could not refresh. Showing the last available progress.');}).finally(()=>{pending=false;});};refresh();const timer=setInterval(refresh,30000);const listener=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(timer);listener.remove();};},[trackingReference,customer?.email]);
   const [checkout, setCheckout] = useState(false),
     [address, setAddress] = useState<Address>(emptyAddress),
     [code, setCode] = useState(""),
@@ -805,7 +806,6 @@ function Main() {
       : [];
   useAccountPresence(!!customer);
   return (
-    <Onboarding onComplete={create=>{setOnboardingCreate(create);setScreen('Account');}}>
     <SafeAreaView style={s.page} onTouchStart={markGrowthActivity}>
       {screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim())&&<AuthBackdrop/>}
       <StatusBar style={dark?"light":"dark"} /><ConnectionNotice/>
@@ -934,7 +934,7 @@ function Main() {
           <>
             {!customer||!customer.name?.trim()||!customer.phone?.trim() ? (
               <View style={{width:'100%',flexGrow:1}}>
-                <ProviderSignIn initialCreate={onboardingCreate} background={false} initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
+                <ProviderSignIn background={false} initialCustomer={customer??undefined} onSignedIn={async()=>{await account();if(returnToCheckout.current){returnToCheckout.current=false;void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/>
 
               </View>
             ) : (
@@ -995,7 +995,7 @@ function Main() {
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:12}}><Button compact title="Checkout →" disabled={busy||!ready||!checkoutCart.length||checkoutUnavailable} onPress={()=>{if(!customer){returnToCheckout.current=true;setScreen('Account');}else {void vault.remove('pending');attempt.current='';setPayment(null);setPendingCart([]);setPaymentMethod('bank_transfer');setSelectedCard('');setPaymentNotice('');resetQuote();setAddressEditing(false);void trackShopping('begin_checkout',checkoutCart);setCheckout(true);}}}/><View style={{alignItems:'flex-end',flex:1}}><Text style={{fontSize:11,color:colors.muted}}>Selected total · {checkoutCart.reduce((n,i)=>n+i.quantity,0)} items</Text><Text accessibilityLiveRegion="polite" style={{fontSize:16,fontWeight:'700'}}>{displayMoney(checkoutCart.reduce((n,i)=>n+i.priceKobo*i.quantity,0))}</Text></View></View>
         {checkoutUnavailable&&<Text style={{fontSize:12,color:colors.danger}}>Deselect unavailable items or reduce their quantity.</Text>}
       </View>}
-      <Sheet title="Track order" footer={<Button secondary title="Help with this order" onPress={()=>{const reference=trackingOrder!.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/>} navigation={<AppTabs selected="Orders" onNavigate={label=>{setTrackingOrder(null);setScreen(label);}}/>} visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><View style={{flexDirection:'row',alignItems:'center',gap:12}}><Text style={{fontSize:14,color:colors.muted}}>Reference {customerOrderReference(trackingOrder.reference)}</Text><Pressable accessibilityRole="button" accessibilityLabel="Copy order reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(customerOrderReference(trackingOrder.reference));setNotice('Order reference copied.');})} style={{width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name="copy-outline" size={19}/></Pressable></View><OrderProgress order={trackingOrder}/><View style={{padding:12,borderWidth:1,borderColor:colors.border,borderRadius:10,flexDirection:'row',gap:12}}><Ionicons name="location-outline" size={24}/><View style={{flex:1,gap:4}}><Text style={{fontSize:13,fontWeight:'600'}}>Delivery address</Text><Text style={{fontSize:12,lineHeight:18,color:colors.muted}}>Contact support to confirm the delivery address for this order.</Text></View></View>{trackingOrder.trackingUrl?.startsWith('https://')&&<Button secondary title="Track parcel" onPress={()=>void task(()=>safeOpen(trackingOrder.trackingUrl!))}/>}{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<View style={{padding:14,borderRadius:12,borderWidth:1,borderColor:colors.border,flexDirection:"row",alignItems:"center",gap:12}}><Ionicons name="time-outline" size={24}/><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:"600"}}>Last update</Text><Text style={{fontSize:12,color:colors.muted}}>Your order is {trackingOrder.status.replaceAll("_"," ")}.</Text></View></View></>}</Sheet>
+      <Sheet title="Track order" footer={<Button secondary title="Help with this order" onPress={()=>{const reference=trackingOrder!.reference;setTrackingOrder(null);router.push({pathname:'/help',params:{topic:'contact',orderReference:reference}});}}/>} navigation={<AppTabs selected="Orders" onNavigate={label=>{setTrackingOrder(null);setScreen(label);}}/>} visible={!!trackingOrder} onClose={()=>setTrackingOrder(null)}>{trackingOrder&&<><View style={{flexDirection:'row',alignItems:'center',gap:12}}><Text style={{fontSize:14,color:colors.muted}}>Reference {customerOrderReference(trackingOrder.reference)}</Text><Pressable accessibilityRole="button" accessibilityLabel="Copy order reference" onPress={()=>void task(async()=>{await Clipboard.setStringAsync(customerOrderReference(trackingOrder.reference));setNotice('Order reference copied.');})} style={{width:36,height:36,alignItems:'center',justifyContent:'center'}}><Ionicons name="copy-outline" size={19}/></Pressable></View><OrderProgress order={trackingOrder}/><View style={{padding:12,borderWidth:1,borderColor:colors.border,borderRadius:10,flexDirection:'row',gap:12}}><Ionicons name="location-outline" size={24}/><View style={{flex:1,gap:4}}><Text style={{fontSize:13,fontWeight:'600'}}>Delivery address</Text><Text style={{fontSize:12,lineHeight:18,color:colors.muted}}>Contact support to confirm the delivery address for this order.</Text></View></View>{trackingRefreshError&&<Text style={{fontSize:12,color:colors.muted}}>{trackingRefreshError}</Text>}{trackingOrder.trackingNumber&&<Glass><Text>{trackingOrder.carrier}</Text><Text selectable>{trackingOrder.trackingNumber}</Text>{trackingOrder.deliveryEstimate&&<Text>{trackingOrder.deliveryEstimate}</Text>}</Glass>}<View style={{padding:14,borderRadius:12,borderWidth:1,borderColor:colors.border,flexDirection:"row",alignItems:"center",gap:12}}><Ionicons name="time-outline" size={24}/><View style={{gap:5}}><Text style={{fontSize:13,fontWeight:"600"}}>Last update</Text><Text style={{fontSize:12,color:colors.muted}}>Your order is {trackingOrder.status.replaceAll("_"," ")}.</Text></View></View></>}</Sheet>
       <Sheet title="Filter orders" visible={orderFiltersOpen} onClose={()=>setOrderFiltersOpen(false)}>{(["All","To pay","Processing","Shipped","Delivered","Expired","Returns"] as OrderGroup[]).map(group=><Pressable key={group} onPress={()=>{setOrderGroup(group);setOrderFiltersOpen(false);}} style={{padding:14}}><Text>{orderGroup===group?'●':'○'} {group}</Text></Pressable>)}</Sheet>
       <Sheet title="Recycle bin" visible={recycleOpen} onClose={()=>setRecycleOpen(false)} footer={deletedOrders.length?<View style={{flexDirection:'row',gap:8}}><Button compact title={`Restore (${trashSelection.length})`} disabled={busy||!trashSelection.length} onPress={()=>void task(async()=>{const restored=deletedOrders.filter(o=>trashSelection.includes(o.reference));for(const order of restored){await api('/api/customer/orders',{reference:order.reference},'PATCH');setDeletedOrders(items=>items.filter(o=>o.reference!==order.reference));setOrders(items=>[order,...items.filter(o=>o.reference!==order.reference)]);}const group:OrderGroup=restored.every(o=>inOrderGroup(o,'Delivered'))?'Delivered':restored.every(o=>inOrderGroup(o,'Expired'))?'Expired':'All';setOrderGroup(group);setTrashSelection([]);setRecycleOpen(false);setScreen('Orders');setNotice('Orders restored to your history.');})}/><Button compact secondary title="Delete permanently" disabled={busy||!trashSelection.length} onPress={()=>Alert.alert('Delete permanently?',`Remove ${trashSelection.length} selected order(s) from your history? You cannot restore them. Required payment and delivery records are retained.`,[{text:'Keep',style:'cancel'},{text:'Delete permanently',style:'destructive',onPress:()=>void task(async()=>{for(const reference of trashSelection){await api('/api/customer/orders',{reference,permanent:true},'DELETE');setDeletedOrders(items=>items.filter(o=>o.reference!==reference));setTrashSelection(ids=>ids.filter(id=>id!==reference));}})}])}/></View>:undefined}>
        <Text style={{fontSize:12,color:colors.muted}}>Select orders to restore or permanently remove from your history. This does not cancel payment or delivery.</Text>
@@ -1182,7 +1182,6 @@ function Main() {
         )}
       </Sheet>
     </SafeAreaView>
-    </Onboarding>
   );
 }
 export default function App() {
