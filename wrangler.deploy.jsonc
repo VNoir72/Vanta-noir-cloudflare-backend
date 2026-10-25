@@ -12,10 +12,7 @@
     "run_worker_first": [
       "/api/*",
       "/admin",
-      "/admin/*",
-      "/admin-login",
-      "/admin-logout",
-      "/admin-access-retired"
+      "/admin/*"
     ]
   },
   "d1_databases": [
@@ -38,7 +35,6 @@
     "FIREBASE_ANDROID_APP_ID": "1:78543560148:android:3ff1d214fcac9e506e4a41",
     "FIREBASE_APPLE_ENABLED": "false",
     "AUTH_PROVIDER": "cloudflare-access",
-    "ADMIN_PASSWORD_LOGIN_ENABLED": "true",
     "GA4_PROPERTY_ID": "554825546",
     "STOREFRONT_URL": "https://vantanoir.store",
     "ALLOWED_ORIGINS": "https://vantanoir.store,https://www.vantanoir.store",
