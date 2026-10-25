@@ -1,3 +1,4 @@
+import {PreorderNotice} from './PreorderNotice';
 import {customerOrderReference} from '../order-reference';
 import React,{useEffect,useRef,useState} from 'react';
 import {Animated,Easing,Platform,Pressable,StyleSheet,View} from 'react-native';
@@ -32,6 +33,7 @@ export function VirtualReceipt({order,onViewOrder}:{order:Order;onViewOrder?:()=
  const exportReceipt=async(mode:'download'|'save')=>{if(savingRef.current)return;savingRef.current=true;setSaving(true);setError('');try{const result=await downloadReceipt(order,mode);setNotice(result==='saved'?'Receipt saved to your selected folder.':result==='downloaded'?'Receipt download started.':'');}catch{setError('Could not save your receipt. Please try again.');}finally{savingRef.current=false;setSaving(false);}};
  const row=(label:string,value:number,strong=false)=><View key={label} style={s.row}><Text style={[s.ink,strong&&s.bold,{flex:1}]}>{label}</Text><Text style={[s.ink,strong&&s.bold]}>{compactMoney(value)}</Text></View>;
  return <View style={{gap:10,width:'100%',maxWidth:430,alignSelf:'center'}}>
+  <PreorderNotice items={order.preorders}/>
   <Animated.View testID="receipt-scene" style={{height:feed.interpolate({inputRange:[0,1],outputRange:[280,Math.max(480,height+200)]}),overflow:'hidden',width:'100%'}}>
    <Animated.Image accessibilityElementsHidden source={require('../../assets/receipt-bag-foreground.png')} resizeMode="contain" style={{position:'absolute',top:feed.interpolate({inputRange:[0,1],outputRange:[26,Math.max(240,height-46)]}),zIndex:0,width:'100%',height:230}}/>
    <Animated.View testID="receipt-paper" pointerEvents={opened?'auto':'none'} accessibilityElementsHidden={!opened} importantForAccessibility={opened?'auto':'no-hide-descendants'} onLayout={e=>setHeight(e.nativeEvent.layout.height)} style={{position:'absolute',top:0,left:48,right:48,zIndex:1,opacity:feed.interpolate({inputRange:[0,.08,1],outputRange:[0,1,1]}),transform:[{translateY:feed.interpolate({inputRange:[0,1],outputRange:[260,8]})}]}}>

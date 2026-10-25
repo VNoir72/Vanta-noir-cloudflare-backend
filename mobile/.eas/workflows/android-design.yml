@@ -17,12 +17,14 @@ jobs:
     params:
       platform: android
       channel: ${{ inputs.channel }}
-      message: Consent-aware signup and login analytics; preserve build-32 runtime
+      message: Organised You page, reliable account recovery and preorder dispatch details; build 32
     hooks:
       before_update:
+        - name: Verify build 32 runtime compatibility
+          run: node scripts/verify-build32-runtime.cjs
         - name: Check app types
           run: npm run typecheck
         - name: Check app lint
           run: npm run lint
         - name: Verify currency and order behaviour
-          run: node --test tests/design-behaviour.test.cjs tests/email-verification.test.cjs tests/auth-monitoring.test.cjs tests/account-notice.test.cjs tests/sign-out.test.cjs tests/push-default.test.cjs
+          run: node --test tests/*.test.cjs

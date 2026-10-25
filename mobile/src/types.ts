@@ -18,6 +18,8 @@ export type Product = {
   }[];
   details?: {
     availability?: string;
+    orderMode?: string;
+    dispatchNote?: string;
     priceStatus?: string;
     audience?: string;
     fabric?: string;
@@ -91,7 +93,9 @@ export type Payment = {
     amountKobo: number;
   };
 };
+export type PreorderPromise = {productId:string;productName:string;dispatchNote:string};
 export type Order = {
+  preorders?:PreorderPromise[];
   paymentChannel?: string;
   createdAt?: string;
   canSaveCard?: boolean;
