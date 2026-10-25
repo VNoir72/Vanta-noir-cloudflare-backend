@@ -1,3 +1,4 @@
+import {inventoryStockReport,inventoryReportMessage} from './stock-reporting';
 import {trackingUrl as brandedTrackingUrl} from './shipment-progress';
 import { serviceBudget } from './abuse-policy';
 import { automationEnabled } from './automation-state';
@@ -179,8 +180,8 @@ export async function queueLowStockAlerts(){
   // today's notification has been queued (including pending/review messages).
   if(await db.prepare('SELECT id FROM email_outbox WHERE event_key=? LIMIT 1').bind(eventKey).first())return;
   const settings=await getCommerceSettings();
-  const rows=await db.prepare("SELECT p.name,v.sku,v.stock FROM product_variants v JOIN products p ON p.id=v.product_id WHERE v.active=1 AND p.status='published' AND v.stock<=? ORDER BY v.stock,v.sku LIMIT 100").bind(settings.lowStockThreshold).all<{name:string;sku:string;stock:number}>();
-  if(rows.results.length)await queueEmail(eventKey,email,"Low stock · Vanta Noir",`${rows.results.length} variations are at or below ${settings.lowStockThreshold} units.\n\n${rows.results.map(v=>`${v.name} · ${v.sku}: ${v.stock}`).join("\n")}\n\nOpen Store admin to update inventory.`);
+  const report=await inventoryStockReport(db,settings.lowStockThreshold);
+  if(report.lowStock||report.outOfStock)await queueEmail(eventKey,email,"Low stock · Vanta Noir",inventoryReportMessage(report,settings.lowStockThreshold));
 }
 export async function recoverPaymentEmails(){
   const db=getDbBinding(),owner=runtimeEnv().ADMIN_EMAIL?.trim();
