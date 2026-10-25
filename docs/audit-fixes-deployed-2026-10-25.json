@@ -1,0 +1,37 @@
+{
+  "sourceCommit": "d4b1987aed885b25c875af5c5de080b6e939a2e6",
+  "website": {
+    "version": "3dccce64-a233-4a0d-a395-a1ea4ede34e0",
+    "deployment": "981d474c-c700-4598-b72a-7739d164e46f",
+    "trafficPercent": 100,
+    "verifiedAccent": "#650d24",
+    "allCollectionProducts": 16
+  },
+  "backend": {
+    "version": "d79fe24a-b0c7-4d03-a3ae-65b65cf98a4e",
+    "deployment": "80d95ef5-03a7-4d37-830a-d3d11286293a",
+    "trafficPercent": 100
+  },
+  "tlsMinimum": "1.2",
+  "tests": {
+    "pass": 305,
+    "skipped": 1,
+    "fail": 0
+  },
+  "expo": {
+    "signedIn": true,
+    "project": "vanta-noir/vanta",
+    "lastVerifiedUpdate": "01a16364-2c14-7b04-bce5-4cf00aa0403d",
+    "sourceBranch": "codex/build32-inline-order-progress-2026-10-22",
+    "nativeChanges": false,
+    "publishedNewUpdate": false
+  },
+  "pending": [
+    "MFA configuration: automatic review rejected the broad organization update; no MFA changes applied. Requires a narrower explicit approval and owner enrollment.",
+    "Shipping provider wallet funding and genuine shipment tracking proof.",
+    "Verified physical specifications for Apex Checker Cap.",
+    "Designated monitored DMARC reporting mailbox and enforcement plan.",
+    "Repository branch protection/default-branch administration is unavailable through this connection. All-target PR verification and production-source documentation are committed."
+  ],
+  "liveNegativeApiCheck": "Blocked by execution network; not treated as website response."
+}
