@@ -165,3 +165,5 @@ button,a,input { -webkit-tap-highlight-color: transparent; }
 .vn-delivery-options input{width:auto;flex:0 0 auto;margin-top:4px}
 .vn-hero-accessible-controls{opacity:0;pointer-events:none}
 .vn-hero-accessible-controls:focus-within{opacity:1;pointer-events:auto}
+
+.vn-preorder-notice{margin:16px 0;padding:16px;border:1px solid #cbc3ae;border-left:3px solid #8a7545;border-radius:10px;background:#faf8f1;color:#302d25;font-size:13px;line-height:1.6}.vn-preorder-notice p{margin:10px 0}.vn-preorder-notice small{font-size:12px}

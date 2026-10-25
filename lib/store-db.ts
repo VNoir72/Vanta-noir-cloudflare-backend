@@ -1,3 +1,4 @@
+import {orderPreorders, type PreorderPromise} from './order-fulfilment';
 import {shipmentProgress,trackingUrl as brandedTrackingUrl} from './shipment-progress';
 import {shortOrderReference,legacyOrderPrefixes} from './order-reference';
 import {customerAccessAllowed,customerAccessKey} from './customer-access';
@@ -971,6 +972,12 @@ export async function createPendingOrder(args: {
     ),
   ];
 
+  // Snapshot the actual dispatch promise atomically with the order and reservation.
+  statements.push(db.prepare(`INSERT INTO store_meta(key,value)
+    SELECT ?,COALESCE((SELECT json_group_array(json_object('productId',p.id,'productName',p.name,'dispatchNote',COALESCE(json_extract(p.details_json,'$.dispatchNote'),''))) FROM products p
+      WHERE p.id IN (SELECT product_id FROM order_items WHERE order_id=?)
+      AND (json_extract(p.details_json,'$.availability')='preorder' OR json_extract(p.details_json,'$.orderMode')='preorder')),'[]')
+    WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)`).bind('order-preorders:'+reference,id,id));
   if(args.reservationActor)statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-reservation-actor:'+reference,args.reservationActor,id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-app-limits:'+reference,JSON.stringify(appPolicy.limits),id));
   statements.push(db.prepare("INSERT INTO store_meta(key,value) SELECT ?,? WHERE EXISTS(SELECT 1 FROM orders WHERE id=?)").bind('order-channel:'+reference,JSON.stringify({channel:access.verifiedApp?'app':'web',customerId:access.customerId}),id));
@@ -1035,7 +1042,7 @@ export async function getPublicPaymentOrder(reference: string) {
   const paymentFeeKobo=paymentAmounts ? Number(JSON.parse(paymentAmounts.value).paymentFeeKobo)||0 : 0;
   const diagnostic=await db.prepare("SELECT value FROM store_meta WHERE key=?").bind('payment-diagnostic:'+reference).first<{value:string}>();
   const providerStatus=diagnostic?JSON.parse(diagnostic.value).status:undefined;
-  return { ...publicOrder, providerStatus, paymentFeeKobo, items: items.results };
+  return { ...publicOrder, providerStatus, paymentFeeKobo, items: items.results, preorders:await orderPreorders(reference) };
 }
 
 export async function getGuestOrder(reference: string, email: string, phone: string) {
@@ -1095,6 +1102,7 @@ export async function getGuestOrder(reference: string, email: string, phone: str
   return {
     carrier: order.carrier, brandedTrackingNumber: order.reference, trackingNumber: order.trackingNumber, courierTrackingNumber: order.trackingNumber, trackingUrl: brandedTrackingUrl(order.reference), deliveryEstimate: order.deliveryEstimate, returnRequest,
     deliveryProgress: await shipmentProgress(order.reference),
+    preorders: await orderPreorders(order.reference),
     reference: order.reference,
     totalKobo: order.totalKobo,
     status: order.status,
@@ -1159,6 +1167,7 @@ export async function markOrderPaid(args: {
 }
 
 export type AdminOrder = {
+  preorders?:PreorderPromise[];
   id: string; reference: string; email: string; firstName: string; lastName: string;
   phone: string; addressLine1: string; addressLine2: string; city: string; state: string; country: string;
   totalKobo: number; status: string; paymentStatus: string; providerStatus?: string; createdAt: string;
@@ -1190,11 +1199,12 @@ export async function listAdminOrders(options: OrderQuery = {}): Promise<AdminOr
     subtotal_kobo AS subtotalKobo,shipping_kobo AS shippingKobo,discount_kobo AS discountKobo,paid_at AS paidAt,
     (SELECT json_extract(value,'$.markedAt') FROM store_meta WHERE key='dispatch-packed:'||orders.reference) AS packedAt,
     (SELECT json_extract(value,'$.rate.service') FROM store_meta WHERE key='order-shipping:'||orders.reference) AS deliveryMethod,
+    (SELECT value FROM store_meta WHERE key='order-preorders:'||orders.reference) AS preorderJson,
     (SELECT json_extract(value,'$.status') FROM store_meta WHERE key='payment-diagnostic:'||orders.reference) AS providerStatus
-    FROM orders WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET ?`).bind(...args,(page-1)*50).all<Omit<AdminOrder,"items">>();
+    FROM orders WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET ?`).bind(...args,(page-1)*50).all<Omit<AdminOrder,"items">&{preorderJson:string|null}>();
   if(!rows.results.length)return [];
   const items=await db.prepare(`SELECT order_id AS orderId,product_id AS productId,product_name AS productName,size,color,quantity,unit_price_kobo AS unitPriceKobo,(SELECT sku FROM product_variants WHERE id=order_items.variant_id) AS sku,(SELECT image_url FROM products WHERE id=order_items.product_id) AS imageUrl FROM order_items WHERE order_id IN (${rows.results.map(()=>"?").join(",")})`).bind(...rows.results.map(o=>o.id)).all<AdminOrder["items"][number]&{orderId:string}>();
-  return rows.results.map(order=>({...order,items:items.results.filter(item=>item.orderId===order.id)}));
+  return rows.results.map(({preorderJson,...order})=>({...order,preorders:preorderJson?JSON.parse(preorderJson):[],items:items.results.filter(item=>item.orderId===order.id)}));
 }
 export async function updateOrderTracking(reference:string,input:Partial<{carrier:string;trackingNumber:string;trackingUrl:string;deliveryEstimate:string}>,expected?:Record<string,string>) {
   const order=await getOrderByReference(reference);if(!order)throw new Error("Order not found.");

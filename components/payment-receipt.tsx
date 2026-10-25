@@ -1,5 +1,6 @@
 "use client";
 
+import {PreorderNotice} from "./preorder-notice";
 import { ArrowLeft, Download, PackageSearch } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { paymentReceiptHtml, receiptMoney, receiptNeedsReview, receiptTotals, type PaymentOrder } from "@/lib/payment-receipt";
@@ -46,7 +47,7 @@ export function PaymentReceipt({ order, onBack }: { order: PaymentOrder; onBack:
           {!!order.paymentFeeKobo && <div><dt>Paystack processing fee</dt><dd>{receiptMoney(order.paymentFeeKobo)}</dd></div>}
           <div className="vn-receipt-total"><dt>Total paid</dt><dd>{receiptMoney(totals.totalKobo)}</dd></div>
         </dl>
-        <p className="vn-receipt-stamp">PAID</p>
+        <PreorderNotice items={order.preorders}/><p className="vn-receipt-stamp">PAID</p>
         {receiptNeedsReview(order) && <p className="vn-receipt-review">Payment received. Customer care is reviewing your order before fulfilment.</p>}
         <footer>Thank you for your order.<span>vantanoir.store</span></footer>
       </article>

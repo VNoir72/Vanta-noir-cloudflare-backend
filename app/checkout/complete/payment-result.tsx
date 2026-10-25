@@ -6,6 +6,7 @@ import { apiUrl } from "@/lib/api-client";
 import { trackPurchase } from "@/lib/analytics";
 import { readStorage, writeStorage } from "@/lib/browser-store";
 import { CART_STORAGE_KEY, restoreCart } from "@/lib/cart";
+import {PreorderNotice} from "@/components/preorder-notice";
 import { PaymentReceipt } from "@/components/payment-receipt";
 import { receiptMoney, receiptTotals, type PaymentOrder } from "@/lib/payment-receipt";
 
@@ -96,7 +97,7 @@ export function PaymentResult({ reference }: { reference: string }) {
     </div>
     <div className="vn-confirmed-summary">
       <p className="vn-payment-reference"><span>ORDER REFERENCE</span>{reference}</p>
-      {verifiedOrder && <><ul>{verifiedOrder.items.map((item, index) => <li key={`${item.variantId}-${index}`}><strong>{item.productName}</strong><span>{item.color} · {item.size} · Qty {item.quantity}</span></li>)}</ul><div className="vn-confirmed-total"><span>Total paid</span><strong>{receiptMoney(receiptTotals(verifiedOrder).totalKobo)}</strong></div></>}
+      {verifiedOrder && <><PreorderNotice items={verifiedOrder.preorders}/><ul>{verifiedOrder.items.map((item, index) => <li key={`${item.variantId}-${index}`}><strong>{item.productName}</strong><span>{item.color} · {item.size} · Qty {item.quantity}</span></li>)}</ul><div className="vn-confirmed-total"><span>Total paid</span><strong>{receiptMoney(receiptTotals(verifiedOrder).totalKobo)}</strong></div></>}
     </div>
     <div className="vn-receipt-actions">
       {verifiedOrder && <button type="button" id="vn-view-receipt" className="vn-payment-primary" onClick={() => setShowReceipt(true)}><ReceiptText size={18}/>View receipt</button>}

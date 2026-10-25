@@ -59,3 +59,9 @@ test("verified customer processing fees are itemised and included in the paid to
   assert.ok(html.includes("1,776.65"));
   assert.ok(html.includes("114,776.65"));
 });
+
+test('preorder receipt preserves and escapes the original dispatch promise',()=>{
+ const html=paymentReceiptHtml({...order,preorders:[{productId:'dummy',productName:'Dummy <tee>',dispatchNote:'Dispatch 21 days after closing <script>alert(1)</script>'}]});
+ assert.match(html,/Preorder dispatch/);assert.match(html,/Courier transit time starts after dispatch/);
+ assert.match(html,/Dummy &lt;tee&gt;/);assert.doesNotMatch(html,/<script>/);
+});

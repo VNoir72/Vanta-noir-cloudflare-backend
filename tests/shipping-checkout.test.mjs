@@ -95,5 +95,38 @@ test('Shipbubble checkout binds measured quotes to address, bag, rewards and aut
  await assert.rejects(rpc('resolveShippingSelection',freshSelection,input),/changed or expired/);
  await rpc('createShippingQuotes',input);assert.equal(lastWeight,2.46);
  });
+ await t.test('dummy preorder: capacity, courier quote, payment, dispatch promise, tracking and cleanup',async()=>{
+ const saved=await db.prepare('SELECT details_json FROM products WHERE id=?').bind(product.id).first();
+ const details={...JSON.parse(saved.details_json),availability:'preorder',orderMode:'preorder',dispatchNote:'Dummy test: dispatch 21 days after preorder closing.'};
+ await db.prepare('UPDATE products SET details_json=? WHERE id=?').bind(JSON.stringify(details),product.id).run();
+ await db.prepare('UPDATE product_variants SET stock=2 WHERE id=?').bind(variantId).run();
+ // Release earlier fixture reservations; this D1 database exists only inside this test.
+ await db.prepare('DELETE FROM stock_reservations').run();
+ const buyer={...input,customer:{...input.customer,email:'preorder@example.invalid',firstName:'Dummy',lastName:'Preorder'}};
+ const rates=await rpc('createShippingQuotes',buyer);
+ const selected=await rpc('resolveShippingSelection',{quoteId:rates.quoteId,rateId:rates.rates[0].rateId,provider:'shipbubble'},buyer);
+ const args={...buyer,checkoutAttempt:crypto.randomUUID()+'-'+crypto.randomUUID(),shippingKobo:selected.rate.amountKobo,shippingQuote:selected,expectedTotalKobo:product.priceKobo+selected.rate.amountKobo,expectedRewardSignature:''};
+ const order=await rpc('createPendingOrder',args);
+ assert.equal((await rpc('createPendingOrder',args)).reference,order.reference,'Retry creates no extra preorder');
+ assert.equal((await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(variantId).first()).stock,2,'Pending order reserves capacity without creating stock');
+ await assert.rejects(rpc('createPendingOrder',{...args,checkoutAttempt:undefined,customer:{...buyer.customer,email:'capacity@example.invalid'},cart:[{variantId,quantity:3}],shippingQuote:undefined,expectedTotalKobo:3*product.priceKobo+selected.rate.amountKobo}),/stock|available|reserved/i);
+ await rpc('markOrderPaid',{reference:order.reference,amountKobo:order.totalKobo,eventKey:'dummy-preorder-paid',eventType:'test'});
+ await rpc('markOrderPaid',{reference:order.reference,amountKobo:order.totalKobo,eventKey:'dummy-preorder-repeat',eventType:'test'});
+ assert.equal((await db.prepare('SELECT stock FROM product_variants WHERE id=?').bind(variantId).first()).stock,1,'Duplicate verified payment deducts capacity only once');
+ await db.prepare('UPDATE products SET details_json=? WHERE id=?').bind(JSON.stringify({...details,availability:'in_stock',orderMode:'in_stock',dispatchNote:'Later changed promise'}),product.id).run();
+ const adminOrder=(await rpc('listAdminOrders',{query:order.reference}))[0];assert.equal(adminOrder.preorders[0].dispatchNote,details.dispatchNote);
+ const confirmation=await rpc('getPublicPaymentOrder',order.reference);
+ assert.equal(confirmation.preorders[0].dispatchNote,details.dispatchNote,'Confirmation preserves the checkout promise');
+ const receipt=await db.prepare('SELECT body FROM email_outbox WHERE event_key=?').bind('order:'+order.reference+':payment').first();
+ assert.match(receipt.body,/PREORDER DISPATCH/);assert.ok(receipt.body.includes(details.dispatchNote));
+ await rpc('updateOrderTracking',order.reference,{carrier:'Dummy courier',trackingNumber:'DUMMY-PREORDER-001',trackingUrl:'https://courier.example.invalid/tracking',deliveryEstimate:'Dummy transit: 2 days after dispatch'});
+ await rpc('updateOrderStatus',order.reference,'shipped');
+ let tracked=await rpc('getGuestOrder',order.reference,buyer.customer.email,'');
+ assert.equal(tracked.status,'shipped');assert.equal(tracked.preorders[0].dispatchNote,details.dispatchNote);
+ await rpc('updateOrderStatus',order.reference,'delivered');
+ tracked=await rpc('getGuestOrder',order.reference,buyer.customer.email,'');assert.equal(tracked.status,'delivered');
+ assert.equal(await rpc('getGuestOrder',order.reference,'other@example.invalid',''),null);
+ await db.prepare('UPDATE products SET details_json=? WHERE id=?').bind(saved.details_json,product.id).run();
+ });
  }finally{await mf.dispose();}
 });

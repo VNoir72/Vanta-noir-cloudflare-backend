@@ -1,3 +1,4 @@
+import {orderPreorders} from './order-fulfilment';
 import {trackingUrl as brandedTrackingUrl} from './shipment-progress';
 import {shipmentProgress} from './shipment-progress';
 import {customerEmail} from './customer-email';
@@ -397,7 +398,7 @@ export async function customerApp(request: Request): Promise<Response> {
         )
         .bind(s.id,requestedReference,requestedReference)
         .all();
-      const orders=await Promise.all(rows.results.map(async o=>({...o,trackingUrl:brandedTrackingUrl(String(o.reference)),deliveryProgress:o.paymentStatus==='paid'?await shipmentProgress(String(o.reference)):null,items:(await db.prepare('SELECT variant_id AS variantId,product_name AS productName,color,size,quantity,unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id=(SELECT id FROM orders WHERE reference=?)').bind(o.reference).all()).results})));
+      const orders=await Promise.all(rows.results.map(async o=>({...o,preorders:await orderPreorders(String(o.reference)),trackingUrl:brandedTrackingUrl(String(o.reference)),deliveryProgress:o.paymentStatus==='paid'?await shipmentProgress(String(o.reference)):null,items:(await db.prepare('SELECT variant_id AS variantId,product_name AS productName,color,size,quantity,unit_price_kobo AS unitPriceKobo FROM order_items WHERE order_id=(SELECT id FROM orders WHERE reference=?)').bind(o.reference).all()).results})));
       return json({ orders });
     }
     if (path === "receipt" && request.method === "GET") {
