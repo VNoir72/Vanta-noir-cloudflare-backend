@@ -30,6 +30,7 @@ export const productDetailsSchema = z.object({
   modelSizing: short,
   contents: short,
   availability: z.enum(["in_stock", "preorder", "preview"]).default("in_stock"),
+  orderMode: z.enum(["in_stock", "preorder"]).optional(),
   suggestedPriceNgn: z.number().int().nonnegative().optional(),
   priceStatus: z.enum(["approved", "proposed"]).default("approved"),
   dispatchNote: short,

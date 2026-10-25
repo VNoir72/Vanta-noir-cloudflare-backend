@@ -49,6 +49,7 @@ import { CatalogueQuality } from "./catalogue-quality";
 import { LaunchReview } from './launch-review';
 import { ProductDemandPanel } from './product-demand-panel';
 import { ReleasePanel } from './release-panel';
+import { PreorderSetup,productOrderMode } from "./preorder-setup";
 import { ProductReadiness } from "./product-readiness";
 import { ProductProperties } from "./product-properties";
 import { useAdminHasChanges } from "./unsaved-changes";
@@ -107,9 +108,9 @@ const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
   archived: "Archived",
 };
 
-function emptyProductForm(): ProductForm {
+function emptyProductForm(mode:"in_stock"|"preorder"="in_stock"): ProductForm {
   return {
-    details: productDetails({availability:"preview",priceStatus:"proposed"}),
+    details: productDetails({availability:"preview",priceStatus:"proposed",orderMode:mode}),
     slug: "",
     name: "",
     description: "",
@@ -290,9 +291,9 @@ function DashboardContent({
     setProducts(current=>current.map(p=>p.id===row.productId?{...p,variants:p.variants.map(v=>v.id===row.id?{...v,stock:row.stock}:v)}:p));
   }
   async function syncStock(){const payload=await adminRead<{inventory:InventoryRow[]}>('/api/admin/inventory',hasArray('inventory'));applyInventory(payload.inventory);}
-  function openNewProduct() {
+  function openNewProduct(mode:"in_stock"|"preorder"="in_stock") {
     if(uploadingImage!==null||busy==="product-save")return;
-    navigate(()=>{const form=emptyProductForm();productBaseline.current=JSON.stringify(form);setSectionState('products');setProductForm(form);});
+    navigate(()=>{const form=emptyProductForm(mode);productBaseline.current=JSON.stringify(form);setSectionState('products');setProductForm(form);});
   }
   function openProduct(product: AdminProduct) {
     if(uploadingImage!==null||busy==="product-save")return;
@@ -503,7 +504,7 @@ function DashboardContent({
         {section==='overview'&&<div className="vn-packing-alert"><PackageCheck size={24}/><span><strong>{fulfilmentCount===1?'1 order needs packing review':`${fulfilmentCount} orders to prepare`}</strong><small>Review paid orders and packing.</small></span><button className="vn-pill vn-control-primary" onClick={()=>goTo({section:'orders',status:'fulfil'})}>Review order</button></div>}
       <header className="vn-control-header">
         <div><h1>{section === "overview" ? "Overview" : (section==='app-controls'?'App controls':sectionLabels[section])||section[0].toUpperCase()+section.slice(1)}</h1><p className="vn-header-subtitle">{{overview:'Here’s what’s happening with your store today.',products:'Manage your catalogue, inventory and product information.',orders:'Manage orders and fulfilment.',customers:'Manage customer relationships.',settings:'Manage your store preferences and configuration.','app-controls':'Manage your mobile app, membership, offers and notifications.',automations:'Manage campaigns, coupons and automations.',analytics:'Understand sales and store performance.'}[parentSection]||'Manage your store.'}</p></div>
-        <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls compact={section==='overview'} analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/><span className="sr-only">Refresh</span></Button>{parentSection==='products'&&<Button onClick={openNewProduct} className="vn-control-primary"><Plus/> Add product</Button>}</div>
+        <div className="vn-control-actions">{(section==='overview'||section==='analytics')&&<ReportControls compact={section==='overview'} analytics={analytics} loading={reportLoading} onRange={p=>void loadReport(p)}/>}<Button variant="outline" onClick={()=>navigate(()=>void refresh())} disabled={busy !== null||reportLoading}><RefreshCw className={busy === "refresh" ? "animate-spin" : ""}/><span className="sr-only">Refresh</span></Button>{parentSection==='products'&&<><Button variant="outline" onClick={()=>openNewProduct("preorder")}><Plus/> Add preorder</Button><Button onClick={()=>openNewProduct()} className="vn-control-primary"><Plus/> Add product</Button></>}</div>
       </header>
 
       <div className="vn-control-body">
@@ -532,7 +533,7 @@ function DashboardContent({
               <div className="vn-workspace-table"><table><thead><tr><th className="vn-check-cell"><input type="checkbox" aria-label="Select products on this page" checked={matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).length>0&&matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).every(p=>selectedProducts.includes(p.id))} onChange={e=>setSelectedProducts(e.target.checked?matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(p=>p.id):[])}/></th><th>Product</th><th>Price</th><th>Stock</th><th>Visibility</th><th>Edit</th></tr></thead><tbody>
                 {matchingProducts.slice((currentProductPage-1)*24,currentProductPage*24).map(product=>{const stock=product.variants.filter(v=>v.active).reduce((n,v)=>n+v.stock,0);const visibility=product.status!=='published'?'hidden':product.details?.availability==='preview'||product.details?.priceStatus!=='approved'?'preview':'visible';return <tr key={product.id} className={selectedProducts.includes(product.id)?'is-selected':undefined}><td className="vn-check-cell"><input type="checkbox" aria-label={'Select '+product.name} checked={selectedProducts.includes(product.id)} onChange={e=>setSelectedProducts(old=>e.target.checked?[...old,product.id]:old.filter(id=>id!==product.id))}/></td>
                   <td><button className="vn-product-cell" onClick={()=>openProduct(product)}><StoreImage src={product.imageUrl} alt="" sizes="80px"/><span><strong>{product.name}</strong><small>{product.variants[0]?.sku||'No SKU'}</small><span className="vn-product-swatches">{Array.from(new Map(product.variants.map(v=>[v.color,v.colorHex])).entries()).map(([color,hex])=><i key={color} title={color} aria-label={color} style={{backgroundColor:/^#[0-9a-f]{3,8}$/i.test(hex)?hex:'var(--admin-muted)'}}/>)}</span></span></button></td>
-                  <td>{formatNaira(product.priceKobo)}</td><td><strong className={stock>0?"vn-stock-available":"vn-stock-empty"}>{stock}</strong><small className="vn-stock-caption">{stock>0?"in stock":"out of stock"}</small></td><td><span className={"vn-visibility vn-visibility-"+visibility}>{visibility==='hidden'?<EyeOff size={16}/>:<Eye size={16}/>}{product.status!=='published'?'Hidden · '+product.status:product.details?.availability==='preview'||product.details?.priceStatus!=='approved'?'Preview · price hidden':'Visible'}</span></td>
+                  <td>{formatNaira(product.priceKobo)}</td><td><strong className={stock>0?"vn-stock-available":"vn-stock-empty"}>{stock}</strong><small className="vn-stock-caption">{productOrderMode(product.details)==="preorder"?"preorder capacity":stock>0?"in stock":"out of stock"}</small></td><td><span className={"vn-visibility vn-visibility-"+visibility}>{visibility==='hidden'?<EyeOff size={16}/>:<Eye size={16}/>}{product.status!=='published'?'Hidden · '+product.status:product.details?.availability==='preview'||product.details?.priceStatus!=='approved'?'Preview · price hidden':'Visible'}</span></td>
                   <td><div className="vn-row-actions"><button className="vn-pill" onClick={()=>openProduct(product)}>Edit</button><details><summary aria-label={'More actions for '+product.name}><MoreVertical size={18}/></summary><div><a className="vn-pill" href={'/api/admin/tech-packs?id='+encodeURIComponent(product.id)+'&format=files'} target="_blank" rel="noreferrer">Tech-pack PDFs ↗</a><button disabled={busy!==null} onClick={()=>void changeProductStatus(product.id,product.status==='published'?'draft':product.status==='archived'?'draft':'published')}>{product.status==='published'?'Unpublish':product.status==='archived'?'Restore draft':'Publish preview'}</button>{product.status!=='archived'&&<button disabled={busy!==null} onClick={()=>void changeProductStatus(product.id,'archived')}>Archive</button>}<button disabled={busy!==null} onClick={()=>void deleteProduct(product.id)}>Delete</button></div></details></div></td>
                 </tr>;})}
                 {!matchingProducts.length&&<tr><td colSpan={6}>No matching products.</td></tr>}
@@ -675,6 +676,7 @@ function ProductEditor({
 
       <div className="space-y-8 p-5 sm:p-7">
         <div>{form.id&&<a className="vn-pill" href={'/api/admin/tech-packs?id='+encodeURIComponent(form.id)+'&format=files'} target="_blank" rel="noreferrer">This garment’s tech-pack PDFs ↗</a>}</div>
+        <PreorderSetup value={form.details} onChange={value=>updateField("details",value)}/>
         <ProductReadiness status={form.status} priceNaira={form.priceNaira} details={form.details} variants={form.variants}/>
         <StudioImagery name={form.name} images={form.images} colors={form.variants.map(v=>v.color)} onChange={images=>updateField("images",images)} upload={uploadImage} busy={uploadingImage!==null}/>
         <section className="space-y-4">
@@ -774,7 +776,7 @@ function ProductEditor({
           <label>Add a colourway<select className="vn-option-select" value="" onChange={e=>{const color=options.colors.find(c=>c.name===e.target.value);if(!color)return;const sizes=[...new Set(form.variants.map(v=>v.size))];setForm(current=>current?{...current,variants:[...current.variants,...sizes.filter(size=>!current.variants.some(v=>v.color===color.name&&v.size===size)).map(size=>({sku:"",size,color:color.name,colorHex:color.hex,stock:"0"}))]}:current);}}><option value="">Select a saved colour…</option>{options.colors.map(c=><option key={c.name}>{c.name}</option>)}</select><small>Adds missing sizes with zero stock. Upload matching images and enter stock before publishing. Custom colours can be saved in Categories & colours.</small></label>
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Colours, designs & stock</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{productOrderMode(form.details)==="preorder"?"Colours, sizes & preorder capacity":"Colours, designs & stock"}</p>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">Each row is one sellable colour/design and size variation. Stock is tracked independently.</p>
             </div>
             <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, variants: [...current.variants, { sku: "", size: "M", color: "", colorHex: "#101112", stock: "0" }] } : current)} className="h-9 shrink-0 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground">
@@ -795,7 +797,7 @@ function ProductEditor({
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor={`stock-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Stock</Label>
+                  <Label htmlFor={`stock-${index}`} className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{productOrderMode(form.details)==="preorder"?"Preorder capacity":"Stock"}</Label>
                   <Input id={`stock-${index}`} type="number" min="0" max="100000" value={variant.stock} onChange={(event) => updateVariant(index, { stock: event.target.value })} className="mt-2 h-11 rounded-xl border-border bg-muted text-foreground" />
                 </div>
                 <Button type="button" variant="ghost" onClick={() => removeVariant(index)} className="size-9 rounded-full p-0 text-muted-foreground hover:bg-red-200/10 hover:text-red-100" aria-label={`Remove variation ${index + 1}`}>

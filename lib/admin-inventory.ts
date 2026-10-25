@@ -1,5 +1,6 @@
 export type InventoryRow = {
   id: string; productId: string; productName: string; sku: string; color: string; size: string;
+  fulfilmentMode?: 'in_stock'|'preorder';
   stock: number; reserved: number; available: number; active: number; productStatus: string; priceKobo: number;
 };
 export type StockFilter = 'available' | 'low' | 'out' | 'archived' | 'all';
@@ -17,7 +18,7 @@ export function parseStock(value: string): number | null {
 }
 export function stockTotals(rows: InventoryRow[], threshold=3) {
   const live = rows.filter(isSellable);
-  return { onHand: live.reduce((n,r)=>n+r.stock,0), reserved: live.reduce((n,r)=>n+r.reserved,0), available: live.reduce((n,r)=>n+r.available,0), low: live.filter(r=>matchesStockFilter(r,'low',threshold)).length, out: live.filter(r=>matchesStockFilter(r,'out')).length };
+  return { onHand: live.filter(r=>r.fulfilmentMode!=='preorder').reduce((n,r)=>n+r.stock,0), reserved: live.reduce((n,r)=>n+r.reserved,0), available: live.reduce((n,r)=>n+r.available,0), low: live.filter(r=>matchesStockFilter(r,'low',threshold)).length, out: live.filter(r=>matchesStockFilter(r,'out')).length };
 }
 
 export function stockEntryTotal(current:number,entry:string,mode:'receive'|'count'):number|null {

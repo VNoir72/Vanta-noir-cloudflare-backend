@@ -4771,3 +4771,40 @@ html[data-vn-admin-theme=dark] .vn-concept .vn-control-sidebar nav button[aria-c
 html[data-vn-admin-theme=dark] .vn-concept :is(.vn-glass,.vn-exact-metrics>article,.vn-control-sidebar) {
  background:var(--admin-panel-reflection),var(--admin-panel);
 }
+
+/* Insights must not inherit the obsolete named grid areas from the old overview. */
+.vn-control-center.vn-exact .vn-extended-grid {
+ grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:none;
+ grid-auto-rows:auto;align-items:start;gap:14px;
+}
+.vn-control-center.vn-exact .vn-extended-grid>* {
+ grid-area:auto;grid-column:auto;grid-row:auto;min-width:0;align-self:start;
+}
+.vn-control-center.vn-exact .vn-extended-grid .vn-ref-card {
+ min-height:0;height:auto;padding:14px;margin:0;
+}
+.vn-control-center.vn-exact .vn-extended-grid .vn-ref-card-head {margin-bottom:8px;gap:10px;flex-wrap:wrap}
+.vn-control-center.vn-exact .vn-extended-grid h2 {font-size:15px}
+.vn-control-center.vn-exact .vn-extended-grid .vn-best-row {
+ grid-template-columns:44px minmax(0,1fr) auto;gap:10px;padding:10px 0;min-height:64px;
+}
+.vn-control-center.vn-exact .vn-extended-grid .vn-best-row img {width:44px;height:52px}
+.vn-control-center.vn-exact .vn-extended-grid .vn-best-row h3 {font-size:12px;line-height:1.4}
+.vn-control-center.vn-exact .vn-extended-grid .vn-best-row strong {font-size:12px;grid-column:auto;margin:0}
+.vn-control-center.vn-exact .vn-extended-grid .vn-ref-footnote {margin-top:10px;padding-top:8px;font-size:11px}
+.vn-control-center.vn-exact .vn-extended-grid .vn-attention-row {padding:12px 0;min-height:64px;gap:10px}
+.vn-control-center.vn-exact .vn-extended-grid .vn-attention-row strong {font-size:12px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metrics article {
+ min-height:86px;padding:10px!important;gap:8px;
+}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metrics strong {font-size:23px;line-height:1.2;margin-top:4px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metric-title {margin-bottom:4px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-metrics p {margin-top:4px;font-size:10px;line-height:1.35}
+.vn-control-center.vn-exact.vn-concept .vn-metric-icon {width:26px;height:26px;top:10px;right:10px}
+.vn-control-center.vn-exact.vn-concept .vn-exact-chart {height:170px;min-height:0}
+.vn-preorder-setup {border:1px solid var(--admin-border);border-radius:10px;background:var(--admin-panel);padding:14px;display:grid;gap:10px}
+.vn-preorder-setup h4 {font-size:15px;margin:0}
+.vn-preorder-setup label {display:grid;gap:6px;font-size:13px}
+.vn-preorder-setup :is(input,select) {min-height:44px;width:100%;padding:10px;border:1px solid var(--admin-border);border-radius:8px;background:var(--admin-surface);color:var(--admin-text)}
+.vn-preorder-setup :is(p,small) {font-size:12px;line-height:1.5;color:var(--admin-muted)}
+@media(max-width:760px){.vn-control-center.vn-exact .vn-extended-grid {grid-template-columns:minmax(0,1fr)}}

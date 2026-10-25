@@ -15,3 +15,8 @@ test('receiving adds a delivery while correcting replaces the count; invalid inp
  for(const v of ['','-1','1.5','100001'])assert.equal(stockEntryTotal(3,v,'receive'),null);
  assert.equal(stockEntryTotal(99999,'2','receive'),null);
 });
+
+test('preorder booking capacity is excluded from physical on-hand totals',()=>{
+ const totals=stockTotals([row(8,{reserved:3,available:5}),row(20,{fulfilmentMode:'preorder',reserved:2,available:18})]);
+ assert.equal(totals.onHand,8);assert.equal(totals.reserved,5);assert.equal(totals.available,23);
+});

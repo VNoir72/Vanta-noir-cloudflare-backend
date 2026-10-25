@@ -1219,7 +1219,8 @@ export async function listInventory(variantId?: string) {
       `SELECT v.id, v.product_id AS productId, v.sku, p.name AS productName,
               v.size, v.color, v.stock, v.active,
               COALESCE(r.reserved,0) AS reserved, MAX(0,v.stock-COALESCE(r.reserved,0)) AS available,
-              p.price_kobo AS priceKobo, p.status AS productStatus
+              p.price_kobo AS priceKobo, p.status AS productStatus,
+              CASE WHEN json_extract(p.details_json, '$.availability')='preorder' OR json_extract(p.details_json, '$.orderMode')='preorder' THEN 'preorder' ELSE 'in_stock' END AS fulfilmentMode
        FROM product_variants v JOIN products p ON p.id = v.product_id
        LEFT JOIN (SELECT variant_id,SUM(quantity) AS reserved FROM stock_reservations WHERE expires_at>CURRENT_TIMESTAMP GROUP BY variant_id) r ON r.variant_id=v.id
        ${variantId ? "WHERE v.id = ?" : ""}

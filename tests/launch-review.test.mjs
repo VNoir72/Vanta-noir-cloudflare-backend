@@ -37,7 +37,7 @@ test('owner certification is separate from launch; stale stock and missing speci
  const request=(method,body,role='owner')=>mf.dispatchFetch('https://test.invalid/api/admin/launch-review?id=p',{method,headers:{'x-role':role,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
  assert.equal((await request('GET',null,'staff')).status,403);
  let review=await request('GET').then(r=>r.json());const checks=Object.fromEntries(Object.keys(LAUNCH_CHECKS).map(k=>[k,true]));
- const action=(name,revision=review.revision)=>request('POST',{productId:'p',revision,mode:'in_stock',action:name,checks});
+ const action=(name,revision=review.revision,mode='in_stock')=>request('POST',{productId:'p',revision,mode,action:name,checks});
  assert.equal((await action('certify')).status,400);
  // Use the real schema default guide shape; no fabrication is written to the live database.
  const guide={status:'confirmed',sections:[{kind:'top',title:'Tee',rows:[{size:'M',chest:55,length:72}]}],notes:''};
@@ -56,6 +56,11 @@ test('owner certification is separate from launch; stale stock and missing speci
  const live=await db.prepare("SELECT * FROM products WHERE id='p'").first();assert.equal(live.status,'published');assert.equal(JSON.parse(live.details_json).priceStatus,'approved');assert.equal(JSON.parse(live.details_json).stitching,details.stitching);
  assert.equal((await db.prepare("SELECT stock FROM product_variants WHERE id='v'").first()).stock,3);
  assert.equal((await action('launch')).status,409,'Cannot reuse an old certification');
+ await db.prepare("UPDATE products SET status='draft',details_json=? WHERE id='p'").bind(JSON.stringify({...details,orderMode:'preorder'})).run();
+ review=await request('GET').then(r=>r.json());assert.equal((await action('certify',review.revision,'preorder')).status,400,'Preorders require a dispatch promise');
+ await db.prepare("UPDATE products SET details_json=json_set(details_json,'$.dispatchNote','Dispatch 21 days after orders close.') WHERE id='p'").run();
+ review=await request('GET').then(r=>r.json());assert.equal((await action('certify',review.revision,'preorder')).status,200);assert.equal((await action('launch',review.revision,'preorder')).status,200);
+ const preorder=await db.prepare("SELECT details_json FROM products WHERE id='p'").first();assert.equal(JSON.parse(preorder.details_json).availability,'preorder');assert.equal(JSON.parse(preorder.details_json).orderMode,'preorder');assert.equal((await db.prepare("SELECT stock FROM product_variants WHERE id='v'").first()).stock,3,'Launching does not manufacture stock or add capacity');
  }finally{await mf.dispose();}
 });
 
