@@ -1,0 +1,29 @@
+{
+  "status": "published",
+  "sourceCommit": "c8ffdfd2d589d019a2d665c32c4f34e10f936d18",
+  "branch": "fix/build32-you-preorder-2026-10-25",
+  "platform": "android",
+  "channel": "production",
+  "updateBranch": "production",
+  "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
+  "updateGroup": "efc73ed4-34f5-4164-9c96-e853b3184355",
+  "workflowRun": "01a1713a-135c-7965-8d44-2404d07c11e1",
+  "workflowStatus": "Succeeded",
+  "workflowDuration": "1m 54s",
+  "updateUrl": "https://expo.dev/accounts/vanta-noir/projects/vanta/updates/efc73ed4-34f5-4164-9c96-e853b3184355",
+  "validation": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "testsPassed": 41,
+    "testsFailed": 0,
+    "localAndroidExport": "passed",
+    "cloudRuntimeGuard": "passed",
+    "browserPreview": "actual YouPage rendered with RN Web and dummy services; 390px light, 320px dark/error, empty state, profile/review/retry callbacks",
+    "physicalDevice": "not tested; install on the user device not independently verified"
+  },
+  "cleanup": {
+    "productionDummyDataCreated": false,
+    "temporaryPreviewRemoved": true
+  },
+  "activation": "Existing quiet background updater downloads while online and applies at the next normal launch."
+}
