@@ -1,0 +1,8 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),ts=require('typescript');
+const exportsObject={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/account-navigation.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:exportsObject});
+const {initialAccountPanel,openAccountPanel,previousAccountPanel}=exportsObject;
+test('profile and other shortcuts return directly to You, without inserting Settings',()=>{for(const panel of ['Profile','Shipping address','Vanta Circle','Email subscriptions'])assert.equal(previousAccountPanel([panel]),null);});
+test('security can edit a profile and return to the screen that opened it',()=>{let history=['Settings'];history=openAccountPanel(history,'Account security');history=openAccountPanel(history,'Profile');history=previousAccountPanel(history);assert.equal(history.at(-1),'Account security');history=previousAccountPanel(history);assert.equal(history.at(-1),'Settings');assert.equal(previousAccountPanel(history),null);});
+test('opening the current panel cannot produce Settings inside Settings',()=>{const history=['Settings'];assert.equal(openAccountPanel(history,'Settings'),history);assert.equal(history.length,1);});
+
+test('legacy nested settings links open the simplified settings page instead of a blank screen',()=>{for(const panel of [undefined,'General settings','Privacy & diagnostics','App image quality','Notification settings','missing'])assert.equal(initialAccountPanel(panel),'Settings');assert.equal(initialAccountPanel('Profile'),'Profile');});

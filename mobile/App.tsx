@@ -491,7 +491,7 @@ function Main() {
         setLeaveCheckout(true);
         return true;
       }
-      if (screen === "Settings") {setScreen("Account");return true;}
+      if (screen === "Settings") return false; // The account detail handles its own back stack.
       if (screen !== "Shop") {
         setScreen("Shop");
         return true;

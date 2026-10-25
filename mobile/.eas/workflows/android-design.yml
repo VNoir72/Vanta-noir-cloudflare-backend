@@ -17,7 +17,7 @@ jobs:
     params:
       platform: android
       channel: ${{ inputs.channel }}
-      message: Organised You page, reliable account recovery and preorder dispatch details; build 32
+      message: Restore familiar You layout, direct profile navigation and simpler settings; build 32
     hooks:
       before_update:
         - name: Verify build 32 runtime compatibility
