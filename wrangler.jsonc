@@ -12,7 +12,10 @@
     "run_worker_first": [
       "/api/*",
       "/admin",
-      "/admin/*"
+      "/admin/*",
+      "/admin-login",
+      "/admin-logout",
+      "/admin-access-retired"
     ]
   },
   "d1_databases": [

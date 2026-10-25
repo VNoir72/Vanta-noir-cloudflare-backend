@@ -34,6 +34,7 @@ type RuntimeEnvironment = {
   STOREFRONT_URL?: string;
   ALLOWED_ORIGINS?: string;
   AUTH_PROVIDER?: string;
+  ADMIN_PASSWORD_LOGIN_ENABLED?: string;
   CF_ACCESS_TEAM_DOMAIN?: string;
   CF_ACCESS_AUD?: string;
   RESEND_API_KEY?: string;

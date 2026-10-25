@@ -1,4 +1,5 @@
 import {observeAdminSignIn} from './admin-sign-in';
+import {adminPasswordEnabled,adminPasswordIdentity} from './admin-password-session';
 import {staffRole} from "./staff-role";
 import { runtimeEnv } from "@/lib/runtime-env";
 import { createRemoteJWKSet, jwtVerify } from "jose";
@@ -11,7 +12,12 @@ export async function adminAuthStateFromRequest(request: Request) {
   if (!runtimeEnv().ADMIN_EMAIL?.trim()) {
     return { ok: false as const, status: 503, error: "Admin access has not been configured." };
   }
-  if (runtimeEnv().AUTH_PROVIDER === "cloudflare-access") {
+  if (adminPasswordEnabled()) {
+    if(!['GET','HEAD','OPTIONS'].includes(request.method)&&request.headers.get('origin')!==new URL(request.url).origin)return {ok:false as const,status:403,error:'Open the admin dashboard to make this change.'};
+    try { email=(await adminPasswordIdentity(request))?.email||null; }
+    catch { return {ok:false as const,status:503,error:'Admin authorization is temporarily unavailable.'}; }
+    if(!email)return {ok:false as const,status:401,error:'Sign in with your admin email and password.'};
+  } else if (runtimeEnv().AUTH_PROVIDER === "cloudflare-access") {
     try {
       const team = new URL(runtimeEnv().CF_ACCESS_TEAM_DOMAIN ?? "");
       const audience = runtimeEnv().CF_ACCESS_AUD?.trim();

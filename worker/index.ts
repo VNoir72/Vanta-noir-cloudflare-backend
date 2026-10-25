@@ -1,4 +1,6 @@
 import {cleanupAdminSignIns} from '../lib/admin-sign-in';
+import {adminPasswordEnabled,adminPasswordEndpoint,cleanupAdminPasswordSessions} from '../lib/admin-password-session';
+import {adminLoginPage} from '../lib/admin-login-page';
 import {trackingPageResponse} from '../lib/tracking-page';
 import {retryIdentityDeletions} from '../lib/customer-deletion';
 import { adminAuthStateFromRequest } from '../lib/admin-auth';
@@ -39,9 +41,11 @@ interface ExecutionContext {
 }
 
 const worker = {
-  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await cleanupAdminSignIns().catch(()=>{console.error("Sign-in retention unavailable");}); await retryIdentityDeletions().catch(()=>{console.error("Account cleanup retry unavailable");}); await cleanupGrowth().catch(()=>{}); await runAutomations().catch(()=>{console.error("Automation cycle unavailable");}); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await monitorShipbubbleWallet().catch(()=>{}); })()); },
+  async scheduled(_event: unknown, _env: Env, ctx: ExecutionContext) { ctx.waitUntil((async()=>{ await cleanupAdminPasswordSessions().catch(()=>{console.error("Admin session cleanup unavailable");}); await cleanupAdminSignIns().catch(()=>{console.error("Sign-in retention unavailable");}); await retryIdentityDeletions().catch(()=>{console.error("Account cleanup retry unavailable");}); await cleanupGrowth().catch(()=>{}); await runAutomations().catch(()=>{console.error("Automation cycle unavailable");}); await checkMemberAlerts().catch(()=>{}); await sendOrderPushUpdates().catch(()=>{}); await runCommerceMaintenance().catch(()=>{}); await runShipbubbleLiveCheck().catch(()=>{}); await monitorShipbubbleWallet().catch(()=>{}); })()); },
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    if(url.pathname==='/admin-access-retired')return new Response('This sign-in method has been replaced. Open /admin-login.',{status:410});
+    if(adminPasswordEnabled()&&['/admin-login','/admin-logout'].includes(url.pathname)&&request.method==='GET')return secureResponse(adminLoginPage(url.pathname==='/admin-logout'),request,env);
     if (url.pathname === "/health" && request.method === "GET") return Response.json({ok:true,service:"vanta-noir-api",version:"0.3.4"});
     const denied = checkApiRequest(request, env);
     if (denied) return secureResponse(denied, request, env);
@@ -62,6 +66,7 @@ const worker = {
     if(url.pathname==='/api/checkout' && request.method==='POST' && !await rateLimit(request,'checkout-body',20,600))return secureResponse(Response.json({error:'Please wait before starting another checkout.'},{status:429}),request,env);
     try{const bounded=await boundedApiRequest(request);if(bounded instanceof Response)return secureResponse(bounded,request,env);request=bounded;}
     catch{return secureResponse(Response.json({error:'Unable to read request.'},{status:400}),request,env);}
+    if(url.pathname.startsWith('/api/admin-auth/'))return secureResponse(await adminPasswordEndpoint(request),request,env);
     if (['/api/tracking/page','/api/tracking/client.js'].includes(url.pathname)&&['GET','HEAD'].includes(request.method)) return secureResponse(trackingPageResponse(url.pathname),request,env);
     if (url.pathname.startsWith("/api/customer/")) return secureResponse(await customerApp(request),request,env);
     if (url.pathname === "/api/shipbubble/webhook") return secureResponse(await shipbubbleWebhook(request),request,env);

@@ -1,4 +1,6 @@
 import {AdminSignInDevice} from './sign-in-device';
+import {redirect} from 'next/navigation';
+import {adminPasswordEnabled} from '@/lib/admin-password-session';
 import {StaffChat} from "./staff-chat";
 import {SupportDashboard} from "./support-dashboard";
 import {ga4ErrorMessage} from '@/lib/ga4-errors';
@@ -31,7 +33,11 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{ga
   const requestHeaders = await headers();
   const access = await adminAuthStateFromRequest(new Request("https://api.vantanoir.store/admin", { headers: requestHeaders }));
   const user = { email: access.ok ? access.email : "", displayName: access.ok ? access.email : "Administrator" };
-  const signOutPath = "/cdn-cgi/access/logout";
+  if(!access.ok&&adminPasswordEnabled()) {
+    if(access.status===503)throw new Error('Admin authorization is temporarily unavailable.');
+    redirect('/admin-login');
+  }
+  const signOutPath = adminPasswordEnabled()?'/admin-logout':"/cdn-cgi/access/logout";
   const configuredEmail = runtimeEnv().ADMIN_EMAIL?.trim();
 
   const role = access.ok ? access.role : null;

@@ -15,7 +15,7 @@ async function observationContext(request:Request,email:string){const device=awa
 export async function registerAdminBrowser(request:Request,email:string,role:string){
  const existing=await deviceFromRequest(request,email);if(existing){await put('admin-browser:'+existing.id,{...existing,lastSeen:new Date().toISOString()});return null;}
  const token=random(),key=await signInDigest(token),now=new Date().toISOString();await put('admin-browser:'+key,{id:key,email:email.toLowerCase(),label:adminBrowserLabel(request),firstSeen:now,lastSeen:now,trustedUntil:null} satisfies Device);
- const assertion=request.headers.get('cf-access-jwt-assertion');
+ const assertion=runtimeEnv().ADMIN_PASSWORD_LOGIN_ENABLED==='true'?null:request.headers.get('cf-access-jwt-assertion');
  if(assertion){const context=await observationContext(request,email),old=await meta<ObservationCache>('admin-token-observed:'+await signInDigest(assertion+':'+context.key));
   if(old){const session=await meta<Session>('admin-signin:'+old.sessionId);if(session&&!session.deviceId){await dbBindBrowser(old,key,assertion);}}
   const headers=new Headers(request.headers),cookies=(headers.get('cookie')||'').split(';').filter(v=>!v.trim().startsWith(cookieName+'='));cookies.push(cookieName+'='+token);headers.set('cookie',cookies.join(';'));await observeAdminSignIn(new Request(request.url,{headers}),{email,role},assertion);
@@ -37,10 +37,11 @@ async function identityLogin(token:string){
  return z.object({email:z.string().email(),iat:z.number().int().positive().max(Math.floor(Date.now()/1000)+60),ip:z.string().max(100).optional()}).parse(JSON.parse(new TextDecoder().decode(bytes)));
 }
 // Called only after JWT signature/issuer/audience/expiry and current staff role are verified.
-export async function observeAdminSignIn(request:Request,auth:{email:string;role:string},token:string){
+export async function observeAdminSignIn(request:Request,auth:{email:string;role:string},token:string,passwordAuthenticatedAt?:number){
  const db=getDbBinding(),context=await observationContext(request,auth.email),tokenId=await signInDigest(token+':'+context.key),cached=await meta<ObservationCache>('admin-token-observed:'+tokenId);if(cached&&cached.expiresAt>Date.now())return;
  let sessionId=tokenId,identityKey=await signInDigest(token),loginAt:string|null=null;
- try{const identity=await identityLogin(token);if(identity.email.toLowerCase()===auth.email.toLowerCase()){loginAt=new Date(identity.iat*1000).toISOString();identityKey=await signInDigest(auth.email.toLowerCase()+':'+identity.iat+':'+(identity.ip||'')+':'+adminBrowserLabel(request));}}catch{/* Fall back to the verified app session when identity metadata is unavailable. */}
+ if(passwordAuthenticatedAt)loginAt=new Date(passwordAuthenticatedAt).toISOString();
+ else try{const identity=await identityLogin(token);if(identity.email.toLowerCase()===auth.email.toLowerCase()){loginAt=new Date(identity.iat*1000).toISOString();identityKey=await signInDigest(auth.email.toLowerCase()+':'+identity.iat+':'+(identity.ip||'')+':'+adminBrowserLabel(request));}}catch{/* Fall back to the verified app session when identity metadata is unavailable. */}
  const identityAlias='admin-identity-session:'+await signInDigest(identityKey+':'+context.key),alias=await meta<{sessionId:string;expiresAt:number}>(identityAlias);
  if(alias&&alias.expiresAt>Date.now())sessionId=alias.sessionId;else sessionId=await signInDigest(identityKey+':'+context.key);
  const key='admin-signin:'+sessionId;
@@ -50,7 +51,7 @@ export async function observeAdminSignIn(request:Request,auth:{email:string;role
   const raw=JSON.stringify(record);
   await db.batch([
    db.prepare('INSERT OR IGNORE INTO store_meta(key,value) VALUES(?,?)').bind(key,raw),
-   db.prepare(`INSERT OR IGNORE INTO email_outbox(id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)`).bind(crypto.randomUUID(),key,runtimeEnv().ADMIN_EMAIL!,(record.trusted?'Admin sign-in':'UNTRUSTED BROWSER · Admin sign-in')+' · Vanta Noir',`Admin access was observed for ${record.email} (${record.role}).\n\nBrowser: ${record.browser}\nTrust at sign-in: ${record.trusted?'Trusted browser':'Untrusted browser'}\nCountry: ${record.country}\nObserved: ${now} (UTC)\n${loginAt?'Identity sign-in: '+loginAt+' (UTC)\n':''}\nReview sign-ins and trusted browsers: https://api.vantanoir.store/api/admin/sign-in-security\n\nIf this was unexpected, review staff access and revoke the Access session in Cloudflare Zero Trust. This alert reports successful admin access; it does not automatically block the browser.`,key,raw),
+   db.prepare(`INSERT OR IGNORE INTO email_outbox(id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)`).bind(crypto.randomUUID(),key,runtimeEnv().ADMIN_EMAIL!,(record.trusted?'Admin sign-in':'UNTRUSTED BROWSER · Admin sign-in')+' · Vanta Noir',`Admin access was observed for ${record.email} (${record.role}).\n\nBrowser: ${record.browser}\nTrust at sign-in: ${record.trusted?'Trusted browser':'Untrusted browser'}\nCountry: ${record.country}\nObserved: ${now} (UTC)\n${loginAt?'Identity sign-in: '+loginAt+' (UTC)\n':''}\nReview sign-ins and trusted browsers: https://api.vantanoir.store/api/admin/sign-in-security\n\nIf this was unexpected, review staff access and reset the account password to revoke password sessions, or revoke the Access session in Cloudflare Zero Trust. This alert reports successful admin access; it does not automatically block the browser.`,key,raw),
    db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) SELECT ?,'admin sign-in',?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?) AND changes()>0").bind(auth.email,sessionId,JSON.stringify({browser:record.browser,country:record.country,trusted:record.trusted}),key,raw)
   ]);
  }
@@ -68,7 +69,7 @@ export async function adminSecurityAction(input:unknown,actor:string){
   const result=await db.batch([
    db.prepare("INSERT INTO store_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE json_extract(store_meta.value,'$.expiresAt')<=?").bind(pending,raw,Date.now()),
    db.prepare('INSERT INTO store_meta(key,value) SELECT ?,? WHERE changes()>0 AND EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(challengeKey,raw,pending,raw),
-   db.prepare('INSERT OR IGNORE INTO email_outbox(id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(crypto.randomUUID(),'admin-trust:'+hash,runtimeEnv().ADMIN_EMAIL!,'Confirm trusted admin browser · Vanta Noir',`You requested to trust this admin browser for 90 days.\n\nAccount: ${device.email}\nBrowser: ${device.label}\nFirst seen: ${device.firstSeen}\n\nOpen this link, review the browser, and press Confirm trust:\nhttps://api.vantanoir.store/api/admin/sign-in-security#approve=${token}\n\nThis link expires in 30 minutes. If you did not request this, do not approve it. Trust changes the sign-in alert label; Cloudflare Access still checks every login.`,challengeKey,raw)
+   db.prepare('INSERT OR IGNORE INTO email_outbox(id,event_key,recipient,subject,body) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM store_meta WHERE key=? AND value=?)').bind(crypto.randomUUID(),'admin-trust:'+hash,runtimeEnv().ADMIN_EMAIL!,'Confirm trusted admin browser · Vanta Noir',`You requested to trust this admin browser for 90 days.\n\nAccount: ${device.email}\nBrowser: ${device.label}\nFirst seen: ${device.firstSeen}\n\nOpen this link, review the browser, and press Confirm trust:\nhttps://api.vantanoir.store/api/admin/sign-in-security#approve=${token}\n\nThis link expires in 30 minutes. If you did not request this, do not approve it. Trust changes the sign-in alert label; Authentication and staff permissions are still checked on every visit.`,challengeKey,raw)
   ]);
   if(!result[0].meta.changes)return {message:'A confirmation was already sent to your owner email. It expires after 30 minutes.'};
   return {message:'Confirmation sent to your owner email. Open the link to approve this browser.'};
@@ -80,7 +81,7 @@ export async function adminSecurityAction(input:unknown,actor:string){
  }
  if(v.action==='remove-trust'){
   await db.batch([db.prepare("UPDATE store_meta SET value=json_set(value,'$.trustedUntil',NULL) WHERE key=?").bind('admin-browser:'+v.deviceId),db.prepare("DELETE FROM store_meta WHERE key LIKE 'admin-trust-challenge:%' AND json_extract(value,'$.deviceId')=?").bind(v.deviceId),db.prepare('DELETE FROM store_meta WHERE key=?').bind('admin-trust-pending:'+v.deviceId),db.prepare("INSERT INTO admin_audit(actor,action,entity,detail) VALUES(?,'remove admin browser trust',?,'Future sign-ins will be flagged as untrusted')").bind(actor,v.deviceId)]);
-  return {message:'Browser trust removed. This does not sign out an existing Access session.'};
+  return {message:'Browser trust removed. This does not sign out an existing admin session.'};
  }
  await db.prepare("UPDATE store_meta SET value=json_set(value,'$.reviewedAt',?) WHERE key=?").bind(new Date().toISOString(),'admin-signin:'+v.sessionId).run();return {message:'Sign-in marked reviewed.'};
 }
