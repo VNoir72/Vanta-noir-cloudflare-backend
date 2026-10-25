@@ -1,0 +1,75 @@
+{
+  "sourceCommit": "73452ed610f828fd7f98bf1e5fb04dc9c6010a44",
+  "backendVersion": "e009a9ab-54e7-41c9-9ae1-2ccb2f47f21c",
+  "backendDeployment": "adba8841-3339-48a6-9bac-efb4f8781a64",
+  "storefrontVersion": "0b5e26fe-f752-46f3-95c8-d6491ff94fad",
+  "storefrontDeployment": "f4494066-6bc3-4002-b5c9-b022a04fbd3e",
+  "tests": {
+    "passed": 310,
+    "skipped": 1,
+    "failed": 0
+  },
+  "liveChecks": [
+    {
+      "url": "https://vantanoir.store/health",
+      "status": "200",
+      "bytes": 94,
+      "health": {
+        "ok": true,
+        "mode": "production-storefront",
+        "source": "73452ed610f828fd7f98bf1e5fb04dc9c6010a44"
+      }
+    },
+    {
+      "url": "https://vantanoir.store/account",
+      "status": "200",
+      "bytes": 18335,
+      "scripts": [
+        "/store-config.js",
+        "/assets/entry-CTn0Qixi.js"
+      ],
+      "exactDeployedBundle": true,
+      "containsAccountDesign": true
+    },
+    {
+      "url": "https://vantanoir.store/checkout",
+      "status": "200",
+      "bytes": 18714
+    },
+    {
+      "url": "https://vantanoir.store/",
+      "status": "200",
+      "bytes": 22317,
+      "earlyCatalogScript": true
+    },
+    {
+      "url": "https://vantanoir.store/catalog-bootstrap.js",
+      "status": "200",
+      "bytes": 735
+    },
+    {
+      "url": "https://api.vantanoir.store/api/catalog",
+      "status": "200",
+      "bytes": 138115,
+      "products": 16,
+      "checkoutReady": true
+    },
+    {
+      "url": "https://api.vantanoir.store/api/customer/auth-methods",
+      "status": "200",
+      "bytes": 45
+    },
+    {
+      "url": "https://api.vantanoir.store/admin",
+      "status": "302",
+      "bytes": 136
+    },
+    {
+      "url": "https://api.vantanoir.store/api/admin/orders",
+      "status": "302",
+      "bytes": 136
+    }
+  ],
+  "testData": "Disposable Miniflare databases, no production dummy records",
+  "releaseStaging": "Private temporary bucket deleted after deployment"
+}
