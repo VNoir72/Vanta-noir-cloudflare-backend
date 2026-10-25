@@ -1,0 +1,33 @@
+{
+  "status": "published",
+  "sourceCommit": "3c17477fd4cf7217aeac70c824b867fc2eff3bba",
+  "channel": "production",
+  "platform": "android",
+  "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
+  "updateGroup": "fdf4e9ac-67ad-4ccc-9f4c-99a3f7c99ffa",
+  "workflowRun": "01a17148-bb02-72d4-8ebe-2051ce319efa",
+  "workflowStatus": "Succeeded",
+  "workflowDuration": "1m 51s",
+  "updateUrl": "https://expo.dev/accounts/vanta-noir/projects/vanta/updates/fdf4e9ac-67ad-4ccc-9f4c-99a3f7c99ffa",
+  "validation": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "testsPassed": 45,
+    "testsFailed": 0,
+    "cloudAndroidExport": "passed",
+    "runtimeGuard": "passed",
+    "physicalDevice": "Not tested; device download/application not independently verified"
+  },
+  "result": [
+    "Former compact You layout restored",
+    "Country flag and notification bell in their original top-row positions",
+    "Profile opens directly and returns to You",
+    "Nested General settings and repeated menu entries removed",
+    "Media and privacy controls directly accessible",
+    "Recent account recovery and preorder fixes preserved"
+  ],
+  "cleanup": {
+    "productionDummyDataCreated": false,
+    "localPreviewRemoved": true
+  }
+}
