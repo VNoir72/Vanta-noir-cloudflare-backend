@@ -1,6 +1,8 @@
+import { oneClickUnsubscribe } from '@/lib/one-click-unsubscribe';
 import { z } from "zod";
 import { emailReady, rateLimit, subscribe, subscriptionSchema, unsubscribe, confirmSubscription } from "@/lib/commerce-db";
 export async function POST(request: Request) {
+  const oneClick=await oneClickUnsubscribe(request,unsubscribe,rateLimit);if(oneClick)return oneClick;
   const body=await request.json().catch(()=>null);
   const preference=z.object({action:z.enum(["unsubscribe","confirm"]),token:z.string().min(50).max(100)}).safeParse(body);
   if(preference.success){

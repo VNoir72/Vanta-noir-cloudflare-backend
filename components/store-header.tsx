@@ -9,7 +9,7 @@ import {Sheet,SheetContent,SheetTitle,SheetDescription} from '@/components/ui/sh
 const links=[['Home','/'],['About','/about'],['Contact','/contact'],['Privacy Policy','/privacy-policy'],['Account','/account']] as const;
 export function StoreHeader({query,onQuery,onSearch,savedCount=0,bagCount=0,onSaved,onBag}:{dark?:boolean;query:string;onQuery:(value:string)=>void;onSearch:()=>void;savedCount?:number;bagCount?:number;onSaved:()=>void;onBag:()=>void}){
  const settings=useStoreSettings();
- useEffect(()=>{const root=document.documentElement;root.style.setProperty('--vn-brand-lime',settings.brandAccent.storefront);root.style.setProperty('--vn-brand-on-accent',accentInk(settings.brandAccent.storefront));return()=>{root.style.removeProperty('--vn-brand-lime');root.style.removeProperty('--vn-brand-on-accent');};},[settings.brandAccent.storefront]);
+ useEffect(()=>{if(!settings.loaded)return;const root=document.documentElement;root.style.setProperty('--vn-brand-lime',settings.brandAccent.storefront);root.style.setProperty('--vn-brand-on-accent',accentInk(settings.brandAccent.storefront));},[settings.brandAccent.storefront,settings.loaded]);
  const [menuOpen,setMenuOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false);
  const inputRef=useRef<HTMLInputElement>(null),toggleRef=useRef<HTMLButtonElement>(null);
  useEffect(()=>{const media=matchMedia('(min-width: 768px) and (min-height: 501px), (min-width: 768px) and (pointer: fine)');const closeOnWide=()=>{if(media.matches)setMenuOpen(false);};media.addEventListener('change',closeOnWide);return()=>media.removeEventListener('change',closeOnWide);},[]);

@@ -232,7 +232,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const categoryLabel = options.categories.find(c=>c.id===category)?.name ?? category;
   const filteredState = useMemo(() => {
     const candidates = entries.filter(e => {
-      return (category!=="All" || query.trim() || savedOnly || bestSellerUnits(e.product,merchandising)===0) && catalogSearchScore(e.product, e.color, query) > 0
+      return catalogSearchScore(e.product, e.color, query) > 0
         && matchesCategory(products.find(p=>p.id===(e.color.sourceProductId??e.product.id))??e.product, category)
         && matchesAudience(e.product,audienceFilter)
         && matchesCollection(e.product)

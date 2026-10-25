@@ -1,7 +1,6 @@
 name: Isolated website and security verification
 on:
   pull_request:
-    branches: [vanta-update-30, codex/dual-shipping-rates]
   workflow_dispatch:
 permissions:
   contents: read

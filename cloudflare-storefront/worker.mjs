@@ -1,14 +1,21 @@
 import {authActionHtml,authActionScript} from './auth-action.mjs';
 // Production storefront adapter. Business APIs remain at api.vantanoir.store.
 const escape = value => String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;');
-function protect(response) {
+function protect(response, request) {
   const r = new Response(response.body, response);
   // Production pages preserve their own indexing policy.
   r.headers.set('X-Content-Type-Options','nosniff');
   r.headers.set('Strict-Transport-Security','max-age=31536000');
   r.headers.set('X-Frame-Options','DENY');
   r.headers.set('Referrer-Policy',response.headers.get('Referrer-Policy')||'strict-origin-when-cross-origin');
-  r.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; media-src 'self' https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.vantanoir.store https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://auth.vantanoir.store https://vanta-noir.firebaseapp.com; frame-src https://auth.vantanoir.store https://vanta-noir.firebaseapp.com https://accounts.google.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.vantanoir.store https://checkout.paystack.com");
+  let policy = "default-src 'self'; script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; media-src 'self' https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api.vantanoir.store https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://auth.vantanoir.store https://vanta-noir.firebaseapp.com; frame-src https://auth.vantanoir.store https://vanta-noir.firebaseapp.com https://accounts.google.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.vantanoir.store https://checkout.paystack.com";
+  // Paystack Popup is required only during checkout. Keep other pages restricted.
+  if (/^\/checkout(?:\/|$)/.test(new URL(request.url).pathname)) {
+    policy = policy.replace("script-src 'self'", "script-src 'self' https://js.paystack.co")
+      .replace("connect-src 'self'", "connect-src 'self' https://api.paystack.co https://checkout.paystack.com")
+      .replace("frame-src ", "frame-src https://checkout.paystack.com ");
+  }
+  r.headers.set('Content-Security-Policy', policy);
   r.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
   r.headers.set('Cache-Control','no-store');
   r.headers.delete('set-cookie');
@@ -31,8 +38,23 @@ async function asset(env, request, path) {
   const u=new URL(request.url);u.pathname=path;u.search='';
   return env.ASSETS.fetch(new Request(u,{method:'GET'}));
 }
-async function htmlPreview(response) {
-  const html=await boundedText(response,1500000);
+async function htmlPreview(response, env) {
+  let html=await boundedText(response,1500000);
+  // Set the saved accent before first paint. Never forward credentials or embed private settings.
+  try {
+    const live=await env.PUBLIC_API.fetch(new Request('https://api.vantanoir.store/api/store-settings',{headers:{Accept:'application/json'},redirect:'manual',signal:AbortSignal.timeout(3000)}));
+    if(live.ok){
+      const settings=JSON.parse(await boundedText(live,200000));
+      const accent=settings.brandAccent?.storefront;
+      if(typeof accent==='string'&&/^#[a-f0-9]{6}$/i.test(accent)){
+        const rgb=accent.slice(1).match(/../g).map(v=>{const c=parseInt(v,16)/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;});
+        const l=.2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+        const ink=(l+.05)/.0567>=1.05/(l+.05)?'#101510':'#ffffff';
+        html=html.replace('</head>','<style id="vn-saved-accent">:root{--vn-brand-lime:'+accent+';--vn-brand-on-accent:'+ink+'}</style></head>');
+      }
+      html=html.replace('</head>','<script type="application/json" id="vn-public-settings">'+JSON.stringify(settings).replaceAll('<','\\u003c')+'</script></head>');
+    }
+  } catch { /* Render neutral loading states and let the client retry. */ }
   return new Response(html,{status:response.status,headers:{'Content-Type':'text/html; charset=utf-8'}});
 }
 async function route(request, env) {
@@ -79,7 +101,7 @@ async function route(request, env) {
     const image=typeof data.image==='string'?(data.image.startsWith('/')&&!data.image.startsWith('//')?'https://vantanoir.store'+data.image:data.image):'';
     html=html.replace(/<meta (?:name|property)="(description|og:title|og:description|og:image|twitter:title|twitter:description|twitter:image)" content="[^"]*">/g,(_,name)=>'<meta '+(name.startsWith('og:')?'property':'name')+'="'+name+'" content="'+escape(name.endsWith('image')?(/^https:\/\//.test(image)?image:''):name.endsWith('title')?data.title:data.description)+'">');
     if(data.structuredData&&typeof data.structuredData==='object')html=html.replace('</head>','<script type="application/ld+json">'+JSON.stringify(data.structuredData).replaceAll('<','\\u003c')+'</script></head>');
-    return htmlPreview(new Response(html,{headers:{'Content-Type':'text/html'}}));
+    return htmlPreview(new Response(html,{headers:{'Content-Type':'text/html'}}),env);
   }
   let path=p;
   const old=p.match(/^\/(account|about|contact|help-center|privacy-policy|privacy-choices|shipping-returns|terms-of-service|reviews|case-studies|email-preferences|checkout(?:\/complete)?)(?:\.html|\/index\.html|\/)$/);
@@ -87,9 +109,9 @@ async function route(request, env) {
   if(p==='/')path='/index.html';else if(!p.split('/').at(-1).includes('.'))path=p+'.html';
   let response=await asset(env,request,path);
   if(response.status===404){const missing=await asset(env,request,'/404.html');response=new Response(missing.body,{status:404,headers:missing.headers});}
-  return response.headers.get('Content-Type')?.includes('text/html')?htmlPreview(response):response;
+  return response.headers.get('Content-Type')?.includes('text/html')?htmlPreview(response,env):response;
 }
 export default {async fetch(request,env) {
-  try {const r=protect(await route(request,env));return request.method==='HEAD'?new Response(null,r):r;}
-  catch {return protect(new Response('Store temporarily unavailable. Please try again.',{status:503}));}
+  try {const r=protect(await route(request,env),request);return request.method==='HEAD'?new Response(null,r):r;}
+  catch {return protect(new Response('Store temporarily unavailable. Please try again.',{status:503}),request);}
 }};

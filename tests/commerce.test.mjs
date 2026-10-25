@@ -144,6 +144,13 @@ test('commerce: real product fields, delivery quotes, private care, verified rev
   await rpc('sql',"UPDATE email_outbox SET next_attempt_at=CURRENT_TIMESTAMP WHERE status='pending'");
   await rpc('processEmailOutbox',100);
   assert.equal(sent.filter(s=>s.body.subject.includes('is back')).length,1,'Eligible restock sends once after reopening');
+  const restockMail=sent.find(s=>s.body.subject.includes('is back'));
+  assert.equal(restockMail.body.headers['List-Unsubscribe-Post'],'List-Unsubscribe=One-Click');
+  const oneClickUrl=restockMail.body.headers['List-Unsubscribe'].slice(1,-1);
+  const oneClick=()=>mf.dispatchFetch(oneClickUrl,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'List-Unsubscribe=One-Click'});
+  assert.equal((await oneClick()).status,204);assert.equal((await oneClick()).status,204);
+  assert.equal((await rpc('sql','SELECT status FROM subscribers WHERE token=?',subscriber.token)).results[0].status,'unsubscribed');
+  assert.ok(sent.filter(s=>s.body.subject.includes('payment')).every(s=>!s.body.headers),'Receipts do not carry marketing unsubscribe headers');
   await rpc('queueEmail','retry-test','retry@example.com','Test retry','Test only');failEmail=true;await rpc('processEmailOutbox');const pending=(await rpc('sql',"SELECT * FROM email_outbox WHERE event_key='retry-test'")).results[0];assert.equal(pending.status,'pending');assert.equal(pending.attempts,1);
   await rpc('sql',"UPDATE email_outbox SET next_attempt_at=CURRENT_TIMESTAMP WHERE event_key='retry-test'");failEmail=false;
   await Promise.all([rpc('processEmailOutbox'),rpc('processEmailOutbox')]);assert.equal(sent.filter(s=>s.key===pending.id).length,1,'Concurrent workers claim one email');
