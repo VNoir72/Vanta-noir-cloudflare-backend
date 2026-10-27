@@ -11,15 +11,19 @@ const measurement = z.number().positive().max(400).nullable().optional();
 export const MEASUREMENTS = {
   chest: "Chest width", waist: "Waist width, relaxed", waistStretched: "Waist width, stretched",
   hip: "Hip width", shoulder: "Shoulder width", sleeve: "Sleeve length", length: "Length", inseam: "Inseam",
+  frontRise: "Front rise", backRise: "Back rise", rise: "Rise (see style notes)", thigh: "Thigh width", knee: "Knee width", legOpening: "Leg opening width",
+  armhole: "Armhole depth", bicep: "Bicep width", frontNeckDrop: "Front neck drop", hem: "Hem width", neckWidth: "Neck width", sleeveOpening: "Sleeve opening width", strapWidth: "Strap width",
 } as const;
 export type MeasurementKey = keyof typeof MEASUREMENTS;
 export const SECTION_FIELDS: Record<"top" | "bottom" | "onepiece", MeasurementKey[]> = {
-  top: ["chest", "length", "shoulder", "sleeve"],
-  bottom: ["waist", "waistStretched", "hip", "length", "inseam"],
-  onepiece: ["chest", "waist", "hip", "length", "sleeve", "inseam"],
+  top: ["chest", "length", "shoulder", "sleeve", "armhole", "bicep", "sleeveOpening", "hem", "neckWidth", "frontNeckDrop", "strapWidth"],
+  bottom: ["waist", "waistStretched", "hip", "length", "frontRise", "backRise", "rise", "thigh", "knee", "legOpening", "hem", "inseam"],
+  onepiece: ["chest", "waist", "hip", "length", "sleeve", "inseam", "armhole", "bicep", "sleeveOpening", "hem", "neckWidth", "frontNeckDrop", "strapWidth", "frontRise", "backRise", "thigh", "legOpening"],
 };
 const rowSchema = z.object({ size: storeSizeSchema, chest: measurement, waist: measurement, waistStretched: measurement,
-  hip: measurement, shoulder: measurement, sleeve: measurement, length: measurement, inseam: measurement });
+  hip: measurement, shoulder: measurement, sleeve: measurement, length: measurement, inseam: measurement,
+  frontRise: measurement, backRise: measurement, rise: measurement, thigh: measurement, knee: measurement, legOpening: measurement,
+  armhole: measurement, bicep: measurement, frontNeckDrop: measurement, hem: measurement, neckWidth: measurement, sleeveOpening: measurement, strapWidth: measurement });
 export const sizeGuideSchema = z.object({
   status: z.enum(["reference", "approved", "confirmed"]).default("reference"),
   notes: z.string().trim().max(1500).default(""),
@@ -29,7 +33,7 @@ export const sizeGuideSchema = z.object({
     rows: z.array(rowSchema).min(1).max(30),
   })).max(3),
 }).superRefine((guide, ctx) => {
-  if (new Set(guide.sections.map(s => s.kind)).size !== guide.sections.length) ctx.addIssue({ code: "custom", path: ["sections"], message: "Each garment section may appear only once." });
+  if (new Set(guide.sections.map(s => s.title.toLowerCase())).size !== guide.sections.length) ctx.addIssue({ code: "custom", path: ["sections"], message: "Give each garment component a different label." });
   if (guide.status === "confirmed" && !guide.sections.length) ctx.addIssue({ code: "custom", path: ["sections"], message: "Add measurements before confirming a guide." });
   guide.sections.forEach((section, sectionIndex) => {
     const path = ["sections", sectionIndex, "rows"];

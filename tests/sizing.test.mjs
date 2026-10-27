@@ -1,9 +1,42 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { build } from "esbuild";
 await build({ entryPoints: ["lib/sizing.ts", "lib/product-details.ts"], outdir: "work/sizing-tests", bundle: true, format: "esm", platform: "node", outExtension: { ".js": ".mjs" } });
 const { referenceSizeGuide, resolveSizeGuide, formatMeasurement, sizeGuideSchema, storeSizeSchema, STORE_SIZES } = await import("../work/sizing-tests/sizing.mjs");
 const { productDetailsSchema } = await import("../work/sizing-tests/product-details.mjs");
+
+test('R10 skort keeps distinct shell and inner-short measurements through product editing', () => {
+ const patches=JSON.parse(fs.readFileSync('data/catalogue-reconciliation-r10-20261027/r10-product-patches.json','utf8'));
+ const source=patches.find(p=>p.id==='vn-pdf-p06-2-r3-c2').detailsPatch.sizeGuide;
+ const saved=productDetailsSchema.parse({sizeGuide:source}).sizeGuide;
+ assert.equal(saved.sections.length,2);
+ assert.deepEqual(saved.sections.map(s=>s.kind),['bottom','bottom']);
+ assert.equal(saved.sections[0].rows[1].length,35);
+ assert.equal(saved.sections[1].rows[1].inseam,12);
+ assert.equal(saved.sections[1].rows[1].frontRise,27);
+ assert.equal(saved.sections[1].rows[1].legOpening,27);
+ const duplicate=structuredClone(saved);duplicate.sections[1].title=duplicate.sections[0].title;
+ assert.equal(sizeGuideSchema.safeParse(duplicate).success,false);
+});
+
+test('saved detailed POMs survive unrelated edits and invalid values are rejected',()=>{
+ const guide={status:'reference',sections:[{kind:'top',title:'Polo',rows:[{size:'M',chest:55,length:72,armhole:25,bicep:21,sleeveOpening:18,hem:55,neckWidth:18,frontNeckDrop:9,strapWidth:3}]},{kind:'bottom',title:'Cargo trouser',rows:[{size:'M',waist:38,hip:58,frontRise:32,backRise:42,thigh:35,knee:27,legOpening:23,inseam:79}]}]};
+ const saved=productDetailsSchema.parse({sizeGuide:guide,fabric:'Cotton'});
+ assert.deepEqual(saved.sizeGuide.sections,guide.sections);
+ const edited=productDetailsSchema.parse({...saved,fabric:'Cotton twill'});
+ assert.deepEqual(edited.sizeGuide,saved.sizeGuide);
+ guide.sections[1].rows[0].frontRise=-1;
+ assert.equal(sizeGuideSchema.safeParse(guide).success,false);
+});
+
+test('Presence Studio trouser hem and legacy rise values are retained',()=>{
+ const fixtures=JSON.parse(fs.readFileSync('data/sizing-r11-review/multi-component-fixtures.json','utf8'));
+ for(const fixture of fixtures){
+  const result=productDetailsSchema.parse({sizeGuide:fixture.sizeGuide});
+  assert.deepEqual(result.sizeGuide.sections,fixture.sizeGuide.sections,fixture.id);
+ }
+});
 
 test("revised garment targets provide S–XXL without inventing trouser outseams", () => {
   for (const id of ["vn-stealth", "vn-windbreaker", "vn-hooded-performance", "vn-stand-collar-performance"]) {

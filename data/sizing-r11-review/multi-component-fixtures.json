@@ -1,0 +1,305 @@
+[
+  {
+    "id": "vn-presence-nightline",
+    "sizeGuide": {
+      "status": "reference",
+      "notes": "Proposed finished garment measurements in cm; base M; grades S/M/L/XL/XXL. Top half chest, 25 mm below armhole: 59/62/65/68/71 (tolerance +/-1); Top HSP to finished hem: 60/62/64/66/68 (tolerance +/-1); Top shoulder point to point: 53/55/57/59/61 (tolerance +/-1); Top sleeve, shoulder seam to cuff: 61/62/63/64/65 (tolerance +/-1); Shorts half waist relaxed: 34/36/38/40/42 (tolerance +/-1); Shorts half waist extended: 50/52/54/56/58 (tolerance +/-1); Shorts half hip, 20 cm below waist: 57/60/63/66/69 (tolerance +/-1); Shorts side length incl. waistband: 47/48/49/50/51 (tolerance +/-1); Shorts inseam: 17.5/18/18.5/19/19.5 (tolerance +/-0.5); Shorts half leg opening: 32/33/34/35/36 (tolerance +/-0.5); Shorts front rise incl. waistband: 31/32/33/34/35 (tolerance +/-0.7); Shorts back rise incl. waistband: 40/41/42/43/44 (tolerance +/-0.7). Physical fit and washed sample approval required.",
+      "sections": [
+        {
+          "kind": "top",
+          "title": "Nightline Zip Jacket Set - Top",
+          "rows": [
+            {
+              "size": "S",
+              "chest": 59,
+              "length": 60,
+              "shoulder": 53,
+              "sleeve": 61
+            },
+            {
+              "size": "M",
+              "chest": 62,
+              "length": 62,
+              "shoulder": 55,
+              "sleeve": 62
+            },
+            {
+              "size": "L",
+              "chest": 65,
+              "length": 64,
+              "shoulder": 57,
+              "sleeve": 63
+            },
+            {
+              "size": "XL",
+              "chest": 68,
+              "length": 66,
+              "shoulder": 59,
+              "sleeve": 64
+            },
+            {
+              "size": "XXL",
+              "chest": 71,
+              "length": 68,
+              "shoulder": 61,
+              "sleeve": 65
+            }
+          ]
+        },
+        {
+          "kind": "bottom",
+          "title": "Nightline Zip Jacket Set - Shorts",
+          "rows": [
+            {
+              "size": "S",
+              "waist": 34,
+              "hip": 57,
+              "length": 47,
+              "inseam": 17.5,
+              "hem": 32,
+              "rise": 31
+            },
+            {
+              "size": "M",
+              "waist": 36,
+              "hip": 60,
+              "length": 48,
+              "inseam": 18,
+              "hem": 33,
+              "rise": 32
+            },
+            {
+              "size": "L",
+              "waist": 38,
+              "hip": 63,
+              "length": 49,
+              "inseam": 18.5,
+              "hem": 34,
+              "rise": 33
+            },
+            {
+              "size": "XL",
+              "waist": 40,
+              "hip": 66,
+              "length": 50,
+              "inseam": 19,
+              "hem": 35,
+              "rise": 34
+            },
+            {
+              "size": "XXL",
+              "waist": 42,
+              "hip": 69,
+              "length": 51,
+              "inseam": 19.5,
+              "hem": 36,
+              "rise": 35
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "vn-presence-noir-circuit",
+    "sizeGuide": {
+      "status": "reference",
+      "notes": "Proposed finished garment measurements in cm; base M; grades S/M/L/XL/XXL. Top half chest, 25 mm below armhole: 61/64/67/70/73 (tolerance +/-1); Top HSP to finished hem: 62/64/66/68/70 (tolerance +/-1); Top shoulder point to point: 59/61/63/65/67 (tolerance +/-1); Top sleeve, shoulder seam to cuff: 59/60/61/62/63 (tolerance +/-1); Shorts half waist relaxed: 34/36/38/40/42 (tolerance +/-1); Shorts half waist extended: 50/52/54/56/58 (tolerance +/-1); Shorts half hip, 20 cm below waist: 57/60/63/66/69 (tolerance +/-1); Shorts side length incl. waistband: 47/48/49/50/51 (tolerance +/-1); Shorts inseam: 17.5/18/18.5/19/19.5 (tolerance +/-0.5); Shorts half leg opening: 32/33/34/35/36 (tolerance +/-0.5); Shorts front rise incl. waistband: 31/32/33/34/35 (tolerance +/-0.7); Shorts back rise incl. waistband: 40/41/42/43/44 (tolerance +/-0.7). Physical fit and washed sample approval required.",
+      "sections": [
+        {
+          "kind": "top",
+          "title": "Noir Circuit Quarter-Zip Set - Top",
+          "rows": [
+            {
+              "size": "S",
+              "chest": 61,
+              "length": 62,
+              "shoulder": 59,
+              "sleeve": 59
+            },
+            {
+              "size": "M",
+              "chest": 64,
+              "length": 64,
+              "shoulder": 61,
+              "sleeve": 60
+            },
+            {
+              "size": "L",
+              "chest": 67,
+              "length": 66,
+              "shoulder": 63,
+              "sleeve": 61
+            },
+            {
+              "size": "XL",
+              "chest": 70,
+              "length": 68,
+              "shoulder": 65,
+              "sleeve": 62
+            },
+            {
+              "size": "XXL",
+              "chest": 73,
+              "length": 70,
+              "shoulder": 67,
+              "sleeve": 63
+            }
+          ]
+        },
+        {
+          "kind": "bottom",
+          "title": "Noir Circuit Quarter-Zip Set - Shorts",
+          "rows": [
+            {
+              "size": "S",
+              "waist": 34,
+              "hip": 57,
+              "length": 47,
+              "inseam": 17.5,
+              "hem": 32,
+              "rise": 31
+            },
+            {
+              "size": "M",
+              "waist": 36,
+              "hip": 60,
+              "length": 48,
+              "inseam": 18,
+              "hem": 33,
+              "rise": 32
+            },
+            {
+              "size": "L",
+              "waist": 38,
+              "hip": 63,
+              "length": 49,
+              "inseam": 18.5,
+              "hem": 34,
+              "rise": 33
+            },
+            {
+              "size": "XL",
+              "waist": 40,
+              "hip": 66,
+              "length": 50,
+              "inseam": 19,
+              "hem": 35,
+              "rise": 34
+            },
+            {
+              "size": "XXL",
+              "waist": 42,
+              "hip": 69,
+              "length": 51,
+              "inseam": 19.5,
+              "hem": 36,
+              "rise": 35
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "vn-presence-sculpt",
+    "sizeGuide": {
+      "status": "reference",
+      "notes": "Proposed finished garment measurements in cm; base M; grades S/M/L/XL/XXL. Top half chest, 25 mm below armhole: 63/66/69/72/75 (tolerance +/-1); Top HSP to finished hem: 60/62/64/66/68 (tolerance +/-1); Top shoulder point to point: 62/64/66/68/70 (tolerance +/-1); Top sleeve, shoulder seam to cuff: 58/59/60/61/62 (tolerance +/-1); Shorts half waist relaxed: 34/36/38/40/42 (tolerance +/-1); Shorts half waist extended: 50/52/54/56/58 (tolerance +/-1); Shorts half hip, 20 cm below waist: 57/60/63/66/69 (tolerance +/-1); Shorts side length incl. waistband: 47/48/49/50/51 (tolerance +/-1); Shorts inseam: 17.5/18/18.5/19/19.5 (tolerance +/-0.5); Shorts half leg opening: 32/33/34/35/36 (tolerance +/-0.5); Shorts front rise incl. waistband: 31/32/33/34/35 (tolerance +/-0.7); Shorts back rise incl. waistband: 40/41/42/43/44 (tolerance +/-0.7). Physical fit and washed sample approval required.",
+      "sections": [
+        {
+          "kind": "top",
+          "title": "Sculpt Hoodie Short Set - Top",
+          "rows": [
+            {
+              "size": "S",
+              "chest": 63,
+              "length": 60,
+              "shoulder": 62,
+              "sleeve": 58
+            },
+            {
+              "size": "M",
+              "chest": 66,
+              "length": 62,
+              "shoulder": 64,
+              "sleeve": 59
+            },
+            {
+              "size": "L",
+              "chest": 69,
+              "length": 64,
+              "shoulder": 66,
+              "sleeve": 60
+            },
+            {
+              "size": "XL",
+              "chest": 72,
+              "length": 66,
+              "shoulder": 68,
+              "sleeve": 61
+            },
+            {
+              "size": "XXL",
+              "chest": 75,
+              "length": 68,
+              "shoulder": 70,
+              "sleeve": 62
+            }
+          ]
+        },
+        {
+          "kind": "bottom",
+          "title": "Sculpt Hoodie Short Set - Shorts",
+          "rows": [
+            {
+              "size": "S",
+              "waist": 34,
+              "hip": 57,
+              "length": 47,
+              "inseam": 17.5,
+              "hem": 32,
+              "rise": 31
+            },
+            {
+              "size": "M",
+              "waist": 36,
+              "hip": 60,
+              "length": 48,
+              "inseam": 18,
+              "hem": 33,
+              "rise": 32
+            },
+            {
+              "size": "L",
+              "waist": 38,
+              "hip": 63,
+              "length": 49,
+              "inseam": 18.5,
+              "hem": 34,
+              "rise": 33
+            },
+            {
+              "size": "XL",
+              "waist": 40,
+              "hip": 66,
+              "length": 50,
+              "inseam": 19,
+              "hem": 35,
+              "rise": 34
+            },
+            {
+              "size": "XXL",
+              "waist": 42,
+              "hip": 69,
+              "length": 51,
+              "inseam": 19.5,
+              "hem": 36,
+              "rise": 35
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
