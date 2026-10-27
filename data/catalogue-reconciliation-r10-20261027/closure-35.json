@@ -1,0 +1,358 @@
+{
+  "attachmentChecks": [
+    {
+      "file": "vn-p016-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-p016-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-p017-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-p017-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-p047-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-p047-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-vd-p04-2-25-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-vd-p04-2-25-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p05-3-r5-c5-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p05-3-r5-c5-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p06-2-r3-a2-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p06-2-r3-a2-R10-Reference-Artwork.zip",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p06-2-r3-c2-Visual-Correction-R10.pdf",
+      "ok": true
+    },
+    {
+      "file": "vn-pdf-p06-2-r3-c2-R10-Reference-Artwork.zip",
+      "ok": true
+    }
+  ],
+  "records": [
+    {
+      "id": "vn-p005",
+      "name": "Shadow Utility Button-Up",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two utility shirt colourways; no rear view."
+    },
+    {
+      "id": "vn-p006",
+      "name": "Motion Rugby Shirt",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two rugby shirt colourways; no rear view."
+    },
+    {
+      "id": "vn-p008",
+      "name": "Baseline Split Basketball Jersey",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two basketball jersey colourways; no rear view."
+    },
+    {
+      "id": "vn-p009",
+      "name": "Reflective Outline Singlet",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Two singlet colourways, no rear view."
+    },
+    {
+      "id": "vn-p011",
+      "name": "Shadow Cable Quarter-Zip",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two quarter-zip colourways; no rear view."
+    },
+    {
+      "id": "vn-p016",
+      "name": "Relaxed Cargo Pant",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Replaced both Olive and Jet Black rear references with authored true-rear mockups: center-back seat seam, plain rear seat and elastic waistband. Front drawcord and front emblem are absent from rear views; existing outer-leg cargo pockets remain. This closes the missing-rear reference finding for both saved colours.",
+      "originalFinding": "Two cargo trouser colourways, no rear view."
+    },
+    {
+      "id": "vn-p017",
+      "name": "Pleated Wide Trouser",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Replaced both Jet Black and Charcoal rear references with authored true-rear mockups: fixed waistband with center-back loop, rear waist shaping darts and center-back seat seam. No front fly, front pleats or front emblem appears on the rear. Plain rear without added pockets is the R10 design decision.",
+      "originalFinding": "Two pleated trouser colourways, no rear view."
+    },
+    {
+      "id": "vn-p019",
+      "name": "Motion Mesh Shorts",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Two shorts colourways, no rear view."
+    },
+    {
+      "id": "vn-p020",
+      "name": "Denim Bermuda Shorts",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Two denim shorts colourways, no rear view."
+    },
+    {
+      "id": "vn-p033",
+      "name": "Motion Stand-Collar Track Jacket",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two jacket colourways, no rear view."
+    },
+    {
+      "id": "vn-p036",
+      "name": "Core Bomber Jacket",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two bomber colourways, no rear view."
+    },
+    {
+      "id": "vn-p037",
+      "name": "Court Varsity Jacket",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two varsity colourways, no rear view."
+    },
+    {
+      "id": "vn-p043",
+      "name": "Rib Knit Beanie",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair is two beanie colourways rather than front/back."
+    },
+    {
+      "id": "vn-p044",
+      "name": "Transit Crossbody Bag",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Source pair shows two front/three-quarter bag views; a dedicated rear view is missing."
+    },
+    {
+      "id": "vn-p047",
+      "name": "V Buckle Belt",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Replaced both Jet Black and Charcoal back references with inner-face belt mockups showing the rear buckle attachment, folded webbing return and plain reverse tip. The saved triangular V buckle remains; no prong-hole belt is substituted.",
+      "originalFinding": "Source pair is two belt colourways rather than front/back."
+    },
+    {
+      "id": "vn-p049",
+      "name": "Architectural Crew Socks",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Two sock colourways, no rear view."
+    },
+    {
+      "id": "vn-p050",
+      "name": "Topographic Boxer Briefs",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The original board pair does not establish a rear view, but the current gallery contains a separate reconstructed rear mockup. Visually checked the loaded rear image against the first-colourway front for garment type, colour and major construction. This resolves the missing rear reference for that colourway only. Generated geometry and hidden construction remain design references, not sample photographs or production approval.",
+      "originalFinding": "Two boxer colourways, no rear view."
+    },
+    {
+      "id": "vn-pdf-p01-2-17",
+      "name": "Leather-look Bomber",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Single bomber classified as casual/denim set; size guide includes unrelated shirt and trousers."
+    },
+    {
+      "id": "vn-pdf-p04-3-r3-c3",
+      "name": "Short-sleeve Overshirt",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Short-sleeve utility shirt classified as shorts; sizing/construction family incorrect."
+    },
+    {
+      "id": "vn-pdf-p05-3-r1-a1",
+      "name": "Common-ground Heavyweight Tee \u2014 Jet Black Carbon",
+      "review_status": "reference-view-reviewed",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Current front/back/left/right records depict a black tee, matching Jet Black Carbon. The live rendered studio-grey front also shows black fabric. The earlier bone/black colour mismatch is not present in this current mapped image set. Exact emblem and physical sample conformity are not certified.",
+      "originalFinding": "Name says jet-black carbon; shown bone/black printed tee. Resolve colourway mapping."
+    },
+    {
+      "id": "vn-pdf-p05-3-r5-c5",
+      "name": "Diamond-quilted Vest",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Replaced the simplified angular chest mark with the exact supplied winged-spire contour in front and visible left-side views. Removed obsolete conflicting front references from the active gallery. Corrected pointed-collar copy to the visible ribbed bomber collar and documented side snaps.",
+      "originalFinding": "Rendered chest mark appears as a simplified angular symbol; exact master conformity needs close-up verification."
+    },
+    {
+      "id": "vn-pdf-p06-2-r3-a2",
+      "name": "Pleated Culotte Shorts - Charcoal Pinstripe",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Full-resolution front and rear references both show separate leg openings and a crotch division. This is a pleated culotte short, not an unverified skirt with hidden inner shorts. The four exterior views are retained and the construction/description now explicitly state two outer trouser legs.",
+      "originalFinding": "Pleated skirt silhouette labelled sports shorts; internal short component not shown. Confirm skort construction."
+    },
+    {
+      "id": "vn-pdf-p06-2-r3-c2",
+      "name": "Pleated Tennis Skort",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Resolved the hidden-construction ambiguity by authoring an attached-inner-short skort design. The existing pleated outer silhouette, piping and front emblem are retained. A separate inner-short construction drawing and measurement schedule are supplied. This is a new documented design specification, not a claim that an unseen sample was inspected.",
+      "originalFinding": "Pleated skirt silhouette labelled tennis shorts; internal short component not shown. Confirm skort construction."
+    },
+    {
+      "id": "vn-pdf-p07-3-r1-c5",
+      "name": "Denim Varsity",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Denim varsity jacket classified as jeans; trouser belt-loop construction is inappropriate. Existing measurement chart already uses a denim-jacket block."
+    },
+    {
+      "id": "vn-pdf-p09-3-r2-a2",
+      "name": "Bowling / camp shirt \u2014 Burgundy/black",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The four saved views consistently depict a burgundy front and sleeves with a contrasting black rear panel and burgundy stripes. Recorded this as the intended saved design reference; no physical sample or fabric claim is implied.",
+      "originalFinding": "Front is solid burgundy; back black with burgundy stripes. Confirm intentional two-tone panel design against source."
+    },
+    {
+      "id": "vn-pdf-p10-2-r3-c5",
+      "name": "Sleeveless Vest",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Rib-knit sleeveless vest classified as jacket; construction/measurement applicability needs correction."
+    },
+    {
+      "id": "vn-pdf-p10-2-r4-a1",
+      "name": "Pleated Wide-Leg Trousers \u2014 Black",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Single trousers classified as set."
+    },
+    {
+      "id": "vn-pdf-p10-2-r4-a2",
+      "name": "Pleated Wide-Leg Trousers \u2014 Charcoal Pinstripe",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Single trousers classified as set."
+    },
+    {
+      "id": "vn-pdf-p10-2-r4-a3",
+      "name": "Pleated Wide-Leg Trousers \u2014 Burgundy",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "The category/construction mismatch recorded in R08 is corrected in the live fields. Verified the saved four-view silhouette against the current single-garment measurement chart. Physical sample approval remains separate.",
+      "originalFinding": "Single trousers classified as set."
+    },
+    {
+      "id": "vn-pdf-p14-3-r1-c4",
+      "name": "Street-Art One-Shoulder Crop Top",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Corrected the product name, colour, garment type and construction/fit references to match the saved four-view design. Proposed sampling targets are marked reference.",
+      "originalFinding": "Name says cropped raglan; image shows asymmetric one-shoulder top. Resolve image/name mapping."
+    },
+    {
+      "id": "vn-pdf-p14-3-r2-c3",
+      "name": "Street-Art Three-Quarter-Sleeve Wrap Blouse",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Corrected the product name, colour, garment type and construction/fit references to match the saved four-view design. Proposed sampling targets are marked reference.",
+      "originalFinding": "Name says olive utility shirt; image shows black wrap blouse. Resolve image/name mapping."
+    },
+    {
+      "id": "vn-pdf-p14-3-r2-c4",
+      "name": "Street-Art Cropped Utility Shirt",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Corrected the product name, colour, garment type and construction/fit references to match the saved four-view design. Proposed sampling targets are marked reference.",
+      "originalFinding": "Name says wrap blouse; image shows collared short-sleeve utility shirt. Resolve image/name mapping."
+    },
+    {
+      "id": "vn-pdf-p14-3-r2-c5",
+      "name": "Street-Art Long-Sleeve Wrap Blouse",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Corrected the product name, colour, garment type and construction/fit references to match the saved four-view design. Proposed sampling targets are marked reference.",
+      "originalFinding": "Name says navy short-sleeve satin; image shows black long-sleeve wrap blouse. Resolve image/name mapping."
+    },
+    {
+      "id": "vn-vd-p04-2-07",
+      "name": "Mesh Jersey",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R09-20261027",
+      "notes": "Inspected the saved repaired front and rear images in the live browser: both isolate the jersey with no neighbouring garment fragment. Updated the main thumbnail to use the same repaired front as the gallery.",
+      "originalFinding": "Adjacent garment fragment visible at edge of the source images; isolate product before export."
+    },
+    {
+      "id": "vn-vd-p04-2-25",
+      "name": "Winged-Spire Leather Belt",
+      "review_status": "corrected-reference",
+      "revision": "VISUAL-R10-20261027",
+      "notes": "Replaced inconsistent buckle artwork in front/left/right references using unchanged path geometry from the supplied Gold_Source_Outline.svg. Replaced the wrongly labelled back image with an actual rear-strap view; the decorative face is hidden on the opposite side. Corrected generic webbing/zip copy to this leather belt construction.",
+      "originalFinding": "Buckle emblem differs between paired views; review exact approved master before tooling."
+    }
+  ],
+  "summary": {
+    "resolvedReferenceFindings": 35,
+    "needsReconciliation": 0,
+    "publication": {
+      "published": 16,
+      "draft": 731,
+      "archived": 16
+    },
+    "changedPricesAndPublication": 0,
+    "changedVariants": 0,
+    "labelledViewGroups": 1029,
+    "completeLabelledViewGroups": 1029,
+    "galleryRows": 4857,
+    "physicalApproval": false,
+    "globalBackgroundAuditComplete": false
+  }
+}

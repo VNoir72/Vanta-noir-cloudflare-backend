@@ -1,0 +1,20 @@
+{
+  "source": "Gold_Source_Outline.svg",
+  "sourceSha256": "0fcafb448e7012e46138ce95afc1e1a4d50e01367d25a91b945af649feb9aaaa",
+  "pathGeometrySha256": "ada96da7d6b51b5ecb8418c7401f0fc2160764323485d8b5c85f69dc1373b754",
+  "bounds": {
+    "minX": 43.75658,
+    "minY": 247.13072,
+    "width": 1167.13404,
+    "height": 795.60435
+  },
+  "belt": {
+    "widthMm": 62,
+    "heightMm": 42.26375721163954
+  },
+  "vest": {
+    "widthMm": 80,
+    "heightMm": 54.53388027308329
+  },
+  "method": "Original path strings retained exactly; colour and placement transforms only. Side perspective transforms affect mockups only; 1:1 manufacturing files preserve proportions."
+}

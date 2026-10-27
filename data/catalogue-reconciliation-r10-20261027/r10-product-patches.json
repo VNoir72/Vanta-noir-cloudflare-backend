@@ -1,0 +1,613 @@
+[
+  {
+    "id": "vn-p016",
+    "fields": {},
+    "detailsPatch": {
+      "features": "Relaxed straight-leg cargo trousers; elastic waistband and front drawcord; large upper outer-thigh and smaller lower outer-leg flap pockets. R10 rear: plain seat, center-back seam; no rear patch pockets or rear emblem.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "R05 authored design targets from Vanta block B07. Not physical measurements or signed sample approval. Finished flat cm after relaxation. Preserve the saved design; M is the sample size. Elastic stretch performance must be tested on the actual material.",
+        "sections": [
+          {
+            "kind": "bottom",
+            "title": "Relaxed Cargo Pant \u2014 R05 proposed finished targets",
+            "rows": [
+              {
+                "size": "S",
+                "waist": 36,
+                "hip": 55,
+                "frontRise": 31,
+                "backRise": 41,
+                "thigh": 33.5,
+                "knee": 26,
+                "legOpening": 22,
+                "inseam": 78
+              },
+              {
+                "size": "M",
+                "waist": 38,
+                "hip": 58,
+                "frontRise": 32,
+                "backRise": 42,
+                "thigh": 35,
+                "knee": 27,
+                "legOpening": 23,
+                "inseam": 79
+              },
+              {
+                "size": "L",
+                "waist": 40,
+                "hip": 61,
+                "frontRise": 33,
+                "backRise": 43,
+                "thigh": 36.5,
+                "knee": 28,
+                "legOpening": 24,
+                "inseam": 80
+              },
+              {
+                "size": "XL",
+                "waist": 42,
+                "hip": 64,
+                "frontRise": 34,
+                "backRise": 44,
+                "thigh": 38,
+                "knee": 29,
+                "legOpening": 25,
+                "inseam": 81
+              },
+              {
+                "size": "XXL",
+                "waist": 44,
+                "hip": 67,
+                "frontRise": 35,
+                "backRise": 45,
+                "thigh": 39.5,
+                "knee": 30,
+                "legOpening": 26,
+                "inseam": 82
+              }
+            ]
+          }
+        ]
+      },
+      "hardware": "Front drawcord and its existing eyelets/tips only. Rear waistband has no cord exit. Do not add the generic zip previously mentioned.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Replaced both Olive and Jet Black rear references with authored true-rear mockups: center-back seat seam, plain rear seat and elastic waistband. Front drawcord and front emblem are absent from rear views; existing outer-leg cargo pockets remain. This closes the missing-rear reference finding for both saved colours.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Two cargo trouser colourways, no rear view."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      }
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-p017",
+    "fields": {},
+    "detailsPatch": {
+      "features": "Wide tailored legs, front pleats and fixed waistband with belt loops. R10 rear: center-back loop, shaping darts and center-back seat seam; plain seat without rear pockets. Emblem remains front-only.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "R05 authored design targets from Vanta block B09. Not physical measurements or signed sample approval. Finished flat cm after relaxation. Preserve the saved design; M is the sample size. Elastic stretch performance must be tested on the actual material.",
+        "sections": [
+          {
+            "kind": "bottom",
+            "title": "Pleated Wide Trouser \u2014 R05 proposed finished targets",
+            "rows": [
+              {
+                "size": "S",
+                "waist": 40,
+                "hip": 52,
+                "frontRise": 29,
+                "backRise": 39,
+                "thigh": 31.5,
+                "knee": 28,
+                "legOpening": 27,
+                "inseam": 79
+              },
+              {
+                "size": "M",
+                "waist": 42,
+                "hip": 55,
+                "frontRise": 30,
+                "backRise": 40,
+                "thigh": 33,
+                "knee": 29,
+                "legOpening": 28,
+                "inseam": 80
+              },
+              {
+                "size": "L",
+                "waist": 44,
+                "hip": 58,
+                "frontRise": 31,
+                "backRise": 41,
+                "thigh": 34.5,
+                "knee": 30,
+                "legOpening": 29,
+                "inseam": 81
+              },
+              {
+                "size": "XL",
+                "waist": 46,
+                "hip": 61,
+                "frontRise": 32,
+                "backRise": 42,
+                "thigh": 36,
+                "knee": 31,
+                "legOpening": 30,
+                "inseam": 82
+              },
+              {
+                "size": "XXL",
+                "waist": 48,
+                "hip": 64,
+                "frontRise": 33,
+                "backRise": 43,
+                "thigh": 37.5,
+                "knee": 32,
+                "legOpening": 31,
+                "inseam": 83
+              }
+            ]
+          }
+        ]
+      },
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Replaced both Jet Black and Charcoal rear references with authored true-rear mockups: fixed waistband with center-back loop, rear waist shaping darts and center-back seat seam. No front fly, front pleats or front emblem appears on the rear. Plain rear without added pockets is the R10 design decision.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Two pleated trouser colourways, no rear view."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      }
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-p047",
+    "fields": {},
+    "detailsPatch": {
+      "features": "35 mm woven strap; retained triangular V buckle; reverse attachment bar and stitched folded return; black leather end tip. No prong holes or substituted buckle.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "Approved accessory dimensions; verify production against these dimensions. Apparel size conversions do not apply.",
+        "sections": []
+      },
+      "hardware": "Retain triangular V frame and compatible 35 mm webbing attachment. Fold return 80 mm and box-and-cross stitch. Reverse view documents assembly direction; validate frame clearance and adjustment retention on hardware sample.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Replaced both Jet Black and Charcoal back references with inner-face belt mockups showing the rear buckle attachment, folded webbing return and plain reverse tip. The saved triangular V buckle remains; no prong-hole belt is substituted.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Source pair is two belt colourways rather than front/back.",
+          "corrections": [
+            "labels"
+          ],
+          "previousFields": {
+            "labels": "Current approved Vanta Noir master on a soft woven label, 50 \u00d7 20 mm finished, at inside back neck/waist or accessory lining. Size tab 15 \u00d7 15 mm. Soft care label 25 \u00d7 60 mm at inner left seam, 100 mm above hem where applicable. Socks: paired paper belly band instead of skin-contact sewn label. Fibre/origin/care copy requires actual material and production-country confirmation.",
+            "visualReview": null
+          },
+          "previousCategory": "Fashion accessories",
+          "savedPDFNotice": "Earlier R07 PDFs predate these corrections. Use current live specifications together with the R08 correction record."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      }
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-vd-p04-2-25",
+    "fields": {
+      "name": "Winged-Spire Leather Belt",
+      "description": "Black smooth-leather belt with gold-tone winged-spire buckle, stitched edges, keeper and adjustable fastening."
+    },
+    "detailsPatch": {
+      "garmentType": "Leather belt with winged-spire buckle",
+      "fabric": "Smooth black leather face with smooth lining; proposed finished strap thickness 3 mm. Supplier must confirm hide grade, lining and composition.",
+      "fabricWeight": "Not applicable; thickness target 3 mm.",
+      "features": "Black smooth-leather strap, 35 mm wide\nFine edge stitching and keeper\nAdjustment holes\nGold-tone exact-master winged-spire buckle",
+      "seoTitle": "Winged-Spire Leather Belt | Vanta Noir",
+      "seoDescription": "Black smooth-leather belt with gold-tone winged-spire buckle, stitched edges, keeper and adjustable fastening.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "Accessory sizing is shown separately from garment sizes.",
+        "sections": []
+      },
+      "stitching": "Skive folded leather return; secure attachment with bonded-thread lockstitch and suitable leather-point needle. Edge stitch 2 mm from edge; finish edges smoothly. No generic zip or webbing heat-sealing operation.",
+      "hardware": "Front emblem 62.00 x 42.26 mm, exact supplied contour; gold-tone finish. Proposed 2.5 mm metal face thickness on a concealed supporting carrier: the separated wing pieces must be mechanically joined behind the face. Rear attachment accepts 35 mm strap; retain adjustment-hole fastening. Hardware maker must validate carrier, pin and load clearance on CAD/sample without changing visible master geometry.",
+      "labels": "Brand/size identification on inner strap or hangtag. No garment neck label or hanging care label. Confirm actual composition and origin before label printing.",
+      "artworkLock": "R10 exact supplied Gold_Source_Outline.svg contour. Finished face width 62.00 mm and proportional height 42.26 mm. No smoothing, redraw, extra wings or substitution. Three mockup angles derive from the same path strings. Separate 1:1 SVG controls tooling silhouette; finish shading is illustrative.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Replaced inconsistent buckle artwork in front/left/right references using unchanged path geometry from the supplied Gold_Source_Outline.svg. Replaced the wrongly labelled back image with an actual rear-strap view; the decorative face is hidden on the opposite side. Corrected generic webbing/zip copy to this leather belt construction.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Buckle emblem differs between paired views; review exact approved master before tooling.",
+          "corrections": [
+            "labels"
+          ],
+          "previousFields": {
+            "labels": "Current approved Vanta Noir master on a soft woven label, 50 \u00d7 20 mm finished, at inside back neck/waist or accessory lining. Size tab 15 \u00d7 15 mm. Soft care label 25 \u00d7 60 mm at inner left seam, 100 mm above hem where applicable. Socks: paired paper belly band instead of skin-contact sewn label. Fibre/origin/care copy requires actual material and production-country confirmation.",
+            "visualReview": null
+          },
+          "previousCategory": "Fashion accessories",
+          "savedPDFNotice": "Earlier R07 PDFs predate these corrections. Use current live specifications together with the R08 correction record."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      },
+      "artworkApplications": [
+        {
+          "position": "Front buckle face centered on strap fastening",
+          "dimensions": "62.00 x 42.26 mm; preserve aspect ratio",
+          "method": "Gold-tone metal face on concealed carrier; factory CAD and sample validation"
+        }
+      ]
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-pdf-p05-3-r5-c5",
+    "fields": {},
+    "detailsPatch": {
+      "features": "Diamond quilting\nSleeveless vest\nRibbed bomber collar and armhole binding\nSnap front and side snap plackets\nTwo front welt pockets\nWhite exact-master emblem on wearer-left chest; plain back",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "Measurements in centimetres with the garment laid flat. Chest, waist and hip are widths across one side, not body circumferences. Compare with a similar garment you own.",
+        "sections": [
+          {
+            "kind": "top",
+            "title": "Diamond-quilted vest / retained sampling targets",
+            "rows": [
+              {
+                "size": "S",
+                "chest": 62,
+                "length": 71,
+                "shoulder": 52.5
+              },
+              {
+                "size": "M",
+                "chest": 65,
+                "length": 73,
+                "shoulder": 54
+              },
+              {
+                "size": "L",
+                "chest": 68,
+                "length": 75,
+                "shoulder": 55.5
+              },
+              {
+                "size": "XL",
+                "chest": 71,
+                "length": 77,
+                "shoulder": 57
+              },
+              {
+                "size": "XXL",
+                "chest": 74,
+                "length": 79,
+                "shoulder": 58.5
+              }
+            ]
+          }
+        ]
+      },
+      "hardware": "Retain visible silver-tone front and side snaps, following view placement. No zip or pointed shirt collar.",
+      "artworkLock": "R10 exact supplied Gold_Source_Outline.svg contour, recoloured white. Finished embroidery target width 80.00 mm, proportional height 54.53 mm. Center on wearer-left chest, 110 mm horizontally from center-front and 160 mm below high shoulder point (size M); grade placement with chest block. No rear emblem. Artwork is exact vector; digitised stitch file and actual sew-out must be validated on the quilted shell.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Replaced the simplified angular chest mark with the exact supplied winged-spire contour in front and visible left-side views. Removed obsolete conflicting front references from the active gallery. Corrected pointed-collar copy to the visible ribbed bomber collar and documented side snaps.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R09-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Updated the main thumbnail to the existing repaired winged-emblem front so the card and gallery agree. Exact vector-to-embroidery conformity across all views still requires the approved master artwork check.",
+          "previousReview": {
+            "revision": "VISUAL-R08-20261027",
+            "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+            "status": "needs-reconciliation",
+            "notes": "Rendered chest mark appears as a simplified angular symbol; exact master conformity needs close-up verification."
+          },
+          "corrections": [
+            "image_url"
+          ],
+          "savedPDFNotice": "Earlier R08 review files are historical. Current R09 live product details and gallery pointers supersede the earlier reference-image finding. Sample and exact artwork approval remain separate."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      },
+      "artworkApplications": [
+        {
+          "position": "Wearer-left chest; M center 110 mm from center-front, 160 mm below high shoulder point",
+          "dimensions": "80.00 x 54.53 mm",
+          "method": "White embroidery using supplied unchanged contour; stitch digitising and sew-out required"
+        }
+      ]
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-pdf-p06-2-r3-a2",
+    "fields": {
+      "name": "Pleated Culotte Shorts - Charcoal Pinstripe",
+      "description": "Charcoal pinstripe pleated shorts with two separate wide legs, a branded waistband and saved white graphic details."
+    },
+    "detailsPatch": {
+      "garmentType": "Pleated culotte shorts",
+      "features": "Two separate outer trouser legs and crotch seam, visible in front and rear views\nDense pleats create a skirt-like volume\nCharcoal pinstripe fabric\nBranded waistband and saved white details",
+      "contents": "One pair of pleated shorts",
+      "seoTitle": "Pleated Culotte Shorts - Charcoal Pinstripe | Vanta Noir",
+      "seoDescription": "Charcoal pinstripe pleated shorts with two separate wide legs, a branded waistband and saved white graphic details.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "Measurements in centimetres with the garment laid flat. Chest, waist and hip are widths across one side, not body circumferences. Compare with a similar garment you own.",
+        "sections": [
+          {
+            "kind": "bottom",
+            "title": "Pleated culotte shorts / retained sampling targets",
+            "rows": [
+              {
+                "size": "S",
+                "waist": 32.5,
+                "hip": 48.5,
+                "inseam": 11.5
+              },
+              {
+                "size": "M",
+                "waist": 35,
+                "hip": 51,
+                "inseam": 12
+              },
+              {
+                "size": "L",
+                "waist": 37.5,
+                "hip": 53.5,
+                "inseam": 12.5
+              },
+              {
+                "size": "XL",
+                "waist": 40,
+                "hip": 56,
+                "inseam": 13
+              },
+              {
+                "size": "XXL",
+                "waist": 42.5,
+                "hip": 58.5,
+                "inseam": 13.5
+              }
+            ]
+          }
+        ]
+      },
+      "stitching": "Construct two outer short legs with front/back rise and inseam seams; overedge allowances, join crotch and apply waistband. Set pleats symmetrically and match pinstripes. This is not a single skirt shell; no concealed short component is required to explain the saved design.",
+      "hardware": "No exposed zip or metal hardware visible. Retain waistband construction and use a concealed side closure only if the fitted pattern requires it; sample must demonstrate entry/fit.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Full-resolution front and rear references both show separate leg openings and a crotch division. This is a pleated culotte short, not an unverified skirt with hidden inner shorts. The four exterior views are retained and the construction/description now explicitly state two outer trouser legs.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Pleated skirt silhouette labelled sports shorts; internal short component not shown. Confirm skort construction."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      }
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  },
+  {
+    "id": "vn-pdf-p06-2-r3-c2",
+    "fields": {
+      "name": "Pleated Tennis Skort",
+      "category": "Skirts and skorts",
+      "description": "Black pleated tennis skort with white piping, the saved front emblem and attached inner shorts."
+    },
+    "detailsPatch": {
+      "garmentType": "Pleated tennis skort with attached inner shorts",
+      "fabric": "Outer: proposed black polyester-rich woven suitable for permanent pleating, 180-220 GSM. Inner shorts: proposed 90% polyester / 10% elastane jersey, 180 GSM. Confirm swatches and care tests.",
+      "fabricWeight": "Outer 180-220 GSM; inner 180 GSM design targets.",
+      "features": "Pleated outer skirt shell with saved white piping and emblem\nAttached black stretch inner shorts\nOuter shell and inner shorts joined at one waistband seam\nInner short hems free and concealed below shell",
+      "contents": "One skort: pleated outer shell and attached inner shorts",
+      "seoTitle": "Pleated Tennis Skort | Vanta Noir",
+      "seoDescription": "Black pleated tennis skort with white piping, the saved front emblem and attached inner shorts.",
+      "sizeNotes": "R10 authored sampling targets, finished flat cm. Outer shell and inner shorts have separate charts. Outer length is measured from top waistband to hem; inner inseam from crotch junction to hem. These are design targets, not measurements inferred from hidden photographic detail.",
+      "sizeGuide": {
+        "status": "reference",
+        "notes": "R10 authored sampling targets, finished flat cm. Outer shell and inner shorts have separate charts. Outer length is measured from top waistband to hem; inner inseam from crotch junction to hem. These are design targets, not measurements inferred from hidden photographic detail.",
+        "sections": [
+          {
+            "kind": "bottom",
+            "title": "Outer pleated shell / R10 targets",
+            "rows": [
+              {
+                "size": "S",
+                "waist": 32.5,
+                "hip": 48.5,
+                "length": 34
+              },
+              {
+                "size": "M",
+                "waist": 35.0,
+                "hip": 51.0,
+                "length": 35
+              },
+              {
+                "size": "L",
+                "waist": 37.5,
+                "hip": 53.5,
+                "length": 36
+              },
+              {
+                "size": "XL",
+                "waist": 40.0,
+                "hip": 56.0,
+                "length": 37
+              },
+              {
+                "size": "XXL",
+                "waist": 42.5,
+                "hip": 58.5,
+                "length": 38
+              }
+            ]
+          },
+          {
+            "kind": "bottom",
+            "title": "Attached inner shorts / R10 targets",
+            "rows": [
+              {
+                "size": "S",
+                "waist": 32.5,
+                "hip": 46.5,
+                "frontRise": 26,
+                "backRise": 35,
+                "inseam": 11.5,
+                "legOpening": 25.5
+              },
+              {
+                "size": "M",
+                "waist": 35.0,
+                "hip": 49.0,
+                "frontRise": 27,
+                "backRise": 36,
+                "inseam": 12.0,
+                "legOpening": 27.0
+              },
+              {
+                "size": "L",
+                "waist": 37.5,
+                "hip": 51.5,
+                "frontRise": 28,
+                "backRise": 37,
+                "inseam": 12.5,
+                "legOpening": 28.5
+              },
+              {
+                "size": "XL",
+                "waist": 40.0,
+                "hip": 54.0,
+                "frontRise": 29,
+                "backRise": 38,
+                "inseam": 13.0,
+                "legOpening": 30.0
+              },
+              {
+                "size": "XXL",
+                "waist": 42.5,
+                "hip": 56.5,
+                "frontRise": 30,
+                "backRise": 39,
+                "inseam": 13.5,
+                "legOpening": 31.5
+              }
+            ]
+          }
+        ]
+      },
+      "stitching": "Pleat and join the outer shell; retain white piping. Construct inner shorts with stretch-compatible overlock seams and coverstitched hems. Join shell and inner-short waist edges into the same waistband, align side seams and crotch orientation. Keep inner hems free; tack inner to outer only at waistband, not at pleat hems.",
+      "hardware": "Soft waistband elastic; no exposed metal closure. Confirm entry stretch on the pattern and sample.",
+      "techPackConstructionRevision": "R10 reconciled design-reference instructions / 2026-10-27",
+      "specificationStatus": "reference",
+      "visualReview": {
+        "revision": "VISUAL-R10-20261027",
+        "status": "corrected-reference",
+        "scope": "Seven remaining R08 design-reference findings; stated colours/views and construction decisions only. Physical testing and global catalogue certification are separate.",
+        "notes": "Resolved the hidden-construction ambiguity by authoring an attached-inner-short skort design. The existing pleated outer silhouette, piping and front emblem are retained. A separate inner-short construction drawing and measurement schedule are supplied. This is a new documented design specification, not a claim that an unseen sample was inspected.",
+        "corrections": [
+          "referenceViews",
+          "constructionSpecification",
+          "manufacturingAttachments"
+        ],
+        "previousReview": {
+          "revision": "VISUAL-R08-20261027",
+          "scope": "First recorded colourway, front/back overview; 733 pairs inspected in contact sheets plus two live graphic pairs",
+          "status": "needs-reconciliation",
+          "notes": "Pleated skirt silhouette labelled tennis shorts; internal short component not shown. Confirm skort construction."
+        },
+        "savedPDFNotice": "R10 correction pack supersedes conflicting R07/R08/R09 descriptions, references and affected dimensions. Retain unchanged original specifications. This closes the reference finding, not bulk-production approval."
+      }
+    },
+    "removeDetailsKeys": [
+      "specificationApprovedAt"
+    ]
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "file": "vn-p016-jet-black-back-r10.webp",
+    "bytes": 95498,
+    "sha256": "d2a1dbc53f1797a1926066fdb7e1641976e26489cb4f07dc2c68859d2f44d558",
+    "md5": "c8ac1bef985a04bf02b76467013ffcda",
+    "key": "products/d2a1dbc53f1797a1926066fdb7e16419.webp"
+  },
+  {
+    "file": "vn-p016-olive-back-r10.webp",
+    "bytes": 130676,
+    "sha256": "67c9badd58aee89ba8a8ef4e131f2367371866f2485407dc6a6f85b965b062ab",
+    "md5": "501e71a606745cb5de2112d3a4d086ce",
+    "key": "products/67c9badd58aee89ba8a8ef4e131f2367.webp"
+  },
+  {
+    "file": "vn-p017-charcoal-back-r10.webp",
+    "bytes": 219192,
+    "sha256": "224b678ff50d234a645614da5eab0459f47893612ee76ea4f5691803017cfe1c",
+    "md5": "53e4c7a73190909bd2f8aa570e73b44a",
+    "key": "products/224b678ff50d234a645614da5eab0459.webp"
+  },
+  {
+    "file": "vn-p017-jet-black-back-r10.webp",
+    "bytes": 134480,
+    "sha256": "d717b006e73c684c7c8b6152b71ec4f0cdd8129e2144a99d7547c64326be6d28",
+    "md5": "f162242092b131372a8e0cbece4ca337",
+    "key": "products/d717b006e73c684c7c8b6152b71ec4f0.webp"
+  },
+  {
+    "file": "vn-p047-charcoal-back-r10.webp",
+    "bytes": 272320,
+    "sha256": "b09a58d79c5bbc98ede964a1581cc49f6c92b28407229f1225c3cbc09549c9ba",
+    "md5": "0431eafbd5cc4a43135a1b847237539d",
+    "key": "products/b09a58d79c5bbc98ede964a1581cc49f.webp"
+  },
+  {
+    "file": "vn-p047-jet-black-back-r10.webp",
+    "bytes": 217072,
+    "sha256": "b1067d38e820246efe1af603720e1f1e03376c43d482125ca91b5e63eeb9f836",
+    "md5": "374cbd96bd98ff28ca18f71dd0fdd5ce",
+    "key": "products/b1067d38e820246efe1af603720e1f1e.webp"
+  },
+  {
+    "file": "vn-pdf-p05-3-r5-c5-jet-black-front-r10.webp",
+    "bytes": 140366,
+    "sha256": "02d51d13342652261e7a62bb13dc1698c08d130e98d47232888fc9971807e0da",
+    "md5": "3983bf51177edfdd5da5ab899e93f487",
+    "key": "products/02d51d13342652261e7a62bb13dc1698.webp"
+  },
+  {
+    "file": "vn-pdf-p05-3-r5-c5-jet-black-left-r10.webp",
+    "bytes": 127054,
+    "sha256": "9c8a43bfbb0ef111f22f8fb18b0eed4782d5d80d2b8e854dea32cb1a80b4e439",
+    "md5": "5fcd7abb26a97dc5d8652223fe626cc7",
+    "key": "products/9c8a43bfbb0ef111f22f8fb18b0eed47.webp"
+  },
+  {
+    "file": "vn-vd-p04-2-25-black-back-r10.webp",
+    "bytes": 80004,
+    "sha256": "38846c07fafcfcc10a8a5167ee86081272f6326146e31f8c219eacef7758348d",
+    "md5": "95e0ad7965d885850cd37da9a456af10",
+    "key": "products/38846c07fafcfcc10a8a5167ee860812.webp"
+  },
+  {
+    "file": "vn-vd-p04-2-25-black-front-r10.webp",
+    "bytes": 74324,
+    "sha256": "567a0d9a0f006bae2c4e4718a6e40b08ef834e1a10c9916572243b93ecbca8e6",
+    "md5": "c32562ff4c422159d31fa44e5ee7f1fa",
+    "key": "products/567a0d9a0f006bae2c4e4718a6e40b08.webp"
+  },
+  {
+    "file": "vn-vd-p04-2-25-black-left-r10.webp",
+    "bytes": 80626,
+    "sha256": "62c89732e34d7bf66c89cb289a54f60fe37722e1d9a9f15f986989777e7c6a8d",
+    "md5": "4eae64014c3b4fe5e51d33b161c06390",
+    "key": "products/62c89732e34d7bf66c89cb289a54f60f.webp"
+  },
+  {
+    "file": "vn-vd-p04-2-25-black-right-r10.webp",
+    "bytes": 63222,
+    "sha256": "55438614e582fa5da700afe2f42b9b37437c3a1ce7b1e19f529663dcea6edff4",
+    "md5": "bc0df41d79376543d6724e6de0f9736b",
+    "key": "products/55438614e582fa5da700afe2f42b9b37.webp"
+  }
+]
