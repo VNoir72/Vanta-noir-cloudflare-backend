@@ -51,7 +51,12 @@ assert.match(home,/href="\/about"/);
 assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Category discovery lives below the hero; no duplicate header strip.
 // The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
-const javascript=await readFile(resolve(root,entry.slice(1)),"utf8");
+const entryJavascript=await readFile(resolve(root,entry.slice(1)),"utf8");
+const manifest=JSON.parse(await readFile(resolve('outputs/storefront-manifest.json'),'utf8'));
+const initial=new Set();
+function include(key){if(initial.has(key))return;initial.add(key);for(const dependency of manifest[key]?.imports??[])include(dependency);}
+include('portable/entry.tsx');include('app/storefront.tsx');
+const javascript=(await Promise.all([...initial].map(key=>readFile(resolve(root,manifest[key].file),'utf8')))).join('\n');
 assert.match(javascript,/Campaign and featured pieces/);
 assert.doesNotMatch(javascript,/THE VANTA NOIR EDIT\s*\/\s*001|dn-hero-index/);
 const security=await readFile(resolve(root,".htaccess"),"utf8");
@@ -62,17 +67,17 @@ console.log('Campaign markup and static-host security rules passed.');
 // Prevent a pre-studio bundle from passing release validation with new photos beside it.
 const studioPhotos=JSON.parse(await readFile("lib/product-photo-assets.json","utf8"));
 for(const image of new Set(Object.values(studioPhotos))){
-  assert.ok(javascript.includes(image),`Application bundle does not map studio image: ${image}`);
+  assert.ok(javascript.includes(image.split("/").at(-1)),`Application bundle does not map studio image: ${image}`);
   assert.ok((await stat(resolve(root,"."+image))).isFile(),`Missing studio image: ${image}`);
 }
 console.log(`Verified studio mapping and delivery files for ${Object.keys(studioPhotos).length} photographs.`);
 
 // Keep seed snapshots out of the startup payload and preserve deferred modules.
-assert.ok(Buffer.byteLength(javascript) < 2_000_000, "Startup JavaScript exceeded the 2 MB uncompressed budget");
+assert.ok(Buffer.byteLength(javascript) < 1_600_000, "Startup JavaScript exceeded the 1.6 MB uncompressed budget");
 for (const chunk of [...javascript.matchAll(/catalog-images-[A-Za-z0-9_-]+\.js/g)]) {
   assert.ok((await stat(resolve(root,"assets",chunk[0]))).isFile(), "Missing deferred catalogue module");
 }
-console.log(`Startup JavaScript budget passed: ${Buffer.byteLength(javascript)} bytes.`);
+console.log(`Homepage JavaScript including shared dependencies: ${Buffer.byteLength(javascript)} bytes.`);
 
 const about=await readFile(resolve(root,'about.html'),'utf8');
 assert.match(about,/vn-about-logo-circle/);

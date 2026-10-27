@@ -14,15 +14,18 @@ export function NewsletterPopup(){
   const title=useRef<HTMLHeadingElement>(null);
   useEffect(()=>{
     if(!newsletterPage(window.location.pathname))return;
-    const started=Date.now();let browsed=window.scrollY>120;
+    const started=Date.now();let browsed=window.scrollY>120;let lastInteraction=Date.now();
+    const interacted=()=>{lastInteraction=Date.now();};
+    window.addEventListener('pointerdown',interacted,{passive:true});
+    window.addEventListener('keydown',interacted);
     const scroll=()=>{if(window.scrollY>120)browsed=true;};
     window.addEventListener('scroll',scroll,{passive:true});
     const timer=window.setInterval(()=>{
-      if(!newsletterPage(window.location.pathname)||document.visibilityState!=='visible'||document.querySelector('[role="dialog"], [role="alertdialog"]')||document.activeElement?.matches('input,textarea,select,[contenteditable="true"]'))return;
+      if(Date.now()-lastInteraction<15000||new URL(window.location.href).searchParams.get('bag')==='1'||!newsletterPage(window.location.pathname)||document.visibilityState!=='visible'||document.querySelector('[role="dialog"], [role="alertdialog"]')||document.activeElement?.matches('input,textarea,select,[contenteditable="true"]'))return;
       if(!newsletterDue(Date.now(),started,sessionDismissed??read(DISMISSED),sessionSubscribed??read(SUBSCRIBED),browsed))return;
       rememberDismissal();setOpen(true);window.clearInterval(timer);
     },1000);
-    return()=>{window.clearInterval(timer);window.removeEventListener('scroll',scroll);};
+    return()=>{window.clearInterval(timer);window.removeEventListener('scroll',scroll);window.removeEventListener('pointerdown',interacted);window.removeEventListener('keydown',interacted);};
   },[]);
   function close(){rememberDismissal();setOpen(false);}
   return <>{submitted&&<p className="vn-newsletter-success" role="status">Request saved. Check your email to confirm your subscription.<button type="button" aria-label="Dismiss signup confirmation" onClick={()=>setSubmitted(false)}>×</button></p>}<Dialog open={open} onOpenChange={value=>{if(!value)close();}}><DialogContent className="vn-newsletter-popup" aria-describedby={undefined} onOpenAutoFocus={e=>{e.preventDefault();title.current?.focus();}}>

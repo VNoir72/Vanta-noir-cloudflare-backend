@@ -13,3 +13,10 @@ test('published product indexing and robots restored; preview banner absent',asy
  assert.match(await(await get('https://vantanoir.store/robots.txt')).text(),/Allow: \//);
  assert.equal((await get('https://vantanoir.store/storefront-gateway.php')).status,404);
 });
+test('only successful static assets are cached; sensitive pages and missing assets remain uncached',async()=>{
+ const testEnv={...env,ASSETS:{fetch:async r=>new URL(r.url).pathname.includes('missing')?new Response('missing',{status:404}):new Response('asset',{headers:{'Content-Type':'application/javascript'}})},PUBLIC_API:{fetch:async()=>new Response('image',{headers:{'Content-Type':'image/webp'}})}};
+ const call=path=>worker.fetch(new Request('https://vantanoir.store'+path),testEnv);
+ assert.equal((await call('/assets/entry-AbCd1234.js')).headers.get('cache-control'),'public, max-age=31536000, immutable');
+ assert.equal((await call('/images/catalogue/test.webp')).headers.get('cache-control'),'public, max-age=3600, must-revalidate');
+ for(const path of ['/store-config.js','/catalog-bootstrap.js','/checkout','/account','/assets/missing-AbCd1234.js'])assert.equal((await call(path)).headers.get('cache-control'),'no-store',path);
+});

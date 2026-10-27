@@ -31,6 +31,11 @@ for (const path of Object.keys(images)) {
   }
 }
 
+// Connector code-only releases retain the previously deployed binary assets.
+// Use only when no image files changed; normal builds still optimize every image.
+if (!process.argv.includes('--reuse-images')) {
 const optimized = spawnSync(process.execPath, ["scripts/optimize-images.mjs", "dist/client"], { stdio: "inherit" });
 if (optimized.error) throw optimized.error;
 if (optimized.status !== 0) throw new Error(`Image optimization failed: exit=${optimized.status}, signal=${optimized.signal ?? "none"}`);
+
+}

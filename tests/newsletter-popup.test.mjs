@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 const result=await build({entryPoints:['lib/newsletter-popup.ts'],bundle:true,write:false,platform:'node',format:'esm'});
 const {newsletterDue,newsletterPage,NEWSLETTER_DISMISS_MS}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
-test('newsletter only appears on shopping pages, never checkout or customer support',()=>{
- for(const path of ['/','/products/hoodie'])assert.equal(newsletterPage(path),true);
- for(const path of ['/checkout','/checkout/complete','/admin','/email-preferences','/help-center','/privacy-policy'])assert.equal(newsletterPage(path),false);
+test('newsletter only appears on home, never product selection, checkout or support',()=>{
+ for(const path of ['/'])assert.equal(newsletterPage(path),true);
+ for(const path of ['/products/hoodie','/checkout','/checkout/complete','/admin','/email-preferences','/help-center','/privacy-policy'])assert.equal(newsletterPage(path),false);
 });
 test('newsletter waits for both browsing and thirty seconds',()=>{
  assert.equal(newsletterDue(29000,0,null,null,true),false);

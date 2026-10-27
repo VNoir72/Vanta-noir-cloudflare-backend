@@ -228,7 +228,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
 
   const showEditorial = hydrated && !detailSlug && audienceFilter === "All" && category === "All" && !query && !savedOnly && collectionFilter === "All" && colorFilter === "All" && sizeFilter === "All" && priceFilter === "All" && priceRange[0]===0 && priceRange[1]===10000000 && dropFilter==="All" && !inStockOnly;
   const showHomepageMerch = hydrated && !detailSlug && category === 'All' && !query && !savedOnly && collectionFilter === 'All' && colorFilter === 'All' && sizeFilter === 'All' && priceFilter === 'All' && priceRange[0]===0 && priceRange[1]===10000000 && dropFilter==='All' && !inStockOnly;
-  const CollectionHeading = !detailSlug && !showEditorial ? "h1" : "h2";
+  const CollectionHeading = !detailSlug ? "h1" : "h2";
   const categoryLabel = options.categories.find(c=>c.id===category)?.name ?? category;
   const filteredState = useMemo(() => {
     const candidates = entries.filter(e => {

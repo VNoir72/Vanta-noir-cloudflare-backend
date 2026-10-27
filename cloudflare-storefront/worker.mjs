@@ -17,7 +17,14 @@ function protect(response, request) {
   }
   r.headers.set('Content-Security-Policy', policy);
   r.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
-  r.headers.set('Cache-Control','no-store');
+  const path = new URL(request.url).pathname;
+  const type = r.headers.get('Content-Type') || '';
+  const cacheable = r.status === 200 && ['GET','HEAD'].includes(request.method);
+  const hashed = /^\/assets\/[A-Za-z0-9_.-]+-[A-Za-z0-9_-]{8,}\.(?:js|css)$/.test(path);
+  const image = /^\/images\/[A-Za-z0-9_./-]+\.(?:webp|png|jpg|jpeg|svg|avif|gif|ico)$/.test(path) && type.startsWith('image/');
+  r.headers.set('Cache-Control', cacheable && hashed && /(?:javascript|text\/css)/.test(type)
+    ? 'public, max-age=31536000, immutable'
+    : cacheable && image ? 'public, max-age=3600, must-revalidate' : 'no-store');
   r.headers.delete('set-cookie');
   return r;
 }
