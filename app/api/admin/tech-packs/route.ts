@@ -21,6 +21,7 @@ export async function GET(request:Request) {
       if (!product) return Response.json({error:'Garment not found.'},{status:404,headers});
       const format=url.searchParams.get('format');
       if(format==='asset'||(format==='pdf'&&r4PDFs(product.details_json).length))return r4Serve(runtimeEnv().BUCKET,r4Pick(product.details_json,format,url.searchParams.get('color'),url.searchParams.get('file')));
+      if(format==='legacy-files')return new Response(renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
       if(format==='files')return new Response(r4Files(product)||renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
       if(format==='attachments')return Response.json({id,pdfs:r4PDFs(product.details_json).length?r4PDFs(product.details_json):garmentPDFs(id),assets:r4Attachments(product.details_json),revision:r4Attachments(product.details_json).length?'R4':'R07',status:r4Attachments(product.details_json).length?'sampling design targets; physical validation pending':'owner-approved specifications'},{headers});
       if(format==='pdf'){
