@@ -1,3 +1,4 @@
+import {r4Attachments,r4PDFs,r4Pick,r4Files,r4Serve} from '@/lib/stored-tech-pack-attachments.mjs';
 import {standardPDF} from '@/lib/manufacturer-standard-pdf.mjs';
 import {adminAuthStateFromRequest} from '@/lib/admin-auth';
 import {garmentPDFs,garmentPDF,renderGarmentPDFs} from '@/lib/tech-pack-pdf-attachments';
@@ -19,8 +20,9 @@ export async function GET(request:Request) {
       const product=await db.prepare('SELECT id,name,slug,category,image_url,image_alt,details_json,updated_at FROM products WHERE id = ?').bind(id).first();
       if (!product) return Response.json({error:'Garment not found.'},{status:404,headers});
       const format=url.searchParams.get('format');
-      if(format==='files')return new Response(renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
-      if(format==='attachments')return Response.json({id,pdfs:garmentPDFs(id),revision:'R07',status:'owner-approved specifications'},{headers});
+      if(format==='asset'||(format==='pdf'&&r4PDFs(product.details_json).length))return r4Serve(runtimeEnv().BUCKET,r4Pick(product.details_json,format,url.searchParams.get('color'),url.searchParams.get('file')));
+      if(format==='files')return new Response(r4Files(product)||renderGarmentPDFs(product as {id:string;name:string}),{headers:{...headers,'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self'"}});
+      if(format==='attachments')return Response.json({id,pdfs:r4PDFs(product.details_json).length?r4PDFs(product.details_json):garmentPDFs(id),assets:r4Attachments(product.details_json),revision:r4Attachments(product.details_json).length?'R4':'R07',status:r4Attachments(product.details_json).length?'sampling design targets; physical validation pending':'owner-approved specifications'},{headers});
       if(format==='pdf'){
         const pdf=garmentPDF(id,url.searchParams.get('color'));
         if(!pdf)return Response.json({error:'Choose a saved colourway for this garment.'},{status:404,headers});
@@ -45,8 +47,9 @@ export async function GET(request:Request) {
     const args=[pattern,pattern,pattern,pattern];
     const [count,rows]=await Promise.all([
       db.prepare(`SELECT COUNT(*) AS total FROM products p ${where}`).bind(...args).first<{total:number}>(),
-      db.prepare(`SELECT p.id,p.name,p.category,p.status,p.updated_at FROM products p ${where} ORDER BY p.name,p.id LIMIT 30 OFFSET ?`).bind(...args,(page-1)*30).all()
+      db.prepare(`SELECT p.id,p.name,p.category,p.status,p.updated_at,p.details_json FROM products p ${where} ORDER BY p.name,p.id LIMIT 30 OFFSET ?`).bind(...args,(page-1)*30).all()
     ]);
-    return Response.json({products:rows.results.map(p=>({...p,pdfs:garmentPDFs(String(p.id))})),total:count?.total||0,page,pageSize:30},{headers});
+    return Response.json({products:rows.results.map(({details_json,...p})=>({...p,pdfs:r4PDFs(details_json).length?r4PDFs(details_json):garmentPDFs(String(p.id))})),total:count?.total||0,page,pageSize:30},{headers});
   } catch {return Response.json({error:'Tech packs could not be loaded. Please retry.'},{status:500,headers});}
 }
+
