@@ -103,3 +103,5 @@
 /* Studio photographs already include their own backdrop and floor shadow. */
 .dn-card-image .vn-independent-frame img,.dn-category-grid img,.dn-category-card img,.dn-shortcuts img{object-fit:cover;background:transparent;border-radius:0}
 .dn-card-image,.dn-detail-photo,.dn-quick-photo,.dn-thumbnails button{background:linear-gradient(#c5c5c5,#d6d6d6 65%,#e4e4e4)}
+
+.dn-garment-details{margin-top:2rem}.dn-garment-details h2{font-size:1.2rem}.dn-garment-details p{color:#666}.dn-detail-images{display:grid;gap:1rem;margin-top:1rem}.dn-detail-images figure{margin:0}.dn-detail-images img{width:100%;height:auto;display:block;background:#ccc}.dn-detail-images figcaption{font-size:.75rem;color:#666;padding:.5rem 0}

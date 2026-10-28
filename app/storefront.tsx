@@ -7,9 +7,9 @@ import { recordProductInterest } from '@/lib/product-interest-client';
 import './storefront.css';
 import { CollectionPlaceholder } from "@/components/storefront-motion";
 import { PriceFilter } from "@/components/price-filter";
-import { replaceBrowseUrl } from "@/lib/browse-history";
+import { replaceBrowseUrl, readBrowsePosition, saveBrowsePosition, type BrowsePosition } from "@/lib/browse-history";
 import { useDisplayCurrency } from "@/lib/display-currency";
-import { garmentName } from "@/lib/product-names";
+import { garmentName, collectionName } from "@/lib/product-names";
 
 import { shopperDescription } from "@/lib/product-specs";
 import { ProductSpecifications } from "./product-specifications";
@@ -114,9 +114,13 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const [message, setMessage] = useState("");
   const catalogRef = useRef<HTMLElement>(null);
   const initialCollectionAnchor = useRef(false);
+  const restoredPosition=useRef<BrowsePosition|undefined>(undefined);
+  const restoredFilters=useRef(false);
   const lastCatalogRefresh=useRef(0);
 
   useEffect(() => {
+    restoredPosition.current=readBrowsePosition(window.history.state);
+    if(restoredPosition.current){setVisibleCount(restoredPosition.current.visibleCount);setCardColors(restoredPosition.current.cardColors);}
     setCart(restoreCart(read(CART_KEY)));
     const stored = read(SAVED_KEY);
     if (Array.isArray(stored)) setSaved(stored.filter((x): x is string => typeof x === "string").slice(0, 100));
@@ -185,7 +189,8 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     if (!hydrated || !catalogLoaded || initialCollectionAnchor.current) return;
     const frame = requestAnimationFrame(() => {
       initialCollectionAnchor.current = true;
-      if (window.location.hash === '#collection') catalogRef.current?.scrollIntoView({behavior:'instant',block:'start'});
+      if(restoredPosition.current)window.scrollTo({top:restoredPosition.current.scrollY,behavior:'instant'});
+      else if (window.location.hash === '#collection') catalogRef.current?.scrollIntoView({behavior:'instant',block:'start'});
     });
     return () => cancelAnimationFrame(frame);
   }, [hydrated, catalogLoaded]);
@@ -207,8 +212,8 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
 
   const displayProducts = useMemo(()=>catalogStyles(products),[products]);
 
-  const stylesFor=(p:CatalogProduct)=>{const c=categoryFor(p);const text=`${p.name} ${p.category}`.toLowerCase();return [...(/performance|active|training|gym|legging|sports bra|jersey/.test(text)?['Activewear']:[]),...(/street|graphic|cargo|hoodie|denim|jogger|baggy|oversized/.test(text)?['Streetwear']:[]),...(c?.section==='Outerwear'?['Outerwear']:[]),...(/basic|essential|plain|underwear|socks/.test(text)?['Essentials']:[])];};
-  const matchesCollection=(p:CatalogProduct)=>collectionFilter==='All'||stylesFor(p).includes(collectionFilter);
+  const stylesFor=(p:CatalogProduct)=>{const name=collectionName(p.details?.collection||'');return name?[name]:[];};
+  const matchesCollection=(p:CatalogProduct)=>collectionFilter==='All'||stylesFor(p).includes(collectionName(collectionFilter));
   const entries = useMemo(() => {
     const result: Entry[] = [];
     for (const colorName of STORE_COLORWAYS) for (const product of displayProducts) {
@@ -222,7 +227,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   }, [displayProducts]);
   const audienceProducts = products.filter(p => matchesAudience(p,audienceFilter));
 
-  useEffect(() => { setVisibleCount(36); }, [query, category, audienceFilter, collectionFilter, colorFilter, sizeFilter, priceFilter, savedOnly, sort, priceRange, dropFilter,inStockOnly]);
+  useEffect(() => { if(!hydrated)return; if(!restoredFilters.current){restoredFilters.current=true;return;} setVisibleCount(36); }, [hydrated,query, category, audienceFilter, collectionFilter, colorFilter, sizeFilter, priceFilter, savedOnly, sort, priceRange, dropFilter,inStockOnly]);
 
   const orderSizes=(values:string[])=>values.sort(compareSizes);
 
@@ -259,7 +264,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const activeFilters = Number(category !== "All") + Number(audienceFilter !== "All") + Number(collectionFilter !== "All") + Number(colorFilter !== "All") + Number(sizeFilter !== "All") + Number(priceFilter !== "All"||priceRange[0]>0||priceRange[1]<10000000)+Number(dropFilter!=="All")+Number(inStockOnly);
-  const detailProduct = detailSlug ? displayProducts.find(p => p.slug === detailSlug || p.colorways.some(c=>c.sourceSlug===detailSlug)) : undefined;
+  const detailProduct = detailSlug ? products.find(p => p.slug === detailSlug) : undefined;
   useEffect(() => {
     if (detailSlug && catalogLoaded && !catalogError && !detailProduct) {
       window.location.replace("/#collection");
@@ -285,8 +290,15 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     setColorFilter("All"); setSizeFilter("All"); setPriceFilter("All");
     catalogRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  const browseContext = {audience:audienceFilter,category,collection:collectionFilter,query,color:colorFilter,size:sizeFilter,price:priceFilter,sort,saved:savedOnly};
+  const browseContext = {audience:audienceFilter,category,collection:collectionFilter,query,color:colorFilter,size:sizeFilter,price:priceFilter,sort,saved:savedOnly,minPrice:priceRange[0],maxPrice:priceRange[1],drop:dropFilter,inStock:inStockOnly};
   const productHref = (product:CatalogProduct,color:CatalogColorway) => productLink(color.sourceSlug??product.slug,color.slug,browseContext);
+  useEffect(()=>{
+    if(!hydrated)return;
+    const save=()=>saveBrowsePosition(window.history,{visibleCount,scrollY:window.scrollY,cardColors});
+    const leave=(event:MouseEvent)=>{if((event.target as Element)?.closest('a[href]'))save();};
+    document.addEventListener('click',leave,true);window.addEventListener('pagehide',save);
+    return()=>{document.removeEventListener('click',leave,true);window.removeEventListener('pagehide',save);};
+  },[hydrated,visibleCount,cardColors]);
   function clearFilters() { setAudienceFilter("All");setPriceRange([0,10000000]);setDropFilter("All");setInStockOnly(false);setDropQuery("");setColourQuery(""); setCategory("All"); setCollectionFilter("All"); setColorFilter("All"); setSizeFilter("All"); setPriceFilter("All"); setQuery(""); setSavedOnly(false); setSort("featured"); }
   const savingInterest=useRef(new Set<string>());
   async function toggleSaved(entry: Entry,saveSize=false) {
@@ -451,7 +463,7 @@ export function Storefront({ products: initialProducts, sizes, detailSlug }: { p
     <Dialog open={Boolean(quick)} onOpenChange={open => { if (!open) setQuick(null); }}><DialogContent className="dn-quick-dialog" onOpenAutoFocus={event => { event.preventDefault(); document.querySelector<HTMLElement>(".dn-quick-close")?.focus({ preventScroll: true }); }} showCloseButton={false} aria-describedby="quick-description"><header className="dn-quick-header"><DialogTitle>Quick shop</DialogTitle><DialogClose className="dn-quick-close" aria-label="Close quick shop"><X size={20}/></DialogClose></header><DialogDescription id="quick-description" className="sr-only">Choose a colour and size before adding this piece to your bag.</DialogDescription><div className="dn-quick-body">{quick && <><ProductGallery key={quick.key} product={quick.product} color={quick.color} mainImage={photo(quick.color)}/>{renderProductOptions(quick)}</>}</div></DialogContent></Dialog>
     <BagDrawer bagOpen={bagOpen} setBagOpen={setBagOpen} cart={cart} catalogError={Boolean(catalogError)} catalogLoaded={catalogLoaded} inventory={inventory} displayCurrency={displayCurrency} onRetry={()=>setCatalogRetry(v=>v+1)} onQuantity={quantity} onRemove={item=>{trackCommerce("remove_from_cart",[item]);setCart(current=>current.filter(i=>i.variantId!==item.variantId));}} onExplore={()=>browse()}/>
     <Dialog open={filtersOpen} onOpenChange={setFiltersOpen}><DialogContent className="approved-filter-modal"><header><DialogTitle>Find your fit</DialogTitle><DialogDescription>Filter the collection your way.</DialogDescription></header>{renderFilters()}<footer><button type="button" onClick={()=>setFilterDraft({audience:'All',category:'All',collection:'All',color:'All',size:'All',priceRange:[0,10000000],drop:'All',inStock:false})}>Clear all</button><button type="button" className="dn-lime" onClick={applyFilters}>Apply filters <ArrowRight size={16}/></button></footer></DialogContent></Dialog>
-    <Dialog open={Boolean(help)} onOpenChange={open => { if (!open) setHelp(null); }}><DialogContent className="dn-help"><DialogTitle>{help}</DialogTitle><DialogDescription>{help === "The Vanta Noir identity" ? "Presence. Power. Precision. Fashion with a distinct point of view." : "A little more information, before you choose."}</DialogDescription>{help === "The Vanta Noir identity" ? <><p>Vanta Noir brings together individuality, quiet confidence and purposeful design, with an athletic influence.</p><p>Explore streetwear, denim, knitwear, outerwear, athletic pieces and everyday accessories.</p></> : help === "Size & fit" ? <><p>Size range: S, M, L, XL and XXL. The Stealth set has a relaxed, baggy silhouette. Performance pieces have an athletic fit.</p><p>Open Size & fit guide beside the size selector on any product. Compare the top and trousers separately, switch between cm and inches, and follow the measuring instructions. Provisional charts are clearly labelled until physical samples are approved.</p></> : help === "Privacy" ? <p>Your bag and saved pieces stay on this device. Optional analytics is controlled by your privacy choice. Read the privacy policy for details.</p> : help === "Delivery & returns" ? <p>See the delivery and returns policy for current rates, timing and eligibility.</p> : <><p>Need help with a style, size or an order? Contact our customer care team.</p><a className="dn-primary" href="/contact">Contact customer care <ArrowRight size={16} /></a></>}</DialogContent></Dialog>
+    <Dialog open={Boolean(help)} onOpenChange={open => { if (!open) setHelp(null); }}><DialogContent className="dn-help"><DialogTitle>{help}</DialogTitle><DialogDescription>{help === "The Vanta Noir identity" ? "Presence. Power. Precision. Fashion with a distinct point of view." : "A little more information, before you choose."}</DialogDescription>{help === "The Vanta Noir identity" ? <><p>Vanta Noir brings together individuality, quiet confidence and purposeful design, with an athletic influence.</p><p>Explore streetwear, denim, knitwear, outerwear, athletic pieces and everyday accessories.</p></> : help === "Size & fit" ? <><p>Size range: S, M, L, XL and XXL. The Stealth set has a relaxed, baggy silhouette. Performance pieces have an athletic fit.</p><p>Open Size & fit guide beside the size selector on any product. Compare the top and trousers separately, switch between cm and inches, and follow the measuring instructions. Use the saved garment measurements and measuring instructions for the selected design.</p></> : help === "Privacy" ? <p>Your bag and saved pieces stay on this device. Optional analytics is controlled by your privacy choice. Read the privacy policy for details.</p> : help === "Delivery & returns" ? <p>See the delivery and returns policy for current rates, timing and eligibility.</p> : <><p>Need help with a style, size or an order? Contact our customer care team.</p><a className="dn-primary" href="/contact">Contact customer care <ArrowRight size={16} /></a></>}</DialogContent></Dialog>
     <div className={`dn-toast ${message ? "visible" : ""}`} role="status" aria-live="polite">{message && <><Check size={17} />{message}</>}</div>
   </div>;
 }

@@ -724,7 +724,7 @@ function ProductEditor({
           <div className="flex items-end justify-between gap-4">
             <div>
               <p id="vn-gallery" className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Image gallery</p>
-            <p className="mt-1 text-xs leading-5 text-muted-foreground">Paste a site path or http(s) image URL. Use a clean product-only image or a model image—the first image becomes the card cover.</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">Paste a site path or http(s) image URL. Use garment-only images on the approved grey studio background with a subtle shadow. Front, back, left and right come first; add close-ups as detail images. No models.</p>
             </div>
             <Button type="button" variant="outline" onClick={() => setForm((current) => current ? { ...current, images: [...current.images, { color: "", imageUrl: "", imageAlt: "" }] } : current)} className="h-9 shrink-0 rounded-full border-border bg-transparent px-3 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:bg-card hover:text-foreground">
               <ImagePlus /> Add image

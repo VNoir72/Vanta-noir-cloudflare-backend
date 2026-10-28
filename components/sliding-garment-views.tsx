@@ -3,13 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import StoreImage from "./store-image";
 import type { CatalogProduct } from "@/lib/catalog";
 
+import {productGallery} from '@/lib/garment-gallery';
 export function garmentViews(product: CatalogProduct, color: string, main: string, alt: string) {
-  const images = [{ imageUrl: main, imageAlt: alt }, ...(product.images ?? []).filter(image => !image.color || image.color === color)];
-  const rank = (image: typeof images[number]) => {
-    const view = (image.imageAlt.match(/\b(front|back|left|right|side)\b/i)?.[1] ?? image.imageUrl.match(/-(front|back|left|right|side)(?:-r\d+)?\./i)?.[1] ?? "front").toLowerCase();
-    return ["front", "back", "left", "right", "side"].indexOf(view);
-  };
-  return images.filter((image, i) => image.imageUrl && images.findIndex(other => other.imageUrl === image.imageUrl) === i).sort((a, b) => rank(a) - rank(b));
+  return productGallery(product,color,main,alt).primary;
 }
 
 /** Only visible galleries animate. Images slide as a track; the last slide loops through a clone. */
