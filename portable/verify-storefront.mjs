@@ -53,6 +53,11 @@ assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Ca
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
 const entryJavascript=await readFile(resolve(root,entry.slice(1)),"utf8");
 const manifest=JSON.parse(await readFile(resolve('outputs/storefront-manifest.json'),'utf8'));
+assert.equal(entry, '/'+manifest['portable/entry.tsx'].file, 'Rendered homepage must load the current build entry, not a restored previous export');
+for(const file of files){
+  const html=await readFile(resolve(root,file),'utf8');
+  assert.equal(html.match(/<script type="module" src="([^"]+)"/)?.[1],entry,`${file} must load the same current build entry`);
+}
 const initial=new Set();
 function include(key){if(initial.has(key))return;initial.add(key);for(const dependency of manifest[key]?.imports??[])include(dependency);}
 include('portable/entry.tsx');include('app/storefront.tsx');
