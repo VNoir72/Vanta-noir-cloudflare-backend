@@ -11,9 +11,9 @@ export function ProductSpecifications({product}:{product:{id?:string;name:string
       <h3>Key features</h3><ul>{d.features.split(/\n/).map(s=>s.trim()).filter(Boolean).map((s,i)=><li key={i}>{s}</li>)}</ul>
       <dl>{rows.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
       {d.availability!=='preview' && (!d.fabric || !d.care) && <p>Final fabric and care details are not yet published. Contact us for details before ordering.</p>}
-      {d.availability==='preview'&&<p>Design preview. Final construction, fabric and care details are awaiting sample approval.</p>}
+      {d.availability==='preview'&&<p>{d.specificationStatus==='approved' ? 'Vanta Noir manufacturing specifications. Preorders will open when the production schedule is released.' : 'Design specifications for sample development.'}</p>}
     </details>
-    <details><summary>Sizing &amp; fit <Plus size={15}/></summary><p>{d.fit||'Fit details awaiting confirmation.'}</p><p>{d.sizeNotes||'Use the Size & fit guide beside the size selector to check available measurements.'}</p>{d.modelSizing&&<p>{d.modelSizing}</p>}<p>Check whether the size guide is provisional or sample-approved before choosing your size.</p></details>
+    <details><summary>Sizing &amp; fit <Plus size={15}/></summary><p>{d.fit||'Fit details awaiting confirmation.'}</p><p>{d.sizeNotes||'Use the Size & fit guide beside the size selector to check available measurements.'}</p>{d.modelSizing&&<p>{d.modelSizing}</p>}<p>Use the finished garment measurements and fit description when choosing your size.</p></details>
     {product.id && resolveDevelopmentTarget({id:product.id,details:d}) && <details><summary>Provisional garment measurements <Plus size={15}/></summary><GarmentTargets productId={product.id}/></details>}
     <details><summary>Care instructions <Plus size={15}/></summary><p>{d.care||'Care instructions awaiting confirmation for the final fabric and trims.'}</p></details>
   </section>;

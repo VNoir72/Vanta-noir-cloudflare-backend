@@ -1,3 +1,4 @@
+import {preserveProductDetails} from './preserve-product-details.mjs';
 import {orderPreorders, type PreorderPromise} from './order-fulfilment';
 import {shipmentProgress,trackingUrl as brandedTrackingUrl} from './shipment-progress';
 import {shortOrderReference,legacyOrderPrefixes} from './order-reference';
@@ -530,7 +531,7 @@ export async function saveAdminProduct(input: ProductInput, actor = "administrat
 
   if (input.id && !existingProduct) throw new Error("Product not found.");
 
-  const detailsJson = JSON.stringify(detailsForSave(existingProduct ? {...existingProduct, details: productDetails(existingProduct.detailsJson)} : null, input.status, productDetailsSchema.parse(input.details ?? {})));
+  const detailsJson = JSON.stringify(preserveProductDetails(existingProduct?.detailsJson, detailsForSave(existingProduct ? {...existingProduct, details: productDetails(existingProduct.detailsJson)} : null, input.status, productDetailsSchema.parse(input.details ?? {}))));
   const name = input.name.trim();
   const category = input.category.trim();
   const description = input.description.trim();
