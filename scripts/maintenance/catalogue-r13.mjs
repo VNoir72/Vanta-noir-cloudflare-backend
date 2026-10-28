@@ -37,7 +37,7 @@ export function completeCatalogueProduct(p,materials=R13_MATERIALS){
   d.features=description.replace(/\bconcept\b/g,'design');
   d.contents='One coordinated top and one pair of shorts, matching size and colour.';
   d.qualityTargets='Finished widths and lengths ±1 cm; inseam and leg opening ±0.5 cm; front/back rise ±0.7 cm. Inspect every set for matching size/colour, seam integrity, correct artwork and trim security. Test three care cycles: dimensional change target ≤3%, no visible colour transfer, cracking or delamination. Record measured results in factory inspection records.';
-  d.sizeNotes=d.sizeGuide.notes;
+  d.sizeNotes=clean(d.sizeGuide.notes);
   d.manufacturingTolerances={chest:1,length:1,shoulder:1,sleeve:1,waist:1,waistStretched:1,hip:1,inseam:0.5,legOpening:0.5,frontRise:0.7,backRise:0.7};
   d.techPackConstructionRevision='VN-TP-R13: saved Presence Studio construction and graded measurement schedule';
   for(const s of d.sizeGuide.sections.filter(s=>s.kind==='bottom'))s.rows.forEach((r,i)=>{
