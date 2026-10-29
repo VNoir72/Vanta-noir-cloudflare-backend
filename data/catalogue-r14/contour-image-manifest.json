@@ -1,0 +1,38 @@
+[
+  {
+    "productId": "vn-aperture-contour",
+    "view": "front",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/9a9f40b2-09f9-5142-959e-734b66a522a2.webp",
+    "outputFile": "public/images/catalogue/r14/contour-performance-set-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014028-0001-4000-8000-000000000001.webp",
+    "sha256": "b89602907080310b775a372630ed205dec7f308b64d454b0e573c26e41b029ef",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-aperture-contour",
+    "view": "back",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/74860725-246d-5285-951d-4878a0d91cd1.webp",
+    "outputFile": "public/images/catalogue/r14/contour-performance-set-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014028-0001-4000-8000-000000000002.webp",
+    "sha256": "63f428f379ea306333b00c9c690a28cbbc1f9fe17f7c1bde727604b33a29b2e9",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-aperture-contour",
+    "view": "left",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/dd4a6007-9de6-564c-8ea0-dfba8349a0b7.webp",
+    "outputFile": "public/images/catalogue/r14/contour-performance-set-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014028-0001-4000-8000-000000000003.webp",
+    "sha256": "9bbf9df5dc9481a8eeefdbb289ec77772c8ff34ffaafe4c8f67c60c7b06409db",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-aperture-contour",
+    "view": "right",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/15693bad-8208-5283-9390-6c59081dcc1c.webp",
+    "outputFile": "public/images/catalogue/r14/contour-performance-set-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014028-0001-4000-8000-000000000004.webp",
+    "sha256": "53425e0b0bf11a9b91e0511434099a20f06fb3945dcaf3de97dde1322c54ae03",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  }
+]
