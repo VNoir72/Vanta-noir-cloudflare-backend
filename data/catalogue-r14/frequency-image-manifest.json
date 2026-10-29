@@ -1,0 +1,42 @@
+[
+  {
+    "productId": "vn-street-frequency",
+    "view": "front",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/8f3c9cbc-048b-506f-b5f2-8b2da958be67.webp",
+    "outputFile": "public/images/catalogue/r14/frequency-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0005-4000-8000-000000000001.webp",
+    "sha256": "f41a36158d58233e81624557051fd18725257efab14ff34b62d743789eaf3c59",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual front garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Frequency Graphic Tee only: washed charcoal oversized dropped-shoulder crew-neck tee, blue and orange futuristic city/anime running figure artwork and orange moon; preserve the exact front graphic vs different back graphic, cream winged V emblem at wearer left chest and back nape, plain charcoal sleeves, orange contrast outlines as reference. Create straight-on front garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model. Final correction: use clean solid charcoal jersey, no washed or faded finish, matching the saved material specification."
+  },
+  {
+    "productId": "vn-street-frequency",
+    "view": "back",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/a6745d8b-8566-55fe-802e-9ad2430b546f.webp",
+    "outputFile": "public/images/catalogue/r14/frequency-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0005-4000-8000-000000000002.webp",
+    "sha256": "d305b1dc40ec76acaf20a7291d550af025397db4dd24debcf28a897e3fb8eda2",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual back garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Frequency Graphic Tee only: washed charcoal oversized dropped-shoulder crew-neck tee, blue and orange futuristic city/anime running figure artwork and orange moon; preserve the exact front graphic vs different back graphic, cream winged V emblem at wearer left chest and back nape, plain charcoal sleeves, orange contrast outlines as reference. Create straight-on back garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model. Final correction: use clean solid charcoal jersey, no washed or faded finish, matching the saved material specification."
+  },
+  {
+    "productId": "vn-street-frequency",
+    "view": "left",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/ad664032-3591-5b3a-ab31-235895d5e4e2.webp",
+    "outputFile": "public/images/catalogue/r14/frequency-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0005-4000-8000-000000000003.webp",
+    "sha256": "2bf6d68e80f710d4da13907089c3cf7e3ef67149b2689025ba121920f1a5c762",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual left garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Frequency Graphic Tee only: washed charcoal oversized dropped-shoulder crew-neck tee, blue and orange futuristic city/anime running figure artwork and orange moon; preserve the exact front graphic vs different back graphic, cream winged V emblem at wearer left chest and back nape, plain charcoal sleeves, orange contrast outlines as reference. Create true left profile, front edge facing image left garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model. Final correction: use clean solid charcoal jersey, no washed or faded finish, matching the saved material specification."
+  },
+  {
+    "productId": "vn-street-frequency",
+    "view": "right",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/14154a5a-f4fa-5624-8937-4f767f039d6f.webp",
+    "outputFile": "public/images/catalogue/r14/frequency-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0005-4000-8000-000000000004.webp",
+    "sha256": "71e0a2dc734aac74bcdb893279ee7c71c1f8bb54783a5b0441196d369e644e46",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual right garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Frequency Graphic Tee only: washed charcoal oversized dropped-shoulder crew-neck tee, blue and orange futuristic city/anime running figure artwork and orange moon; preserve the exact front graphic vs different back graphic, cream winged V emblem at wearer left chest and back nape, plain charcoal sleeves, orange contrast outlines as reference. Create true right profile, front edge facing image right garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model. Final correction: use clean solid charcoal jersey, no washed or faded finish, matching the saved material specification."
+  }
+]

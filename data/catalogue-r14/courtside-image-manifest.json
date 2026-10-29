@@ -1,0 +1,42 @@
+[
+  {
+    "productId": "vn-street-courtside",
+    "view": "front",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/12c11008-3716-5705-b397-6779f8c0f42b.webp",
+    "outputFile": "public/images/catalogue/r14/courtside-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0004-4000-8000-000000000001.webp",
+    "sha256": "84f71eaaada639be5c10b9e11bb70c868628a4f8e0f7681043b0a26b77f91cd6",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual front garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Courtside Mesh Jersey only: deep forest green basketball mesh sleeveless jersey, burgundy polygon-pattern number 72 with thin ivory outline on front AND back, small ivory winged V at front high chest and back nape, ivory side panels with burgundy/ivory piping, striped rib bindings at neck and armholes, short side hem splits. Create straight-on front garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model."
+  },
+  {
+    "productId": "vn-street-courtside",
+    "view": "back",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/1a65880e-db5d-5bcf-8ae4-b999731480f2.webp",
+    "outputFile": "public/images/catalogue/r14/courtside-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0004-4000-8000-000000000002.webp",
+    "sha256": "0bdbdf33579b06c6acba0b6f1b21378b2209311ab5aeddc9315130b69a92997b",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual back garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Courtside Mesh Jersey only: deep forest green basketball mesh sleeveless jersey, burgundy polygon-pattern number 72 with thin ivory outline on front AND back, small ivory winged V at front high chest and back nape, ivory side panels with burgundy/ivory piping, striped rib bindings at neck and armholes, short side hem splits. Create straight-on back garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model."
+  },
+  {
+    "productId": "vn-street-courtside",
+    "view": "left",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/aa82d49f-8f5a-5051-adbd-179abe0a8089.webp",
+    "outputFile": "public/images/catalogue/r14/courtside-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0004-4000-8000-000000000003.webp",
+    "sha256": "7dd4c164d5736a44e4d0ef395c760e52406098ea0013e9b1b0f3be7f161c1bf0",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual left garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Courtside Mesh Jersey only: deep forest green basketball mesh sleeveless jersey, burgundy polygon-pattern number 72 with thin ivory outline on front AND back, small ivory winged V at front high chest and back nape, ivory side panels with burgundy/ivory piping, striped rib bindings at neck and armholes, short side hem splits. Create true left profile, front edge facing image left garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model."
+  },
+  {
+    "productId": "vn-street-courtside",
+    "view": "right",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/ed46810a-5877-5d79-8577-6d24fe661808.webp",
+    "outputFile": "public/images/catalogue/r14/courtside-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0004-4000-8000-000000000004.webp",
+    "sha256": "b5764142d3dd91c80e3810faa9bfec1a7773de29e3c6ce60a70eb6a1fad75221",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master.",
+    "prompt": "Use case: product-mockup / precise-object-edit. Input image 1 is the actual right garment view to extract and faithfully preserve; additional images are the same garment front and back for construction and graphic continuity. Remove the model completely and show ONLY the garment, not trousers, shoes, body, skin, mannequin, hanger, typography around the photo or other garments. Courtside Mesh Jersey only: deep forest green basketball mesh sleeveless jersey, burgundy polygon-pattern number 72 with thin ivory outline on front AND back, small ivory winged V at front high chest and back nape, ivory side panels with burgundy/ivory piping, striped rib bindings at neck and armholes, short side hem splits. Create true right profile, front edge facing image right garment-only invisible form studio photograph, hollow neck and arm/sleeve openings, realistic natural garment volume and drape, no body visible. Frame entire garment centered in portrait 3:4, generous grey margin. Neutral light grey seamless studio background with very subtle soft ground shadow, soft even studio light. Match original cut, fabric colour, construction, logos and artwork placement exactly; don't redesign any print. Do not mirror artwork. No captions, floating logo, watermark or model."
+  }
+]

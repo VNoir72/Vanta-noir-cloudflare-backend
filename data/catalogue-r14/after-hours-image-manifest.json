@@ -1,0 +1,38 @@
+[
+  {
+    "productId": "vn-street-after-hours",
+    "view": "front",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/395b3ada-d78e-5e58-bf3b-adeea79ac3e5.webp",
+    "outputFile": "public/images/catalogue/r14/after-hours-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0002-4000-8000-000000000001.webp",
+    "sha256": "305938044f1d87614c71456e8a66a984a50e5b13e0d720193416949aa90a160b",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-street-after-hours",
+    "view": "back",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/904c353d-cc4d-530b-9349-1468404570ea.webp",
+    "outputFile": "public/images/catalogue/r14/after-hours-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0002-4000-8000-000000000002.webp",
+    "sha256": "0997aa7a032830a2e79e8e6b21435aecedf29554f73e3985e0cd880c205206bc",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-street-after-hours",
+    "view": "left",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/1920831e-fdf1-5f6b-bdf6-25aee82df911.webp",
+    "outputFile": "public/images/catalogue/r14/after-hours-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0002-4000-8000-000000000003.webp",
+    "sha256": "99df4f5966296550c596d902f6a37f116d8612c91a9eb037df930e99e6727e6e",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  },
+  {
+    "productId": "vn-street-after-hours",
+    "view": "right",
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/37f12ff6-789d-5445-b576-4275473e2440.webp",
+    "outputFile": "public/images/catalogue/r14/after-hours-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df014029-0002-4000-8000-000000000004.webp",
+    "sha256": "6621b4d467a2d2dfd3d7831d9d6e0f38465ba094eccba75a10d1dafe31e5a732",
+    "purpose": "Garment-only design visualization on neutral grey studio with subtle shadow. Not a physical sample or production artwork master."
+  }
+]
