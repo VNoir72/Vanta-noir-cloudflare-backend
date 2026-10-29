@@ -1,5 +1,6 @@
 import { hydrateRoot } from "react-dom/client";
 import { App,routePage } from "./app";
+import {isPreviousCollection} from "@/lib/browse-history";
 import "@/app/globals.css";
 import "@/app/discovery.css";
 import "@/app/commerce.css";
@@ -22,7 +23,10 @@ async function hydratePage(){
     if(!anchor||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||anchor.target||anchor.hasAttribute('download'))return;
     const url=new URL(anchor.href,location.href);
     if(url.origin!==location.origin||!supported(url.pathname)||url.pathname===location.pathname)return;
-    event.preventDefault();history.pushState(null,'',url);window.scrollTo(0,0);void render();
+    event.preventDefault();
+    if(anchor.dataset.collectionBack==='true'&&isPreviousCollection(history.state,url)){history.back();return;}
+    const state={vnPreviousCollection:location.pathname==='/'?location.pathname+location.search+location.hash:null};
+    history.pushState(state,'',url);window.scrollTo(0,0);void render();
   });
   window.addEventListener('popstate',()=>{if(supported(location.pathname))void render();else location.reload();});
 }

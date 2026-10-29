@@ -15,3 +15,14 @@ export function readBrowsePosition(state:unknown):BrowsePosition|undefined {
 export function saveBrowsePosition(history:Pick<History,'state'|'replaceState'>,position:BrowsePosition){
   try{history.replaceState({...history.state,vnBrowse:position},'');}catch{/* Navigation still works with restricted storage. */}
 }
+
+// Only return through browser history when this product was opened immediately
+// from the same collection. Direct product links retain their normal fallback.
+export function isPreviousCollection(state:unknown,target:URL):boolean {
+  const previous=(state as {vnPreviousCollection?:unknown}|null)?.vnPreviousCollection;
+  if(typeof previous!=='string'||!previous.startsWith('/')||previous.startsWith('//'))return false;
+  const from=new URL(previous,target.origin);
+  if(from.pathname!=='/'||target.pathname!=='/')return false;
+  const normalize=(url:URL)=>{const params=new URLSearchParams(url.search);params.sort();return params.toString();};
+  return normalize(from)===normalize(target);
+}

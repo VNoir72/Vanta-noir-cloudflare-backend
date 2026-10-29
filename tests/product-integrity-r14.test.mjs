@@ -5,7 +5,7 @@ async function load(path){const b=await build({entryPoints:[path],bundle:true,wr
 const {catalogStyles}=await load('lib/catalog-styles.ts');
 const {productGallery}=await load('lib/garment-gallery.ts');
 const {productLink}=await load('lib/catalog-browsing.ts');
-const {saveBrowsePosition,readBrowsePosition}=await load('lib/browse-history.ts');
+const {saveBrowsePosition,readBrowsePosition,isPreviousCollection}=await load('lib/browse-history.ts');
 test('similar designs retain their own URL, measurements and artwork',()=>{
  const products=['a','b'].map(id=>({id,slug:id,name:'Graphic tee',category:'T-shirts',details:{collection:'Street',audience:'men',sizeGuide:{id}},colorways:[{name:id,slug:id}],images:[{imageUrl:id}]}));
  const result=catalogStyles(products,[{reviewed:true,product_ids:['a','b'],recommended_name:'Combined',audience:'men',collection:'Street'}]);
@@ -27,4 +27,12 @@ test('return state retains scroll, expanded count and selected swatches without 
 test('detail links retain price range and style filters',()=>{
  const u=new URL(productLink('tee','black',{audience:'All',category:'All',collection:'Street',query:'',minPrice:30000,maxPrice:90000,drop:'Graphic Tee',inStock:true}),'https://example.test');
  assert.equal(u.searchParams.get('minPrice'),'30000');assert.equal(u.searchParams.get('maxPrice'),'90000');assert.equal(u.searchParams.get('drop'),'Graphic Tee');assert.equal(u.searchParams.get('inStock'),'1');
+});
+test('collection back uses the existing entry only for matching collection filters',()=>{
+ const target=new URL('https://vantanoir.store/?category=Headwear&audience=All#collection');
+ assert.equal(isPreviousCollection({vnPreviousCollection:'/?audience=All&category=Headwear'},target),true);
+ assert.equal(isPreviousCollection(null,target),false);
+ assert.equal(isPreviousCollection({vnPreviousCollection:'/products/hat'},target),false);
+ assert.equal(isPreviousCollection({vnPreviousCollection:'/?category=All'},target),false);
+ assert.equal(isPreviousCollection({vnPreviousCollection:'//unrelated.test/?category=Headwear&audience=All'},target),false);
 });
