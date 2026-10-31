@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-relay",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Relay Track Pants front view; images 2/3 supply front/back. Show ONLY these exact relaxed straight-leg burgundy tricot trousers with gathered elastic waist, curved ivory stripes running down both outer legs around black mesh diamond-shaped knee inserts, small ivory winged V on wearer LEFT FRONT thigh only. Straight-on front. Preserve panelling geometry, side pocket openings, fabric and leg proportions. Completely remove model, skin, white T-shirt, shoes, titles and all other objects. Hollow waistband, invisible form, full length trousers centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, even soft light. No mannequin, hanger, captions, floating logos, collage or inset. Do not mirror, redesign or add any logo on the rear or right thigh.",
+    "outputFile": "public/images/catalogue/r16/relay-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0018-4000-8000-000000000001.webp",
+    "sha256": "e5e7456febcf786b7bd2605d382f5938539addf737d5bd464d4e2ef51c8bb3e5",
+    "md5": "1d6c3b1c1de859b0d52c5d042127b87a",
+    "bytes": 83686,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/9492495e-f6ec-5ffc-858c-a5c13eec8f15.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-f00a55d3-e496-4bc7-acfd-7603ca4bc4d8"
+  },
+  {
+    "productId": "vn-studio-relay",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Relay Track Pants back view; images 2/3 supply front/back. Show ONLY these exact relaxed straight-leg burgundy tricot trousers with gathered elastic waist, curved ivory stripes running down both outer legs around black mesh diamond-shaped knee inserts, small ivory winged V on wearer LEFT FRONT thigh only. Straight-on back. Preserve panelling geometry, side pocket openings, fabric and leg proportions. Completely remove model, skin, white T-shirt, shoes, titles and all other objects. Hollow waistband, invisible form, full length trousers centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, even soft light. No mannequin, hanger, captions, floating logos, collage or inset. Do not mirror, redesign or add any logo on the rear or right thigh.",
+    "outputFile": "public/images/catalogue/r16/relay-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0018-4000-8000-000000000002.webp",
+    "sha256": "2b2a54158e023323bfe1ec1960b2cb22dee841c2314bddce2559e53113110ff2",
+    "md5": "823cd28725f997bf851cf962d8352036",
+    "bytes": 78488,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/1ecadc01-43d1-5e6f-8081-b6a1fc1f346d.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-0b2a23c8-36de-4ae0-8b45-15d678731f44"
+  },
+  {
+    "productId": "vn-studio-relay",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Relay Track Pants left view; images 2/3 supply front/back. Show ONLY these exact relaxed straight-leg burgundy tricot trousers with gathered elastic waist, curved ivory stripes running down both outer legs around black mesh diamond-shaped knee inserts, small ivory winged V on wearer LEFT FRONT thigh only. True left profile, front edge facing image left. Preserve panelling geometry, side pocket openings, fabric and leg proportions. Completely remove model, skin, white T-shirt, shoes, titles and all other objects. Hollow waistband, invisible form, full length trousers centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, even soft light. No mannequin, hanger, captions, floating logos, collage or inset. Do not mirror, redesign or add any logo on the rear or right thigh.",
+    "outputFile": "public/images/catalogue/r16/relay-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0018-4000-8000-000000000003.webp",
+    "sha256": "d59bca727e68635a2cfa8337090c73da94e0066b43ca02c7359fca98978b1133",
+    "md5": "5fbcbfce5cc6248f90a81e8cb6e6ec78",
+    "bytes": 57140,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/3b5e3a5b-e60a-5f1e-ad1f-bcc01a780180.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-b9ae1fa1-8acd-45c2-9198-fd3ebc048a76"
+  },
+  {
+    "productId": "vn-studio-relay",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Relay Track Pants right view; images 2/3 supply front/back. Show ONLY these exact relaxed straight-leg burgundy tricot trousers with gathered elastic waist, curved ivory stripes running down both outer legs around black mesh diamond-shaped knee inserts, small ivory winged V on wearer LEFT FRONT thigh only. True right profile, front edge facing image right. Preserve panelling geometry, side pocket openings, fabric and leg proportions. Completely remove model, skin, white T-shirt, shoes, titles and all other objects. Hollow waistband, invisible form, full length trousers centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, even soft light. No mannequin, hanger, captions, floating logos, collage or inset. Do not mirror, redesign or add any logo on the rear or right thigh.",
+    "outputFile": "public/images/catalogue/r16/relay-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0018-4000-8000-000000000004.webp",
+    "sha256": "639d56b5c9c9c77597b3ecac91869e91c22ea5e5d5881cd0f358d68fe196b8d9",
+    "md5": "a4e18fdd3d91b25d5e7daa0c29ac30bf",
+    "bytes": 50800,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/8d34799e-fc13-5d86-9db8-a3de0b87e671.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-3a736985-5b00-4cf3-9831-2456bb0830a5"
+  }
+]

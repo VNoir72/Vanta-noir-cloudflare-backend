@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-shelter",
+    "view": "front",
+    "prompt": "Create ONE separate photorealistic garment-only front view of the exact Shelter navy puffer gilet in the reference. Remove person entirely, black undershirt sleeves, trousers, shoes and all text. Invisible mannequin construction with empty armholes, natural volume, grey studio background and subtle floor shadow. Preserve navy padded sleeveless vest, high padded stand collar, fitted hip length, silver centre zip, angled zipped front pockets, distinctive sweeping curved asymmetric quilting from references. Small winged V badge only wearer's left front chest, never on back. For front view reproduce appropriate visible construction faithfully; no extra designs or logos. Full garment centred, large, uncropped, no collage. References show front and back as design authority and first reference the requested angle. This is a design visualization.",
+    "outputFile": "public/images/catalogue/r16/shelter-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0019-4000-8000-000000000001.webp",
+    "sha256": "d39ccdd72ed245320154f7dcee80dab578a5d2dd1c3d86067e4800a6f8eec376",
+    "md5": "73dfcc6437ff1445bac9c5fde3ff58fd",
+    "bytes": 114028,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/4cd169cd-ca1d-5879-b847-471a2c3e5ab2.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-b78343f5-4704-4947-88bd-4117fd5e4984"
+  },
+  {
+    "productId": "vn-studio-shelter",
+    "view": "back",
+    "prompt": "Create ONE separate photorealistic garment-only back view of the exact Shelter navy puffer gilet in the reference. Remove person entirely, black undershirt sleeves, trousers, shoes and all text. Invisible mannequin construction with empty armholes, natural volume, grey studio background and subtle floor shadow. Preserve navy padded sleeveless vest, high padded stand collar, fitted hip length, silver centre zip, angled zipped front pockets, distinctive sweeping curved asymmetric quilting from references. Small winged V badge only wearer's left front chest, never on back. For back view reproduce appropriate visible construction faithfully; no extra designs or logos. Full garment centred, large, uncropped, no collage. References show front and back as design authority and first reference the requested angle. This is a design visualization.",
+    "outputFile": "public/images/catalogue/r16/shelter-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0019-4000-8000-000000000002.webp",
+    "sha256": "2e97058fc1b1830babc7836aafc06336f21520a5e3936b6064b3b7720e0f4234",
+    "md5": "fe1fe75bf59238906bbddc65ac6eaf6e",
+    "bytes": 84150,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/bc62449c-3347-5885-9e80-37907a274334.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-3bd22f8b-4447-4291-bc4c-aeac50571b42"
+  },
+  {
+    "productId": "vn-studio-shelter",
+    "view": "left",
+    "prompt": "Create ONE separate photorealistic garment-only left view of the exact Shelter navy puffer gilet in the reference. Remove person entirely, black undershirt sleeves, trousers, shoes and all text. Invisible mannequin construction with empty armholes, natural volume, grey studio background and subtle floor shadow. Preserve navy padded sleeveless vest, high padded stand collar, fitted hip length, silver centre zip, angled zipped front pockets, distinctive sweeping curved asymmetric quilting from references. Small winged V badge only wearer's left front chest, never on back. For left view reproduce appropriate visible construction faithfully; no extra designs or logos. Full garment centred, large, uncropped, no collage. References show front and back as design authority and first reference the requested angle. This is a design visualization.",
+    "outputFile": "public/images/catalogue/r16/shelter-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0019-4000-8000-000000000003.webp",
+    "sha256": "addbd63b2c6c8ff471f09553c006da4c63bb7e394506bb8d917705cc716b45bf",
+    "md5": "03767293c2a2051bce993c14a7a87796",
+    "bytes": 74712,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/c15a66fd-3792-560e-ac84-519509b08a9b.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-60efdc79-b91a-49d9-a761-5a404ba8e16d"
+  },
+  {
+    "productId": "vn-studio-shelter",
+    "view": "right",
+    "prompt": "Create ONE separate photorealistic garment-only right view of the exact Shelter navy puffer gilet in the reference. Remove person entirely, black undershirt sleeves, trousers, shoes and all text. Invisible mannequin construction with empty armholes, natural volume, grey studio background and subtle floor shadow. Preserve navy padded sleeveless vest, high padded stand collar, fitted hip length, silver centre zip, angled zipped front pockets, distinctive sweeping curved asymmetric quilting from references. Small winged V badge only wearer's left front chest, never on back. For right view reproduce appropriate visible construction faithfully; no extra designs or logos. Full garment centred, large, uncropped, no collage. References show front and back as design authority and first reference the requested angle. This is a design visualization.",
+    "outputFile": "public/images/catalogue/r16/shelter-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0019-4000-8000-000000000004.webp",
+    "sha256": "db422a7d5830099c780a0ff0527d0b5d14348f0681b2db98f1b15129eaf3f533",
+    "md5": "9a387c711634730782f36055275a8276",
+    "bytes": 78712,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/fa5e737d-b319-5204-bbd8-c7ac60aa63db.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-361d053d-9400-43cf-a4e3-df3944f1d214"
+  }
+]

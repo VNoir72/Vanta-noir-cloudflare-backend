@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-night-study",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Night Study Rugby Jersey front view; images 2/3 show exact front/back. Show ONLY oversized long-sleeve heavyweight cotton rugby jersey, broad horizontal burgundy/petrol stripes, ivory twill collar and short ivory button placket, petrol rib cuffs, large ivory \"26\" applique low across front AND back with thin diagonal ivory streaks. Preserve the number placement from reference; never reverse numerals. Small ivory winged V on wearer left front chest only. Straight-on front. Remove model, skin, trousers, shoes and surrounding typography. Hollow collar/cuffs, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, soft even light. No mannequin, hanger, captions, floating logos, collage or inset. Faithfully preserve design, proportions, stripe placement and artwork.",
+    "outputFile": "public/images/catalogue/r16/night-study-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0017-4000-8000-000000000001.webp",
+    "sha256": "2cda1f175c0492c63e02b26175ae934204e644e6229e8f3354e196a09e171b83",
+    "md5": "858a35d01fb2462fc1f6306e890cd263",
+    "bytes": 163910,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/b53e07c3-2538-5fdb-ad46-072d905640a0.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-18ee3a05-a3f1-4af7-9915-b72e4ade2e90"
+  },
+  {
+    "productId": "vn-studio-night-study",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Night Study Rugby Jersey back view; images 2/3 show exact front/back. Show ONLY oversized long-sleeve heavyweight cotton rugby jersey, broad horizontal burgundy/petrol stripes, ivory twill collar and short ivory button placket, petrol rib cuffs, large ivory \"26\" applique low across front AND back with thin diagonal ivory streaks. Preserve the number placement from reference; never reverse numerals. Small ivory winged V on wearer left front chest only. Straight-on back. Remove model, skin, trousers, shoes and surrounding typography. Hollow collar/cuffs, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, soft even light. No mannequin, hanger, captions, floating logos, collage or inset. Faithfully preserve design, proportions, stripe placement and artwork.",
+    "outputFile": "public/images/catalogue/r16/night-study-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0017-4000-8000-000000000002.webp",
+    "sha256": "a781ff1987029c220ea5f7031511d50beb4a4ebc75146c7822c6a2fc7be8dae2",
+    "md5": "ab8a4ee5983dce65083012f9634625f8",
+    "bytes": 160174,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/7a57554a-634e-5b3f-8d7c-541211633e1a.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-03b88418-b28e-4dc3-beb7-e1a32183d5f8"
+  },
+  {
+    "productId": "vn-studio-night-study",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Night Study Rugby Jersey left view; images 2/3 show exact front/back. Show ONLY oversized long-sleeve heavyweight cotton rugby jersey, broad horizontal burgundy/petrol stripes, ivory twill collar and short ivory button placket, petrol rib cuffs, large ivory \"26\" applique low across front AND back with thin diagonal ivory streaks. Preserve the number placement from reference; never reverse numerals. Small ivory winged V on wearer left front chest only. True left profile, front edge facing image left. Remove model, skin, trousers, shoes and surrounding typography. Hollow collar/cuffs, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, soft even light. No mannequin, hanger, captions, floating logos, collage or inset. Faithfully preserve design, proportions, stripe placement and artwork.",
+    "outputFile": "public/images/catalogue/r16/night-study-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0017-4000-8000-000000000003.webp",
+    "sha256": "bc0c06f20fd6566550309fe9e1894236d1a8ecdc42440df2c8e6f5e4a92ec690",
+    "md5": "c124c073629c4406c25bff8f51bc1a8a",
+    "bytes": 94858,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/e556b084-540e-5c0e-b999-8398e2f56acb.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-190faf64-e293-4288-bb87-fdaef6a61707"
+  },
+  {
+    "productId": "vn-studio-night-study",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Night Study Rugby Jersey right view; images 2/3 show exact front/back. Show ONLY oversized long-sleeve heavyweight cotton rugby jersey, broad horizontal burgundy/petrol stripes, ivory twill collar and short ivory button placket, petrol rib cuffs, large ivory \"26\" applique low across front AND back with thin diagonal ivory streaks. Preserve the number placement from reference; never reverse numerals. Small ivory winged V on wearer left front chest only. True right profile, front edge facing image right. Remove model, skin, trousers, shoes and surrounding typography. Hollow collar/cuffs, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio background with subtle soft ground shadow, soft even light. No mannequin, hanger, captions, floating logos, collage or inset. Faithfully preserve design, proportions, stripe placement and artwork.",
+    "outputFile": "public/images/catalogue/r16/night-study-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0017-4000-8000-000000000004.webp",
+    "sha256": "db117cde7a41dd5b744b492e10f960cf4adef4286e58eb6b13026eb89297f6d1",
+    "md5": "5f052bf185fbcc43dad983f1ced09faa",
+    "bytes": 76184,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/66a8f928-7784-5276-adcd-c40c3db2eff1.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-1d3afc3f-7fef-4197-ac1d-8c2641c84e0a"
+  }
+]

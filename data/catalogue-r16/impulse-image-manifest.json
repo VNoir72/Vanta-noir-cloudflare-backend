@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-impulse",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Impulse Graphic Tee front view. Images 2/3: front/back design continuity. Remove model, all skin, trousers, shoes and surrounding typography completely. ONLY exact oversized dropped-shoulder petrol-blue cotton jersey crewneck T-shirt with raised curving applique channels filled with coral-orange, ochre and ivory abstract distressed PRINT (base fabric remains clean). Preserve different front and back flowing graphic positions, plain petrol sleeves, small tonal winged V on wearer left front chest. Straight-on front. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 generous margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, floating logos, collage, inset or extra clothing. Match reference garment, proportions, texture and artwork without redesign or mirroring.",
+    "outputFile": "public/images/catalogue/r16/impulse-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0016-4000-8000-000000000001.webp",
+    "sha256": "b3f8fb4841c242d1e2db564b93ec45e5ab3bf003d61e9fac5f211bb0356e5a6b",
+    "md5": "0f1a8e5ae5e6c09dabbf9452c35448d0",
+    "bytes": 242716,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/c807d933-3e6d-5d6c-bce1-67cf249c0cfa.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-10dc01d9-a154-43df-80cc-8b39174239a3"
+  },
+  {
+    "productId": "vn-studio-impulse",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Impulse Graphic Tee back view. Images 2/3: front/back design continuity. Remove model, all skin, trousers, shoes and surrounding typography completely. ONLY exact oversized dropped-shoulder petrol-blue cotton jersey crewneck T-shirt with raised curving applique channels filled with coral-orange, ochre and ivory abstract distressed PRINT (base fabric remains clean). Preserve different front and back flowing graphic positions, plain petrol sleeves, small tonal winged V on wearer left front chest. Straight-on back. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 generous margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, floating logos, collage, inset or extra clothing. Match reference garment, proportions, texture and artwork without redesign or mirroring.",
+    "outputFile": "public/images/catalogue/r16/impulse-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0016-4000-8000-000000000002.webp",
+    "sha256": "d64e3bf07496cd93301e4605a92d1098f5873583a16d7be26f97a1beb6d7fb92",
+    "md5": "cb46ee82f6483935ff1cf1ca49d74d61",
+    "bytes": 197096,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/f2083804-0b83-502b-ba88-f6f78c36c1a2.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-50d9f7c4-cbf2-49e9-93ce-7f88082aa186"
+  },
+  {
+    "productId": "vn-studio-impulse",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Impulse Graphic Tee left view. Images 2/3: front/back design continuity. Remove model, all skin, trousers, shoes and surrounding typography completely. ONLY exact oversized dropped-shoulder petrol-blue cotton jersey crewneck T-shirt with raised curving applique channels filled with coral-orange, ochre and ivory abstract distressed PRINT (base fabric remains clean). Preserve different front and back flowing graphic positions, plain petrol sleeves, small tonal winged V on wearer left front chest. True left profile, front edge facing image left. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 generous margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, floating logos, collage, inset or extra clothing. Match reference garment, proportions, texture and artwork without redesign or mirroring.",
+    "outputFile": "public/images/catalogue/r16/impulse-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0016-4000-8000-000000000003.webp",
+    "sha256": "52a4c87b52a5853d91a4036d331813d8ee90477b5e0a770107ca00fd27ac6ca2",
+    "md5": "f5524fee39f8470f0b40e47f2f3dd3f0",
+    "bytes": 130638,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/5e273b20-4146-5630-9bcb-b9457d3cf2fa.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-c8ae2247-725a-4bdf-9359-fc03ef7b4fea"
+  },
+  {
+    "productId": "vn-studio-impulse",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Impulse Graphic Tee right view. Images 2/3: front/back design continuity. Remove model, all skin, trousers, shoes and surrounding typography completely. ONLY exact oversized dropped-shoulder petrol-blue cotton jersey crewneck T-shirt with raised curving applique channels filled with coral-orange, ochre and ivory abstract distressed PRINT (base fabric remains clean). Preserve different front and back flowing graphic positions, plain petrol sleeves, small tonal winged V on wearer left front chest. True right profile, front edge facing image right. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 generous margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, floating logos, collage, inset or extra clothing. Match reference garment, proportions, texture and artwork without redesign or mirroring.",
+    "outputFile": "public/images/catalogue/r16/impulse-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0016-4000-8000-000000000004.webp",
+    "sha256": "5f4ce833a307b40f7ec55771eeec6aa9b3bc53a0de3c689c1ad163309370f42b",
+    "md5": "697f5e1b6dded5fab3c48499b2398f28",
+    "bytes": 157642,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/62e770b6-089c-53f7-b511-4d38ecc14e12.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-70cbc059-6f5f-4661-aa66-a4991213f7fa"
+  }
+]

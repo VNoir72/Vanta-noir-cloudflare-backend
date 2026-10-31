@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-tideline",
+    "view": "front",
+    "prompt": "Create ONE garment-only front view of the exact Tideline forest green fleece shorts in references. Remove person, tank top, legs, shoes, socks, and title. Invisible mannequin, full shorts centered uncropped on light grey studio with subtle shadow. Preserve elastic waistband, matching green drawstrings with metal tips, relaxed mid-thigh shape, side pockets, curved side panels with mustard triangular ribbed inserts at BOTH lower outer hems. IMPORTANT front image is authoritative: ivory topographical contour lines are on WEARER RIGHT front/outer leg (image LEFT in straight front view). Small ivory winged V is only on WEARER LEFT front thigh near hem (image RIGHT in front view). Back is plain green with mustard side inserts, no graphic or emblem, no invented rear pockets. Straight front view, contours on image left and V on image right. Side source pictures may be mirrored; obey specified anatomical placement from front source. Preserve exact supplied winged V shape; no extra branding. Photorealistic design visualization, single image, no montage.",
+    "outputFile": "public/images/catalogue/r16/tideline-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0020-4000-8000-000000000001.webp",
+    "sha256": "1a6ffd9e6088faf7cf2035e5e18fb18d9374ed0f6ae60fe64e10a25328ba13f3",
+    "md5": "558a828fee906b22333438e06e6114d4",
+    "bytes": 240900,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/a4b7a970-b605-574c-93e1-e38358f0c4b5.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-529a2d67-6d90-48ca-b7f3-88825e379f2a"
+  },
+  {
+    "productId": "vn-studio-tideline",
+    "view": "back",
+    "prompt": "Create ONE garment-only back view of the exact Tideline forest green fleece shorts in references. Remove person, tank top, legs, shoes, socks, and title. Invisible mannequin, full shorts centered uncropped on light grey studio with subtle shadow. Preserve elastic waistband, matching green drawstrings with metal tips, relaxed mid-thigh shape, side pockets, curved side panels with mustard triangular ribbed inserts at BOTH lower outer hems. IMPORTANT front image is authoritative: ivory topographical contour lines are on WEARER RIGHT front/outer leg (image LEFT in straight front view). Small ivory winged V is only on WEARER LEFT front thigh near hem (image RIGHT in front view). Back is plain green with mustard side inserts, no graphic or emblem, no invented rear pockets. Straight back view, no V or contour graphics on rear. Side source pictures may be mirrored; obey specified anatomical placement from front source. Preserve exact supplied winged V shape; no extra branding. Photorealistic design visualization, single image, no montage.",
+    "outputFile": "public/images/catalogue/r16/tideline-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0020-4000-8000-000000000002.webp",
+    "sha256": "c90a59321315cee858fc25f20501fa72c7cf420aafe2fb7c73e0084798be7611",
+    "md5": "2c8aef5468a627540e95cbef05bf91de",
+    "bytes": 209518,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/66b86f9a-5703-5d7c-b7ad-0f669ea6fcef.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-e9ca56be-675d-4e02-aadd-bdd13b52588e"
+  },
+  {
+    "productId": "vn-studio-tideline",
+    "view": "left",
+    "prompt": "Create ONE garment-only left view of the exact Tideline forest green fleece shorts in references. Remove person, tank top, legs, shoes, socks, and title. Invisible mannequin, full shorts centered uncropped on light grey studio with subtle shadow. Preserve elastic waistband, matching green drawstrings with metal tips, relaxed mid-thigh shape, side pockets, curved side panels with mustard triangular ribbed inserts at BOTH lower outer hems. IMPORTANT front image is authoritative: ivory topographical contour lines are on WEARER RIGHT front/outer leg (image LEFT in straight front view). Small ivory winged V is only on WEARER LEFT front thigh near hem (image RIGHT in front view). Back is plain green with mustard side inserts, no graphic or emblem, no invented rear pockets. Wearer's LEFT side view, front pointing image left, show small V near front hem and mustard insert; no contour lines on this leg. Side source pictures may be mirrored; obey specified anatomical placement from front source. Preserve exact supplied winged V shape; no extra branding. Photorealistic design visualization, single image, no montage.",
+    "outputFile": "public/images/catalogue/r16/tideline-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0020-4000-8000-000000000003.webp",
+    "sha256": "c48bc6b6f452429ba4f6e7889a6654b4099d20e1f001d6e05bf84c3cb6fbc22d",
+    "md5": "32d38bdbc85e3d81661803a4ed397237",
+    "bytes": 129484,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/90ccc74a-c900-5001-b871-880c83bd4cc0.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-ac19cc52-f7be-4904-a578-868e19d7816a"
+  },
+  {
+    "productId": "vn-studio-tideline",
+    "view": "right",
+    "prompt": "Create ONE garment-only right view of the exact Tideline forest green fleece shorts in references. Remove person, tank top, legs, shoes, socks, and title. Invisible mannequin, full shorts centered uncropped on light grey studio with subtle shadow. Preserve elastic waistband, matching green drawstrings with metal tips, relaxed mid-thigh shape, side pockets, curved side panels with mustard triangular ribbed inserts at BOTH lower outer hems. IMPORTANT front image is authoritative: ivory topographical contour lines are on WEARER RIGHT front/outer leg (image LEFT in straight front view). Small ivory winged V is only on WEARER LEFT front thigh near hem (image RIGHT in front view). Back is plain green with mustard side inserts, no graphic or emblem, no invented rear pockets. Wearer's RIGHT side view, front pointing image right, show contour lines and mustard insert; no V on this leg. Side source pictures may be mirrored; obey specified anatomical placement from front source. Preserve exact supplied winged V shape; no extra branding. Photorealistic design visualization, single image, no montage.",
+    "outputFile": "public/images/catalogue/r16/tideline-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0020-4000-8000-000000000004.webp",
+    "sha256": "c224a8dc4f34656e3cf7b47d9842a4715702a3884ddf2696e3e391a3b6a44db9",
+    "md5": "137f3e6a74fe31d701ca272ba919590f",
+    "bytes": 172948,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/bafd6e6f-cb2b-5c0c-84dc-8974e390bae0.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-7ead4b30-0896-4774-9d52-5606458d7bee"
+  }
+]

@@ -1,0 +1,3 @@
+-- Restore only the selected Fold primary mappings from the pre-release backup.
+UPDATE product_images SET image_url=(SELECT b.image_url FROM audit_r16_20261031_images b WHERE b.id=product_images.id),image_alt=(SELECT b.image_alt FROM audit_r16_20261031_images b WHERE b.id=product_images.id) WHERE product_id='vn-studio-fold' AND image_url LIKE 'https://api.vantanoir.store/api/media/products/df016031-0021-%' AND EXISTS(SELECT 1 FROM audit_r16_20261031_images b WHERE b.id=product_images.id);
+UPDATE products SET image_url=(SELECT image_url FROM audit_r16_20261031_products WHERE id='vn-studio-fold'),updated_at=datetime('now') WHERE id='vn-studio-fold' AND image_url='https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000001.webp';

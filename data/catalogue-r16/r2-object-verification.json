@@ -1,0 +1,442 @@
+[
+  {
+    "key": "products/df016031-0011-4000-8000-000000000001.webp",
+    "etag": "225039bca903c941c87a71557e43f6d8",
+    "last_modified": "2026-10-31T21:33:07.744Z",
+    "size": 219836,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0011-4000-8000-000000000002.webp",
+    "etag": "cddf7ad2c83f941b9baa682dfae9370e",
+    "last_modified": "2026-10-31T21:33:53.011Z",
+    "size": 192554,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0011-4000-8000-000000000003.webp",
+    "etag": "ec0a7925d1a7d4530fa2f46802609d5b",
+    "last_modified": "2026-10-31T21:34:41.012Z",
+    "size": 118686,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0011-4000-8000-000000000004.webp",
+    "etag": "2cef4c830f8e66dc27df5d3e36d0573e",
+    "last_modified": "2026-10-31T21:34:53.211Z",
+    "size": 143964,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0012-4000-8000-000000000001.webp",
+    "etag": "8aa457174806c589994364a79f3d4703",
+    "last_modified": "2026-10-31T21:38:45.324Z",
+    "size": 130906,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0012-4000-8000-000000000002.webp",
+    "etag": "268b49f7152b8f52cd4576ce29911997",
+    "last_modified": "2026-10-31T21:38:45.956Z",
+    "size": 87520,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0012-4000-8000-000000000003.webp",
+    "etag": "e24f53448fb6179322ce27cf3c92f04b",
+    "last_modified": "2026-10-31T21:38:46.394Z",
+    "size": 103488,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0012-4000-8000-000000000004.webp",
+    "etag": "8bc14bf20815c987dcae79fa91413652",
+    "last_modified": "2026-10-31T21:38:46.881Z",
+    "size": 79964,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0013-4000-8000-000000000001.webp",
+    "etag": "1dbef2b11610f3ec5e164994a3c212c3",
+    "last_modified": "2026-10-31T21:43:54.786Z",
+    "size": 226098,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0013-4000-8000-000000000002.webp",
+    "etag": "c1c78e4dd4be731658b6df82a7247a4c",
+    "last_modified": "2026-10-31T21:43:55.247Z",
+    "size": 222518,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0013-4000-8000-000000000003.webp",
+    "etag": "9bb7b5e1a9075904561174765dea45e8",
+    "last_modified": "2026-10-31T21:43:55.704Z",
+    "size": 145302,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0013-4000-8000-000000000004.webp",
+    "etag": "576c3357c93fbf2194a88e5bf9ff5bb5",
+    "last_modified": "2026-10-31T21:43:56.217Z",
+    "size": 128034,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0014-4000-8000-000000000001.webp",
+    "etag": "ee6b0894279b3334893905e1f842ba84",
+    "last_modified": "2026-10-31T21:45:02.350Z",
+    "size": 158314,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0014-4000-8000-000000000002.webp",
+    "etag": "bf661ce15bda83c133ef18e6a941950b",
+    "last_modified": "2026-10-31T21:45:02.888Z",
+    "size": 134752,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0014-4000-8000-000000000003.webp",
+    "etag": "43ad84435b2e7471a395ed0ac5e57ab7",
+    "last_modified": "2026-10-31T21:45:03.735Z",
+    "size": 103982,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0014-4000-8000-000000000004.webp",
+    "etag": "15cf288160c8bf57f36b9a26e62bb8eb",
+    "last_modified": "2026-10-31T21:45:04.205Z",
+    "size": 108132,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0015-4000-8000-000000000001.webp",
+    "etag": "3a8f086f670f9e6cff53cb16080897f2",
+    "last_modified": "2026-10-31T22:01:23.489Z",
+    "size": 170960,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0015-4000-8000-000000000002.webp",
+    "etag": "86aaf644d68b8b9ce29e4aabf817c244",
+    "last_modified": "2026-10-31T22:01:23.936Z",
+    "size": 171176,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0015-4000-8000-000000000003.webp",
+    "etag": "726dd9d991274e5ef25f71b54a97f664",
+    "last_modified": "2026-10-31T22:01:24.422Z",
+    "size": 105746,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0015-4000-8000-000000000004.webp",
+    "etag": "e5ee06e10ba55053a22d748705f96d10",
+    "last_modified": "2026-10-31T22:01:24.891Z",
+    "size": 91338,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0016-4000-8000-000000000001.webp",
+    "etag": "0f1a8e5ae5e6c09dabbf9452c35448d0",
+    "last_modified": "2026-10-31T22:01:57.460Z",
+    "size": 242716,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0016-4000-8000-000000000002.webp",
+    "etag": "cb46ee82f6483935ff1cf1ca49d74d61",
+    "last_modified": "2026-10-31T22:01:57.939Z",
+    "size": 197096,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0016-4000-8000-000000000003.webp",
+    "etag": "f5524fee39f8470f0b40e47f2f3dd3f0",
+    "last_modified": "2026-10-31T22:01:58.406Z",
+    "size": 130638,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0016-4000-8000-000000000004.webp",
+    "etag": "697f5e1b6dded5fab3c48499b2398f28",
+    "last_modified": "2026-10-31T22:01:58.957Z",
+    "size": 157642,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0017-4000-8000-000000000001.webp",
+    "etag": "858a35d01fb2462fc1f6306e890cd263",
+    "last_modified": "2026-10-31T22:02:24.585Z",
+    "size": 163910,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0017-4000-8000-000000000002.webp",
+    "etag": "ab8a4ee5983dce65083012f9634625f8",
+    "last_modified": "2026-10-31T22:02:25.086Z",
+    "size": 160174,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0017-4000-8000-000000000003.webp",
+    "etag": "c124c073629c4406c25bff8f51bc1a8a",
+    "last_modified": "2026-10-31T22:02:25.551Z",
+    "size": 94858,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0017-4000-8000-000000000004.webp",
+    "etag": "5f052bf185fbcc43dad983f1ced09faa",
+    "last_modified": "2026-10-31T22:02:25.985Z",
+    "size": 76184,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0018-4000-8000-000000000001.webp",
+    "etag": "1d6c3b1c1de859b0d52c5d042127b87a",
+    "last_modified": "2026-10-31T22:02:43.946Z",
+    "size": 83686,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0018-4000-8000-000000000002.webp",
+    "etag": "823cd28725f997bf851cf962d8352036",
+    "last_modified": "2026-10-31T22:02:44.564Z",
+    "size": 78488,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0018-4000-8000-000000000003.webp",
+    "etag": "5fbcbfce5cc6248f90a81e8cb6e6ec78",
+    "last_modified": "2026-10-31T22:02:45.068Z",
+    "size": 57140,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0018-4000-8000-000000000004.webp",
+    "etag": "a4e18fdd3d91b25d5e7daa0c29ac30bf",
+    "last_modified": "2026-10-31T22:02:45.632Z",
+    "size": 50800,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0019-4000-8000-000000000001.webp",
+    "etag": "73dfcc6437ff1445bac9c5fde3ff58fd",
+    "last_modified": "2026-10-31T22:03:06.540Z",
+    "size": 114028,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0019-4000-8000-000000000002.webp",
+    "etag": "fe1fe75bf59238906bbddc65ac6eaf6e",
+    "last_modified": "2026-10-31T22:03:06.951Z",
+    "size": 84150,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0019-4000-8000-000000000003.webp",
+    "etag": "03767293c2a2051bce993c14a7a87796",
+    "last_modified": "2026-10-31T22:03:07.468Z",
+    "size": 74712,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0019-4000-8000-000000000004.webp",
+    "etag": "9a387c711634730782f36055275a8276",
+    "last_modified": "2026-10-31T22:03:08.023Z",
+    "size": 78712,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0020-4000-8000-000000000001.webp",
+    "etag": "558a828fee906b22333438e06e6114d4",
+    "last_modified": "2026-10-31T22:03:41.642Z",
+    "size": 240900,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0020-4000-8000-000000000002.webp",
+    "etag": "2c8aef5468a627540e95cbef05bf91de",
+    "last_modified": "2026-10-31T22:03:42.165Z",
+    "size": 209518,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0020-4000-8000-000000000003.webp",
+    "etag": "32d38bdbc85e3d81661803a4ed397237",
+    "last_modified": "2026-10-31T22:03:42.810Z",
+    "size": 129484,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  },
+  {
+    "key": "products/df016031-0020-4000-8000-000000000004.webp",
+    "etag": "137f3e6a74fe31d701ca272ba919590f",
+    "last_modified": "2026-10-31T22:03:43.266Z",
+    "size": 172948,
+    "http_metadata": {
+      "contentType": "image/webp"
+    },
+    "custom_metadata": {},
+    "storage_class": "Standard"
+  }
+]

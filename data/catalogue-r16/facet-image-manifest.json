@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-facet",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Facet Leather Jacket front view; images 2 and 3 are front/back construction references. Extract ONLY the exact black collarless cropped boxy leather jacket, removing model, body, trousers, shoes and text. Preserve the angular faceted leather panel seam geometry, center front silver two-way zipper, vertical welt pockets, subtle dark winged V on outer upper sleeves as reference, smooth supple black lamb leather with restrained natural shine. No added decoration or lapels. Straight-on front; do not mirror garment artwork. Hollow collar and sleeves, invisible form, entire jacket centered with margins, portrait 3:4. Neutral light grey seamless studio background with subtle soft ground shadow and even soft light. No body, model, hanger, mannequin, captions, floating logos, collage or inset. Match original design and proportions; do not redesign.",
+    "outputFile": "public/images/catalogue/r16/facet-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0014-4000-8000-000000000001.webp",
+    "sha256": "ef4b9bcd64d52c8d82119a4143080497130def1ab6b82b81563fdbe55f834601",
+    "md5": "ee6b0894279b3334893905e1f842ba84",
+    "bytes": 158314,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/7e94e336-00d8-5369-9e9b-92080d163fbe.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-2ac9e606-e9c2-4538-bf61-d92c581b6502"
+  },
+  {
+    "productId": "vn-studio-facet",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Facet Leather Jacket back view; images 2 and 3 are front/back construction references. Extract ONLY the exact black collarless cropped boxy leather jacket, removing model, body, trousers, shoes and text. Preserve the angular faceted leather panel seam geometry, center front silver two-way zipper, vertical welt pockets, subtle dark winged V on outer upper sleeves as reference, smooth supple black lamb leather with restrained natural shine. No added decoration or lapels. Straight-on back; do not mirror garment artwork. Hollow collar and sleeves, invisible form, entire jacket centered with margins, portrait 3:4. Neutral light grey seamless studio background with subtle soft ground shadow and even soft light. No body, model, hanger, mannequin, captions, floating logos, collage or inset. Match original design and proportions; do not redesign.",
+    "outputFile": "public/images/catalogue/r16/facet-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0014-4000-8000-000000000002.webp",
+    "sha256": "ff9f6bf8224f1f344c38f39edeed1fe2b47ae44f4076c185e1d573b3e6861877",
+    "md5": "bf661ce15bda83c133ef18e6a941950b",
+    "bytes": 134752,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/b8db774e-1e98-582a-acfe-5744884a8fbc.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-bef3fe8e-0c59-4057-8777-14b6b96b527e"
+  },
+  {
+    "productId": "vn-studio-facet",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Facet Leather Jacket left view; images 2 and 3 are front/back construction references. Extract ONLY the exact black collarless cropped boxy leather jacket, removing model, body, trousers, shoes and text. Preserve the angular faceted leather panel seam geometry, center front silver two-way zipper, vertical welt pockets, subtle dark winged V on outer upper sleeves as reference, smooth supple black lamb leather with restrained natural shine. No added decoration or lapels. True left profile, front edge facing image left; do not mirror garment artwork. Hollow collar and sleeves, invisible form, entire jacket centered with margins, portrait 3:4. Neutral light grey seamless studio background with subtle soft ground shadow and even soft light. No body, model, hanger, mannequin, captions, floating logos, collage or inset. Match original design and proportions; do not redesign.",
+    "outputFile": "public/images/catalogue/r16/facet-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0014-4000-8000-000000000003.webp",
+    "sha256": "8bec9debb8c5828b573b5a189fca1e0bd7eea7fdcbebaafe1896a9aab245c8e0",
+    "md5": "43ad84435b2e7471a395ed0ac5e57ab7",
+    "bytes": 103982,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/47fcc803-9dfb-59aa-a3b0-957d58146b8c.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-8b4bea10-a443-4b02-a4ca-928f067260a4"
+  },
+  {
+    "productId": "vn-studio-facet",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Facet Leather Jacket right view; images 2 and 3 are front/back construction references. Extract ONLY the exact black collarless cropped boxy leather jacket, removing model, body, trousers, shoes and text. Preserve the angular faceted leather panel seam geometry, center front silver two-way zipper, vertical welt pockets, subtle dark winged V on outer upper sleeves as reference, smooth supple black lamb leather with restrained natural shine. No added decoration or lapels. True right profile, front edge facing image right; do not mirror garment artwork. Hollow collar and sleeves, invisible form, entire jacket centered with margins, portrait 3:4. Neutral light grey seamless studio background with subtle soft ground shadow and even soft light. No body, model, hanger, mannequin, captions, floating logos, collage or inset. Match original design and proportions; do not redesign.",
+    "outputFile": "public/images/catalogue/r16/facet-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0014-4000-8000-000000000004.webp",
+    "sha256": "5c944a8936e841a7659a8a079052a120c4fdf2b8d87a4fe73c2e311f05aaa5bd",
+    "md5": "15cf288160c8bf57f36b9a26e62bb8eb",
+    "bytes": 108132,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/8ea163e4-8669-5214-b16f-41c00cf22681.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-db61b5c7-8e24-4fa3-91f5-a2d6cf97387b"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "publishedAt": "2026-10-31",
+  "installedBuildTarget": 32,
+  "sourceCommit": "d5a820fbfe7971968431f0239ca914c75f8ca3ed",
+  "sourceBranch": "fix/build32-performance-2026-10-31",
+  "channel": "production",
+  "platform": "android",
+  "runtimeVersion": "9829b16b33975c503904e03aebd352fa673a78ca",
+  "updateGroup": "fae3be51-72b9-487b-b6c9-33afb34e8965",
+  "workflow": "01a19427-e174-78d4-bf87-42fd931d7761",
+  "status": "Succeeded",
+  "testsPassed": 48,
+  "typecheck": "passed",
+  "lint": "passed",
+  "androidExport": "passed",
+  "physicalDeviceTiming": "not measured",
+  "deviceAdoption": "not confirmed"
+}

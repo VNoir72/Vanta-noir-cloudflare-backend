@@ -1,0 +1,66 @@
+{
+  "productCount": 763,
+  "acceptingOrders": false,
+  "checks": [
+    {
+      "productId": "vn-studio-facet",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-street-switch",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-halo",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-night-study",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-drift",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-tideline",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-relay",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-shelter",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-echo",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    },
+    {
+      "productId": "vn-studio-impulse",
+      "primaryUrlsMatch": true,
+      "galleryCount": 6,
+      "heroMatches": true
+    }
+  ]
+}

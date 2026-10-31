@@ -23,3 +23,20 @@ test('network failures clear timers and preserve errors',async()=>{
  const error=Error('network unavailable');const f=fixture(async()=>{throw error;});
  await assert.rejects(f.fetchWithTimeout('https://example.test'),e=>e===error);assert.equal(f.pending.size,0);
 });
+test('JSON deadline includes a stalled body after successful headers',async()=>{
+ let signal;
+ const f=fixture(async(url,options)=>{signal=options.signal;return {ok:true,json:()=>new Promise(()=>{})};});
+ await assert.rejects(f.fetchJsonWithTimeout('https://example.test/catalog',{},5),/timed out/);
+ assert.equal(signal.aborted,true);assert.equal(f.pending.size,0);
+});
+test('JSON deadline settles even if the native transport ignores abort',async()=>{
+ const f=fixture(()=>new Promise(()=>{}));
+ await assert.rejects(f.fetchJsonWithTimeout('https://example.test/catalog',{},5),/timed out/);
+ assert.equal(f.pending.size,0);
+});
+test('JSON success preserves response status and parsed error bodies',async()=>{
+ const response={ok:false,status:503,json:async()=>({error:'Try again'})};
+ const f=fixture(async()=>response);
+ const result=await f.fetchJsonWithTimeout('https://example.test/catalog');
+ assert.equal(result.response,response);assert.equal(result.data.error,'Try again');assert.equal(f.pending.size,0);
+});

@@ -1,0 +1,140 @@
+{
+  "r2": {
+    "success": true,
+    "errors": [],
+    "messages": [],
+    "result": [
+      {
+        "key": "products/df016031-0021-4000-8000-000000000001.webp",
+        "etag": "aa201c4c699a9acad51a63757ca31cd4",
+        "last_modified": "2026-10-31T22:35:25.998Z",
+        "size": 59020,
+        "http_metadata": {
+          "contentType": "image/webp"
+        },
+        "custom_metadata": {},
+        "storage_class": "Standard"
+      },
+      {
+        "key": "products/df016031-0021-4000-8000-000000000002.webp",
+        "etag": "c8e0683ab7d430bb85a5f22340502b0e",
+        "last_modified": "2026-10-31T22:35:26.500Z",
+        "size": 58658,
+        "http_metadata": {
+          "contentType": "image/webp"
+        },
+        "custom_metadata": {},
+        "storage_class": "Standard"
+      },
+      {
+        "key": "products/df016031-0021-4000-8000-000000000003.webp",
+        "etag": "9beecc4c2d6660c25438a9d6f5b01db9",
+        "last_modified": "2026-10-31T22:35:27.112Z",
+        "size": 50460,
+        "http_metadata": {
+          "contentType": "image/webp"
+        },
+        "custom_metadata": {},
+        "storage_class": "Standard"
+      },
+      {
+        "key": "products/df016031-0021-4000-8000-000000000004.webp",
+        "etag": "b2efa33f926532d33fadab1214b86349",
+        "last_modified": "2026-10-31T22:35:27.548Z",
+        "size": 49666,
+        "http_metadata": {
+          "contentType": "image/webp"
+        },
+        "custom_metadata": {},
+        "storage_class": "Standard"
+      }
+    ]
+  },
+  "db": {
+    "result": [
+      {
+        "results": [
+          {
+            "id": "vn-studio-fold",
+            "image_url": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000001.webp",
+            "gallery_count": 6
+          }
+        ],
+        "success": true,
+        "meta": {
+          "served_by": "v3-prod",
+          "served_by_region": "WEUR",
+          "served_by_colo": "LHR",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.3289
+          },
+          "duration": 0.3289,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 48787456,
+          "rows_read": 8,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      },
+      {
+        "results": [
+          {
+            "id": "viewfix-20261027-vn-studio-fold-front",
+            "image_url": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000001.webp"
+          },
+          {
+            "id": "viewfix-20261027-vn-studio-fold-back",
+            "image_url": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000002.webp"
+          },
+          {
+            "id": "viewfix-20261027-vn-studio-fold-left",
+            "image_url": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000003.webp"
+          },
+          {
+            "id": "viewfix-20261027-vn-studio-fold-right",
+            "image_url": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000004.webp"
+          },
+          {
+            "id": "viewfix-20261027-vn-studio-fold-detail-1",
+            "image_url": "https://api.vantanoir.store/api/media/products/3fb50c7f-d010-56fd-ab05-66242a69cd13.webp"
+          },
+          {
+            "id": "viewfix-20261027-vn-studio-fold-detail-2",
+            "image_url": "https://api.vantanoir.store/api/media/products/178dcc48-513b-5c22-a91b-4f570ed27e95.webp"
+          }
+        ],
+        "success": true,
+        "meta": {
+          "served_by": "v3-prod",
+          "served_by_region": "WEUR",
+          "served_by_colo": "LHR",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.1689
+          },
+          "duration": 0.1689,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 48787456,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      }
+    ],
+    "errors": [],
+    "messages": [],
+    "success": true
+  },
+  "publicBrowserVerification": {
+    "url": "https://vantanoir.store/products/studio-fold?audience=All&category=All",
+    "frontImageLoaded": true,
+    "rightImageLoaded": true,
+    "primaryViews": 4,
+    "detailViews": 2
+  }
+}

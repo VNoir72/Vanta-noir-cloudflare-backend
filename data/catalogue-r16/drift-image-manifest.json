@@ -1,0 +1,58 @@
+[
+  {
+    "productId": "vn-studio-drift",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Drift Pleated Skirt front view. Image 2 is front construction reference. Show ONLY this exact skirt from straight-on front. Remove model, body, white top, boots, surrounding text and any extra objects. Keep black midi length heat-set pleats and cobalt-blue/burnt-orange abstract printed inner pleats in the same side-specific placement, black asymmetric faux-leather wrap waistband. Preserve small silver winged V at wearer left FRONT waistband only when visible at this angle; rear waistband is plain. Match reference artwork, garment silhouette, cut, print proportions and colour faithfully. Garment-only invisible-form studio photograph, hollow waist, no mannequin or hanger. Whole skirt centered portrait 3:4, generous margins, neutral light grey seamless studio backdrop with subtle soft ground shadow, even soft lighting. No redesign, mirroring, captions, collage, inset or watermark.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-drift-0.webp",
+    "outputFile": "public/images/catalogue/r16/drift-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0012-4000-8000-000000000001.webp",
+    "sha256": "8a0990e9c5f6e88b7c4464e1e6cecf4989b348efdc4841c7ec2607ebe4d98a31",
+    "md5": "8aa457174806c589994364a79f3d4703",
+    "bytes": 130906,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/0e057423-0975-509b-8f50-96c3e29bc15f.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-4a8ca74f-887a-43fc-8e3d-1455bf17efd9"
+  },
+  {
+    "productId": "vn-studio-drift",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Drift Pleated Skirt back view. Image 2 is front construction reference. Show ONLY this exact skirt from straight-on back. Remove model, body, white top, boots, surrounding text and any extra objects. Keep black midi length heat-set pleats and cobalt-blue/burnt-orange abstract printed inner pleats in the same side-specific placement, black asymmetric faux-leather wrap waistband. Preserve small silver winged V at wearer left FRONT waistband only when visible at this angle; rear waistband is plain. Match reference artwork, garment silhouette, cut, print proportions and colour faithfully. Garment-only invisible-form studio photograph, hollow waist, no mannequin or hanger. Whole skirt centered portrait 3:4, generous margins, neutral light grey seamless studio backdrop with subtle soft ground shadow, even soft lighting. No redesign, mirroring, captions, collage, inset or watermark.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-drift-1.webp",
+    "outputFile": "public/images/catalogue/r16/drift-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0012-4000-8000-000000000002.webp",
+    "sha256": "b434c4fdae8e31a774a622e390d45f513b8006d7ec8742cac67a8975a666fa91",
+    "md5": "268b49f7152b8f52cd4576ce29911997",
+    "bytes": 87520,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/bdf76448-aa35-5dbe-94b1-c5762fad9544.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-cebd1d5f-9e6d-455f-9993-7212bfa7d2d6"
+  },
+  {
+    "productId": "vn-studio-drift",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Drift Pleated Skirt left view. Image 2 is front construction reference. Show ONLY this exact skirt from true left profile, front edge facing image left. Remove model, body, white top, boots, surrounding text and any extra objects. Keep black midi length heat-set pleats and cobalt-blue/burnt-orange abstract printed inner pleats in the same side-specific placement, black asymmetric faux-leather wrap waistband. Preserve small silver winged V at wearer left FRONT waistband only when visible at this angle; rear waistband is plain. Match reference artwork, garment silhouette, cut, print proportions and colour faithfully. Garment-only invisible-form studio photograph, hollow waist, no mannequin or hanger. Whole skirt centered portrait 3:4, generous margins, neutral light grey seamless studio backdrop with subtle soft ground shadow, even soft lighting. No redesign, mirroring, captions, collage, inset or watermark.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-drift-2.webp",
+    "outputFile": "public/images/catalogue/r16/drift-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0012-4000-8000-000000000003.webp",
+    "sha256": "9ceb5dc98e2127a63e93a27998b661bffeb3883106aba112882c8f2a9300ab5a",
+    "md5": "e24f53448fb6179322ce27cf3c92f04b",
+    "bytes": 103488,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/ba9f4f07-8e4b-5ed7-b5a4-67211ed6c4ed.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-6ab1f681-80f7-4c0b-97cf-fcc6f3f8cf3b"
+  },
+  {
+    "productId": "vn-studio-drift",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1: Drift Pleated Skirt right view. Image 2 is front construction reference. Show ONLY this exact skirt from true right profile, front edge facing image right. Remove model, body, white top, boots, surrounding text and any extra objects. Keep black midi length heat-set pleats and cobalt-blue/burnt-orange abstract printed inner pleats in the same side-specific placement, black asymmetric faux-leather wrap waistband. Preserve small silver winged V at wearer left FRONT waistband only when visible at this angle; rear waistband is plain. Match reference artwork, garment silhouette, cut, print proportions and colour faithfully. Garment-only invisible-form studio photograph, hollow waist, no mannequin or hanger. Whole skirt centered portrait 3:4, generous margins, neutral light grey seamless studio backdrop with subtle soft ground shadow, even soft lighting. No redesign, mirroring, captions, collage, inset or watermark.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-drift-3.webp",
+    "outputFile": "public/images/catalogue/r16/drift-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0012-4000-8000-000000000004.webp",
+    "sha256": "32e1fe9ebe1afe7966a48c1b41669bd98987f54b904a3767ac6df587da45f089",
+    "md5": "8bc14bf20815c987dcae79fa91413652",
+    "bytes": 79964,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/0fa3cf5d-fe7c-5eb5-acfc-118eb24d3916.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-9266f9dc-4fb9-48ab-ad4d-d8f576496315"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-studio-halo",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Halo Cropped Denim Jacket front view; images 2/3 supply front/back construction. Show ONLY exact women's cropped BONE cotton denim jacket, clean unwashed finish. Preserve sculpted rounded shoulders, circular shoulder panel overlays, burgundy double topstitch lines curving down front/back, tiny stand collar with silver fastening, concealed straight center front zip, long sleeves, cropped waist band, small burgundy winged V on outer shoulder as shown in side references. Do not replace with leather or add decoration. Straight-on front. Remove model, body, black trousers, shoes and typography completely. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, collage, inset or floating logo. Preserve exact design, stitching and side-specific details, do not mirror.",
+    "outputFile": "public/images/catalogue/r16/halo-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0015-4000-8000-000000000001.webp",
+    "sha256": "e721eb9212e2fe42268ddc16f64891a85eb38b2c1035e0069f332bbe069463fd",
+    "md5": "3a8f086f670f9e6cff53cb16080897f2",
+    "bytes": 170960,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/c098d019-bc24-545a-9019-137a1576c48e.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-284832a4-14df-4716-a952-c60a11ec6f24"
+  },
+  {
+    "productId": "vn-studio-halo",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Halo Cropped Denim Jacket back view; images 2/3 supply front/back construction. Show ONLY exact women's cropped BONE cotton denim jacket, clean unwashed finish. Preserve sculpted rounded shoulders, circular shoulder panel overlays, burgundy double topstitch lines curving down front/back, tiny stand collar with silver fastening, concealed straight center front zip, long sleeves, cropped waist band, small burgundy winged V on outer shoulder as shown in side references. Do not replace with leather or add decoration. Straight-on back. Remove model, body, black trousers, shoes and typography completely. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, collage, inset or floating logo. Preserve exact design, stitching and side-specific details, do not mirror.",
+    "outputFile": "public/images/catalogue/r16/halo-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0015-4000-8000-000000000002.webp",
+    "sha256": "4e8354af0b35a260a5c1818d26467bbedce583ed3f74ee328603538b5a16ee6d",
+    "md5": "86aaf644d68b8b9ce29e4aabf817c244",
+    "bytes": 171176,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/839a5eb0-3c86-5e16-9452-ca1d621f630a.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-a910cc65-817b-4e8a-a666-a8c9476dbc94"
+  },
+  {
+    "productId": "vn-studio-halo",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Halo Cropped Denim Jacket left view; images 2/3 supply front/back construction. Show ONLY exact women's cropped BONE cotton denim jacket, clean unwashed finish. Preserve sculpted rounded shoulders, circular shoulder panel overlays, burgundy double topstitch lines curving down front/back, tiny stand collar with silver fastening, concealed straight center front zip, long sleeves, cropped waist band, small burgundy winged V on outer shoulder as shown in side references. Do not replace with leather or add decoration. True left profile, front edge facing image left. Remove model, body, black trousers, shoes and typography completely. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, collage, inset or floating logo. Preserve exact design, stitching and side-specific details, do not mirror.",
+    "outputFile": "public/images/catalogue/r16/halo-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0015-4000-8000-000000000003.webp",
+    "sha256": "288fce80efdc36e712d37c8880d7d9e13c852010bc5a3daa4fa7ba6021bfdf89",
+    "md5": "726dd9d991274e5ef25f71b54a97f664",
+    "bytes": 105746,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/8ed1763d-dfb9-57bb-a3ff-eb8ab3b19442.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-ef2bf235-ce7c-4757-b3fd-4f68b79c22f9"
+  },
+  {
+    "productId": "vn-studio-halo",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Halo Cropped Denim Jacket right view; images 2/3 supply front/back construction. Show ONLY exact women's cropped BONE cotton denim jacket, clean unwashed finish. Preserve sculpted rounded shoulders, circular shoulder panel overlays, burgundy double topstitch lines curving down front/back, tiny stand collar with silver fastening, concealed straight center front zip, long sleeves, cropped waist band, small burgundy winged V on outer shoulder as shown in side references. Do not replace with leather or add decoration. True right profile, front edge facing image right. Remove model, body, black trousers, shoes and typography completely. Hollow collar/sleeves, invisible form, full garment centered portrait 3:4 with margins. Neutral light grey seamless studio backdrop, subtle soft ground shadow, soft even lighting. No mannequin, hanger, captions, collage, inset or floating logo. Preserve exact design, stitching and side-specific details, do not mirror.",
+    "outputFile": "public/images/catalogue/r16/halo-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0015-4000-8000-000000000004.webp",
+    "sha256": "33a592873f0caffb506cc654b952557316d6eb47f2c8a6581c235954f353ebf6",
+    "md5": "e5ee06e10ba55053a22d748705f96d10",
+    "bytes": 91338,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/a617ea5a-c99b-5ed6-be88-3bed9d393f69.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-b67bcba7-4030-4bbc-a2a9-9982d2f0fe6c"
+  }
+]

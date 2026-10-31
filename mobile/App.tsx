@@ -19,7 +19,7 @@ import {ProductDisclosure} from './src/components/ProductDisclosure';
 import {useBrandDialog} from './src/components/BrandDialog';
 import {registerDefaultOrderPush} from "./src/push";
 import * as Notifications from "expo-notifications";
-import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency,refreshCurrencies} from "./src/preferences";
+import {loadPreferences,usePreferences,displayMoney,selectCountryCurrency} from "./src/preferences";
 import {cardSdkAvailable,launchCardSdk} from "./src/card-sdk";
 import {SettingsHub} from "./src/components/SettingsHub";
 import {AppHero,AppHeroSettings} from "./src/components/AppHero";
@@ -32,7 +32,7 @@ import {YouPage,inOrderGroup,OrderGroup} from "./src/components/YouPage";
 import {VirtualReceipt} from "./src/components/VirtualReceipt";
 import {ShippingAddress, addressErrors} from "./src/components/ShippingAddress";
 import { router, useGlobalSearchParams } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   AccessibilityInfo,
@@ -45,6 +45,7 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
+  FlatList,
   StyleSheet,
   TextInput,
   useWindowDimensions,
@@ -349,8 +350,17 @@ function Main() {
       operation.current = false;
     }
   }
-  async function load() {
-    setLoading(true);
+  const cataloguePending = useRef<Promise<void> | null>(null);
+  const catalogueLastLoaded = useRef(0);
+  function load(background = false): Promise<void> {
+    if (cataloguePending.current) return cataloguePending.current;
+    const request = performLoad(background);
+    cataloguePending.current = request;
+    void request.finally(() => { if (cataloguePending.current === request) cataloguePending.current = null; });
+    return request;
+  }
+  async function performLoad(background: boolean) {
+    if (!background) setLoading(true);
     try {
       const data = await api<{
         products: Product[];
@@ -362,6 +372,7 @@ function Main() {
           hero: typeof hero;
         };
       }>("/api/catalog");
+      catalogueLastLoaded.current = Date.now();
       setProducts(data.products);
       setCart(items=>refreshBagDetails(items,data.products));
       setNotice(current=>isBagRefreshNotice(current)||current==="Could not refresh the catalogue. Pull down to retry."?"":current);
@@ -371,7 +382,7 @@ function Main() {
       setAccountsEnabled(data.checkout.customerAccountsEnabled === true);
       if (data.checkout.hero) setHero(data.checkout.hero);
     } catch (e) {
-      setNotice("Could not refresh the catalogue. Pull down to retry.");
+      if (!background) setNotice("Could not refresh the catalogue. Pull down to retry.");
     } finally {
       setLoading(false);
     }
@@ -460,8 +471,8 @@ function Main() {
         setNotice("Some saved app data could not be restored. Check your order history before starting another payment.");
       } finally {
         hydrated.current = true;
-        await load();
-        await account(true);
+        void load();
+        void account(true);
       }
     })();
   }, []);
@@ -636,7 +647,17 @@ function Main() {
   const {checkout:checkoutCart,remaining:remainingBag}=bagPartition(cart,bagSelection);
   const checkoutUnavailable=checkoutCart.some(i=>variantStock(i,products)<i.quantity);
   useEffect(()=>{if(!bagToast)return;const t=setTimeout(()=>setBagToast(''),3500);return()=>clearTimeout(t);},[bagToast]);
-  useEffect(()=>{if(!['Bag','Shop','Saved'].includes(screen)&&!checkout)return;let live=true,pending=false;const refresh=()=>{if(pending||AppState.currentState!=='active')return;pending=true;void refreshCurrencies();void api<{products:Product[]}>('/api/catalog').then(data=>{if(live){setProducts(data.products);setCart(items=>refreshBagDetails(items,data.products));setNotice(current=>current==='Could not refresh the catalogue. Pull down to retry.'?'':current);}}).catch(()=>{}).finally(()=>{pending=false;});};refresh();const t=setInterval(refresh,30000);const l=AppState.addEventListener('change',state=>{if(state==='active')refresh();});return()=>{live=false;clearInterval(t);l.remove();};},[screen,checkout,customer?.email]);
+  const catalogueActive = useRef(false);
+  catalogueActive.current = ['Bag','Shop','Saved'].includes(screen) || checkout;
+  useEffect(() => {
+    const refresh = () => {
+      if (!hydrated.current || !catalogueActive.current || AppState.currentState !== 'active' || Date.now() - catalogueLastLoaded.current < 30_000) return;
+      void load(true);
+    };
+    const timer = setInterval(refresh, 30_000);
+    const listener = AppState.addEventListener('change', state => { if (state === 'active') refresh(); });
+    return () => { clearInterval(timer); listener.remove(); };
+  }, []);
   function deleteBagSelection(requested?:string[]){
     const ids=cart.filter(i=>(requested||bagSelection).includes(i.variantId)).map(i=>i.variantId);
     if(!ids.length){setBagToast('Please select which product you want to delete');return;}
@@ -778,7 +799,8 @@ function Main() {
     setOtp("");
     setCheckout(false);setShowReceipt(false);setReceipt(null);setScreen("Account");
   }
-  const visible = products.filter(
+  const visible = useMemo(() => {
+    const filtered = products.filter(
     (p) =>
       (screen !== "Saved" || saved.includes(p.id)) &&
       (catalogFilters.category==='All'||p.category===catalogFilters.category) &&
@@ -794,7 +816,9 @@ function Main() {
           ? preview(p)
           : ["Men","Women"].includes(filter)?p.details?.audience === filter.toLowerCase():p.category===filter)),
   );
-  if(sortOrder!=='featured')visible.sort((a,b)=>sortOrder==='low'?a.priceKobo-b.priceKobo:b.priceKobo-a.priceKobo);
+    if(sortOrder!=='featured')filtered.sort((a,b)=>sortOrder==='low'?a.priceKobo-b.priceKobo:b.priceKobo-a.priceKobo);
+    return filtered;
+  }, [products, screen, saved, catalogFilters, search, filter, sortOrder]);
   const c = selected?.colorways[colour];
   const images = selected
     ? (selected.images || []).filter((i) => i.color === c?.name)
@@ -826,8 +850,8 @@ function Main() {
       )}
       {busy && <ActivityIndicator color="#354b36" />}
       <Entrance transitionKey={screen} style={{flex:1}}>
-      <ScrollView
-        key={screen+":"+(customer?.email||"guest")}
+      <FlatList<Product>
+        key={screen+":"+(customer?.email||"guest")+":"+(wide?3:2)}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[s.content,screen==='Account'&&!customer&&{flexGrow:1}, wide && { paddingHorizontal: 48 },['Saved','Account'].includes(screen)&&{padding:12,gap:10},['Bag','Settings','Orders'].includes(screen)&&{padding:0,gap:0},screen==='Account'&&(!customer||!customer.name?.trim()||!customer.phone?.trim())&&{padding:0,gap:0,flexGrow:1}]}
         refreshControl={
@@ -839,23 +863,14 @@ function Main() {
             }}
           />
         }
-      >
-        {(screen === "Shop" || (screen === "Saved" && customer)) && (
-          <>
-            {screen==='Shop'&&!searchOpen&&<AppHero hero={hero} products={products} autoplay={videoAutoplay} onProduct={openProduct} onCampaign={link=>{const slug=link.match(/^\/products\/([^?#]+)/)?.[1];const product=slug?products.find(p=>p.slug===slug):undefined;if(product)openProduct(product);else if(link.startsWith('/#')||link==='/'){setFilter('All');setSearch('');}else void task(()=>safeOpen(link.startsWith('https://')?link:STORE+link));}}/>}
-            {screen==='Shop'&&!searchOpen&&<SponsoredStories/>}{screen==='Shop'&&searchOpen&&!!recentSearches.length&&<View style={{gap:12}}><View style={{flexDirection:'row',justifyContent:'space-between'}}><Text style={{fontWeight:'600'}}>Recent searches</Text><Pressable accessibilityRole="button" onPress={()=>{setRecentSearches([]);void AsyncStorage.removeItem('vanta-recent-searches');}}><Text style={{fontSize:12,color:colors.muted}}>Clear all</Text></Pressable></View><View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{recentSearches.map(text=><Pressable key={text} accessibilityRole="button" onPress={()=>setSearch(text)} style={{paddingHorizontal:14,paddingVertical:9,backgroundColor:colors.secondary,borderRadius:20}}><Text style={{fontSize:12}}>{text}</Text></Pressable>)}</View></View>}
-            {screen==='Shop'&&!searchOpen&&<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8,paddingVertical:2}}>{['All',...new Set(products.map(p=>p.category))].map(category=><Pressable key={category} accessibilityRole="radio" accessibilityState={{checked:filter===category}} onPress={()=>setFilter(category)} style={{paddingHorizontal:18,minHeight:42,borderRadius:24,backgroundColor:filter===category?colors.text:colors.secondary,justifyContent:'center'}}><Text style={{fontSize:13,color:filter===category?colors.page:colors.text}}>{category}</Text></Pressable>)}<Pressable accessibilityRole="button" accessibilityLabel="Shop by collection" onPress={()=>setCollectionsOpen(true)} style={{width:44,height:44,borderRadius:22,backgroundColor:colors.secondary,alignItems:'center',justifyContent:'center'}}><Ionicons name="chevron-forward" size={20}/></Pressable></ScrollView>}
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:26,fontWeight:'700',letterSpacing:-.6}}>{screen==='Saved'?'Saved':search?'Results for “'+search+'”':'Find your fit'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
-            {!loading && !visible.length && (
-              <Glass>
-                <Text>No designs here yet.</Text>
-                <Text style={s.muted}>
-                  Try another filter or save a design you like.
-                </Text>
-              </Glass>
-            )}
-            <View style={s.grid}>
-              {visible.map((p) => (
+        data={screen==='Shop'||(screen==='Saved'&&customer)?visible:[]}
+        numColumns={wide?3:2}
+        keyExtractor={product=>product.id}
+        initialNumToRender={6}
+        maxToRenderPerBatch={4}
+        windowSize={5}
+        columnWrapperStyle={{gap:16}}
+        renderItem={({item:p})=>(
                 <Pressable
                   key={p.id}
                   accessibilityRole="button"
@@ -872,8 +887,24 @@ function Main() {
                   <Text numberOfLines={1} style={{fontSize:14,fontWeight:'600'}}>{p.name}</Text><Text style={{fontSize:12,color:colors.muted}}>{p.colorways[0]?.name}</Text>
                   {screen==='Saved'&&<Pressable accessibilityRole="button" accessibilityLabel={'Move '+p.name+' to bag'} onPress={event=>{event.stopPropagation();openProduct(p);}} style={{minHeight:38,borderWidth:1,borderColor:colors.accentInk,borderRadius:8,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:6}}><Ionicons name="bag-outline" size={16}/><Text style={{fontSize:12}}>Move to bag</Text></Pressable>}
                 </Pressable>
-              ))}
-            </View>
+        )}
+        ListHeaderComponent={<View style={{gap:20}}>
+
+        {(screen === "Shop" || (screen === "Saved" && customer)) && (
+          <>
+            {screen==='Shop'&&!searchOpen&&<AppHero hero={hero} products={products} autoplay={videoAutoplay} onProduct={openProduct} onCampaign={link=>{const slug=link.match(/^\/products\/([^?#]+)/)?.[1];const product=slug?products.find(p=>p.slug===slug):undefined;if(product)openProduct(product);else if(link.startsWith('/#')||link==='/'){setFilter('All');setSearch('');}else void task(()=>safeOpen(link.startsWith('https://')?link:STORE+link));}}/>}
+            {screen==='Shop'&&!searchOpen&&<SponsoredStories/>}{screen==='Shop'&&searchOpen&&!!recentSearches.length&&<View style={{gap:12}}><View style={{flexDirection:'row',justifyContent:'space-between'}}><Text style={{fontWeight:'600'}}>Recent searches</Text><Pressable accessibilityRole="button" onPress={()=>{setRecentSearches([]);void AsyncStorage.removeItem('vanta-recent-searches');}}><Text style={{fontSize:12,color:colors.muted}}>Clear all</Text></Pressable></View><View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{recentSearches.map(text=><Pressable key={text} accessibilityRole="button" onPress={()=>setSearch(text)} style={{paddingHorizontal:14,paddingVertical:9,backgroundColor:colors.secondary,borderRadius:20}}><Text style={{fontSize:12}}>{text}</Text></Pressable>)}</View></View>}
+            {screen==='Shop'&&!searchOpen&&<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap:8,paddingVertical:2}}>{['All',...new Set(products.map(p=>p.category))].map(category=><Pressable key={category} accessibilityRole="radio" accessibilityState={{checked:filter===category}} onPress={()=>setFilter(category)} style={{paddingHorizontal:18,minHeight:42,borderRadius:24,backgroundColor:filter===category?colors.text:colors.secondary,justifyContent:'center'}}><Text style={{fontSize:13,color:filter===category?colors.page:colors.text}}>{category}</Text></Pressable>)}<Pressable accessibilityRole="button" accessibilityLabel="Shop by collection" onPress={()=>setCollectionsOpen(true)} style={{width:44,height:44,borderRadius:22,backgroundColor:colors.secondary,alignItems:'center',justifyContent:'center'}}><Ionicons name="chevron-forward" size={20}/></Pressable></ScrollView>}
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><Text style={{fontSize:26,fontWeight:'700',letterSpacing:-.6}}>{screen==='Saved'?'Saved':search?'Results for “'+search+'”':'Find your fit'}</Text><Pressable accessibilityRole="button" accessibilityLabel="Open product filters" onPress={()=>{setFilterDraft(catalogFilters);setFiltersOpen(true);}} style={{flexDirection:'row',gap:6,alignItems:'center',padding:10,borderWidth:1,borderColor:colors.border,borderRadius:18}}><Ionicons name="options-outline" size={20}/><Text>Filters</Text></Pressable></View>
+            {!loading && !visible.length && (
+              <Glass>
+                <Text>No designs here yet.</Text>
+                <Text style={s.muted}>
+                  Try another filter or save a design you like.
+                </Text>
+              </Glass>
+            )}
+
           </>
         )}
         {screen === "Bag" && <CompactBag cart={cart} products={products} selected={bagSelection} busy={busy} country={preferences.country} onAddress={()=>{setSettingsPanel('Shipping address');setScreen('Settings');}} onSelect={ids=>{setBagSelection(ids);resetQuote();}} onQuantity={(id,n)=>{setCart(items=>items.map(i=>i.variantId===id?{...i,quantity:n}:i));resetQuote();}} onDelete={deleteBagSelection} onSaved={()=>setScreen('Saved')} onCountry={()=>setBagCountryOpen(true)} onHelp={topic=>router.push({pathname:'/help',params:{topic}})}/>}
@@ -987,7 +1018,8 @@ function Main() {
                 />
         </>}</Sheet>
         {screen==='Shop'&&<Image accessible={false} source={require('./assets/emblem-watermark.png')} resizeMode="contain" style={{alignSelf:'center',width:230,height:140,marginVertical:25,tintColor:colors.text,opacity:dark?0.065:0.04}}/>}
-      </ScrollView>
+        </View>}
+      />
       </Entrance>
       {screen==='Bag'&&<View style={{padding:12,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border,gap:8}}>
         {quotes&&quotes.expiresAt>Date.now()&&quoteContext===shippingContext&&<QuoteCountdown expiresAt={quotes.expiresAt}/>}

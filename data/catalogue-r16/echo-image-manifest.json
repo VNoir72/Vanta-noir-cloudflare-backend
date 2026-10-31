@@ -1,0 +1,58 @@
+[
+  {
+    "productId": "vn-studio-echo",
+    "view": "front",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Echo Knit Vest front view; images 2 and 3 supply front/back construction. Remove model and ALL other clothing, including the BLACK T-SHIRT UNDER the vest: the product is SLEEVELESS, no black sleeves. ONLY ivory-and-black knit vest, boxy shape, asymmetric black rib neckline and diagonal uneven black rib hem, ivory armhole edging. Preserve the large black raised jacquard face portrait exactly as seen on each respective front/back, no mirror. Small black winged V on wearer left front chest only. 100% cotton 7-gauge knit. Straight-on front. Hollow armholes/neck, invisible form, whole garment centered with margins, portrait 3:4. Neutral light grey seamless studio backdrop, subtle soft ground shadow, even light. No models, body, mannequin, hanger, trousers, shirt, captions, floating logo, collage or inset. Preserve original colours, graphics, construction and scale; do not redesign.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-echo-0.webp",
+    "outputFile": "public/images/catalogue/r16/echo-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0013-4000-8000-000000000001.webp",
+    "sha256": "43f5a63a48d3d553be92e0ae62374bc9736ff11a201e21cb8b36b4e43ca66707",
+    "md5": "1dbef2b11610f3ec5e164994a3c212c3",
+    "bytes": 226098,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/a99c3082-2eb9-5f0c-96a5-3fe111d6c077.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-4aec3d0c-9ac1-4c02-86e8-7a97c0f1c795"
+  },
+  {
+    "productId": "vn-studio-echo",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Echo Knit Vest back view; images 2 and 3 supply front/back construction. Remove model and ALL other clothing, including the BLACK T-SHIRT UNDER the vest: the product is SLEEVELESS, no black sleeves. ONLY ivory-and-black knit vest, boxy shape, asymmetric black rib neckline and diagonal uneven black rib hem, ivory armhole edging. Preserve the large black raised jacquard face portrait exactly as seen on each respective front/back, no mirror. Small black winged V on wearer left front chest only. 100% cotton 7-gauge knit. Straight-on back. Hollow armholes/neck, invisible form, whole garment centered with margins, portrait 3:4. Neutral light grey seamless studio backdrop, subtle soft ground shadow, even light. No models, body, mannequin, hanger, trousers, shirt, captions, floating logo, collage or inset. Preserve original colours, graphics, construction and scale; do not redesign.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-echo-1.webp",
+    "outputFile": "public/images/catalogue/r16/echo-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0013-4000-8000-000000000002.webp",
+    "sha256": "006693abd8bf701f9157c685b7606ca6e23730ec0f864dd8c6bd2fd5c08920bb",
+    "md5": "c1c78e4dd4be731658b6df82a7247a4c",
+    "bytes": 222518,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/b8bc160a-7131-571b-93af-afff1b1e1e63.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-f131abb6-7128-4eeb-970e-d456a3049b38"
+  },
+  {
+    "productId": "vn-studio-echo",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Echo Knit Vest left view; images 2 and 3 supply front/back construction. Remove model and ALL other clothing, including the BLACK T-SHIRT UNDER the vest: the product is SLEEVELESS, no black sleeves. ONLY ivory-and-black knit vest, boxy shape, asymmetric black rib neckline and diagonal uneven black rib hem, ivory armhole edging. Preserve the large black raised jacquard face portrait exactly as seen on each respective front/back, no mirror. Small black winged V on wearer left front chest only. 100% cotton 7-gauge knit. True left profile, front edge facing image left. Hollow armholes/neck, invisible form, whole garment centered with margins, portrait 3:4. Neutral light grey seamless studio backdrop, subtle soft ground shadow, even light. No models, body, mannequin, hanger, trousers, shirt, captions, floating logo, collage or inset. Preserve original colours, graphics, construction and scale; do not redesign.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-echo-2.webp",
+    "outputFile": "public/images/catalogue/r16/echo-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0013-4000-8000-000000000003.webp",
+    "sha256": "bd8790fc832285acc6f79d2294cda225fe1cb10e94d402801febda918a160d15",
+    "md5": "9bb7b5e1a9075904561174765dea45e8",
+    "bytes": 145302,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/2b705214-e4bf-5caa-9de5-a7d8b2f065d0.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-178852df-fae4-459c-a909-a3c2c2913350"
+  },
+  {
+    "productId": "vn-studio-echo",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Edit target image 1 is Echo Knit Vest right view; images 2 and 3 supply front/back construction. Remove model and ALL other clothing, including the BLACK T-SHIRT UNDER the vest: the product is SLEEVELESS, no black sleeves. ONLY ivory-and-black knit vest, boxy shape, asymmetric black rib neckline and diagonal uneven black rib hem, ivory armhole edging. Preserve the large black raised jacquard face portrait exactly as seen on each respective front/back, no mirror. Small black winged V on wearer left front chest only. 100% cotton 7-gauge knit. True right profile, front edge facing image right. Hollow armholes/neck, invisible form, whole garment centered with margins, portrait 3:4. Neutral light grey seamless studio backdrop, subtle soft ground shadow, even light. No models, body, mannequin, hanger, trousers, shirt, captions, floating logo, collage or inset. Preserve original colours, graphics, construction and scale; do not redesign.",
+    "sourceFile": "/workspace/scratch/e6775ca8b84a/studio-references/vn-studio-echo-3.webp",
+    "outputFile": "public/images/catalogue/r16/echo-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0013-4000-8000-000000000004.webp",
+    "sha256": "f370edb637ab835bbfb013d5621c1189a13f0ca956930c68ab88857790b618b2",
+    "md5": "576c3357c93fbf2194a88e5bf9ff5bb5",
+    "bytes": 128034,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/d84af709-4e7f-5381-8423-a4d2d607b5a2.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-a527821a-e15f-4f63-a140-d7e18d407215"
+  }
+]

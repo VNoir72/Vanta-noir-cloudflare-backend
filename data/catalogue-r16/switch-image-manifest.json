@@ -1,0 +1,54 @@
+[
+  {
+    "productId": "vn-street-switch",
+    "view": "front",
+    "prompt": "Remove model and preserve Switch Carpenter Jeans design in a separate front view; grey studio with subtle shadow. Right rear pocket emblem only.",
+    "outputFile": "public/images/catalogue/r16/switch-front.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0011-4000-8000-000000000001.webp",
+    "sha256": "a325b5c22cdd3deeb9fe47a4a42bab5259f95797230392c467a9fb6cbe802c25",
+    "md5": "225039bca903c941c87a71557e43f6d8",
+    "bytes": 219836,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/73ab1647-b986-58bc-82e6-c1c039f065bf.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-e42b67f7-ec2d-487f-bf3b-d2b90bfcd026"
+  },
+  {
+    "productId": "vn-street-switch",
+    "view": "back",
+    "prompt": "Use case: precise-object-edit / product-mockup. Create ONE separate straight-on BACK product image of exact Switch Carpenter Jeans in reference 1. Reference 2 supplies the matching garment construction. Remove the model, shirt, shoes, body, inset details and floating logos completely. ONLY jeans, invisible form, hollow waist, full length centered in portrait composition. Preserve extra baggy fit, clean deep indigo denim, gold double topstitching, curved double knees, carpenter side utility pockets and loops, rivets and hem shape. On rear preserve the two pockets and the small tonal winged V emblem on wearer right rear pocket and label above it. No redesign, no distressing or faded wash. Neutral light grey seamless studio background with subtle soft ground shadow. No captions, collage, mannequin or hanger. Do not mirror branding. Preserve front/back identity and side-specific pocket construction.",
+    "outputFile": "public/images/catalogue/r16/switch-back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0011-4000-8000-000000000002.webp",
+    "sha256": "eab5542b6b2d019f18b12fda052550fca4d853e10b785e198877d6ea7daa20f4",
+    "md5": "cddf7ad2c83f941b9baa682dfae9370e",
+    "bytes": 192554,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/de6166bf-e9c0-5618-8d7e-4b809675b191.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-683042df-7fc8-4ebe-b3a6-e0be6388eb4a"
+  },
+  {
+    "productId": "vn-street-switch",
+    "view": "left",
+    "prompt": "Use case: precise-object-edit / product-mockup. Create ONE separate LEFT PROFILE with front edge facing image left product image of exact Switch Carpenter Jeans in reference 1. Reference 2 supplies the matching garment construction. Remove the model, shirt, shoes, body, inset details and floating logos completely. ONLY jeans, invisible form, hollow waist, full length centered in portrait composition. Preserve extra baggy fit, clean deep indigo denim, gold double topstitching, curved double knees, carpenter side utility pockets and loops, rivets and hem shape. On rear preserve the two pockets and the small tonal winged V emblem on wearer right rear pocket and label above it. No redesign, no distressing or faded wash. Neutral light grey seamless studio background with subtle soft ground shadow. No captions, collage, mannequin or hanger. Do not mirror branding. Preserve front/back identity and side-specific pocket construction.",
+    "outputFile": "public/images/catalogue/r16/switch-left.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0011-4000-8000-000000000003.webp",
+    "sha256": "3e9111afcc80cbf14c13b1b3c21cf6735316ac59147006522f53db84ec3682b2",
+    "md5": "ec0a7925d1a7d4530fa2f46802609d5b",
+    "bytes": 118686,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/5c679b0a-3d2c-5407-bc93-51594504d59c.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-c2260f27-f747-44a2-936b-2828aee6e003"
+  },
+  {
+    "productId": "vn-street-switch",
+    "view": "right",
+    "prompt": "Use case: precise-object-edit / product-mockup. Create ONE separate RIGHT PROFILE with front edge facing image right product image of exact Switch Carpenter Jeans in reference 1. Reference 2 supplies the matching garment construction. Remove the model, shirt, shoes, body, inset details and floating logos completely. ONLY jeans, invisible form, hollow waist, full length centered in portrait composition. Preserve extra baggy fit, clean deep indigo denim, gold double topstitching, curved double knees, carpenter side utility pockets and loops, rivets and hem shape. On rear preserve the two pockets and the small tonal winged V emblem on wearer right rear pocket and label above it. No redesign, no distressing or faded wash. Neutral light grey seamless studio background with subtle soft ground shadow. No captions, collage, mannequin or hanger. Do not mirror branding. Preserve front/back identity and side-specific pocket construction.",
+    "outputFile": "public/images/catalogue/r16/switch-right.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0011-4000-8000-000000000004.webp",
+    "sha256": "b64835f2c95033e9d74ab045676c6f0d6e03654205ad5dde09cc918d3249c63f",
+    "md5": "2cef4c830f8e66dc27df5d3e36d0573e",
+    "bytes": 143964,
+    "sourceUrl": "https://api.vantanoir.store/api/media/products/928c162e-aef0-5cbe-84e6-287c054b19ab.webp",
+    "purpose": "AI-generated garment-only design visualization; not physical sample photography or manufacturing master artwork",
+    "generationId": "exec-586146a3-b5bc-4e7c-a5e5-4b174c58f4b0"
+  }
+]

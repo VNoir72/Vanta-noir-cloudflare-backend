@@ -1,0 +1,52 @@
+[
+  {
+    "product": "vn-studio-facet",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-street-switch",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-halo",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-night-study",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-drift",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-tideline",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-relay",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-shelter",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-echo",
+    "http": "200",
+    "sha256Matches": true
+  },
+  {
+    "product": "vn-studio-impulse",
+    "http": "200",
+    "sha256Matches": true
+  }
+]

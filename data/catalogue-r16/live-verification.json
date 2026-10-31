@@ -1,0 +1,114 @@
+{
+  "verifiedAt": "2026-10-31",
+  "checks": [
+    [
+      {
+        "id": "vn-street-switch",
+        "slug": "street-switch",
+        "name": "Switch Carpenter Jeans",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0011-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-drift",
+        "slug": "studio-drift",
+        "name": "Drift Pleated Skirt",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0012-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-echo",
+        "slug": "studio-echo",
+        "name": "Echo Knit Vest",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0013-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-facet",
+        "slug": "studio-facet",
+        "name": "Facet Leather Jacket",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0014-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-halo",
+        "slug": "studio-halo",
+        "name": "Halo Cropped Denim Jacket",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0015-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-impulse",
+        "slug": "studio-impulse",
+        "name": "Impulse Graphic Tee",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0016-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-night-study",
+        "slug": "studio-night-study",
+        "name": "Night Study Rugby Jersey",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0017-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-relay",
+        "slug": "studio-relay",
+        "name": "Relay Track Pants",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0018-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-shelter",
+        "slug": "studio-shelter",
+        "name": "Shelter Puffer Gilet",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0019-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      },
+      {
+        "id": "vn-studio-tideline",
+        "slug": "studio-tideline",
+        "name": "Tideline Fleece Shorts",
+        "image_url": "https://api.vantanoir.store/api/media/products/df016031-0020-4000-8000-000000000001.webp",
+        "gallery_count": 6,
+        "replaced_primary": 4
+      }
+    ],
+    [
+      {
+        "products_backed_up": 10
+      }
+    ],
+    [
+      {
+        "images_backed_up": 60
+      }
+    ],
+    [
+      {
+        "changed_details": 0
+      }
+    ],
+    [
+      {
+        "changed_product_specs": 0
+      }
+    ],
+    [
+      {
+        "id": "vn-studio-fold",
+        "slug": "studio-fold",
+        "image_url": "https://api.vantanoir.store/api/media/products/f22c073c-1bcb-5338-8476-9e4928391d97.webp"
+      }
+    ]
+  ]
+}

@@ -1,5 +1,5 @@
 import {recordStoreReachable} from './store-reachability';
-import {fetchWithTimeout} from "./fetch-with-timeout";
+import {fetchJsonWithTimeout} from "./fetch-with-timeout";
 import {createAppCheckCache} from "./app-check-cache";
 import {requireOptionalNativeModule} from "expo";
 import variants from "./image-variants.json";
@@ -52,8 +52,8 @@ export async function api<T>(
   const token = await vault.get("session");
   let appCheck:string|null=null;
   if(token&&Platform.OS==='android'&&(/^\/api\/(catalog|checkout|shipping\/quotes|rewards|promotions|customer\/(benefit|circle))/.test(path)))appCheck=await appCheckToken(path.startsWith("/api/customer/circle") ? 15000 : 2500);
-  let response:Response;
-  const request = () => fetchWithTimeout(API + path, {
+  let result: {response: Response; data: T & {error?: string}};
+  const request = () => fetchJsonWithTimeout<T & {error?: string}>(API + path, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -65,8 +65,8 @@ export async function api<T>(
   }, ['/api/shipping/quotes','/api/rewards/quote'].includes(path)?45000:preferenceSnapshot().acceleration&&method==="GET"&&["/api/catalog","/health"].includes(path)?8000:20000);
   try {
     let retried=false;
-    try{response=await request();}catch(error){if(path!=="/api/catalog"||method!=="GET")throw error;retried=true;response=await request();}
-    if(!retried&&path==="/api/catalog"&&method==="GET"&&response.status>=500){await response.body?.cancel();response=await request();}
+    try{result=await request();}catch(error){if(path!=="/api/catalog"||method!=="GET")throw error;retried=true;result=await request();}
+    if(!retried&&path==="/api/catalog"&&method==="GET"&&result.response.status>=500){result=await request();}
   } catch(error){
     if(preferenceSnapshot().acceleration&&Platform.OS==='android'&&method==='GET'&&['/api/catalog','/health'].includes(path)){
       const network=requireOptionalNativeModule<{fetchPublicOverCellular:(path:string)=>Promise<string>}>('VantaPaystack');
@@ -74,9 +74,7 @@ export async function api<T>(
     }
     throw error;
   }
-  const data = await response
-    .json()
-    .catch(() => ({ error: "The store could not be reached." }));
+  const {response, data} = result;
   if (!response.ok)
     throw new ApiError(data.error || "Please try again.", response.status);
   recordStoreReachable();

@@ -1,0 +1,58 @@
+[
+  {
+    "productId": "vn-studio-fold",
+    "option": "B",
+    "variant": "tonal-chest",
+    "view": "front",
+    "outputFile": "data/catalogue-r17/fold-tonal-chest/front.webp",
+    "prompt": "Use case: precise-object-edit. Image1 edit target, image2 exact emblem shape only. Replace only the existing ivory chest emblem with the exact black silhouette of reference2 rendered in matching IVORY THREAD (not black). Keep same small size and wearer-left chest placement (image right). All cuffs remain completely plain. Preserve exact geometry of emblem, detached upper wing bars, angular nested V, lower wing tips and negative spaces. Colour as instructed, not reference black unless black is requested. Change only the specified branding, preserve ALL garment construction, wrap direction, ivory cotton, collar, buttons, petrol back pleat, natural drape, frame and soft grey studio background with subtle floor shadow. ONE separate full-garment front view, no text, no collage, no people.",
+    "tool": "built-in image_gen",
+    "status": "prepared-awaiting-user-selection-and-push-approval",
+    "sha256": "5cf1bde456fbd5168ba7c97bcb48c46992e947b8d979d25f8f7737eee368e674",
+    "bytes": 59020,
+    "generationSource": "exec-b5bf5452-0a00-474c-a485-8b04db3f7123.png",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000001.webp"
+  },
+  {
+    "productId": "vn-studio-fold",
+    "option": "B",
+    "variant": "tonal-chest",
+    "view": "back",
+    "outputFile": "data/catalogue-r17/fold-tonal-chest/back.webp",
+    "prompt": "Reuse unchanged Fold back view; no branding visible.",
+    "tool": "unchanged existing image",
+    "status": "prepared-awaiting-user-selection-and-push-approval",
+    "sha256": "3f68dea41b5985d4466324a686fe5ff676e79c6dc91ceb5b969577bff6c9cbb8",
+    "bytes": 58658,
+    "generationSource": "back.webp",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000002.webp"
+  },
+  {
+    "productId": "vn-studio-fold",
+    "option": "B",
+    "variant": "tonal-chest",
+    "view": "left",
+    "outputFile": "data/catalogue-r17/fold-tonal-chest/left.webp",
+    "prompt": "Use case: precise-object-edit. Image1 edit target, image2 exact emblem shape only. Add ONE small 35mm wide exact winged spire silhouette from reference2 as IVORY matching-thread flat embroidery on wearer's LEFT FRONT CHEST, 21cm below shoulder point and 10cm from center-front. It sits on front panel around image-left edge of this left-profile shot, not on the sleeve or side seam. It may be partly foreshortened by profile. All cuffs plain ivory. No buckle on near left waist, keep buckle hidden on far right waist. Preserve exact geometry of emblem, detached upper wing bars, angular nested V, lower wing tips and negative spaces. Colour as instructed, not reference black unless black is requested. Change only the specified branding, preserve ALL garment construction, wrap direction, ivory cotton, collar, buttons, petrol back pleat, natural drape, frame and soft grey studio background with subtle floor shadow. ONE separate full-garment left view, no text, no collage, no people.",
+    "tool": "built-in image_gen",
+    "status": "prepared-awaiting-user-selection-and-push-approval",
+    "sha256": "891827c4880eb457023331a74a8858039e37b37a31e0eccb6cacac37127fb0fb",
+    "bytes": 50460,
+    "generationSource": "exec-92abde14-009b-45aa-b461-ff110eb64ba4.png",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000003.webp"
+  },
+  {
+    "productId": "vn-studio-fold",
+    "option": "B",
+    "variant": "tonal-chest",
+    "view": "right",
+    "outputFile": "data/catalogue-r17/fold-tonal-chest/right.webp",
+    "prompt": "Use case: precise-object-edit. Image1 edit target, image2 exact emblem shape only. REMOVE black cuff emblem completely, restoring plain ivory cloth. Both cuffs and this near right side remain unbranded. The small ivory emblem belongs to the opposite left chest, hidden from this right profile; do not add a logo here. Preserve right side profile front pointing image right and buckle on near right waist. Preserve exact geometry of emblem, detached upper wing bars, angular nested V, lower wing tips and negative spaces. Colour as instructed, not reference black unless black is requested. Change only the specified branding, preserve ALL garment construction, wrap direction, ivory cotton, collar, buttons, petrol back pleat, natural drape, frame and soft grey studio background with subtle floor shadow. ONE separate full-garment right view, no text, no collage, no people.",
+    "tool": "built-in image_gen",
+    "status": "prepared-awaiting-user-selection-and-push-approval",
+    "sha256": "91f2bf623914a23332a1b010676299cc7cb2b965554b223361e094b830a3e541",
+    "bytes": 49666,
+    "generationSource": "exec-5b7b72eb-000d-4f1a-9b0b-a7ce632a48ca.png",
+    "outputUrl": "https://api.vantanoir.store/api/media/products/df016031-0021-4000-8000-000000000004.webp"
+  }
+]
