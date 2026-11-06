@@ -38,15 +38,17 @@ The offline preparation utilities are under `scripts/assets/`, with pinned Pytho
 
 ## Switch sequence and rollback
 
-This change is staged in PR #85, not deployed to production. Mobile app code and OTA remain unchanged.
+The website-only release is pushed in PR #85 and switched on 6 November 2026. Mobile app code, OTA and the shared API deployment remain unchanged. Existing backend accent settings are consumed by the new website. The new admin pairing and transparent-upload controls remain prepared in this branch, but are not part of the website-only deployment. No owner-approved looks have been created automatically.
 
 1. Restore the garment pack into the exact PR checkout and run the checks above.
 2. Confirm the intended source baseline against the currently deployed backend and storefront. The PR starts from audit commit `69ede6cfd4ae54fb060e9b47a8514502c2c63ca9`; do not replace unrelated newer fixes.
 3. Capture the current Worker versions and settings. The latest read-only check still showed storefront deployment `8565d398-38f4-4b66-82d3-7fde3e835275`, version `68eedaf5-40a0-4dc3-93c4-c39911d0651a`, at 100%.
-4. Deploy the backend/admin build first, preserving existing bindings, secrets and routes. The optional product-detail fields are backward compatible and require no catalogue rewrite. Verify an owner can save a transparent display image and pairing on a non-public test product before enabling the new storefront.
+4. For a future admin release, deploy the backend/admin build preserving existing bindings, secrets and routes. The optional product-detail fields require no catalogue rewrite. Verify an owner can save a transparent display image and pairing on a non-public test product. This shared backend deployment is excluded from the current website-only switch.
 5. Deploy the complete storefront build to `vanta-storefront`, including the new binary assets. Verify catalogue, categories, colour selection, product opening, original views, saved products, and mobile browsing. Keep preview restrictions/preorders intact.
 6. If customer browsing regresses, restore the captured storefront version. The optional display/pairing fields can remain stored; the previous storefront ignores them. Restore the captured backend version separately if its admin changes regress. No database migration or stock mutation is part of this release.
 
 Validation passed: TypeScript, 12 focused tests, both production builds, storefront route/asset/privacy checks, and the compiled backend suite against isolated temporary D1/R2 (including authenticated upload/read/cache). Homepage startup JavaScript is 1,475,176 bytes, below the existing 1.6 MB budget.
 
-Local browser verification covers catalogue loading, original product imagery, colour-specific product links, collection entry and responsive preview. No payment, order or subscription was submitted. Authenticated live-admin upload acceptance and production deployment remain switch-time checks. Exact animation matching against the earlier videos and installed-app behavior are not certified by these website checks.
+Local browser verification covers catalogue loading, original product imagery, colour-specific product links, collection entry and responsive preview. No payment, order or subscription was submitted. Authenticated live-admin upload acceptance remains a later admin-release check. Live website checks verified garment delivery, exact asset bytes, colour-specific product navigation, original views and launch restrictions. Exact animation matching against the earlier videos and installed-app behavior are not certified by these website checks.
+
+The storefront worker serves `/images/floating/<hash>.webp` from its own release assets. Original studio image delivery remains routed through the existing API. A routing regression test covers this split. The previous storefront version `68eedaf5-40a0-4dc3-93c4-c39911d0651a` is retained for rollback.
