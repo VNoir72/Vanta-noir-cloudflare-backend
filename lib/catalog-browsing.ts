@@ -8,7 +8,7 @@ export function validAudience(value: unknown): Audience | undefined {
 export function matchesAudience(product: CatalogProduct, audience: string) {
   return audience === 'All' || (product.details?.audience ?? 'unisex') === audience;
 }
-export type BrowseContext = { audience: string; category: string; collection: string; query: string; color?: string; size?: string; price?: string; sort?: string; saved?: boolean; minPrice?: number; maxPrice?: number; drop?: string; inStock?: boolean };
+export type BrowseContext = { audience: string; category: string; collection: string; query: string; color?: string; size?: string; price?: string; sort?: string; saved?: boolean; view?: 'shop'|'collections'|'looks'; minPrice?: number; maxPrice?: number; drop?: string; inStock?: boolean };
 export function browseParams(context: BrowseContext) {
   const params = new URLSearchParams({ audience: validAudience(context.audience) ?? 'All', category: context.category });
   if (context.collection !== 'All') params.set('collection', context.collection);
@@ -20,6 +20,7 @@ export function browseParams(context: BrowseContext) {
   if(context.maxPrice !== undefined && context.maxPrice<10000000) params.set('maxPrice',String(context.maxPrice));
   if(context.drop && context.drop!=='All') params.set('drop',context.drop);
   if(context.inStock) params.set('inStock','1');
+  if(context.view && context.view!=='shop')params.set('view',context.view);
   if(context.saved) params.set('saved','1');
   return params;
 }

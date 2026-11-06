@@ -49,7 +49,7 @@ assert.match(home,/aria-label="Open menu"/);
 assert.match(home,/aria-label="Main navigation"/); // Direct links on tablets/desktop; hamburger on phones.
 assert.match(home,/href="\/about"/);
 assert.doesNotMatch(home,/class="dn-categories"|class="dn-announcement"/); // Category discovery lives below the hero; no duplicate header strip.
-// The hero is intentionally selected after URL/audience hydration; inspect its shipped bundle too.
+// Catalogue content is selected after URL/audience hydration; inspect the shipped carousel.
 const entry=home.match(/<script type="module" src="([^"]+)"/)[1];
 const entryJavascript=await readFile(resolve(root,entry.slice(1)),"utf8");
 const manifest=JSON.parse(await readFile(resolve('outputs/storefront-manifest.json'),'utf8'));
@@ -62,12 +62,14 @@ const initial=new Set();
 function include(key){if(initial.has(key))return;initial.add(key);for(const dependency of manifest[key]?.imports??[])include(dependency);}
 include('portable/entry.tsx');include('app/storefront.tsx');
 const javascript=(await Promise.all([...initial].map(key=>readFile(resolve(root,manifest[key].file),'utf8')))).join('\n');
-assert.match(javascript,/Campaign and featured pieces/);
+assert.match(javascript,/Browse products/);
+assert.match(javascript,/Jump to a piece/);
+assert.match(javascript,/Wear it together/);
 assert.doesNotMatch(javascript,/THE VANTA NOIR EDIT\s*\/\s*001|dn-hero-index/);
 const security=await readFile(resolve(root,".htaccess"),"utf8");
 for(const header of ['X-Frame-Options','Content-Security-Policy','Permissions-Policy','Strict-Transport-Security'])assert.ok(security.includes(header));
 assert.ok(security.includes('Require all denied'));
-console.log('Campaign markup and static-host security rules passed.');
+console.log('Floating catalogue markup and static-host security rules passed.');
 
 // Prevent a pre-studio bundle from passing release validation with new photos beside it.
 const studioPhotos=JSON.parse(await readFile("lib/product-photo-assets.json","utf8"));

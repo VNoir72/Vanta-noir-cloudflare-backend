@@ -552,6 +552,7 @@ function DashboardContent({
             </div>
             {productForm ? (
               <Sheet open onOpenChange={open=>{if(!open&&uploadingImage===null&&busy!=="product-save")closeProduct();}}><SheetContent className="vn-studio-sheet" showCloseButton={false}><SheetTitle className="sr-only">Product studio</SheetTitle><SheetDescription className="sr-only">Edit product details, colourway images and inventory.</SheetDescription><fieldset disabled={uploadingImage!==null||busy==="product-save"} style={{minWidth:0}}><ProductEditor
+                pairingOptions={products.map(p=>({id:p.id,name:p.name,status:p.status}))}
                 options={options}
                 uploadingImage={uploadingImage}
                 uploadImage={uploadImage}
@@ -593,6 +594,7 @@ function DashboardContent({
 }
 
 function ProductEditor({
+  pairingOptions,
   options,
   uploadingImage,
   uploadImage,
@@ -604,6 +606,7 @@ function ProductEditor({
   onSave,
   onDelete,
 }: {
+  pairingOptions: {id:string;name:string;status:string}[];
   options: typeof defaultOptions;
   form: ProductForm;
   uploadingImage: number | null;
@@ -719,7 +722,7 @@ function ProductEditor({
           </div>
         </section>
 
-        <ProductProperties productName={form.name} sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
+        <ProductProperties pairingOptions={pairingOptions} productName={form.name} sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
         <section className="space-y-4">
           <div className="flex items-end justify-between gap-4">
             <div>

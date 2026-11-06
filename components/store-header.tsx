@@ -6,7 +6,7 @@ import {accentInk} from '@/lib/brand-accent';
 import {useEffect,useRef,useState} from 'react';
 import {Heart,Menu,Search,ShoppingBag,UserRound,X} from 'lucide-react';
 import {Sheet,SheetContent,SheetTitle,SheetDescription} from '@/components/ui/sheet';
-const links=[['Home','/'],['About','/about'],['Contact','/contact'],['Privacy Policy','/privacy-policy'],['Account','/account']] as const;
+const links=[['Shop','/'],['Collections','/?view=collections'],['Looks','/?view=looks'],['About','/about'],['Contact','/contact']] as const;
 export function StoreHeader({query,onQuery,onSearch,savedCount=0,bagCount=0,onSaved,onBag}:{dark?:boolean;query:string;onQuery:(value:string)=>void;onSearch:()=>void;savedCount?:number;bagCount?:number;onSaved:()=>void;onBag:()=>void}){
  const settings=useStoreSettings();
  useEffect(()=>{if(!settings.loaded)return;const root=document.documentElement;root.style.setProperty('--vn-brand-lime',settings.brandAccent.storefront);root.style.setProperty('--vn-brand-on-accent',accentInk(settings.brandAccent.storefront));},[settings.brandAccent.storefront,settings.loaded]);

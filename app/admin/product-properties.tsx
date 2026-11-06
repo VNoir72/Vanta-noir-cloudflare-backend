@@ -4,7 +4,7 @@ import type { ProductDetails } from "@/lib/product-details";
 import { ManufacturerTemplate } from "./manufacturer-template";
 import { SizeGuideEditor } from "./size-guide-editor";
 
-export function ProductProperties({ value, onChange, productId, sizes, productName = "" }: { productName?: string; sizes?: string[]; productId?: string; value: ProductDetails; onChange: (value: ProductDetails) => void }) {
+export function ProductProperties({ value, onChange, productId, sizes, productName = "", pairingOptions=[] }: { pairingOptions?:{id:string;name:string;status:string}[]; productName?: string; sizes?: string[]; productId?: string; value: ProductDetails; onChange: (value: ProductDetails) => void }) {
   const update=<K extends keyof ProductDetails>(key:K,next:ProductDetails[K])=>onChange({...value,[key]:next});
   const prompts: Partial<Record<keyof ProductDetails,string>> = {
     garmentType: "Confirm the item type: crew socks, adjustable cap, boxer briefs…",
@@ -26,6 +26,15 @@ export function ProductProperties({ value, onChange, productId, sizes, productNa
       {fields.map(([key,label,multiline])=><label key={key}>{label}{multiline?<textarea rows={3} maxLength={key==="seoDescription"?200:12000} placeholder={prompts[key] ? "Enter the brand specification" : undefined} value={String(value[key])} onChange={e=>update(key,e.target.value)}/>:<input placeholder={prompts[key] ? "Enter the brand specification" : undefined} value={String(value[key])} maxLength={key==="seoTitle"?100:240} onChange={e=>update(key,e.target.value)}/>}{prompts[key]&&<small>{prompts[key]}</small>}</label>)}
       <label>Packed weight (grams, optional)<input type="number" min={0} max={100000} placeholder="Packed parcel weight from a scale" value={value.shippingWeightGrams||""} onChange={e=>update("shippingWeightGrams",Number(e.target.value))}/></label>
     </div>
+    <details className="vn-product-disclosure"><summary>Wear it together &amp; floating display</summary>
+      <p>Choose the pieces that you approve together. These are styling links: every item keeps its own price, sizes and availability. This does not create a bundle or discount.</p>
+      <label>Look name (optional)<input value={value.lookName||''} maxLength={120} onChange={e=>update('lookName',e.target.value)}/><small>Set a name on the main piece to list this outfit under Looks.</small></label>
+      <label>Pair with a product<select value="" onChange={e=>{if(e.target.value)update('pairedProductIds',[...new Set([...(value.pairedProductIds||[]),e.target.value])].slice(0,12));}}><option value="">Choose a product</option>{pairingOptions.filter(p=>p.id!==productId&&!(value.pairedProductIds||[]).includes(p.id)).map(p=><option key={p.id} value={p.id}>{p.name} · {p.status}</option>)}</select></label>
+      <ul>{(value.pairedProductIds||[]).map(id=><li key={id}>{pairingOptions.find(p=>p.id===id)?.name||id} <button type="button" onClick={()=>update('pairedProductIds',(value.pairedProductIds||[]).filter(v=>v!==id))}>Remove</button></li>)}</ul>
+      <p>Only published, accessible products appear on the storefront. Pairings are intentional, not generated from colour alone.</p>
+      {(value.displayImages||[]).map((image,i)=><div className="vn-admin-fields" key={i}><label>Exact colour name<input value={image.color} onChange={e=>update('displayImages',(value.displayImages||[]).map((v,n)=>n===i?{...v,color:e.target.value}:v))}/></label><label>Approved transparent display image URL<input value={image.imageUrl} onChange={e=>update('displayImages',(value.displayImages||[]).map((v,n)=>n===i?{...v,imageUrl:e.target.value}:v))}/></label><button type="button" onClick={()=>update('displayImages',(value.displayImages||[]).filter((_,n)=>n!==i))}>Remove display image</button></div>)}
+      <button type="button" disabled={(value.displayImages||[]).length>=30} onClick={()=>update('displayImages',[...(value.displayImages||[]),{color:'',imageUrl:''}])}>Add display image</button><p>Original studio photos and garment views stay unchanged. The display image must show the same garment and colour.</p>
+    </details>
     <details className="vn-product-disclosure" open><summary>Manufacturing instructions · this garment only</summary>
       <p>Specify each operation, placement and material. Proposed settings must be checked on the actual fabric and signed sample. Enter “None — not used on this design” where applicable.</p>
       <button type="button" className="vn-pill" onClick={()=>{const proposed=constructionProposal({name:productName,id:productId},value);onChange({...value,...Object.fromEntries(Object.entries(proposed).filter(([key])=>key!=="status"&&!value[key as keyof ProductDetails])),techPackConstructionRevision:value.techPackConstructionRevision||"Sampling proposal R1 — sew-out and fit approval required"});}}>Fill missing sewing fields with sampling proposal</button>
