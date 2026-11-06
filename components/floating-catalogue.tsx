@@ -1,8 +1,9 @@
 "use client";
 import {useEffect,useRef,useState} from 'react';
-import type {ReactNode} from 'react';
+import type {ReactNode,CSSProperties} from 'react';
 import {ArrowLeft,ArrowRight} from 'lucide-react';
 import StoreImage from './store-image';
+import {floatingScale} from '@/lib/floating-presentation';
 import './floating-catalogue.css';
 export type FloatingPiece={id:string;name:string;image:string;cutout?:string;href:string;subtitle?:string;members?:{image:string;cutout?:string;name:string}[]};
 export function FloatingCatalogue({pieces,label,renderOptions,onChoose,persistenceKey}:{pieces:FloatingPiece[];label:string;renderOptions?:(id:string)=>ReactNode;onChoose?:(id:string)=>void;persistenceKey?:string}){
@@ -16,7 +17,7 @@ export function FloatingCatalogue({pieces,label,renderOptions,onChoose,persisten
   <div className="vn-float-main"><div className="vn-float-stage" onTouchStart={e=>{touch.current={x:e.touches[0].clientX,y:e.touches[0].clientY};swiped.current=false}} onTouchEnd={e=>{const t=touch.current;if(t){const dx=e.changedTouches[0].clientX-t.x,dy=e.changedTouches[0].clientY-t.y;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){swiped.current=true;move(dx<0?1:-1)}}touch.current=null;}}>
    {pieces.map((piece,i)=>{let offset=i-index;if(pieces.length>2){if(offset>pieces.length/2)offset-=pieces.length;if(offset< -pieces.length/2)offset+=pieces.length}if(Math.abs(offset)>1)return null;return <button key={piece.id} type="button" className={`vn-float-piece ${offset===0?'is-current':offset<0?'is-before':'is-after'}`} aria-label={`${offset===0?'View':'Browse'} ${piece.name}`} onClick={()=>{if(swiped.current){swiped.current=false;return}if(offset)choose(piece.id);else if(onChoose)onChoose(piece.id);else window.location.assign(piece.href)}}>
     <span className={`vn-float-art ${piece.members?'is-outfit':''}`}>
-     {(piece.members?.slice(0,3)||[piece]).map((part,n)=><StoreImage key={n} src={part.cutout||part.image} preserveOriginal={Boolean(part.cutout)} className={part.cutout?'is-cutout':'is-studio'} alt={part.name} sizes="(max-width: 650px) 70vw, 45vw" priority={offset===0}/>)}
+     {(piece.members?.slice(0,3)||[piece]).map((part,n)=><StoreImage key={n} src={part.cutout||part.image} preserveOriginal={Boolean(part.cutout)} className={part.cutout?'is-cutout':'is-studio'} style={{'--garment-scale':floatingScale(part.cutout)} as CSSProperties} alt={part.name} sizes="(max-width: 650px) 70vw, 45vw" priority={offset===0}/>)}
     </span>{onChoose&&offset!==0&&<span className="vn-group-neighbour-name">{piece.name}</span>}
    </button>})}
   </div><div className="vn-float-info" aria-live="polite"><h2>{active.name}</h2><p className="vn-float-subtitle">{active.subtitle}</p>{renderOptions?.(active.id)}{onChoose?<button className="dn-primary" onClick={()=>onChoose(active.id)}>{label==='Collections'?'Explore collection':'Explore look'} <ArrowRight size={16}/></button>:<a className="dn-primary" href={active.href}>View product <ArrowRight size={16}/></a>}</div></div>
