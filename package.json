@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config portable/preview.config.ts",
     "build": "node portable/build-backend.mjs",
     "build:storefront": "node portable/build.mjs",
     "typecheck": "tsc --noEmit --incremental false",
@@ -18,7 +18,9 @@
     "db:import-catalog": "wrangler d1 execute DB --remote --config wrangler.deploy.jsonc --file portable/catalog-import.sql",
     "db:upgrade": "node scripts/upgrade-database.mjs",
     "maintenance": "wrangler deploy scripts/maintenance-worker.js --config wrangler.deploy.jsonc",
-    "db:rewards": "node scripts/upgrade-rewards.mjs"
+    "db:rewards": "node scripts/upgrade-rewards.mjs",
+    "dev:backend": "vite",
+    "preview:snapshot": "node scripts/assets/capture-floating-preview.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

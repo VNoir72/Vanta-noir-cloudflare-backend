@@ -312,18 +312,27 @@ function DashboardContent({
     });
   }
 
-  async function uploadImage(index: number, file: File | undefined) {
+  async function uploadImage(index: number, file: File | undefined, target: "studio" | "display" = "studio") {
     if (!file || !productForm || imageUploadInFlight.current || uploadingImage!==null || busy==="product-save") return;
     if(!["image/jpeg","image/png","image/webp","image/avif"].includes(file.type)||!file.size||file.size>12*1024*1024){toast.error("Choose a JPG, PNG, WebP or AVIF image, no larger than 12 MB.");return;}
     imageUploadInFlight.current=true;
     setUploadingImage(index);
     try {
+      if(target==="display") {
+        const bitmap=await createImageBitmap(file);
+        const canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;
+        const context=canvas.getContext('2d');if(!context){bitmap.close();throw new Error('Image validation is unavailable. Please retry.');}
+        context.drawImage(bitmap,0,0);bitmap.close();
+        const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;let transparent=0,visible=0;
+        for(let i=3;i<pixels.length;i+=4){if(pixels[i]<16)transparent++;if(pixels[i]>127)visible++;}
+        if(transparent<pixels.length/4*.01||visible<pixels.length/4*.01)throw new Error('Choose a garment image with a transparent background and visible garment.');
+      }
       const body = new FormData();
       body.set("file", file);
       const response = await fetch("/api/admin/uploads", { method: "POST", body, signal:AbortSignal.timeout(60000) });
       const payload = (await response.json().catch(() => ({}))) as { url?: string; error?: string };
       if (!response.ok || !payload.url) throw new Error(payload.error ?? "Image could not be uploaded.");
-      setProductForm(current => current ? { ...current, images: current.images.map((image, imageIndex) => imageIndex === index ? { ...image, imageUrl: payload.url! } : image) } : current);
+      setProductForm(current => current ? target==="display" ? {...current,details:{...current.details,displayImages:(current.details.displayImages||[]).map((image,i)=>i===index?{...image,imageUrl:payload.url!}:image)}} : { ...current, images: current.images.map((image, imageIndex) => imageIndex === index ? { ...image, imageUrl: payload.url! } : image) } : current);
       toast.success("Image uploaded.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Image could not be uploaded.");
@@ -556,6 +565,7 @@ function DashboardContent({
                 options={options}
                 uploadingImage={uploadingImage}
                 uploadImage={uploadImage}
+                uploadDisplay={(index,file)=>uploadImage(index,file,"display")}
                 form={productForm}
                 isNew={!productForm.id}
                 busy={busy === "product-save"||uploadingImage!==null}
@@ -598,6 +608,7 @@ function ProductEditor({
   options,
   uploadingImage,
   uploadImage,
+  uploadDisplay,
   form,
   isNew,
   busy,
@@ -611,6 +622,7 @@ function ProductEditor({
   form: ProductForm;
   uploadingImage: number | null;
   uploadImage: (index: number, file: File | undefined) => Promise<void>;
+  uploadDisplay: (index: number, file: File | undefined) => Promise<void>;
   isNew: boolean;
   busy: boolean;
   setForm: Dispatch<SetStateAction<ProductForm | null>>;
@@ -722,7 +734,7 @@ function ProductEditor({
           </div>
         </section>
 
-        <ProductProperties pairingOptions={pairingOptions} productName={form.name} sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
+        <ProductProperties uploadDisplay={uploadDisplay} colors={[...new Set(form.variants.map(v=>v.color))]} pairingOptions={pairingOptions} productName={form.name} sizes={[...new Set(form.variants.map(v=>v.size))]} productId={form.id} value={form.details} onChange={value=>updateField("details",value)} />
         <section className="space-y-4">
           <div className="flex items-end justify-between gap-4">
             <div>

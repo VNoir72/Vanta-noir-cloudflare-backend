@@ -1,3 +1,4 @@
+import '../scripts/assets/verify-floating-assets.mjs';
 import { spawnSync } from "node:child_process";
 import { build } from "vite";
 import { readFile, writeFile, cp, mkdir, rm } from "node:fs/promises";
