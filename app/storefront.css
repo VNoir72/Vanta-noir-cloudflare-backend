@@ -105,3 +105,9 @@
 .dn-card-image,.dn-detail-photo,.dn-quick-photo,.dn-thumbnails button{background:linear-gradient(#c5c5c5,#d6d6d6 65%,#e4e4e4)}
 
 .dn-garment-details{margin-top:2rem}.dn-garment-details h2{font-size:1.2rem}.dn-garment-details p{color:#666}.dn-detail-images{display:grid;gap:1rem;margin-top:1rem}.dn-detail-images figure{margin:0}.dn-detail-images img{width:100%;height:auto;display:block;background:#ccc}.dn-detail-images figcaption{font-size:.75rem;color:#666;padding:.5rem 0}
+/* Flat reference header, shared by website pages only. */
+.vn-liquid-header{top:0;margin:0;border:0;border-bottom:1px solid #eee;border-radius:0;background:#fff;box-shadow:none;backdrop-filter:none}.vn-liquid-top{max-width:1500px;margin:auto;padding:14px 4%;min-height:72px}.vn-wordmark{font-size:30px;font-weight:900;letter-spacing:-1.5px;white-space:nowrap;color:#080808}.vn-liquid-logo{width:auto;flex-basis:240px}.vn-liquid-desktop-nav a[aria-current=page]{border-bottom:3px solid var(--vn-brand-lime)}.vn-liquid-actions span{font-size:13px}.vn-liquid-desktop-nav a{font-weight:650}.vn-liquid-header[data-search-open=true] .vn-wordmark{font-size:20px}
+@media(max-width:767px){.vn-liquid-top{padding:8px 16px;min-height:62px}.vn-liquid-logo{flex-basis:auto}.vn-wordmark{font-size:22px;letter-spacing:-1px}.vn-liquid-actions>a[aria-label="Your account"]{display:none}.vn-liquid-actions button{min-width:32px;width:32px}.vn-liquid-header[data-search-open=true] .vn-liquid-logo{display:none}}
+
+/* Single focal loading state follows the floating catalogue. */
+.dn-app.vn-floating-site{background:#fff!important}.vn-loading-shell.vn-loading-catalogue{display:flex;justify-content:center;min-height:450px;padding:36px}.vn-loading-catalogue .vn-loading-tile{width:min(420px,75%)}.vn-floating-site .dn-card-swatches{overflow:visible}

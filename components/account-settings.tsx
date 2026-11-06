@@ -17,7 +17,7 @@ const primaryRows:[string,BrandIconName][]=[['Overview','options-outline'],['Ord
 const extraRows:[string,BrandIconName][]=[['Coupons','ticket-outline'],['To review','star-outline'],['Viewed','eye-outline'],['Vanta Circle','sparkles-outline'],['Country / region','globe-outline'],['Currency','cash-outline'],['General settings','options-outline'],['Notification settings','notifications-outline'],['Privacy & diagnostics','shield-checkmark-outline'],['App benefits','phone-portrait-outline'],['About Vanta Noir','help-circle-outline'],['Suggestions','help-circle-outline'],['Privacy policy','document-text-outline'],['Legal information','document-text-outline'],['Delete account','trash-outline']];
 export function AccountSettings({profile,addresses,orders,email,customer,orderCount=0,orderRecords=[],onOrderGroup}:{customer?:Customer;onOrderGroup?:(group:OrderGroup)=>void;orderCount?:number;orderRecords?:{status:string;paymentStatus:string}[];email:string;profile:ReactNode;addresses:ReactNode;orders:ReactNode}){
  const [viewed,setViewed]=useState<ViewedProduct[]>([]);useEffect(()=>{setViewed(viewedProducts());},[]);
- const [panel,setPanel]=useState('Overview'),[autoplay,setAutoplay]=useState(true);const fx=useDisplayCurrency();
+ const [panel,setPanel]=useState('Orders'),[autoplay,setAutoplay]=useState(true);const fx=useDisplayCurrency();
  useEffect(()=>{setAutoplay(readStorage('vn-video-autoplay')!=='false');},[]);
  const navigate=(next:string)=>{setPanel(next);};
  const navButton=([label,icon]:[string,BrandIconName])=><button key={label} aria-label={label} aria-current={panel===label?'page':undefined} onClick={()=>navigate(label)}><BrandIcon name={icon}/><span>{label}</span></button>;

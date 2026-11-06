@@ -28,3 +28,9 @@ dist/
 *.db
 backups/
 store-db-review.txt
+
+# Prepared transparent garment pack: checksummed in data/floating-assets-manifest.json.
+# Restore the release asset pack before building; the build verifies every file.
+public/images/floating/
+__pycache__/
+*.pyc

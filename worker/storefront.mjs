@@ -126,6 +126,8 @@ async function route(request, env) {
   if(p==='/robots.txt')return asset(env,request,'/robots.txt');
   if(p==='/store-config.js')return new Response('window.VANTA_NOIR_CONFIG=Object.freeze({apiBaseUrl:"https://api.vantanoir.store"});',{headers:{'Content-Type':'application/javascript'}});
   if(/^\/images\/vanta-hero(?:-(?:480|960|1600)\.webp|\.png)$/.test(p))return Response.redirect(u.origin+'/images/vanta-brand-hero-2026.webp',301);
+  // Release-owned transparent cutouts live with this storefront, not the API.
+  if(/^\/images\/floating\/[a-f0-9]{24}\.webp$/.test(p))return asset(env,request,p);
   if(/^\/images\/[A-Za-z0-9_./-]+\.(?:webp|png|jpg|jpeg|svg|avif|gif|ico)$/.test(p))return publicRead(env,p);
   if(p==='/sitemap.xml') {
     const live=await publicRead(env,'/api/storefront-visibility?mode=sitemap');

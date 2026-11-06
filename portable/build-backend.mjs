@@ -1,3 +1,4 @@
+import '../scripts/assets/verify-floating-assets.mjs';
 import { spawnSync } from "node:child_process";
 import { readFile, readdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
